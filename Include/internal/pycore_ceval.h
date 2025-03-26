@@ -113,7 +113,7 @@ _PyEval_EvalFrame(PyThreadState *tstate, struct _PyInterpreterFrame *frame, int 
 {
     EVAL_CALL_STAT_INC(EVAL_CALL_TOTAL);
     if (tstate->interp->eval_frame == NULL) {
-        return _PyEval_EvalFrameDefault(tstate, frame, throwflag);
+        return _PyEval_EvalFramesDefault(tstate, frame, frame, throwflag);
     }
     return tstate->interp->eval_frame(tstate, frame, throwflag);
 }
@@ -292,6 +292,7 @@ PyAPI_FUNC(PyObject *)_PyEval_MatchClass(PyThreadState *tstate, PyObject *subjec
 PyAPI_FUNC(PyObject *)_PyEval_MatchKeys(PyThreadState *tstate, PyObject *map, PyObject *keys);
 PyAPI_FUNC(void) _PyEval_MonitorRaise(PyThreadState *tstate, _PyInterpreterFrame *frame, _Py_CODEUNIT *instr);
 PyAPI_FUNC(int) _PyEval_UnpackIterableStackRef(PyThreadState *tstate, PyObject *v, int argcnt, int argcntafter, _PyStackRef *sp);
+PyAPI_FUNC(void) _PyEval_ThreadFrameClearAndPop(_PyDataStack *datastack, _PyInterpreterFrame *frame);
 PyAPI_FUNC(void) _PyEval_FrameClearAndPop(PyThreadState *tstate, _PyInterpreterFrame *frame);
 PyAPI_FUNC(PyObject **) _PyObjectArray_FromStackRefArray(_PyStackRef *input, Py_ssize_t nargs, PyObject **scratch);
 

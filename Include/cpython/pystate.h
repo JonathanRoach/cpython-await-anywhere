@@ -56,6 +56,12 @@ typedef struct _stack_chunk {
     PyObject * data[1]; /* Variable sized */
 } _PyStackChunk;
 
+typedef struct _datastack {
+   _PyStackChunk *chunk;
+   PyObject **top;
+   PyObject **limit;
+} _PyDataStack;
+
 struct _ts {
     /* See Python/ceval.c for comments explaining most fields */
 
@@ -170,9 +176,9 @@ struct _ts {
     /* Unique thread state id. */
     uint64_t id;
 
-    _PyStackChunk *datastack_chunk;
-    PyObject **datastack_top;
-    PyObject **datastack_limit;
+    _PyDataStack my_datastack;
+    _PyDataStack *active_datastack;
+    _PyDataStack datastack;
     /* XXX signal handlers should also be here */
 
     /* The following fields are here to avoid allocation during init.

@@ -867,7 +867,12 @@ _PyObjectArray_Free(PyObject **array, PyObject **scratch)
 #endif
 
 PyObject* _Py_HOT_FUNCTION
-_PyEval_EvalFrameDefault(PyThreadState *tstate, _PyInterpreterFrame *frame, int throwflag)
+_PyEval_EvalFrameDefault(PyThreadState *tstate, _PyInterpreterFrame *frame, int throwflag){
+    return _PyEval_EvalFramesDefault(tstate, frame, frame, throwflag);
+}
+
+PyObject* _Py_HOT_FUNCTION
+_PyEval_EvalFramesDefault(PyThreadState *tstate, _PyInterpreterFrame *framebase, _PyInterpreterFrame *frame, int throwflag)
 {
     _Py_EnsureTstateNotNULL(tstate);
     CALL_STAT_INC(pyeval_calls);
@@ -917,7 +922,7 @@ _PyEval_EvalFrameDefault(PyThreadState *tstate, _PyInterpreterFrame *frame, int 
 #endif
     /* Push frame */
     entry_frame.previous = tstate->current_frame;
-    frame->previous = &entry_frame;
+    framebase->previous = &entry_frame;
     tstate->current_frame = frame;
 
     /* support for generator.throw() */
@@ -1633,18 +1638,18 @@ fail_post_args:
     return -1;
 }
 
-static void
-clear_thread_frame(PyThreadState *tstate, _PyInterpreterFrame * frame)
+void
+_PyEval_ThreadFrameClearAndPop(_PyDataStack *datastack, _PyInterpreterFrame * frame)
 {
     assert(frame->owner == FRAME_OWNED_BY_THREAD);
     // Make sure that this is, indeed, the top frame. We can't check this in
-    // _PyThreadState_PopFrame, since f_code is already cleared at that point:
+    // _PyDataStack_PopFrame, since f_code is already cleared at that point:
     assert((PyObject **)frame + _PyFrame_GetCode(frame)->co_framesize ==
-        tstate->datastack_top);
+        datastack->top);
     assert(frame->frame_obj == NULL || frame->frame_obj->f_frame == frame);
     _PyFrame_ClearExceptCode(frame);
     PyStackRef_CLEAR(frame->f_executable);
-    _PyThreadState_PopFrame(tstate, frame);
+    _PyDataStack_PopFrame(datastack, frame);
 }
 
 static void
@@ -1659,6 +1664,13 @@ clear_gen_frame(PyThreadState *tstate, _PyInterpreterFrame * frame)
     assert(frame->frame_obj == NULL || frame->frame_obj->f_frame == frame);
     _PyFrame_ClearExceptCode(frame);
     _PyErr_ClearExcState(&gen->gi_exc_state);
+
+    // restore previous datastack
+    assert(gen->gi_previous_datastack);
+    _PyDataStack *prev = _PyThreadState_ActivateDataStack(tstate, gen->gi_previous_datastack);
+    assert(prev == &gen->gi_datastack);
+    gen->gi_previous_datastack = NULL;
+
     frame->previous = NULL;
 }
 
@@ -1666,7 +1678,7 @@ void
 _PyEval_FrameClearAndPop(PyThreadState *tstate, _PyInterpreterFrame * frame)
 {
     if (frame->owner == FRAME_OWNED_BY_THREAD) {
-        clear_thread_frame(tstate, frame);
+        _PyEval_ThreadFrameClearAndPop(&tstate->datastack, frame);
     }
     else {
         clear_gen_frame(tstate, frame);
@@ -1682,14 +1694,14 @@ _PyEvalFramePushAndInit(PyThreadState *tstate, _PyStackRef func,
     PyFunctionObject *func_obj = (PyFunctionObject *)PyStackRef_AsPyObjectBorrow(func);
     PyCodeObject * code = (PyCodeObject *)func_obj->func_code;
     CALL_STAT_INC(frames_pushed);
-    _PyInterpreterFrame *frame = _PyThreadState_PushFrame(tstate, code->co_framesize);
+    _PyInterpreterFrame *frame = _PyDataStack_PushFrame(&tstate->datastack, code->co_framesize);
     if (frame == NULL) {
         goto fail;
     }
     _PyFrame_Initialize(tstate, frame, func, locals, code, 0, previous);
     if (initialize_locals(tstate, func_obj, frame->localsplus, args, argcount, kwnames)) {
         assert(frame->owner == FRAME_OWNED_BY_THREAD);
-        clear_thread_frame(tstate, frame);
+        _PyEval_ThreadFrameClearAndPop(&tstate->datastack, frame);
         return NULL;
     }
     return frame;

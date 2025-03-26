@@ -1385,7 +1385,7 @@
             }
             PyCodeObject *code = (PyCodeObject *)PyFunction_GET_CODE(getitem_o);
             assert(code->co_argcount == 2);
-            if (!_PyThreadState_HasStackSpace(tstate, code->co_framesize)) {
+            if (!_PyDataStack_HasStackSpace(&tstate->datastack, code->co_framesize)) {
                 UOP_STAT_INC(uopcode, miss);
                 JUMP_TO_JUMP_TARGET();
             }
@@ -1771,11 +1771,11 @@
         case _SEND_GEN_FRAME: {
             _PyStackRef v;
             _PyStackRef receiver;
-            _PyInterpreterFrame *gen_frame;
+            PyGenObject *gen;
             oparg = CURRENT_OPARG();
             v = stack_pointer[-1];
             receiver = stack_pointer[-2];
-            PyGenObject *gen = (PyGenObject *)PyStackRef_AsPyObjectBorrow(receiver);
+            gen = (PyGenObject *)PyStackRef_AsPyObjectBorrow(receiver);
             if (Py_TYPE(gen) != &PyGen_Type && Py_TYPE(gen) != &PyCoro_Type) {
                 UOP_STAT_INC(uopcode, miss);
                 JUMP_TO_JUMP_TARGET();
@@ -1785,15 +1785,11 @@
                 JUMP_TO_JUMP_TARGET();
             }
             STAT_INC(SEND, hit);
-            gen_frame = &gen->gi_iframe;
-            _PyFrame_StackPush(gen_frame, v);
-            gen->gi_frame_state = FRAME_EXECUTING;
-            gen->gi_exc_state.previous_item = tstate->exc_info;
-            tstate->exc_info = &gen->gi_exc_state;
+            _PyInterpreterFrame *resume_frame = gen->gi_resume_gen->gi_resume_iframe;
+            _PyFrame_StackPush(resume_frame, v);
             assert( 2 + oparg <= UINT16_MAX);
             frame->return_offset = (uint16_t)( 2 + oparg);
-            gen_frame->previous = frame;
-            stack_pointer[-1].bits = (uintptr_t)gen_frame;
+            stack_pointer[-1].bits = (uintptr_t)gen;
             break;
         }
 
@@ -1807,20 +1803,102 @@
             // or throw() call.
             assert(frame->owner != FRAME_OWNED_BY_INTERPRETER);
             frame->instr_ptr++;
-            PyGenObject *gen = _PyGen_GetGeneratorFromFrame(frame);
+            _PyInterpreterFrame *search_frame = frame;
+            int frame_count = 1;
+            while ( search_frame->owner != FRAME_OWNED_BY_GENERATOR ){
+                if ( search_frame->owner == FRAME_OWNED_BY_INTERPRETER || search_frame->owner == FRAME_OWNED_BY_CSTACK ) {
+                    // can't have any frame on the C stack in the stack of a yielded coroutine
+                    _PyFrame_SetStackPointer(frame, stack_pointer);
+                    _PyErr_SetString(tstate, PyExc_RuntimeError,
+                                     "await not possible within C-implemented functions");
+                    stack_pointer = _PyFrame_GetStackPointer(frame);
+                    stack_pointer += -1;
+                    assert(WITHIN_STACK_BOUNDS());
+                    JUMP_TO_ERROR();
+                }
+                if ( !search_frame->previous ){
+                    // can't find the enclosing generator - raise an error
+                    _PyFrame_SetStackPointer(frame, stack_pointer);
+                    _PyErr_SetString(tstate, PyExc_RuntimeError,
+                                     "await outside of a async def");
+                    stack_pointer = _PyFrame_GetStackPointer(frame);
+                    stack_pointer += -1;
+                    assert(WITHIN_STACK_BOUNDS());
+                    JUMP_TO_ERROR();
+                }
+                frame_count += 1;
+                search_frame = search_frame->previous;
+            }
+            // gen is the generator where the await / yield / etc happened
+            PyGenObject *gen = _PyGen_GetGeneratorFromFrame(search_frame);
+            // yielding_gen is the generator whose .send()-caller the value is being yeilded to
+            // Normally yielding_gen and gen are the same, however, if there's
+            // an await withing a yielding generator, then yielding_gen is the
+            // enclosinging async def:
+            //
+            // def a():
+            //  await asyncio.sleep(2)
+            //
+            // def b():
+            //  a()
+            //  yield 123
+            //
+            // async def c():
+            //  for i in b():
+            //      print(i)
+            //
+            // Here, at 'await asyncio.sleep()', gen will be b(), and yielding_gen will be c()
+            PyGenObject *yielding_gen = gen;
+            if ( oparg & 2 ){
+                // Yielding an await, or similar, so need to make sure we're yielding from a async generator, not a yielding generator
+                while ( !PyCoro_CheckExact(yielding_gen) ){
+                    // not a coro - find the next generator
+                    do {
+                        if ( !search_frame->previous ){
+                            // can't find the enclosing generator - raise an error
+                            _PyFrame_SetStackPointer(frame, stack_pointer);
+                            _PyErr_SetString(tstate, PyExc_RuntimeError,
+                                "await outside of a async def");
+                            stack_pointer = _PyFrame_GetStackPointer(frame);
+                            stack_pointer += -1;
+                            assert(WITHIN_STACK_BOUNDS());
+                            JUMP_TO_ERROR();
+                        }
+                        frame_count += 1;
+                        search_frame = search_frame->previous;
+                        if ( search_frame->owner == FRAME_OWNED_BY_INTERPRETER || search_frame->owner == FRAME_OWNED_BY_CSTACK ) {
+                            // can't have any frame on the C stack in the stack of a yielded coroutine
+                            _PyFrame_SetStackPointer(frame, stack_pointer);
+                            _PyErr_SetString(tstate, PyExc_RuntimeError,
+                                "await not possible within C-implemented functions");
+                            stack_pointer = _PyFrame_GetStackPointer(frame);
+                            stack_pointer += -1;
+                            assert(WITHIN_STACK_BOUNDS());
+                            JUMP_TO_ERROR();
+                        }
+                    } while ( search_frame->owner != FRAME_OWNED_BY_GENERATOR );
+                    yielding_gen = _PyGen_GetGeneratorFromFrame(search_frame);
+                }
+            }
             assert(FRAME_SUSPENDED_YIELD_FROM == FRAME_SUSPENDED + 1);
-            assert(oparg == 0 || oparg == 1);
-            gen->gi_frame_state = FRAME_SUSPENDED + oparg;
+            assert(oparg == 0 || oparg == 1 || oparg == 3);
+            yielding_gen->gi_frame_state = FRAME_SUSPENDED + (oparg & 1);
+            gen->gi_resume_iframe = frame;
+            yielding_gen->gi_resume_gen = gen;
             _PyStackRef temp = retval;
             stack_pointer += -1;
             assert(WITHIN_STACK_BOUNDS());
             _PyFrame_SetStackPointer(frame, stack_pointer);
-            tstate->exc_info = gen->gi_exc_state.previous_item;
-            gen->gi_exc_state.previous_item = NULL;
-            _Py_LeaveRecursiveCallPy(tstate);
-            _PyInterpreterFrame *gen_frame = frame;
-            frame = tstate->current_frame = frame->previous;
-            gen_frame->previous = NULL;
+            tstate->exc_info = yielding_gen->gi_exc_state.previous_item;
+            yielding_gen->gi_exc_state.previous_item = NULL;
+            yielding_gen->gi_resume_frame_count = frame_count;
+            _Py_LeaveRecursiveCallsPy(tstate, frame_count);
+            _PyInterpreterFrame *yielding_gen_frame = &yielding_gen->gi_iframe;
+            frame = tstate->current_frame = yielding_gen_frame->previous;
+            yielding_gen_frame->previous = NULL;
+            assert(yielding_gen->gi_previous_datastack);
+            _PyThreadState_ActivateDataStack(tstate, yielding_gen->gi_previous_datastack);
+            yielding_gen->gi_previous_datastack = NULL;
             /* We don't know which of these is relevant here, so keep them equal */
             assert(INLINE_CACHE_ENTRIES_SEND == INLINE_CACHE_ENTRIES_FOR_ITER);
             #if TIER_ONE
@@ -3312,7 +3390,7 @@
                 UOP_STAT_INC(uopcode, miss);
                 JUMP_TO_JUMP_TARGET();
             }
-            if (!_PyThreadState_HasStackSpace(tstate, code->co_framesize)) {
+            if (!_PyDataStack_HasStackSpace(&tstate->datastack, code->co_framesize)) {
                 UOP_STAT_INC(uopcode, miss);
                 JUMP_TO_JUMP_TARGET();
             }
@@ -4268,10 +4346,10 @@
 
         case _FOR_ITER_GEN_FRAME: {
             _PyStackRef iter;
-            _PyInterpreterFrame *gen_frame;
+            PyGenObject *gen;
             oparg = CURRENT_OPARG();
             iter = stack_pointer[-1];
-            PyGenObject *gen = (PyGenObject *)PyStackRef_AsPyObjectBorrow(iter);
+            gen = (PyGenObject *)PyStackRef_AsPyObjectBorrow(iter);
             if (Py_TYPE(gen) != &PyGen_Type) {
                 UOP_STAT_INC(uopcode, miss);
                 JUMP_TO_JUMP_TARGET();
@@ -4281,15 +4359,11 @@
                 JUMP_TO_JUMP_TARGET();
             }
             STAT_INC(FOR_ITER, hit);
-            gen_frame = &gen->gi_iframe;
+            _PyInterpreterFrame *gen_frame = &gen->gi_iframe;
             _PyFrame_StackPush(gen_frame, PyStackRef_None);
-            gen->gi_frame_state = FRAME_EXECUTING;
-            gen->gi_exc_state.previous_item = tstate->exc_info;
-            tstate->exc_info = &gen->gi_exc_state;
-            gen_frame->previous = frame;
             // oparg is the return offset from the next instruction.
             frame->return_offset = (uint16_t)( 2 + oparg);
-            stack_pointer[0].bits = (uintptr_t)gen_frame;
+            stack_pointer[0].bits = (uintptr_t)gen;
             stack_pointer += 1;
             assert(WITHIN_STACK_BOUNDS());
             break;
@@ -4849,7 +4923,7 @@
             PyObject *callable_o = PyStackRef_AsPyObjectBorrow(callable[0]);
             PyFunctionObject *func = (PyFunctionObject *)callable_o;
             PyCodeObject *code = (PyCodeObject *)func->func_code;
-            if (!_PyThreadState_HasStackSpace(tstate, code->co_framesize)) {
+            if (!_PyDataStack_HasStackSpace(&tstate->datastack, code->co_framesize)) {
                 UOP_STAT_INC(uopcode, miss);
                 JUMP_TO_JUMP_TARGET();
             }
@@ -5023,6 +5097,33 @@
             break;
         }
 
+        case _PUSH_GEN_FRAMES: {
+            PyGenObject *pushed_gen;
+            pushed_gen = (PyGenObject *)stack_pointer[-1].bits;
+            // Write it out explicitly because it's subtly different.
+            // Eventually this should be the only occurrence of this code.
+            assert(tstate->interp->eval_frame == NULL);
+            PyGenObject *gen = pushed_gen;
+            stack_pointer += -1;
+            assert(WITHIN_STACK_BOUNDS());
+            _PyFrame_SetStackPointer(frame, stack_pointer);
+            gen->gi_frame_state = FRAME_EXECUTING;
+            gen->gi_exc_state.previous_item = tstate->exc_info;
+            tstate->exc_info = &gen->gi_exc_state;
+            _PyInterpreterFrame *gen_frame = &gen->gi_iframe;
+            PyGenObject *resume_gen = gen->gi_resume_gen;
+            _PyInterpreterFrame *resume_frame = resume_gen->gi_resume_iframe;
+            gen_frame->previous = frame;
+            gen->gi_previous_datastack = _PyThreadState_ActivateDataStack(tstate, &resume_gen->gi_datastack);
+            CALL_STAT_INC(inlined_py_calls);
+            frame = tstate->current_frame = resume_frame;
+            tstate->py_recursion_remaining -= gen->gi_resume_frame_count;
+            LOAD_SP();
+            LOAD_IP(0);
+            LLTRACE_RESUME_FRAME();
+            break;
+        }
+
         case _CALL_TYPE_1: {
             _PyStackRef arg;
             _PyStackRef null;
@@ -5167,7 +5268,7 @@
             PyHeapTypeObject *cls = (PyHeapTypeObject *)callable_o;
             PyFunctionObject *init_func = (PyFunctionObject *)FT_ATOMIC_LOAD_PTR_ACQUIRE(cls->_spec_cache.init);
             PyCodeObject *code = (PyCodeObject *)init_func->func_code;
-            if (!_PyThreadState_HasStackSpace(tstate, code->co_framesize + _Py_InitCleanup.co_framesize)) {
+            if (!_PyDataStack_HasStackSpace(&tstate->datastack, code->co_framesize + _Py_InitCleanup.co_framesize)) {
                 UOP_STAT_INC(uopcode, miss);
                 JUMP_TO_JUMP_TARGET();
             }
@@ -6387,7 +6488,7 @@
             gen_frame->owner = FRAME_OWNED_BY_GENERATOR;
             _Py_LeaveRecursiveCallPy(tstate);
             _PyInterpreterFrame *prev = frame->previous;
-            _PyThreadState_PopFrame(tstate, frame);
+            _PyDataStack_PopFrame(&tstate->datastack, frame);
             frame = tstate->current_frame = prev;
             LOAD_IP(frame->return_offset);
             stack_pointer = _PyFrame_GetStackPointer(frame);
@@ -6667,7 +6768,7 @@
         case _CHECK_STACK_SPACE_OPERAND: {
             uint32_t framesize = (uint32_t)CURRENT_OPERAND0();
             assert(framesize <= INT_MAX);
-            if (!_PyThreadState_HasStackSpace(tstate, framesize)) {
+            if (!_PyDataStack_HasStackSpace(&tstate->datastack, framesize)) {
                 UOP_STAT_INC(uopcode, miss);
                 JUMP_TO_JUMP_TARGET();
             }

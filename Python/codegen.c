@@ -480,7 +480,7 @@ codegen_add_yield_from(compiler *c, location loc, int await)
     // Set up a virtual try/except to handle when StopIteration is raised during
     // a close or throw call. The only way YIELD_VALUE raises if they do!
     ADDOP_JUMP(c, loc, SETUP_FINALLY, fail);
-    ADDOP_I(c, loc, YIELD_VALUE, 1);
+    ADDOP_I(c, loc, YIELD_VALUE, await ? 3 : 1);
     ADDOP(c, NO_LOCATION, POP_BLOCK);
     ADDOP_I(c, loc, RESUME, await ? RESUME_AFTER_AWAIT : RESUME_AFTER_YIELD_FROM);
     ADDOP_JUMP(c, loc, JUMP_NO_INTERRUPT, send);
@@ -581,7 +581,7 @@ codegen_unwind_fblock(compiler *c, location *ploc,
             if (info->fb_type == COMPILE_FBLOCK_ASYNC_WITH) {
                 ADDOP_I(c, *ploc, GET_AWAITABLE, 2);
                 ADDOP_LOAD_CONST(c, *ploc, Py_None);
-                ADD_YIELD_FROM(c, *ploc, 1);
+                ADD_YIELD_FROM(c, *ploc, 3);
             }
             ADDOP(c, *ploc, POP_TOP);
             /* The exit block should appear to execute after the
@@ -2039,7 +2039,7 @@ codegen_async_for(compiler *c, stmt_ty s)
     ADDOP_JUMP(c, loc, SETUP_FINALLY, except);
     ADDOP(c, loc, GET_ANEXT);
     ADDOP_LOAD_CONST(c, loc, Py_None);
-    ADD_YIELD_FROM(c, loc, 1);
+    ADD_YIELD_FROM(c, loc, 3);
     ADDOP(c, loc, POP_BLOCK);  /* for SETUP_FINALLY */
     ADDOP(c, loc, NOT_TAKEN);
 
@@ -4279,7 +4279,7 @@ codegen_async_comprehension_generator(compiler *c, location loc,
     ADDOP_JUMP(c, loc, SETUP_FINALLY, except);
     ADDOP(c, loc, GET_ANEXT);
     ADDOP_LOAD_CONST(c, loc, Py_None);
-    ADD_YIELD_FROM(c, loc, 1);
+    ADD_YIELD_FROM(c, loc, 3);
     ADDOP(c, loc, POP_BLOCK);
     VISIT(c, expr, gen->target);
 
@@ -4596,7 +4596,7 @@ codegen_comprehension(compiler *c, expr_ty e, int type,
     if (is_async_comprehension && type != COMP_GENEXP) {
         ADDOP_I(c, loc, GET_AWAITABLE, 0);
         ADDOP_LOAD_CONST(c, loc, Py_None);
-        ADD_YIELD_FROM(c, loc, 1);
+        ADD_YIELD_FROM(c, loc, 3);
     }
 
     return SUCCESS;
@@ -4735,7 +4735,7 @@ codegen_async_with(compiler *c, stmt_ty s, int pos)
     ADDOP_I(c, loc, CALL, 0);
     ADDOP_I(c, loc, GET_AWAITABLE, 1);
     ADDOP_LOAD_CONST(c, loc, Py_None);
-    ADD_YIELD_FROM(c, loc, 1);
+    ADD_YIELD_FROM(c, loc, 3);
 
     ADDOP_JUMP(c, loc, SETUP_WITH, final);
 
@@ -4771,7 +4771,7 @@ codegen_async_with(compiler *c, stmt_ty s, int pos)
     RETURN_IF_ERROR(codegen_call_exit_with_nones(c, loc));
     ADDOP_I(c, loc, GET_AWAITABLE, 2);
     ADDOP_LOAD_CONST(c, loc, Py_None);
-    ADD_YIELD_FROM(c, loc, 1);
+    ADD_YIELD_FROM(c, loc, 3);
 
     ADDOP(c, loc, POP_TOP);
 
@@ -4785,7 +4785,7 @@ codegen_async_with(compiler *c, stmt_ty s, int pos)
     ADDOP(c, loc, WITH_EXCEPT_START);
     ADDOP_I(c, loc, GET_AWAITABLE, 2);
     ADDOP_LOAD_CONST(c, loc, Py_None);
-    ADD_YIELD_FROM(c, loc, 1);
+    ADD_YIELD_FROM(c, loc, 3);
     RETURN_IF_ERROR(codegen_with_except_finish(c, cleanup));
 
     USE_LABEL(c, exit);
@@ -4960,7 +4960,7 @@ codegen_visit_expr(compiler *c, expr_ty e)
         VISIT(c, expr, e->v.Await.value);
         ADDOP_I(c, loc, GET_AWAITABLE, 0);
         ADDOP_LOAD_CONST(c, loc, Py_None);
-        ADD_YIELD_FROM(c, loc, 1);
+        ADD_YIELD_FROM(c, loc, 3);
         break;
     case Compare_kind:
         return codegen_compare(c, e);

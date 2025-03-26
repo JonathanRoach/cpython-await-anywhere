@@ -27,6 +27,14 @@ extern "C" {
     char prefix##_running_async;                                            \
     /* The frame */                                                         \
     int8_t prefix##_frame_state;                                            \
+    /* the gen and its frame to resume at */                                \
+    struct _PyInterpreterFrame *prefix##_resume_iframe;                     \
+    struct _PyGenObject *prefix##_resume_gen;                               \
+    int prefix##_resume_frame_count;                                        \
+    /* the datastack owned by this generator */                             \
+    _PyDataStack prefix##_datastack;                                        \
+    /* (when frame is running) the datastack previous to this generator */  \
+    _PyDataStack *prefix##_previous_datastack;                              \
     struct _PyInterpreterFrame prefix##_iframe;                             \
 
 struct _PyGenObject {
