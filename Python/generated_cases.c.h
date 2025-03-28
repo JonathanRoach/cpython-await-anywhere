@@ -7315,74 +7315,27 @@
                 // or throw() call.
                 assert(frame->owner != FRAME_OWNED_BY_INTERPRETER);
                 frame->instr_ptr++;
-                _PyInterpreterFrame *search_frame = frame;
-                int frame_count = 1;
-                while ( search_frame->owner != FRAME_OWNED_BY_GENERATOR ){
-                    if ( search_frame->owner == FRAME_OWNED_BY_INTERPRETER || search_frame->owner == FRAME_OWNED_BY_CSTACK ) {
-                        // can't have any frame on the C stack in the stack of a yielded coroutine
-                        _PyFrame_SetStackPointer(frame, stack_pointer);
-                        _PyErr_SetString(tstate, PyExc_RuntimeError,
-                                     "await not possible within C-implemented functions");
-                        stack_pointer = _PyFrame_GetStackPointer(frame);
-                        JUMP_TO_LABEL(pop_1_error);
+                int frame_count;
+                PyGenObject *gen;
+                PyGenObject *yielding_gen;
+                if (oparg & 2){
+                    // Search for the nearest coro generator
+                    _PyInterpreterFrame *search_frame = frame;
+                    frame_count = 1;
+                    while (search_frame->owner != FRAME_OWNED_BY_GENERATOR){
+                        frame_count += 1;
+                        search_frame = search_frame->previous;
                     }
-                    if ( !search_frame->previous ){
-                        // can't find the enclosing generator - raise an error
-                        _PyFrame_SetStackPointer(frame, stack_pointer);
-                        _PyErr_SetString(tstate, PyExc_RuntimeError,
-                                     "await outside of a async def");
-                        stack_pointer = _PyFrame_GetStackPointer(frame);
-                        JUMP_TO_LABEL(pop_1_error);
+                    gen = _PyGen_GetGeneratorFromFrame(search_frame);
+                    while (search_frame->owner != FRAME_OWNED_BY_GENERATOR || !PyCoro_CheckExact(yielding_gen = _PyGen_GetGeneratorFromFrame(search_frame))){
+                        frame_count += 1;
+                        search_frame = search_frame->previous;
                     }
-                    frame_count += 1;
-                    search_frame = search_frame->previous;
-                }
-                // gen is the generator where the await / yield / etc happened
-                PyGenObject *gen = _PyGen_GetGeneratorFromFrame(search_frame);
-                // yielding_gen is the generator whose .send()-caller the value is being yeilded to
-                // Normally yielding_gen and gen are the same, however, if there's
-                // an await withing a yielding generator, then yielding_gen is the
-                // enclosinging async def:
-                //
-                // def a():
-                //  await asyncio.sleep(2)
-                //
-                // def b():
-                //  a()
-                //  yield 123
-                //
-                // async def c():
-                //  for i in b():
-                //      print(i)
-                //
-                // Here, at 'await asyncio.sleep()', gen will be b(), and yielding_gen will be c()
-                PyGenObject *yielding_gen = gen;
-                if ( oparg & 2 ){
-                    // Yielding an await, or similar, so need to make sure we're yielding from a async generator, not a yielding generator
-                    while ( !PyCoro_CheckExact(yielding_gen) ){
-                        // not a coro - find the next generator
-                        do {
-                            if ( !search_frame->previous ){
-                                // can't find the enclosing generator - raise an error
-                                _PyFrame_SetStackPointer(frame, stack_pointer);
-                                _PyErr_SetString(tstate, PyExc_RuntimeError,
-                                    "await outside of a async def");
-                                stack_pointer = _PyFrame_GetStackPointer(frame);
-                                JUMP_TO_LABEL(pop_1_error);
-                            }
-                            frame_count += 1;
-                            search_frame = search_frame->previous;
-                            if ( search_frame->owner == FRAME_OWNED_BY_INTERPRETER || search_frame->owner == FRAME_OWNED_BY_CSTACK ) {
-                                // can't have any frame on the C stack in the stack of a yielded coroutine
-                                _PyFrame_SetStackPointer(frame, stack_pointer);
-                                _PyErr_SetString(tstate, PyExc_RuntimeError,
-                                    "await not possible within C-implemented functions");
-                                stack_pointer = _PyFrame_GetStackPointer(frame);
-                                JUMP_TO_LABEL(pop_1_error);
-                            }
-                        } while ( search_frame->owner != FRAME_OWNED_BY_GENERATOR );
-                        yielding_gen = _PyGen_GetGeneratorFromFrame(search_frame);
-                    }
+                } else {
+                    // this frame should be the generatory
+                    assert(frame->owner == FRAME_OWNED_BY_GENERATOR);
+                    frame_count = 1;
+                    yielding_gen = gen = _PyGen_GetGeneratorFromFrame(frame);
                 }
                 assert(FRAME_SUSPENDED_YIELD_FROM == FRAME_SUSPENDED + 1);
                 assert(oparg == 0 || oparg == 1 || oparg == 3);
@@ -10430,6 +10383,14 @@
                     (Py_TYPE(receiver_o) == &PyGen_Type || Py_TYPE(receiver_o) == &PyCoro_Type) &&
                     ((PyGenObject *)receiver_o)->gi_resume_gen->gi_frame_state < FRAME_EXECUTING)
                 {
+                    if (Py_TYPE(receiver_o) == &PyCoro_Type && !stack_ok_for_await(tstate, frame)) {
+                        stack_pointer += -1;
+                        assert(WITHIN_STACK_BOUNDS());
+                        _PyFrame_SetStackPointer(frame, stack_pointer);
+                        PyStackRef_CLOSE(v);
+                        stack_pointer = _PyFrame_GetStackPointer(frame);
+                        JUMP_TO_LABEL(error);
+                    }
                     PyGenObject *gen = (PyGenObject *)receiver_o;
                     _PyInterpreterFrame *gen_frame = &gen->gi_iframe;
                     PyGenObject *resume_gen = gen->gi_resume_gen;
@@ -10536,6 +10497,9 @@
                     JUMP_TO_PREDICTED(SEND);
                 }
                 STAT_INC(SEND, hit);
+                if (Py_TYPE(gen) == &PyGen_Type && !stack_ok_for_await(tstate, frame)) {
+                    JUMP_TO_LABEL(pop_1_error);
+                }
                 _PyInterpreterFrame *resume_frame = gen->gi_resume_gen->gi_resume_iframe;
                 _PyFrame_StackPush(resume_frame, v);
                 assert( 2 + oparg <= UINT16_MAX);
@@ -12018,74 +11982,27 @@
             // or throw() call.
             assert(frame->owner != FRAME_OWNED_BY_INTERPRETER);
             frame->instr_ptr++;
-            _PyInterpreterFrame *search_frame = frame;
-            int frame_count = 1;
-            while ( search_frame->owner != FRAME_OWNED_BY_GENERATOR ){
-                if ( search_frame->owner == FRAME_OWNED_BY_INTERPRETER || search_frame->owner == FRAME_OWNED_BY_CSTACK ) {
-                    // can't have any frame on the C stack in the stack of a yielded coroutine
-                    _PyFrame_SetStackPointer(frame, stack_pointer);
-                    _PyErr_SetString(tstate, PyExc_RuntimeError,
-                                     "await not possible within C-implemented functions");
-                    stack_pointer = _PyFrame_GetStackPointer(frame);
-                    JUMP_TO_LABEL(pop_1_error);
+            int frame_count;
+            PyGenObject *gen;
+            PyGenObject *yielding_gen;
+            if (oparg & 2){
+                // Search for the nearest coro generator
+                _PyInterpreterFrame *search_frame = frame;
+                frame_count = 1;
+                while (search_frame->owner != FRAME_OWNED_BY_GENERATOR){
+                    frame_count += 1;
+                    search_frame = search_frame->previous;
                 }
-                if ( !search_frame->previous ){
-                    // can't find the enclosing generator - raise an error
-                    _PyFrame_SetStackPointer(frame, stack_pointer);
-                    _PyErr_SetString(tstate, PyExc_RuntimeError,
-                                     "await outside of a async def");
-                    stack_pointer = _PyFrame_GetStackPointer(frame);
-                    JUMP_TO_LABEL(pop_1_error);
+                gen = _PyGen_GetGeneratorFromFrame(search_frame);
+                while (search_frame->owner != FRAME_OWNED_BY_GENERATOR || !PyCoro_CheckExact(yielding_gen = _PyGen_GetGeneratorFromFrame(search_frame))){
+                    frame_count += 1;
+                    search_frame = search_frame->previous;
                 }
-                frame_count += 1;
-                search_frame = search_frame->previous;
-            }
-            // gen is the generator where the await / yield / etc happened
-            PyGenObject *gen = _PyGen_GetGeneratorFromFrame(search_frame);
-            // yielding_gen is the generator whose .send()-caller the value is being yeilded to
-            // Normally yielding_gen and gen are the same, however, if there's
-            // an await withing a yielding generator, then yielding_gen is the
-            // enclosinging async def:
-            //
-            // def a():
-            //  await asyncio.sleep(2)
-            //
-            // def b():
-            //  a()
-            //  yield 123
-            //
-            // async def c():
-            //  for i in b():
-            //      print(i)
-            //
-            // Here, at 'await asyncio.sleep()', gen will be b(), and yielding_gen will be c()
-            PyGenObject *yielding_gen = gen;
-            if ( oparg & 2 ){
-                // Yielding an await, or similar, so need to make sure we're yielding from a async generator, not a yielding generator
-                while ( !PyCoro_CheckExact(yielding_gen) ){
-                    // not a coro - find the next generator
-                    do {
-                        if ( !search_frame->previous ){
-                            // can't find the enclosing generator - raise an error
-                            _PyFrame_SetStackPointer(frame, stack_pointer);
-                            _PyErr_SetString(tstate, PyExc_RuntimeError,
-                                "await outside of a async def");
-                            stack_pointer = _PyFrame_GetStackPointer(frame);
-                            JUMP_TO_LABEL(pop_1_error);
-                        }
-                        frame_count += 1;
-                        search_frame = search_frame->previous;
-                        if ( search_frame->owner == FRAME_OWNED_BY_INTERPRETER || search_frame->owner == FRAME_OWNED_BY_CSTACK ) {
-                            // can't have any frame on the C stack in the stack of a yielded coroutine
-                            _PyFrame_SetStackPointer(frame, stack_pointer);
-                            _PyErr_SetString(tstate, PyExc_RuntimeError,
-                                "await not possible within C-implemented functions");
-                            stack_pointer = _PyFrame_GetStackPointer(frame);
-                            JUMP_TO_LABEL(pop_1_error);
-                        }
-                    } while ( search_frame->owner != FRAME_OWNED_BY_GENERATOR );
-                    yielding_gen = _PyGen_GetGeneratorFromFrame(search_frame);
-                }
+            } else {
+                // this frame should be the generatory
+                assert(frame->owner == FRAME_OWNED_BY_GENERATOR);
+                frame_count = 1;
+                yielding_gen = gen = _PyGen_GetGeneratorFromFrame(frame);
             }
             assert(FRAME_SUSPENDED_YIELD_FROM == FRAME_SUSPENDED + 1);
             assert(oparg == 0 || oparg == 1 || oparg == 3);
