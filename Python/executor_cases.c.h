@@ -1759,6 +1759,9 @@
             if (iter_o == NULL) {
                 JUMP_TO_ERROR();
             }
+            if (!stack_ok_for_await(tstate, frame)) {
+                JUMP_TO_ERROR();
+            }
             iter = PyStackRef_FromPyObjectSteal(iter_o);
             stack_pointer[0] = iter;
             stack_pointer += 1;
@@ -1785,10 +1788,6 @@
                 JUMP_TO_JUMP_TARGET();
             }
             STAT_INC(SEND, hit);
-            if (Py_TYPE(gen) == &PyGen_Type && !stack_ok_for_await(tstate, frame)) {
-                stack_pointer[-1].bits = (uintptr_t)gen;
-                JUMP_TO_ERROR();
-            }
             _PyInterpreterFrame *resume_frame = gen->gi_resume_gen->gi_resume_iframe;
             _PyFrame_StackPush(resume_frame, v);
             assert( 2 + oparg <= UINT16_MAX);
@@ -3000,71 +2999,7 @@
             break;
         }
 
-        case _LOAD_ATTR: {
-            _PyStackRef owner;
-            _PyStackRef attr;
-            _PyStackRef *self_or_null;
-            oparg = CURRENT_OPARG();
-            owner = stack_pointer[-1];
-            self_or_null = &stack_pointer[0];
-            PyObject *name = GETITEM(FRAME_CO_NAMES, oparg >> 1);
-            PyObject *attr_o;
-            if (oparg & 1) {
-                /* Designed to work in tandem with CALL, pushes two values. */
-                attr_o = NULL;
-                _PyFrame_SetStackPointer(frame, stack_pointer);
-                int is_meth = _PyObject_GetMethod(PyStackRef_AsPyObjectBorrow(owner), name, &attr_o);
-                stack_pointer = _PyFrame_GetStackPointer(frame);
-                if (is_meth) {
-                    /* We can bypass temporary bound method object.
-                       meth is unbound method and obj is self.
-                       meth | self | arg1 | ... | argN
-                     */
-                    assert(attr_o != NULL);  // No errors on this branch
-                    self_or_null[0] = owner;  // Transfer ownership
-                }
-                else {
-                    /* meth is not an unbound method (but a regular attr, or
-                       something was returned by a descriptor protocol).  Set
-                       the second element of the stack to NULL, to signal
-                       CALL that it's not a method call.
-                       meth | NULL | arg1 | ... | argN
-                     */
-                    stack_pointer += -1;
-                    assert(WITHIN_STACK_BOUNDS());
-                    _PyFrame_SetStackPointer(frame, stack_pointer);
-                    PyStackRef_CLOSE(owner);
-                    stack_pointer = _PyFrame_GetStackPointer(frame);
-                    if (attr_o == NULL) {
-                        JUMP_TO_ERROR();
-                    }
-                    self_or_null[0] = PyStackRef_NULL;
-                    stack_pointer += 1;
-                    assert(WITHIN_STACK_BOUNDS());
-                }
-            }
-            else {
-                /* Classic, pushes one value. */
-                _PyFrame_SetStackPointer(frame, stack_pointer);
-                attr_o = PyObject_GetAttr(PyStackRef_AsPyObjectBorrow(owner), name);
-                stack_pointer = _PyFrame_GetStackPointer(frame);
-                stack_pointer += -1;
-                assert(WITHIN_STACK_BOUNDS());
-                _PyFrame_SetStackPointer(frame, stack_pointer);
-                PyStackRef_CLOSE(owner);
-                stack_pointer = _PyFrame_GetStackPointer(frame);
-                if (attr_o == NULL) {
-                    JUMP_TO_ERROR();
-                }
-                stack_pointer += 1;
-                assert(WITHIN_STACK_BOUNDS());
-            }
-            attr = PyStackRef_FromPyObjectSteal(attr_o);
-            stack_pointer[-1] = attr;
-            stack_pointer += (oparg&1);
-            assert(WITHIN_STACK_BOUNDS());
-            break;
-        }
+        /* _LOAD_ATTR is not a viable micro-op for tier 2 because it has both popping and not-popping errors */
 
         case _GUARD_TYPE_VERSION: {
             _PyStackRef owner;

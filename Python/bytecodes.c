@@ -1166,6 +1166,7 @@ dummy_func(
             PyObject *iter_o = _PyEval_GetAwaitable(PyStackRef_AsPyObjectBorrow(iterable), oparg);
             PyStackRef_CLOSE(iterable);
             ERROR_IF(iter_o == NULL, error);
+            ERROR_IF(!stack_ok_for_await(tstate, frame), error);
             iter = PyStackRef_FromPyObjectSteal(iter_o);
         }
 
@@ -1194,10 +1195,6 @@ dummy_func(
                 (Py_TYPE(receiver_o) == &PyGen_Type || Py_TYPE(receiver_o) == &PyCoro_Type) &&
                 ((PyGenObject *)receiver_o)->gi_resume_gen->gi_frame_state < FRAME_EXECUTING)
             {
-                if (Py_TYPE(receiver_o) == &PyCoro_Type && !stack_ok_for_await(tstate, frame)) {
-                    PyStackRef_CLOSE(v);
-                    ERROR_IF(true, error);
-                }
                 PyGenObject *gen = (PyGenObject *)receiver_o;
                 _PyInterpreterFrame *gen_frame = &gen->gi_iframe;
                 PyGenObject *resume_gen = gen->gi_resume_gen;
@@ -1249,10 +1246,6 @@ dummy_func(
             DEOPT_IF(Py_TYPE(gen) != &PyGen_Type && Py_TYPE(gen) != &PyCoro_Type);
             DEOPT_IF(gen->gi_frame_state >= FRAME_EXECUTING);
             STAT_INC(SEND, hit);
-            if (Py_TYPE(gen) == &PyGen_Type && !stack_ok_for_await(tstate, frame)) {
-                DEAD(v);
-                ERROR_IF(true, error);
-            }
             _PyInterpreterFrame *resume_frame = gen->gi_resume_gen->gi_resume_iframe;
             _PyFrame_StackPush(resume_frame, v);
             DEAD(v);
@@ -2210,10 +2203,28 @@ dummy_func(
                     ERROR_IF(attr_o == NULL, error);
                     self_or_null[0] = PyStackRef_NULL;
                 }
-            }
-            else {
+            } else {
                 /* Classic, pushes one value. */
-                attr_o = PyObject_GetAttr(PyStackRef_AsPyObjectBorrow(owner), name);
+                if ( !tstate->interp->eval_frame ){
+                    int inlined = 0;
+                    attr_o = _PyObject_GetAttrInlinable(PyStackRef_AsPyObjectBorrow(owner), name, &inlined);
+                    if ( inlined ){
+                        _PyInterpreterFrame *new_frame = _PyFrame_PushInlineCall(
+                            tstate, PyStackRef_FromPyObjectNew(attr_o), 2, frame);
+                        if (new_frame == NULL) {
+                            ERROR_NO_POP();
+                        }
+                        // Manipulate stack directly because we exit with DISPATCH_INLINED().
+                        STACK_SHRINK(1);
+                        new_frame->localsplus[0] = owner;
+                        DEAD(owner);
+                        new_frame->localsplus[1] = PyStackRef_FromPyObjectNew(name);
+                        frame->return_offset = INSTRUCTION_SIZE;
+                        DISPATCH_INLINED(new_frame);
+                    }
+                } else {
+                    attr_o = PyObject_GetAttr(PyStackRef_AsPyObjectBorrow(owner), name);
+                }
                 PyStackRef_CLOSE(owner);
                 ERROR_IF(attr_o == NULL, error);
             }

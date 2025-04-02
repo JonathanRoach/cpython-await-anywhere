@@ -243,7 +243,9 @@ extern PyObject* _Py_type_getattro(PyObject *type, PyObject *name);
 extern PyObject* _Py_BaseObject_RichCompare(PyObject* self, PyObject* other, int op);
 
 extern PyObject* _Py_slot_tp_getattro(PyObject *self, PyObject *name);
+extern PyObject* _Py_slot_tp_getattro_inlineable(PyObject *self, PyObject *name, int *inlined);
 extern PyObject* _Py_slot_tp_getattr_hook(PyObject *self, PyObject *name);
+extern PyObject* _Py_slot_tp_getattr_hook_inlineable(PyObject *self, PyObject *name, int *inlined);
 
 extern PyTypeObject _PyBufferWrapper_Type;
 

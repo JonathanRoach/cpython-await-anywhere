@@ -10078,18 +10078,38 @@ slot_tp_call(PyObject *self, PyObject *args, PyObject *kwds)
    slot if necessary. */
 
 PyObject *
-_Py_slot_tp_getattro(PyObject *self, PyObject *name)
+_Py_slot_tp_getattro_inlineable(PyObject *self, PyObject *name, int *inlined)
 {
+    if ( inlined ){
+        PyTypeObject *tp = Py_TYPE(self);
+        PyObject *res = _PyType_LookupRef(tp, &_Py_ID(__getattribute__));
+        if (Py_TYPE(res) == &PyFunction_Type &&
+            ((PyFunctionObject *)res)->vectorcall == _PyFunction_Vectorcall) {
+            *inlined = 1;
+            return res;
+        }
+    }
     PyObject *stack[2] = {self, name};
     return vectorcall_method(&_Py_ID(__getattribute__), stack, 2);
 }
 
+PyObject *
+_Py_slot_tp_getattro(PyObject *self, PyObject *name){
+    return _Py_slot_tp_getattro_inlineable(self, name, NULL);
+}
+
 static inline PyObject *
-call_attribute(PyObject *self, PyObject *attr, PyObject *name)
+call_attribute(PyObject *self, PyObject *attr, PyObject *name, int *inlined)
 {
     PyObject *res, *descr = NULL;
 
     if (_PyType_HasFeature(Py_TYPE(attr), Py_TPFLAGS_METHOD_DESCRIPTOR)) {
+        if ( inlined ){
+            if ( ((PyFunctionObject *)attr)->vectorcall == _PyFunction_Vectorcall) {
+                *inlined = 1;
+                return attr;
+            }
+        }
         PyObject *args[] = { self, name };
         res = PyObject_Vectorcall(attr, args, 2, NULL);
         return res;
@@ -10110,7 +10130,7 @@ call_attribute(PyObject *self, PyObject *attr, PyObject *name)
 }
 
 PyObject *
-_Py_slot_tp_getattr_hook(PyObject *self, PyObject *name)
+_Py_slot_tp_getattr_hook_inlineable(PyObject *self, PyObject *name, int *inlined)
 {
     PyTypeObject *tp = Py_TYPE(self);
     PyObject *getattr, *getattribute, *res;
@@ -10124,7 +10144,7 @@ _Py_slot_tp_getattr_hook(PyObject *self, PyObject *name)
     if (getattr == NULL) {
         /* No __getattr__ hook: use a simpler dispatcher */
         tp->tp_getattro = _Py_slot_tp_getattro;
-        return _Py_slot_tp_getattro(self, name);
+        return _Py_slot_tp_getattro_inlineable(self, name, inlined);
     }
     /* speed hack: we could use lookup_maybe, but that would resolve the
        method fully for each attribute lookup for classes with
@@ -10141,20 +10161,25 @@ _Py_slot_tp_getattr_hook(PyObject *self, PyObject *name)
         /* if res == NULL with no exception set, then it must be an
            AttributeError suppressed by us. */
         if (res == NULL && !PyErr_Occurred()) {
-            res = call_attribute(self, getattr, name);
+            res = call_attribute(self, getattr, name, inlined);
         }
     }
     else {
-        res = call_attribute(self, getattribute, name);
+        res = call_attribute(self, getattribute, name, NULL);
         Py_DECREF(getattribute);
         if (res == NULL && PyErr_ExceptionMatches(PyExc_AttributeError)) {
             PyErr_Clear();
-            res = call_attribute(self, getattr, name);
+            res = call_attribute(self, getattr, name, inlined);
         }
     }
 
     Py_DECREF(getattr);
     return res;
+}
+
+PyObject *
+_Py_slot_tp_getattr_hook(PyObject *self, PyObject *name){
+    return _Py_slot_tp_getattr_hook_inlineable(self, name, NULL);
 }
 
 static int

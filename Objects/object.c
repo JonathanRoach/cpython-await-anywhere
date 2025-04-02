@@ -1275,7 +1275,7 @@ restore:
 }
 
 PyObject *
-PyObject_GetAttr(PyObject *v, PyObject *name)
+_PyObject_GetAttrInlinable(PyObject *v, PyObject *name, int *inlined)
 {
     PyTypeObject *tp = Py_TYPE(v);
     if (!PyUnicode_Check(name)) {
@@ -1287,7 +1287,14 @@ PyObject_GetAttr(PyObject *v, PyObject *name)
 
     PyObject* result = NULL;
     if (tp->tp_getattro != NULL) {
-        result = (*tp->tp_getattro)(v, name);
+        getattrofunc getattro = tp->tp_getattro;
+        if (getattro == _Py_slot_tp_getattr_hook) {
+            result = _Py_slot_tp_getattr_hook_inlineable(v, name, inlined);
+        } else if ( getattro == _Py_slot_tp_getattro ){
+            result = _Py_slot_tp_getattro_inlineable(v, name, inlined);
+        } else {
+            result = (*getattro)(v, name);
+        }
     }
     else if (tp->tp_getattr != NULL) {
         const char *name_str = PyUnicode_AsUTF8(name);
@@ -1306,6 +1313,12 @@ PyObject_GetAttr(PyObject *v, PyObject *name)
         _PyObject_SetAttributeErrorContext(v, name);
     }
     return result;
+}
+
+PyObject *
+PyObject_GetAttr(PyObject *v, PyObject *name)
+{
+    return _PyObject_GetAttrInlinable(v, name, NULL);
 }
 
 int

@@ -468,7 +468,7 @@ def analyze_deferred_refs(node: parser.InstDef) -> dict[lexer.Token, str | None]
         for tkn in reversed(node.block.tokens[: idx - 1]):
             if tkn.kind in {"SEMI", "LBRACE", "RBRACE"}:
                 return False
-            if tkn.kind == "IDENTIFIER" and tkn.text == "_PyFrame_PushUnchecked":
+            if tkn.kind == "IDENTIFIER" and tkn.text in ("_PyFrame_PushUnchecked", "_PyFrame_PushInlineCall"):
                 return True
         return False
 
@@ -479,7 +479,7 @@ def analyze_deferred_refs(node: parser.InstDef) -> dict[lexer.Token, str | None]
 
         if idx == 0 or node.block.tokens[idx - 1].kind != "EQUALS":
             if in_frame_push(idx):
-                # PyStackRef_FromPyObjectNew() is called in _PyFrame_PushUnchecked()
+                # PyStackRef_FromPyObjectNew() is called in _PyFrame_PushUnchecked() or _PyFrame_PushInlineCall()
                 refs[tkn] = None
                 continue
             raise analysis_error("Expected '=' before PyStackRef_FromPyObjectNew", tkn)
@@ -625,6 +625,7 @@ NON_ESCAPING_FUNCTIONS = (
     "_PyFrame_GetBytecode",
     "_PyFrame_GetCode",
     "_PyFrame_IsIncomplete",
+    "_PyFrame_PushInlineCall",
     "_PyFrame_PushUnchecked",
     "_PyFrame_SetStackPointer",
     "_PyFrame_StackPush",

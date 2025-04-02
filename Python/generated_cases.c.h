@@ -5850,6 +5850,9 @@
             if (iter_o == NULL) {
                 JUMP_TO_LABEL(error);
             }
+            if (!stack_ok_for_await(tstate, frame)) {
+                JUMP_TO_LABEL(error);
+            }
             iter = PyStackRef_FromPyObjectSteal(iter_o);
             stack_pointer[0] = iter;
             stack_pointer += 1;
@@ -7760,12 +7763,31 @@
                         stack_pointer += 1;
                         assert(WITHIN_STACK_BOUNDS());
                     }
-                }
-                else {
+                } else {
                     /* Classic, pushes one value. */
-                    _PyFrame_SetStackPointer(frame, stack_pointer);
-                    attr_o = PyObject_GetAttr(PyStackRef_AsPyObjectBorrow(owner), name);
-                    stack_pointer = _PyFrame_GetStackPointer(frame);
+                    if ( !tstate->interp->eval_frame ){
+                        int inlined = 0;
+                        _PyFrame_SetStackPointer(frame, stack_pointer);
+                        attr_o = _PyObject_GetAttrInlinable(PyStackRef_AsPyObjectBorrow(owner), name, &inlined);
+                        stack_pointer = _PyFrame_GetStackPointer(frame);
+                        if ( inlined ){
+                            _PyInterpreterFrame *new_frame = _PyFrame_PushInlineCall(
+                                tstate, PyStackRef_FromPyObjectNew(attr_o), 2, frame);
+                            if (new_frame == NULL) {
+                                JUMP_TO_LABEL(error);
+                            }
+                            // Manipulate stack directly because we exit with DISPATCH_INLINED().
+                            STACK_SHRINK(1);
+                            new_frame->localsplus[0] = owner;
+                            new_frame->localsplus[1] = PyStackRef_FromPyObjectNew(name);
+                            frame->return_offset = 10 ;
+                            DISPATCH_INLINED(new_frame);
+                        }
+                    } else {
+                        _PyFrame_SetStackPointer(frame, stack_pointer);
+                        attr_o = PyObject_GetAttr(PyStackRef_AsPyObjectBorrow(owner), name);
+                        stack_pointer = _PyFrame_GetStackPointer(frame);
+                    }
                     stack_pointer += -1;
                     assert(WITHIN_STACK_BOUNDS());
                     _PyFrame_SetStackPointer(frame, stack_pointer);
@@ -10383,14 +10405,6 @@
                     (Py_TYPE(receiver_o) == &PyGen_Type || Py_TYPE(receiver_o) == &PyCoro_Type) &&
                     ((PyGenObject *)receiver_o)->gi_resume_gen->gi_frame_state < FRAME_EXECUTING)
                 {
-                    if (Py_TYPE(receiver_o) == &PyCoro_Type && !stack_ok_for_await(tstate, frame)) {
-                        stack_pointer += -1;
-                        assert(WITHIN_STACK_BOUNDS());
-                        _PyFrame_SetStackPointer(frame, stack_pointer);
-                        PyStackRef_CLOSE(v);
-                        stack_pointer = _PyFrame_GetStackPointer(frame);
-                        JUMP_TO_LABEL(error);
-                    }
                     PyGenObject *gen = (PyGenObject *)receiver_o;
                     _PyInterpreterFrame *gen_frame = &gen->gi_iframe;
                     PyGenObject *resume_gen = gen->gi_resume_gen;
@@ -10497,9 +10511,6 @@
                     JUMP_TO_PREDICTED(SEND);
                 }
                 STAT_INC(SEND, hit);
-                if (Py_TYPE(gen) == &PyGen_Type && !stack_ok_for_await(tstate, frame)) {
-                    JUMP_TO_LABEL(pop_1_error);
-                }
                 _PyInterpreterFrame *resume_frame = gen->gi_resume_gen->gi_resume_iframe;
                 _PyFrame_StackPush(resume_frame, v);
                 assert( 2 + oparg <= UINT16_MAX);

@@ -279,10 +279,11 @@ stack_ok_for_await(PyThreadState *tstate,
                  _PyInterpreterFrame *frame);
 
 static int get_exception_handler(PyCodeObject *, int, int*, int*, int*);
+static inline _PyInterpreterFrame *
+_PyFrame_PushInlineCall(PyThreadState *tstate, _PyStackRef func_obj, int null_locals_from, _PyInterpreterFrame * previous);
 static  _PyInterpreterFrame *
 _PyEvalFramePushAndInit_Ex(PyThreadState *tstate, _PyStackRef func,
     PyObject *locals, Py_ssize_t nargs, PyObject *callargs, PyObject *kwargs, _PyInterpreterFrame *previous);
-
 #ifdef HAVE_ERRNO_H
 #include <errno.h>
 #endif
@@ -1723,6 +1724,28 @@ fail:
         }
     }
     PyErr_NoMemory();
+    return NULL;
+}
+
+/* Pushes a frame ready for null_locals_from parameters.
+   Steals reference to func.
+ */
+static inline _PyInterpreterFrame *
+_PyFrame_PushInlineCall(PyThreadState *tstate, _PyStackRef func, int null_locals_from, _PyInterpreterFrame * previous)
+{
+    CALL_STAT_INC(frames_pushed);
+    PyFunctionObject *func_obj = (PyFunctionObject *)PyStackRef_AsPyObjectBorrow(func);
+    PyCodeObject *code = (PyCodeObject *)func_obj->func_code;
+    _PyInterpreterFrame *new_frame = _PyDataStack_PushFrame(&tstate->datastack, code->co_framesize);
+    if (new_frame) {
+        _PyFrame_Initialize(tstate, new_frame, func, NULL, code, null_locals_from,
+                            previous);
+        return new_frame;
+    }
+
+    /* Consume the references */
+    PyErr_NoMemory();
+    PyStackRef_CLOSE(func);
     return NULL;
 }
 
@@ -3300,17 +3323,14 @@ _PyEval_LoadName(PyThreadState *tstate, _PyInterpreterFrame *frame, PyObject *na
 static int
 stack_ok_for_await(PyThreadState *tstate, _PyInterpreterFrame *frame)
 {
-    printf("Check stack\n");
     // Search up the stack for a FRAME_OWNED_BY_GENERATOR which is a PyCoro_CheckExact
     // If we run out of stack, or encounter a FRAME_OWNED_BY_INTERPRETER that's an error
     // return 1 if OK, 0 if there's an error
     do {
         if ( frame->owner == FRAME_OWNED_BY_GENERATOR && PyCoro_CheckExact(_PyGen_GetGeneratorFromFrame(frame)) ){
-            printf("good\n");
             return 1;
         }
         if ( frame->owner == FRAME_OWNED_BY_INTERPRETER || frame->owner == FRAME_OWNED_BY_CSTACK ) {
-            printf("Bad: frame owner\n");
             // can't have any frame on the C stack in the stack of a yielded coroutine
             _PyErr_SetString(tstate, PyExc_RuntimeError,
                 "await not possible within C-implemented functions");
@@ -3319,7 +3339,6 @@ stack_ok_for_await(PyThreadState *tstate, _PyInterpreterFrame *frame)
         frame = frame->previous;
     } while ( frame );
 
-    printf("Bad: ran out of stack\n");
     _PyErr_SetString(tstate, PyExc_RuntimeError,
         "await outside of a async def");
     return 0;
