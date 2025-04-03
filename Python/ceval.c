@@ -922,6 +922,7 @@ _PyEval_EvalFramesDefault(PyThreadState *tstate, _PyInterpreterFrame *framebase,
     entry_frame.owner = FRAME_OWNED_BY_INTERPRETER;
     entry_frame.visited = 0;
     entry_frame.return_offset = 0;
+    entry_frame.discard_return_value = 0;
 #ifdef Py_DEBUG
     entry_frame.lltrace = 0;
 #endif

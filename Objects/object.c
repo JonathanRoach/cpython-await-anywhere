@@ -1438,7 +1438,7 @@ PyObject_HasAttr(PyObject *obj, PyObject *name)
 }
 
 int
-PyObject_SetAttr(PyObject *v, PyObject *name, PyObject *value)
+_PyObject_SetAttrInlinable(PyObject *v, PyObject *name, PyObject *value, int *inlined, PyObject **inlinefunction)
 {
     PyTypeObject *tp = Py_TYPE(v);
     int err;
@@ -1454,7 +1454,11 @@ PyObject_SetAttr(PyObject *v, PyObject *name, PyObject *value)
     PyInterpreterState *interp = _PyInterpreterState_GET();
     _PyUnicode_InternMortal(interp, &name);
     if (tp->tp_setattro != NULL) {
-        err = (*tp->tp_setattro)(v, name, value);
+        if (inlined && tp->tp_setattro == _Py_slot_tp_setattro){
+            err = _Py_slot_tp_setattro_inlinable(v, name, value, inlined, inlinefunction);
+        } else {
+            err = (*tp->tp_setattro)(v, name, value);
+        }
         Py_DECREF(name);
         return err;
     }
@@ -1485,6 +1489,12 @@ PyObject_SetAttr(PyObject *v, PyObject *name, PyObject *value)
                      value==NULL ? "del" : "assign to",
                      name);
     return -1;
+}
+
+int
+PyObject_SetAttr(PyObject *v, PyObject *name, PyObject *value)
+{
+    return _PyObject_SetAttrInlinable(v, name, value, NULL, NULL);
 }
 
 int

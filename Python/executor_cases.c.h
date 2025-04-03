@@ -1660,12 +1660,18 @@
             _Py_LeaveRecursiveCallPy(tstate);
             // GH-99729: We need to unlink the frame *before* clearing it:
             _PyInterpreterFrame *dying = frame;
+            uint8_t discard_return_value = dying->discard_return_value;
             frame = tstate->current_frame = dying->previous;
             _PyEval_FrameClearAndPop(tstate, dying);
             stack_pointer = _PyFrame_GetStackPointer(frame);
             LOAD_IP(frame->return_offset);
-            res = temp;
-            LLTRACE_RESUME_FRAME();
+            if ( discard_return_value ){
+                LLTRACE_RESUME_FRAME();
+                DISPATCH();
+            } else {
+                res = temp;
+                LLTRACE_RESUME_FRAME();
+            }
             stack_pointer[0] = res;
             stack_pointer += 1;
             assert(WITHIN_STACK_BOUNDS());
@@ -2130,32 +2136,7 @@
             break;
         }
 
-        case _STORE_ATTR: {
-            _PyStackRef owner;
-            _PyStackRef v;
-            oparg = CURRENT_OPARG();
-            owner = stack_pointer[-1];
-            v = stack_pointer[-2];
-            PyObject *name = GETITEM(FRAME_CO_NAMES, oparg);
-            _PyFrame_SetStackPointer(frame, stack_pointer);
-            int err = PyObject_SetAttr(PyStackRef_AsPyObjectBorrow(owner),
-                                       name, PyStackRef_AsPyObjectBorrow(v));
-            _PyStackRef tmp = owner;
-            owner = PyStackRef_NULL;
-            stack_pointer[-1] = owner;
-            PyStackRef_CLOSE(tmp);
-            tmp = v;
-            v = PyStackRef_NULL;
-            stack_pointer[-2] = v;
-            PyStackRef_CLOSE(tmp);
-            stack_pointer = _PyFrame_GetStackPointer(frame);
-            stack_pointer += -2;
-            assert(WITHIN_STACK_BOUNDS());
-            if (err) {
-                JUMP_TO_ERROR();
-            }
-            break;
-        }
+        /* _STORE_ATTR is not a viable micro-op for tier 2 because it has both popping and not-popping errors */
 
         case _DELETE_ATTR: {
             _PyStackRef owner;
@@ -6682,14 +6663,14 @@
             #if defined(Py_DEBUG) && !defined(_Py_JIT)
             OPT_HIST(trace_uop_execution_counter, trace_run_length_hist);
             if (frame->lltrace >= 2) {
-                _PyFrame_SetStackPointer(frame, stack_pointer);
                 printf("SIDE EXIT: [UOp ");
+                _PyFrame_SetStackPointer(frame, stack_pointer);
                 _PyUOpPrint(&next_uop[-1]);
+                stack_pointer = _PyFrame_GetStackPointer(frame);
                 printf(", exit %lu, temp %d, target %d -> %s]\n",
                        exit - current_executor->exits, exit->temperature.value_and_backoff,
                        (int)(target - _PyFrame_GetBytecode(frame)),
                        _PyOpcode_OpName[target->op.code]);
-                stack_pointer = _PyFrame_GetStackPointer(frame);
             }
             #endif
             if (exit->executor && !exit->executor->vm_data.valid) {

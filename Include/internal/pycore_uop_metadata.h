@@ -116,7 +116,6 @@ const uint16_t _PyUop_Flags[MAX_UOP_ID+1] = {
     [_UNPACK_SEQUENCE_TUPLE] = HAS_ARG_FLAG | HAS_DEOPT_FLAG,
     [_UNPACK_SEQUENCE_LIST] = HAS_ARG_FLAG | HAS_DEOPT_FLAG,
     [_UNPACK_EX] = HAS_ARG_FLAG | HAS_ERROR_FLAG | HAS_ESCAPES_FLAG,
-    [_STORE_ATTR] = HAS_ARG_FLAG | HAS_NAME_FLAG | HAS_ERROR_FLAG | HAS_ESCAPES_FLAG,
     [_DELETE_ATTR] = HAS_ARG_FLAG | HAS_NAME_FLAG | HAS_ERROR_FLAG | HAS_ESCAPES_FLAG,
     [_STORE_GLOBAL] = HAS_ARG_FLAG | HAS_NAME_FLAG | HAS_ERROR_FLAG | HAS_ESCAPES_FLAG,
     [_DELETE_GLOBAL] = HAS_ARG_FLAG | HAS_NAME_FLAG | HAS_ERROR_FLAG | HAS_ERROR_NO_POP_FLAG | HAS_ESCAPES_FLAG,
@@ -513,7 +512,6 @@ const char *const _PyOpcode_uop_name[MAX_UOP_ID+1] = {
     [_SET_IP] = "_SET_IP",
     [_SET_UPDATE] = "_SET_UPDATE",
     [_START_EXECUTOR] = "_START_EXECUTOR",
-    [_STORE_ATTR] = "_STORE_ATTR",
     [_STORE_ATTR_INSTANCE_VALUE] = "_STORE_ATTR_INSTANCE_VALUE",
     [_STORE_ATTR_SLOT] = "_STORE_ATTR_SLOT",
     [_STORE_ATTR_WITH_HINT] = "_STORE_ATTR_WITH_HINT",
@@ -751,8 +749,6 @@ int _PyUop_num_popped(int opcode, int oparg)
             return 1;
         case _UNPACK_EX:
             return 1;
-        case _STORE_ATTR:
-            return 2;
         case _DELETE_ATTR:
             return 1;
         case _STORE_GLOBAL:

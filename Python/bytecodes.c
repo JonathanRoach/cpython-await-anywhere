@@ -1099,12 +1099,18 @@ dummy_func(
             _Py_LeaveRecursiveCallPy(tstate);
             // GH-99729: We need to unlink the frame *before* clearing it:
             _PyInterpreterFrame *dying = frame;
+            uint8_t discard_return_value = dying->discard_return_value;
             frame = tstate->current_frame = dying->previous;
             _PyEval_FrameClearAndPop(tstate, dying);
             RELOAD_STACK();
             LOAD_IP(frame->return_offset);
-            res = temp;
-            LLTRACE_RESUME_FRAME();
+            if ( discard_return_value ){
+                LLTRACE_RESUME_FRAME();
+                DISPATCH();
+            } else {
+                res = temp;
+                LLTRACE_RESUME_FRAME();
+            }
         }
 
         tier1 op(_RETURN_VALUE_EVENT, (val -- val)) {
@@ -1581,8 +1587,38 @@ dummy_func(
 
         op(_STORE_ATTR, (v, owner --)) {
             PyObject *name = GETITEM(FRAME_CO_NAMES, oparg);
-            int err = PyObject_SetAttr(PyStackRef_AsPyObjectBorrow(owner),
-                                       name, PyStackRef_AsPyObjectBorrow(v));
+            int err;
+            if ( !tstate->interp->eval_frame ){
+                int inlined = 0;
+                PyObject *inlinefunction = NULL;
+                err = _PyObject_SetAttrInlinable(PyStackRef_AsPyObjectBorrow(owner),
+                                        name, PyStackRef_AsPyObjectBorrow(v), &inlined, &inlinefunction);
+                if ( inlined ){
+                    assert(inlined == 2 || inlined == 3);
+                    _PyInterpreterFrame *new_frame = _PyFrame_PushInlineCall(
+                        tstate, PyStackRef_FromPyObjectSteal(inlinefunction), inlined, frame);
+                    if (new_frame == NULL) {
+                        ERROR_NO_POP();
+                    }
+                    // Manipulate stack directly because we exit with DISPATCH_INLINED().
+                    STACK_SHRINK(2);
+                    new_frame->localsplus[0] = owner;
+                    DEAD(owner);
+                    new_frame->localsplus[1] = PyStackRef_FromPyObjectNew(name);
+                    if (inlined > 2){
+                        new_frame->localsplus[2] = v;
+                        DEAD(v);
+                    } else {
+                        PyStackRef_CLOSE(v);
+                    }
+                    new_frame->discard_return_value = 1;
+                    frame->return_offset = INSTRUCTION_SIZE;
+                    DISPATCH_INLINED(new_frame);
+                }
+            } else {
+                err = PyObject_SetAttr(PyStackRef_AsPyObjectBorrow(owner),
+                                        name, PyStackRef_AsPyObjectBorrow(v));
+            }
             DECREF_INPUTS();
             ERROR_IF(err, error);
         }

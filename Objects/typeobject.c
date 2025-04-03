@@ -104,9 +104,6 @@ slot_tp_new(PyTypeObject *type, PyObject *args, PyObject *kwds);
 static PyObject *
 lookup_maybe_method(PyObject *self, PyObject *attr, int *unbound);
 
-static int
-slot_tp_setattro(PyObject *self, PyObject *name, PyObject *value);
-
 
 static inline PyTypeObject *
 type_from_ref(PyObject *ref)
@@ -2876,6 +2873,29 @@ vectorcall_method(PyObject *name, PyObject *const *args, Py_ssize_t nargs)
     PyObject *func = lookup_method(self, name, &unbound);
     if (func == NULL) {
         return NULL;
+    }
+    PyObject *retval = vectorcall_unbound(tstate, unbound, func, args, nargs);
+    Py_DECREF(func);
+    return retval;
+}
+
+/* A variation of vectorcall_method for inlineable calls
+ */
+static PyObject *
+vectorcall_method_inlinable(PyObject *name, PyObject *const *args, Py_ssize_t nargs, int *inlined)
+{
+    assert(nargs >= 1);
+
+    PyThreadState *tstate = _PyThreadState_GET();
+    int unbound;
+    PyObject *self = args[0];
+    PyObject *func = lookup_method(self, name, &unbound);
+    if (func == NULL) {
+        return NULL;
+    }
+    if ( inlined ){
+        *inlined = nargs;
+        return func;
     }
     PyObject *retval = vectorcall_unbound(tstate, unbound, func, args, nargs);
     Py_DECREF(func);
@@ -9260,7 +9280,7 @@ hackcheck_unlocked(PyObject *self, setattrofunc func, const char *what)
     Py_ssize_t i;
     for (i = PyTuple_GET_SIZE(mro) - 1; i >= 0; i--) {
         PyTypeObject *base = _PyType_CAST(PyTuple_GET_ITEM(mro, i));
-        if (base->tp_setattro == slot_tp_setattro) {
+        if (base->tp_setattro == _Py_slot_tp_setattro) {
             /* Ignore Python classes:
                they never define their own C-level setattro. */
         }
@@ -9276,7 +9296,7 @@ hackcheck_unlocked(PyObject *self, setattrofunc func, const char *what)
             /* 'func' is the right slot function to call. */
             break;
         }
-        else if (base->tp_setattro != slot_tp_setattro) {
+        else if (base->tp_setattro != _Py_slot_tp_setattro) {
             /* 'base' is not a Python class and overrides 'func'.
                Its tp_setattro should be called instead. */
             PyErr_Format(PyExc_TypeError,
@@ -10178,12 +10198,13 @@ _Py_slot_tp_getattr_hook_inlineable(PyObject *self, PyObject *name, int *inlined
 }
 
 PyObject *
-_Py_slot_tp_getattr_hook(PyObject *self, PyObject *name){
+_Py_slot_tp_getattr_hook(PyObject *self, PyObject *name)
+{
     return _Py_slot_tp_getattr_hook_inlineable(self, name, NULL);
 }
 
-static int
-slot_tp_setattro(PyObject *self, PyObject *name, PyObject *value)
+int
+_Py_slot_tp_setattro_inlinable(PyObject *self, PyObject *name, PyObject *value, int *inlined, PyObject **inlinefunction)
 {
     PyObject *stack[3];
     PyObject *res;
@@ -10191,16 +10212,27 @@ slot_tp_setattro(PyObject *self, PyObject *name, PyObject *value)
     stack[0] = self;
     stack[1] = name;
     if (value == NULL) {
-        res = vectorcall_method(&_Py_ID(__delattr__), stack, 2);
+        res = vectorcall_method_inlinable(&_Py_ID(__delattr__), stack, 2, inlined);
     }
     else {
         stack[2] = value;
-        res = vectorcall_method(&_Py_ID(__setattr__), stack, 3);
+        res = vectorcall_method_inlinable(&_Py_ID(__setattr__), stack, 3, inlined);
     }
-    if (res == NULL)
-        return -1;
-    Py_DECREF(res);
-    return 0;
+    if (res) {
+        if ( inlined && *inlined ){
+            *inlinefunction = res;
+        } else {
+            Py_DECREF(res);
+        }
+        return 0;
+    }
+    return -1;
+}
+
+int
+_Py_slot_tp_setattro(PyObject *self, PyObject *name, PyObject *value)
+{
+    return _Py_slot_tp_setattro_inlinable(self, name, value, NULL, NULL);
 }
 
 static PyObject *name_op[] = {
@@ -10766,9 +10798,9 @@ static pytype_slotdef slotdefs[] = {
            "__getattribute__($self, name, /)\n--\n\nReturn getattr(self, name)."),
     TPSLOT(__getattr__, tp_getattro, _Py_slot_tp_getattr_hook, NULL,
            "__getattr__($self, name, /)\n--\n\nImplement getattr(self, name)."),
-    TPSLOT(__setattr__, tp_setattro, slot_tp_setattro, wrap_setattr,
+    TPSLOT(__setattr__, tp_setattro, _Py_slot_tp_setattro, wrap_setattr,
            "__setattr__($self, name, value, /)\n--\n\nImplement setattr(self, name, value)."),
-    TPSLOT(__delattr__, tp_setattro, slot_tp_setattro, wrap_delattr,
+    TPSLOT(__delattr__, tp_setattro, _Py_slot_tp_setattro, wrap_delattr,
            "__delattr__($self, name, /)\n--\n\nImplement delattr(self, name)."),
     TPSLOT(__lt__, tp_richcompare, slot_tp_richcompare, richcmp_lt,
            "__lt__($self, value, /)\n--\n\nReturn self<value."),

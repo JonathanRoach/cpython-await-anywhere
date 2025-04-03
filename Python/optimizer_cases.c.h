@@ -869,11 +869,7 @@
             break;
         }
 
-        case _STORE_ATTR: {
-            stack_pointer += -2;
-            assert(WITHIN_STACK_BOUNDS());
-            break;
-        }
+        /* _STORE_ATTR is not a viable micro-op for tier 2 */
 
         case _DELETE_ATTR: {
             stack_pointer += -1;

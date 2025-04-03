@@ -76,6 +76,7 @@ typedef struct _PyInterpreterFrame {
 #endif
     uint16_t return_offset;  /* Only relevant during a function call */
     char owner;
+    uint8_t discard_return_value;
 #ifdef Py_DEBUG
     uint8_t visited:1;
     uint8_t lltrace:7;
@@ -206,6 +207,7 @@ _PyFrame_Initialize(
     frame->instr_ptr = _PyCode_CODE(code);
 #endif
     frame->return_offset = 0;
+    frame->discard_return_value = 0;
     frame->owner = FRAME_OWNED_BY_THREAD;
     frame->visited = 0;
 #ifdef Py_DEBUG
@@ -391,6 +393,7 @@ _PyFrame_PushTrampolineUnchecked(PyThreadState *tstate, PyCodeObject *code, int 
     frame->lltrace = 0;
 #endif
     frame->return_offset = 0;
+    frame->discard_return_value = 0;
     return frame;
 }
 

@@ -900,6 +900,7 @@ extern PyObject* _PyType_GetDocFromInternalDoc(const char *, const char *);
 extern PyObject* _PyType_GetTextSignatureFromInternalDoc(const char *, const char *, int);
 extern int _PyObject_SetAttributeErrorContext(PyObject *v, PyObject* name);
 extern PyObject* _PyObject_GetAttrInlinable(PyObject *v, PyObject *name, int *inlined);
+extern int _PyObject_SetAttrInlinable(PyObject *o, PyObject *attr_name, PyObject *v, int *inlined, PyObject **inlinefunction);
 
 void _PyObject_InitInlineValues(PyObject *obj, PyTypeObject *tp);
 extern int _PyObject_StoreInstanceAttribute(PyObject *obj,

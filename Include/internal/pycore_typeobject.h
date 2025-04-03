@@ -246,6 +246,9 @@ extern PyObject* _Py_slot_tp_getattro(PyObject *self, PyObject *name);
 extern PyObject* _Py_slot_tp_getattro_inlineable(PyObject *self, PyObject *name, int *inlined);
 extern PyObject* _Py_slot_tp_getattr_hook(PyObject *self, PyObject *name);
 extern PyObject* _Py_slot_tp_getattr_hook_inlineable(PyObject *self, PyObject *name, int *inlined);
+extern int _Py_slot_tp_setattro(PyObject *self, PyObject *name, PyObject *value);
+extern int _Py_slot_tp_setattro_inlinable(PyObject *self, PyObject *name, PyObject *value, int *inlined, PyObject **inlinefunction);
+
 
 extern PyTypeObject _PyBufferWrapper_Type;
 

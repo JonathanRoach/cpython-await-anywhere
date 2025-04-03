@@ -7268,12 +7268,18 @@
                 _Py_LeaveRecursiveCallPy(tstate);
                 // GH-99729: We need to unlink the frame *before* clearing it:
                 _PyInterpreterFrame *dying = frame;
+                uint8_t discard_return_value = dying->discard_return_value;
                 frame = tstate->current_frame = dying->previous;
                 _PyEval_FrameClearAndPop(tstate, dying);
                 stack_pointer = _PyFrame_GetStackPointer(frame);
                 LOAD_IP(frame->return_offset);
-                res = temp;
-                LLTRACE_RESUME_FRAME();
+                if ( discard_return_value ){
+                    LLTRACE_RESUME_FRAME();
+                    DISPATCH();
+                } else {
+                    res = temp;
+                    LLTRACE_RESUME_FRAME();
+                }
             }
             stack_pointer[0] = res;
             stack_pointer += 1;
@@ -10352,12 +10358,18 @@
             _Py_LeaveRecursiveCallPy(tstate);
             // GH-99729: We need to unlink the frame *before* clearing it:
             _PyInterpreterFrame *dying = frame;
+            uint8_t discard_return_value = dying->discard_return_value;
             frame = tstate->current_frame = dying->previous;
             _PyEval_FrameClearAndPop(tstate, dying);
             stack_pointer = _PyFrame_GetStackPointer(frame);
             LOAD_IP(frame->return_offset);
-            res = temp;
-            LLTRACE_RESUME_FRAME();
+            if ( discard_return_value ){
+                LLTRACE_RESUME_FRAME();
+                DISPATCH();
+            } else {
+                res = temp;
+                LLTRACE_RESUME_FRAME();
+            }
             stack_pointer[0] = res;
             stack_pointer += 1;
             assert(WITHIN_STACK_BOUNDS());
@@ -10709,9 +10721,47 @@
             {
                 v = stack_pointer[-2];
                 PyObject *name = GETITEM(FRAME_CO_NAMES, oparg);
-                _PyFrame_SetStackPointer(frame, stack_pointer);
-                int err = PyObject_SetAttr(PyStackRef_AsPyObjectBorrow(owner),
+                int err;
+                if ( !tstate->interp->eval_frame ){
+                    int inlined = 0;
+                    PyObject *inlinefunction = NULL;
+                    _PyFrame_SetStackPointer(frame, stack_pointer);
+                    err = _PyObject_SetAttrInlinable(PyStackRef_AsPyObjectBorrow(owner),
+                        name, PyStackRef_AsPyObjectBorrow(v), &inlined, &inlinefunction);
+                    stack_pointer = _PyFrame_GetStackPointer(frame);
+                    if ( inlined ){
+                        assert(inlined == 2 || inlined == 3);
+                        _PyInterpreterFrame *new_frame = _PyFrame_PushInlineCall(
+                            tstate, PyStackRef_FromPyObjectSteal(inlinefunction), inlined, frame);
+                        if (new_frame == NULL) {
+                            JUMP_TO_LABEL(error);
+                        }
+                        // Manipulate stack directly because we exit with DISPATCH_INLINED().
+                        STACK_SHRINK(2);
+                        new_frame->localsplus[0] = owner;
+                        new_frame->localsplus[1] = PyStackRef_FromPyObjectNew(name);
+                        if (inlined > 2){
+                            new_frame->localsplus[2] = v;
+                        } else {
+                            stack_pointer += -2;
+                            assert(WITHIN_STACK_BOUNDS());
+                            _PyFrame_SetStackPointer(frame, stack_pointer);
+                            PyStackRef_CLOSE(v);
+                            stack_pointer = _PyFrame_GetStackPointer(frame);
+                            stack_pointer += 2;
+                            assert(WITHIN_STACK_BOUNDS());
+                        }
+                        new_frame->discard_return_value = 1;
+                        frame->return_offset = 5 ;
+                        DISPATCH_INLINED(new_frame);
+                    }
+                } else {
+                    _PyFrame_SetStackPointer(frame, stack_pointer);
+                    err = PyObject_SetAttr(PyStackRef_AsPyObjectBorrow(owner),
                                        name, PyStackRef_AsPyObjectBorrow(v));
+                    stack_pointer = _PyFrame_GetStackPointer(frame);
+                }
+                _PyFrame_SetStackPointer(frame, stack_pointer);
                 _PyStackRef tmp = owner;
                 owner = PyStackRef_NULL;
                 stack_pointer[-1] = owner;
