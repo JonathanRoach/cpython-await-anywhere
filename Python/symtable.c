@@ -267,7 +267,7 @@ static int symtable_visit_withitem(struct symtable *st, withitem_ty item);
 static int symtable_visit_match_case(struct symtable *st, match_case_ty m);
 static int symtable_visit_pattern(struct symtable *st, pattern_ty s);
 static int symtable_raise_if_annotation_block(struct symtable *st, const char *, expr_ty);
-static int symtable_raise_if_not_coroutine(struct symtable *st, const char *msg, _Py_SourceLocation loc);
+// static int symtable_raise_if_not_coroutine(struct symtable *st, const char *msg, _Py_SourceLocation loc);
 static int symtable_raise_if_comprehension_block(struct symtable *st, expr_ty);
 static int symtable_add_def(struct symtable *st, PyObject *name, int flag, _Py_SourceLocation loc);
 
@@ -1793,13 +1793,13 @@ allows_top_level_await(struct symtable *st)
 }
 
 
-static void
-maybe_set_ste_coroutine_for_module(struct symtable *st, stmt_ty s)
-{
-    if (allows_top_level_await(st)) {
-        st->st_cur->ste_coroutine = 1;
-    }
-}
+// static void
+// maybe_set_ste_coroutine_for_module(struct symtable *st, stmt_ty s)
+// {
+//     if (allows_top_level_await(st)) {
+//         st->st_cur->ste_coroutine = 1;
+//     }
+// }
 
 static int
 symtable_visit_stmt(struct symtable *st, stmt_ty s)
@@ -2197,10 +2197,10 @@ symtable_visit_stmt(struct symtable *st, stmt_ty s)
         break;
     }
     case AsyncWith_kind:
-        maybe_set_ste_coroutine_for_module(st, s);
-        if (!symtable_raise_if_not_coroutine(st, ASYNC_WITH_OUTSIDE_ASYNC_FUNC, LOCATION(s))) {
-            return 0;
-        }
+        // maybe_set_ste_coroutine_for_module(st, s);
+        // if (!symtable_raise_if_not_coroutine(st, ASYNC_WITH_OUTSIDE_ASYNC_FUNC, LOCATION(s))) {
+        //     return 0;
+        // }
         VISIT_SEQ(st, withitem, s->v.AsyncWith.items);
         VISIT_SEQ(st, stmt, s->v.AsyncWith.body);
         break;
@@ -3034,15 +3034,15 @@ symtable_raise_if_comprehension_block(struct symtable *st, expr_ty e) {
     return 0;
 }
 
-static int
-symtable_raise_if_not_coroutine(struct symtable *st, const char *msg, _Py_SourceLocation loc) {
-    if (!st->st_cur->ste_coroutine) {
-        PyErr_SetString(PyExc_SyntaxError, msg);
-        SET_ERROR_LOCATION(st->st_filename, loc);
-        return 0;
-    }
-    return 1;
-}
+// static int
+// symtable_raise_if_not_coroutine(struct symtable *st, const char *msg, _Py_SourceLocation loc) {
+//     if (!st->st_cur->ste_coroutine) {
+//         PyErr_SetString(PyExc_SyntaxError, msg);
+//         SET_ERROR_LOCATION(st->st_filename, loc);
+//         return 0;
+//     }
+//     return 1;
+// }
 
 struct symtable *
 _Py_SymtableStringObjectFlags(const char *str, PyObject *filename,
