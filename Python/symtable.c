@@ -2205,10 +2205,10 @@ symtable_visit_stmt(struct symtable *st, stmt_ty s)
         VISIT_SEQ(st, stmt, s->v.AsyncWith.body);
         break;
     case AsyncFor_kind:
-        maybe_set_ste_coroutine_for_module(st, s);
-        if (!symtable_raise_if_not_coroutine(st, ASYNC_FOR_OUTSIDE_ASYNC_FUNC, LOCATION(s))) {
-            return 0;
-        }
+        // maybe_set_ste_coroutine_for_module(st, s);
+        // if (!symtable_raise_if_not_coroutine(st, ASYNC_FOR_OUTSIDE_ASYNC_FUNC, LOCATION(s))) {
+        //     return 0;
+        // }
         VISIT(st, expr, s->v.AsyncFor.target);
         VISIT(st, expr, s->v.AsyncFor.iter);
         VISIT_SEQ(st, stmt, s->v.AsyncFor.body);

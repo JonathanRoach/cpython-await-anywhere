@@ -1714,6 +1714,12 @@
             if (iter_o == NULL) {
                 JUMP_TO_ERROR();
             }
+            if (!stack_ok_for_await(tstate, frame)) {
+                _PyFrame_SetStackPointer(frame, stack_pointer);
+                Py_DECREF(iter_o);
+                stack_pointer = _PyFrame_GetStackPointer(frame);
+                JUMP_TO_ERROR();
+            }
             if (Py_TYPE(iter_o)->tp_as_async == NULL ||
                 Py_TYPE(iter_o)->tp_as_async->am_anext == NULL) {
                 _PyFrame_SetStackPointer(frame, stack_pointer);
@@ -1766,6 +1772,9 @@
                 JUMP_TO_ERROR();
             }
             if (!stack_ok_for_await(tstate, frame)) {
+                _PyFrame_SetStackPointer(frame, stack_pointer);
+                Py_DECREF(iter_o);
+                stack_pointer = _PyFrame_GetStackPointer(frame);
                 JUMP_TO_ERROR();
             }
             iter = PyStackRef_FromPyObjectSteal(iter_o);

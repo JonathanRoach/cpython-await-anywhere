@@ -1146,6 +1146,10 @@ dummy_func(
             iter_o = (*getter)(obj_o);
             PyStackRef_CLOSE(obj);
             ERROR_IF(iter_o == NULL, error);
+            if (!stack_ok_for_await(tstate, frame)) {
+                Py_DECREF(iter_o);
+                ERROR_IF(true, error);
+            }
 
             if (Py_TYPE(iter_o)->tp_as_async == NULL ||
                     Py_TYPE(iter_o)->tp_as_async->am_anext == NULL) {
@@ -1172,7 +1176,10 @@ dummy_func(
             PyObject *iter_o = _PyEval_GetAwaitable(PyStackRef_AsPyObjectBorrow(iterable), oparg);
             PyStackRef_CLOSE(iterable);
             ERROR_IF(iter_o == NULL, error);
-            ERROR_IF(!stack_ok_for_await(tstate, frame), error);
+            if (!stack_ok_for_await(tstate, frame)) {
+                Py_DECREF(iter_o);
+                ERROR_IF(true, error);
+            }
             iter = PyStackRef_FromPyObjectSteal(iter_o);
         }
 
