@@ -279,8 +279,6 @@ stack_ok_for_await(PyThreadState *tstate,
                  _PyInterpreterFrame *frame);
 
 static int get_exception_handler(PyCodeObject *, int, int*, int*, int*);
-static inline _PyInterpreterFrame *
-_PyFrame_PushInlineCall(PyThreadState *tstate, _PyStackRef func_obj, int null_locals_from, _PyInterpreterFrame * previous);
 static  _PyInterpreterFrame *
 _PyEvalFramePushAndInit_Ex(PyThreadState *tstate, _PyStackRef func,
     PyObject *locals, Py_ssize_t nargs, PyObject *callargs, PyObject *kwargs, _PyInterpreterFrame *previous);
@@ -1731,8 +1729,9 @@ fail:
 /* Pushes a frame ready for null_locals_from parameters.
    Steals reference to func.
  */
-static inline _PyInterpreterFrame *
-_PyFrame_PushInlineCall(PyThreadState *tstate, _PyStackRef func, int null_locals_from, _PyInterpreterFrame * previous)
+_PyInterpreterFrame *
+_PyFrame_PushInlineCall(PyThreadState *tstate, _PyStackRef func, int null_locals_from,
+    _PyInterpreterFrame *previous)
 {
     CALL_STAT_INC(frames_pushed);
     PyFunctionObject *func_obj = (PyFunctionObject *)PyStackRef_AsPyObjectBorrow(func);

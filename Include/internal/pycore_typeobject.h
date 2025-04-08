@@ -152,6 +152,7 @@ struct types_state {
     PyTypeObject *type_version_cache[TYPE_VERSION_CACHE_SIZE];
 };
 
+struct _PyInterpreterFrame;
 
 /* runtime lifecycle */
 
@@ -243,11 +244,11 @@ extern PyObject* _Py_type_getattro(PyObject *type, PyObject *name);
 extern PyObject* _Py_BaseObject_RichCompare(PyObject* self, PyObject* other, int op);
 
 extern PyObject* _Py_slot_tp_getattro(PyObject *self, PyObject *name);
-extern PyObject* _Py_slot_tp_getattro_inlineable(PyObject *self, PyObject *name, int *inlined);
+extern PyObject* _Py_slot_tp_getattro_inlineable(PyObject *self, PyObject *name, struct _PyInterpreterFrame **inlined);
 extern PyObject* _Py_slot_tp_getattr_hook(PyObject *self, PyObject *name);
-extern PyObject* _Py_slot_tp_getattr_hook_inlineable(PyObject *self, PyObject *name, int *inlined);
+extern PyObject* _Py_slot_tp_getattr_hook_inlineable(PyObject *self, PyObject *name, struct _PyInterpreterFrame **inlined);
 extern int _Py_slot_tp_setattro(PyObject *self, PyObject *name, PyObject *value);
-extern int _Py_slot_tp_setattro_inlinable(PyObject *self, PyObject *name, PyObject *value, int *inlined, PyObject **inlinefunction);
+extern int _Py_slot_tp_setattro_inlinable(PyObject *self, PyObject *name, PyObject *value, struct _PyInterpreterFrame **inlined);
 
 
 extern PyTypeObject _PyBufferWrapper_Type;

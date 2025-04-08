@@ -288,6 +288,8 @@ typedef struct _heaptypeobject {
     /* here are optional user slots, followed by the members. */
 } PyHeapTypeObject;
 
+struct _PyInterpreterFrame;
+
 PyAPI_FUNC(const char *) _PyType_Name(PyTypeObject *);
 PyAPI_FUNC(PyObject *) _PyType_Lookup(PyTypeObject *, PyObject *);
 PyAPI_FUNC(PyObject *) _PyType_LookupRef(PyTypeObject *, PyObject *);
@@ -308,10 +310,10 @@ PyAPI_FUNC(void) PyUnstable_Object_ClearWeakRefsNoCallbacks(PyObject *);
 /* Same as PyObject_Generic{Get,Set}Attr, but passing the attributes
    dict as the last parameter. */
 PyAPI_FUNC(PyObject *)
-_PyObject_GenericGetAttrWithDict(PyObject *, PyObject *, PyObject *, int);
+_PyObject_GenericGetAttrWithDict(PyObject *, PyObject *, PyObject *, int, struct _PyInterpreterFrame **inlined);
 PyAPI_FUNC(int)
 _PyObject_GenericSetAttrWithDict(PyObject *, PyObject *,
-                                 PyObject *, PyObject *);
+                                 PyObject *, PyObject *, struct _PyInterpreterFrame **inlined);
 
 PyAPI_FUNC(PyObject *) _PyObject_FunctionStr(PyObject *);
 

@@ -22,6 +22,11 @@ typedef propertyobject _PyPropertyObject;
 
 extern PyTypeObject _PyMethodWrapper_Type;
 
+extern PyObject *_PyPropertyDescrGetInlinable(PyObject *self, PyObject *obj, PyObject *type, struct _PyInterpreterFrame **inlined);
+extern PyObject *_PyPropertyDescrGet(PyObject *self, PyObject *obj, PyObject *type);
+extern int _PyPropertyDescrSetInlinable(PyObject *self, PyObject *obj, PyObject *value, struct _PyInterpreterFrame **inlined);
+extern int _PyPropertyDescrSet(PyObject *self, PyObject *obj, PyObject *value);
+
 #ifdef __cplusplus
 }
 #endif

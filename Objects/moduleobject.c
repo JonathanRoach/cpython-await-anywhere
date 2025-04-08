@@ -935,7 +935,7 @@ _Py_module_getattro_impl(PyModuleObject *m, PyObject *name, int suppress)
 {
     // When suppress=1, this function suppresses AttributeError.
     PyObject *attr, *mod_name, *getattr;
-    attr = _PyObject_GenericGetAttrWithDict((PyObject *)m, name, NULL, suppress);
+    attr = _PyObject_GenericGetAttrWithDict((PyObject *)m, name, NULL, suppress, NULL);
     if (attr) {
         return attr;
     }

@@ -1667,7 +1667,7 @@ local_setattro(PyObject *op, PyObject *name, PyObject *v)
         goto err;
     }
 
-    int st = _PyObject_GenericSetAttrWithDict(op, name, v, ldict);
+    int st = _PyObject_GenericSetAttrWithDict(op, name, v, ldict, NULL);
     Py_DECREF(ldict);
     return st;
 
@@ -1726,7 +1726,7 @@ local_getattro(PyObject *op, PyObject *name)
 
     if (!Py_IS_TYPE(self, state->local_type)) {
         /* use generic lookup for subtypes */
-        PyObject *res = _PyObject_GenericGetAttrWithDict(op, name, ldict, 0);
+        PyObject *res = _PyObject_GenericGetAttrWithDict(op, name, ldict, 0, NULL);
         Py_DECREF(ldict);
         return res;
     }
@@ -1740,7 +1740,7 @@ local_getattro(PyObject *op, PyObject *name)
     }
 
     /* Fall back on generic to get __class__ and __dict__ */
-    PyObject *res = _PyObject_GenericGetAttrWithDict(op, name, ldict, 0);
+    PyObject *res = _PyObject_GenericGetAttrWithDict(op, name, ldict, 0, NULL);
     Py_DECREF(ldict);
     return res;
 }

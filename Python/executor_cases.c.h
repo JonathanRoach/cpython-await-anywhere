@@ -2145,16 +2145,72 @@
             break;
         }
 
-        /* _STORE_ATTR is not a viable micro-op for tier 2 because it has both popping and not-popping errors */
+        case _STORE_ATTR: {
+            _PyStackRef owner;
+            _PyStackRef v;
+            oparg = CURRENT_OPARG();
+            owner = stack_pointer[-1];
+            v = stack_pointer[-2];
+            PyObject *name = GETITEM(FRAME_CO_NAMES, oparg);
+            int err;
+            if ( !tstate->interp->eval_frame ){
+                _PyInterpreterFrame *inlined = frame;
+                _PyFrame_SetStackPointer(frame, stack_pointer);
+                err = _PyObject_SetAttrInlinable(PyStackRef_AsPyObjectBorrow(owner),
+                    name, PyStackRef_AsPyObjectBorrow(v), &inlined);
+                stack_pointer = _PyFrame_GetStackPointer(frame);
+                if ( inlined != frame ){
+                    // Manipulate stack directly because we exit with DISPATCH_INLINED().
+                    inlined->discard_return_value = 1;
+                    frame->return_offset = 5 ;
+                    DISPATCH_INLINED(inlined);
+                }
+            } else {
+                _PyFrame_SetStackPointer(frame, stack_pointer);
+                err = PyObject_SetAttr(PyStackRef_AsPyObjectBorrow(owner),
+                                       name, PyStackRef_AsPyObjectBorrow(v));
+                stack_pointer = _PyFrame_GetStackPointer(frame);
+            }
+            _PyFrame_SetStackPointer(frame, stack_pointer);
+            _PyStackRef tmp = owner;
+            owner = PyStackRef_NULL;
+            stack_pointer[-1] = owner;
+            PyStackRef_CLOSE(tmp);
+            tmp = v;
+            v = PyStackRef_NULL;
+            stack_pointer[-2] = v;
+            PyStackRef_CLOSE(tmp);
+            stack_pointer = _PyFrame_GetStackPointer(frame);
+            stack_pointer += -2;
+            assert(WITHIN_STACK_BOUNDS());
+            if (err) {
+                JUMP_TO_ERROR();
+            }
+            break;
+        }
 
         case _DELETE_ATTR: {
             _PyStackRef owner;
             oparg = CURRENT_OPARG();
             owner = stack_pointer[-1];
+            int err;
             PyObject *name = GETITEM(FRAME_CO_NAMES, oparg);
-            _PyFrame_SetStackPointer(frame, stack_pointer);
-            int err = PyObject_DelAttr(PyStackRef_AsPyObjectBorrow(owner), name);
-            stack_pointer = _PyFrame_GetStackPointer(frame);
+            if ( !tstate->interp->eval_frame ){
+                _PyInterpreterFrame *inlined = frame;
+                _PyFrame_SetStackPointer(frame, stack_pointer);
+                err = _PyObject_DelAttrInlinable(PyStackRef_AsPyObjectBorrow(owner), name, &inlined);
+                stack_pointer = _PyFrame_GetStackPointer(frame);
+                if ( inlined != frame ){
+                    // Manipulate stack directly because we exit with DISPATCH_INLINED().
+                    inlined->discard_return_value = 1;
+                    frame->return_offset = 1 ;
+                    DISPATCH_INLINED(inlined);
+                }
+            } else {
+                _PyFrame_SetStackPointer(frame, stack_pointer);
+                err = PyObject_DelAttr(PyStackRef_AsPyObjectBorrow(owner), name);
+                stack_pointer = _PyFrame_GetStackPointer(frame);
+            }
             stack_pointer += -1;
             assert(WITHIN_STACK_BOUNDS());
             _PyFrame_SetStackPointer(frame, stack_pointer);
@@ -2989,7 +3045,82 @@
             break;
         }
 
-        /* _LOAD_ATTR is not a viable micro-op for tier 2 because it has both popping and not-popping errors */
+        case _LOAD_ATTR: {
+            _PyStackRef owner;
+            _PyStackRef attr;
+            _PyStackRef *self_or_null;
+            oparg = CURRENT_OPARG();
+            owner = stack_pointer[-1];
+            self_or_null = &stack_pointer[0];
+            PyObject *name = GETITEM(FRAME_CO_NAMES, oparg >> 1);
+            PyObject *attr_o;
+            if (oparg & 1) {
+                /* Designed to work in tandem with CALL, pushes two values. */
+                attr_o = NULL;
+                _PyFrame_SetStackPointer(frame, stack_pointer);
+                int is_meth = _PyObject_GetMethod(PyStackRef_AsPyObjectBorrow(owner), name, &attr_o);
+                stack_pointer = _PyFrame_GetStackPointer(frame);
+                if (is_meth) {
+                    /* We can bypass temporary bound method object.
+                       meth is unbound method and obj is self.
+                       meth | self | arg1 | ... | argN
+                     */
+                    assert(attr_o != NULL);  // No errors on this branch
+                    self_or_null[0] = owner;  // Transfer ownership
+                }
+                else {
+                    /* meth is not an unbound method (but a regular attr, or
+                       something was returned by a descriptor protocol).  Set
+                       the second element of the stack to NULL, to signal
+                       CALL that it's not a method call.
+                       meth | NULL | arg1 | ... | argN
+                     */
+                    stack_pointer += -1;
+                    assert(WITHIN_STACK_BOUNDS());
+                    _PyFrame_SetStackPointer(frame, stack_pointer);
+                    PyStackRef_CLOSE(owner);
+                    stack_pointer = _PyFrame_GetStackPointer(frame);
+                    if (attr_o == NULL) {
+                        JUMP_TO_ERROR();
+                    }
+                    self_or_null[0] = PyStackRef_NULL;
+                    stack_pointer += 1;
+                    assert(WITHIN_STACK_BOUNDS());
+                }
+            } else {
+                /* Classic, pushes one value. */
+                if ( !tstate->interp->eval_frame ){
+                    _PyInterpreterFrame *inlined = frame;
+                    _PyFrame_SetStackPointer(frame, stack_pointer);
+                    attr_o = _PyObject_GetAttrInlinable(PyStackRef_AsPyObjectBorrow(owner), name, &inlined);
+                    stack_pointer = _PyFrame_GetStackPointer(frame);
+                    if ( inlined != frame ){
+                        // Manipulate stack directly because we exit with DISPATCH_INLINED().
+                        frame->return_offset = 10 ;
+                        DISPATCH_INLINED(inlined);
+                    }
+                } else {
+                    _PyFrame_SetStackPointer(frame, stack_pointer);
+                    attr_o = PyObject_GetAttr(PyStackRef_AsPyObjectBorrow(owner), name);
+                    stack_pointer = _PyFrame_GetStackPointer(frame);
+                }
+                stack_pointer += -1;
+                assert(WITHIN_STACK_BOUNDS());
+                _PyFrame_SetStackPointer(frame, stack_pointer);
+                PyStackRef_CLOSE(owner);
+                stack_pointer = _PyFrame_GetStackPointer(frame);
+                if (attr_o == NULL) {
+                    JUMP_TO_ERROR();
+                }
+                stack_pointer += 1;
+                assert(WITHIN_STACK_BOUNDS());
+            }
+            attr = PyStackRef_FromPyObjectSteal(attr_o);
+            stack_pointer[-1] = attr;
+            stack_pointer += (oparg&1);
+            assert(WITHIN_STACK_BOUNDS());
+            break;
+        }
 
         case _GUARD_TYPE_VERSION: {
             _PyStackRef owner;

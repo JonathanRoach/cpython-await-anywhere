@@ -6,6 +6,7 @@
 #include "pycore_ceval.h"         // _Py_EnterRecursiveCallTstate()
 #include "pycore_emscripten_trampoline.h" // descr_set_trampoline_call(), descr_get_trampoline_call()
 #include "pycore_descrobject.h"   // _PyMethodWrapper_Type
+#include "pycore_frame.h"   // _PyMethodWrapper_Type
 #include "pycore_modsupport.h"    // _PyArg_UnpackStack()
 #include "pycore_object.h"        // _PyObject_GC_UNTRACK()
 #include "pycore_pystate.h"       // _PyThreadState_GET()
@@ -1658,8 +1659,8 @@ property_name(propertyobject *prop, PyObject **name)
     return PyObject_GetOptionalAttr(prop->prop_get, &_Py_ID(__name__), name);
 }
 
-static PyObject *
-property_descr_get(PyObject *self, PyObject *obj, PyObject *type)
+PyObject *
+_PyPropertyDescrGetInlinable(PyObject *self, PyObject *obj, PyObject *type, struct _PyInterpreterFrame **inlined)
 {
     if (obj == NULL || obj == Py_None) {
         return Py_NewRef(self);
@@ -1691,11 +1692,28 @@ property_descr_get(PyObject *self, PyObject *obj, PyObject *type)
         return NULL;
     }
 
+    if ( inlined ){
+        (*inlined)->stackpointer += -1;
+        _PyInterpreterFrame *new_frame = _PyFrame_PushInlineCall(
+            PyThreadState_Get(), PyStackRef_FromPyObjectNew(gs->prop_get), 1, *inlined);
+        if (new_frame == NULL) {
+            return NULL;
+        }
+        new_frame->localsplus[0] = PyStackRef_FromPyObjectSteal(obj);
+        *inlined = new_frame;
+        return obj;
+    }
+
     return PyObject_CallOneArg(gs->prop_get, obj);
 }
 
-static int
-property_descr_set(PyObject *self, PyObject *obj, PyObject *value)
+PyObject *
+_PyPropertyDescrGet(PyObject *self, PyObject *obj, PyObject *type){
+    return _PyPropertyDescrGetInlinable(self, obj, type, NULL);
+}
+
+int
+_PyPropertyDescrSetInlinable(PyObject *self, PyObject *obj, PyObject *value, struct _PyInterpreterFrame **inlined)
 {
     propertyobject *gs = (propertyobject *)self;
     PyObject *func, *res;
@@ -1743,10 +1761,36 @@ property_descr_set(PyObject *self, PyObject *obj, PyObject *value)
     }
 
     if (value == NULL) {
+        if ( inlined ){
+            printf("inlined attr desc del\n");
+            (*inlined)->stackpointer += -1;
+            _PyInterpreterFrame *new_frame = _PyFrame_PushInlineCall(
+                PyThreadState_Get(), PyStackRef_FromPyObjectNew(func), 1, *inlined);
+            if (new_frame == NULL) {
+                return -1;
+            }
+            new_frame->localsplus[0] = PyStackRef_FromPyObjectSteal(obj);
+            *inlined = new_frame;
+            return 0;
+        }
+
         res = PyObject_CallOneArg(func, obj);
     }
     else {
         EVAL_CALL_STAT_INC_IF_FUNCTION(EVAL_CALL_API, func);
+        if ( inlined ){
+            (*inlined)->stackpointer += -2;
+            _PyInterpreterFrame *new_frame = _PyFrame_PushInlineCall(
+                PyThreadState_Get(), PyStackRef_FromPyObjectNew(func), 2, *inlined);
+            if (new_frame == NULL) {
+                return -1;
+            }
+            new_frame->localsplus[0] = PyStackRef_FromPyObjectSteal(obj);
+            new_frame->localsplus[1] = PyStackRef_FromPyObjectSteal(value);
+            *inlined = new_frame;
+            return 0;
+        }
+
         PyObject *args[] = { obj, value };
         res = PyObject_Vectorcall(func, args, 2, NULL);
     }
@@ -1757,6 +1801,12 @@ property_descr_set(PyObject *self, PyObject *obj, PyObject *value)
 
     Py_DECREF(res);
     return 0;
+}
+
+int
+_PyPropertyDescrSet(PyObject *self, PyObject *obj, PyObject *value)
+{
+    return _PyPropertyDescrSetInlinable(self, obj, value, NULL);
 }
 
 static PyObject *
@@ -2073,8 +2123,8 @@ PyTypeObject PyProperty_Type = {
     property_getsetlist,                        /* tp_getset */
     0,                                          /* tp_base */
     0,                                          /* tp_dict */
-    property_descr_get,                         /* tp_descr_get */
-    property_descr_set,                         /* tp_descr_set */
+    _PyPropertyDescrGet,                        /* tp_descr_get */
+    _PyPropertyDescrSet,                        /* tp_descr_set */
     0,                                          /* tp_dictoffset */
     property_init,                              /* tp_init */
     PyType_GenericAlloc,                        /* tp_alloc */

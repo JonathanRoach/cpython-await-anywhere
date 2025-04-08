@@ -2882,7 +2882,7 @@ vectorcall_method(PyObject *name, PyObject *const *args, Py_ssize_t nargs)
 /* A variation of vectorcall_method for inlineable calls
  */
 static PyObject *
-vectorcall_method_inlinable(PyObject *name, PyObject *const *args, Py_ssize_t nargs, int *inlined)
+vectorcall_method_inlinable(PyObject *name, PyObject *const *args, Py_ssize_t nargs, _PyInterpreterFrame **inlined, int stack_items_to_drop)
 {
     assert(nargs >= 1);
 
@@ -2894,7 +2894,16 @@ vectorcall_method_inlinable(PyObject *name, PyObject *const *args, Py_ssize_t na
         return NULL;
     }
     if ( inlined ){
-        *inlined = nargs;
+        (*inlined)->stackpointer += -stack_items_to_drop;
+        _PyInterpreterFrame *new_frame = _PyFrame_PushInlineCall(
+            PyThreadState_Get(), PyStackRef_FromPyObjectNew(func), nargs, *inlined);
+        if (new_frame == NULL) {
+            return NULL;
+        }
+        for (int i = 0; i < nargs; ++i) {
+            new_frame->localsplus[i] = PyStackRef_FromPyObjectNew(args[i]);
+        }
+        *inlined = new_frame;
         return func;
     }
     PyObject *retval = vectorcall_unbound(tstate, unbound, func, args, nargs);
@@ -10095,22 +10104,15 @@ slot_tp_call(PyObject *self, PyObject *args, PyObject *kwds)
 
    The code in update_one_slot() always installs _Py_slot_tp_getattr_hook();
    this detects the absence of __getattr__ and then installs the simpler
-   slot if necessary. */
+   slot if necessary.
+
+   When inlined owner's stack reference is stolen, whereas name's is newed */
 
 PyObject *
-_Py_slot_tp_getattro_inlineable(PyObject *self, PyObject *name, int *inlined)
+_Py_slot_tp_getattro_inlineable(PyObject *self, PyObject *name, struct _PyInterpreterFrame **inlined)
 {
-    if ( inlined ){
-        PyTypeObject *tp = Py_TYPE(self);
-        PyObject *res = _PyType_LookupRef(tp, &_Py_ID(__getattribute__));
-        if (Py_TYPE(res) == &PyFunction_Type &&
-            ((PyFunctionObject *)res)->vectorcall == _PyFunction_Vectorcall) {
-            *inlined = 1;
-            return res;
-        }
-    }
     PyObject *stack[2] = {self, name};
-    return vectorcall_method(&_Py_ID(__getattribute__), stack, 2);
+    return vectorcall_method_inlinable(&_Py_ID(__getattribute__), stack, 2, inlined, 1);
 }
 
 PyObject *
@@ -10118,15 +10120,24 @@ _Py_slot_tp_getattro(PyObject *self, PyObject *name){
     return _Py_slot_tp_getattro_inlineable(self, name, NULL);
 }
 
+/* When inlined, reference to self is stolen, adn reference to name is newed */
 static inline PyObject *
-call_attribute(PyObject *self, PyObject *attr, PyObject *name, int *inlined)
+call_attribute(PyObject *self, PyObject *attr, PyObject *name, _PyInterpreterFrame **inlined)
 {
     PyObject *res, *descr = NULL;
 
     if (_PyType_HasFeature(Py_TYPE(attr), Py_TPFLAGS_METHOD_DESCRIPTOR)) {
         if ( inlined ){
             if ( ((PyFunctionObject *)attr)->vectorcall == _PyFunction_Vectorcall) {
-                *inlined = 1;
+                (*inlined)->stackpointer += -1;
+                _PyInterpreterFrame *new_frame = _PyFrame_PushInlineCall(
+                    PyThreadState_Get(), PyStackRef_FromPyObjectNew(attr), 2, *inlined);
+                if (new_frame == NULL) {
+                    return NULL;
+                }
+                new_frame->localsplus[0] = PyStackRef_FromPyObjectSteal(self);
+                new_frame->localsplus[1] = PyStackRef_FromPyObjectNew(name);
+                *inlined = new_frame;
                 return attr;
             }
         }
@@ -10150,7 +10161,7 @@ call_attribute(PyObject *self, PyObject *attr, PyObject *name, int *inlined)
 }
 
 PyObject *
-_Py_slot_tp_getattr_hook_inlineable(PyObject *self, PyObject *name, int *inlined)
+_Py_slot_tp_getattr_hook_inlineable(PyObject *self, PyObject *name, struct _PyInterpreterFrame **inlined)
 {
     PyTypeObject *tp = Py_TYPE(self);
     PyObject *getattr, *getattribute, *res;
@@ -10177,7 +10188,7 @@ _Py_slot_tp_getattr_hook_inlineable(PyObject *self, PyObject *name, int *inlined
          ((PyWrapperDescrObject *)getattribute)->d_wrapped ==
              (void *)PyObject_GenericGetAttr)) {
         Py_XDECREF(getattribute);
-        res = _PyObject_GenericGetAttrWithDict(self, name, NULL, 1);
+        res = _PyObject_GenericGetAttrWithDict(self, name, NULL, 1, NULL);
         /* if res == NULL with no exception set, then it must be an
            AttributeError suppressed by us. */
         if (res == NULL && !PyErr_Occurred()) {
@@ -10204,7 +10215,7 @@ _Py_slot_tp_getattr_hook(PyObject *self, PyObject *name)
 }
 
 int
-_Py_slot_tp_setattro_inlinable(PyObject *self, PyObject *name, PyObject *value, int *inlined, PyObject **inlinefunction)
+_Py_slot_tp_setattro_inlinable(PyObject *self, PyObject *name, PyObject *value, struct _PyInterpreterFrame **inlined)
 {
     PyObject *stack[3];
     PyObject *res;
@@ -10212,18 +10223,14 @@ _Py_slot_tp_setattro_inlinable(PyObject *self, PyObject *name, PyObject *value, 
     stack[0] = self;
     stack[1] = name;
     if (value == NULL) {
-        res = vectorcall_method_inlinable(&_Py_ID(__delattr__), stack, 2, inlined);
+        res = vectorcall_method_inlinable(&_Py_ID(__delattr__), stack, 2, inlined, 1);
     }
     else {
         stack[2] = value;
-        res = vectorcall_method_inlinable(&_Py_ID(__setattr__), stack, 3, inlined);
+        res = vectorcall_method_inlinable(&_Py_ID(__setattr__), stack, 3, inlined, 2);
     }
-    if (res) {
-        if ( inlined && *inlined ){
-            *inlinefunction = res;
-        } else {
-            Py_DECREF(res);
-        }
+    if (res && !inlined) {
+        Py_DECREF(res);
         return 0;
     }
     return -1;
@@ -10232,7 +10239,7 @@ _Py_slot_tp_setattro_inlinable(PyObject *self, PyObject *name, PyObject *value, 
 int
 _Py_slot_tp_setattro(PyObject *self, PyObject *name, PyObject *value)
 {
-    return _Py_slot_tp_setattro_inlinable(self, name, value, NULL, NULL);
+    return _Py_slot_tp_setattro_inlinable(self, name, value, NULL);
 }
 
 static PyObject *name_op[] = {
