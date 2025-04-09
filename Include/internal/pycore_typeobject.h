@@ -243,12 +243,16 @@ extern PyObject* _Py_type_getattro(PyObject *type, PyObject *name);
 
 extern PyObject* _Py_BaseObject_RichCompare(PyObject* self, PyObject* other, int op);
 
-extern PyObject* _Py_slot_tp_getattro(PyObject *self, PyObject *name);
-extern PyObject* _Py_slot_tp_getattro_inlineable(PyObject *self, PyObject *name, struct _PyInterpreterFrame **inlined);
-extern PyObject* _Py_slot_tp_getattr_hook(PyObject *self, PyObject *name);
-extern PyObject* _Py_slot_tp_getattr_hook_inlineable(PyObject *self, PyObject *name, struct _PyInterpreterFrame **inlined);
-extern int _Py_slot_tp_setattro(PyObject *self, PyObject *name, PyObject *value);
-extern int _Py_slot_tp_setattro_inlinable(PyObject *self, PyObject *name, PyObject *value, struct _PyInterpreterFrame **inlined);
+extern PyObject* _PyType_Slot_tp_getattro(PyObject *self, PyObject *name);
+extern PyObject* _PyType_Slot_tp_getattro_inlineable(PyObject *self, PyObject *name, struct _PyInterpreterFrame **inlined);
+extern PyObject* _PyType_Slot_tp_getattr_hook(PyObject *self, PyObject *name);
+extern PyObject* _PyType_Slot_tp_getattr_hook_inlineable(PyObject *self, PyObject *name, struct _PyInterpreterFrame **inlined);
+extern int _PyType_Slot_tp_setattro(PyObject *self, PyObject *name, PyObject *value);
+extern int _PyType_Slot_tp_setattro_inlinable(PyObject *self, PyObject *name, PyObject *value, struct _PyInterpreterFrame **inlined);
+extern PyObject *_PyType_Slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type);
+extern PyObject *_PyType_Slot_tp_descr_get_inlinable(PyObject *self, PyObject *obj, PyObject *type, struct _PyInterpreterFrame **inlined);
+extern int _PyType_Slot_tp_descr_set(PyObject *self, PyObject *target, PyObject *value);
+extern int _PyType_Slot_tp_descr_set_inlinable(PyObject *self, PyObject *target, PyObject *value, struct _PyInterpreterFrame **inlined);
 
 
 extern PyTypeObject _PyBufferWrapper_Type;

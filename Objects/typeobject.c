@@ -9289,7 +9289,7 @@ hackcheck_unlocked(PyObject *self, setattrofunc func, const char *what)
     Py_ssize_t i;
     for (i = PyTuple_GET_SIZE(mro) - 1; i >= 0; i--) {
         PyTypeObject *base = _PyType_CAST(PyTuple_GET_ITEM(mro, i));
-        if (base->tp_setattro == _Py_slot_tp_setattro) {
+        if (base->tp_setattro == _PyType_Slot_tp_setattro) {
             /* Ignore Python classes:
                they never define their own C-level setattro. */
         }
@@ -9305,7 +9305,7 @@ hackcheck_unlocked(PyObject *self, setattrofunc func, const char *what)
             /* 'func' is the right slot function to call. */
             break;
         }
-        else if (base->tp_setattro != _Py_slot_tp_setattro) {
+        else if (base->tp_setattro != _PyType_Slot_tp_setattro) {
             /* 'base' is not a Python class and overrides 'func'.
                Its tp_setattro should be called instead. */
             PyErr_Format(PyExc_TypeError,
@@ -10097,27 +10097,27 @@ slot_tp_call(PyObject *self, PyObject *args, PyObject *kwds)
 
 /* There are two slot dispatch functions for tp_getattro.
 
-   - _Py_slot_tp_getattro() is used when __getattribute__ is overridden
+   - _PyType_Slot_tp_getattro() is used when __getattribute__ is overridden
      but no __getattr__ hook is present;
 
-   - _Py_slot_tp_getattr_hook() is used when a __getattr__ hook is present.
+   - _PyType_Slot_tp_getattr_hook() is used when a __getattr__ hook is present.
 
-   The code in update_one_slot() always installs _Py_slot_tp_getattr_hook();
+   The code in update_one_slot() always installs _PyType_Slot_tp_getattr_hook();
    this detects the absence of __getattr__ and then installs the simpler
    slot if necessary.
 
    When inlined owner's stack reference is stolen, whereas name's is newed */
 
 PyObject *
-_Py_slot_tp_getattro_inlineable(PyObject *self, PyObject *name, struct _PyInterpreterFrame **inlined)
+_PyType_Slot_tp_getattro_inlineable(PyObject *self, PyObject *name, struct _PyInterpreterFrame **inlined)
 {
     PyObject *stack[2] = {self, name};
     return vectorcall_method_inlinable(&_Py_ID(__getattribute__), stack, 2, inlined, 1);
 }
 
 PyObject *
-_Py_slot_tp_getattro(PyObject *self, PyObject *name){
-    return _Py_slot_tp_getattro_inlineable(self, name, NULL);
+_PyType_Slot_tp_getattro(PyObject *self, PyObject *name){
+    return _PyType_Slot_tp_getattro_inlineable(self, name, NULL);
 }
 
 /* When inlined, reference to self is stolen, adn reference to name is newed */
@@ -10161,7 +10161,7 @@ call_attribute(PyObject *self, PyObject *attr, PyObject *name, _PyInterpreterFra
 }
 
 PyObject *
-_Py_slot_tp_getattr_hook_inlineable(PyObject *self, PyObject *name, struct _PyInterpreterFrame **inlined)
+_PyType_Slot_tp_getattr_hook_inlineable(PyObject *self, PyObject *name, struct _PyInterpreterFrame **inlined)
 {
     PyTypeObject *tp = Py_TYPE(self);
     PyObject *getattr, *getattribute, *res;
@@ -10174,8 +10174,8 @@ _Py_slot_tp_getattr_hook_inlineable(PyObject *self, PyObject *name, struct _PyIn
     getattr = _PyType_LookupRef(tp, &_Py_ID(__getattr__));
     if (getattr == NULL) {
         /* No __getattr__ hook: use a simpler dispatcher */
-        tp->tp_getattro = _Py_slot_tp_getattro;
-        return _Py_slot_tp_getattro_inlineable(self, name, inlined);
+        tp->tp_getattro = _PyType_Slot_tp_getattro;
+        return _PyType_Slot_tp_getattro_inlineable(self, name, inlined);
     }
     /* speed hack: we could use lookup_maybe, but that would resolve the
        method fully for each attribute lookup for classes with
@@ -10209,13 +10209,13 @@ _Py_slot_tp_getattr_hook_inlineable(PyObject *self, PyObject *name, struct _PyIn
 }
 
 PyObject *
-_Py_slot_tp_getattr_hook(PyObject *self, PyObject *name)
+_PyType_Slot_tp_getattr_hook(PyObject *self, PyObject *name)
 {
-    return _Py_slot_tp_getattr_hook_inlineable(self, name, NULL);
+    return _PyType_Slot_tp_getattr_hook_inlineable(self, name, NULL);
 }
 
 int
-_Py_slot_tp_setattro_inlinable(PyObject *self, PyObject *name, PyObject *value, struct _PyInterpreterFrame **inlined)
+_PyType_Slot_tp_setattro_inlinable(PyObject *self, PyObject *name, PyObject *value, struct _PyInterpreterFrame **inlined)
 {
     PyObject *stack[3];
     PyObject *res;
@@ -10237,9 +10237,9 @@ _Py_slot_tp_setattro_inlinable(PyObject *self, PyObject *name, PyObject *value, 
 }
 
 int
-_Py_slot_tp_setattro(PyObject *self, PyObject *name, PyObject *value)
+_PyType_Slot_tp_setattro(PyObject *self, PyObject *name, PyObject *value)
 {
-    return _Py_slot_tp_setattro_inlinable(self, name, value, NULL);
+    return _PyType_Slot_tp_setattro_inlinable(self, name, value, NULL);
 }
 
 static PyObject *name_op[] = {
@@ -10309,8 +10309,8 @@ slot_tp_iternext(PyObject *self)
     return vectorcall_method(&_Py_ID(__next__), stack, 1);
 }
 
-static PyObject *
-slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type)
+PyObject *
+_PyType_Slot_tp_descr_get_inlinable(PyObject *self, PyObject *obj, PyObject *type, struct _PyInterpreterFrame **inlined)
 {
     PyTypeObject *tp = Py_TYPE(self);
     PyObject *get;
@@ -10318,7 +10318,7 @@ slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type)
     get = _PyType_LookupRef(tp, &_Py_ID(__get__));
     if (get == NULL) {
         /* Avoid further slowdowns */
-        if (tp->tp_descr_get == slot_tp_descr_get)
+        if (tp->tp_descr_get == _PyType_Slot_tp_descr_get)
             tp->tp_descr_get = NULL;
         return Py_NewRef(self);
     }
@@ -10326,14 +10326,33 @@ slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type)
         obj = Py_None;
     if (type == NULL)
         type = Py_None;
+    if ( inlined ){
+        (*inlined)->stackpointer += -1;
+        _PyInterpreterFrame *new_frame = _PyFrame_PushInlineCall(
+            PyThreadState_Get(), PyStackRef_FromPyObjectNew(get), 3, *inlined);
+        if (new_frame == NULL) {
+            return NULL;
+        }
+        new_frame->localsplus[0] = PyStackRef_FromPyObjectNew(self);
+        new_frame->localsplus[1] = PyStackRef_FromPyObjectSteal(obj);
+        new_frame->localsplus[2] = PyStackRef_FromPyObjectNew(type);
+        *inlined = new_frame;
+        return obj;
+    }
     PyObject *stack[3] = {self, obj, type};
     PyObject *res = PyObject_Vectorcall(get, stack, 3, NULL);
     Py_DECREF(get);
     return res;
 }
 
-static int
-slot_tp_descr_set(PyObject *self, PyObject *target, PyObject *value)
+PyObject *
+_PyType_Slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type)
+{
+    return _PyType_Slot_tp_descr_get_inlinable(self, obj, type, NULL);
+}
+
+int
+_PyType_Slot_tp_descr_set_inlinable(PyObject *self, PyObject *target, PyObject *value, struct _PyInterpreterFrame **inlined)
 {
     PyObject* stack[3];
     PyObject *res;
@@ -10341,16 +10360,22 @@ slot_tp_descr_set(PyObject *self, PyObject *target, PyObject *value)
     stack[0] = self;
     stack[1] = target;
     if (value == NULL) {
-        res = vectorcall_method(&_Py_ID(__delete__), stack, 2);
+        res = vectorcall_method_inlinable(&_Py_ID(__delete__), stack, 2, inlined, 1);
     }
     else {
         stack[2] = value;
-        res = vectorcall_method(&_Py_ID(__set__), stack, 3);
+        res = vectorcall_method_inlinable(&_Py_ID(__set__), stack, 3, inlined, 2);
     }
     if (res == NULL)
         return -1;
     Py_DECREF(res);
     return 0;
+}
+
+int
+_PyType_Slot_tp_descr_set(PyObject *self, PyObject *target, PyObject *value)
+{
+    return _PyType_Slot_tp_descr_set_inlinable(self, target, value, NULL);
 }
 
 static int
@@ -10800,14 +10825,14 @@ static pytype_slotdef slotdefs[] = {
            PyWrapperFlag_KEYWORDS),
     TPSLOT(__str__, tp_str, slot_tp_str, wrap_unaryfunc,
            "__str__($self, /)\n--\n\nReturn str(self)."),
-    TPSLOT(__getattribute__, tp_getattro, _Py_slot_tp_getattr_hook,
+    TPSLOT(__getattribute__, tp_getattro, _PyType_Slot_tp_getattr_hook,
            wrap_binaryfunc,
            "__getattribute__($self, name, /)\n--\n\nReturn getattr(self, name)."),
-    TPSLOT(__getattr__, tp_getattro, _Py_slot_tp_getattr_hook, NULL,
+    TPSLOT(__getattr__, tp_getattro, _PyType_Slot_tp_getattr_hook, NULL,
            "__getattr__($self, name, /)\n--\n\nImplement getattr(self, name)."),
-    TPSLOT(__setattr__, tp_setattro, _Py_slot_tp_setattro, wrap_setattr,
+    TPSLOT(__setattr__, tp_setattro, _PyType_Slot_tp_setattro, wrap_setattr,
            "__setattr__($self, name, value, /)\n--\n\nImplement setattr(self, name, value)."),
-    TPSLOT(__delattr__, tp_setattro, _Py_slot_tp_setattro, wrap_delattr,
+    TPSLOT(__delattr__, tp_setattro, _PyType_Slot_tp_setattro, wrap_delattr,
            "__delattr__($self, name, /)\n--\n\nImplement delattr(self, name)."),
     TPSLOT(__lt__, tp_richcompare, slot_tp_richcompare, richcmp_lt,
            "__lt__($self, value, /)\n--\n\nReturn self<value."),
@@ -10825,11 +10850,11 @@ static pytype_slotdef slotdefs[] = {
            "__iter__($self, /)\n--\n\nImplement iter(self)."),
     TPSLOT(__next__, tp_iternext, slot_tp_iternext, wrap_next,
            "__next__($self, /)\n--\n\nImplement next(self)."),
-    TPSLOT(__get__, tp_descr_get, slot_tp_descr_get, wrap_descr_get,
+    TPSLOT(__get__, tp_descr_get, _PyType_Slot_tp_descr_get, wrap_descr_get,
            "__get__($self, instance, owner=None, /)\n--\n\nReturn an attribute of instance, which is of type owner."),
-    TPSLOT(__set__, tp_descr_set, slot_tp_descr_set, wrap_descr_set,
+    TPSLOT(__set__, tp_descr_set, _PyType_Slot_tp_descr_set, wrap_descr_set,
            "__set__($self, instance, value, /)\n--\n\nSet an attribute of instance to value."),
-    TPSLOT(__delete__, tp_descr_set, slot_tp_descr_set,
+    TPSLOT(__delete__, tp_descr_set, _PyType_Slot_tp_descr_set,
            wrap_descr_delete,
            "__delete__($self, instance, /)\n--\n\nDelete an attribute of instance."),
     FLSLOT(__init__, tp_init, slot_tp_init, (wrapperfunc)(void(*)(void))wrap_init,

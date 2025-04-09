@@ -901,8 +901,8 @@ analyze_descriptor_load(PyTypeObject *type, PyObject *name, PyObject **descr, un
         /* Normal attribute lookup; */
         has_getattr = false;
     }
-    else if (getattro_slot == _Py_slot_tp_getattr_hook ||
-        getattro_slot == _Py_slot_tp_getattro) {
+    else if (getattro_slot == _PyType_Slot_tp_getattr_hook ||
+        getattro_slot == _PyType_Slot_tp_getattro) {
         /* One or both of __getattribute__ or __getattr__ may have been
          overridden See typeobject.c for why these functions are special. */
         PyObject *getattribute = _PyType_LookupRefAndVersion(type,
@@ -914,7 +914,7 @@ analyze_descriptor_load(PyTypeObject *type, PyObject *name, PyObject **descr, un
         PyObject *getattr = _PyType_Lookup(type, &_Py_ID(__getattr__));
         has_getattr = getattr != NULL;
         if (has_custom_getattribute) {
-            if (getattro_slot == _Py_slot_tp_getattro &&
+            if (getattro_slot == _PyType_Slot_tp_getattro &&
                 !has_getattr &&
                 Py_IS_TYPE(getattribute, &PyFunction_Type)) {
                 *descr = getattribute;
@@ -1239,7 +1239,7 @@ do_specialize_instance_load_attr(PyObject* owner, _Py_CODEUNIT* instr, PyObject*
             // In free-threaded builds it's possible for tp_getattro to change
             // after the call to analyze_descriptor. That is fine: the version
             // guard will fail.
-            assert(type->tp_getattro == _Py_slot_tp_getattro);
+            assert(type->tp_getattro == _PyType_Slot_tp_getattro);
             #endif
             assert(Py_IS_TYPE(descr, &PyFunction_Type));
             _PyLoadMethodCache *lm_cache = (_PyLoadMethodCache *)(instr + 1);

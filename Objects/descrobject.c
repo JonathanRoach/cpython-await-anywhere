@@ -1660,7 +1660,7 @@ property_name(propertyobject *prop, PyObject **name)
 }
 
 PyObject *
-_PyPropertyDescrGetInlinable(PyObject *self, PyObject *obj, PyObject *type, struct _PyInterpreterFrame **inlined)
+_PyProperty_Slot_tp_descr_get_inlinable(PyObject *self, PyObject *obj, PyObject *type, struct _PyInterpreterFrame **inlined)
 {
     if (obj == NULL || obj == Py_None) {
         return Py_NewRef(self);
@@ -1708,12 +1708,12 @@ _PyPropertyDescrGetInlinable(PyObject *self, PyObject *obj, PyObject *type, stru
 }
 
 PyObject *
-_PyPropertyDescrGet(PyObject *self, PyObject *obj, PyObject *type){
-    return _PyPropertyDescrGetInlinable(self, obj, type, NULL);
+_PyProperty_Slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type){
+    return _PyProperty_Slot_tp_descr_get_inlinable(self, obj, type, NULL);
 }
 
 int
-_PyPropertyDescrSetInlinable(PyObject *self, PyObject *obj, PyObject *value, struct _PyInterpreterFrame **inlined)
+_PyProperty_Slot_tp_descr_set_inlinable(PyObject *self, PyObject *obj, PyObject *value, struct _PyInterpreterFrame **inlined)
 {
     propertyobject *gs = (propertyobject *)self;
     PyObject *func, *res;
@@ -1804,9 +1804,9 @@ _PyPropertyDescrSetInlinable(PyObject *self, PyObject *obj, PyObject *value, str
 }
 
 int
-_PyPropertyDescrSet(PyObject *self, PyObject *obj, PyObject *value)
+_PyProperty_Slot_tp_descr_set(PyObject *self, PyObject *obj, PyObject *value)
 {
-    return _PyPropertyDescrSetInlinable(self, obj, value, NULL);
+    return _PyProperty_Slot_tp_descr_set_inlinable(self, obj, value, NULL);
 }
 
 static PyObject *
@@ -2123,8 +2123,8 @@ PyTypeObject PyProperty_Type = {
     property_getsetlist,                        /* tp_getset */
     0,                                          /* tp_base */
     0,                                          /* tp_dict */
-    _PyPropertyDescrGet,                        /* tp_descr_get */
-    _PyPropertyDescrSet,                        /* tp_descr_set */
+    _PyProperty_Slot_tp_descr_get,                        /* tp_descr_get */
+    _PyProperty_Slot_tp_descr_set,                        /* tp_descr_set */
     0,                                          /* tp_dictoffset */
     property_init,                              /* tp_init */
     PyType_GenericAlloc,                        /* tp_alloc */
