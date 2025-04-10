@@ -2123,8 +2123,8 @@ PyTypeObject PyProperty_Type = {
     property_getsetlist,                        /* tp_getset */
     0,                                          /* tp_base */
     0,                                          /* tp_dict */
-    _PyProperty_Slot_tp_descr_get,                        /* tp_descr_get */
-    _PyProperty_Slot_tp_descr_set,                        /* tp_descr_set */
+    _PyProperty_Slot_tp_descr_get,              /* tp_descr_get */
+    _PyProperty_Slot_tp_descr_set,              /* tp_descr_set */
     0,                                          /* tp_dictoffset */
     property_init,                              /* tp_init */
     PyType_GenericAlloc,                        /* tp_alloc */
