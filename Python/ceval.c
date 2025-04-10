@@ -3327,17 +3327,20 @@ stack_ok_for_await(PyThreadState *tstate, _PyInterpreterFrame *frame)
     // If we run out of stack, or encounter a FRAME_OWNED_BY_INTERPRETER that's an error
     // return 1 if OK, 0 if there's an error
     do {
-        if ( frame->owner == FRAME_OWNED_BY_GENERATOR && PyCoro_CheckExact(_PyGen_GetGeneratorFromFrame(frame)) ){
-            return 1;
+        if (frame->owner == FRAME_OWNED_BY_GENERATOR) {
+            PyGenObject *gen = _PyGen_GetGeneratorFromFrame(frame);
+            if (PyCoro_CheckExact(gen) || PyAsyncGen_CheckExact(gen)) {
+                return 1;
+            }
         }
-        if ( frame->owner == FRAME_OWNED_BY_INTERPRETER || frame->owner == FRAME_OWNED_BY_CSTACK ) {
+        if (frame->owner == FRAME_OWNED_BY_INTERPRETER || frame->owner == FRAME_OWNED_BY_CSTACK) {
             // can't have any frame on the C stack in the stack of a yielded coroutine
             _PyErr_SetString(tstate, PyExc_RuntimeError,
                 "await not possible within C-implemented functions");
             return 0;
         }
         frame = frame->previous;
-    } while ( frame );
+    } while (frame);
 
     _PyErr_SetString(tstate, PyExc_RuntimeError,
         "await outside of a async def");

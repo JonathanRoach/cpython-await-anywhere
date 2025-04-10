@@ -1832,8 +1832,14 @@
                     frame_count += 1;
                     search_frame = search_frame->previous;
                 }
-                gen = _PyGen_GetGeneratorFromFrame(search_frame);
-                while (search_frame->owner != FRAME_OWNED_BY_GENERATOR || !PyCoro_CheckExact(yielding_gen = _PyGen_GetGeneratorFromFrame(search_frame))){
+                yielding_gen = gen = _PyGen_GetGeneratorFromFrame(search_frame);
+                for(;;) {
+                    if (frame->owner == FRAME_OWNED_BY_GENERATOR) {
+                        PyGenObject *yielding_gen = _PyGen_GetGeneratorFromFrame(search_frame);
+                        if (PyCoro_CheckExact(yielding_gen) || PyAsyncGen_CheckExact(yielding_gen)) {
+                            break;
+                        }
+                    }
                     frame_count += 1;
                     search_frame = search_frame->previous;
                 }
