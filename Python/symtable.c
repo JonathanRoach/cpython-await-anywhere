@@ -2483,15 +2483,8 @@ symtable_visit_expr(struct symtable *st, expr_ty e)
                 SET_ERROR_LOCATION(st->st_filename, LOCATION(e));
                 return 0;
             }
-            if (!IS_ASYNC_DEF(st) && st->st_cur->ste_comprehension == NoComprehension) {
-                PyErr_SetString(PyExc_SyntaxError,
-                                "'await' outside async function");
-                SET_ERROR_LOCATION(st->st_filename, LOCATION(e));
-                return 0;
-            }
         }
         VISIT(st, expr, e->v.Await.value);
-        st->st_cur->ste_coroutine = 1;
         break;
     case Compare_kind:
         VISIT(st, expr, e->v.Compare.left);

@@ -314,13 +314,23 @@ do { \
 } while (0);
 
 
-static inline int _Py_EnterRecursivePy(PyThreadState *tstate) {
-    return (tstate->py_recursion_remaining-- <= 0) &&
+static inline int _Py_EnterRecursiveCallsPy(PyThreadState *tstate, int count) {
+    assert(count > 0);
+    return ((tstate->py_recursion_remaining -= count) < 0) &&
         _Py_CheckRecursiveCallPy(tstate);
 }
 
+static inline int _Py_EnterRecursivePy(PyThreadState *tstate) {
+    return _Py_EnterRecursiveCallsPy(tstate, 1);
+}
+
+static inline void _Py_LeaveRecursiveCallsPy(PyThreadState *tstate, int count)  {
+    assert(count > 0);
+    tstate->py_recursion_remaining += count;
+}
+
 static inline void _Py_LeaveRecursiveCallPy(PyThreadState *tstate)  {
-    tstate->py_recursion_remaining++;
+    _Py_LeaveRecursiveCallsPy(tstate, 1);
 }
 
 /* Implementation of "macros" that modify the instruction pointer,

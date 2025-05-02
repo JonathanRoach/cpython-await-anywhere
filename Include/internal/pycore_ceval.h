@@ -116,9 +116,23 @@ _PyEval_EvalFrame(PyThreadState *tstate, _PyInterpreterFrame *frame, int throwfl
 {
     EVAL_CALL_STAT_INC(EVAL_CALL_TOTAL);
     if (tstate->interp->eval_frame == NULL) {
-        return _PyEval_EvalFrameDefault(tstate, frame, throwflag);
+        return _PyEval_EvalFramesDefault(tstate, frame, frame, 1, throwflag);
     }
     return tstate->interp->eval_frame(tstate, frame, throwflag);
+}
+
+static inline PyObject*
+_PyEval_EvalFrames(PyThreadState *tstate, _PyInterpreterFrame *framebase, _PyInterpreterFrame *frame, int frame_count, int throwflag)
+{
+    EVAL_CALL_STAT_INC(EVAL_CALL_TOTAL);
+    if (frame == framebase) {
+        assert(frame_count == 1);
+        if (tstate->interp->eval_frame == NULL) {
+            return _PyEval_EvalFramesDefault(tstate, framebase, frame, frame_count, throwflag);
+        }
+        return tstate->interp->eval_frame(tstate, frame, throwflag);
+    }
+    return _PyEval_EvalFramesDefault(tstate, framebase, frame, frame_count, throwflag);
 }
 
 extern PyObject*
@@ -298,6 +312,7 @@ PyAPI_FUNC(PyObject *)_PyEval_MatchClass(PyThreadState *tstate, PyObject *subjec
 PyAPI_FUNC(PyObject *)_PyEval_MatchKeys(PyThreadState *tstate, PyObject *map, PyObject *keys);
 PyAPI_FUNC(void) _PyEval_MonitorRaise(PyThreadState *tstate, _PyInterpreterFrame *frame, _Py_CODEUNIT *instr);
 PyAPI_FUNC(int) _PyEval_UnpackIterableStackRef(PyThreadState *tstate, PyObject *v, int argcnt, int argcntafter, _PyStackRef *sp);
+extern void _PyEval_ThreadFrameClearAndPop(_PyDataStack *datastack, _PyInterpreterFrame *frame);
 PyAPI_FUNC(void) _PyEval_FrameClearAndPop(PyThreadState *tstate, _PyInterpreterFrame *frame);
 PyAPI_FUNC(PyObject **) _PyObjectArray_FromStackRefArray(_PyStackRef *input, Py_ssize_t nargs, PyObject **scratch);
 

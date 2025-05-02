@@ -1663,6 +1663,7 @@ class TraceTestCase(unittest.TestCase):
             (2, 'line'),
             (-2, 'call'),
             (-2, 'return'),
+            (2, 'exception'),
             (2, 'return'),
         ]
 

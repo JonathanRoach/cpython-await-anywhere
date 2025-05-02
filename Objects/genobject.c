@@ -63,12 +63,27 @@ gen_traverse(PyObject *self, visitproc visit, void *arg)
     Py_VISIT(gen->gi_name);
     Py_VISIT(gen->gi_qualname);
     if (gen->gi_frame_state != FRAME_CLEARED) {
-        _PyInterpreterFrame *frame = &gen->gi_iframe;
-        assert(frame->frame_obj == NULL ||
-               frame->frame_obj->f_frame->owner == FRAME_OWNED_BY_GENERATOR);
-        int err = _PyFrame_Traverse(frame, visit, arg);
-        if (err) {
-            return err;
+        _PyInterpreterFrame *gen_frame = &gen->gi_iframe;
+        assert(gen_frame->frame_obj == NULL ||
+            gen_frame->frame_obj->f_frame->owner == FRAME_OWNED_BY_GENERATOR);
+        _PyInterpreterFrame *frame;
+        if ( gen->gi_frame_state < FRAME_EXECUTING ) {
+            // this generator is yielded - visit all frames held in the generator's stack
+            frame = gen->gi_resume_iframe;
+        } else {
+            // this generator is executing - only need to visit itself
+            frame = gen_frame;
+        }
+        for(;;){
+            int err = _PyFrame_Traverse(frame, visit, arg);
+            if (err) {
+                return err;
+            }
+            if ( frame == gen_frame ) {
+                break;
+            }
+            assert(frame->previous);
+            frame = frame->previous;
         }
     }
     else {
@@ -149,6 +164,11 @@ gen_clear_frame(PyGenObject *gen)
 
     gen->gi_frame_state = FRAME_CLEARED;
     _PyInterpreterFrame *frame = &gen->gi_iframe;
+    for ( _PyInterpreterFrame *f = gen->gi_resume_iframe; f != frame; f = f->previous ){
+        assert(f->owner == FRAME_OWNED_BY_THREAD);
+        f->previous = NULL;
+        _PyFrame_ClearExceptCode(f);
+    }
     frame->previous = NULL;
     _PyFrame_ClearExceptCode(frame);
     _PyErr_ClearExcState(&gen->gi_exc_state);
@@ -179,6 +199,15 @@ gen_dealloc(PyObject *self)
     if (PyCoro_CheckExact(gen)) {
         Py_CLEAR(((PyCoroObject *)gen)->cr_origin_or_finalizer);
     }
+
+    if ( FRAME_STATE_SUSPENDED(gen->gi_frame_state) ){
+        for ( _PyInterpreterFrame *f = gen->gi_resume_iframe; f != &gen->gi_iframe; f = f->previous ) {
+            _PyEval_ThreadFrameClearAndPop(&gen->gi_datastack, f);
+        }
+    }
+
+    _PyDataStack_Clear(&gen->gi_datastack);
+
     gen_clear_frame(gen);
     assert(gen->gi_exc_state.exc_value == NULL);
     PyStackRef_CLEAR(gen->gi_iframe.f_executable);
@@ -193,7 +222,6 @@ gen_send_ex2(PyGenObject *gen, PyObject *arg, PyObject **presult,
              int exc, int closing)
 {
     PyThreadState *tstate = _PyThreadState_GET();
-    _PyInterpreterFrame *frame = &gen->gi_iframe;
 
     *presult = NULL;
     if (gen->gi_frame_state == FRAME_CREATED && arg && arg != Py_None) {
@@ -241,13 +269,19 @@ gen_send_ex2(PyGenObject *gen, PyObject *arg, PyObject **presult,
     assert((gen->gi_frame_state == FRAME_CREATED) ||
            FRAME_STATE_SUSPENDED(gen->gi_frame_state));
 
+    PyGenObject *resume_gen = gen->gi_resume_gen;
+    _PyInterpreterFrame *frame = resume_gen->gi_resume_iframe;
+
+    assert(gen->gi_previous_datastack == NULL);
+    gen->gi_previous_datastack = _PyThreadState_ActivateDataStack(tstate, &resume_gen->gi_datastack);
+
     /* Push arg onto the frame's value stack */
     PyObject *arg_obj = arg ? arg : Py_None;
     _PyFrame_StackPush(frame, PyStackRef_FromPyObjectNew(arg_obj));
 
     _PyErr_StackItem *prev_exc_info = tstate->exc_info;
     gen->gi_exc_state.previous_item = prev_exc_info;
-    tstate->exc_info = &gen->gi_exc_state;
+    tstate->exc_info = &resume_gen->gi_exc_state;
 
     if (exc) {
         assert(_PyErr_Occurred(tstate));
@@ -256,11 +290,11 @@ gen_send_ex2(PyGenObject *gen, PyObject *arg, PyObject **presult,
 
     gen->gi_frame_state = FRAME_EXECUTING;
     EVAL_CALL_STAT_INC(EVAL_CALL_GENERATOR);
-    PyObject *result = _PyEval_EvalFrame(tstate, frame, exc);
+    PyObject *result = _PyEval_EvalFrames(tstate, &gen->gi_iframe, frame, gen->gi_resume_frame_count, exc);
     assert(tstate->exc_info == prev_exc_info);
     assert(gen->gi_exc_state.previous_item == NULL);
     assert(gen->gi_frame_state != FRAME_EXECUTING);
-    assert(frame->previous == NULL);
+    assert(gen->gi_iframe.previous == NULL);
 
     /* If the generator just returned (as opposed to yielding), signal
      * that the generator is exhausted. */
@@ -374,7 +408,7 @@ PyObject *
 _PyGen_yf(PyGenObject *gen)
 {
     if (gen->gi_frame_state == FRAME_SUSPENDED_YIELD_FROM) {
-        _PyInterpreterFrame *frame = &gen->gi_iframe;
+        _PyInterpreterFrame *frame = gen->gi_resume_iframe;
         // GH-122390: These asserts are wrong in the presence of ENTER_EXECUTOR!
         // assert(is_resume(frame->instr_ptr));
         // assert((frame->instr_ptr->op.arg & RESUME_OPARG_LOCATION_MASK) >= RESUME_AFTER_YIELD_FROM);
@@ -405,7 +439,7 @@ gen_close(PyObject *self, PyObject *args)
         gen->gi_frame_state = state;
         Py_DECREF(yf);
     }
-    _PyInterpreterFrame *frame = &gen->gi_iframe;
+    _PyInterpreterFrame *frame = gen->gi_resume_iframe;
     if (is_resume(frame->instr_ptr)) {
         /* We can safely ignore the outermost try block
          * as it is automatically generated to handle
@@ -918,6 +952,13 @@ make_gen(PyTypeObject *type, PyFunctionObject *func)
     if (gen == NULL) {
         return NULL;
     }
+    gen->gi_resume_iframe = &gen->gi_iframe;
+    gen->gi_resume_gen = gen;
+    gen->gi_resume_frame_count = 1;
+    gen->gi_datastack.chunk = NULL;
+    gen->gi_datastack.top = NULL;
+    gen->gi_datastack.limit = NULL;
+    gen->gi_previous_datastack = NULL;
     gen->gi_frame_state = FRAME_CLEARED;
     gen->gi_weakreflist = NULL;
     gen->gi_exc_state.exc_value = NULL;

@@ -619,6 +619,7 @@ NON_ESCAPING_FUNCTIONS = (
     "Py_UNREACHABLE",
     "Py_Unicode_GET_LENGTH",
     "_PyCode_CODE",
+    "_PyDataStack_HasStackSpace",
     "_PyDictValues_AddToInsertionOrder",
     "_PyErr_Occurred",
     "_PyFloat_FromDouble_ConsumeInputs",
@@ -648,7 +649,7 @@ NON_ESCAPING_FUNCTIONS = (
     "_PyObject_InlineValues",
     "_PyObject_IsUniquelyReferenced",
     "_PyObject_ManagedDictPointer",
-    "_PyThreadState_HasStackSpace",
+    "_PyThreadState_ActivateDataStack",
     "_PyTuple_FromStackRefStealOnSuccess",
     "_PyTuple_ITEMS",
     "_PyType_HasFeature",
@@ -678,6 +679,8 @@ NON_ESCAPING_FUNCTIONS = (
     "JUMP_TO_LABEL",
     "restart_backoff_counter",
     "_Py_ReachedRecursionLimit",
+    "printf",
+    "stack_ok_for_await",
 )
 
 def check_escaping_calls(instr: parser.CodeDef, escapes: dict[SimpleStmt, EscapingCall]) -> None:

@@ -639,7 +639,7 @@
                 }
                 PyCodeObject *code = (PyCodeObject *)PyFunction_GET_CODE(getitem_o);
                 assert(code->co_argcount == 2);
-                if (!_PyThreadState_HasStackSpace(tstate, code->co_framesize)) {
+                if (!_PyDataStack_HasStackSpace(&tstate->datastack, code->co_framesize)) {
                     UPDATE_MISS_STATS(BINARY_OP);
                     assert(_PyOpcode_Deopt[opcode] == (BINARY_OP));
                     JUMP_TO_PREDICTED(BINARY_OP);
@@ -1579,7 +1579,7 @@
                 PyHeapTypeObject *cls = (PyHeapTypeObject *)callable_o;
                 PyFunctionObject *init_func = (PyFunctionObject *)FT_ATOMIC_LOAD_PTR_ACQUIRE(cls->_spec_cache.init);
                 PyCodeObject *code = (PyCodeObject *)init_func->func_code;
-                if (!_PyThreadState_HasStackSpace(tstate, code->co_framesize + _Py_InitCleanup.co_framesize)) {
+                if (!_PyDataStack_HasStackSpace(&tstate->datastack, code->co_framesize + _Py_InitCleanup.co_framesize)) {
                     UPDATE_MISS_STATS(CALL);
                     assert(_PyOpcode_Deopt[opcode] == (CALL));
                     JUMP_TO_PREDICTED(CALL);
@@ -1734,7 +1734,7 @@
                 PyObject *callable_o = PyStackRef_AsPyObjectBorrow(callable);
                 PyFunctionObject *func = (PyFunctionObject *)callable_o;
                 PyCodeObject *code = (PyCodeObject *)func->func_code;
-                if (!_PyThreadState_HasStackSpace(tstate, code->co_framesize)) {
+                if (!_PyDataStack_HasStackSpace(&tstate->datastack, code->co_framesize)) {
                     UPDATE_MISS_STATS(CALL);
                     assert(_PyOpcode_Deopt[opcode] == (CALL));
                     JUMP_TO_PREDICTED(CALL);
@@ -3995,7 +3995,7 @@
                 PyObject *callable_o = PyStackRef_AsPyObjectBorrow(callable);
                 PyFunctionObject *func = (PyFunctionObject *)callable_o;
                 PyCodeObject *code = (PyCodeObject *)func->func_code;
-                if (!_PyThreadState_HasStackSpace(tstate, code->co_framesize)) {
+                if (!_PyDataStack_HasStackSpace(&tstate->datastack, code->co_framesize)) {
                     UPDATE_MISS_STATS(CALL);
                     assert(_PyOpcode_Deopt[opcode] == (CALL));
                     JUMP_TO_PREDICTED(CALL);
@@ -5503,6 +5503,23 @@
             // _FOR_ITER
             {
                 PyObject *iter_o = PyStackRef_AsPyObjectBorrow(iter);
+                if (PyGen_CheckExact(iter_o) && tstate->interp->eval_frame == NULL) {
+                    PyGenObject *gen = (PyGenObject *)iter_o;
+                    if (gen->gi_frame_state < FRAME_EXECUTING) {
+                        _PyInterpreterFrame *gen_frame = &gen->gi_iframe;
+                        _PyFrame_StackPush(gen_frame, PyStackRef_None);
+                        frame->return_offset = (uint16_t)( 2 + oparg);
+                        gen->gi_frame_state = FRAME_EXECUTING;
+                        gen->gi_exc_state.previous_item = tstate->exc_info;
+                        tstate->exc_info = &gen->gi_exc_state;
+                        PyGenObject *resume_gen = gen->gi_resume_gen;
+                        _PyInterpreterFrame *resume_frame = resume_gen->gi_resume_iframe;
+                        gen_frame->previous = frame;
+                        gen->gi_previous_datastack = _PyThreadState_ActivateDataStack(tstate, &resume_gen->gi_datastack);
+                        assert(gen->gi_resume_frame_count == 1);
+                        DISPATCH_INLINED(resume_frame);
+                    }
+                }
                 _PyFrame_SetStackPointer(frame, stack_pointer);
                 PyObject *next_o = (*Py_TYPE(iter_o)->tp_iternext)(iter_o);
                 stack_pointer = _PyFrame_GetStackPointer(frame);
@@ -5544,8 +5561,8 @@
             INSTRUCTION_STATS(FOR_ITER_GEN);
             static_assert(INLINE_CACHE_ENTRIES_FOR_ITER == 1, "incorrect cache size");
             _PyStackRef iter;
-            _PyInterpreterFrame *gen_frame;
-            _PyInterpreterFrame *new_frame;
+            PyGenObject *gen;
+            PyGenObject *pushed_gen;
             /* Skip 1 cache entry */
             // _CHECK_PEP_523
             {
@@ -5558,7 +5575,7 @@
             // _FOR_ITER_GEN_FRAME
             {
                 iter = stack_pointer[-1];
-                PyGenObject *gen = (PyGenObject *)PyStackRef_AsPyObjectBorrow(iter);
+                gen = (PyGenObject *)PyStackRef_AsPyObjectBorrow(iter);
                 if (Py_TYPE(gen) != &PyGen_Type) {
                     UPDATE_MISS_STATS(FOR_ITER);
                     assert(_PyOpcode_Deopt[opcode] == (FOR_ITER));
@@ -5577,24 +5594,27 @@
                     JUMP_TO_PREDICTED(FOR_ITER);
                 }
                 STAT_INC(FOR_ITER, hit);
-                gen_frame = &gen->gi_iframe;
+                _PyInterpreterFrame *gen_frame = &gen->gi_iframe;
                 _PyFrame_StackPush(gen_frame, PyStackRef_None);
+                frame->return_offset = (uint16_t)( 2 + oparg);
+            }
+            // _PUSH_GEN_FRAMES
+            {
+                pushed_gen = gen;
+                assert(tstate->interp->eval_frame == NULL);
+                PyGenObject *gen = pushed_gen;
+                _PyFrame_SetStackPointer(frame, stack_pointer);
                 gen->gi_frame_state = FRAME_EXECUTING;
                 gen->gi_exc_state.previous_item = tstate->exc_info;
                 tstate->exc_info = &gen->gi_exc_state;
+                _PyInterpreterFrame *gen_frame = &gen->gi_iframe;
+                PyGenObject *resume_gen = gen->gi_resume_gen;
+                _PyInterpreterFrame *resume_frame = resume_gen->gi_resume_iframe;
                 gen_frame->previous = frame;
-                frame->return_offset = (uint16_t)( 2 + oparg);
-            }
-            // _PUSH_FRAME
-            {
-                new_frame = gen_frame;
-                assert(tstate->interp->eval_frame == NULL);
-                _PyInterpreterFrame *temp = new_frame;
-                _PyFrame_SetStackPointer(frame, stack_pointer);
-                assert(new_frame->previous == frame || new_frame->previous->previous == frame);
+                gen->gi_previous_datastack = _PyThreadState_ActivateDataStack(tstate, &resume_gen->gi_datastack);
                 CALL_STAT_INC(inlined_py_calls);
-                frame = tstate->current_frame = temp;
-                tstate->py_recursion_remaining--;
+                frame = tstate->current_frame = resume_frame;
+                tstate->py_recursion_remaining -= gen->gi_resume_frame_count;
                 LOAD_SP();
                 LOAD_IP(0);
                 LLTRACE_RESUME_FRAME();
@@ -5948,6 +5968,9 @@
             PyStackRef_CLOSE(iterable);
             stack_pointer = _PyFrame_GetStackPointer(frame);
             if (iter_o == NULL) {
+                JUMP_TO_LABEL(error);
+            }
+            if (!stack_ok_for_await(tstate, frame)) {
                 JUMP_TO_LABEL(error);
             }
             iter = PyStackRef_FromPyObjectSteal(iter_o);
@@ -7381,20 +7404,51 @@
                 retval = val;
                 assert(frame->owner != FRAME_OWNED_BY_INTERPRETER);
                 frame->instr_ptr++;
-                PyGenObject *gen = _PyGen_GetGeneratorFromFrame(frame);
+                int frame_count;
+                PyGenObject *gen;
+                PyGenObject *yielding_gen;
+                if (oparg & 2){
+                    _PyInterpreterFrame *search_frame = frame;
+                    frame_count = 1;
+                    while (search_frame->owner != FRAME_OWNED_BY_GENERATOR){
+                        frame_count += 1;
+                        search_frame = search_frame->previous;
+                    }
+                    yielding_gen = gen = _PyGen_GetGeneratorFromFrame(search_frame);
+                    for(;;) {
+                        if (search_frame->owner == FRAME_OWNED_BY_GENERATOR) {
+                            PyGenObject *yielding_gen = _PyGen_GetGeneratorFromFrame(search_frame);
+                            if (PyCoro_CheckExact(yielding_gen) || PyAsyncGen_CheckExact(yielding_gen)) {
+                                break;
+                            }
+                        }
+                        frame_count += 1;
+                        search_frame = search_frame->previous;
+                    }
+                } else {
+                    assert(frame->owner == FRAME_OWNED_BY_GENERATOR);
+                    frame_count = 1;
+                    yielding_gen = gen = _PyGen_GetGeneratorFromFrame(frame);
+                }
                 assert(FRAME_SUSPENDED_YIELD_FROM == FRAME_SUSPENDED + 1);
-                assert(oparg == 0 || oparg == 1);
-                gen->gi_frame_state = FRAME_SUSPENDED + oparg;
+                assert(oparg == 0 || oparg == 1 || oparg == 3);
+                yielding_gen->gi_frame_state = FRAME_SUSPENDED + (oparg & 1);
+                gen->gi_resume_iframe = frame;
+                yielding_gen->gi_resume_gen = gen;
                 _PyStackRef temp = retval;
                 stack_pointer += -1;
                 assert(WITHIN_STACK_BOUNDS());
                 _PyFrame_SetStackPointer(frame, stack_pointer);
-                tstate->exc_info = gen->gi_exc_state.previous_item;
-                gen->gi_exc_state.previous_item = NULL;
-                _Py_LeaveRecursiveCallPy(tstate);
-                _PyInterpreterFrame *gen_frame = frame;
-                frame = tstate->current_frame = frame->previous;
-                gen_frame->previous = NULL;
+                tstate->exc_info = yielding_gen->gi_exc_state.previous_item;
+                yielding_gen->gi_exc_state.previous_item = NULL;
+                yielding_gen->gi_resume_frame_count = frame_count;
+                _Py_LeaveRecursiveCallsPy(tstate, frame_count);
+                _PyInterpreterFrame *yielding_gen_frame = &yielding_gen->gi_iframe;
+                frame = tstate->current_frame = yielding_gen_frame->previous;
+                yielding_gen_frame->previous = NULL;
+                assert(yielding_gen->gi_previous_datastack);
+                _PyThreadState_ActivateDataStack(tstate, yielding_gen->gi_previous_datastack);
+                yielding_gen->gi_previous_datastack = NULL;
                 assert(INLINE_CACHE_ENTRIES_SEND == INLINE_CACHE_ENTRIES_FOR_ITER);
                 #if TIER_ONE
                 assert(frame->instr_ptr->op.code == INSTRUMENTED_LINE ||
@@ -7954,7 +8008,7 @@
             }
             PyCodeObject *code = (PyCodeObject *)f->func_code;
             assert(code->co_argcount == 2);
-            if (!_PyThreadState_HasStackSpace(tstate, code->co_framesize)) {
+            if (!_PyDataStack_HasStackSpace(&tstate->datastack, code->co_framesize)) {
                 UPDATE_MISS_STATS(LOAD_ATTR);
                 assert(_PyOpcode_Deopt[opcode] == (LOAD_ATTR));
                 JUMP_TO_PREDICTED(LOAD_ATTR);
@@ -8466,7 +8520,7 @@
                     assert(_PyOpcode_Deopt[opcode] == (LOAD_ATTR));
                     JUMP_TO_PREDICTED(LOAD_ATTR);
                 }
-                if (!_PyThreadState_HasStackSpace(tstate, code->co_framesize)) {
+                if (!_PyDataStack_HasStackSpace(&tstate->datastack, code->co_framesize)) {
                     UPDATE_MISS_STATS(LOAD_ATTR);
                     assert(_PyOpcode_Deopt[opcode] == (LOAD_ATTR));
                     JUMP_TO_PREDICTED(LOAD_ATTR);
@@ -10335,7 +10389,7 @@
             gen_frame->owner = FRAME_OWNED_BY_GENERATOR;
             _Py_LeaveRecursiveCallPy(tstate);
             _PyInterpreterFrame *prev = frame->previous;
-            _PyThreadState_PopFrame(tstate, frame);
+            _PyDataStack_PopFrame(&tstate->datastack, frame);
             frame = tstate->current_frame = prev;
             LOAD_IP(frame->return_offset);
             stack_pointer = _PyFrame_GetStackPointer(frame);
@@ -10421,17 +10475,21 @@
                 {
                     PyGenObject *gen = (PyGenObject *)receiver_o;
                     _PyInterpreterFrame *gen_frame = &gen->gi_iframe;
-                    _PyFrame_StackPush(gen_frame, PyStackRef_MakeHeapSafe(v));
+                    PyGenObject *resume_gen = gen->gi_resume_gen;
+                    _PyInterpreterFrame *resume_frame = resume_gen->gi_resume_iframe;
+                    _PyFrame_StackPush(resume_frame, PyStackRef_MakeHeapSafe(v));
                     stack_pointer += -1;
                     assert(WITHIN_STACK_BOUNDS());
-                    gen->gi_frame_state = FRAME_EXECUTING;
+                    resume_gen->gi_frame_state = FRAME_EXECUTING;
                     gen->gi_exc_state.previous_item = tstate->exc_info;
-                    tstate->exc_info = &gen->gi_exc_state;
+                    tstate->exc_info = &resume_gen->gi_exc_state;
                     assert( 2 + oparg <= UINT16_MAX);
                     frame->return_offset = (uint16_t)( 2 + oparg);
                     assert(gen_frame->previous == NULL);
                     gen_frame->previous = frame;
-                    DISPATCH_INLINED(gen_frame);
+                    gen->gi_previous_datastack = _PyThreadState_ActivateDataStack(tstate, &resume_gen->gi_datastack);
+                    tstate->py_recursion_remaining -= gen->gi_resume_frame_count-1;
+                    DISPATCH_INLINED(resume_frame);
                 }
                 if (PyStackRef_IsNone(v) && PyIter_Check(receiver_o)) {
                     _PyFrame_SetStackPointer(frame, stack_pointer);
@@ -10496,8 +10554,8 @@
             static_assert(INLINE_CACHE_ENTRIES_SEND == 1, "incorrect cache size");
             _PyStackRef receiver;
             _PyStackRef v;
-            _PyInterpreterFrame *gen_frame;
-            _PyInterpreterFrame *new_frame;
+            PyGenObject *gen;
+            PyGenObject *pushed_gen;
             /* Skip 1 cache entry */
             // _CHECK_PEP_523
             {
@@ -10511,7 +10569,7 @@
             {
                 v = stack_pointer[-1];
                 receiver = stack_pointer[-2];
-                PyGenObject *gen = (PyGenObject *)PyStackRef_AsPyObjectBorrow(receiver);
+                gen = (PyGenObject *)PyStackRef_AsPyObjectBorrow(receiver);
                 if (Py_TYPE(gen) != &PyGen_Type && Py_TYPE(gen) != &PyCoro_Type) {
                     UPDATE_MISS_STATS(SEND);
                     assert(_PyOpcode_Deopt[opcode] == (SEND));
@@ -10523,27 +10581,30 @@
                     JUMP_TO_PREDICTED(SEND);
                 }
                 STAT_INC(SEND, hit);
-                gen_frame = &gen->gi_iframe;
-                _PyFrame_StackPush(gen_frame, PyStackRef_MakeHeapSafe(v));
-                gen->gi_frame_state = FRAME_EXECUTING;
-                gen->gi_exc_state.previous_item = tstate->exc_info;
-                tstate->exc_info = &gen->gi_exc_state;
+                _PyInterpreterFrame *resume_frame = gen->gi_resume_gen->gi_resume_iframe;
+                _PyFrame_StackPush(resume_frame, PyStackRef_MakeHeapSafe(v));
                 assert( 2 + oparg <= UINT16_MAX);
                 frame->return_offset = (uint16_t)( 2 + oparg);
-                gen_frame->previous = frame;
             }
-            // _PUSH_FRAME
+            // _PUSH_GEN_FRAMES
             {
-                new_frame = gen_frame;
+                pushed_gen = gen;
                 assert(tstate->interp->eval_frame == NULL);
-                _PyInterpreterFrame *temp = new_frame;
+                PyGenObject *gen = pushed_gen;
                 stack_pointer += -1;
                 assert(WITHIN_STACK_BOUNDS());
                 _PyFrame_SetStackPointer(frame, stack_pointer);
-                assert(new_frame->previous == frame || new_frame->previous->previous == frame);
+                gen->gi_frame_state = FRAME_EXECUTING;
+                gen->gi_exc_state.previous_item = tstate->exc_info;
+                tstate->exc_info = &gen->gi_exc_state;
+                _PyInterpreterFrame *gen_frame = &gen->gi_iframe;
+                PyGenObject *resume_gen = gen->gi_resume_gen;
+                _PyInterpreterFrame *resume_frame = resume_gen->gi_resume_iframe;
+                gen_frame->previous = frame;
+                gen->gi_previous_datastack = _PyThreadState_ActivateDataStack(tstate, &resume_gen->gi_datastack);
                 CALL_STAT_INC(inlined_py_calls);
-                frame = tstate->current_frame = temp;
-                tstate->py_recursion_remaining--;
+                frame = tstate->current_frame = resume_frame;
+                tstate->py_recursion_remaining -= gen->gi_resume_frame_count;
                 LOAD_SP();
                 LOAD_IP(0);
                 LLTRACE_RESUME_FRAME();
@@ -12059,20 +12120,51 @@
             retval = stack_pointer[-1];
             assert(frame->owner != FRAME_OWNED_BY_INTERPRETER);
             frame->instr_ptr++;
-            PyGenObject *gen = _PyGen_GetGeneratorFromFrame(frame);
+            int frame_count;
+            PyGenObject *gen;
+            PyGenObject *yielding_gen;
+            if (oparg & 2){
+                _PyInterpreterFrame *search_frame = frame;
+                frame_count = 1;
+                while (search_frame->owner != FRAME_OWNED_BY_GENERATOR){
+                    frame_count += 1;
+                    search_frame = search_frame->previous;
+                }
+                yielding_gen = gen = _PyGen_GetGeneratorFromFrame(search_frame);
+                for(;;) {
+                    if (search_frame->owner == FRAME_OWNED_BY_GENERATOR) {
+                        PyGenObject *yielding_gen = _PyGen_GetGeneratorFromFrame(search_frame);
+                        if (PyCoro_CheckExact(yielding_gen) || PyAsyncGen_CheckExact(yielding_gen)) {
+                            break;
+                        }
+                    }
+                    frame_count += 1;
+                    search_frame = search_frame->previous;
+                }
+            } else {
+                assert(frame->owner == FRAME_OWNED_BY_GENERATOR);
+                frame_count = 1;
+                yielding_gen = gen = _PyGen_GetGeneratorFromFrame(frame);
+            }
             assert(FRAME_SUSPENDED_YIELD_FROM == FRAME_SUSPENDED + 1);
-            assert(oparg == 0 || oparg == 1);
-            gen->gi_frame_state = FRAME_SUSPENDED + oparg;
+            assert(oparg == 0 || oparg == 1 || oparg == 3);
+            yielding_gen->gi_frame_state = FRAME_SUSPENDED + (oparg & 1);
+            gen->gi_resume_iframe = frame;
+            yielding_gen->gi_resume_gen = gen;
             _PyStackRef temp = retval;
             stack_pointer += -1;
             assert(WITHIN_STACK_BOUNDS());
             _PyFrame_SetStackPointer(frame, stack_pointer);
-            tstate->exc_info = gen->gi_exc_state.previous_item;
-            gen->gi_exc_state.previous_item = NULL;
-            _Py_LeaveRecursiveCallPy(tstate);
-            _PyInterpreterFrame *gen_frame = frame;
-            frame = tstate->current_frame = frame->previous;
-            gen_frame->previous = NULL;
+            tstate->exc_info = yielding_gen->gi_exc_state.previous_item;
+            yielding_gen->gi_exc_state.previous_item = NULL;
+            yielding_gen->gi_resume_frame_count = frame_count;
+            _Py_LeaveRecursiveCallsPy(tstate, frame_count);
+            _PyInterpreterFrame *yielding_gen_frame = &yielding_gen->gi_iframe;
+            frame = tstate->current_frame = yielding_gen_frame->previous;
+            yielding_gen_frame->previous = NULL;
+            assert(yielding_gen->gi_previous_datastack);
+            _PyThreadState_ActivateDataStack(tstate, yielding_gen->gi_previous_datastack);
+            yielding_gen->gi_previous_datastack = NULL;
             assert(INLINE_CACHE_ENTRIES_SEND == INLINE_CACHE_ENTRIES_FOR_ITER);
             #if TIER_ONE
             assert(frame->instr_ptr->op.code == INSTRUMENTED_LINE ||

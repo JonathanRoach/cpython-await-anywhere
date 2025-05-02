@@ -1847,6 +1847,12 @@
             break;
         }
 
+        case _PUSH_GEN_FRAMES: {
+            stack_pointer += -1;
+            assert(WITHIN_STACK_BOUNDS());
+            break;
+        }
+
         case _CALL_TYPE_1: {
             JitOptSymbol *res;
             res = sym_new_not_null(ctx);

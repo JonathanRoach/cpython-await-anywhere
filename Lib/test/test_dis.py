@@ -604,7 +604,7 @@ dis_asyncwith = """\
                 GET_AWAITABLE            1
                 LOAD_CONST               0 (None)
         L2:     SEND                     3 (to L5)
-        L3:     YIELD_VALUE              1
+        L3:     YIELD_VALUE              3
         L4:     RESUME                   3
                 JUMP_BACKWARD_NO_INTERRUPT 5 (to L2)
         L5:     END_SEND
@@ -620,7 +620,7 @@ dis_asyncwith = """\
                 GET_AWAITABLE            2
                 LOAD_CONST               0 (None)
         L8:     SEND                     3 (to L11)
-        L9:     YIELD_VALUE              1
+        L9:     YIELD_VALUE              3
        L10:     RESUME                   3
                 JUMP_BACKWARD_NO_INTERRUPT 5 (to L8)
        L11:     END_SEND
@@ -640,7 +640,7 @@ dis_asyncwith = """\
                 GET_AWAITABLE            2
                 LOAD_CONST               0 (None)
        L17:     SEND                     4 (to L21)
-       L18:     YIELD_VALUE              1
+       L18:     YIELD_VALUE              3
        L19:     RESUME                   3
                 JUMP_BACKWARD_NO_INTERRUPT 5 (to L17)
        L20:     CLEANUP_THROW

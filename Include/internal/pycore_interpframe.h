@@ -266,21 +266,24 @@ PyObject *
 _PyFrame_GetLocals(_PyInterpreterFrame *frame);
 
 static inline bool
-_PyThreadState_HasStackSpace(PyThreadState *tstate, int size)
+_PyDataStack_HasStackSpace(_PyDataStack *datastack, int size)
 {
     assert(
-        (tstate->datastack_top == NULL && tstate->datastack_limit == NULL)
+        (datastack->top == NULL && datastack->limit == NULL)
         ||
-        (tstate->datastack_top != NULL && tstate->datastack_limit != NULL)
+        (datastack->top != NULL && datastack->limit != NULL)
     );
-    return tstate->datastack_top != NULL &&
-        size < tstate->datastack_limit - tstate->datastack_top;
+    return datastack->top != NULL &&
+        size < datastack->limit - datastack->top;
 }
 
 extern _PyInterpreterFrame *
-_PyThreadState_PushFrame(PyThreadState *tstate, size_t size);
+_PyDataStack_PushFrame(_PyDataStack *datastack, size_t size);
 
-PyAPI_FUNC(void) _PyThreadState_PopFrame(PyThreadState *tstate, _PyInterpreterFrame *frame);
+extern void
+_PyDataStack_Clear(_PyDataStack *datastack);
+
+PyAPI_FUNC(void) _PyDataStack_PopFrame(_PyDataStack *datastack, _PyInterpreterFrame *frame);
 
 /* Pushes a frame without checking for space.
  * Must be guarded by _PyThreadState_HasStackSpace()
@@ -291,9 +294,9 @@ _PyFrame_PushUnchecked(PyThreadState *tstate, _PyStackRef func, int null_locals_
     CALL_STAT_INC(frames_pushed);
     PyFunctionObject *func_obj = (PyFunctionObject *)PyStackRef_AsPyObjectBorrow(func);
     PyCodeObject *code = (PyCodeObject *)func_obj->func_code;
-    _PyInterpreterFrame *new_frame = (_PyInterpreterFrame *)tstate->datastack_top;
-    tstate->datastack_top += code->co_framesize;
-    assert(tstate->datastack_top < tstate->datastack_limit);
+    _PyInterpreterFrame *new_frame = (_PyInterpreterFrame *)tstate->datastack.top;
+    tstate->datastack.top += code->co_framesize;
+    assert(tstate->datastack.top < tstate->datastack.limit);
     _PyFrame_Initialize(tstate, new_frame, func, NULL, code, null_locals_from,
                         previous);
     return new_frame;
@@ -305,9 +308,9 @@ static inline _PyInterpreterFrame *
 _PyFrame_PushTrampolineUnchecked(PyThreadState *tstate, PyCodeObject *code, int stackdepth, _PyInterpreterFrame * previous)
 {
     CALL_STAT_INC(frames_pushed);
-    _PyInterpreterFrame *frame = (_PyInterpreterFrame *)tstate->datastack_top;
-    tstate->datastack_top += code->co_framesize;
-    assert(tstate->datastack_top < tstate->datastack_limit);
+    _PyInterpreterFrame *frame = (_PyInterpreterFrame *)tstate->datastack.top;
+    tstate->datastack.top += code->co_framesize;
+    assert(tstate->datastack.top < tstate->datastack.limit);
     frame->previous = previous;
     frame->f_funcobj = PyStackRef_None;
     frame->f_executable = PyStackRef_FromPyObjectNew(code);

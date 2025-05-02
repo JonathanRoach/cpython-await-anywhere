@@ -564,7 +564,6 @@ class BuiltinTest(ComplexesAreIdenticalMixin, unittest.TestCase):
 
         modes = ('single', 'exec')
         code_samples = [
-            '''def f():  await arange(10)\n''',
             '''def f():  [x async for x in arange(10)]\n''',
             '''def f():  [await x async for x in arange(10)]\n''',
             '''def f():

@@ -119,6 +119,14 @@ _PyThreadState_GET(void)
 #endif
 }
 
+static inline _PyDataStack *_PyThreadState_ActivateDataStack(PyThreadState *tstate, _PyDataStack *datastack){
+    _PyDataStack *previous = tstate->active_datastack;
+    *previous = tstate->datastack;
+    tstate->active_datastack = datastack;
+    tstate->datastack = *datastack;
+    return previous;
+}
+
 static inline int
 _PyThreadState_IsAttached(PyThreadState *tstate)
 {
