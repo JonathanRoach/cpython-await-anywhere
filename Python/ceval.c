@@ -1024,10 +1024,11 @@ _PyEval_EvalFramesDefault(PyThreadState *tstate, _PyInterpreterFrame *framebase,
 
 #if defined(Py_DEBUG)
     {
+        _PyInterpreterFrame *search_frame = frame;
         int depth = 1;
-        while(frame != framebase){
-            frame = frame->previous;
-            assert(frame);
+        while(search_frame != framebase){
+            search_frame = search_frame->previous;
+            assert(search_frame);
             depth += 1;
         }
         assert(depth == frame_count);

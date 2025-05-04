@@ -1923,7 +1923,7 @@
                 yielding_gen = gen = _PyGen_GetGeneratorFromFrame(search_frame);
                 for(;;) {
                     if (search_frame->owner == FRAME_OWNED_BY_GENERATOR) {
-                        PyGenObject *yielding_gen = _PyGen_GetGeneratorFromFrame(search_frame);
+                        yielding_gen = _PyGen_GetGeneratorFromFrame(search_frame);
                         if (PyCoro_CheckExact(yielding_gen) || PyAsyncGen_CheckExact(yielding_gen)) {
                             break;
                         }
