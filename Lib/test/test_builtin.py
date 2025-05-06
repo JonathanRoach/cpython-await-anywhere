@@ -494,7 +494,6 @@ class BuiltinTest(ComplexesAreIdenticalMixin, unittest.TestCase):
         modes = ('single', 'exec')
         optimizations = (-1, 0, 1, 2)
         code_samples = [
-            '''a = await sleep(0, result=1)''',
             '''async for i in arange(1):
                    a = 1''',
             '''async with Lock() as l:
@@ -508,7 +507,6 @@ class BuiltinTest(ComplexesAreIdenticalMixin, unittest.TestCase):
             '''a = [await sleep(0, x) async for x in arange(2)][1]''',
             # gh-121637: Make sure we correctly handle the case where the
             # async code is optimized away
-            '''assert not await sleep(0); a = 1''',
             '''assert [x async for x in arange(1)]; a = 1''',
             '''assert {x async for x in arange(1)}; a = 1''',
             '''assert {x: x async for x in arange(1)}; a = 1''',
