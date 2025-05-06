@@ -132,6 +132,7 @@ class IoctlTests(unittest.TestCase):
         self._check_ioctl_mutate_len(2048)
         self.assertRaises(ValueError, self._check_ioctl_not_mutate_len, 2048)
 
+    @unittest.skipIf(not hasattr(termios, 'TCFLSH'), 'TCFLSH not available')
     def test_ioctl_tcflush(self):
         with open("/dev/tty", "rb") as tty:
             r = fcntl.ioctl(tty, termios.TCFLSH, termios.TCIFLUSH)
