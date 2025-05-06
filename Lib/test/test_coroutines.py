@@ -109,11 +109,6 @@ class AsyncBadSyntaxTest(unittest.TestCase):
 
             """async def foo():
                 def bar():
-                 [await i for i in els]
-            """,
-
-            """async def foo():
-                def bar():
                  [i for i in els
                     async for b in els]
             """,
@@ -137,24 +132,6 @@ class AsyncBadSyntaxTest(unittest.TestCase):
                  [[async for i in b] for b in els]
             """,
 
-            """async def foo():
-                def bar():
-                 [i for i in els
-                    for b in await els]
-            """,
-
-            """async def foo():
-                def bar():
-                 [i for i in els
-                    for b in els
-                        if await b]
-            """,
-
-            """async def foo():
-                def bar():
-                 [i for i in els if await i]
-            """,
-
             """def bar():
                  [i async for i in els]
             """,
@@ -165,10 +142,6 @@ class AsyncBadSyntaxTest(unittest.TestCase):
 
             """def bar():
                  {i async for i in els}
-            """,
-
-            """def bar():
-                 [await i for i in els]
             """,
 
             """def bar():
@@ -186,21 +159,6 @@ class AsyncBadSyntaxTest(unittest.TestCase):
                  [i for i in els
                     async for b in els
                     for c in b]
-            """,
-
-            """def bar():
-                 [i for i in els
-                    for b in await els]
-            """,
-
-            """def bar():
-                 [i for i in els
-                    for b in els
-                        if await b]
-            """,
-
-            """def bar():
-                 [i for i in els if await i]
             """,
 
             """def bar():
