@@ -82,6 +82,56 @@ The following functions are provided:
    on the heap.
 
 
+For max-heaps, the following functions are provided:
+
+
+.. function:: heapify_max(x)
+
+   Transform list *x* into a max-heap, in-place, in linear time.
+
+   .. versionadded:: 3.14
+
+
+.. function:: heappush_max(heap, item)
+
+   Push the value *item* onto the max-heap *heap*, maintaining the max-heap
+   invariant.
+
+   .. versionadded:: 3.14
+
+
+.. function:: heappop_max(heap)
+
+   Pop and return the largest item from the max-heap *heap*, maintaining the
+   max-heap invariant.  If the max-heap is empty, :exc:`IndexError` is raised.
+   To access the largest item without popping it, use ``maxheap[0]``.
+
+   .. versionadded:: 3.14
+
+
+.. function:: heappushpop_max(heap, item)
+
+   Push *item* on the max-heap *heap*, then pop and return the largest item
+   from *heap*.
+   The combined action runs more efficiently than :func:`heappush_max`
+   followed by a separate call to :func:`heappop_max`.
+
+   .. versionadded:: 3.14
+
+
+.. function:: heapreplace_max(heap, item)
+
+   Pop and return the largest item from the max-heap *heap* and also push the
+   new *item*.
+   The max-heap size doesn't change. If the max-heap is empty,
+   :exc:`IndexError` is raised.
+
+   The value returned may be smaller than the *item* added.  Refer to the
+   analogous function :func:`heapreplace` for detailed usage notes.
+
+   .. versionadded:: 3.14
+
+
 The module also offers three general purpose functions based on heaps.
 
 
@@ -246,17 +296,11 @@ elements are considered to be infinite.  The interesting property of a heap is
 that ``a[0]`` is always its smallest element.
 
 The strange invariant above is meant to be an efficient memory representation
-for a tournament.  The numbers below are *k*, not ``a[k]``::
+for a tournament.  The numbers below are *k*, not ``a[k]``:
 
-                                  0
-
-                 1                                 2
-
-         3               4                5               6
-
-     7       8       9       10      11      12      13      14
-
-   15 16   17 18   19 20   21 22   23 24   25 26   27 28   29 30
+.. figure:: heapq-binary-tree.svg
+   :align: center
+   :alt: Example (min-heap) binary tree.
 
 In the tree above, each cell *k* is topping ``2*k+1`` and ``2*k+2``. In a usual
 binary tournament we see in sports, each cell is the winner over the two cells

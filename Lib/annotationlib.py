@@ -260,6 +260,9 @@ class ForwardRef:
         return f"ForwardRef({self.__forward_arg__!r}{''.join(extra)})"
 
 
+_Template = type(t"")
+
+
 class _Stringifier:
     # Must match the slots on ForwardRef, so we can turn an instance of one into an
     # instance of the other in place.
@@ -292,9 +295,58 @@ class _Stringifier:
     def __convert_to_ast(self, other):
         if isinstance(other, _Stringifier):
             if isinstance(other.__ast_node__, str):
-                return ast.Name(id=other.__ast_node__)
-            return other.__ast_node__
-        elif isinstance(other, slice):
+                return ast.Name(id=other.__ast_node__), other.__extra_names__
+            return other.__ast_node__, other.__extra_names__
+        elif type(other) is _Template:
+            return _template_to_ast(other), None
+        elif (
+            # In STRING format we don't bother with the create_unique_name() dance;
+            # it's better to emit the repr() of the object instead of an opaque name.
+            self.__stringifier_dict__.format == Format.STRING
+            or other is None
+            or type(other) in (str, int, float, bool, complex)
+        ):
+            return ast.Constant(value=other), None
+        elif type(other) is dict:
+            extra_names = {}
+            keys = []
+            values = []
+            for key, value in other.items():
+                new_key, new_extra_names = self.__convert_to_ast(key)
+                if new_extra_names is not None:
+                    extra_names.update(new_extra_names)
+                keys.append(new_key)
+                new_value, new_extra_names = self.__convert_to_ast(value)
+                if new_extra_names is not None:
+                    extra_names.update(new_extra_names)
+                values.append(new_value)
+            return ast.Dict(keys, values), extra_names
+        elif type(other) in (list, tuple, set):
+            extra_names = {}
+            elts = []
+            for elt in other:
+                new_elt, new_extra_names = self.__convert_to_ast(elt)
+                if new_extra_names is not None:
+                    extra_names.update(new_extra_names)
+                elts.append(new_elt)
+            ast_class = {list: ast.List, tuple: ast.Tuple, set: ast.Set}[type(other)]
+            return ast_class(elts), extra_names
+        else:
+            name = self.__stringifier_dict__.create_unique_name()
+            return ast.Name(id=name), {name: other}
+
+    def __convert_to_ast_getitem(self, other):
+        if isinstance(other, slice):
+            extra_names = {}
+
+            def conv(obj):
+                if obj is None:
+                    return None
+                new_obj, new_extra_names = self.__convert_to_ast(obj)
+                if new_extra_names is not None:
+                    extra_names.update(new_extra_names)
+                return new_obj
+
             return ast.Slice(
                 lower=(
                     self.__convert_to_ast(other.start)
@@ -458,6 +510,32 @@ class _Stringifier:
     del _make_unary_op
 
 
+def _template_to_ast(template):
+    values = []
+    for part in template:
+        match part:
+            case str():
+                values.append(ast.Constant(value=part))
+            # Interpolation, but we don't want to import the string module
+            case _:
+                interp = ast.Interpolation(
+                    str=part.expression,
+                    value=ast.parse(part.expression),
+                    conversion=(
+                        ord(part.conversion)
+                        if part.conversion is not None
+                        else -1
+                    ),
+                    format_spec=(
+                        ast.Constant(value=part.format_spec)
+                        if part.format_spec != ""
+                        else None
+                    ),
+                )
+                values.append(interp)
+    return ast.TemplateStr(values=values)
+
+
 class _StringifierDict(dict):
     def __init__(self, namespace, globals=None, owner=None, is_class=False):
         super().__init__(namespace)
@@ -619,20 +697,61 @@ def call_annotate_function(annotate, format, *, owner=None, _is_evaluate=False):
         raise ValueError(f"Invalid format: {format!r}")
 
 
-def get_annotate_function(obj):
-    """Get the __annotate__ function for an object.
+def _build_closure(annotate, owner, is_class, stringifier_dict, *, allow_evaluation):
+    if not annotate.__closure__:
+        return None
+    freevars = annotate.__code__.co_freevars
+    new_closure = []
+    for i, cell in enumerate(annotate.__closure__):
+        if i < len(freevars):
+            name = freevars[i]
+        else:
+            name = "__cell__"
+        new_cell = None
+        if allow_evaluation:
+            try:
+                cell.cell_contents
+            except ValueError:
+                pass
+            else:
+                new_cell = cell
+        if new_cell is None:
+            fwdref = _Stringifier(
+                name,
+                cell=cell,
+                owner=owner,
+                globals=annotate.__globals__,
+                is_class=is_class,
+                stringifier_dict=stringifier_dict,
+            )
+            stringifier_dict.stringifiers.append(fwdref)
+            new_cell = types.CellType(fwdref)
+        new_closure.append(new_cell)
+    return tuple(new_closure)
 
-    obj may be a function, class, or module, or a user-defined type with
-    an `__annotate__` attribute.
 
-    Returns the __annotate__ function or None.
+def _stringify_single(anno):
+    if anno is ...:
+        return "..."
+    # We have to handle str specially to support PEP 563 stringified annotations.
+    elif isinstance(anno, str):
+        return anno
+    elif isinstance(anno, _Template):
+        return ast.unparse(_template_to_ast(anno))
+    else:
+        return repr(anno)
+
+
+def get_annotate_from_class_namespace(obj):
+    """Retrieve the annotate function from a class namespace dictionary.
+
+    Return None if the namespace does not contain an annotate function.
+    This is useful in metaclass ``__new__`` methods to retrieve the annotate function.
     """
-    if isinstance(obj, dict):
-        try:
-            return obj["__annotate__"]
-        except KeyError:
-            return obj.get("__annotate_func__", None)
-    return getattr(obj, "__annotate__", None)
+    try:
+        return obj["__annotate__"]
+    except KeyError:
+        return obj.get("__annotate_func__", None)
 
 
 def get_annotations(
@@ -811,6 +930,9 @@ def type_repr(value):
         if value.__module__ == "builtins":
             return value.__qualname__
         return f"{value.__module__}.{value.__qualname__}"
+    elif isinstance(value, _Template):
+        tree = _template_to_ast(value)
+        return ast.unparse(tree)
     if value is ...:
         return "..."
     return repr(value)

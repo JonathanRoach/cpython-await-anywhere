@@ -612,6 +612,33 @@ keyword argument::
 .. versionadded:: 3.14
 
 
+color
+^^^^^
+
+By default, the help message is printed in plain text. If you want to allow
+color in help messages, you can enable it by setting ``color`` to ``True``::
+
+   >>> parser = argparse.ArgumentParser(description='Process some integers.',
+   ...                                  color=True)
+   >>> parser.add_argument('--action', choices=['sum', 'max'])
+   >>> parser.add_argument('integers', metavar='N', type=int, nargs='+',
+   ...                     help='an integer for the accumulator')
+   >>> parser.parse_args(['--help'])
+
+Even if a CLI author has enabled color, it can be
+:ref:`controlled using environment variables <using-on-controlling-color>`.
+
+If you're writing code that needs to be compatible with older Python versions
+and want to opportunistically use ``color`` when it's available, you
+can set it as an attribute after initializing the parser instead of using the
+keyword argument::
+
+   >>> parser = argparse.ArgumentParser(description='Process some integers.')
+   >>> parser.color = True
+
+.. versionadded:: 3.14
+
+
 The add_argument() method
 -------------------------
 

@@ -17,6 +17,7 @@
 
 #include <lzma.h>
 
+#include "pycore_long.h"          // _PyLong_UInt32_Converter()
 // Blocks output buffer wrappers
 #include "pycore_blocks_output_buffer.h"
 
@@ -221,7 +222,6 @@ PyLzma_Free(void *opaque, void *ptr)
         return 1; \
     }
 
-INT_TYPE_CONVERTER_FUNC(uint32_t, uint32_converter)
 INT_TYPE_CONVERTER_FUNC(lzma_vli, lzma_vli_converter)
 INT_TYPE_CONVERTER_FUNC(lzma_mode, lzma_mode_converter)
 INT_TYPE_CONVERTER_FUNC(lzma_match_finder, lzma_mf_converter)
@@ -251,7 +251,7 @@ parse_filter_spec_lzma(_lzma_state *state, PyObject *spec)
         return NULL;
     }
     if (preset_obj != NULL) {
-        int ok = uint32_converter(preset_obj, &preset);
+        int ok = _PyLong_UInt32_Converter(preset_obj, &preset);
         Py_DECREF(preset_obj);
         if (!ok) {
             return NULL;
@@ -272,14 +272,14 @@ parse_filter_spec_lzma(_lzma_state *state, PyObject *spec)
     if (!PyArg_ParseTupleAndKeywords(state->empty_tuple, spec,
                                      "|OOO&O&O&O&O&O&O&O&", optnames,
                                      &id, &preset_obj,
-                                     uint32_converter, &options->dict_size,
-                                     uint32_converter, &options->lc,
-                                     uint32_converter, &options->lp,
-                                     uint32_converter, &options->pb,
+                                     _PyLong_UInt32_Converter, &options->dict_size,
+                                     _PyLong_UInt32_Converter, &options->lc,
+                                     _PyLong_UInt32_Converter, &options->lp,
+                                     _PyLong_UInt32_Converter, &options->pb,
                                      lzma_mode_converter, &options->mode,
-                                     uint32_converter, &options->nice_len,
+                                     _PyLong_UInt32_Converter, &options->nice_len,
                                      lzma_mf_converter, &options->mf,
-                                     uint32_converter, &options->depth)) {
+                                     _PyLong_UInt32_Converter, &options->depth)) {
         PyErr_SetString(PyExc_ValueError,
                         "Invalid filter specifier for LZMA filter");
         PyMem_Free(options);
@@ -298,7 +298,7 @@ parse_filter_spec_delta(_lzma_state *state, PyObject *spec)
     lzma_options_delta *options;
 
     if (!PyArg_ParseTupleAndKeywords(state->empty_tuple, spec, "|OO&", optnames,
-                                     &id, uint32_converter, &dist)) {
+                                     &id, _PyLong_UInt32_Converter, &dist)) {
         PyErr_SetString(PyExc_ValueError,
                         "Invalid filter specifier for delta filter");
         return NULL;
@@ -322,7 +322,7 @@ parse_filter_spec_bcj(_lzma_state *state, PyObject *spec)
     lzma_options_bcj *options;
 
     if (!PyArg_ParseTupleAndKeywords(state->empty_tuple, spec, "|OO&", optnames,
-                                     &id, uint32_converter, &start_offset)) {
+                                     &id, _PyLong_UInt32_Converter, &start_offset)) {
         PyErr_SetString(PyExc_ValueError,
                         "Invalid filter specifier for BCJ filter");
         return NULL;
@@ -801,7 +801,7 @@ Compressor_new(PyTypeObject *type, PyObject *args, PyObject *kwargs)
         return NULL;
     }
 
-    if (preset_obj != Py_None && !uint32_converter(preset_obj, &preset)) {
+    if (preset_obj != Py_None && !_PyLong_UInt32_Converter(preset_obj, &preset)) {
         return NULL;
     }
 
@@ -1221,8 +1221,7 @@ _lzma_LZMADecompressor_impl(PyTypeObject *type, int format,
                             "Cannot specify memory limit with FORMAT_RAW");
             return NULL;
         }
-        memlimit_ = PyLong_AsUnsignedLongLong(memlimit);
-        if (PyErr_Occurred()) {
+        if (!_PyLong_UInt64_Converter(memlimit, &memlimit_)) {
             return NULL;
         }
     }

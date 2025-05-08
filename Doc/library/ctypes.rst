@@ -2340,6 +2340,16 @@ Data types
       library. *name* is the name of the symbol that exports the data, *library*
       is the loaded shared library.
 
+   Common class variables of ctypes data types:
+
+   .. attribute:: __pointer_type__
+
+      The pointer type that was created by calling
+      :func:`POINTER` for corresponding ctypes data type. If a pointer type
+      was not yet created, the attribute is missing.
+
+      .. versionadded:: 3.14
+
    Common instance variables of ctypes data types:
 
    .. attribute:: _b_base_
@@ -2734,6 +2744,16 @@ fields, or any other data types containing pointer type fields.
       when :attr:`_fields_` is assigned, otherwise it will have no effect.
       Setting this attribute to 0 is the same as not setting it at all.
 
+      This is only implemented for the MSVC-compatible memory layout.
+
+      .. deprecated-removed:: 3.14 3.19
+
+         For historical reasons, if :attr:`!_pack_` is non-zero,
+         the MSVC-compatible layout will be used by default.
+         On non-Windows platforms, this default is deprecated and is slated to
+         become an error in Python 3.19.
+         If it is intended, set :attr:`~Structure._layout_` to ``'ms'``
+         explicitly.
 
    .. attribute:: _align_
 
@@ -2767,6 +2787,8 @@ fields, or any other data types containing pointer type fields.
 
       :attr:`!_layout_` must already be defined when
       :attr:`~Structure._fields_` is assigned, otherwise it will have no effect.
+
+      .. versionadded:: 3.14
 
    .. attribute:: _anonymous_
 

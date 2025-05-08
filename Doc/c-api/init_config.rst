@@ -1482,6 +1482,10 @@ PyConfig
 
       Default: ``0``.
 
+     .. versionchanged:: 3.14
+
+        Added support for ``import_time = 2``
+
    .. c:member:: int inspect
 
       Enter interactive mode after executing a script or a command.

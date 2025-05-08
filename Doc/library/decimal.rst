@@ -1029,6 +1029,14 @@ function to temporarily change the active context.
    .. versionchanged:: 3.11
       :meth:`localcontext` now supports setting context attributes through the use of keyword arguments.
 
+.. function:: IEEEContext(bits)
+
+   Return a context object initialized to the proper values for one of the
+   IEEE interchange formats.  The argument must be a multiple of 32 and less
+   than :const:`IEEE_CONTEXT_MAX_BITS`.
+
+   .. versionadded:: 3.14
+
 New contexts can also be created using the :class:`Context` constructor
 described below. In addition, the module provides three pre-made contexts:
 

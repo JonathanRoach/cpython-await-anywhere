@@ -383,6 +383,9 @@ Creating Futures and Tasks
    .. versionchanged:: 3.11
       Added the *context* parameter.
 
+   .. versionchanged:: 3.14
+      Added the *eager_start* parameter.
+
 .. method:: loop.set_task_factory(factory)
 
    Set a task factory that will be used by

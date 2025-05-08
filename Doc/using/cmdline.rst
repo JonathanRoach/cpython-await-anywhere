@@ -73,7 +73,7 @@ source.
 
    .. audit-event:: cpython.run_command command cmdoption-c
 
-   .. versionchanged:: next
+   .. versionchanged:: 3.14
       *command* is automatically dedented before execution.
 
 .. option:: -m <module-name>
@@ -544,6 +544,11 @@ Miscellaneous options
 
      .. versionadded:: 3.7
 
+     .. versionchanged:: 3.14
+
+         Added ``-X importtime=2`` to also trace imports of loaded modules,
+         and reserved values other than ``1`` and ``2`` for future use.
+
    * ``-X dev``: enable :ref:`Python Development Mode <devmode>`, introducing
      additional runtime checks that are too expensive to be enabled by
      default.  See also :envvar:`PYTHONDEVMODE`.
@@ -669,6 +674,13 @@ Miscellaneous options
 
    .. versionchanged:: 3.10
       Removed the ``-X oldparser`` option.
+
+.. versionremoved:: 3.14
+
+   :option:`!-J` is no longer reserved for use by Jython_,
+   and now has no special meaning.
+
+   .. _Jython: https://www.jython.org/
 
 .. _using-on-controlling-color:
 
@@ -989,6 +1001,10 @@ conflict.
    This is equivalent to setting the :option:`-X` ``importtime`` option.
 
    .. versionadded:: 3.7
+
+   .. versionchanged:: 3.14
+
+      Added ``PYTHONPROFILEIMPORTTIME=2`` to also trace imports of loaded modules.
 
 
 .. envvar:: PYTHONASYNCIODEBUG

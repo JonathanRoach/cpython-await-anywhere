@@ -422,12 +422,12 @@ BLAKE2b or BLAKE2s. They optionally take these general parameters:
 
 The following table shows limits for general parameters (in bytes):
 
-======= =========== ======== ========= ===========
+==== === === === ===
 Hash    digest_size len(key) len(salt) len(person)
-======= =========== ======== ========= ===========
+==== === === === ===
 BLAKE2b     64         64       16        16
 BLAKE2s     32         32       8         8
-======= =========== ======== ========= ===========
+==== === === === ===
 
 .. note::
 

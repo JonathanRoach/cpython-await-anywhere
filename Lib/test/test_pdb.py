@@ -4624,6 +4624,28 @@ class PdbTestReadline(unittest.TestCase):
 
         self.assertIn(b'I love Python', output)
 
+    @unittest.skipIf(sys.platform.startswith('freebsd'),
+                     '\\x08 is not interpreted as backspace on FreeBSD')
+    def test_multiline_auto_indent(self):
+        script = textwrap.dedent("""
+            import pdb; pdb.Pdb().set_trace()
+        """)
+
+        input = b"def f(x):\n"
+        input += b"if x > 0:\n"
+        input += b"x += 1\n"
+        input += b"return x\n"
+        # We need to do backspaces to remove the auto-indentation
+        input += b"\x08\x08\x08\x08else:\n"
+        input += b"return -x\n"
+        input += b"\n"
+        input += b"f(-21-21)\n"
+        input += b"c\n"
+
+        output = run_pty(script, input)
+
+        self.assertIn(b'42', output)
+
     def test_multiline_completion(self):
         script = textwrap.dedent("""
             import pdb; pdb.Pdb().set_trace()
@@ -4641,6 +4663,8 @@ class PdbTestReadline(unittest.TestCase):
 
         self.assertIn(b'42', output)
 
+    @unittest.skipIf(sys.platform.startswith('freebsd'),
+                     '\\x08 is not interpreted as backspace on FreeBSD')
     def test_multiline_indent_completion(self):
         script = textwrap.dedent("""
             import pdb; pdb.Pdb().set_trace()

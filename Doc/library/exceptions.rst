@@ -435,6 +435,9 @@ The following exceptions are the exceptions that are usually raised.
    .. versionadded:: 3.13
       Previously, a plain :exc:`RuntimeError` was raised.
 
+   .. versionchanged:: 3.14
+
+      :meth:`threading.Thread.join` can now raise this exception.
 
 .. exception:: RecursionError
 

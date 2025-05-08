@@ -6,6 +6,7 @@ preserve
 #  include "pycore_gc.h"          // PyGC_Head
 #  include "pycore_runtime.h"     // _Py_ID()
 #endif
+#include "pycore_long.h"          // _PyLong_UInt16_Converter()
 #include "pycore_modsupport.h"    // _PyArg_UnpackKeywords()
 
 PyDoc_STRVAR(_socket_socket_close__doc__,
@@ -279,7 +280,11 @@ exit:
     #define _SOCKET_SOCKET_INET_NTOA_METHODDEF
 #endif /* !defined(_SOCKET_SOCKET_INET_NTOA_METHODDEF) */
 
-#ifndef _SOCKET_SOCKET_IF_NAMETOINDEX_METHODDEF
-    #define _SOCKET_SOCKET_IF_NAMETOINDEX_METHODDEF
-#endif /* !defined(_SOCKET_SOCKET_IF_NAMETOINDEX_METHODDEF) */
-/*[clinic end generated code: output=27bc54006551ab0c input=a9049054013a1b77]*/
+#ifndef _SOCKET_IF_NAMETOINDEX_METHODDEF
+    #define _SOCKET_IF_NAMETOINDEX_METHODDEF
+#endif /* !defined(_SOCKET_IF_NAMETOINDEX_METHODDEF) */
+
+#ifndef _SOCKET_IF_INDEXTONAME_METHODDEF
+    #define _SOCKET_IF_INDEXTONAME_METHODDEF
+#endif /* !defined(_SOCKET_IF_INDEXTONAME_METHODDEF) */
+/*[clinic end generated code: output=07776dd21d1e3b56 input=a9049054013a1b77]*/

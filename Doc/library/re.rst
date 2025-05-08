@@ -666,6 +666,11 @@ character ``'$'``.
 ``\Z``
    Matches only at the end of the string.
 
+   .. versionadded:: 3.14
+
+``\Z``
+   The same as ``\z``.  For compatibility with old Python versions.
+
 .. index::
    single: \a; in regular expressions
    single: \b; in regular expressions

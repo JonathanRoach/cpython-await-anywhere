@@ -2535,6 +2535,28 @@ The following options are accepted:
 
    Indentation of nodes in AST (number of spaces).
 
+.. option:: --feature-version <version>
+
+   Python version in the format 3.x (for example, 3.10). Defaults to the
+   current version of the interpreter.
+
+   .. versionadded:: 3.14
+
+.. option:: -O <level>
+            --optimize <level>
+
+   Optimization level for parser. Defaults to no optimization.
+
+   .. versionadded:: 3.14
+
+.. option:: --show-empty
+
+   Show empty lists and fields that are ``None``. Defaults to not showing empty
+   objects.
+
+   .. versionadded:: 3.14
+
+
 If :file:`infile` is specified its contents are parsed to AST and dumped
 to stdout.  Otherwise, the content is read from stdin.
 
