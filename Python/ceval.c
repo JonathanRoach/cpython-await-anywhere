@@ -1105,6 +1105,8 @@ _PyEval_EvalFramesDefault(PyThreadState *tstate, _PyInterpreterFrame *framebase,
         goto error;
 #endif
     }
+    // start frame processing will deal with the extra frame, and check if we've gone over
+    tstate->py_recursion_remaining -= (frame_count-1);
 
 #if defined(_Py_TIER2) && !defined(_Py_JIT)
     /* Tier 2 interpreter state */
