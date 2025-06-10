@@ -310,6 +310,10 @@ static void monitor_throw(PyThreadState *tstate,
                  _PyInterpreterFrame *frame,
                  _Py_CODEUNIT *instr);
 
+static int
+stack_ok_for_await(PyThreadState *tstate,
+                _PyInterpreterFrame *frame);
+
 static int get_exception_handler(PyCodeObject *, int, int*, int*, int*);
 static  _PyInterpreterFrame *
 _PyEvalFramePushAndInit_Ex(PyThreadState *tstate, _PyStackRef func,
@@ -1008,6 +1012,12 @@ typedef struct {
 PyObject* _Py_HOT_FUNCTION DONT_SLP_VECTORIZE
 _PyEval_EvalFrameDefault(PyThreadState *tstate, _PyInterpreterFrame *frame, int throwflag)
 {
+    return _PyEval_EvalFramesDefault(tstate, frame, frame, 1, throwflag);
+}
+
+PyObject* _Py_HOT_FUNCTION DONT_SLP_VECTORIZE
+_PyEval_EvalFramesDefault(PyThreadState *tstate, _PyInterpreterFrame *framebase, _PyInterpreterFrame *frame, int frame_count, int throwflag)
+{
     _Py_EnsureTstateNotNULL(tstate);
     check_invalid_reentrancy();
     CALL_STAT_INC(pyeval_calls);
@@ -1027,9 +1037,28 @@ _PyEval_EvalFrameDefault(PyThreadState *tstate, _PyInterpreterFrame *frame, int 
 #endif
     _PyEntryFrame entry;
 
+#if defined(Py_DEBUG)
+    {
+        _PyInterpreterFrame *search_frame = frame;
+        int depth = 1;
+        while(search_frame != framebase){
+            search_frame = search_frame->previous;
+            assert(search_frame);
+            depth += 1;
+        }
+        assert(depth == frame_count);
+    }
+#endif
+
     if (_Py_EnterRecursiveCallTstate(tstate, "")) {
-        assert(frame->owner != FRAME_OWNED_BY_INTERPRETER);
-        _PyEval_FrameClearAndPop(tstate, frame);
+        for(;;) {
+            assert(frame->owner != FRAME_OWNED_BY_INTERPRETER);
+            _PyEval_FrameClearAndPop(tstate, frame);
+            if (frame == framebase){
+                break;
+            }
+            frame = frame->previous;
+        }
         return NULL;
     }
 
@@ -1059,7 +1088,7 @@ _PyEval_EvalFrameDefault(PyThreadState *tstate, _PyInterpreterFrame *frame, int 
 #endif
     /* Push frame */
     entry.frame.previous = tstate->current_frame;
-    frame->previous = &entry.frame;
+    framebase->previous = &entry.frame;
     tstate->current_frame = frame;
     entry.frame.localsplus[0] = PyStackRef_NULL;
 #ifdef _Py_TIER2
@@ -1071,7 +1100,7 @@ _PyEval_EvalFrameDefault(PyThreadState *tstate, _PyInterpreterFrame *frame, int 
 
     /* support for generator.throw() */
     if (throwflag) {
-        if (_Py_EnterRecursivePy(tstate)) {
+        if (_Py_EnterRecursiveCallsPy(tstate, frame_count)) {
             goto early_exit;
         }
 #ifdef Py_GIL_DISABLED
@@ -1102,6 +1131,8 @@ _PyEval_EvalFrameDefault(PyThreadState *tstate, _PyInterpreterFrame *frame, int 
         goto error;
 #endif
     }
+    // start frame processing will deal with the extra frame, and check if we've gone over
+    tstate->py_recursion_remaining -= (frame_count-1);
 
 #if defined(_Py_TIER2) && !defined(_Py_JIT)
     /* Tier 2 interpreter state */
@@ -1224,13 +1255,15 @@ jump_to_jump_target:
 
 early_exit:
     assert(_PyErr_Occurred(tstate));
-    _Py_LeaveRecursiveCallPy(tstate);
+    _Py_LeaveRecursiveCallsPy(tstate, frame_count);
     assert(frame->owner != FRAME_OWNED_BY_INTERPRETER);
-    // GH-99729: We need to unlink the frame *before* clearing it:
-    _PyInterpreterFrame *dying = frame;
-    frame = tstate->current_frame = dying->previous;
-    _PyEval_FrameClearAndPop(tstate, dying);
-    frame->return_offset = 0;
+    do {
+        // GH-99729: We need to unlink the frame *before* clearing it:
+        _PyInterpreterFrame *dying = frame;
+        frame = tstate->current_frame = dying->previous;
+        _PyEval_FrameClearAndPop(tstate, dying);
+        frame->return_offset = 0;
+    } while (frame != &entry.frame);
     assert(frame->owner == FRAME_OWNED_BY_INTERPRETER);
     /* Restore previous frame and exit */
     tstate->current_frame = frame->previous;
@@ -1788,18 +1821,18 @@ fail_post_args:
     return -1;
 }
 
-static void
-clear_thread_frame(PyThreadState *tstate, _PyInterpreterFrame * frame)
+void
+_PyEval_ThreadFrameClearAndPop(_PyDataStack *datastack, _PyInterpreterFrame * frame)
 {
     assert(frame->owner == FRAME_OWNED_BY_THREAD);
     // Make sure that this is, indeed, the top frame. We can't check this in
-    // _PyThreadState_PopFrame, since f_code is already cleared at that point:
+    // _PyDataStack_PopFrame, since f_code is already cleared at that point:
     assert((PyObject **)frame + _PyFrame_GetCode(frame)->co_framesize ==
-        tstate->datastack_top);
+        datastack->top);
     assert(frame->frame_obj == NULL || frame->frame_obj->f_frame == frame);
     _PyFrame_ClearExceptCode(frame);
     PyStackRef_CLEAR(frame->f_executable);
-    _PyThreadState_PopFrame(tstate, frame);
+    _PyDataStack_PopFrame(datastack, frame);
 }
 
 static void
@@ -1814,6 +1847,13 @@ clear_gen_frame(PyThreadState *tstate, _PyInterpreterFrame * frame)
     assert(frame->frame_obj == NULL || frame->frame_obj->f_frame == frame);
     _PyFrame_ClearExceptCode(frame);
     _PyErr_ClearExcState(&gen->gi_exc_state);
+
+    // restore previous datastack
+    assert(gen->gi_previous_datastack);
+    _PyDataStack *prev = _PyThreadState_ActivateDataStack(tstate, gen->gi_previous_datastack);
+    assert(prev == &gen->gi_datastack);
+    gen->gi_previous_datastack = NULL;
+
     frame->previous = NULL;
 }
 
@@ -1821,7 +1861,7 @@ void
 _PyEval_FrameClearAndPop(PyThreadState *tstate, _PyInterpreterFrame * frame)
 {
     if (frame->owner == FRAME_OWNED_BY_THREAD) {
-        clear_thread_frame(tstate, frame);
+        _PyEval_ThreadFrameClearAndPop(&tstate->datastack, frame);
     }
     else {
         clear_gen_frame(tstate, frame);
@@ -1837,14 +1877,14 @@ _PyEvalFramePushAndInit(PyThreadState *tstate, _PyStackRef func,
     PyFunctionObject *func_obj = (PyFunctionObject *)PyStackRef_AsPyObjectBorrow(func);
     PyCodeObject * code = (PyCodeObject *)func_obj->func_code;
     CALL_STAT_INC(frames_pushed);
-    _PyInterpreterFrame *frame = _PyThreadState_PushFrame(tstate, code->co_framesize);
+    _PyInterpreterFrame *frame = _PyDataStack_PushFrame(&tstate->datastack, code->co_framesize);
     if (frame == NULL) {
         goto fail;
     }
     _PyFrame_Initialize(tstate, frame, func, locals, code, 0, previous);
     if (initialize_locals(tstate, func_obj, frame->localsplus, args, argcount, kwnames)) {
         assert(frame->owner == FRAME_OWNED_BY_THREAD);
-        clear_thread_frame(tstate, frame);
+        _PyEval_ThreadFrameClearAndPop(&tstate->datastack, frame);
         return NULL;
     }
     return frame;
@@ -3457,6 +3497,33 @@ _PyForIter_NextWithIndex(PyObject *seq, _PyStackRef index)
         return PyStackRef_NULL;
     }
     return PyStackRef_FromPyObjectSteal(item);
+}
+
+static int
+stack_ok_for_await(PyThreadState *tstate, _PyInterpreterFrame *frame)
+{
+    // Search up the stack for a FRAME_OWNED_BY_GENERATOR which is a PyCoro_CheckExact
+    // If we run out of stack, or encounter a FRAME_OWNED_BY_INTERPRETER that's an error
+    // return 1 if OK, 0 if there's an error
+    do {
+        if (frame->owner == FRAME_OWNED_BY_GENERATOR) {
+            PyGenObject *gen = _PyGen_GetGeneratorFromFrame(frame);
+            if (PyCoro_CheckExact(gen) || PyAsyncGen_CheckExact(gen)) {
+                return 1;
+            }
+        }
+        if (frame->owner == FRAME_OWNED_BY_INTERPRETER || frame->owner == FRAME_OWNED_BY_CSTACK) {
+            // can't have any frame on the C stack in the stack of a yielded coroutine
+            _PyErr_SetString(tstate, PyExc_RuntimeError,
+                "await not possible within C-implemented functions");
+            return 0;
+        }
+        frame = frame->previous;
+    } while (frame);
+
+    _PyErr_SetString(tstate, PyExc_RuntimeError,
+        "await outside of a async def");
+    return 0;
 }
 
 /* Check if a 'cls' provides the given special method. */

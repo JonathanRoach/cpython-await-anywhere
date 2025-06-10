@@ -811,10 +811,10 @@
         /* _SEND is not a viable micro-op for tier 2 */
 
         case _SEND_GEN_FRAME: {
-            _Py_UOpsAbstractFrame *gen_frame;
-            gen_frame = NULL;
+            PyGenObject *gen;
+            gen = NULL;
             ctx->done = true;
-            stack_pointer[-1] = (JitOptSymbol *)gen_frame;
+            stack_pointer[-1] = (JitOptSymbol *)gen;
             break;
         }
 
@@ -1659,10 +1659,10 @@
         }
 
         case _FOR_ITER_GEN_FRAME: {
-            _Py_UOpsAbstractFrame *gen_frame;
-            gen_frame = NULL;
+            PyGenObject *gen;
+            gen = NULL;
             ctx->done = true;
-            stack_pointer[0] = (JitOptSymbol *)gen_frame;
+            stack_pointer[0] = (JitOptSymbol *)gen;
             stack_pointer += 1;
             assert(WITHIN_STACK_BOUNDS());
             break;
@@ -2001,6 +2001,12 @@
                 corresponding_check_stack->opcode = _NOP;
             }
             corresponding_check_stack = NULL;
+            break;
+        }
+
+        case _PUSH_GEN_FRAMES: {
+            stack_pointer += -1;
+            assert(WITHIN_STACK_BOUNDS());
             break;
         }
 

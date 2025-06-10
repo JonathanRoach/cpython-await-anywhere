@@ -840,14 +840,14 @@ dummy_func(void) {
         value = sym_new_unknown(ctx);
     }
 
-    op(_FOR_ITER_GEN_FRAME, (unused, unused -- unused, unused, gen_frame: _Py_UOpsAbstractFrame*)) {
-        gen_frame = NULL;
+    op(_FOR_ITER_GEN_FRAME, (unused, unused -- unused, unused, gen: PyGenObject *)) {
+        gen = NULL;
         /* We are about to hit the end of the trace */
         ctx->done = true;
     }
 
-    op(_SEND_GEN_FRAME, (unused, unused -- unused, gen_frame: _Py_UOpsAbstractFrame *)) {
-        gen_frame = NULL;
+    op(_SEND_GEN_FRAME, (unused, unused -- unused, gen: PyGenObject *)) {
+        gen = NULL;
         // We are about to hit the end of the trace:
         ctx->done = true;
     }

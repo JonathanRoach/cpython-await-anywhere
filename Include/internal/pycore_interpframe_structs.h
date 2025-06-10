@@ -66,6 +66,14 @@ struct _PyInterpreterFrame {
     PyObject *prefix##_qualname;                                            \
     _PyErr_StackItem prefix##_exc_state;                                    \
     PyObject *prefix##_origin_or_finalizer;                                 \
+    /* the datastack owned by this generator */                             \
+    _PyDataStack prefix##_datastack;                                        \
+    /* (when frame is running) the datastack previous to this generator */  \
+    _PyDataStack *prefix##_previous_datastack;                              \
+    /* the gen and its frame to resume at */                                \
+    struct _PyInterpreterFrame *prefix##_resume_iframe;                     \
+    struct _PyGenObject *prefix##_resume_gen;                               \
+    int prefix##_resume_frame_count;                                        \
     char prefix##_hooks_inited;                                             \
     char prefix##_closed;                                                   \
     char prefix##_running_async;                                            \

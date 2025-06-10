@@ -18,7 +18,7 @@ The definition of the `_PyInterpreterFrame` struct is in
 Python semantics allows frames to outlive the activation, so they need to
 be allocated outside the C call stack. To reduce overhead and improve locality
 of reference, most frames are allocated contiguously in a per-thread stack
-(see `_PyThreadState_PushFrame` in [Python/pystate.c](../Python/pystate.c)).
+(see `_PyDataStack_PushFrame` in [Python/pystate.c](../Python/pystate.c)).
 
 Frames of generators and coroutines are embedded in the generator and coroutine
 objects, so are not allocated in the per-thread stack. See `_PyGenObject` in

@@ -60,6 +60,12 @@ typedef struct _stack_chunk {
     size_t top;
     PyObject * data[1]; /* Variable sized */
 } _PyStackChunk;
+ 
+typedef struct _datastack {
+   _PyStackChunk *chunk;
+   PyObject **top;
+   PyObject **limit;
+} _PyDataStack;
 
 /* Minimum size of data stack chunk */
 #define _PY_DATA_STACK_CHUNK_SIZE (16*1024)
@@ -177,9 +183,9 @@ struct _ts {
     /* Unique thread state id. */
     uint64_t id;
 
-    _PyStackChunk *datastack_chunk;
-    PyObject **datastack_top;
-    PyObject **datastack_limit;
+    _PyDataStack my_datastack;
+    _PyDataStack *active_datastack;
+    _PyDataStack datastack;
     /* XXX signal handlers should also be here */
 
     /* The following fields are here to avoid allocation during init.
