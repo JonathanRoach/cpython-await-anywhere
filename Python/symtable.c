@@ -2485,7 +2485,6 @@ symtable_visit_expr(struct symtable *st, expr_ty e)
             }
         }
         VISIT(st, expr, e->v.Await.value);
-        st->st_cur->ste_coroutine = 1;
         break;
     case Compare_kind:
         VISIT(st, expr, e->v.Compare.left);
