@@ -1227,6 +1227,7 @@ dummy_func(
             PyObject *iter_o = _PyEval_GetAwaitable(PyStackRef_AsPyObjectBorrow(iterable), oparg);
             PyStackRef_CLOSE(iterable);
             ERROR_IF(iter_o == NULL);
+            ERROR_IF(!stack_ok_for_await(tstate, frame));
             iter = PyStackRef_FromPyObjectSteal(iter_o);
         }
 

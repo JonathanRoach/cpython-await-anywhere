@@ -1898,6 +1898,9 @@
             if (iter_o == NULL) {
                 JUMP_TO_ERROR();
             }
+            if (!stack_ok_for_await(tstate, frame)) {
+                JUMP_TO_ERROR();
+            }
             iter = PyStackRef_FromPyObjectSteal(iter_o);
             stack_pointer[0] = iter;
             stack_pointer += 1;
