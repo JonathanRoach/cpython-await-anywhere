@@ -105,6 +105,7 @@ class sigset_t_converter(CConverter):
 #define Handlers _PyRuntime.signals.handlers
 #define wakeup _PyRuntime.signals.wakeup
 #define is_tripped _PyRuntime.signals.is_tripped
+#define signal_deferrals _PyRuntime.signals.signal_deferrals
 
 // State shared by all Python interpreters
 typedef struct _signals_runtime_state signal_state_t;
@@ -454,6 +455,47 @@ signal_raise_signal_impl(PyObject *module, int signalnum)
     // the raised signal.
     if (PyErr_CheckSignals()) {
         return NULL;
+    }
+
+    Py_RETURN_NONE;
+}
+
+/*[clinic input]
+signal.delay_signal
+
+    amount:   int
+    /
+
+Delays signals, eg KeyboardInterrupt, by an amount.
+
+The amount is the number of interpreter checks to delay. The interpreter checks for a signal after
+each function return or yield return. If there is a delay already in place, this will not increase
+the delay. There is an upper limit of 25 on amount.
+
+If there is some signal-sensitive code which needs to complete to avoid an inconsistent state, this is when
+you might use this.
+[clinic start generated code]*/
+
+static PyObject *
+signal_delay_signal_impl(PyObject *module, int amount)
+/*[clinic end generated code: output=07f228cb781d0e36 input=4c760c8711b6088b]*/
+{
+    PyThreadState *tstate = _PyThreadState_GET();
+
+    if (amount > 25){
+        amount = 25;
+    }
+    if (_Py_ThreadCanHandleSignals(tstate->interp))
+    {
+        /* add 1 to account for the return from this function call */
+        if (amount > 0){
+            amount += 1;
+        }
+        if (signal_deferrals == 0 || amount < signal_deferrals) {
+            signal_deferrals = amount;
+            /* set the eval SIGNALS_PENIDING bit to starts thinking about signals and so cause the delay to count down */
+            _Py_set_eval_breaker_bit(tstate, _PY_SIGNALS_PENDING_BIT);
+        }
     }
 
     Py_RETURN_NONE;
@@ -1335,7 +1377,6 @@ signal_pidfd_send_signal_impl(PyObject *module, int pidfd, int signalnum,
 #endif
 
 
-
 /* List of functions defined in the module -- some of the methoddefs are
    defined to nothing if the corresponding C function is not available. */
 static PyMethodDef signal_methods[] = {
@@ -1345,6 +1386,7 @@ static PyMethodDef signal_methods[] = {
     SIGNAL_GETITIMER_METHODDEF
     SIGNAL_SIGNAL_METHODDEF
     SIGNAL_RAISE_SIGNAL_METHODDEF
+    SIGNAL_DELAY_SIGNAL_METHODDEF
     SIGNAL_STRSIGNAL_METHODDEF
     SIGNAL_GETSIGNAL_METHODDEF
     SIGNAL_SET_WAKEUP_FD_METHODDEF
@@ -1793,6 +1835,14 @@ PyErr_CheckSignals(void)
 int
 _PyErr_CheckSignalsTstate(PyThreadState *tstate)
 {
+    /* Count down signal deferrals */
+    if (--signal_deferrals >= 1){
+        /* more thinking needed */
+        _Py_set_eval_breaker_bit(tstate, _PY_SIGNALS_PENDING_BIT);
+        return 0;
+    }
+    signal_deferrals = 0;
+
     _Py_CHECK_EMSCRIPTEN_SIGNALS();
     if (!_Py_atomic_load_int(&is_tripped)) {
         return 0;

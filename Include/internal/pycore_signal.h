@@ -60,6 +60,10 @@ struct _signals_runtime_state {
 #endif
     } wakeup;
 
+    /* Number of times a signal should be deferred by. */
+    /* Allows (short) sections of Python to be uninterruptable, see issue 39622 for an example of where this matters */
+    int signal_deferrals;
+
     /* Speed up sigcheck() when none tripped.
        is_tripped should be accessed using atomic ops. */
     int is_tripped;

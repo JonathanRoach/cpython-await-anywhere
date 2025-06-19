@@ -1451,6 +1451,63 @@ class RaiseSignalTest(unittest.TestCase):
         self.assertIn(b'OSError: Signal 2 ignored due to race condition', err)
 
 
+class DelaySignalTest(unittest.TestCase):    
+    def test_delay_signal(self):
+        class CatchSignalDelaySense:
+            def donothing(self):
+                ...
+
+            def signalsensor(self, delay):
+                wheninterrupted = 0
+                try:
+                    while True:
+                        wheninterrupted = 0
+                        signal.delay_signal(delay)
+                        wheninterrupted = 1
+                        self.donothing()
+                        wheninterrupted = 2
+                        self.donothing()
+                        wheninterrupted = 3
+                        self.donothing()
+                        wheninterrupted = 4
+                        self.donothing()
+                        wheninterrupted = 5
+                        self.donothing()
+                        wheninterrupted = 6
+                        self.donothing()
+                        wheninterrupted = 7
+                        self.donothing()
+                        wheninterrupted = 8
+                        self.donothing()
+                        wheninterrupted = 9
+                        self.donothing()
+                        wheninterrupted = 10
+                        signal.delay_signal(0)
+                except KeyboardInterrupt:
+                    self.sensed[wheninterrupted] += 1
+
+            def breaker(self, delay):
+                time.sleep(delay)
+                signal.raise_signal(signal.SIGINT)
+
+            def doonetest(self, delay):
+                from threading import Thread
+                t = Thread(target=self.breaker, args=[random.uniform(0.01, 0.02)])
+                t.start()
+                self.signalsensor(delay)
+
+            def domanytests(self, count, delay):
+                self.sensed = [0]*11
+                for i in range(count):
+                    self.doonetest(delay)
+                for i, count in enumerate(self.sensed):
+                    if count:
+                        return i
+                return len(self.sensed)
+
+        for i in range(15):
+            self.assertGreaterEqual(CatchSignalDelaySense().domanytests(50, i), min(i, 10))
+
 
 class PidfdSignalTest(unittest.TestCase):
 

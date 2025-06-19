@@ -131,6 +131,41 @@ exit:
     return return_value;
 }
 
+PyDoc_STRVAR(signal_delay_signal__doc__,
+"delay_signal($module, amount, /)\n"
+"--\n"
+"\n"
+"Delays signals, eg KeyboardInterrupt, by an amount.\n"
+"\n"
+"The amount is the number of interpreter checks to delay. The interpreter checks for a signal after\n"
+"each function return or yield return. If there is a delay already in place, this will not increase\n"
+"the delay. There is an upper limit of 25 on amount.\n"
+"\n"
+"If there is some signal-sensitive code which needs to complete to avoid an inconsistent state, this is when\n"
+"you might use this.");
+
+#define SIGNAL_DELAY_SIGNAL_METHODDEF    \
+    {"delay_signal", (PyCFunction)signal_delay_signal, METH_O, signal_delay_signal__doc__},
+
+static PyObject *
+signal_delay_signal_impl(PyObject *module, int amount);
+
+static PyObject *
+signal_delay_signal(PyObject *module, PyObject *arg)
+{
+    PyObject *return_value = NULL;
+    int amount;
+
+    amount = PyLong_AsInt(arg);
+    if (amount == -1 && PyErr_Occurred()) {
+        goto exit;
+    }
+    return_value = signal_delay_signal_impl(module, amount);
+
+exit:
+    return return_value;
+}
+
 PyDoc_STRVAR(signal_signal__doc__,
 "signal($module, signalnum, handler, /)\n"
 "--\n"
@@ -779,4 +814,4 @@ exit:
 #ifndef SIGNAL_PIDFD_SEND_SIGNAL_METHODDEF
     #define SIGNAL_PIDFD_SEND_SIGNAL_METHODDEF
 #endif /* !defined(SIGNAL_PIDFD_SEND_SIGNAL_METHODDEF) */
-/*[clinic end generated code: output=48bfaffeb25df5d2 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=dfb2785521c2ac21 input=a9049054013a1b77]*/
