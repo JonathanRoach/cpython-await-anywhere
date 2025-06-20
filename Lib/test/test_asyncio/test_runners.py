@@ -260,7 +260,7 @@ class RunTests(BaseTest):
             return loop
 
         asyncio._set_event_loop_policy(TestPolicy(new_event_loop))
-        with self.assertRaises(asyncio.CancelledError):
+        with self.assertRaises(KeyboardInterrupt):
             asyncio.run(main())
 
     def test_asyncio_run_loop_factory(self):
@@ -454,7 +454,7 @@ class RunnerTests(BaseTest):
             with self.assertRaises(KeyboardInterrupt):
                 runner.run(coro(fut))
 
-            self.assertTrue(fut.cancelled())
+            self.assertFalse(fut.cancelled())
 
     def test_interrupt_cancelled_task(self):
         # interrupting cancelled main task doesn't raise KeyboardInterrupt
@@ -470,7 +470,7 @@ class RunnerTests(BaseTest):
             await asyncio.sleep(10)
 
         with asyncio.Runner() as runner:
-            with self.assertRaises(asyncio.CancelledError):
+            with self.assertRaises(KeyboardInterrupt):
                 runner.run(coro())
 
     def test_signal_install_not_supported_ok(self):

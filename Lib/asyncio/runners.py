@@ -108,34 +108,7 @@ class Runner:
 
         task = self._loop.create_task(coro, context=context)
 
-        if (threading.current_thread() is threading.main_thread()
-            and signal.getsignal(signal.SIGINT) is signal.default_int_handler
-        ):
-            sigint_handler = functools.partial(self._on_sigint, main_task=task)
-            try:
-                signal.signal(signal.SIGINT, sigint_handler)
-            except ValueError:
-                # `signal.signal` may throw if `threading.main_thread` does
-                # not support signals (e.g. embedded interpreter with signals
-                # not registered - see gh-91880)
-                sigint_handler = None
-        else:
-            sigint_handler = None
-
-        self._interrupt_count = 0
-        try:
-            return self._loop.run_until_complete(task)
-        except exceptions.CancelledError:
-            if self._interrupt_count > 0:
-                uncancel = getattr(task, "uncancel", None)
-                if uncancel is not None and uncancel() == 0:
-                    raise KeyboardInterrupt()
-            raise  # CancelledError
-        finally:
-            if (sigint_handler is not None
-                and signal.getsignal(signal.SIGINT) is sigint_handler
-            ):
-                signal.signal(signal.SIGINT, signal.default_int_handler)
+        return self._loop.run_until_complete(task)
 
     def _lazy_init(self):
         if self._state is _State.CLOSED:
@@ -155,15 +128,6 @@ class Runner:
             self._loop.set_debug(self._debug)
         self._context = contextvars.copy_context()
         self._state = _State.INITIALIZED
-
-    def _on_sigint(self, signum, frame, main_task):
-        self._interrupt_count += 1
-        if self._interrupt_count == 1 and not main_task.done():
-            main_task.cancel()
-            # wakeup loop if it is blocked by select() with long timeout
-            self._loop.call_soon_threadsafe(lambda: None)
-            return
-        raise KeyboardInterrupt()
 
 
 def run(main, *, debug=None, loop_factory=None):
