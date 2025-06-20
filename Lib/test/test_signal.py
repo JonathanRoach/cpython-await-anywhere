@@ -1457,9 +1457,10 @@ class DelaySignalTest(unittest.TestCase):
             def donothing(self):
                 ...
 
-            def signalsensor(self, delay):
+            def sense_signal(self, lock, delay):
                 wheninterrupted = 0
                 try:
+                    lock.release()
                     while True:
                         wheninterrupted = 0
                         signal.delay_signal(delay)
@@ -1486,15 +1487,19 @@ class DelaySignalTest(unittest.TestCase):
                 except KeyboardInterrupt:
                     self.sensed[wheninterrupted] += 1
 
-            def breaker(self, delay):
+            def breaker(self, lock, delay):
+                lock.acquire()
                 time.sleep(delay)
                 signal.raise_signal(signal.SIGINT)
 
             def doonetest(self, delay):
-                from threading import Thread
-                t = Thread(target=self.breaker, args=[random.uniform(0.01, 0.02)])
+                from threading import Thread, Lock
+                lock = Lock()
+                lock.acquire()
+                t = Thread(target=self.breaker, args=[lock, random.uniform(0.01, 0.02)], daemon=True)
                 t.start()
-                self.signalsensor(delay)
+                self.sense_signal(lock, delay)
+                t.join()
 
             def domanytests(self, count, delay):
                 self.sensed = [0]*11
