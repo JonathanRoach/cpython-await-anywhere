@@ -20,6 +20,7 @@ import errno
 import heapq
 import itertools
 import os
+import signal
 import socket
 import stat
 import subprocess
@@ -2020,6 +2021,7 @@ class BaseEventLoop(events.AbstractEventLoop):
         # Use an idiom that is thread-safe without using locks.
         ntodo = len(self._ready)
         for i in range(ntodo):
+            signal.delay_signal(5)
             handle = self._ready.popleft()
             if handle._cancelled:
                 continue
@@ -2036,6 +2038,7 @@ class BaseEventLoop(events.AbstractEventLoop):
                     self._current_handle = None
             else:
                 handle._run()
+            signal.delay_signal(0)
         handle = None  # Needed to break cycles when an exception occurs.
 
     def _set_coroutine_origin_tracking(self, enabled):
