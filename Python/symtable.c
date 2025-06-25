@@ -2941,9 +2941,6 @@ symtable_visit_comprehension(struct symtable *st, comprehension_ty lc)
     VISIT(st, expr, lc->iter);
     st->st_cur->ste_comp_iter_expr--;
     VISIT_SEQ(st, expr, lc->ifs);
-    if (lc->is_async) {
-        st->st_cur->ste_coroutine = 1;
-    }
     return 1;
 }
 
@@ -2987,9 +2984,6 @@ symtable_handle_comprehension(struct symtable *st, expr_ty e,
             st->st_cur->ste_comprehension = GeneratorExpression;
             break;
     }
-    if (outermost->is_async) {
-        st->st_cur->ste_coroutine = 1;
-    }
 
     /* Outermost iter is received as an argument */
     if (!symtable_implicit_arg(st, 0)) {
@@ -3007,22 +3001,8 @@ symtable_handle_comprehension(struct symtable *st, expr_ty e,
         VISIT(st, expr, value);
     VISIT(st, expr, elt);
     st->st_cur->ste_generator = is_generator;
-    int is_async = st->st_cur->ste_coroutine && !is_generator;
     if (!symtable_exit_block(st)) {
         return 0;
-    }
-    if (is_async &&
-        !IS_ASYNC_DEF(st) &&
-        st->st_cur->ste_comprehension == NoComprehension &&
-        !allows_top_level_await(st))
-    {
-        PyErr_SetString(PyExc_SyntaxError, "asynchronous comprehension outside of "
-                                           "an asynchronous function");
-        SET_ERROR_LOCATION(st->st_filename, LOCATION(e));
-        return 0;
-    }
-    if (is_async) {
-        st->st_cur->ste_coroutine = 1;
     }
     return 1;
 }

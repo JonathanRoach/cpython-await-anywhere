@@ -43,12 +43,12 @@ class AwaitAnywhereTests(unittest.TestCase):
             r = []
             async for a in afor():
                 r.append(a)
-            return r
+            return r + [a async for a in afor()]
         
         async def dotest():
             return withasync()
         
-        self.assertEqual(asyncio.run(dotest()), [1,2,3])
+        self.assertEqual(asyncio.run(dotest()), [1, 2, 3, 1, 2, 3])
 
     def test_async_for_disallowed_through_C_call(self):
         import asyncio
