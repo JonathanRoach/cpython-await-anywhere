@@ -72,3 +72,61 @@ class AwaitAnywhereTests(unittest.TestCase):
             return d['a']
 
         self.assertRaises(RuntimeError, checknotallowed)
+
+    def test_async_with_anywhere(self):
+        import asyncio
+
+        class SupportAsyncWith:
+            def __init__(self):
+                self.entered = False
+                self.exited = False
+
+            async def __aenter__(self):
+                self.entered = True
+                await asyncio.sleep(0.01)
+                return self
+
+            async def __aexit__(self, exc_type, exc_value, traceback):
+                await asyncio.sleep(0.01)
+                self.exited = True
+
+        def withasync():
+            async with SupportAsyncWith() as value:
+                ...
+            return value
+
+        async def dotest():
+            return withasync()
+        
+        value = asyncio.run(dotest())
+        self.assertTrue(value.entered)
+        self.assertTrue(value.exited)
+
+    def test_async_with_disallowed_through_C_call(self):
+        import asyncio
+
+        class SupportAsyncWith:
+            def __init__(self):
+                self.entered = False
+                self.exited = False
+
+            async def __aenter__(self):
+                self.entered = True
+                await asyncio.sleep(0.01)
+                return self
+
+            async def __aexit__(self, exc_type, exc_value, traceback):
+                await asyncio.sleep(0.01)
+                self.exited = True
+
+        def withasync():
+            async with SupportAsyncWith() as value:
+                ...
+            return value
+        
+        def checknotallowed():
+            from collections import defaultdict
+            d = defaultdict(withasync)
+            return d['a']
+
+        self.assertRaises(RuntimeError, checknotallowed)
