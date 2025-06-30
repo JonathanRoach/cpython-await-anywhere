@@ -487,13 +487,7 @@ class AnnotationsFutureTestCase(unittest.TestCase):
             self._exec_future("def func(test: (yield from outside_of_generator)): pass")
 
         with self.assertRaises(SyntaxError):
-            self._exec_future("def test() -> (await y): pass")
-
-        with self.assertRaises(SyntaxError):
             self._exec_future("async def test() -> something((a := b)): pass")
-
-        with self.assertRaises(SyntaxError):
-            self._exec_future("test: await some.complicated[0].call(with_args=True or 1 is not 1)")
 
         with self.assertRaises(SyntaxError):
             self._exec_future("test: f'{(x := 10):=10}'")

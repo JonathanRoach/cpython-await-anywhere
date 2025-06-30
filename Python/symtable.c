@@ -2455,9 +2455,6 @@ symtable_visit_expr(struct symtable *st, expr_ty e)
         }
         break;
     case Await_kind:
-        if (!symtable_raise_if_annotation_block(st, "await expression", e)) {
-            return 0;
-        }
         if (!allows_top_level_await(st)) {
             if (!_PyST_IsFunctionLike(st->st_cur)) {
                 PyErr_SetString(PyExc_SyntaxError,

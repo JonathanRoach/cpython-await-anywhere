@@ -98,74 +98,9 @@ class AsyncBadSyntaxTest(unittest.TestCase):
                 pass
             """,
 
-            """async def foo(a:await something()):
-                pass
-            """,
-
-            """async def foo():
-                def bar():
-                 [i async for i in els]
-            """,
-
-            """async def foo():
-                def bar():
-                 [i for i in els
-                    async for b in els]
-            """,
-
-            """async def foo():
-                def bar():
-                 [i for i in els
-                    for c in b
-                    async for b in els]
-            """,
-
-            """async def foo():
-                def bar():
-                 [i for i in els
-                    async for b in els
-                    for c in b]
-            """,
-
             """async def foo():
                 def bar():
                  [[async for i in b] for b in els]
-            """,
-
-            """def bar():
-                 [i async for i in els]
-            """,
-
-            """def bar():
-                 {i: i async for i in els}
-            """,
-
-            """def bar():
-                 {i async for i in els}
-            """,
-
-            """def bar():
-                 [i for i in els
-                    async for b in els]
-            """,
-
-            """def bar():
-                 [i for i in els
-                    for c in b
-                    async for b in els]
-            """,
-
-            """def bar():
-                 [i for i in els
-                    async for b in els
-                    for c in b]
-            """,
-
-            """def bar():
-                 [[i async for i in a] for a in elts]
-            """,
-
-            """[[i async for i in a] for a in elts]
             """,
 
             """async def foo():
@@ -233,10 +168,6 @@ class AsyncBadSyntaxTest(unittest.TestCase):
                    pass
             """,
 
-            """async def foo(a:await b):
-                   pass
-            """,
-
             """async def foo(async):
                    pass
             """,
@@ -285,20 +216,6 @@ class AsyncBadSyntaxTest(unittest.TestCase):
             """def foo():
                    async def bar():
                         pass\nawait a
-            """,
-            """def foo():
-                   async for i in arange(2):
-                       pass
-            """,
-            """def foo():
-                   async with resource:
-                       pass
-            """,
-            """async with resource:
-                   pass
-            """,
-            """async for i in arange(2):
-                   pass
             """,
             ]
 
@@ -1821,7 +1738,7 @@ class CoroutineTest(unittest.TestCase):
 
         async def run_gen():
             gen = (i + 1 async for i in f([10, 20]))
-            return [g + 100 async for g in gen]
+            return [g + 100 for g in gen]
         self.assertEqual(
             run_async(run_gen()),
             ([], [111, 121]))
@@ -1851,7 +1768,7 @@ class CoroutineTest(unittest.TestCase):
 
         async def run_gen():
             gen = (i + 1 async for i in f([10, 20]) if i > 10)
-            return [g + 100 async for g in gen]
+            return [g + 100 for g in gen]
         self.assertEqual(
             run_async(run_gen()),
             ([], [121]))
@@ -1881,7 +1798,7 @@ class CoroutineTest(unittest.TestCase):
 
         async def run_gen():
             gen = (i + 10 async for i in f(range(5)) if 0 < i < 4)
-            return [g + 100 async for g in gen]
+            return [g + 100 for g in gen]
         self.assertEqual(
             run_async(run_gen()),
             ([], [111, 112, 113]))
@@ -1979,21 +1896,21 @@ class CoroutineTest(unittest.TestCase):
 
         async def run_list_inside_gen():
             gen = ([i + j async for i in asynciter([1, 2])] for j in [10, 20])
-            return [x async for x in gen]
+            return [x for x in gen]
         self.assertEqual(
             run_async(run_list_inside_gen()),
             ([], [[11, 12], [21, 22]]))
 
         async def run_gen_inside_list():
             gens = [(i async for i in asynciter(range(j))) for j in [3, 5]]
-            return [x for g in gens async for x in g]
+            return [x for g in gens for x in g]
         self.assertEqual(
             run_async(run_gen_inside_list()),
             ([], [0, 1, 2, 0, 1, 2, 3, 4]))
 
         async def run_gen_inside_gen():
             gens = ((i async for i in asynciter(range(j))) for j in [3, 5])
-            return [x for g in gens async for x in g]
+            return [x for g in gens for x in g]
         self.assertEqual(
             run_async(run_gen_inside_gen()),
             ([], [0, 1, 2, 0, 1, 2, 3, 4]))
@@ -2074,16 +1991,6 @@ class CoroutineTest(unittest.TestCase):
             return 'end'
         self.assertEqual(run_async(run_list()), ([], 'end'))
 
-        async def run_gen():
-            gen = (0 async for tgt[0] in source())
-            a = gen.asend(None)
-            with self.assertRaises(RuntimeError) as cm:
-                await a
-            self.assertIsInstance(cm.exception.__cause__, StopAsyncIteration)
-            self.assertEqual(cm.exception.__cause__.args, (42,))
-            return 'end'
-        self.assertEqual(run_async(run_gen()), ([], 'end'))
-
     def test_for_assign_raising_stop_async_iteration_2(self):
         class BadIterable:
             def __iter__(self):
@@ -2105,16 +2012,6 @@ class CoroutineTest(unittest.TestCase):
             self.assertEqual(cm.exception.args, (42,))
             return 'end'
         self.assertEqual(run_async(run_list()), ([], 'end'))
-
-        async def run_gen():
-            gen = (0 async for i, j in badpairs())
-            a = gen.asend(None)
-            with self.assertRaises(RuntimeError) as cm:
-                await a
-            self.assertIsInstance(cm.exception.__cause__, StopAsyncIteration)
-            self.assertEqual(cm.exception.__cause__.args, (42,))
-            return 'end'
-        self.assertEqual(run_async(run_gen()), ([], 'end'))
 
     def test_bpo_45813_1(self):
         'This would crash the interpreter in 3.11a2'

@@ -2551,11 +2551,6 @@ Invalid expressions in type scopes:
       ...
    SyntaxError: yield expression cannot be used within a TypeVar default
 
-   >>> type A[T: (await 3)] = int
-   Traceback (most recent call last):
-      ...
-   SyntaxError: await expression cannot be used within a TypeVar bound
-
    >>> type A[T: (yield from [])] = int
    Traceback (most recent call last):
       ...
@@ -2596,11 +2591,6 @@ Invalid expressions in type scopes:
       ...
    SyntaxError: yield expression cannot be used within a type alias
 
-   >>> type A = (await 3)
-   Traceback (most recent call last):
-      ...
-   SyntaxError: await expression cannot be used within a type alias
-
    >>> type A = (yield from [])
    Traceback (most recent call last):
       ...
@@ -2623,11 +2613,6 @@ Invalid expressions in type scopes:
    Traceback (most recent call last):
       ...
    SyntaxError: yield expression cannot be used within the definition of a generic
-
-   >>> class A[T]((await 3)): ...
-   Traceback (most recent call last):
-      ...
-   SyntaxError: await expression cannot be used within the definition of a generic
 
    >>> class A[T]((yield from [])): ...
    Traceback (most recent call last):

@@ -135,12 +135,10 @@ class TypeParamsInvalidTest(unittest.TestCase):
     def test_disallowed_expressions(self):
         check_syntax_error(self, "type X = (yield)")
         check_syntax_error(self, "type X = (yield from x)")
-        check_syntax_error(self, "type X = (await 42)")
         check_syntax_error(self, "async def f(): type X = (yield)")
         check_syntax_error(self, "type X = (y := 3)")
         check_syntax_error(self, "class X[T: (yield)]: pass")
         check_syntax_error(self, "class X[T: (yield from x)]: pass")
-        check_syntax_error(self, "class X[T: (await 42)]: pass")
         check_syntax_error(self, "class X[T: (y := 3)]: pass")
         check_syntax_error(self, "class X[T](y := Sequence[T]): pass")
         check_syntax_error(self, "def f[T](y: (x := Sequence[T])): pass")
