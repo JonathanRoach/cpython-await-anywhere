@@ -1815,7 +1815,7 @@ class AsyncGenAsyncioTest(unittest.TestCase):
             return (i * 2 async for i in arange(n))
 
         async def run():
-            return [i async for i in make_arange(10)]
+            return [i for i in make_arange(10)]
 
         res = self.loop.run_until_complete(run())
         self.assertEqual(res, [i * 2 for i in range(10)])
@@ -1830,7 +1830,7 @@ class AsyncGenAsyncioTest(unittest.TestCase):
             return (i * 2 for i in range(n) if await wrap(i))
 
         async def run():
-            return [i async for i in make_arange(10)]
+            return [i for i in make_arange(10)]
 
         res = self.loop.run_until_complete(run())
         self.assertEqual(res, [i * 2 for i in range(1, 10)])
