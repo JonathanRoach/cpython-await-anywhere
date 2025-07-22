@@ -130,3 +130,17 @@ class AwaitAnywhereTests(unittest.TestCase):
             return d['a']
 
         self.assertRaises(RuntimeError, checknotallowed)
+
+    def test_await_through_property(self):
+        import asyncio
+
+        class HasAwaitInProperty:
+            @property
+            def propertywithawait(self):
+                await asyncio.sleep(0.01)
+                return 'awaitdone'
+        
+        async def dotest():
+            return HasAwaitInProperty().propertywithawait
+        
+        self.assertEqual(asyncio.run(dotest()), 'awaitdone')
