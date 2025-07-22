@@ -726,7 +726,7 @@ context_run(PyObject *self, PyObject *const *args,
     }
 
     PyObject *call_result = _PyObject_VectorcallTstate(
-        ts, args[0], args + 1, nargs - 1, kwnames);
+        ts, args[0], args + 1, nargs - 1, kwnames, NULL);
 
     if (_PyContext_Exit(ts, self)) {
         Py_XDECREF(call_result);

@@ -1476,7 +1476,7 @@ map_next(PyObject *self)
         nargs++;
     }
 
-    result = _PyObject_VectorcallTstate(tstate, lz->func, stack, nargs, NULL);
+    result = _PyObject_VectorcallTstate(tstate, lz->func, stack, nargs, NULL, NULL);
 
 exit:
     for (i=0; i < nargs; i++) {

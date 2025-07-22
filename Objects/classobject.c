@@ -62,14 +62,14 @@ method_vectorcall(PyObject *method, PyObject *const *args,
         newargs[0] = self;
         assert(newargs[nargs-1]);
         result = _PyObject_VectorcallTstate(tstate, func, newargs,
-                                            nargs, kwnames);
+                                            nargs, kwnames, NULL);
         newargs[0] = tmp;
     }
     else {
         Py_ssize_t nkwargs = (kwnames == NULL) ? 0 : PyTuple_GET_SIZE(kwnames);
         Py_ssize_t totalargs = nargs + nkwargs;
         if (totalargs == 0) {
-            return _PyObject_VectorcallTstate(tstate, func, &self, 1, NULL);
+            return _PyObject_VectorcallTstate(tstate, func, &self, 1, NULL, NULL);
         }
 
         PyObject *newargs_stack[_PY_FASTCALL_SMALL_STACK];
@@ -92,7 +92,7 @@ method_vectorcall(PyObject *method, PyObject *const *args,
         assert(args != NULL);
         memcpy(newargs + 1, args, totalargs * sizeof(PyObject *));
         result = _PyObject_VectorcallTstate(tstate, func,
-                                            newargs, nargs+1, kwnames);
+                                            newargs, nargs+1, kwnames, NULL);
         if (newargs != newargs_stack) {
             PyMem_Free(newargs);
         }

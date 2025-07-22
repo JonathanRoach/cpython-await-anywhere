@@ -8,6 +8,7 @@
 #include "pycore_pyerrors.h"      // _PyErr_Occurred()
 #include "pycore_pystate.h"       // _PyThreadState_GET()
 #include "pycore_tuple.h"         // _PyTuple_ITEMS()
+#include "pycore_interpframe.h"    // _PyEvalFramePushAndInit
 
 
 static PyObject *
@@ -103,7 +104,7 @@ PyObject_CallNoArgs(PyObject *func)
 {
     EVAL_CALL_STAT_INC_IF_FUNCTION(EVAL_CALL_API, func);
     PyThreadState *tstate = _PyThreadState_GET();
-    return _PyObject_VectorcallTstate(tstate, func, NULL, 0, NULL);
+    return _PyObject_VectorcallTstate(tstate, func, NULL, 0, NULL, NULL);
 }
 
 
@@ -325,7 +326,7 @@ PyObject_Vectorcall(PyObject *callable, PyObject *const *args,
 {
     PyThreadState *tstate = _PyThreadState_GET();
     return _PyObject_VectorcallTstate(tstate, callable,
-                                      args, nargsf, kwnames);
+                                      args, nargsf, kwnames, NULL);
 }
 
 
@@ -383,7 +384,8 @@ PyCFunction_Call(PyObject *callable, PyObject *args, PyObject *kwargs)
 
 
 PyObject *
-PyObject_CallOneArg(PyObject *func, PyObject *arg)
+_PyObject_CallOneArg_inlinable(PyObject *func, PyObject *arg,
+                               struct _PyInterpreterFrame **inlined)
 {
     EVAL_CALL_STAT_INC_IF_FUNCTION(EVAL_CALL_API, func);
     assert(arg != NULL);
@@ -392,29 +394,57 @@ PyObject_CallOneArg(PyObject *func, PyObject *arg)
     args[0] = arg;
     PyThreadState *tstate = _PyThreadState_GET();
     size_t nargsf = 1 | PY_VECTORCALL_ARGUMENTS_OFFSET;
-    return _PyObject_VectorcallTstate(tstate, func, args, nargsf, NULL);
+    return _PyObject_VectorcallTstate(tstate, func, args, nargsf, NULL, inlined);
+}
+
+
+PyObject *
+PyObject_CallOneArg(PyObject *func, PyObject *arg)
+{
+    return _PyObject_CallOneArg_inlinable(func, arg, NULL);
 }
 
 
 /* --- PyFunction call functions ---------------------------------- */
 
 PyObject *
-_PyFunction_Vectorcall(PyObject *func, PyObject* const* stack,
-                       size_t nargsf, PyObject *kwnames)
+_PyFunction_Vectorcall_inlinable(PyObject *func, PyObject* const* stack,
+                       size_t nargsf, PyObject *kwnames,
+                       struct _PyInterpreterFrame **inlined)
 {
     assert(PyFunction_Check(func));
-    PyFunctionObject *f = (PyFunctionObject *)func;
     Py_ssize_t nargs = PyVectorcall_NARGS(nargsf);
     assert(nargs >= 0);
-    PyThreadState *tstate = _PyThreadState_GET();
     assert(nargs == 0 || stack != NULL);
+    PyThreadState *tstate = _PyThreadState_GET();
+    PyFunctionObject *f = (PyFunctionObject *)func;
     EVAL_CALL_STAT_INC(EVAL_CALL_FUNCTION_VECTORCALL);
+    if ( inlined ){
+        int code_flags = ((PyCodeObject*)PyFunction_GET_CODE(f))->co_flags;
+        PyObject *locals = code_flags & CO_OPTIMIZED ? NULL : Py_NewRef(PyFunction_GET_GLOBALS(f));
+        _PyInterpreterFrame *new_frame = _PyEvalFramePushAndInit_Objects(
+            tstate, func, locals,
+            stack, nargs, NULL, *inlined
+        );
+        if (new_frame == NULL) {
+            return NULL;
+        }
+        *inlined = new_frame;
+        return func;
+    }
     if (((PyCodeObject *)f->func_code)->co_flags & CO_OPTIMIZED) {
         return _PyEval_Vector(tstate, f, NULL, stack, nargs, kwnames);
     }
     else {
         return _PyEval_Vector(tstate, f, f->func_globals, stack, nargs, kwnames);
     }
+}
+
+PyObject *
+_PyFunction_Vectorcall(PyObject *func, PyObject* const* stack,
+                       size_t nargsf, PyObject *kwnames)
+{
+    return _PyFunction_Vectorcall_inlinable(func, stack, nargsf, kwnames, NULL);
 }
 
 /* --- More complex call functions -------------------------------- */
@@ -546,11 +576,11 @@ _PyObject_CallFunctionVa(PyThreadState *tstate, PyObject *callable,
         result = _PyObject_VectorcallTstate(tstate, callable,
                                             _PyTuple_ITEMS(args),
                                             PyTuple_GET_SIZE(args),
-                                            NULL);
+                                            NULL, NULL);
     }
     else {
         result = _PyObject_VectorcallTstate(tstate, callable,
-                                            stack, nargs, NULL);
+                                            stack, nargs, NULL, NULL);
     }
 
     for (i = 0; i < nargs; ++i) {
@@ -816,7 +846,7 @@ object_vacall(PyThreadState *tstate, PyObject *base,
     }
 #endif
     /* Call the function */
-    result = _PyObject_VectorcallTstate(tstate, callable, stack, nargs, NULL);
+    result = _PyObject_VectorcallTstate(tstate, callable, stack, nargs, NULL, NULL);
 
     if (stack != small_stack) {
         PyMem_Free(stack);
@@ -857,7 +887,7 @@ PyObject_VectorcallMethod(PyObject *name, PyObject *const *args,
     }
     EVAL_CALL_STAT_INC_IF_FUNCTION(EVAL_CALL_METHOD, callable);
     PyObject *result = _PyObject_VectorcallTstate(tstate, callable,
-                                                  args, nargsf, kwnames);
+                                                  args, nargsf, kwnames, NULL);
     _PyThreadState_PopCStackRef(tstate, &method);
     return result;
 }

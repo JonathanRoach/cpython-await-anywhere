@@ -369,6 +369,17 @@ typedef PyObject *(*allocfunc)(PyTypeObject *, Py_ssize_t);
 #if !defined(Py_LIMITED_API) || Py_LIMITED_API+0 >= 0x030c0000 // 3.12
 typedef PyObject *(*vectorcallfunc)(PyObject *callable, PyObject *const *args,
                                     size_t nargsf, PyObject *kwnames);
+
+// like vectorcallfunc, but inlinable
+struct _PyInterpreterFrame;
+typedef PyObject *(*_vectorcallfunc_inlinable)(
+    PyObject *callable,
+    PyObject *const *args,
+    size_t nargsf,
+    PyObject *kwnames,
+    struct _PyInterpreterFrame **inlined
+);
+
 #endif
 
 typedef struct{
@@ -626,6 +637,7 @@ given type object has a specified feature.
 #if defined(Py_GIL_DISABLED) && defined(Py_DEBUG)
 #define _Py_TYPE_REVEALED_FLAG (1 << 3)
 #endif
+#define _Py_VECTORCALL_IS_INLINABLE (1<<4)
 
 #define Py_CONSTANT_NONE 0
 #define Py_CONSTANT_FALSE 1

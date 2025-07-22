@@ -2996,7 +2996,7 @@ vectorcall_unbound(PyThreadState *tstate, int unbound, PyObject *func,
         nargsf = nargsf - 1 + PY_VECTORCALL_ARGUMENTS_OFFSET;
     }
     EVAL_CALL_STAT_INC_IF_FUNCTION(EVAL_CALL_SLOT, func);
-    return _PyObject_VectorcallTstate(tstate, func, args, nargsf, NULL);
+    return _PyObject_VectorcallTstate(tstate, func, args, nargsf, NULL, NULL);
 }
 
 static PyObject*
@@ -10567,7 +10567,7 @@ _Py_slot_tp_getattr_hook(PyObject *self, PyObject *name)
          ((PyWrapperDescrObject *)getattribute)->d_wrapped ==
              (void *)PyObject_GenericGetAttr)) {
         Py_XDECREF(getattribute);
-        res = _PyObject_GenericGetAttrWithDict(self, name, NULL, 1);
+        res = _PyObject_GenericGetAttrWithDict(self, name, NULL, 1, NULL);
         /* if res == NULL with no exception set, then it must be an
            AttributeError suppressed by us. */
         if (res == NULL && !PyErr_Occurred()) {

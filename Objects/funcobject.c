@@ -134,6 +134,8 @@ _PyFunction_FromConstructor(PyFrameConstructor *constr)
     op->func_annotate = NULL;
     op->func_typeparams = NULL;
     op->vectorcall = _PyFunction_Vectorcall;
+    op->ob_base.ob_flags |= _Py_VECTORCALL_IS_INLINABLE;
+    op->vectorcall_inlinable = _PyFunction_Vectorcall_inlinable;
     op->func_version = FUNC_VERSION_UNSET;
     // NOTE: functions created via FrameConstructor do not use deferred
     // reference counting because they are typically not part of cycles
@@ -212,6 +214,8 @@ PyFunction_NewWithQualName(PyObject *code, PyObject *globals, PyObject *qualname
     op->func_annotate = NULL;
     op->func_typeparams = NULL;
     op->vectorcall = _PyFunction_Vectorcall;
+    op->ob_base.ob_flags |= _Py_VECTORCALL_IS_INLINABLE;
+    op->vectorcall_inlinable = _PyFunction_Vectorcall_inlinable;
     op->func_version = FUNC_VERSION_UNSET;
     if (((code_obj->co_flags & CO_NESTED) == 0) ||
         (code_obj->co_flags & CO_METHOD)) {
@@ -477,6 +481,7 @@ PyFunction_SetVectorcall(PyFunctionObject *func, vectorcallfunc vectorcall)
     assert(func != NULL);
     _PyFunction_ClearVersion(func);
     func->vectorcall = vectorcall;
+    func->ob_base.ob_flags &= ~_Py_VECTORCALL_IS_INLINABLE;
 }
 
 PyObject *

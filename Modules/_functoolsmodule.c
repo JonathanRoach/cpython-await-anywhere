@@ -412,7 +412,7 @@ partial_vectorcall(PyObject *self, PyObject *const *args,
     /* Fast path if we're called without arguments */
     if (nargskw == 0) {
         return _PyObject_VectorcallTstate(tstate, pto->fn,
-                                          pto_args, pto_nargs, NULL);
+                                          pto_args, pto_nargs, NULL, NULL);
     }
 
     /* Fast path using PY_VECTORCALL_ARGUMENTS_OFFSET to prepend a single
@@ -422,7 +422,7 @@ partial_vectorcall(PyObject *self, PyObject *const *args,
         PyObject *tmp = newargs[0];
         newargs[0] = pto_args[0];
         PyObject *ret = _PyObject_VectorcallTstate(tstate, pto->fn,
-                                                   newargs, nargs + 1, kwnames);
+                                                   newargs, nargs + 1, kwnames, NULL);
         newargs[0] = tmp;
         return ret;
     }
@@ -467,7 +467,7 @@ partial_vectorcall(PyObject *self, PyObject *const *args,
         memcpy(stack + pto_nargs, args, nargskw * sizeof(PyObject*));
     }
     PyObject *ret = _PyObject_VectorcallTstate(tstate, pto->fn,
-                                               stack, tot_nargs, kwnames);
+                                               stack, tot_nargs, kwnames, NULL);
     if (stack != small_stack) {
         PyMem_Free(stack);
     }

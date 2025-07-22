@@ -11,6 +11,7 @@
 #include "pycore_object_deferred.h" // _PyObject_SetDeferredRefcount()
 #include "pycore_pystate.h"       // _PyThreadState_GET()
 #include "pycore_tuple.h"         // _PyTuple_ITEMS()
+#include "pycore_interpframe.h"
 
 
 /*[clinic input]
@@ -1657,8 +1658,8 @@ property_name(propertyobject *prop, PyObject **name)
     return PyObject_GetOptionalAttr(prop->prop_get, &_Py_ID(__name__), name);
 }
 
-static PyObject *
-property_descr_get(PyObject *self, PyObject *obj, PyObject *type)
+PyObject *
+_PyProperty_Slot_tp_descr_get_inlinable(PyObject *self, PyObject *obj, PyObject *type, struct _PyInterpreterFrame **inlined)
 {
     if (obj == NULL || obj == Py_None) {
         return Py_NewRef(self);
@@ -1690,7 +1691,12 @@ property_descr_get(PyObject *self, PyObject *obj, PyObject *type)
         return NULL;
     }
 
-    return PyObject_CallOneArg(gs->prop_get, obj);
+    return _PyObject_CallOneArg_inlinable(gs->prop_get, obj, inlined);
+}
+
+PyObject *
+_PyProperty_Slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type){
+    return _PyProperty_Slot_tp_descr_get_inlinable(self, obj, type, NULL);
 }
 
 static int
@@ -2072,7 +2078,7 @@ PyTypeObject PyProperty_Type = {
     property_getsetlist,                        /* tp_getset */
     0,                                          /* tp_base */
     0,                                          /* tp_dict */
-    property_descr_get,                         /* tp_descr_get */
+    _PyProperty_Slot_tp_descr_get,              /* tp_descr_get */
     property_descr_set,                         /* tp_descr_set */
     0,                                          /* tp_dictoffset */
     property_init,                              /* tp_init */

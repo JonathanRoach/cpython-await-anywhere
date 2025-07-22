@@ -54,6 +54,8 @@
 #  error "ceval.c must be build with Py_BUILD_CORE define for best performance"
 #endif
 
+bool trace_now = false;
+
 #if !defined(Py_DEBUG) && !defined(Py_TRACE_REFS)
 // GH-89279: The MSVC compiler does not inline these static inline functions
 // in PGO build in _PyEval_EvalFrameDefault(), because this function is over
@@ -1083,7 +1085,7 @@ _PyEval_EvalFramesDefault(PyThreadState *tstate, _PyInterpreterFrame *framebase,
     entry.frame.owner = FRAME_OWNED_BY_INTERPRETER;
     entry.frame.visited = 0;
     entry.frame.return_offset = 0;
-#ifdef Py_DEBUG
+#ifdef Py_DEBUG©
     entry.frame.lltrace = 0;
 #endif
     /* Push frame */
@@ -1821,6 +1823,231 @@ fail_post_args:
     return -1;
 }
 
+static int
+initialize_locals_objects(PyThreadState *tstate, PyFunctionObject *func,
+    _PyStackRef *localsplus, PyObject *const *args,
+    Py_ssize_t argcount, PyObject *kwnames)
+{
+    PyCodeObject *co = (PyCodeObject*)func->func_code;
+    const Py_ssize_t total_args = co->co_argcount + co->co_kwonlyargcount;
+    /* Create a dictionary for keyword parameters (**kwags) */
+    PyObject *kwdict;
+    Py_ssize_t i;
+    if (co->co_flags & CO_VARKEYWORDS) {
+        kwdict = PyDict_New();
+        if (kwdict == NULL) {
+            goto fail_pre_positional;
+        }
+        i = total_args;
+        if (co->co_flags & CO_VARARGS) {
+            i++;
+        }
+        assert(PyStackRef_IsNull(localsplus[i]));
+        localsplus[i] = PyStackRef_FromPyObjectSteal(kwdict);
+    }
+    else {
+        kwdict = NULL;
+    }
+
+    /* Copy all positional arguments into local variables */
+    Py_ssize_t j, n;
+    if (argcount > co->co_argcount) {
+        n = co->co_argcount;
+    }
+    else {
+        n = argcount;
+    }
+    for (j = 0; j < n; j++) {
+        assert(PyStackRef_IsNull(localsplus[j]));
+        localsplus[j] = PyStackRef_FromPyObjectNew(args[j]);
+    }
+
+    /* Pack other positional arguments into the *args argument */
+    if (co->co_flags & CO_VARARGS) {
+        PyObject *u = NULL;
+        if (argcount == n) {
+            u = (PyObject *)&_Py_SINGLETON(tuple_empty);
+        }
+        else {
+            u = _PyTuple_FromArray(args + n, argcount - n);
+        }
+        if (u == NULL) {
+            goto fail_post_positional;
+        }
+        assert(PyStackRef_AsPyObjectBorrow(localsplus[total_args]) == NULL);
+        localsplus[total_args] = PyStackRef_FromPyObjectSteal(u);
+    }
+
+    /* Handle keyword arguments */
+    if (kwnames != NULL) {
+        Py_ssize_t kwcount = PyTuple_GET_SIZE(kwnames);
+        for (i = 0; i < kwcount; i++) {
+            PyObject **co_varnames;
+            PyObject *keyword = PyTuple_GET_ITEM(kwnames, i);
+            PyObject *value = args[i+argcount];
+            Py_ssize_t j;
+
+            if (keyword == NULL || !PyUnicode_Check(keyword)) {
+                _PyErr_Format(tstate, PyExc_TypeError,
+                            "%U() keywords must be strings",
+                          func->func_qualname);
+                goto kw_fail;
+            }
+
+            /* Speed hack: do raw pointer compares. As names are
+            normally interned this should almost always hit. */
+            co_varnames = ((PyTupleObject *)(co->co_localsplusnames))->ob_item;
+            for (j = co->co_posonlyargcount; j < total_args; j++) {
+                PyObject *varname = co_varnames[j];
+                if (varname == keyword) {
+                    goto kw_found;
+                }
+            }
+
+            /* Slow fallback, just in case */
+            for (j = co->co_posonlyargcount; j < total_args; j++) {
+                PyObject *varname = co_varnames[j];
+                int cmp = PyObject_RichCompareBool( keyword, varname, Py_EQ);
+                if (cmp > 0) {
+                    goto kw_found;
+                }
+                else if (cmp < 0) {
+                    goto kw_fail;
+                }
+            }
+
+            assert(j >= total_args);
+            if (kwdict == NULL) {
+
+                if (co->co_posonlyargcount
+                    && positional_only_passed_as_keyword(tstate, co,
+                                                        kwcount, kwnames,
+                                                        func->func_qualname))
+                {
+                    goto kw_fail;
+                }
+
+                PyObject* suggestion_keyword = NULL;
+                if (total_args > co->co_posonlyargcount) {
+                    PyObject* possible_keywords = PyList_New(total_args - co->co_posonlyargcount);
+
+                    if (!possible_keywords) {
+                        PyErr_Clear();
+                    } else {
+                        for (Py_ssize_t k = co->co_posonlyargcount; k < total_args; k++) {
+                            PyList_SET_ITEM(possible_keywords, k - co->co_posonlyargcount, co_varnames[k]);
+                        }
+
+                        suggestion_keyword = _Py_CalculateSuggestions(possible_keywords, keyword);
+                        Py_DECREF(possible_keywords);
+                    }
+                }
+
+                if (suggestion_keyword) {
+                    _PyErr_Format(tstate, PyExc_TypeError,
+                                "%U() got an unexpected keyword argument '%S'. Did you mean '%S'?",
+                                func->func_qualname, keyword, suggestion_keyword);
+                    Py_DECREF(suggestion_keyword);
+                } else {
+                    _PyErr_Format(tstate, PyExc_TypeError,
+                                "%U() got an unexpected keyword argument '%S'",
+                                func->func_qualname, keyword);
+                }
+
+                goto kw_fail;
+            }
+
+            if (PyDict_SetItem(kwdict, keyword, value) == -1) {
+                goto kw_fail;
+            }
+            continue;
+
+        kw_fail:
+            goto fail_post_args;
+
+        kw_found:
+            if (PyStackRef_AsPyObjectBorrow(localsplus[j]) != NULL) {
+                _PyErr_Format(tstate, PyExc_TypeError,
+                            "%U() got multiple values for argument '%S'",
+                          func->func_qualname, keyword);
+                goto kw_fail;
+            }
+            localsplus[j] = PyStackRef_FromPyObjectNew(value);
+        }
+    }
+
+    /* Check the number of positional arguments */
+    if ((argcount > co->co_argcount) && !(co->co_flags & CO_VARARGS)) {
+        too_many_positional(tstate, co, argcount, func->func_defaults, localsplus,
+                            func->func_qualname);
+        goto fail_post_args;
+    }
+
+    /* Add missing positional arguments (copy default values from defs) */
+    if (argcount < co->co_argcount) {
+        Py_ssize_t defcount = func->func_defaults == NULL ? 0 : PyTuple_GET_SIZE(func->func_defaults);
+        Py_ssize_t m = co->co_argcount - defcount;
+        Py_ssize_t missing = 0;
+        for (i = argcount; i < m; i++) {
+            if (PyStackRef_IsNull(localsplus[i])) {
+                missing++;
+            }
+        }
+        if (missing) {
+            missing_arguments(tstate, co, missing, defcount, localsplus,
+                              func->func_qualname);
+            goto fail_post_args;
+        }
+        if (n > m)
+            i = n - m;
+        else
+            i = 0;
+        if (defcount) {
+            PyObject **defs = &PyTuple_GET_ITEM(func->func_defaults, 0);
+            for (; i < defcount; i++) {
+                if (PyStackRef_AsPyObjectBorrow(localsplus[m+i]) == NULL) {
+                    PyObject *def = defs[i];
+                    localsplus[m+i] = PyStackRef_FromPyObjectNew(def);
+                }
+            }
+        }
+    }
+
+    /* Add missing keyword arguments (copy default values from kwdefs) */
+    if (co->co_kwonlyargcount > 0) {
+        Py_ssize_t missing = 0;
+        for (i = co->co_argcount; i < total_args; i++) {
+            if (PyStackRef_AsPyObjectBorrow(localsplus[i]) != NULL)
+                continue;
+            PyObject *varname = PyTuple_GET_ITEM(co->co_localsplusnames, i);
+            if (func->func_kwdefaults != NULL) {
+                PyObject *def;
+                if (PyDict_GetItemRef(func->func_kwdefaults, varname, &def) < 0) {
+                    goto fail_post_args;
+                }
+                if (def) {
+                    localsplus[i] = PyStackRef_FromPyObjectSteal(def);
+                    continue;
+                }
+            }
+            missing++;
+        }
+        if (missing) {
+            missing_arguments(tstate, co, missing, -1, localsplus,
+                              func->func_qualname);
+            goto fail_post_args;
+        }
+    }
+    return 0;
+
+fail_pre_positional:
+    /* fall through */
+fail_post_positional:
+    /* fall through */
+fail_post_args:
+    return -1;
+}
+
 void
 _PyEval_ThreadFrameClearAndPop(_PyDataStack *datastack, _PyInterpreterFrame * frame)
 {
@@ -1902,6 +2129,56 @@ fail:
         }
     }
     PyErr_NoMemory();
+    return NULL;
+}
+
+/* Consumes references to func, locals and all the args */
+_PyInterpreterFrame *
+_PyEvalFramePushAndInit_Objects(PyThreadState *tstate, PyObject *func,
+                        PyObject *locals, PyObject *const * args,
+                        size_t argcount, PyObject *kwnames, _PyInterpreterFrame *previous)
+{
+    PyFunctionObject *func_obj = (PyFunctionObject *)func;
+    PyCodeObject * code = (PyCodeObject *)func_obj->func_code;
+    CALL_STAT_INC(frames_pushed);
+    _PyInterpreterFrame *frame = _PyDataStack_PushFrame(&tstate->datastack, code->co_framesize);
+    if (frame == NULL) {
+        goto fail;
+    }
+    _PyFrame_Initialize(tstate, frame, PyStackRef_FromPyObjectNew(func), locals, code, 0, previous);
+    if (initialize_locals_objects(tstate, func_obj, frame->localsplus, args, argcount, kwnames)) {
+        assert(frame->owner == FRAME_OWNED_BY_THREAD);
+        _PyEval_ThreadFrameClearAndPop(&tstate->datastack, frame);
+        return NULL;
+    }
+    return frame;
+fail:
+    /* Consume the references */
+    Py_XDECREF(locals);
+    PyErr_NoMemory();
+    return NULL;
+}
+
+/* Pushes a frame ready for null_locals_from parameters.
+   Steals reference to func.
+ */
+_PyInterpreterFrame *
+_PyFrame_PushInlineCall(PyThreadState *tstate, _PyStackRef func, int null_locals_from,
+    _PyInterpreterFrame *previous)
+{
+    CALL_STAT_INC(frames_pushed);
+    PyFunctionObject *func_obj = (PyFunctionObject *)PyStackRef_AsPyObjectBorrow(func);
+    PyCodeObject *code = (PyCodeObject *)func_obj->func_code;
+    _PyInterpreterFrame *new_frame = _PyDataStack_PushFrame(&tstate->datastack, code->co_framesize);
+    if (new_frame) {
+        _PyFrame_Initialize(tstate, new_frame, func, NULL, code, null_locals_from,
+                            previous);
+        return new_frame;
+    }
+
+    /* Consume the references */
+    PyErr_NoMemory();
+    PyStackRef_CLOSE(func);
     return NULL;
 }
 

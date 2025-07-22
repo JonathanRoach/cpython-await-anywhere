@@ -8,11 +8,20 @@ extern "C" {
 #  error "this header requires Py_BUILD_CORE define"
 #endif
 
+struct _PyInterpreterFrame;
+
 extern PyObject* _PyFunction_Vectorcall(
     PyObject *func,
     PyObject *const *stack,
     size_t nargsf,
     PyObject *kwnames);
+
+extern PyObject* _PyFunction_Vectorcall_inlinable(
+    PyObject *func,
+    PyObject *const *stack,
+    size_t nargsf,
+    PyObject *kwnames,
+    struct _PyInterpreterFrame **inlined);
 
 
 #define FUNC_VERSION_UNSET 0

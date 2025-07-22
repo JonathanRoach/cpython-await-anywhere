@@ -2318,7 +2318,18 @@ dummy_func(
             }
             else {
                 /* Classic, pushes one value. */
-                attr_o = PyObject_GetAttr(PyStackRef_AsPyObjectBorrow(owner), name);
+                if ( !tstate->interp->eval_frame ){
+                    _PyInterpreterFrame *inlined = frame;
+                    attr_o = _PyObject_GetAttrInlinable(PyStackRef_AsPyObjectBorrow(owner), name, &inlined);
+                    if ( inlined != frame ){
+                        // Manipulate stack directly because we exit with DISPATCH_INLINED().
+                        PyStackRef_CLOSE(owner);
+                        frame->return_offset = INSTRUCTION_SIZE;
+                        DISPATCH_INLINED(inlined);
+                    }
+                } else {
+                    attr_o = PyObject_GetAttr(PyStackRef_AsPyObjectBorrow(owner), name);
+                }
                 PyStackRef_CLOSE(owner);
                 ERROR_IF(attr_o == NULL);
             }

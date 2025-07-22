@@ -8101,9 +8101,25 @@
                     }
                 }
                 else {
-                    _PyFrame_SetStackPointer(frame, stack_pointer);
-                    attr_o = PyObject_GetAttr(PyStackRef_AsPyObjectBorrow(owner), name);
-                    stack_pointer = _PyFrame_GetStackPointer(frame);
+                    if ( !tstate->interp->eval_frame ){
+                        _PyInterpreterFrame *inlined = frame;
+                        _PyFrame_SetStackPointer(frame, stack_pointer);
+                        attr_o = _PyObject_GetAttrInlinable(PyStackRef_AsPyObjectBorrow(owner), name, &inlined);
+                        stack_pointer = _PyFrame_GetStackPointer(frame);
+                        if ( inlined != frame ){
+                            stack_pointer += -1;
+                            assert(WITHIN_STACK_BOUNDS());
+                            _PyFrame_SetStackPointer(frame, stack_pointer);
+                            PyStackRef_CLOSE(owner);
+                            stack_pointer = _PyFrame_GetStackPointer(frame);
+                            frame->return_offset = 10 ;
+                            DISPATCH_INLINED(inlined);
+                        }
+                    } else {
+                        _PyFrame_SetStackPointer(frame, stack_pointer);
+                        attr_o = PyObject_GetAttr(PyStackRef_AsPyObjectBorrow(owner), name);
+                        stack_pointer = _PyFrame_GetStackPointer(frame);
+                    }
                     stack_pointer += -1;
                     assert(WITHIN_STACK_BOUNDS());
                     _PyFrame_SetStackPointer(frame, stack_pointer);

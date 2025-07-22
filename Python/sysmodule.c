@@ -332,7 +332,7 @@ sys_audit_tstate(PyThreadState *ts, const char *event,
                 PyThreadState_LeaveTracing(ts);
             }
             PyObject* args[2] = {eventName, eventArgs};
-            o = _PyObject_VectorcallTstate(ts, hook, args, 2, NULL);
+            o = _PyObject_VectorcallTstate(ts, hook, args, 2, NULL, NULL);
             if (canTrace) {
                 PyThreadState_EnterTracing(ts);
             }
@@ -1077,7 +1077,7 @@ call_trampoline(PyThreadState *tstate, PyObject* callback,
         arg = Py_None;
     }
     PyObject *args[3] = {(PyObject *)frame, whatstrings[what], arg};
-    PyObject *result = _PyObject_VectorcallTstate(tstate, callback, args, 3, NULL);
+    PyObject *result = _PyObject_VectorcallTstate(tstate, callback, args, 3, NULL, NULL);
 
     return result;
 }

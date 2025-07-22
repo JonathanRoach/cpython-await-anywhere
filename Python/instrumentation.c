@@ -982,7 +982,7 @@ call_one_instrument(
     int old_what = tstate->what_event;
     tstate->what_event = event;
     tstate->tracing++;
-    PyObject *res = _PyObject_VectorcallTstate(tstate, instrument, args, nargsf, NULL);
+    PyObject *res = _PyObject_VectorcallTstate(tstate, instrument, args, nargsf, NULL, NULL);
     tstate->tracing--;
     tstate->what_event = old_what;
     if (res == NULL) {

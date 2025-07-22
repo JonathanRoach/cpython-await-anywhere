@@ -1283,8 +1283,17 @@ restore:
     return 0;
 }
 
+/* Like PyObject_GetAttr, except there is an option to inline the getattr python code.
+   inlined == NULL
+    Same behaviour as PyObject_GetAttr
+   inlined != NULL (must be set to frame)
+    If the getattr code is inlinable (eg it's __getattribute__) then
+        *inlined the inlined frame
+    If the getattr code is not inlinable, then
+        The attribute is returned
+   */
 PyObject *
-PyObject_GetAttr(PyObject *v, PyObject *name)
+_PyObject_GetAttrInlinable(PyObject *v, PyObject *name, _PyInterpreterFrame **inlined)
 {
     PyTypeObject *tp = Py_TYPE(v);
     if (!PyUnicode_Check(name)) {
@@ -1296,7 +1305,13 @@ PyObject_GetAttr(PyObject *v, PyObject *name)
 
     PyObject* result = NULL;
     if (tp->tp_getattro != NULL) {
-        result = (*tp->tp_getattro)(v, name);
+        getattrofunc getattro = tp->tp_getattro;
+        if (getattro == PyObject_GenericGetAttr) {
+            // covers @property properties
+            result = _PyObject_GenericGetAttrInlinable(v, name, inlined);
+        } else {
+            result = getattro(v, name);
+        }
     }
     else if (tp->tp_getattr != NULL) {
         const char *name_str = PyUnicode_AsUTF8(name);
@@ -1317,6 +1332,12 @@ PyObject_GetAttr(PyObject *v, PyObject *name)
     return result;
 }
 
+PyObject *
+PyObject_GetAttr(PyObject *v, PyObject *name)
+{
+    return _PyObject_GetAttrInlinable(v, name, NULL);
+}
+
 int
 PyObject_GetOptionalAttr(PyObject *v, PyObject *name, PyObject **result)
 {
@@ -1331,7 +1352,7 @@ PyObject_GetOptionalAttr(PyObject *v, PyObject *name, PyObject **result)
     }
 
     if (tp->tp_getattro == PyObject_GenericGetAttr) {
-        *result = _PyObject_GenericGetAttrWithDict(v, name, NULL, 1);
+        *result = _PyObject_GenericGetAttrWithDict(v, name, NULL, 1, NULL);
         if (*result != NULL) {
             return 1;
         }
@@ -1778,7 +1799,7 @@ _PyObject_GetMethodStackRef(PyThreadState *ts, PyObject *obj,
 
 PyObject *
 _PyObject_GenericGetAttrWithDict(PyObject *obj, PyObject *name,
-                                 PyObject *dict, int suppress)
+                                 PyObject *dict, int suppress, struct _PyInterpreterFrame **inlined)
 {
     /* Make sure the logic of _PyObject_GetMethod is in sync with
        this method.
@@ -1816,10 +1837,14 @@ _PyObject_GenericGetAttrWithDict(PyObject *obj, PyObject *name,
     if (descr != NULL) {
         f = Py_TYPE(descr)->tp_descr_get;
         if (f != NULL && PyDescr_IsData(descr)) {
-            res = f(descr, obj, (PyObject *)Py_TYPE(obj));
-            if (res == NULL && suppress &&
-                    PyErr_ExceptionMatches(PyExc_AttributeError)) {
-                PyErr_Clear();
+            if (f == _PyProperty_Slot_tp_descr_get && !suppress) {
+                res = _PyProperty_Slot_tp_descr_get_inlinable(descr, obj, (PyObject *)Py_TYPE(obj), inlined);
+            } else {
+                res = f(descr, obj, (PyObject *)Py_TYPE(obj));
+                if (res == NULL && suppress &&
+                        PyErr_ExceptionMatches(PyExc_AttributeError)) {
+                    PyErr_Clear();
+                }
             }
             goto done;
         }
@@ -1899,10 +1924,24 @@ _PyObject_GenericGetAttrWithDict(PyObject *obj, PyObject *name,
     return res;
 }
 
+/* Like PyObject_GenericGetAttr, but with the inlined parameter.
+   inlined = NULL
+    Works just like PyObject_GenericSetAttr.
+   inlined points to an int
+    When GetAttr needs to call a single Python function then set *inlined to 1, and return the function.
+   This to allows the Python interpreter to return the attr using Python code, and to
+   run that code directly, instead of via some C function calls. This allows and so allow that call stack to be await'ed.
+*/
+PyObject *
+_PyObject_GenericGetAttrInlinable(PyObject *obj, PyObject *name, struct _PyInterpreterFrame **inlined)
+{
+    return _PyObject_GenericGetAttrWithDict(obj, name, NULL, 0, inlined);
+}
+
 PyObject *
 PyObject_GenericGetAttr(PyObject *obj, PyObject *name)
 {
-    return _PyObject_GenericGetAttrWithDict(obj, name, NULL, 0);
+    return _PyObject_GenericGetAttrWithDict(obj, name, NULL, 0, NULL);
 }
 
 int

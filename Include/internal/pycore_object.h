@@ -18,7 +18,6 @@ extern "C" {
 
 #include <stdbool.h>              // bool
 
-
 // This value is added to `ob_ref_shared` for objects that use deferred
 // reference counting so that they are not immediately deallocated when the
 // non-deferred reference count drops to zero.
@@ -882,6 +881,8 @@ extern PyTypeObject* _PyType_CalculateMetaclass(PyTypeObject *, PyObject *);
 extern PyObject* _PyType_GetDocFromInternalDoc(const char *, const char *);
 extern PyObject* _PyType_GetTextSignatureFromInternalDoc(const char *, const char *, int);
 extern int _PyObject_SetAttributeErrorContext(PyObject *v, PyObject* name);
+extern PyObject *_PyObject_GenericGetAttrInlinable(PyObject *obj, PyObject *name, struct _PyInterpreterFrame **inlined);
+extern PyObject* _PyObject_GetAttrInlinable(PyObject *v, PyObject *name, struct _PyInterpreterFrame **inlined);
 
 void _PyObject_InitInlineValues(PyObject *obj, PyTypeObject *tp);
 extern int _PyObject_StoreInstanceAttribute(PyObject *obj,
