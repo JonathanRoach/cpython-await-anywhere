@@ -23,7 +23,6 @@ extern "C" {
    40 bytes on the stack. */
 #define _PY_FASTCALL_SMALL_STACK 5
 
-
 // Export for 'math' shared extension, used via _PyObject_VectorcallTstate()
 // static inline function.
 PyAPI_FUNC(PyObject*) _Py_CheckFunctionResult(
@@ -208,6 +207,23 @@ _PyObject_CallNoArgs(PyObject *func) {
     EVAL_CALL_STAT_INC_IF_FUNCTION(EVAL_CALL_API, func);
     PyThreadState *tstate = _PyThreadState_GET();
     return _PyObject_VectorcallTstate(tstate, func, NULL, 0, NULL, NULL);
+}
+
+
+static inline PyObject *_PyObject_Vectorcall_inlinable(
+    PyObject *callable,
+    PyObject *const *args,
+    size_t nargsf,
+    PyObject *kwnames,
+    struct _PyInterpreterFrame **inlined)
+{
+    return _PyObject_VectorcallTstate(
+        _PyThreadState_GET(),
+        callable,
+        args,
+        nargsf,
+        kwnames,
+        inlined);
 }
 
 

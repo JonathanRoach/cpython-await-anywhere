@@ -131,7 +131,7 @@ class AwaitAnywhereTests(unittest.TestCase):
 
         self.assertRaises(RuntimeError, checknotallowed)
 
-    def test_await_through_property(self):
+    def test_await_through_property_get(self):
         import asyncio
 
         class HasAwaitInProperty:
@@ -144,3 +144,33 @@ class AwaitAnywhereTests(unittest.TestCase):
             return HasAwaitInProperty().propertywithawait
         
         self.assertEqual(asyncio.run(dotest()), 'awaitdone')
+
+    def test_await_through_descriptor_get(self):
+        import asyncio
+
+        class DescriptorWithGetWithAWait:
+            def __get__(self, obj, objtype=None):
+                await asyncio.sleep(0.01)
+                return 'awaitdone'
+
+        class HasAwaitInGetDescriptor:
+            descriptorvalue = DescriptorWithGetWithAWait()
+
+        async def dotest1():
+            return HasAwaitInGetDescriptor().descriptorvalue
+        
+        self.assertEqual(asyncio.run(dotest1()), 'awaitdone')
+
+        class DescriptorWithGetSetWithAWait:
+            def __get__(self, obj, objtype=None):
+                await asyncio.sleep(0.01)
+                return 'awaitdone'
+
+            def __set__(self, obj, value):
+                ...
+
+        class HasAwaitInGetSetDescriptor:
+            descriptorvalue = DescriptorWithGetSetWithAWait()
+
+        async def dotest2():
+            return HasAwaitInGetSetDescriptor().descriptorvalue

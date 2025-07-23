@@ -10670,8 +10670,9 @@ slot_tp_iternext(PyObject *self)
     return vectorcall_method(&_Py_ID(__next__), stack, 1);
 }
 
-static PyObject *
-slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type)
+PyObject *
+_PyType_Slot_tp_descr_get_inlinable(PyObject *self, PyObject *obj,
+    PyObject *type, struct _PyInterpreterFrame **inlined)
 {
     PyTypeObject *tp = Py_TYPE(self);
     PyObject *get;
@@ -10679,7 +10680,7 @@ slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type)
     get = _PyType_LookupRef(tp, &_Py_ID(__get__));
     if (get == NULL) {
         /* Avoid further slowdowns */
-        if (tp->tp_descr_get == slot_tp_descr_get)
+        if (tp->tp_descr_get == _PyType_Slot_tp_descr_get)
             tp->tp_descr_get = NULL;
         return Py_NewRef(self);
     }
@@ -10688,9 +10689,15 @@ slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type)
     if (type == NULL)
         type = Py_None;
     PyObject *stack[3] = {self, obj, type};
-    PyObject *res = PyObject_Vectorcall(get, stack, 3, NULL);
+    PyObject *res = _PyObject_Vectorcall_inlinable(get, stack, 3, NULL, inlined);
     Py_DECREF(get);
     return res;
+}
+
+PyObject *
+_PyType_Slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type)
+{
+    return _PyType_Slot_tp_descr_get_inlinable(self, obj, type, NULL);
 }
 
 static int
@@ -11154,7 +11161,7 @@ static pytype_slotdef slotdefs[] = {
            "__iter__($self, /)\n--\n\nImplement iter(self)."),
     TPSLOT(__next__, tp_iternext, slot_tp_iternext, wrap_next,
            "__next__($self, /)\n--\n\nImplement next(self)."),
-    TPSLOT(__get__, tp_descr_get, slot_tp_descr_get, wrap_descr_get,
+    TPSLOT(__get__, tp_descr_get, _PyType_Slot_tp_descr_get, wrap_descr_get,
            "__get__($self, instance, owner=None, /)\n--\n\nReturn an attribute of instance, which is of type owner."),
     TPSLOT(__set__, tp_descr_set, slot_tp_descr_set, wrap_descr_set,
            "__set__($self, instance, value, /)\n--\n\nSet an attribute of instance to value."),

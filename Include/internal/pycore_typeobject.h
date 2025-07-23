@@ -113,6 +113,8 @@ extern PyObject* _Py_BaseObject_RichCompare(PyObject* self, PyObject* other, int
 
 extern PyObject* _Py_slot_tp_getattro(PyObject *self, PyObject *name);
 extern PyObject* _Py_slot_tp_getattr_hook(PyObject *self, PyObject *name);
+extern PyObject *_PyType_Slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type);
+extern PyObject *_PyType_Slot_tp_descr_get_inlinable(PyObject *self, PyObject *obj, PyObject *type, struct _PyInterpreterFrame **inlined);
 
 extern PyTypeObject _PyBufferWrapper_Type;
 

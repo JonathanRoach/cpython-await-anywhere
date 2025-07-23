@@ -1807,6 +1807,9 @@ _PyObject_GenericGetAttrWithDict(PyObject *obj, PyObject *name,
        When suppress=1, this function suppresses AttributeError.
     */
 
+    // Can't have suppress and inlined
+    assert(!(suppress && inlined != NULL));
+
     PyTypeObject *tp = Py_TYPE(obj);
     PyObject *descr = NULL;
     PyObject *res = NULL;
@@ -1837,7 +1840,9 @@ _PyObject_GenericGetAttrWithDict(PyObject *obj, PyObject *name,
     if (descr != NULL) {
         f = Py_TYPE(descr)->tp_descr_get;
         if (f != NULL && PyDescr_IsData(descr)) {
-            if (f == _PyProperty_Slot_tp_descr_get && !suppress) {
+            if (f == _PyType_Slot_tp_descr_get) {
+                res = _PyType_Slot_tp_descr_get_inlinable(descr, obj, (PyObject *)Py_TYPE(obj), inlined);
+            } else if (f == _PyProperty_Slot_tp_descr_get) {
                 res = _PyProperty_Slot_tp_descr_get_inlinable(descr, obj, (PyObject *)Py_TYPE(obj), inlined);
             } else {
                 res = f(descr, obj, (PyObject *)Py_TYPE(obj));
@@ -1897,7 +1902,11 @@ _PyObject_GenericGetAttrWithDict(PyObject *obj, PyObject *name,
     }
 
     if (f != NULL) {
-        res = f(descr, obj, (PyObject *)Py_TYPE(obj));
+        if (f == _PyType_Slot_tp_descr_get) {
+            res = _PyType_Slot_tp_descr_get_inlinable(descr, obj, (PyObject *)Py_TYPE(obj), inlined);
+        } else {
+            res = f(descr, obj, (PyObject *)Py_TYPE(obj));
+        }
         if (res == NULL && suppress &&
                 PyErr_ExceptionMatches(PyExc_AttributeError)) {
             PyErr_Clear();
