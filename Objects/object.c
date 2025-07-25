@@ -1309,6 +1309,12 @@ _PyObject_GetAttrInlinable(PyObject *v, PyObject *name, _PyInterpreterFrame **in
         if (getattro == PyObject_GenericGetAttr) {
             // covers @property properties
             result = _PyObject_GenericGetAttrInlinable(v, name, inlined);
+        } else if (getattro == _PyType_Slot_tp_getattr_hook) {
+            // covers some __getattr__ and __getattribute__ cases
+            result = _PyType_Slot_tp_getattr_hook_inlinable(v, name, inlined);
+        } else if ( getattro == _PyType_Slot_tp_getattro ){
+            // covers the remaining __getattr__ and __getattribute__ cases
+            result = _PyType_Slot_tp_getattro_inlinable(v, name, inlined);
         } else {
             result = getattro(v, name);
         }
@@ -1846,10 +1852,10 @@ _PyObject_GenericGetAttrWithDict(PyObject *obj, PyObject *name,
                 res = _PyProperty_Slot_tp_descr_get_inlinable(descr, obj, (PyObject *)Py_TYPE(obj), inlined);
             } else {
                 res = f(descr, obj, (PyObject *)Py_TYPE(obj));
-                if (res == NULL && suppress &&
-                        PyErr_ExceptionMatches(PyExc_AttributeError)) {
-                    PyErr_Clear();
-                }
+            }
+            if (res == NULL && suppress &&
+                    PyErr_ExceptionMatches(PyExc_AttributeError)) {
+                PyErr_Clear();
             }
             goto done;
         }
