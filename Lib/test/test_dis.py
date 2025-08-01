@@ -56,6 +56,7 @@ dis_c_instance_method = """\
               COMPARE_OP              72 (==)
               LOAD_FAST_BORROW         0 (self)
               STORE_ATTR               0 (x)
+              POP_TOP
               LOAD_CONST               1 (None)
               RETURN_VALUE
 """ % (_C.__init__.__code__.co_firstlineno, _C.__init__.__code__.co_firstlineno + 1,)
@@ -67,6 +68,7 @@ dis_c_instance_method_bytes = """\
           COMPARE_OP              72 (==)
           LOAD_FAST_BORROW         0
           STORE_ATTR               0
+          POP_TOP
           LOAD_CONST               1
           RETURN_VALUE
 """
@@ -79,6 +81,7 @@ dis_c_class_method = """\
               COMPARE_OP              72 (==)
               LOAD_FAST_BORROW         0 (cls)
               STORE_ATTR               0 (x)
+              POP_TOP
               LOAD_CONST               1 (None)
               RETURN_VALUE
 """ % (_C.cm.__code__.co_firstlineno, _C.cm.__code__.co_firstlineno + 2,)

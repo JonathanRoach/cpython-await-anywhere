@@ -313,7 +313,8 @@ PyAPI_FUNC(PyObject *)
 _PyObject_GenericGetAttrWithDict(PyObject *, PyObject *, PyObject *, int, struct _PyInterpreterFrame **inlined);
 PyAPI_FUNC(int)
 _PyObject_GenericSetAttrWithDict(PyObject *, PyObject *,
-                                 PyObject *, PyObject *);
+                                 PyObject *, PyObject *,
+                                 struct _PyInterpreterFrame **inlined);
 
 PyAPI_FUNC(PyObject *) _PyObject_FunctionStr(PyObject *);
 

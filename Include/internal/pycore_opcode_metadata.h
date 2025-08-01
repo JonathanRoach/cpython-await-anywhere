@@ -926,13 +926,13 @@ int _PyOpcode_num_pushed(int opcode, int oparg)  {
         case SET_UPDATE:
             return 1 + (oparg-1);
         case STORE_ATTR:
-            return 0;
+            return 1;
         case STORE_ATTR_INSTANCE_VALUE:
-            return 0;
+            return 1;
         case STORE_ATTR_SLOT:
-            return 0;
+            return 1;
         case STORE_ATTR_WITH_HINT:
-            return 0;
+            return 1;
         case STORE_DEREF:
             return 0;
         case STORE_FAST:

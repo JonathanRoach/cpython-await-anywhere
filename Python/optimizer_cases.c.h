@@ -927,7 +927,7 @@
         }
 
         case _STORE_ATTR: {
-            stack_pointer += -2;
+            stack_pointer += -1;
             assert(WITHIN_STACK_BOUNDS());
             break;
         }
@@ -1321,19 +1321,19 @@
         }
 
         case _STORE_ATTR_INSTANCE_VALUE: {
-            stack_pointer += -2;
+            stack_pointer += -1;
             assert(WITHIN_STACK_BOUNDS());
             break;
         }
 
         case _STORE_ATTR_WITH_HINT: {
-            stack_pointer += -2;
+            stack_pointer += -1;
             assert(WITHIN_STACK_BOUNDS());
             break;
         }
 
         case _STORE_ATTR_SLOT: {
-            stack_pointer += -2;
+            stack_pointer += -1;
             assert(WITHIN_STACK_BOUNDS());
             break;
         }

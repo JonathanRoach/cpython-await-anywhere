@@ -1644,12 +1644,28 @@ dummy_func(
             #endif  /* ENABLE_SPECIALIZATION_FT */
         }
 
-        op(_STORE_ATTR, (v, owner --)) {
+        op(_STORE_ATTR, (v, owner -- unused)) {
             PyObject *name = GETITEM(FRAME_CO_NAMES, oparg);
-            int err = PyObject_SetAttr(PyStackRef_AsPyObjectBorrow(owner),
-                                       name, PyStackRef_AsPyObjectBorrow(v));
+            int err;
+            if ( tstate->interp->eval_frame ){
+                err = PyObject_SetAttr(PyStackRef_AsPyObjectBorrow(owner),
+                                        name, PyStackRef_AsPyObjectBorrow(v));
+            } else {
+                _PyInterpreterFrame *inlined = frame;
+                err = _PyObject_SetAttrInlinable(PyStackRef_AsPyObjectBorrow(owner),
+                            name, PyStackRef_AsPyObjectBorrow(v), &inlined);
+                if ( inlined != frame ){
+                    // Manipulate stack directly because we exit with DISPATCH_INLINED().
+                    DECREF_INPUTS();
+                    frame->return_offset = INSTRUCTION_SIZE;
+                    DISPATCH_INLINED(inlined);
+                }
+            }
             DECREF_INPUTS();
             ERROR_IF(err);
+            /* Skip the POP_TOP after STORE_ATTR */
+            SKIP_OVER(1);
+            DISPATCH();
         }
 
         macro(STORE_ATTR) = _SPECIALIZE_STORE_ATTR + unused/3 + _STORE_ATTR;
@@ -2583,7 +2599,7 @@ dummy_func(
             }
         }
 
-        op(_STORE_ATTR_INSTANCE_VALUE, (offset/1, value, owner --)) {
+        op(_STORE_ATTR_INSTANCE_VALUE, (offset/1, value, owner -- unused)) {
             PyObject *owner_o = PyStackRef_AsPyObjectBorrow(owner);
 
             STAT_INC(STORE_ATTR, hit);
@@ -2599,6 +2615,9 @@ dummy_func(
             UNLOCK_OBJECT(owner_o);
             PyStackRef_CLOSE(owner);
             Py_XDECREF(old_value);
+            /* Skip the POP_TOP after STORE_ATTR */
+            SKIP_OVER(1);
+            DISPATCH();
         }
 
         macro(STORE_ATTR_INSTANCE_VALUE) =
@@ -2607,7 +2626,7 @@ dummy_func(
             _GUARD_DORV_NO_DICT +
             _STORE_ATTR_INSTANCE_VALUE;
 
-        op(_STORE_ATTR_WITH_HINT, (hint/1, value, owner --)) {
+        op(_STORE_ATTR_WITH_HINT, (hint/1, value, owner -- unused)) {
             PyObject *owner_o = PyStackRef_AsPyObjectBorrow(owner);
             assert(Py_TYPE(owner_o)->tp_flags & Py_TPFLAGS_MANAGED_DICT);
             PyDictObject *dict = _PyObject_GetManagedDict(owner_o);
@@ -2645,6 +2664,9 @@ dummy_func(
             STAT_INC(STORE_ATTR, hit);
             PyStackRef_CLOSE(owner);
             Py_XDECREF(old_value);
+            /* Skip the POP_TOP after STORE_ATTR */
+            SKIP_OVER(1);
+            DISPATCH();
         }
 
         macro(STORE_ATTR_WITH_HINT) =
@@ -2652,7 +2674,7 @@ dummy_func(
             _GUARD_TYPE_VERSION +
             _STORE_ATTR_WITH_HINT;
 
-        op(_STORE_ATTR_SLOT, (index/1, value, owner --)) {
+        op(_STORE_ATTR_SLOT, (index/1, value, owner -- unused)) {
             PyObject *owner_o = PyStackRef_AsPyObjectBorrow(owner);
 
             DEOPT_IF(!LOCK_OBJECT(owner_o));
@@ -2663,6 +2685,9 @@ dummy_func(
             UNLOCK_OBJECT(owner_o);
             PyStackRef_CLOSE(owner);
             Py_XDECREF(old_value);
+            /* Skip the POP_TOP after STORE_ATTR */
+            SKIP_OVER(1);
+            DISPATCH();
         }
 
         macro(STORE_ATTR_SLOT) =

@@ -2253,9 +2253,36 @@
             owner = stack_pointer[-1];
             v = stack_pointer[-2];
             PyObject *name = GETITEM(FRAME_CO_NAMES, oparg);
-            _PyFrame_SetStackPointer(frame, stack_pointer);
-            int err = PyObject_SetAttr(PyStackRef_AsPyObjectBorrow(owner),
+            int err;
+            if ( tstate->interp->eval_frame ){
+                _PyFrame_SetStackPointer(frame, stack_pointer);
+                err = PyObject_SetAttr(PyStackRef_AsPyObjectBorrow(owner),
                                        name, PyStackRef_AsPyObjectBorrow(v));
+                stack_pointer = _PyFrame_GetStackPointer(frame);
+            } else {
+                _PyInterpreterFrame *inlined = frame;
+                _PyFrame_SetStackPointer(frame, stack_pointer);
+                err = _PyObject_SetAttrInlinable(PyStackRef_AsPyObjectBorrow(owner),
+                    name, PyStackRef_AsPyObjectBorrow(v), &inlined);
+                stack_pointer = _PyFrame_GetStackPointer(frame);
+                if ( inlined != frame ){
+                    _PyFrame_SetStackPointer(frame, stack_pointer);
+                    _PyStackRef tmp = owner;
+                    owner = PyStackRef_NULL;
+                    stack_pointer[-1] = owner;
+                    PyStackRef_CLOSE(tmp);
+                    tmp = v;
+                    v = PyStackRef_NULL;
+                    stack_pointer[-2] = v;
+                    PyStackRef_CLOSE(tmp);
+                    stack_pointer = _PyFrame_GetStackPointer(frame);
+                    stack_pointer += -2;
+                    assert(WITHIN_STACK_BOUNDS());
+                    frame->return_offset = 5 ;
+                    DISPATCH_INLINED(inlined);
+                }
+            }
+            _PyFrame_SetStackPointer(frame, stack_pointer);
             _PyStackRef tmp = owner;
             owner = PyStackRef_NULL;
             stack_pointer[-1] = owner;
@@ -2270,7 +2297,8 @@
             if (err) {
                 JUMP_TO_ERROR();
             }
-            break;
+            SKIP_OVER(1);
+            DISPATCH();
         }
 
         case _DELETE_ATTR: {
@@ -3594,7 +3622,8 @@
             PyStackRef_CLOSE(owner);
             Py_XDECREF(old_value);
             stack_pointer = _PyFrame_GetStackPointer(frame);
-            break;
+            SKIP_OVER(1);
+            DISPATCH();
         }
 
         case _STORE_ATTR_WITH_HINT: {
@@ -3662,7 +3691,8 @@
             PyStackRef_CLOSE(owner);
             Py_XDECREF(old_value);
             stack_pointer = _PyFrame_GetStackPointer(frame);
-            break;
+            SKIP_OVER(1);
+            DISPATCH();
         }
 
         case _STORE_ATTR_SLOT: {
@@ -3687,7 +3717,8 @@
             PyStackRef_CLOSE(owner);
             Py_XDECREF(old_value);
             stack_pointer = _PyFrame_GetStackPointer(frame);
-            break;
+            SKIP_OVER(1);
+            DISPATCH();
         }
 
         case _COMPARE_OP: {

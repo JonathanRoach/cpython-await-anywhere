@@ -883,6 +883,9 @@ extern PyObject* _PyType_GetTextSignatureFromInternalDoc(const char *, const cha
 extern int _PyObject_SetAttributeErrorContext(PyObject *v, PyObject* name);
 extern PyObject *_PyObject_GenericGetAttrInlinable(PyObject *obj, PyObject *name, struct _PyInterpreterFrame **inlined);
 extern PyObject* _PyObject_GetAttrInlinable(PyObject *v, PyObject *name, struct _PyInterpreterFrame **inlined);
+extern int _PyObject_GenericSetAttrInlinable(PyObject *obj, PyObject *name, PyObject *value, struct _PyInterpreterFrame **inlined);
+extern int _PyObject_SetAttrInlinable(PyObject *v, PyObject *name, PyObject *value, struct _PyInterpreterFrame **inlined);
+extern int _PyObject_DelAttrInlinable(PyObject *o, PyObject *attr_name, struct _PyInterpreterFrame **inlined);
 
 void _PyObject_InitInlineValues(PyObject *obj, PyTypeObject *tp);
 extern int _PyObject_StoreInstanceAttribute(PyObject *obj,

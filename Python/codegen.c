@@ -5284,6 +5284,7 @@ codegen_visit_expr(compiler *c, expr_ty e)
             break;
         case Store:
             ADDOP_NAME(c, loc, STORE_ATTR, e->v.Attribute.attr, names);
+            ADDOP(c, loc, POP_TOP);
             break;
         case Del:
             ADDOP_NAME(c, loc, DELETE_ATTR, e->v.Attribute.attr, names);
@@ -5391,6 +5392,7 @@ codegen_augassign(compiler *c, stmt_ty s)
         loc = update_start_location_to_match_attr(c, loc, e);
         ADDOP_I(c, loc, SWAP, 2);
         ADDOP_NAME(c, loc, STORE_ATTR, e->v.Attribute.attr, names);
+        ADDOP(c, loc, POP_TOP);
         break;
     case Subscript_kind:
         if (should_apply_two_element_slice_optimization(e->v.Subscript.slice)) {

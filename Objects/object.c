@@ -1461,7 +1461,8 @@ PyObject_HasAttr(PyObject *obj, PyObject *name)
 }
 
 int
-PyObject_SetAttr(PyObject *v, PyObject *name, PyObject *value)
+_PyObject_SetAttrInlinable(PyObject *v, PyObject *name, PyObject *value,
+    struct _PyInterpreterFrame **inlined)
 {
     PyTypeObject *tp = Py_TYPE(v);
     int err;
@@ -1477,7 +1478,14 @@ PyObject_SetAttr(PyObject *v, PyObject *name, PyObject *value)
     PyInterpreterState *interp = _PyInterpreterState_GET();
     _PyUnicode_InternMortal(interp, &name);
     if (tp->tp_setattro != NULL) {
-        err = (*tp->tp_setattro)(v, name, value);
+        if (inlined && tp->tp_setattro == PyObject_GenericSetAttr){
+            err = _PyObject_GenericSetAttrInlinable(v, name, value, inlined);
+        }
+        else if (inlined && tp->tp_setattro == _PyType_Slot_tp_setattro){
+            err = _PyType_Slot_tp_setattro_inlinable(v, name, value, inlined);
+        } else {
+            err = (*tp->tp_setattro)(v, name, value);
+        }
         Py_DECREF(name);
         return err;
     }
@@ -1511,9 +1519,22 @@ PyObject_SetAttr(PyObject *v, PyObject *name, PyObject *value)
 }
 
 int
+PyObject_SetAttr(PyObject *v, PyObject *name, PyObject *value)
+{
+    return _PyObject_SetAttrInlinable(v, name, value, NULL);
+}
+
+int
+_PyObject_DelAttrInlinable(PyObject *v, PyObject *name,
+    struct _PyInterpreterFrame **inlined)
+{
+    return _PyObject_SetAttrInlinable(v, name, NULL, inlined);
+}
+
+int
 PyObject_DelAttr(PyObject *v, PyObject *name)
 {
-    return PyObject_SetAttr(v, name, NULL);
+    return _PyObject_SetAttrInlinable(v, name, NULL, NULL);
 }
 
 PyObject **
@@ -1961,7 +1982,8 @@ PyObject_GenericGetAttr(PyObject *obj, PyObject *name)
 
 int
 _PyObject_GenericSetAttrWithDict(PyObject *obj, PyObject *name,
-                                 PyObject *value, PyObject *dict)
+                                 PyObject *value, PyObject *dict,
+                                 struct _PyInterpreterFrame **inlined)
 {
     PyTypeObject *tp = Py_TYPE(obj);
     PyObject *descr;
@@ -2062,9 +2084,16 @@ _PyObject_GenericSetAttrWithDict(PyObject *obj, PyObject *name,
 }
 
 int
+_PyObject_GenericSetAttrInlinable(PyObject *obj, PyObject *name, PyObject *value,
+    struct _PyInterpreterFrame **inlined)
+{
+    return _PyObject_GenericSetAttrWithDict(obj, name, value, NULL, inlined);
+}
+
+int
 PyObject_GenericSetAttr(PyObject *obj, PyObject *name, PyObject *value)
 {
-    return _PyObject_GenericSetAttrWithDict(obj, name, value, NULL);
+    return _PyObject_GenericSetAttrWithDict(obj, name, value, NULL, NULL);
 }
 
 int

@@ -1713,7 +1713,7 @@ local_setattro(PyObject *op, PyObject *name, PyObject *v)
         goto err;
     }
 
-    int st = _PyObject_GenericSetAttrWithDict(op, name, v, ldict);
+    int st = _PyObject_GenericSetAttrWithDict(op, name, v, ldict, NULL);
     Py_DECREF(ldict);
     return st;
 
