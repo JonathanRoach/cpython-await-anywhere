@@ -1670,11 +1670,26 @@ dummy_func(
 
         macro(STORE_ATTR) = _SPECIALIZE_STORE_ATTR + unused/3 + _STORE_ATTR;
 
-        inst(DELETE_ATTR, (owner --)) {
+        inst(DELETE_ATTR, (owner -- unused)) {
             PyObject *name = GETITEM(FRAME_CO_NAMES, oparg);
-            int err = PyObject_DelAttr(PyStackRef_AsPyObjectBorrow(owner), name);
+            int err;
+            if ( tstate->interp->eval_frame ){
+                err = PyObject_DelAttr(PyStackRef_AsPyObjectBorrow(owner), name);
+            } else {
+                _PyInterpreterFrame *inlined = frame;
+                err = _PyObject_DelAttrInlinable(PyStackRef_AsPyObjectBorrow(owner), name, &inlined);
+                if ( inlined != frame ){
+                    // Manipulate stack directly because we exit with DISPATCH_INLINED().
+                    DECREF_INPUTS();
+                    frame->return_offset = INSTRUCTION_SIZE;
+                    DISPATCH_INLINED(inlined);
+                }
+            }
             PyStackRef_CLOSE(owner);
             ERROR_IF(err);
+            /* Skip the POP_TOP after STORE_ATTR */
+            SKIP_OVER(1);
+            DISPATCH();
         }
 
         inst(STORE_GLOBAL, (v --)) {

@@ -656,7 +656,7 @@ int _PyOpcode_num_pushed(int opcode, int oparg)  {
         case COPY_FREE_VARS:
             return 0;
         case DELETE_ATTR:
-            return 0;
+            return 1;
         case DELETE_DEREF:
             return 0;
         case DELETE_FAST:

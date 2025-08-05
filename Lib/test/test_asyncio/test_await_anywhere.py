@@ -143,8 +143,13 @@ class AwaitAnywhereTests(unittest.TestCase):
             
             @propertywithawait.setter
             def propertywithawait(self, value):
-                await asyncio.sleep(0.1)
+                await asyncio.sleep(0.01)
                 self._propertywithawait = value
+
+            @propertywithawait.deleter
+            def propertywithawait(self):
+                await asyncio.sleep(0.01)
+                del self._propertywithawait
         
         async def dotest1():
             return HasAwaitInProperty().propertywithawait
@@ -160,6 +165,16 @@ class AwaitAnywhereTests(unittest.TestCase):
 
         self.assertEqual(asyncio.run(dotest2()), 'awaitdone')
         # ...tests set
+
+        # tests delete
+        async def dotest3():
+            h = HasAwaitInProperty()
+            h.propertywithawait = 'awaitdone'
+            del h._propertywithawait
+            return hasattr(h, '_propertywithawait')
+
+        self.assertEqual(asyncio.run(dotest3()), False)
+        # ...tests delete
 
     def test_await_through_descriptor(self):
         import asyncio
@@ -206,6 +221,10 @@ class AwaitAnywhereTests(unittest.TestCase):
             def __set__(self, obj, value):
                 await asyncio.sleep(0.01)
                 obj._descriptorvalue = value
+            
+            def __delete__(self, obj):
+                await asyncio.sleep(0.01)
+                del obj._descriptorvalue
 
         class HasAwaitInGetSetDescriptor:
             descriptorvalue = DescriptorWithGetSetWithAWait()
@@ -217,6 +236,16 @@ class AwaitAnywhereTests(unittest.TestCase):
 
         self.assertEqual(asyncio.run(dotest2()), 'awaitdone')
         # ...tests __set__ with a __get__ present
+
+        # tests __delete__ ...
+        async def dotest3():
+            h = HasAwaitInGetSetDescriptor()
+            h.descriptorvalue = 'awaitdone'
+            del h.descriptorvalue
+            return hasattr(h, '_descriptorvalue')
+
+        self.assertEqual(asyncio.run(dotest3()), False)
+        # ...tests __delete__
 
     def test_await_through__getattr__getattribute__(self):
         import asyncio

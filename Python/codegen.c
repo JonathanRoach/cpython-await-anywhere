@@ -5288,6 +5288,7 @@ codegen_visit_expr(compiler *c, expr_ty e)
             break;
         case Del:
             ADDOP_NAME(c, loc, DELETE_ATTR, e->v.Attribute.attr, names);
+            ADDOP(c, loc, POP_TOP);
             break;
         }
         break;

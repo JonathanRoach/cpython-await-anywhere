@@ -5256,9 +5256,29 @@
             _PyStackRef owner;
             owner = stack_pointer[-1];
             PyObject *name = GETITEM(FRAME_CO_NAMES, oparg);
-            _PyFrame_SetStackPointer(frame, stack_pointer);
-            int err = PyObject_DelAttr(PyStackRef_AsPyObjectBorrow(owner), name);
-            stack_pointer = _PyFrame_GetStackPointer(frame);
+            int err;
+            if ( tstate->interp->eval_frame ){
+                _PyFrame_SetStackPointer(frame, stack_pointer);
+                err = PyObject_DelAttr(PyStackRef_AsPyObjectBorrow(owner), name);
+                stack_pointer = _PyFrame_GetStackPointer(frame);
+            } else {
+                _PyInterpreterFrame *inlined = frame;
+                _PyFrame_SetStackPointer(frame, stack_pointer);
+                err = _PyObject_DelAttrInlinable(PyStackRef_AsPyObjectBorrow(owner), name, &inlined);
+                stack_pointer = _PyFrame_GetStackPointer(frame);
+                if ( inlined != frame ){
+                    _PyFrame_SetStackPointer(frame, stack_pointer);
+                    _PyStackRef tmp = owner;
+                    owner = PyStackRef_NULL;
+                    stack_pointer[-1] = owner;
+                    PyStackRef_CLOSE(tmp);
+                    stack_pointer = _PyFrame_GetStackPointer(frame);
+                    stack_pointer += -1;
+                    assert(WITHIN_STACK_BOUNDS());
+                    frame->return_offset = 1 ;
+                    DISPATCH_INLINED(inlined);
+                }
+            }
             stack_pointer += -1;
             assert(WITHIN_STACK_BOUNDS());
             _PyFrame_SetStackPointer(frame, stack_pointer);
@@ -5267,6 +5287,7 @@
             if (err) {
                 JUMP_TO_LABEL(error);
             }
+            SKIP_OVER(1);
             DISPATCH();
         }
 

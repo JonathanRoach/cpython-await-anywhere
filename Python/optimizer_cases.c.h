@@ -933,8 +933,6 @@
         }
 
         case _DELETE_ATTR: {
-            stack_pointer += -1;
-            assert(WITHIN_STACK_BOUNDS());
             break;
         }
 
