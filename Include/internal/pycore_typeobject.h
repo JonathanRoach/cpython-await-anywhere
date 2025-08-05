@@ -119,6 +119,8 @@ extern int _PyType_Slot_tp_setattro(PyObject *self, PyObject *name, PyObject *va
 extern int _PyType_Slot_tp_setattro_inlinable(PyObject *self, PyObject *name, PyObject *value, struct _PyInterpreterFrame **inlined);
 extern PyObject *_PyType_Slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type);
 extern PyObject *_PyType_Slot_tp_descr_get_inlinable(PyObject *self, PyObject *obj, PyObject *type, struct _PyInterpreterFrame **inlined);
+extern int _PyType_Slot_tp_descr_set(PyObject *self, PyObject *target, PyObject *value);
+extern int _PyType_Slot_tp_descr_set_inlinable(PyObject *self, PyObject *target, PyObject *value, struct _PyInterpreterFrame **inlined);
 
 extern PyTypeObject _PyBufferWrapper_Type;
 

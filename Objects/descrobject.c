@@ -1691,7 +1691,7 @@ _PyProperty_Slot_tp_descr_get_inlinable(PyObject *self, PyObject *obj, PyObject 
         return NULL;
     }
 
-    return _PyObject_CallOneArg_inlinable(gs->prop_get, obj, inlined);
+    return _PyObject_CallOneArg_Inlinable(gs->prop_get, obj, inlined);
 }
 
 PyObject *
@@ -1699,8 +1699,9 @@ _PyProperty_Slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type){
     return _PyProperty_Slot_tp_descr_get_inlinable(self, obj, type, NULL);
 }
 
-static int
-property_descr_set(PyObject *self, PyObject *obj, PyObject *value)
+int
+_PyProperty_Slot_tp_descr_set_inlinable(PyObject *self, PyObject *obj, PyObject *value,
+    struct _PyInterpreterFrame **inlined)
 {
     propertyobject *gs = (propertyobject *)self;
     PyObject *func, *res;
@@ -1747,21 +1748,45 @@ property_descr_set(PyObject *self, PyObject *obj, PyObject *value)
         return -1;
     }
 
-    if (value == NULL) {
-        res = PyObject_CallOneArg(func, obj);
-    }
-    else {
-        EVAL_CALL_STAT_INC_IF_FUNCTION(EVAL_CALL_API, func);
-        PyObject *args[] = { obj, value };
-        res = PyObject_Vectorcall(func, args, 2, NULL);
+    if (inlined){
+        struct _PyInterpreterFrame *frame = *inlined;
+        if (value == NULL) {
+            res = _PyObject_CallOneArg_Inlinable(func, obj, inlined);
+        }
+        else {
+            EVAL_CALL_STAT_INC_IF_FUNCTION(EVAL_CALL_API, func);
+            PyObject *args[] = { obj, value };
+            res = _PyObject_Vectorcall_Inlinable(func, args, 2, NULL, inlined);
+        }
+        if (res) {
+            if (*inlined != frame){
+                return 0;
+            }
+            Py_DECREF(res);
+            return 0;
+        }
+    } else {
+        if (value == NULL) {
+            res = PyObject_CallOneArg(func, obj);
+        }
+        else {
+            EVAL_CALL_STAT_INC_IF_FUNCTION(EVAL_CALL_API, func);
+            PyObject *args[] = { obj, value };
+            res = PyObject_Vectorcall(func, args, 2, NULL);
+        }
+        if (res) {
+            Py_DECREF(res);
+            return 0;
+        }
     }
 
-    if (res == NULL) {
-        return -1;
-    }
+    return -1;
+}
 
-    Py_DECREF(res);
-    return 0;
+int
+_PyProperty_Slot_tp_descr_set(PyObject *self, PyObject *obj, PyObject *value)
+{
+    return _PyProperty_Slot_tp_descr_set_inlinable(self, obj, value, NULL);
 }
 
 static PyObject *
@@ -2079,7 +2104,7 @@ PyTypeObject PyProperty_Type = {
     0,                                          /* tp_base */
     0,                                          /* tp_dict */
     _PyProperty_Slot_tp_descr_get,              /* tp_descr_get */
-    property_descr_set,                         /* tp_descr_set */
+    _PyProperty_Slot_tp_descr_set,              /* tp_descr_set */
     0,                                          /* tp_dictoffset */
     property_init,                              /* tp_init */
     PyType_GenericAlloc,                        /* tp_alloc */

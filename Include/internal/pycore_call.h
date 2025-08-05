@@ -51,9 +51,15 @@ extern PyObject* _PyObject_Call(
     PyObject *args,
     PyObject *kwargs);
 
-extern PyObject *_PyObject_CallOneArg_inlinable(
+extern PyObject *_PyObject_CallOneArg_Inlinable(
     PyObject *func,
     PyObject *arg,
+    struct _PyInterpreterFrame **inlined);
+
+extern PyObject *_PyObject_Vectorcall_Inlinable(
+    PyObject *callable,
+    PyObject *const *args,
+    size_t nargsf, PyObject *kwnames,
     struct _PyInterpreterFrame **inlined);
 
 extern PyObject * _PyObject_CallMethodFormat(

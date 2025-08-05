@@ -131,23 +131,40 @@ class AwaitAnywhereTests(unittest.TestCase):
 
         self.assertRaises(RuntimeError, checknotallowed)
 
-    def test_await_through_property_get(self):
+    def test_await_through_property(self):
         import asyncio
 
+        # tests get...
         class HasAwaitInProperty:
             @property
             def propertywithawait(self):
                 await asyncio.sleep(0.01)
                 return 'awaitdone'
+            
+            @propertywithawait.setter
+            def propertywithawait(self, value):
+                await asyncio.sleep(0.1)
+                self._propertywithawait = value
         
-        async def dotest():
+        async def dotest1():
             return HasAwaitInProperty().propertywithawait
-        
-        self.assertEqual(asyncio.run(dotest()), 'awaitdone')
 
-    def test_await_through_descriptor_get(self):
+        self.assertEqual(asyncio.run(dotest1()), 'awaitdone')
+        # ...tests get
+
+        # tests set
+        async def dotest2():
+            h = HasAwaitInProperty()
+            h.propertywithawait = 'awaitdone'
+            return h._propertywithawait
+
+        self.assertEqual(asyncio.run(dotest2()), 'awaitdone')
+        # ...tests set
+
+    def test_await_through_descriptor(self):
         import asyncio
 
+        # tests __get__ on its own...
         class DescriptorWithGetWithAWait:
             def __get__(self, obj, objtype=None):
                 await asyncio.sleep(0.01)
@@ -160,7 +177,9 @@ class AwaitAnywhereTests(unittest.TestCase):
             return HasAwaitInGetDescriptor().descriptorvalue
         
         self.assertEqual(asyncio.run(dotest1()), 'awaitdone')
+        # ...tests __get__ on its own
 
+        # tests __get__ with a __set__ present...
         class DescriptorWithGetSetWithAWait:
             def __get__(self, obj, objtype=None):
                 await asyncio.sleep(0.01)
@@ -176,6 +195,28 @@ class AwaitAnywhereTests(unittest.TestCase):
             return HasAwaitInGetSetDescriptor().descriptorvalue
 
         self.assertEqual(asyncio.run(dotest2()), 'awaitdone')
+        # ...tests __get__ with a __set__ present
+
+        # tests __set__ with a __get__ present...
+        class DescriptorWithGetSetWithAWait:
+            def __get__(self, obj, objtype=None):
+                await asyncio.sleep(0.01)
+                return 'awaitdone'
+
+            def __set__(self, obj, value):
+                await asyncio.sleep(0.01)
+                obj._descriptorvalue = value
+
+        class HasAwaitInGetSetDescriptor:
+            descriptorvalue = DescriptorWithGetSetWithAWait()
+
+        async def dotest2():
+            h = HasAwaitInGetSetDescriptor()
+            h.descriptorvalue = 'awaitdone'
+            return h._descriptorvalue
+
+        self.assertEqual(asyncio.run(dotest2()), 'awaitdone')
+        # ...tests __set__ with a __get__ present
 
     def test_await_through__getattr__getattribute__(self):
         import asyncio

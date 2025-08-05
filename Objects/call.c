@@ -321,12 +321,20 @@ PyVectorcall_Call(PyObject *callable, PyObject *tuple, PyObject *kwargs)
 
 
 PyObject *
-PyObject_Vectorcall(PyObject *callable, PyObject *const *args,
-                     size_t nargsf, PyObject *kwnames)
+_PyObject_Vectorcall_Inlinable(PyObject *callable, PyObject *const *args,
+    size_t nargsf, PyObject *kwnames, struct _PyInterpreterFrame **inlined)
 {
     PyThreadState *tstate = _PyThreadState_GET();
     return _PyObject_VectorcallTstate(tstate, callable,
-                                      args, nargsf, kwnames, NULL);
+                                      args, nargsf, kwnames, inlined);
+}
+
+
+PyObject *
+PyObject_Vectorcall(PyObject *callable, PyObject *const *args,
+                     size_t nargsf, PyObject *kwnames)
+{
+    return _PyObject_Vectorcall_Inlinable(callable, args, nargsf, kwnames, NULL);
 }
 
 
@@ -384,7 +392,7 @@ PyCFunction_Call(PyObject *callable, PyObject *args, PyObject *kwargs)
 
 
 PyObject *
-_PyObject_CallOneArg_inlinable(PyObject *func, PyObject *arg,
+_PyObject_CallOneArg_Inlinable(PyObject *func, PyObject *arg,
                                struct _PyInterpreterFrame **inlined)
 {
     EVAL_CALL_STAT_INC_IF_FUNCTION(EVAL_CALL_API, func);
@@ -401,7 +409,7 @@ _PyObject_CallOneArg_inlinable(PyObject *func, PyObject *arg,
 PyObject *
 PyObject_CallOneArg(PyObject *func, PyObject *arg)
 {
-    return _PyObject_CallOneArg_inlinable(func, arg, NULL);
+    return _PyObject_CallOneArg_Inlinable(func, arg, NULL);
 }
 
 

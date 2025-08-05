@@ -10741,25 +10741,50 @@ _PyType_Slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type)
     return _PyType_Slot_tp_descr_get_inlinable(self, obj, type, NULL);
 }
 
-static int
-slot_tp_descr_set(PyObject *self, PyObject *target, PyObject *value)
+int
+_PyType_Slot_tp_descr_set_inlinable(PyObject *self, PyObject *target, PyObject *value, struct _PyInterpreterFrame **inlined)
 {
     PyObject* stack[3];
     PyObject *res;
 
     stack[0] = self;
     stack[1] = target;
-    if (value == NULL) {
-        res = vectorcall_method(&_Py_ID(__delete__), stack, 2, NULL);
+    if (inlined) {
+        struct _PyInterpreterFrame *frame = *inlined;
+        if (value) {
+            stack[2] = value;
+            res = vectorcall_method(&_Py_ID(__set__), stack, 3, inlined);
+        }
+        else {
+            res = vectorcall_method(&_Py_ID(__delete__), stack, 2, inlined);
+        }
+        if (res) {
+            if (*inlined != frame){
+                return 0;
+            }
+            Py_DECREF(res);
+            return 0;
+        }
+    } else {
+        if (value) {
+            stack[2] = value;
+            res = vectorcall_method(&_Py_ID(__set__), stack, 3, NULL);
+        }
+        else {
+            res = vectorcall_method(&_Py_ID(__delete__), stack, 2, NULL);
+        }
+        if (res){
+            Py_DECREF(res);
+            return 0;
+        }
     }
-    else {
-        stack[2] = value;
-        res = vectorcall_method(&_Py_ID(__set__), stack, 3, NULL);
-    }
-    if (res == NULL)
-        return -1;
-    Py_DECREF(res);
-    return 0;
+    return -1;
+}
+
+int
+_PyType_Slot_tp_descr_set(PyObject *self, PyObject *target, PyObject *value)
+{
+    return _PyType_Slot_tp_descr_set_inlinable(self, target, value, NULL);
 }
 
 static int
@@ -11204,9 +11229,9 @@ static pytype_slotdef slotdefs[] = {
            "__next__($self, /)\n--\n\nImplement next(self)."),
     TPSLOT(__get__, tp_descr_get, _PyType_Slot_tp_descr_get, wrap_descr_get,
            "__get__($self, instance, owner=None, /)\n--\n\nReturn an attribute of instance, which is of type owner."),
-    TPSLOT(__set__, tp_descr_set, slot_tp_descr_set, wrap_descr_set,
+    TPSLOT(__set__, tp_descr_set, _PyType_Slot_tp_descr_set, wrap_descr_set,
            "__set__($self, instance, value, /)\n--\n\nSet an attribute of instance to value."),
-    TPSLOT(__delete__, tp_descr_set, slot_tp_descr_set,
+    TPSLOT(__delete__, tp_descr_set, _PyType_Slot_tp_descr_set,
            wrap_descr_delete,
            "__delete__($self, instance, /)\n--\n\nDelete an attribute of instance."),
     FLSLOT(__init__, tp_init, slot_tp_init,

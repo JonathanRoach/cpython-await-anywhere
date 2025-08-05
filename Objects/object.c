@@ -2014,8 +2014,14 @@ _PyObject_GenericSetAttrWithDict(PyObject *obj, PyObject *name,
 
     if (descr != NULL) {
         f = Py_TYPE(descr)->tp_descr_set;
-        if (f != NULL) {
-            res = f(descr, obj, value);
+        if (f) {
+            if (f == _PyType_Slot_tp_descr_set) {
+                res = _PyType_Slot_tp_descr_set_inlinable(descr, obj, value, inlined);
+            } else if (f == _PyProperty_Slot_tp_descr_set) {
+                res = _PyProperty_Slot_tp_descr_set_inlinable(descr, obj, value, inlined);
+            } else {
+                res = f(descr, obj, value);
+            }
             goto done;
         }
     }
