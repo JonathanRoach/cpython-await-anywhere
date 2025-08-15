@@ -274,6 +274,30 @@ class AwaitAnywhereTests(unittest.TestCase):
         
         self.assertEqual(asyncio.run(dotest2()), 'awaitdone')
 
+        class HasAwaitIn__getattribute__and__getattr__:
+            def __getattribute__(self, name):
+                if name == 'awaitvalue':
+                    await asyncio.sleep(0.01)
+                    return 'awaitdone'
+                if name == 'awaitvalue2':
+                    await asyncio.sleep(0.01)
+                    raise AttributeError(name=name)
+                return super().__getattribute__(self, name)
+
+            def __getattr__(self, name):
+                if name == 'awaitvalue':
+                    await asyncio.sleep(0.01)
+                    return 'awaitdone'
+                if name == 'awaitvalue2':
+                    await asyncio.sleep(0.01)
+                    return 'awaitdone2'
+                raise AttributeError(name=name)
+
+        async def dotest2():
+            return HasAwaitIn__getattribute__and__getattr__().awaitvalue + HasAwaitIn__getattribute__and__getattr__().awaitvalue2
+        
+        self.assertEqual(asyncio.run(dotest2()), 'awaitdoneawaitdone2')
+
     def test_await_through__setattr__(self):
         import asyncio
 
