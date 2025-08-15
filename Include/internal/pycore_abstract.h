@@ -16,8 +16,33 @@ _PyIndex_Check(PyObject *obj)
     return (tp_as_number != NULL && tp_as_number->nb_index != NULL);
 }
 
-PyObject *_PyNumber_PowerNoMod(PyObject *lhs, PyObject *rhs);
-PyObject *_PyNumber_InPlacePowerNoMod(PyObject *lhs, PyObject *rhs);
+PyObject *_PyNumber_Add_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyNumber_And_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyNumber_FloorDivide_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyNumber_Lshift_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyNumber_MatrixMultiply_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyNumber_Multiply_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyNumber_Remainder_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyNumber_Or_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyNumber_PowerNoMod_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyNumber_Rshift_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyNumber_Subtract_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyNumber_TrueDivide_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyNumber_Xor_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyNumber_InPlaceAdd_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyNumber_InPlaceAnd_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyNumber_InPlaceFloorDivide_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyNumber_InPlaceLshift_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyNumber_InPlaceMatrixMultiply_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyNumber_InPlaceMultiply_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyNumber_InPlaceRemainder_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyNumber_InPlaceOr_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyNumber_InPlacePowerNoMod_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyNumber_InPlaceRshift_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyNumber_InPlaceSubtract_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyNumber_InPlaceTrueDivide_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyNumber_InPlaceXor_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
+PyObject *_PyObject_GetItem_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
 
 extern int _PyObject_HasLen(PyObject *o);
 

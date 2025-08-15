@@ -1159,8 +1159,24 @@ dummy_func(
             _Py_LeaveRecursiveCallPy(tstate);
             // GH-99729: We need to unlink the frame *before* clearing it:
             _PyInterpreterFrame *dying = frame;
+            struct _PyReturnAction *returnaction = dying->returnaction;
+            dying->returnaction = NULL;
             frame = tstate->current_frame = dying->previous;
             _PyEval_FrameClearAndPop(tstate, dying);
+            if (returnaction){
+                struct _PyInterpreterFrame *inlined = frame;
+                PyObject *res = _PyReturnAction_AdaptExit(returnaction, PyStackRef_AsPyObjectBorrow(temp), &inlined);
+                if (inlined != frame){
+                    // inlined Python needs to execute first
+                    DISPATCH_INLINED(inlined);
+                }
+                if (!res){
+                    // RETURN_VALUE changes to ERROR
+                    ERROR_IF(true);
+                }
+                PyStackRef_CLOSE(temp);
+                temp = PyStackRef_FromPyObjectSteal(res);
+            }
             RELOAD_STACK();
             LOAD_IP(frame->return_offset);
             res = temp;
@@ -5147,8 +5163,15 @@ dummy_func(
             PyObject *lhs_o = PyStackRef_AsPyObjectBorrow(lhs);
             PyObject *rhs_o = PyStackRef_AsPyObjectBorrow(rhs);
 
+            _PyInterpreterFrame *inlined = frame;
             assert(_PyEval_BinaryOps[oparg]);
-            PyObject *res_o = _PyEval_BinaryOps[oparg](lhs_o, rhs_o);
+            PyObject *res_o = _PyEval_BinaryOps[oparg](lhs_o, rhs_o, &inlined);
+            if ( inlined != frame ){
+                // Manipulate stack directly because we exit with DISPATCH_INLINED().
+                DECREF_INPUTS();
+                frame->return_offset = INSTRUCTION_SIZE;
+                DISPATCH_INLINED(inlined);
+            }
             if (res_o == NULL) {
                 ERROR_NO_POP();
             }
@@ -5619,8 +5642,26 @@ dummy_func(
             assert(frame->owner != FRAME_OWNED_BY_INTERPRETER);
             // GH-99729: We need to unlink the frame *before* clearing it:
             _PyInterpreterFrame *dying = frame;
+            struct _PyReturnAction *returnaction = dying->returnaction;
             frame = tstate->current_frame = dying->previous;
             _PyEval_FrameClearAndPop(tstate, dying);
+            if (returnaction){
+                struct _PyInterpreterFrame *inlined = frame;
+                PyObject *res = _PyReturnAction_AdaptExit(returnaction, NULL, &inlined);
+                if (inlined != frame){
+                    // inlined Python needs to execute first
+                    RELOAD_STACK();
+                    DISPATCH_INLINED(inlined);
+                }
+                if (res){
+                    // exit_unwind changes to a RETURN_VALUE
+                    _PyFrame_StackPush(frame, PyStackRef_FromPyObjectSteal(res));
+                    RELOAD_STACK();
+                    LOAD_IP(frame->return_offset);
+                    LLTRACE_RESUME_FRAME();
+                    DISPATCH_INLINED(frame);
+                }
+            }
             frame->return_offset = 0;
             if (frame->owner == FRAME_OWNED_BY_INTERPRETER) {
                 /* Restore previous frame and exit */

@@ -17,6 +17,12 @@ extern "C" {
 #define _PyInterpreterFrame_LASTI(IF) \
     ((int)((IF)->instr_ptr - _PyFrame_GetBytecode((IF))))
 
+void _PyReturnAction_ctor(_PyReturnAction *this, _PyReturnAction *nextaction);
+void _PyReturnAction_dtor(_PyReturnAction *this);
+void _PyFrame_SetNextReturnAction(struct _PyInterpreterFrame *frame, _PyReturnAction *nextaction);
+PyObject *_PyReturnAction_AdaptExit(_PyReturnAction *this, PyObject *res, struct _PyInterpreterFrame **inlined);
+
+
 static inline PyCodeObject *_PyFrame_GetCode(_PyInterpreterFrame *f) {
     assert(!PyStackRef_IsNull(f->f_executable));
     PyObject *executable = PyStackRef_AsPyObjectBorrow(f->f_executable);
@@ -97,6 +103,7 @@ static inline void _PyFrame_Copy(_PyInterpreterFrame *src, _PyInterpreterFrame *
     for (int i = 0; i < stacktop; i++) {
         dest->localsplus[i] = PyStackRef_MakeHeapSafe(src->localsplus[i]);
     }
+    dest->returnaction = NULL;
 }
 
 #ifdef Py_GIL_DISABLED
@@ -144,6 +151,7 @@ _PyFrame_Initialize(
     frame->instr_ptr = _PyCode_CODE(code);
 #endif
     frame->return_offset = 0;
+    frame->returnaction = NULL;
     frame->owner = FRAME_OWNED_BY_THREAD;
     frame->visited = 0;
 #ifdef Py_DEBUG
@@ -334,6 +342,7 @@ _PyFrame_PushTrampolineUnchecked(PyThreadState *tstate, PyCodeObject *code, int 
     frame->lltrace = 0;
 #endif
     frame->return_offset = 0;
+    frame->returnaction = NULL;
     return frame;
 }
 

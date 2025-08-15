@@ -521,34 +521,34 @@ _Py_CheckRecursiveCall(PyThreadState *tstate, const char *where)
 }
 
 
-const binaryfunc _PyEval_BinaryOps[] = {
-    [NB_ADD] = PyNumber_Add,
-    [NB_AND] = PyNumber_And,
-    [NB_FLOOR_DIVIDE] = PyNumber_FloorDivide,
-    [NB_LSHIFT] = PyNumber_Lshift,
-    [NB_MATRIX_MULTIPLY] = PyNumber_MatrixMultiply,
-    [NB_MULTIPLY] = PyNumber_Multiply,
-    [NB_REMAINDER] = PyNumber_Remainder,
-    [NB_OR] = PyNumber_Or,
-    [NB_POWER] = _PyNumber_PowerNoMod,
-    [NB_RSHIFT] = PyNumber_Rshift,
-    [NB_SUBTRACT] = PyNumber_Subtract,
-    [NB_TRUE_DIVIDE] = PyNumber_TrueDivide,
-    [NB_XOR] = PyNumber_Xor,
-    [NB_INPLACE_ADD] = PyNumber_InPlaceAdd,
-    [NB_INPLACE_AND] = PyNumber_InPlaceAnd,
-    [NB_INPLACE_FLOOR_DIVIDE] = PyNumber_InPlaceFloorDivide,
-    [NB_INPLACE_LSHIFT] = PyNumber_InPlaceLshift,
-    [NB_INPLACE_MATRIX_MULTIPLY] = PyNumber_InPlaceMatrixMultiply,
-    [NB_INPLACE_MULTIPLY] = PyNumber_InPlaceMultiply,
-    [NB_INPLACE_REMAINDER] = PyNumber_InPlaceRemainder,
-    [NB_INPLACE_OR] = PyNumber_InPlaceOr,
-    [NB_INPLACE_POWER] = _PyNumber_InPlacePowerNoMod,
-    [NB_INPLACE_RSHIFT] = PyNumber_InPlaceRshift,
-    [NB_INPLACE_SUBTRACT] = PyNumber_InPlaceSubtract,
-    [NB_INPLACE_TRUE_DIVIDE] = PyNumber_InPlaceTrueDivide,
-    [NB_INPLACE_XOR] = PyNumber_InPlaceXor,
-    [NB_SUBSCR] = PyObject_GetItem,
+const binaryfunc_inlinable _PyEval_BinaryOps[] = {
+    [NB_ADD] = _PyNumber_Add_Inlinable,
+    [NB_AND] = _PyNumber_And_Inlinable,
+    [NB_FLOOR_DIVIDE] = _PyNumber_FloorDivide_Inlinable,
+    [NB_LSHIFT] = _PyNumber_Lshift_Inlinable,
+    [NB_MATRIX_MULTIPLY] = _PyNumber_MatrixMultiply_Inlinable,
+    [NB_MULTIPLY] = _PyNumber_Multiply_Inlinable,
+    [NB_REMAINDER] = _PyNumber_Remainder_Inlinable,
+    [NB_OR] = _PyNumber_Or_Inlinable,
+    [NB_POWER] = _PyNumber_PowerNoMod_Inlinable,
+    [NB_RSHIFT] = _PyNumber_Rshift_Inlinable,
+    [NB_SUBTRACT] = _PyNumber_Subtract_Inlinable,
+    [NB_TRUE_DIVIDE] = _PyNumber_TrueDivide_Inlinable,
+    [NB_XOR] = _PyNumber_Xor_Inlinable,
+    [NB_INPLACE_ADD] = _PyNumber_InPlaceAdd_Inlinable,
+    [NB_INPLACE_AND] = _PyNumber_InPlaceAnd_Inlinable,
+    [NB_INPLACE_FLOOR_DIVIDE] = _PyNumber_InPlaceFloorDivide_Inlinable,
+    [NB_INPLACE_LSHIFT] = _PyNumber_InPlaceLshift_Inlinable,
+    [NB_INPLACE_MATRIX_MULTIPLY] = _PyNumber_InPlaceMatrixMultiply_Inlinable,
+    [NB_INPLACE_MULTIPLY] = _PyNumber_InPlaceMultiply_Inlinable,
+    [NB_INPLACE_REMAINDER] = _PyNumber_InPlaceRemainder_Inlinable,
+    [NB_INPLACE_OR] = _PyNumber_InPlaceOr_Inlinable,
+    [NB_INPLACE_POWER] = _PyNumber_InPlacePowerNoMod_Inlinable,
+    [NB_INPLACE_RSHIFT] = _PyNumber_InPlaceRshift_Inlinable,
+    [NB_INPLACE_SUBTRACT] = _PyNumber_InPlaceSubtract_Inlinable,
+    [NB_INPLACE_TRUE_DIVIDE] = _PyNumber_InPlaceTrueDivide_Inlinable,
+    [NB_INPLACE_XOR] = _PyNumber_InPlaceXor_Inlinable,
+    [NB_SUBSCR] = _PyObject_GetItem_Inlinable,
 };
 
 const conversion_func _PyEval_ConversionFuncs[4] = {
@@ -1085,6 +1085,7 @@ _PyEval_EvalFramesDefault(PyThreadState *tstate, _PyInterpreterFrame *framebase,
     entry.frame.owner = FRAME_OWNED_BY_INTERPRETER;
     entry.frame.visited = 0;
     entry.frame.return_offset = 0;
+    entry.frame.returnaction = NULL;
 #ifdef Py_DEBUG©
     entry.frame.lltrace = 0;
 #endif

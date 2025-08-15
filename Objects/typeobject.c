@@ -10549,6 +10549,45 @@ call_attribute(PyObject *self, PyObject *attr, PyObject *name,
     return res;
 }
 
+RETURNACTION_STDMETHODDECL(getattr_returnaction)
+
+struct getattr_returnaction {
+    _PyReturnAction base;
+    PyObject *self;
+    PyObject *getattr;
+    PyObject *name;
+};
+
+_PyReturnAction *getattr_returnaction_new(PyObject *self, PyObject *getattr, PyObject *name){
+    RETURNACTION_NEWPREAMBLE(getattr_returnaction)
+    this->self = Py_NewRef(self);
+    this->getattr = Py_NewRef(getattr);
+    this->name = Py_NewRef(name);
+    return (_PyReturnAction *)this;
+}
+
+static void getattr_returnaction_dtor(getattr_returnaction *this)
+{
+    Py_DECREF(this->self);
+    Py_DECREF(this->getattr);
+    Py_DECREF(this->name);
+    _PyReturnAction_dtor(&this->base);
+}
+
+static PyObject *getattr_returnaction_AdaptExit(getattr_returnaction *this, PyObject *res, struct _PyInterpreterFrame **inlined)
+{
+    if (res){
+        return Py_NewRef(res);
+    }
+
+    if (PyErr_ExceptionMatches(PyExc_AttributeError)) {
+        PyErr_Clear();
+        return call_attribute(this->self, this->getattr, this->name, inlined);
+    }
+
+    return NULL;
+}
+
 PyObject *
 _PyType_Slot_tp_getattr_hook_inlinable(PyObject *self, PyObject *name,
     struct _PyInterpreterFrame **inlined)
@@ -10586,11 +10625,16 @@ _PyType_Slot_tp_getattr_hook_inlinable(PyObject *self, PyObject *name,
         }
     }
     else {
-        res = call_attribute(self, getattribute, name, NULL);
+        struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
+        res = call_attribute(self, getattribute, name, inlined);
         Py_DECREF(getattribute);
-        if (res == NULL && PyErr_ExceptionMatches(PyExc_AttributeError)) {
-            PyErr_Clear();
-            res = call_attribute(self, getattr, name, inlined);
+        if (inlined && *inlined != frame) {
+            _PyFrame_SetNextReturnAction(*inlined, getattr_returnaction_new(self, getattr, name));
+        } else {
+            if (res == NULL && PyErr_ExceptionMatches(PyExc_AttributeError)) {
+                PyErr_Clear();
+                res = call_attribute(self, getattr, name, inlined);
+            }
         }
     }
 

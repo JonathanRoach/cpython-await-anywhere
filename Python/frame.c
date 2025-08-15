@@ -103,6 +103,69 @@ _PyFrame_ClearLocals(_PyInterpreterFrame *frame)
     Py_CLEAR(frame->f_locals);
 }
 
+void _PyReturnAction_Delete(struct _PyReturnAction *returnaction)
+{
+    if (returnaction) {
+        returnaction->vfptr->dtor(returnaction);
+        PyObject_Free(returnaction);
+    }
+}
+
+void _PyReturnAction_dtor(struct _PyReturnAction *this){
+    _PyReturnAction_Delete(this->nextaction);
+}
+
+void _PyReturnAction_ctor(struct _PyReturnAction *this, struct _PyReturnAction *nextaction)
+{
+    this->nextaction = nextaction;
+}
+
+void _PyFrame_SetNextReturnAction(struct _PyInterpreterFrame *frame, _PyReturnAction *nextaction)
+{
+    if (nextaction) {
+        _PyReturnAction **returnaction = &(frame->returnaction);
+        while (*returnaction){
+            returnaction = &(*returnaction)->nextaction;
+        }
+        *returnaction = nextaction;
+    }
+}
+
+PyObject *_PyReturnAction_AdaptExit(struct _PyReturnAction *this, PyObject *res, struct _PyInterpreterFrame **inlined)
+{
+    struct _PyInterpreterFrame *frame = *inlined;
+
+    struct _PyReturnAction *next = this->nextaction;
+    PyObject *nextres = this->vfptr->AdaptExit(this, res, inlined);
+    this->nextaction = NULL;
+    _PyReturnAction_Delete(this);
+
+    if (*inlined != frame){
+        // new, inlined function - queue remainder of returnaction after the new inlined function
+        _PyFrame_SetNextReturnAction(*inlined, next);
+        return res;
+    }
+
+    // move on
+    while (next){
+        this = next;
+        res = nextres;
+        struct _PyReturnAction *next = this->nextaction;
+        nextres = this->vfptr->AdaptExit(this, res, inlined);
+        Py_XDECREF(res);
+        this->nextaction = NULL;
+        _PyReturnAction_Delete(this);
+
+        if (*inlined != frame){
+            // new, inlined function - queue remainder of returnaction after the new inlined function
+            _PyFrame_SetNextReturnAction(*inlined, next);
+            return nextres;
+        }
+    }
+
+    return nextres;
+}
+
 void
 _PyFrame_ClearExceptCode(_PyInterpreterFrame *frame)
 {
@@ -124,6 +187,7 @@ _PyFrame_ClearExceptCode(_PyInterpreterFrame *frame)
         Py_DECREF(f);
     }
     _PyFrame_ClearLocals(frame);
+    _PyReturnAction_Delete(frame->returnaction);
     PyStackRef_CLEAR(frame->f_funcobj);
 }
 

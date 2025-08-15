@@ -27,6 +27,37 @@ enum _frameowner {
     FRAME_OWNED_BY_CSTACK = 4,
 };
 
+typedef struct _PyReturnAction _PyReturnAction;
+struct _PyInterpreterFrame;
+
+typedef struct _PyReturnAction_Methods {
+    void (*dtor)(_PyReturnAction *this);
+    PyObject *(*AdaptExit)(_PyReturnAction *this, PyObject *res, struct _PyInterpreterFrame **inlined);
+} _PyReturnAction_Methods;
+
+struct _PyReturnAction {
+    _PyReturnAction_Methods *vfptr;
+    _PyReturnAction *nextaction;
+};
+
+#define RETURNACTION_STDMETHODDECL(cls) \
+typedef struct cls cls; \
+ \
+static void cls##_dtor(cls *); \
+static PyObject *cls##_AdaptExit(cls *, PyObject *res, struct _PyInterpreterFrame **inlined); \
+ \
+static struct _PyReturnAction_Methods cls##_methods = \
+{ \
+    .dtor = (void (*)(_PyReturnAction *))&cls##_dtor, \
+    .AdaptExit = (PyObject *(*)(_PyReturnAction *, PyObject *res, struct _PyInterpreterFrame **inlined))&cls##_AdaptExit, \
+};
+
+#define RETURNACTION_NEWPREAMBLE(cls) \
+    cls *this = PyObject_Malloc(sizeof(cls)); \
+    _PyReturnAction_ctor(&this->base, NULL); \
+    this->base.vfptr = &cls##_methods;
+
+
 struct _PyInterpreterFrame {
     _PyStackRef f_executable; /* Deferred or strong reference (code object or None) */
     struct _PyInterpreterFrame *previous;
@@ -37,6 +68,7 @@ struct _PyInterpreterFrame {
     PyFrameObject *frame_obj; /* Strong reference, may be NULL. Only valid if not on C stack */
     _Py_CODEUNIT *instr_ptr; /* Instruction currently executing (or about to begin) */
     _PyStackRef *stackpointer;
+    struct _PyReturnAction *returnaction;
 #ifdef Py_GIL_DISABLED
     /* Index of thread-local bytecode containing instr_ptr. */
     int32_t tlbc_index;

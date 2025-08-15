@@ -57,10 +57,27 @@
             {
                 PyObject *lhs_o = PyStackRef_AsPyObjectBorrow(lhs);
                 PyObject *rhs_o = PyStackRef_AsPyObjectBorrow(rhs);
+                _PyInterpreterFrame *inlined = frame;
                 assert(_PyEval_BinaryOps[oparg]);
                 _PyFrame_SetStackPointer(frame, stack_pointer);
-                PyObject *res_o = _PyEval_BinaryOps[oparg](lhs_o, rhs_o);
+                PyObject *res_o = _PyEval_BinaryOps[oparg](lhs_o, rhs_o, &inlined);
                 stack_pointer = _PyFrame_GetStackPointer(frame);
+                if ( inlined != frame ){
+                    _PyFrame_SetStackPointer(frame, stack_pointer);
+                    _PyStackRef tmp = rhs;
+                    rhs = PyStackRef_NULL;
+                    stack_pointer[-1] = rhs;
+                    PyStackRef_CLOSE(tmp);
+                    tmp = lhs;
+                    lhs = PyStackRef_NULL;
+                    stack_pointer[-2] = lhs;
+                    PyStackRef_CLOSE(tmp);
+                    stack_pointer = _PyFrame_GetStackPointer(frame);
+                    stack_pointer += -2;
+                    assert(WITHIN_STACK_BOUNDS());
+                    frame->return_offset = 6 ;
+                    DISPATCH_INLINED(inlined);
+                }
                 if (res_o == NULL) {
                     JUMP_TO_LABEL(error);
                 }
@@ -7647,8 +7664,22 @@
                 assert(STACK_LEVEL() == 0);
                 _Py_LeaveRecursiveCallPy(tstate);
                 _PyInterpreterFrame *dying = frame;
+                struct _PyReturnAction *returnaction = dying->returnaction;
+                dying->returnaction = NULL;
                 frame = tstate->current_frame = dying->previous;
                 _PyEval_FrameClearAndPop(tstate, dying);
+                if (returnaction){
+                    struct _PyInterpreterFrame *inlined = frame;
+                    PyObject *res = _PyReturnAction_AdaptExit(returnaction, PyStackRef_AsPyObjectBorrow(temp), &inlined);
+                    if (inlined != frame){
+                        DISPATCH_INLINED(inlined);
+                    }
+                    if (!res){
+                        JUMP_TO_LABEL(error);
+                    }
+                    PyStackRef_CLOSE(temp);
+                    temp = PyStackRef_FromPyObjectSteal(res);
+                }
                 stack_pointer = _PyFrame_GetStackPointer(frame);
                 LOAD_IP(frame->return_offset);
                 res = temp;
@@ -10674,8 +10705,22 @@
             assert(STACK_LEVEL() == 0);
             _Py_LeaveRecursiveCallPy(tstate);
             _PyInterpreterFrame *dying = frame;
+            struct _PyReturnAction *returnaction = dying->returnaction;
+            dying->returnaction = NULL;
             frame = tstate->current_frame = dying->previous;
             _PyEval_FrameClearAndPop(tstate, dying);
+            if (returnaction){
+                struct _PyInterpreterFrame *inlined = frame;
+                PyObject *res = _PyReturnAction_AdaptExit(returnaction, PyStackRef_AsPyObjectBorrow(temp), &inlined);
+                if (inlined != frame){
+                    DISPATCH_INLINED(inlined);
+                }
+                if (!res){
+                    JUMP_TO_LABEL(error);
+                }
+                PyStackRef_CLOSE(temp);
+                temp = PyStackRef_FromPyObjectSteal(res);
+            }
             stack_pointer = _PyFrame_GetStackPointer(frame);
             LOAD_IP(frame->return_offset);
             res = temp;
@@ -12574,8 +12619,24 @@ JUMP_TO_LABEL(error);
             _Py_LeaveRecursiveCallPy(tstate);
             assert(frame->owner != FRAME_OWNED_BY_INTERPRETER);
             _PyInterpreterFrame *dying = frame;
+            struct _PyReturnAction *returnaction = dying->returnaction;
             frame = tstate->current_frame = dying->previous;
             _PyEval_FrameClearAndPop(tstate, dying);
+            if (returnaction){
+                struct _PyInterpreterFrame *inlined = frame;
+                PyObject *res = _PyReturnAction_AdaptExit(returnaction, NULL, &inlined);
+                if (inlined != frame){
+                    stack_pointer = _PyFrame_GetStackPointer(frame);
+                    DISPATCH_INLINED(inlined);
+                }
+                if (res){
+                    _PyFrame_StackPush(frame, PyStackRef_FromPyObjectSteal(res));
+                    stack_pointer = _PyFrame_GetStackPointer(frame);
+                    LOAD_IP(frame->return_offset);
+                    LLTRACE_RESUME_FRAME();
+                    DISPATCH_INLINED(frame);
+                }
+            }
             frame->return_offset = 0;
             if (frame->owner == FRAME_OWNED_BY_INTERPRETER) {
                 tstate->current_frame = frame->previous;
