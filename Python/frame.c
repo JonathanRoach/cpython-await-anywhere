@@ -120,7 +120,7 @@ void _PyReturnAction_ctor(struct _PyReturnAction *this, struct _PyReturnAction *
     this->nextaction = nextaction;
 }
 
-void _PyFrame_SetNextReturnAction(struct _PyInterpreterFrame *frame, _PyReturnAction *nextaction)
+void _PyFrame_AddReturnAction(struct _PyInterpreterFrame *frame, _PyReturnAction *nextaction)
 {
     if (nextaction) {
         _PyReturnAction **returnaction = &(frame->returnaction);
@@ -142,7 +142,7 @@ PyObject *_PyReturnAction_AdaptExit(struct _PyReturnAction *this, PyObject *res,
 
     if (*inlined != frame){
         // new, inlined function - queue remainder of returnaction after the new inlined function
-        _PyFrame_SetNextReturnAction(*inlined, next);
+        _PyFrame_AddReturnAction(*inlined, next);
         return res;
     }
 
@@ -150,7 +150,7 @@ PyObject *_PyReturnAction_AdaptExit(struct _PyReturnAction *this, PyObject *res,
     while (next){
         this = next;
         res = nextres;
-        struct _PyReturnAction *next = this->nextaction;
+        next = this->nextaction;
         nextres = this->vfptr->AdaptExit(this, res, inlined);
         Py_XDECREF(res);
         this->nextaction = NULL;
@@ -158,7 +158,7 @@ PyObject *_PyReturnAction_AdaptExit(struct _PyReturnAction *this, PyObject *res,
 
         if (*inlined != frame){
             // new, inlined function - queue remainder of returnaction after the new inlined function
-            _PyFrame_SetNextReturnAction(*inlined, next);
+            _PyFrame_AddReturnAction(*inlined, next);
             return nextres;
         }
     }

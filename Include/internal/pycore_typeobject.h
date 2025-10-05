@@ -122,6 +122,43 @@ extern PyObject *_PyType_Slot_tp_descr_get_inlinable(PyObject *self, PyObject *o
 extern int _PyType_Slot_tp_descr_set(PyObject *self, PyObject *target, PyObject *value);
 extern int _PyType_Slot_tp_descr_set_inlinable(PyObject *self, PyObject *target, PyObject *value, struct _PyInterpreterFrame **inlined);
 
+#define _PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(SLOTNAME) \
+extern PyObject * _PyType_Slot_##SLOTNAME(PyObject *self, PyObject *other); \
+extern PyObject * _PyType_Slot_##SLOTNAME##_Inlinable(PyObject *self, PyObject *other, struct _PyInterpreterFrame **inlined);
+
+#define _PYTYPE_SLOT_TERNOP_DECLARE_FUNCTIONS(SLOTNAME) \
+extern PyObject * _PyType_Slot_##SLOTNAME(PyObject *self, PyObject *b, PyObject *c); \
+extern PyObject * _PyType_Slot_##SLOTNAME##_Inlinable(PyObject *self, PyObject *b, PyObject *c, struct _PyInterpreterFrame **inlined);
+
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_add)
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_subtract)
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_multiply)
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_matrix_multiply)
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_remainder)
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_divmod)
+_PYTYPE_SLOT_TERNOP_DECLARE_FUNCTIONS(nb_power)
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_lshift)
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_rshift)
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_and)
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_xor)
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_or)
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_floor_divide)
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_true_divide)
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(mp_subscript)
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_inplace_add)
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_inplace_subtract)
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_inplace_multiply)
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_inplace_matrix_multiply)
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_inplace_remainder)
+_PYTYPE_SLOT_TERNOP_DECLARE_FUNCTIONS(nb_inplace_power)
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_inplace_lshift)
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_inplace_rshift)
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_inplace_and)
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_inplace_xor)
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_inplace_or)
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_inplace_floor_divide)
+_PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_inplace_true_divide)
+
 extern PyTypeObject _PyBufferWrapper_Type;
 
 PyAPI_FUNC(PyObject*) _PySuper_Lookup(PyTypeObject *su_type, PyObject *su_obj,

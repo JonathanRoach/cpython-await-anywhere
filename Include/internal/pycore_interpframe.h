@@ -19,7 +19,7 @@ extern "C" {
 
 void _PyReturnAction_ctor(_PyReturnAction *this, _PyReturnAction *nextaction);
 void _PyReturnAction_dtor(_PyReturnAction *this);
-void _PyFrame_SetNextReturnAction(struct _PyInterpreterFrame *frame, _PyReturnAction *nextaction);
+void _PyFrame_AddReturnAction(struct _PyInterpreterFrame *frame, _PyReturnAction *nextaction);
 PyObject *_PyReturnAction_AdaptExit(_PyReturnAction *this, PyObject *res, struct _PyInterpreterFrame **inlined);
 
 

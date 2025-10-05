@@ -10083,11 +10083,17 @@ FUNCNAME(PyObject *self) \
 }
 
 #define SLOT1(FUNCNAME, DUNDER, ARG1TYPE) \
-static PyObject * \
-FUNCNAME(PyObject *self, ARG1TYPE arg1) \
+PyObject * \
+FUNCNAME##_Inlinable(PyObject *self, ARG1TYPE arg1, struct _PyInterpreterFrame **inlined) \
 { \
     PyObject* stack[2] = {self, arg1}; \
-    return vectorcall_method(&_Py_ID(DUNDER), stack, 2, NULL); \
+    return vectorcall_method(&_Py_ID(DUNDER), stack, 2, inlined); \
+} \
+\
+PyObject * \
+FUNCNAME(PyObject *self, ARG1TYPE arg1) \
+{ \
+    return FUNCNAME##_Inlinable(self, arg1, NULL); \
 }
 
 /* Boolean helper for SLOT1BINFULL().
@@ -10124,8 +10130,77 @@ method_is_overloaded(PyObject *left, PyObject *right, PyObject *name)
 
 
 #define SLOT1BINFULL(FUNCNAME, TESTFUNC, SLOTNAME, DUNDER, RDUNDER) \
-static PyObject * \
-FUNCNAME(PyObject *self, PyObject *other) \
+ \
+RETURNACTION_STDMETHODDECL(FUNCNAME##_returnaction_A) \
+ \
+struct FUNCNAME##_returnaction_A { \
+    _PyReturnAction base; \
+    PyObject *self; \
+    PyObject *other; \
+}; \
+ \
+_PyReturnAction *FUNCNAME##_returnaction_A_new(PyObject *self, PyObject *other){ \
+    RETURNACTION_NEWPREAMBLE(FUNCNAME##_returnaction_A) \
+    this->self = Py_NewRef(self); \
+    this->other = Py_NewRef(other); \
+    return (_PyReturnAction *)this; \
+} \
+ \
+static void FUNCNAME##_returnaction_A_dtor(FUNCNAME##_returnaction_A *this) \
+{ \
+    Py_DECREF(this->self); \
+    Py_DECREF(this->other); \
+    _PyReturnAction_dtor(&this->base); \
+} \
+ \
+static PyObject *FUNCNAME##_returnaction_A_AdaptExit(FUNCNAME##_returnaction_A *this, PyObject *res, struct _PyInterpreterFrame **inlined) \
+{ \
+    if (res != Py_NotImplemented) \
+        return Py_NewRef(res); \
+ \
+    PyObject* stack[2]; \
+    PyThreadState *tstate = _PyThreadState_GET(); \
+    stack[0] = this->self; \
+    stack[1] = this->other; \
+    return vectorcall_maybe(tstate, &_Py_ID(DUNDER), stack, 2, inlined); \
+} \
+ \
+RETURNACTION_STDMETHODDECL(FUNCNAME##_returnaction_B) \
+ \
+struct FUNCNAME##_returnaction_B { \
+    _PyReturnAction base; \
+    PyObject *self; \
+    PyObject *other; \
+}; \
+ \
+_PyReturnAction *FUNCNAME##_returnaction_B_new(PyObject *self, PyObject *other){ \
+    RETURNACTION_NEWPREAMBLE(FUNCNAME##_returnaction_B) \
+    this->self = Py_NewRef(self); \
+    this->other = Py_NewRef(other); \
+    return (_PyReturnAction *)this; \
+} \
+ \
+static void FUNCNAME##_returnaction_B_dtor(FUNCNAME##_returnaction_B *this) \
+{ \
+    Py_DECREF(this->self); \
+    Py_DECREF(this->other); \
+    _PyReturnAction_dtor(&this->base); \
+} \
+ \
+static PyObject *FUNCNAME##_returnaction_B_AdaptExit(FUNCNAME##_returnaction_B *this, PyObject *res, struct _PyInterpreterFrame **inlined) \
+{ \
+    if (res != Py_NotImplemented) \
+        return Py_NewRef(res); \
+ \
+    PyObject* stack[2]; \
+    PyThreadState *tstate = _PyThreadState_GET(); \
+    stack[0] = this->other; \
+    stack[1] = this->self; \
+    return vectorcall_maybe(tstate, &_Py_ID(RDUNDER), stack, 2, inlined); \
+} \
+ \
+PyObject * \
+FUNCNAME##_Inlinable(PyObject *self, PyObject *other, struct _PyInterpreterFrame **inlined) \
 { \
     PyObject* stack[2]; \
     PyThreadState *tstate = _PyThreadState_GET(); \
@@ -10143,7 +10218,12 @@ FUNCNAME(PyObject *self, PyObject *other) \
             if (ok) { \
                 stack[0] = other; \
                 stack[1] = self; \
-                r = vectorcall_maybe(tstate, &_Py_ID(RDUNDER), stack, 2, NULL); \
+                struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL; \
+                r = vectorcall_maybe(tstate, &_Py_ID(RDUNDER), stack, 2, inlined); \
+                if (inlined && frame != *inlined) { \
+                    _PyFrame_AddReturnAction(*inlined, FUNCNAME##_returnaction_A_new(self, other)); \
+                    return r; \
+                } \
                 if (r != Py_NotImplemented) \
                     return r; \
                 Py_DECREF(r); \
@@ -10152,7 +10232,14 @@ FUNCNAME(PyObject *self, PyObject *other) \
         } \
         stack[0] = self; \
         stack[1] = other; \
-        r = vectorcall_maybe(tstate, &_Py_ID(DUNDER), stack, 2, NULL); \
+        struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL; \
+        r = vectorcall_maybe(tstate, &_Py_ID(DUNDER), stack, 2, inlined); \
+        if (inlined && frame != *inlined) { \
+            if (!Py_IS_TYPE(other, Py_TYPE(self)) && do_other) { \
+                _PyFrame_AddReturnAction(*inlined, FUNCNAME##_returnaction_B_new(self, other)); \
+            } \
+            return r; \
+        } \
         if (r != Py_NotImplemented || \
             Py_IS_TYPE(other, Py_TYPE(self))) \
             return r; \
@@ -10161,9 +10248,15 @@ FUNCNAME(PyObject *self, PyObject *other) \
     if (do_other) { \
         stack[0] = other; \
         stack[1] = self; \
-        return vectorcall_maybe(tstate, &_Py_ID(RDUNDER), stack, 2, NULL); \
+        return vectorcall_maybe(tstate, &_Py_ID(RDUNDER), stack, 2, inlined); \
     } \
     Py_RETURN_NOTIMPLEMENTED; \
+} \
+ \
+PyObject * \
+FUNCNAME(PyObject *self, PyObject *other) \
+{ \
+    return FUNCNAME##_Inlinable(self, other, NULL); \
 }
 
 #define SLOT1BIN(FUNCNAME, SLOTNAME, DUNDER, RDUNDER) \
@@ -10265,7 +10358,7 @@ slot_sq_contains(PyObject *self, PyObject *value)
 
 #define slot_mp_length slot_sq_length
 
-SLOT1(slot_mp_subscript, __getitem__, PyObject *)
+SLOT1(_PyType_Slot_mp_subscript, __getitem__, PyObject *)
 
 static int
 slot_mp_ass_subscript(PyObject *self, PyObject *key, PyObject *value)
@@ -10289,31 +10382,32 @@ slot_mp_ass_subscript(PyObject *self, PyObject *key, PyObject *value)
     return 0;
 }
 
-SLOT1BIN(slot_nb_add, nb_add, __add__, __radd__)
-SLOT1BIN(slot_nb_subtract, nb_subtract, __sub__, __rsub__)
-SLOT1BIN(slot_nb_multiply, nb_multiply, __mul__, __rmul__)
-SLOT1BIN(slot_nb_matrix_multiply, nb_matrix_multiply, __matmul__, __rmatmul__)
-SLOT1BIN(slot_nb_remainder, nb_remainder, __mod__, __rmod__)
-SLOT1BIN(slot_nb_divmod, nb_divmod, __divmod__, __rdivmod__)
+SLOT1BIN(_PyType_Slot_nb_add, nb_add, __add__, __radd__)
+SLOT1BIN(_PyType_Slot_nb_subtract, nb_subtract, __sub__, __rsub__)
+SLOT1BIN(_PyType_Slot_nb_multiply, nb_multiply, __mul__, __rmul__)
+SLOT1BIN(_PyType_Slot_nb_matrix_multiply, nb_matrix_multiply, __matmul__, __rmatmul__)
+SLOT1BIN(_PyType_Slot_nb_remainder, nb_remainder, __mod__, __rmod__)
+SLOT1BIN(_PyType_Slot_nb_divmod, nb_divmod, __divmod__, __rdivmod__)
 
-static PyObject *slot_nb_power(PyObject *, PyObject *, PyObject *);
+PyObject *_PyType_Slot_nb_power(PyObject *, PyObject *, PyObject *);
 
-SLOT1BINFULL(slot_nb_power_binary, slot_nb_power, nb_power, __pow__, __rpow__)
+SLOT1BINFULL(_PyType_Slot_nb_power_binary, _PyType_Slot_nb_power, nb_power, __pow__, __rpow__)
 
-static PyObject *
-slot_nb_power(PyObject *self, PyObject *other, PyObject *modulus)
+PyObject *
+_PyType_Slot_nb_power_Inlinable(PyObject *self, PyObject *other,
+    PyObject *modulus, struct _PyInterpreterFrame **inlined)
 {
     if (modulus == Py_None)
-        return slot_nb_power_binary(self, other);
+        return _PyType_Slot_nb_power_binary(self, other);
 
     /* The following code is a copy of SLOT1BINFULL, but for three arguments. */
     PyObject* stack[3];
     PyThreadState *tstate = _PyThreadState_GET();
     int do_other = !Py_IS_TYPE(self, Py_TYPE(other)) &&
         Py_TYPE(other)->tp_as_number != NULL &&
-        Py_TYPE(other)->tp_as_number->nb_power == slot_nb_power;
+        Py_TYPE(other)->tp_as_number->nb_power == _PyType_Slot_nb_power;
     if (Py_TYPE(self)->tp_as_number != NULL &&
-        Py_TYPE(self)->tp_as_number->nb_power == slot_nb_power) {
+        Py_TYPE(self)->tp_as_number->nb_power == _PyType_Slot_nb_power) {
         PyObject *r;
         if (do_other && PyType_IsSubtype(Py_TYPE(other), Py_TYPE(self))) {
             int ok = method_is_overloaded(self, other, &_Py_ID(__rpow__));
@@ -10347,6 +10441,12 @@ slot_nb_power(PyObject *self, PyObject *other, PyObject *modulus)
         return vectorcall_maybe(tstate, &_Py_ID(__rpow__), stack, 3, NULL);
     }
     Py_RETURN_NOTIMPLEMENTED;
+}
+
+PyObject *
+_PyType_Slot_nb_power(PyObject *self, PyObject *other, PyObject *modulus)
+{
+    return _PyType_Slot_nb_power_Inlinable(self, other, modulus, NULL);
 }
 
 SLOT0(slot_nb_negative, __neg__)
@@ -10407,36 +10507,41 @@ slot_nb_index(PyObject *self)
 
 
 SLOT0(slot_nb_invert, __invert__)
-SLOT1BIN(slot_nb_lshift, nb_lshift, __lshift__, __rlshift__)
-SLOT1BIN(slot_nb_rshift, nb_rshift, __rshift__, __rrshift__)
-SLOT1BIN(slot_nb_and, nb_and, __and__, __rand__)
-SLOT1BIN(slot_nb_xor, nb_xor, __xor__, __rxor__)
-SLOT1BIN(slot_nb_or, nb_or, __or__, __ror__)
+SLOT1BIN(_PyType_Slot_nb_lshift, nb_lshift, __lshift__, __rlshift__)
+SLOT1BIN(_PyType_Slot_nb_rshift, nb_rshift, __rshift__, __rrshift__)
+SLOT1BIN(_PyType_Slot_nb_and, nb_and, __and__, __rand__)
+SLOT1BIN(_PyType_Slot_nb_xor, nb_xor, __xor__, __rxor__)
+SLOT1BIN(_PyType_Slot_nb_or, nb_or, __or__, __ror__)
 
 SLOT0(slot_nb_int, __int__)
 SLOT0(slot_nb_float, __float__)
-SLOT1(slot_nb_inplace_add, __iadd__, PyObject *)
-SLOT1(slot_nb_inplace_subtract, __isub__, PyObject *)
-SLOT1(slot_nb_inplace_multiply, __imul__, PyObject *)
-SLOT1(slot_nb_inplace_matrix_multiply, __imatmul__, PyObject *)
-SLOT1(slot_nb_inplace_remainder, __imod__, PyObject *)
+SLOT1(_PyType_Slot_nb_inplace_add, __iadd__, PyObject *)
+SLOT1(_PyType_Slot_nb_inplace_subtract, __isub__, PyObject *)
+SLOT1(_PyType_Slot_nb_inplace_multiply, __imul__, PyObject *)
+SLOT1(_PyType_Slot_nb_inplace_matrix_multiply, __imatmul__, PyObject *)
+SLOT1(_PyType_Slot_nb_inplace_remainder, __imod__, PyObject *)
 /* Can't use SLOT1 here, because nb_inplace_power is ternary */
-static PyObject *
-slot_nb_inplace_power(PyObject *self, PyObject * arg1, PyObject *arg2)
+PyObject *
+_PyType_Slot_nb_inplace_power_Inlinable(PyObject *self, PyObject * arg1, PyObject *arg2, struct _PyInterpreterFrame **inlined)
 {
     PyObject *stack[2] = {self, arg1};
-    return vectorcall_method(&_Py_ID(__ipow__), stack, 2, NULL);
+    return vectorcall_method(&_Py_ID(__ipow__), stack, 2, inlined);
 }
-SLOT1(slot_nb_inplace_lshift, __ilshift__, PyObject *)
-SLOT1(slot_nb_inplace_rshift, __irshift__, PyObject *)
-SLOT1(slot_nb_inplace_and, __iand__, PyObject *)
-SLOT1(slot_nb_inplace_xor, __ixor__, PyObject *)
-SLOT1(slot_nb_inplace_or, __ior__, PyObject *)
-SLOT1BIN(slot_nb_floor_divide, nb_floor_divide,
+PyObject *
+_PyType_Slot_nb_inplace_power(PyObject *self, PyObject * arg1, PyObject *arg2)
+{
+    return _PyType_Slot_nb_inplace_power_Inlinable(self, arg1, arg2, NULL);
+}
+SLOT1(_PyType_Slot_nb_inplace_lshift, __ilshift__, PyObject *)
+SLOT1(_PyType_Slot_nb_inplace_rshift, __irshift__, PyObject *)
+SLOT1(_PyType_Slot_nb_inplace_and, __iand__, PyObject *)
+SLOT1(_PyType_Slot_nb_inplace_xor, __ixor__, PyObject *)
+SLOT1(_PyType_Slot_nb_inplace_or, __ior__, PyObject *)
+SLOT1BIN(_PyType_Slot_nb_floor_divide, nb_floor_divide,
          __floordiv__, __rfloordiv__)
-SLOT1BIN(slot_nb_true_divide, nb_true_divide, __truediv__, __rtruediv__)
-SLOT1(slot_nb_inplace_floor_divide, __ifloordiv__, PyObject *)
-SLOT1(slot_nb_inplace_true_divide, __itruediv__, PyObject *)
+SLOT1BIN(_PyType_Slot_nb_true_divide, nb_true_divide, __truediv__, __rtruediv__)
+SLOT1(_PyType_Slot_nb_inplace_floor_divide, __ifloordiv__, PyObject *)
+SLOT1(_PyType_Slot_nb_inplace_true_divide, __itruediv__, PyObject *)
 
 static PyObject *
 slot_tp_repr(PyObject *self)
@@ -10629,7 +10734,7 @@ _PyType_Slot_tp_getattr_hook_inlinable(PyObject *self, PyObject *name,
         res = call_attribute(self, getattribute, name, inlined);
         Py_DECREF(getattribute);
         if (inlined && *inlined != frame) {
-            _PyFrame_SetNextReturnAction(*inlined, getattr_returnaction_new(self, getattr, name));
+            _PyFrame_AddReturnAction(*inlined, getattr_returnaction_new(self, getattr, name));
         } else {
             if (res == NULL && PyErr_ExceptionMatches(PyExc_AttributeError)) {
                 PyErr_Clear();
@@ -11304,29 +11409,29 @@ static pytype_slotdef slotdefs[] = {
     AMSLOT(__anext__, am_anext, slot_am_anext, wrap_unaryfunc,
            "__anext__($self, /)\n--\n\nReturn a value or raise StopAsyncIteration."),
 
-    BINSLOT(__add__, nb_add, slot_nb_add,
+    BINSLOT(__add__, nb_add, _PyType_Slot_nb_add,
            "+"),
-    RBINSLOT(__radd__, nb_add, slot_nb_add,
+    RBINSLOT(__radd__, nb_add, _PyType_Slot_nb_add,
            "+"),
-    BINSLOT(__sub__, nb_subtract, slot_nb_subtract,
+    BINSLOT(__sub__, nb_subtract, _PyType_Slot_nb_subtract,
            "-"),
-    RBINSLOT(__rsub__, nb_subtract, slot_nb_subtract,
+    RBINSLOT(__rsub__, nb_subtract, _PyType_Slot_nb_subtract,
            "-"),
-    BINSLOT(__mul__, nb_multiply, slot_nb_multiply,
+    BINSLOT(__mul__, nb_multiply, _PyType_Slot_nb_multiply,
            "*"),
-    RBINSLOT(__rmul__, nb_multiply, slot_nb_multiply,
+    RBINSLOT(__rmul__, nb_multiply, _PyType_Slot_nb_multiply,
            "*"),
-    BINSLOT(__mod__, nb_remainder, slot_nb_remainder,
+    BINSLOT(__mod__, nb_remainder, _PyType_Slot_nb_remainder,
            "%"),
-    RBINSLOT(__rmod__, nb_remainder, slot_nb_remainder,
+    RBINSLOT(__rmod__, nb_remainder, _PyType_Slot_nb_remainder,
            "%"),
-    BINSLOTNOTINFIX(__divmod__, nb_divmod, slot_nb_divmod,
+    BINSLOTNOTINFIX(__divmod__, nb_divmod, _PyType_Slot_nb_divmod,
            "Return divmod(self, value)."),
-    RBINSLOTNOTINFIX(__rdivmod__, nb_divmod, slot_nb_divmod,
+    RBINSLOTNOTINFIX(__rdivmod__, nb_divmod, _PyType_Slot_nb_divmod,
            "Return divmod(value, self)."),
-    NBSLOT(__pow__, nb_power, slot_nb_power, wrap_ternaryfunc,
+    NBSLOT(__pow__, nb_power, _PyType_Slot_nb_power, wrap_ternaryfunc,
            "__pow__($self, value, mod=None, /)\n--\n\nReturn pow(self, value, mod)."),
-    NBSLOT(__rpow__, nb_power, slot_nb_power, wrap_ternaryfunc_r,
+    NBSLOT(__rpow__, nb_power, _PyType_Slot_nb_power, wrap_ternaryfunc_r,
            "__rpow__($self, value, mod=None, /)\n--\n\nReturn pow(value, self, mod)."),
     UNSLOT(__neg__, nb_negative, slot_nb_negative, wrap_unaryfunc, "-self"),
     UNSLOT(__pos__, nb_positive, slot_nb_positive, wrap_unaryfunc, "+self"),
@@ -11335,61 +11440,61 @@ static pytype_slotdef slotdefs[] = {
     UNSLOT(__bool__, nb_bool, slot_nb_bool, wrap_inquirypred,
            "True if self else False"),
     UNSLOT(__invert__, nb_invert, slot_nb_invert, wrap_unaryfunc, "~self"),
-    BINSLOT(__lshift__, nb_lshift, slot_nb_lshift, "<<"),
-    RBINSLOT(__rlshift__, nb_lshift, slot_nb_lshift, "<<"),
-    BINSLOT(__rshift__, nb_rshift, slot_nb_rshift, ">>"),
-    RBINSLOT(__rrshift__, nb_rshift, slot_nb_rshift, ">>"),
-    BINSLOT(__and__, nb_and, slot_nb_and, "&"),
-    RBINSLOT(__rand__, nb_and, slot_nb_and, "&"),
-    BINSLOT(__xor__, nb_xor, slot_nb_xor, "^"),
-    RBINSLOT(__rxor__, nb_xor, slot_nb_xor, "^"),
-    BINSLOT(__or__, nb_or, slot_nb_or, "|"),
-    RBINSLOT(__ror__, nb_or, slot_nb_or, "|"),
+    BINSLOT(__lshift__, nb_lshift, _PyType_Slot_nb_lshift, "<<"),
+    RBINSLOT(__rlshift__, nb_lshift, _PyType_Slot_nb_lshift, "<<"),
+    BINSLOT(__rshift__, nb_rshift, _PyType_Slot_nb_rshift, ">>"),
+    RBINSLOT(__rrshift__, nb_rshift, _PyType_Slot_nb_rshift, ">>"),
+    BINSLOT(__and__, nb_and, _PyType_Slot_nb_and, "&"),
+    RBINSLOT(__rand__, nb_and, _PyType_Slot_nb_and, "&"),
+    BINSLOT(__xor__, nb_xor, _PyType_Slot_nb_xor, "^"),
+    RBINSLOT(__rxor__, nb_xor, _PyType_Slot_nb_xor, "^"),
+    BINSLOT(__or__, nb_or, _PyType_Slot_nb_or, "|"),
+    RBINSLOT(__ror__, nb_or, _PyType_Slot_nb_or, "|"),
     UNSLOT(__int__, nb_int, slot_nb_int, wrap_unaryfunc,
            "int(self)"),
     UNSLOT(__float__, nb_float, slot_nb_float, wrap_unaryfunc,
            "float(self)"),
-    IBSLOT(__iadd__, nb_inplace_add, slot_nb_inplace_add,
+    IBSLOT(__iadd__, nb_inplace_add, _PyType_Slot_nb_inplace_add,
            wrap_binaryfunc, "+="),
-    IBSLOT(__isub__, nb_inplace_subtract, slot_nb_inplace_subtract,
+    IBSLOT(__isub__, nb_inplace_subtract, _PyType_Slot_nb_inplace_subtract,
            wrap_binaryfunc, "-="),
-    IBSLOT(__imul__, nb_inplace_multiply, slot_nb_inplace_multiply,
+    IBSLOT(__imul__, nb_inplace_multiply, _PyType_Slot_nb_inplace_multiply,
            wrap_binaryfunc, "*="),
-    IBSLOT(__imod__, nb_inplace_remainder, slot_nb_inplace_remainder,
+    IBSLOT(__imod__, nb_inplace_remainder, _PyType_Slot_nb_inplace_remainder,
            wrap_binaryfunc, "%="),
-    IBSLOT(__ipow__, nb_inplace_power, slot_nb_inplace_power,
+    IBSLOT(__ipow__, nb_inplace_power, _PyType_Slot_nb_inplace_power,
            wrap_ternaryfunc, "**="),
-    IBSLOT(__ilshift__, nb_inplace_lshift, slot_nb_inplace_lshift,
+    IBSLOT(__ilshift__, nb_inplace_lshift, _PyType_Slot_nb_inplace_lshift,
            wrap_binaryfunc, "<<="),
-    IBSLOT(__irshift__, nb_inplace_rshift, slot_nb_inplace_rshift,
+    IBSLOT(__irshift__, nb_inplace_rshift, _PyType_Slot_nb_inplace_rshift,
            wrap_binaryfunc, ">>="),
-    IBSLOT(__iand__, nb_inplace_and, slot_nb_inplace_and,
+    IBSLOT(__iand__, nb_inplace_and, _PyType_Slot_nb_inplace_and,
            wrap_binaryfunc, "&="),
-    IBSLOT(__ixor__, nb_inplace_xor, slot_nb_inplace_xor,
+    IBSLOT(__ixor__, nb_inplace_xor, _PyType_Slot_nb_inplace_xor,
            wrap_binaryfunc, "^="),
-    IBSLOT(__ior__, nb_inplace_or, slot_nb_inplace_or,
+    IBSLOT(__ior__, nb_inplace_or, _PyType_Slot_nb_inplace_or,
            wrap_binaryfunc, "|="),
-    BINSLOT(__floordiv__, nb_floor_divide, slot_nb_floor_divide, "//"),
-    RBINSLOT(__rfloordiv__, nb_floor_divide, slot_nb_floor_divide, "//"),
-    BINSLOT(__truediv__, nb_true_divide, slot_nb_true_divide, "/"),
-    RBINSLOT(__rtruediv__, nb_true_divide, slot_nb_true_divide, "/"),
+    BINSLOT(__floordiv__, nb_floor_divide, _PyType_Slot_nb_floor_divide, "//"),
+    RBINSLOT(__rfloordiv__, nb_floor_divide, _PyType_Slot_nb_floor_divide, "//"),
+    BINSLOT(__truediv__, nb_true_divide, _PyType_Slot_nb_true_divide, "/"),
+    RBINSLOT(__rtruediv__, nb_true_divide, _PyType_Slot_nb_true_divide, "/"),
     IBSLOT(__ifloordiv__, nb_inplace_floor_divide,
-           slot_nb_inplace_floor_divide, wrap_binaryfunc, "//="),
+           _PyType_Slot_nb_inplace_floor_divide, wrap_binaryfunc, "//="),
     IBSLOT(__itruediv__, nb_inplace_true_divide,
-           slot_nb_inplace_true_divide, wrap_binaryfunc, "/="),
+           _PyType_Slot_nb_inplace_true_divide, wrap_binaryfunc, "/="),
     NBSLOT(__index__, nb_index, slot_nb_index, wrap_unaryfunc,
            "__index__($self, /)\n--\n\n"
            "Return self converted to an integer, if self is suitable "
            "for use as an index into a list."),
-    BINSLOT(__matmul__, nb_matrix_multiply, slot_nb_matrix_multiply,
+    BINSLOT(__matmul__, nb_matrix_multiply, _PyType_Slot_nb_matrix_multiply,
             "@"),
-    RBINSLOT(__rmatmul__, nb_matrix_multiply, slot_nb_matrix_multiply,
+    RBINSLOT(__rmatmul__, nb_matrix_multiply, _PyType_Slot_nb_matrix_multiply,
              "@"),
-    IBSLOT(__imatmul__, nb_inplace_matrix_multiply, slot_nb_inplace_matrix_multiply,
+    IBSLOT(__imatmul__, nb_inplace_matrix_multiply, _PyType_Slot_nb_inplace_matrix_multiply,
            wrap_binaryfunc, "@="),
     MPSLOT(__len__, mp_length, slot_mp_length, wrap_lenfunc,
            "__len__($self, /)\n--\n\nReturn len(self)."),
-    MPSLOT(__getitem__, mp_subscript, slot_mp_subscript,
+    MPSLOT(__getitem__, mp_subscript, _PyType_Slot_mp_subscript,
            wrap_binaryfunc,
            "__getitem__($self, key, /)\n--\n\nReturn self[key]."),
     MPSLOT(__setitem__, mp_ass_subscript, slot_mp_ass_subscript,

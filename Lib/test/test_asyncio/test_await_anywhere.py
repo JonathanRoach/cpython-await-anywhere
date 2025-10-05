@@ -314,3 +314,79 @@ class AwaitAnywhereTests(unittest.TestCase):
             return ob.aval
         
         self.assertEqual(asyncio.run(dotest1()), 'awaitdone')
+
+    def test_await_in_ops(self):
+        import asyncio
+
+        def optest(op):
+            def r(self, other):
+                await asyncio.sleep(0.01)
+                return f'{other} {op}'
+            return r
+
+        class WithXor:
+            __and__ = optest('and')
+            __rand__ = optest('rand')
+            __floordiv__ = optest('floordiv')
+            __rfloordiv__ = optest('rfloordiv')
+            __lshift__ = optest('lshift')
+            __rlshift__ = optest('rlshift')
+            __matmul__ = optest('matmul')
+            __rmatmul__ = optest('rmatmul')
+            __mod__ = optest('mod')
+            __rmod__ = optest('rmod')
+            __or__ = optest('or')
+            __ror__ = optest('ror')
+            __rshift__ = optest('rshift')
+            __rrshift__ = optest('rrshift')
+            __sub__ = optest('sub')
+            __rsub__ = optest('rsub')
+            __truediv__ = optest('truediv')
+            __rtruediv__ = optest('rtruediv')
+            __xor__ = optest('xor')
+            __rxor__ = optest('rxor')
+
+        async def dotest1():
+            w = WithXor()
+            return ((w & 1)
+                + (w // 2)
+                + (w << 3)
+                + (w @ 4)
+                + (w % 5)
+                + (w | 6)
+                + (w >> 7)
+                + (w - 8)
+                + (w / 9)
+                + (w ^ 10)
+                + (1 & w)
+                + (2 // w)
+                + (3 << w)
+                + (4 @ w)
+                + (5 % w)
+                + (6 | w)
+                + (7 >> w)
+                + (8 - w)
+                + (9 / w)
+                + (10 ^ w))
+
+        self.assertEqual(asyncio.run(dotest1()), '1 and'
+            +'2 floordiv'
+            +'3 lshift'
+            +'4 matmul'
+            +'5 mod'
+            +'6 or'
+            +'7 rshift'
+            +'8 sub'
+            +'9 truediv'
+            +'10 xor'
+            +'1 rand'
+            +'2 rfloordiv'
+            +'3 rlshift'
+            +'4 rmatmul'
+            +'5 rmod'
+            +'6 ror'
+            +'7 rrshift'
+            +'8 rsub'
+            +'9 rtruediv'
+            +'10 rxor')
+
