@@ -930,13 +930,21 @@ RETURNACTION_STDMETHODDECL(binaryop1_returnaction_checkslotresult)
 struct binaryop1_returnaction_checkslotresult {
     _PyReturnAction base;
     PyObject *v;
+#ifndef NDEBUG
     char const* op_name;
+#endif
 };
 
-_PyReturnAction *binaryop1_returnaction_checkslotresult_new(PyObject *v, char const *op_name){
+_PyReturnAction *binaryop1_returnaction_checkslotresult_new(PyObject *v
+#ifndef NDEBUG
+    , char const *op_name
+#endif
+){
     RETURNACTION_NEWPREAMBLE(binaryop1_returnaction_checkslotresult)
     this->v = Py_NewRef(v);
+#ifndef NDEBUG
     this->op_name = op_name;
+#endif
     return (_PyReturnAction *)this;
 }
 
@@ -949,15 +957,22 @@ static void binaryop1_returnaction_checkslotresult_dtor(binaryop1_returnaction_c
 static PyObject *binaryop1_returnaction_checkslotresult_AdaptExit(binaryop1_returnaction_checkslotresult *this, PyObject *res, struct _PyInterpreterFrame **inlined)
 {
     assert(_Py_CheckSlotResult(this->v, this->op_name, res != NULL));
-    return Py_NewRef(res);
+    return res ? Py_NewRef(res) : NULL;
 }
 
 static bool add_delayed_checkslotresult(struct _PyInterpreterFrame *frame,
     struct _PyInterpreterFrame **inlined, PyObject *v, PyObject *res,
-    char const *op_name)
+#ifndef NDEBUG
+    char const *op_name
+#endif
+)
 {
     if (inlined && *inlined != frame) {
-        _PyFrame_AddReturnAction(frame, binaryop1_returnaction_checkslotresult_new(v, op_name));
+        _PyFrame_AddReturnAction(*inlined, binaryop1_returnaction_checkslotresult_new(v
+#ifndef NDEBUG
+            , op_name
+#endif
+        ));
     } else {
         assert(_Py_CheckSlotResult(v, op_name, res != NULL));
     }
@@ -973,19 +988,26 @@ struct binaryop1_returnaction_trysecondmethod {
     binaryfunc slotw;
     binaryfunc_inlinable slotw_inlinable;
     bool switched;
+#ifndef NDEBUG
     char const* op_name;
+#endif
 };
 
 _PyReturnAction *binaryop1_returnaction_trysecondmethod_new(PyObject *v, PyObject *w,
-    binaryfunc slotw, binaryfunc_inlinable slotw_inlinable, bool switched,
-    char const *op_name){
+    binaryfunc slotw, binaryfunc_inlinable slotw_inlinable, bool switched
+#ifndef NDEBUG
+    , char const *op_name
+#endif
+){
     RETURNACTION_NEWPREAMBLE(binaryop1_returnaction_trysecondmethod)
     this->v = Py_NewRef(v);
     this->w = Py_NewRef(w);
     this->switched = switched;
     this->slotw = slotw;
     this->slotw_inlinable = slotw_inlinable;
+#ifndef NDEBUG
     this->op_name = op_name;
+#endif
     return (_PyReturnAction *)this;
 }
 
@@ -1000,12 +1022,16 @@ static PyObject *binaryop1_returnaction_trysecondmethod_AdaptExit(binaryop1_retu
 {
     assert(_Py_CheckSlotResult(this->switched ? this->w : this->v, this->op_name, res != NULL));
     if (res != Py_NotImplemented) {
-        return Py_NewRef(res);
+        return res ? Py_NewRef(res) : NULL;
     }
     // need to try slotw
     struct _PyInterpreterFrame *frame = *inlined;
     res = (this->slotw_inlinable ? this->slotw_inlinable(this->v, this->w, inlined) : this->slotw(this->v, this->w));
-    assert(add_delayed_checkslotresult(frame, inlined, this->switched ? this->v : this->w, res, this->op_name));
+    assert(add_delayed_checkslotresult(frame, inlined, this->switched ? this->v : this->w, res
+#ifndef NDEBUG
+        , this->op_name
+#endif
+    ));
     return res;
 }
 
@@ -1065,24 +1091,40 @@ binary_op1(PyObject *v, PyObject *w, const int op_slot,
             PyObject *x = (slotv == inlinable_func ? func_inlinable(v, w, inlined) : slotv(v, w));
             if (frame != *inlined){
                 _PyFrame_AddReturnAction(*inlined, binaryop1_returnaction_trysecondmethod_new(
-                    v, w, slotw, slotw == inlinable_func ? func_inlinable : NULL, switched, op_name));
+                    v, w, slotw, slotw == inlinable_func ? func_inlinable : NULL, switched
+#ifndef NDEBUG
+                    , op_name
+#endif
+                ));
             } else if (x == Py_NotImplemented) {
                 // need to try slotw
                 x = (slotw == inlinable_func ? func_inlinable(v, w, inlined) : slotw(v, w));
-                assert(add_delayed_checkslotresult(frame, inlined, switched ? v : w, x, op_name));
+                assert(add_delayed_checkslotresult(frame, inlined, switched ? v : w, x
+#ifndef NDEBUG
+                    , op_name
+#endif
+                ));
             }
             return x;
         } else {
             // slotv only
             PyObject *x = (slotv == inlinable_func ? func_inlinable(v, w, inlined) : slotv(v, w));
-            assert(add_delayed_checkslotresult(frame, inlined, v, x, op_name));
+            assert(add_delayed_checkslotresult(frame, inlined, v, x
+#ifndef NDEBUG
+                , op_name
+#endif
+            ));
             return x;
         }
     } else {
         if (slotw) {
             // slotw only
             PyObject *x = (slotw == inlinable_func ? func_inlinable(v, w, inlined) : slotw(v, w));
-            assert(add_delayed_checkslotresult(frame, inlined, w, x, op_name));
+            assert(add_delayed_checkslotresult(frame, inlined, w, x
+#ifndef NDEBUG
+                , op_name
+#endif
+            ));
             return x;
         } else {
             // neither slotv or slotw
@@ -1167,7 +1209,7 @@ static PyObject *binaryop_returnaction_AdaptExit(binaryop_returnaction *this, Py
         return binop_type_error(this->v, this->w, this->op_name);
     }
 
-    return Py_NewRef(res);
+    return res ? Py_NewRef(res) : NULL;
 }
 
 static PyObject *
@@ -1418,6 +1460,60 @@ _PyNumber_PowerNoMod_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpret
 
    */
 
+RETURNACTION_STDMETHODDECL(binaryiop1_returnaction)
+
+typedef struct binaryiop1_returnaction {
+    _PyReturnAction base;
+    PyObject *v;
+    PyObject *w;
+    int op_slot;
+    binaryfunc inlinable_func;
+    binaryfunc_inlinable func_inlinable;
+#ifndef NDEBUG
+    char const* op_name;
+#endif
+} binaryiop1_returnaction;
+
+_PyReturnAction *binaryiop1_returnaction_new(PyObject *v, PyObject *w, const int op_slot,
+          binaryfunc inlinable_func, binaryfunc_inlinable func_inlinable
+#ifndef NDEBUG
+          , char const *op_name
+#endif
+){
+    RETURNACTION_NEWPREAMBLE(binaryiop1_returnaction)
+    this->v = Py_NewRef(v);
+    this->w = Py_NewRef(w);
+    this->op_slot = op_slot;
+    this->inlinable_func = inlinable_func;
+    this->func_inlinable = func_inlinable;
+#ifndef NDEBUG
+    this->op_name = op_name;
+#endif
+    return (_PyReturnAction *)this;
+}
+
+static void binaryiop1_returnaction_dtor(binaryiop1_returnaction *this)
+{
+    Py_DECREF(this->v);
+    Py_DECREF(this->w);
+    _PyReturnAction_dtor(&this->base);
+}
+
+static PyObject *binaryiop1_returnaction_AdaptExit(binaryiop1_returnaction *this, PyObject *res, struct _PyInterpreterFrame **inlined)
+{
+    assert(_Py_CheckSlotResult(this->v, this->op_name, res != NULL));
+    if (res != Py_NotImplemented) {
+        return res ? Py_NewRef(res) : NULL;
+    }
+
+    // need to try slotv binary_op1
+#ifdef NDEBUG
+    return binary_op1(this->v, this->w, this->op_slot, inlined, this->inlinable_func, this->func_inlinable);
+#else
+    return binary_op1(this->v, this->w, this->op_slot, inlined, this->inlinable_func, this->func_inlinable, this->op_name);
+#endif
+}
+
 static PyObject *
 binary_iop1(PyObject *v, PyObject *w, const int iop_slot, const int op_slot, struct _PyInterpreterFrame **inlined,
           binaryfunc iinlinable_func, binaryfunc_inlinable ifunc_inlinable,
@@ -1432,12 +1528,23 @@ binary_iop1(PyObject *v, PyObject *w, const int iop_slot, const int op_slot, str
         binaryfunc slot = NB_BINOP(mv, iop_slot);
         if (slot) {
             // TBD: hanlding inlined function properly
+            struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
             PyObject *x = slot == iinlinable_func ? ifunc_inlinable(v, w, inlined) : slot(v, w);
-            assert(_Py_CheckSlotResult(v, op_name, x != NULL));
-            if (x != Py_NotImplemented) {
+            if (inlined && *inlined != frame)
+            {
+                _PyFrame_AddReturnAction(*inlined, binaryiop1_returnaction_new(v, w, op_slot, inlinable_func, func_inlinable
+#ifndef NDEBUG
+                    , op_name
+#endif
+                ));
                 return x;
+            } else {
+                assert(_Py_CheckSlotResult(v, op_name, x != NULL));
+                if (x != Py_NotImplemented) {
+                    return x;
+                }
+                Py_DECREF(x);
             }
-            Py_DECREF(x);
         }
     }
 #ifdef NDEBUG
@@ -1461,11 +1568,16 @@ binary_iop(PyObject *v, PyObject *w, const int iop_slot, const int op_slot, stru
           binaryfunc inlinable_func, binaryfunc_inlinable func_inlinable,
           const char *op_name)
 {
+    struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
     PyObject *result = BINARY_IOP1(v, w, iop_slot, op_slot, inlined, iinlinable_func, ifunc_inlinable, inlinable_func, func_inlinable, op_name);
-    // TBD: handle inlined case
-    if (result == Py_NotImplemented) {
-        Py_DECREF(result);
-        return binop_type_error(v, w, op_name);
+    if (inlined && *inlined != frame)
+    {
+        _PyFrame_AddReturnAction(*inlined, binaryop_returnaction_new(v, w, op_name));
+    } else {
+        if (result == Py_NotImplemented) {
+            Py_DECREF(result);
+            return binop_type_error(v, w, op_name);
+        }
     }
     return result;
 }

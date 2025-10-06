@@ -318,13 +318,18 @@ class AwaitAnywhereTests(unittest.TestCase):
     def test_await_in_ops(self):
         import asyncio
 
+        class WithXorBase:
+            ...
+
         def optest(op):
             def r(self, other):
+                if isinstance(other, WithXorBase):
+                    other = 'base'
                 await asyncio.sleep(0.01)
                 return f'{other} {op}'
             return r
 
-        class WithXor:
+        class WithXor(WithXorBase):
             __and__ = optest('and')
             __rand__ = optest('rand')
             __floordiv__ = optest('floordiv')
@@ -345,6 +350,37 @@ class AwaitAnywhereTests(unittest.TestCase):
             __rtruediv__ = optest('rtruediv')
             __xor__ = optest('xor')
             __rxor__ = optest('rxor')
+
+        def doptest(op):
+            def r(self, other):
+                if issubclass(other.__class__, WithXorBase):
+                    other = other.__class__.__name__
+                await asyncio.sleep(0.01)
+                return f'{other} {op}'
+            return r
+
+        class WithXorDeriv(WithXor):
+            __and__ = doptest('dand')
+            __rand__ = doptest('drand')
+            __floordiv__ = doptest('dfloordiv')
+            __rfloordiv__ = doptest('drfloordiv')
+            __lshift__ = doptest('dlshift')
+            __rlshift__ = doptest('drlshift')
+            __matmul__ = doptest('dmatmul')
+            __rmatmul__ = doptest('drmatmul')
+            __mod__ = doptest('dmod')
+            __rmod__ = doptest('drmod')
+            __or__ = doptest('dor')
+            __ror__ = doptest('dror')
+            __rshift__ = doptest('drshift')
+            __rrshift__ = doptest('drrshift')
+            __sub__ = doptest('dsub')
+            __rsub__ = doptest('drsub')
+            __truediv__ = doptest('dtruediv')
+            __rtruediv__ = doptest('drtruediv')
+            __xor__ = doptest('dxor')
+            __rxor__ = doptest('drxor')
+
 
         async def dotest1():
             w = WithXor()
@@ -369,6 +405,56 @@ class AwaitAnywhereTests(unittest.TestCase):
                 + (9 / w)
                 + (10 ^ w))
 
+        async def dotest2():
+            v = WithXorBase()
+            w = WithXor()
+
+            return ((w & v)
+                + (w // v)
+                + (w << v)
+                + (w @ v)
+                + (w % v)
+                + (w | v)
+                + (w >> v)
+                + (w - v)
+                + (w / v)
+                + (w ^ v)
+                + (v & w)
+                + (v // w)
+                + (v << w)
+                + (v @ w)
+                + (v % w)
+                + (v | w)
+                + (v >> w)
+                + (v - w)
+                + (v / w)
+                + (v ^ w))
+
+        async def dotest3():
+            v = WithXorDeriv()
+            w = WithXor()
+
+            return ((w & v)
+                + (w // v)
+                + (w << v)
+                + (w @ v)
+                + (w % v)
+                + (w | v)
+                + (w >> v)
+                + (w - v)
+                + (w / v)
+                + (w ^ v)
+                + (v & w)
+                + (v // w)
+                + (v << w)
+                + (v @ w)
+                + (v % w)
+                + (v | w)
+                + (v >> w)
+                + (v - w)
+                + (v / w)
+                + (v ^ w))
+
         self.assertEqual(asyncio.run(dotest1()), '1 and'
             +'2 floordiv'
             +'3 lshift'
@@ -389,4 +475,46 @@ class AwaitAnywhereTests(unittest.TestCase):
             +'8 rsub'
             +'9 rtruediv'
             +'10 rxor')
+
+        self.assertEqual(asyncio.run(dotest2()), 'base and'
+            +'base floordiv'
+            +'base lshift'
+            +'base matmul'
+            +'base mod'
+            +'base or'
+            +'base rshift'
+            +'base sub'
+            +'base truediv'
+            +'base xor'
+            +'base rand'
+            +'base rfloordiv'
+            +'base rlshift'
+            +'base rmatmul'
+            +'base rmod'
+            +'base ror'
+            +'base rrshift'
+            +'base rsub'
+            +'base rtruediv'
+            +'base rxor')
+
+        self.assertEqual(asyncio.run(dotest3()), 'WithXor drand'
+            +'WithXor drfloordiv'
+            +'WithXor drlshift'
+            +'WithXor drmatmul'
+            +'WithXor drmod'
+            +'WithXor dror'
+            +'WithXor drrshift'
+            +'WithXor drsub'
+            +'WithXor drtruediv'
+            +'WithXor drxor'
+            +'WithXor dand'
+            +'WithXor dfloordiv'
+            +'WithXor dlshift'
+            +'WithXor dmatmul'
+            +'WithXor dmod'
+            +'WithXor dor'
+            +'WithXor drshift'
+            +'WithXor dsub'
+            +'WithXor dtruediv'
+            +'WithXor dxor')
 

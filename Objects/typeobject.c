@@ -10156,7 +10156,7 @@ static void FUNCNAME##_returnaction_A_dtor(FUNCNAME##_returnaction_A *this) \
 static PyObject *FUNCNAME##_returnaction_A_AdaptExit(FUNCNAME##_returnaction_A *this, PyObject *res, struct _PyInterpreterFrame **inlined) \
 { \
     if (res != Py_NotImplemented) \
-        return Py_NewRef(res); \
+        return res ? Py_NewRef(res) : NULL; \
  \
     PyObject* stack[2]; \
     PyThreadState *tstate = _PyThreadState_GET(); \
@@ -10190,7 +10190,7 @@ static void FUNCNAME##_returnaction_B_dtor(FUNCNAME##_returnaction_B *this) \
 static PyObject *FUNCNAME##_returnaction_B_AdaptExit(FUNCNAME##_returnaction_B *this, PyObject *res, struct _PyInterpreterFrame **inlined) \
 { \
     if (res != Py_NotImplemented) \
-        return Py_NewRef(res); \
+        return res ? Py_NewRef(res) : NULL; \
  \
     PyObject* stack[2]; \
     PyThreadState *tstate = _PyThreadState_GET(); \
