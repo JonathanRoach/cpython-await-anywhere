@@ -361,6 +361,8 @@ class AwaitAnywhereTests(unittest.TestCase):
             __rtruediv__ = optest('rtruediv')
             __xor__ = optest('xor')
             __rxor__ = optest('rxor')
+            __add__ = optest('add')
+            __radd__ = optest('radd')
 
             # iops, eg v -= w
             __iadd__ = ioptest('iadd')
@@ -416,6 +418,8 @@ class AwaitAnywhereTests(unittest.TestCase):
             __rtruediv__ = doptest('drtruediv')
             __xor__ = doptest('dxor')
             __rxor__ = doptest('drxor')
+            __add__ = doptest('dadd')
+            __radd__ = doptest('dradd')
 
             # iops, eg v -= w
             __iadd__ = dioptest('iadd')
@@ -454,7 +458,8 @@ class AwaitAnywhereTests(unittest.TestCase):
                 + (7 >> w)
                 + (8 - w)
                 + (9 / w)
-                + (10 ^ w))
+                + (10 ^ w)
+                + (11 + w))
 
         # cls <op> number and number <op> cls
         self.assertEqual(asyncio.run(dotest1()), '1 and'
@@ -476,7 +481,8 @@ class AwaitAnywhereTests(unittest.TestCase):
             +'7 rrshift'
             +'8 rsub'
             +'9 rtruediv'
-            +'10 rxor')
+            +'10 rxor'
+            +'11 radd')
 
         # cls <op> base and base <op> cls
         async def dotest2():
@@ -502,7 +508,8 @@ class AwaitAnywhereTests(unittest.TestCase):
                 + (v >> w)
                 + (v - w)
                 + (v / w)
-                + (v ^ w))
+                + (v ^ w)
+                + (v + w))
 
         self.assertEqual(asyncio.run(dotest2()), 'base and'
             +'base floordiv'
@@ -523,7 +530,8 @@ class AwaitAnywhereTests(unittest.TestCase):
             +'base rrshift'
             +'base rsub'
             +'base rtruediv'
-            +'base rxor')
+            +'base rxor'
+            +'base radd')
 
         # cls <op> deriv and deriv <op> cls
         async def dotest3():
@@ -549,7 +557,8 @@ class AwaitAnywhereTests(unittest.TestCase):
                 + (v >> w)
                 + (v - w)
                 + (v / w)
-                + (v ^ w))
+                + (v ^ w)
+                + (v + w))
 
         self.assertEqual(asyncio.run(dotest3()), 'WithXor drand'
             +'WithXor drfloordiv'
@@ -570,7 +579,8 @@ class AwaitAnywhereTests(unittest.TestCase):
             +'WithXor drshift'
             +'WithXor dsub'
             +'WithXor dtruediv'
-            +'WithXor dxor')
+            +'WithXor dxor'
+            +'WithXor dadd')
 
         # cls <iop> number
         async def dotest4():

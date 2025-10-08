@@ -1087,9 +1087,8 @@ binary_op1(PyObject *v, PyObject *w, const int op_slot,
                 slotw = slott;
                 switched = true;
             }
-            struct _PyInterpreterFrame *frame = *inlined;
             PyObject *x = (slotv == inlinable_func ? func_inlinable(v, w, inlined) : slotv(v, w));
-            if (frame != *inlined){
+            if (inlined && frame != *inlined){
                 _PyFrame_AddReturnAction(*inlined, binaryop1_returnaction_trysecondmethod_new(
                     v, w, slotw, slotw == inlinable_func ? func_inlinable : NULL, switched
 #ifndef NDEBUG
@@ -1350,24 +1349,71 @@ BINARY_FUNC(PyNumber_Rshift, nb_rshift, ">>")
 BINARY_FUNC(PyNumber_Subtract, nb_subtract, "-")
 BINARY_FUNC(PyNumber_Divmod, nb_divmod, "divmod()")
 
+
+RETURNACTION_STDMETHODDECL(add_returnaction)
+
+typedef struct add_returnaction_part1 {
+    _PyReturnAction base;
+    PyObject *v;
+    PyObject *w;
+} add_returnaction;
+
+_PyReturnAction *add_returnaction_new(PyObject *v, PyObject *w){
+    RETURNACTION_NEWPREAMBLE(add_returnaction)
+    this->v = Py_NewRef(v);
+    this->w = Py_NewRef(w);
+    return (_PyReturnAction *)this;
+}
+
+static void add_returnaction_dtor(add_returnaction *this)
+{
+    Py_DECREF(this->v);
+    Py_DECREF(this->w);
+    _PyReturnAction_dtor(&this->base);
+}
+
+static PyObject *add_returnaction_AdaptExit(add_returnaction *this, PyObject *res, struct _PyInterpreterFrame **inlined)
+{
+    if (res != Py_NotImplemented) {
+        assert(_Py_CheckSlotResult(this->v, "+", res != NULL));
+        return res ? Py_NewRef(res) : NULL;
+    }
+
+    PySequenceMethods *m = Py_TYPE(this->v)->tp_as_sequence;
+    if (m && m->sq_concat) {
+        res = (*m->sq_concat)(this->v, this->w);
+        assert(_Py_CheckSlotResult(this->v, "+", res != NULL));
+        return res;
+    }
+
+    return binop_type_error(this->v, this->w, "+");
+}
+
+
 PyObject *
 _PyNumber_Add_Inlinable(PyObject *v, PyObject *w, struct _PyInterpreterFrame **inlined)
 {
+    struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
     PyObject *result = BINARY_OP1(v, w, NB_SLOT(nb_add), inlined, _PyType_Slot_nb_add, _PyType_Slot_nb_add_Inlinable, "+");
-    // TBD: handle inlined case
-    if (result != Py_NotImplemented) {
+    if (inlined && frame != *inlined){
+        _PyFrame_AddReturnAction(*inlined, add_returnaction_new(v, w);
         return result;
-    }
-    Py_DECREF(result);
+    } else {
+        if (result != Py_NotImplemented) {
+            assert(_Py_CheckSlotResult(v, "+", result != NULL));
+            return result;
+        }
+        Py_DECREF(result);
 
-    PySequenceMethods *m = Py_TYPE(v)->tp_as_sequence;
-    if (m && m->sq_concat) {
-        result = (*m->sq_concat)(v, w);
-        assert(_Py_CheckSlotResult(v, "+", result != NULL));
-        return result;
-    }
+        PySequenceMethods *m = Py_TYPE(v)->tp_as_sequence;
+        if (m && m->sq_concat) {
+            result = (*m->sq_concat)(v, w);
+            assert(_Py_CheckSlotResult(v, "+", result != NULL));
+            return result;
+        }
 
-    return binop_type_error(v, w, "+");
+        return binop_type_error(v, w, "+");
+    }
 }
 
 PyObject *
