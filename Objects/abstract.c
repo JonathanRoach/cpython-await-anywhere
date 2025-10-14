@@ -2164,16 +2164,71 @@ PyNumber_InPlaceAdd(PyObject *v, PyObject *w)
     return _PyNumber_InPlaceAdd_Inlinable(v, w, NULL);
 }
 
+RETURNACTION_STDMETHODDECL(inplacemultiply_returnaction)
+
+struct inplacemultiply_returnaction {
+    _PyReturnAction base;
+    PyObject *v;
+    PyObject *w;
+};
+
+_PyReturnAction *inplacemultiply_returnaction_new(
+    PyObject *v,
+    PyObject *w
+){
+    RETURNACTION_NEWPREAMBLE(inplacemultiply_returnaction)
+    me->v = Py_NewRef(v);
+    me->w = Py_NewRef(w);
+    return (_PyReturnAction *)me;
+}
+
+static void inplacemultiply_returnaction_dtor(inplacemultiply_returnaction *me)
+{
+    Py_DECREF(me->v);
+    Py_DECREF(me->w);
+    _PyReturnAction_dtor(&me->base);
+}
+
+static PyObject *inplacemultiply_returnaction_AdaptExit(inplacemultiply_returnaction *me, PyObject *res, struct _PyInterpreterFrame **inlined)
+{
+    if (res != Py_NotImplemented) {
+        return res ? Py_NewRef(res) : NULL;
+    }
+
+    ssizeargfunc f = NULL;
+    PySequenceMethods *mv = Py_TYPE(me->v)->tp_as_sequence;
+    PySequenceMethods *mw = Py_TYPE(me->w)->tp_as_sequence;
+    if (mv != NULL) {
+        f = mv->sq_inplace_repeat;
+        if (f == NULL)
+            f = mv->sq_repeat;
+        if (f != NULL)
+            return sequence_repeat(f, me->v, me->w);
+    }
+    else if (mw != NULL) {
+        /* Note that the right hand operand should not be
+            * mutated in this case so sq_inplace_repeat is not
+            * used. */
+        if (mw->sq_repeat)
+            return sequence_repeat(mw->sq_repeat, me->w, me->v);
+    }
+    return binop_type_error(me->v, me->w, "*=");
+}
+
 PyObject *
 _PyNumber_InPlaceMultiply_Inlinable(PyObject *v, PyObject *w, struct _PyInterpreterFrame **inlined)
 {
+    struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
     PyObject *result = BINARY_IOP1(v, w, NB_SLOT(nb_inplace_multiply),
                                    NB_SLOT(nb_multiply),
                                    inlined,
                                    _PyType_Slot_nb_inplace_multiply, _PyType_Slot_nb_inplace_multiply_Inlinable,
                                    _PyType_Slot_nb_multiply, _PyType_Slot_nb_multiply_Inlinable,
                                    "*=");
-    // TBD: handle inlined case
+    if (inlined && *inlined != frame) {
+        _PyFrame_AddReturnAction(*inlined, inplacemultiply_returnaction_new(v, w));
+        return result;
+    }
     if (result == Py_NotImplemented) {
         ssizeargfunc f = NULL;
         PySequenceMethods *mv = Py_TYPE(v)->tp_as_sequence;
