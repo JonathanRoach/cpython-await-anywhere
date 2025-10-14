@@ -30,6 +30,7 @@ extern "C" {
 #define _Py_IsImmortalLoose(op) _Py_IsImmortal
 
 typedef PyObject * (*binaryfunc_inlinable)(PyObject *, PyObject *, struct _PyInterpreterFrame **);
+typedef PyObject * (*ternaryfunc_inlinable)(PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **);
 
 
 /* Check if an object is consistent. For example, ensure that the reference

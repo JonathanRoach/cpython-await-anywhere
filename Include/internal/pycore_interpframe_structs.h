@@ -53,9 +53,9 @@ static struct _PyReturnAction_Methods cls##_methods = \
 };
 
 #define RETURNACTION_NEWPREAMBLE(cls) \
-    cls *this = PyObject_Malloc(sizeof(cls)); \
-    _PyReturnAction_ctor(&this->base, NULL); \
-    this->base.vfptr = &cls##_methods;
+    cls *me = PyObject_Malloc(sizeof(cls)); \
+    _PyReturnAction_ctor(&me->base, NULL); \
+    me->base.vfptr = &cls##_methods;
 
 
 struct _PyInterpreterFrame {

@@ -10141,27 +10141,27 @@ struct FUNCNAME##_returnaction_A { \
  \
 _PyReturnAction *FUNCNAME##_returnaction_A_new(PyObject *self, PyObject *other){ \
     RETURNACTION_NEWPREAMBLE(FUNCNAME##_returnaction_A) \
-    this->self = Py_NewRef(self); \
-    this->other = Py_NewRef(other); \
-    return (_PyReturnAction *)this; \
+    me->self = Py_NewRef(self); \
+    me->other = Py_NewRef(other); \
+    return (_PyReturnAction *)me; \
 } \
  \
-static void FUNCNAME##_returnaction_A_dtor(FUNCNAME##_returnaction_A *this) \
+static void FUNCNAME##_returnaction_A_dtor(FUNCNAME##_returnaction_A *me) \
 { \
-    Py_DECREF(this->self); \
-    Py_DECREF(this->other); \
-    _PyReturnAction_dtor(&this->base); \
+    Py_DECREF(me->self); \
+    Py_DECREF(me->other); \
+    _PyReturnAction_dtor(&me->base); \
 } \
  \
-static PyObject *FUNCNAME##_returnaction_A_AdaptExit(FUNCNAME##_returnaction_A *this, PyObject *res, struct _PyInterpreterFrame **inlined) \
+static PyObject *FUNCNAME##_returnaction_A_AdaptExit(FUNCNAME##_returnaction_A *me, PyObject *res, struct _PyInterpreterFrame **inlined) \
 { \
     if (res != Py_NotImplemented) \
         return res ? Py_NewRef(res) : NULL; \
  \
     PyObject* stack[2]; \
     PyThreadState *tstate = _PyThreadState_GET(); \
-    stack[0] = this->self; \
-    stack[1] = this->other; \
+    stack[0] = me->self; \
+    stack[1] = me->other; \
     return vectorcall_maybe(tstate, &_Py_ID(DUNDER), stack, 2, inlined); \
 } \
  \
@@ -10175,27 +10175,27 @@ struct FUNCNAME##_returnaction_B { \
  \
 _PyReturnAction *FUNCNAME##_returnaction_B_new(PyObject *self, PyObject *other){ \
     RETURNACTION_NEWPREAMBLE(FUNCNAME##_returnaction_B) \
-    this->self = Py_NewRef(self); \
-    this->other = Py_NewRef(other); \
-    return (_PyReturnAction *)this; \
+    me->self = Py_NewRef(self); \
+    me->other = Py_NewRef(other); \
+    return (_PyReturnAction *)me; \
 } \
  \
-static void FUNCNAME##_returnaction_B_dtor(FUNCNAME##_returnaction_B *this) \
+static void FUNCNAME##_returnaction_B_dtor(FUNCNAME##_returnaction_B *me) \
 { \
-    Py_DECREF(this->self); \
-    Py_DECREF(this->other); \
-    _PyReturnAction_dtor(&this->base); \
+    Py_DECREF(me->self); \
+    Py_DECREF(me->other); \
+    _PyReturnAction_dtor(&me->base); \
 } \
  \
-static PyObject *FUNCNAME##_returnaction_B_AdaptExit(FUNCNAME##_returnaction_B *this, PyObject *res, struct _PyInterpreterFrame **inlined) \
+static PyObject *FUNCNAME##_returnaction_B_AdaptExit(FUNCNAME##_returnaction_B *me, PyObject *res, struct _PyInterpreterFrame **inlined) \
 { \
     if (res != Py_NotImplemented) \
         return res ? Py_NewRef(res) : NULL; \
  \
     PyObject* stack[2]; \
     PyThreadState *tstate = _PyThreadState_GET(); \
-    stack[0] = this->other; \
-    stack[1] = this->self; \
+    stack[0] = me->other; \
+    stack[1] = me->self; \
     return vectorcall_maybe(tstate, &_Py_ID(RDUNDER), stack, 2, inlined); \
 } \
  \
@@ -10398,7 +10398,7 @@ _PyType_Slot_nb_power_Inlinable(PyObject *self, PyObject *other,
     PyObject *modulus, struct _PyInterpreterFrame **inlined)
 {
     if (modulus == Py_None)
-        return _PyType_Slot_nb_power_binary(self, other);
+        return _PyType_Slot_nb_power_binary_Inlinable(self, other, inlined);
 
     /* The following code is a copy of SLOT1BINFULL, but for three arguments. */
     PyObject* stack[3];
@@ -10665,21 +10665,21 @@ struct getattr_returnaction {
 
 _PyReturnAction *getattr_returnaction_new(PyObject *self, PyObject *getattr, PyObject *name){
     RETURNACTION_NEWPREAMBLE(getattr_returnaction)
-    this->self = Py_NewRef(self);
-    this->getattr = Py_NewRef(getattr);
-    this->name = Py_NewRef(name);
-    return (_PyReturnAction *)this;
+    me->self = Py_NewRef(self);
+    me->getattr = Py_NewRef(getattr);
+    me->name = Py_NewRef(name);
+    return (_PyReturnAction *)me;
 }
 
-static void getattr_returnaction_dtor(getattr_returnaction *this)
+static void getattr_returnaction_dtor(getattr_returnaction *me)
 {
-    Py_DECREF(this->self);
-    Py_DECREF(this->getattr);
-    Py_DECREF(this->name);
-    _PyReturnAction_dtor(&this->base);
+    Py_DECREF(me->self);
+    Py_DECREF(me->getattr);
+    Py_DECREF(me->name);
+    _PyReturnAction_dtor(&me->base);
 }
 
-static PyObject *getattr_returnaction_AdaptExit(getattr_returnaction *this, PyObject *res, struct _PyInterpreterFrame **inlined)
+static PyObject *getattr_returnaction_AdaptExit(getattr_returnaction *me, PyObject *res, struct _PyInterpreterFrame **inlined)
 {
     if (res){
         return Py_NewRef(res);
@@ -10687,7 +10687,7 @@ static PyObject *getattr_returnaction_AdaptExit(getattr_returnaction *this, PyOb
 
     if (PyErr_ExceptionMatches(PyExc_AttributeError)) {
         PyErr_Clear();
-        return call_attribute(this->self, this->getattr, this->name, inlined);
+        return call_attribute(me->self, me->getattr, me->name, inlined);
     }
 
     return NULL;
