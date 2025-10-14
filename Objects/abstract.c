@@ -2081,16 +2081,65 @@ INPLACE_BINOP(PyNumber_InPlaceFloorDivide, nb_inplace_floor_divide, nb_floor_div
 INPLACE_BINOP(PyNumber_InPlaceTrueDivide, nb_inplace_true_divide, nb_true_divide,  "/=")
 INPLACE_BINOP(PyNumber_InPlaceRemainder, nb_inplace_remainder, nb_remainder, "%=")
 
+RETURNACTION_STDMETHODDECL(inplaceadd_returnaction)
+
+struct inplaceadd_returnaction {
+    _PyReturnAction base;
+    PyObject *v;
+    PyObject *w;
+};
+
+_PyReturnAction *inplaceadd_returnaction_new(
+    PyObject *v,
+    PyObject *w
+){
+    RETURNACTION_NEWPREAMBLE(inplaceadd_returnaction)
+    me->v = Py_NewRef(v);
+    me->w = Py_NewRef(w);
+    return (_PyReturnAction *)me;
+}
+
+static void inplaceadd_returnaction_dtor(inplaceadd_returnaction *me)
+{
+    Py_DECREF(me->v);
+    Py_DECREF(me->w);
+    _PyReturnAction_dtor(&me->base);
+}
+
+static PyObject *inplaceadd_returnaction_AdaptExit(inplaceadd_returnaction *me, PyObject *res, struct _PyInterpreterFrame **inlined)
+{
+    if (res != Py_NotImplemented) {
+        return res ? Py_NewRef(res) : NULL;
+    }
+
+    PySequenceMethods *m = Py_TYPE(me->v)->tp_as_sequence;
+    if (m != NULL) {
+        binaryfunc func = m->sq_inplace_concat;
+        if (func == NULL)
+            func = m->sq_concat;
+        if (func != NULL) {
+            res = func(me->v, me->w);
+            assert(_Py_CheckSlotResult(me->v, "+=", res != NULL));
+            return res;
+        }
+    }
+    return binop_type_error(me->v, me->w, "+=");
+}
+
 PyObject *
 _PyNumber_InPlaceAdd_Inlinable(PyObject *v, PyObject *w, struct _PyInterpreterFrame **inlined)
 {
+    struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
     PyObject *result = BINARY_IOP1(v, w, NB_SLOT(nb_inplace_add),
                                    NB_SLOT(nb_add),
                                    inlined,
                                    _PyType_Slot_nb_inplace_add, _PyType_Slot_nb_inplace_add_Inlinable,
                                    _PyType_Slot_nb_add, _PyType_Slot_nb_add_Inlinable,
                                    "+=");
-    // TBD: handle inlined case
+    if (inlined && *inlined != frame) {
+        _PyFrame_AddReturnAction(*inlined, inplaceadd_returnaction_new(v, w));
+        return result;
+    }
     if (result == Py_NotImplemented) {
         PySequenceMethods *m = Py_TYPE(v)->tp_as_sequence;
         Py_DECREF(result);
