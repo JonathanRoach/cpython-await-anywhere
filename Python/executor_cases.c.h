@@ -1807,6 +1807,7 @@
                     DISPATCH_INLINED(inlined);
                 }
                 if (!res){
+                    stack_pointer = _PyFrame_GetStackPointer(frame);
                     JUMP_TO_ERROR();
                 }
                 PyStackRef_CLOSE(temp);

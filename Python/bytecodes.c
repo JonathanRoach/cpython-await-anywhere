@@ -1172,6 +1172,7 @@ dummy_func(
                 }
                 if (!res){
                     // RETURN_VALUE changes to ERROR
+                    RELOAD_STACK();
                     ERROR_IF(true);
                 }
                 PyStackRef_CLOSE(temp);
