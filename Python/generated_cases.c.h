@@ -7671,17 +7671,20 @@
                 if (returnaction){
                     struct _PyInterpreterFrame *inlined = frame;
                     PyObject *res = _PyReturnAction_AdaptExit(returnaction, PyStackRef_AsPyObjectBorrow(temp), &inlined);
+                    stack_pointer = _PyFrame_GetStackPointer(frame);
                     if (inlined != frame){
                         DISPATCH_INLINED(inlined);
                     }
                     if (!res){
-                        stack_pointer = _PyFrame_GetStackPointer(frame);
                         JUMP_TO_LABEL(error);
                     }
+                    _PyFrame_SetStackPointer(frame, stack_pointer);
                     PyStackRef_CLOSE(temp);
+                    stack_pointer = _PyFrame_GetStackPointer(frame);
                     temp = PyStackRef_FromPyObjectSteal(res);
+                } else {
+                    stack_pointer = _PyFrame_GetStackPointer(frame);
                 }
-                stack_pointer = _PyFrame_GetStackPointer(frame);
                 LOAD_IP(frame->return_offset);
                 res = temp;
                 LLTRACE_RESUME_FRAME();
@@ -10713,17 +10716,20 @@
             if (returnaction){
                 struct _PyInterpreterFrame *inlined = frame;
                 PyObject *res = _PyReturnAction_AdaptExit(returnaction, PyStackRef_AsPyObjectBorrow(temp), &inlined);
+                stack_pointer = _PyFrame_GetStackPointer(frame);
                 if (inlined != frame){
                     DISPATCH_INLINED(inlined);
                 }
                 if (!res){
-                    stack_pointer = _PyFrame_GetStackPointer(frame);
                     JUMP_TO_LABEL(error);
                 }
+                _PyFrame_SetStackPointer(frame, stack_pointer);
                 PyStackRef_CLOSE(temp);
+                stack_pointer = _PyFrame_GetStackPointer(frame);
                 temp = PyStackRef_FromPyObjectSteal(res);
+            } else {
+                stack_pointer = _PyFrame_GetStackPointer(frame);
             }
-            stack_pointer = _PyFrame_GetStackPointer(frame);
             LOAD_IP(frame->return_offset);
             res = temp;
             LLTRACE_RESUME_FRAME();

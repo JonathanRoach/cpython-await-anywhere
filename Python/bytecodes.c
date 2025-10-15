@@ -1166,19 +1166,20 @@ dummy_func(
             if (returnaction){
                 struct _PyInterpreterFrame *inlined = frame;
                 PyObject *res = _PyReturnAction_AdaptExit(returnaction, PyStackRef_AsPyObjectBorrow(temp), &inlined);
+                RELOAD_STACK();
                 if (inlined != frame){
                     // inlined Python needs to execute first
                     DISPATCH_INLINED(inlined);
                 }
                 if (!res){
                     // RETURN_VALUE changes to ERROR
-                    RELOAD_STACK();
                     ERROR_IF(true);
                 }
                 PyStackRef_CLOSE(temp);
                 temp = PyStackRef_FromPyObjectSteal(res);
+            } else {
+                RELOAD_STACK();
             }
-            RELOAD_STACK();
             LOAD_IP(frame->return_offset);
             res = temp;
             LLTRACE_RESUME_FRAME();
