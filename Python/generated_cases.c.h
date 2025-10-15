@@ -7676,6 +7676,7 @@
                         DISPATCH_INLINED(inlined);
                     }
                     if (!res){
+                        LOAD_IP(frame->return_offset);
                         JUMP_TO_LABEL(error);
                     }
                     _PyFrame_SetStackPointer(frame, stack_pointer);
@@ -10721,6 +10722,7 @@
                     DISPATCH_INLINED(inlined);
                 }
                 if (!res){
+                    LOAD_IP(frame->return_offset);
                     JUMP_TO_LABEL(error);
                 }
                 _PyFrame_SetStackPointer(frame, stack_pointer);

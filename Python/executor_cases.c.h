@@ -1808,6 +1808,7 @@
                     DISPATCH_INLINED(inlined);
                 }
                 if (!res){
+                    LOAD_IP(frame->return_offset);
                     JUMP_TO_ERROR();
                 }
                 _PyFrame_SetStackPointer(frame, stack_pointer);

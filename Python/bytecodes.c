@@ -1173,6 +1173,7 @@ dummy_func(
                 }
                 if (!res){
                     // RETURN_VALUE changes to ERROR
+                    LOAD_IP(frame->return_offset);
                     ERROR_IF(true);
                 }
                 PyStackRef_CLOSE(temp);
