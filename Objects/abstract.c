@@ -151,6 +151,25 @@ PyObject_LengthHint(PyObject *o, Py_ssize_t defaultvalue)
     return res;
 }
 
+static inline bool checkimmediateslotresult(struct _PyInterpreterFrame *frame,
+    struct _PyInterpreterFrame **inlined, PyObject *v, PyObject *res,
+#ifndef NDEBUG
+    char const *op_name
+#endif
+)
+{
+    if (!inlined || *inlined == frame) {
+        assert(_Py_CheckSlotResult(v, op_name, res != NULL));
+    }
+    return true;
+}
+
+#ifndef NDEBUG
+    #define CHECKIMMEDIATESLOTRESULT(frame, inlined, ob, res, op_name) checkimmediateslotresult(frame, inlined, ob, res, op_name)
+#else
+    #define CHECKIMMEDIATESLOTRESULT(frame, inlined, ob, res, op_name) checkimmediateslotresult(frame, inlined, ob, res)
+#endif
+
 PyObject *
 _PyObject_GetItem_Inlinable(PyObject *o, PyObject *key, struct _PyInterpreterFrame **inlined)
 {
@@ -160,8 +179,9 @@ _PyObject_GetItem_Inlinable(PyObject *o, PyObject *key, struct _PyInterpreterFra
 
     PyMappingMethods *m = Py_TYPE(o)->tp_as_mapping;
     if (m && m->mp_subscript) {
-        PyObject *item = m->mp_subscript(o, key);
-        assert(_Py_CheckSlotResult(o, "__getitem__", item != NULL));
+        struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
+        PyObject *item = m->mp_subscript == _PyType_Slot_mp_subscript ? _PyType_Slot_mp_subscript_Inlinable(o, key, inlined) : m->mp_subscript(o, key);
+        assert(CHECKIMMEDIATESLOTRESULT(frame, inlined, o, item, "__getitem__"));
         return item;
     }
 
@@ -192,7 +212,9 @@ _PyObject_GetItem_Inlinable(PyObject *o, PyObject *key, struct _PyInterpreterFra
             return NULL;
         }
         if (meth && meth != Py_None) {
-            result = PyObject_CallOneArg(meth, key);
+            struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
+            result = _PyObject_CallOneArg_Inlinable(meth, key, inlined);
+            printf("Class getitem %p %p\n", frame, inlined ? *inlined : NULL);
             Py_DECREF(meth);
             return result;
         }
@@ -924,19 +946,6 @@ PyNumber_Check(PyObject *o)
 #define NB_TERNOP(nb_methods, slot) \
         (*(ternaryfunc*)(& ((char*)nb_methods)[slot]))
 
-static bool checkimmediateslotresult(struct _PyInterpreterFrame *frame,
-    struct _PyInterpreterFrame **inlined, PyObject *v, PyObject *res,
-#ifndef NDEBUG
-    char const *op_name
-#endif
-)
-{
-    if (!inlined || *inlined == frame) {
-        assert(_Py_CheckSlotResult(v, op_name, res != NULL));
-    }
-    return true;
-}
-
 RETURNACTION_STDMETHODDECL(binaryop1_returnaction_trysecondmethod)
 
 struct binaryop1_returnaction_trysecondmethod {
@@ -984,11 +993,7 @@ static PyObject *binaryop1_returnaction_trysecondmethod_AdaptExit(binaryop1_retu
     // need to try slotw
     struct _PyInterpreterFrame *frame = *inlined;
     res = (me->slotw_inlinable ? me->slotw_inlinable(me->v, me->w, inlined) : me->slotw(me->v, me->w));
-    assert(checkimmediateslotresult(frame, inlined, me->switched ? me->v : me->w, res
-#ifndef NDEBUG
-        , me->op_name
-#endif
-    ));
+    assert(CHECKIMMEDIATESLOTRESULT(frame, inlined, me->switched ? me->v : me->w, res, me->op_name));
     return res;
 }
 
@@ -1055,32 +1060,20 @@ binary_op1(PyObject *v, PyObject *w, const int op_slot,
             } else if (x == Py_NotImplemented) {
                 // need to try slotw
                 x = (slotw == inlinable_func ? func_inlinable(v, w, inlined) : slotw(v, w));
-                assert(checkimmediateslotresult(frame, inlined, switched ? v : w, x
-#ifndef NDEBUG
-                    , op_name
-#endif
-                ));
+                assert(CHECKIMMEDIATESLOTRESULT(frame, inlined, switched ? v : w, x, op_name));
             }
             return x;
         } else {
             // slotv only
             PyObject *x = (slotv == inlinable_func ? func_inlinable(v, w, inlined) : slotv(v, w));
-            assert(checkimmediateslotresult(frame, inlined, v, x
-#ifndef NDEBUG
-                , op_name
-#endif
-            ));
+            assert(CHECKIMMEDIATESLOTRESULT(frame, inlined, v, x, op_name));
             return x;
         }
     } else {
         if (slotw) {
             // slotw only
             PyObject *x = (slotw == inlinable_func ? func_inlinable(v, w, inlined) : slotw(v, w));
-            assert(checkimmediateslotresult(frame, inlined, w, x
-#ifndef NDEBUG
-                , op_name
-#endif
-            ));
+            assert(CHECKIMMEDIATESLOTRESULT(frame, inlined, w, x, op_name));
             return x;
         } else {
             // neither slotv or slotw
