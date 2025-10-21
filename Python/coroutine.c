@@ -194,7 +194,7 @@ static inline bool Check_Guard(
 static void Coroutine_PrimeStackChunks(void)
 {
     unsigned char chunk_of_stack[COROUTINE_STARTUP_STACK_SIZE];
-    for (int i = 0; i < COROUTINE_STARTUP_STACK_SIZE-3; i += 4){
+    for (uintptr_t i = 0; i < COROUTINE_STARTUP_STACK_SIZE-3; i += 4){
         chunk_of_stack[i+0] = 0xde;
         chunk_of_stack[i+1] = 0xad;
         chunk_of_stack[i+2] = 0xbe;
@@ -214,7 +214,7 @@ static void stack_chunk_chunk(
     Coroutine *parent
 ){
     unsigned char chunk_of_stack[COROUTINE_STACK_SIZE];
-    for (int i = 0; i < COROUTINE_STACK_SIZE-3; i += 4){
+    for (uintptr_t i = 0; i < COROUTINE_STACK_SIZE-3; i += 4){
         chunk_of_stack[i+0] = 0xde;
         chunk_of_stack[i+1] = 0xad;
         chunk_of_stack[i+2] = 0xbe;
@@ -335,10 +335,10 @@ Coroutine_Report Coroutine_StopSystem(void)
     assert(g_c.state == Coroutines_Started);
     g_c.state = Coroutines_Stopping;
 
-    int stackminheadroom = COROUTINE_STACK_SIZE;
+    uintptr_t stackminheadroom = COROUTINE_STACK_SIZE;
     for (List_Link *link = g_c.free.fwd.link.next; link->next; link = link->next){
         Coroutine *cor = List_Link_Container(Coroutine, link, link);
-        for (int i = 4; i < COROUTINE_STACK_SIZE-3; i += 4){
+        for (uintptr_t i = 4; i < COROUTINE_STACK_SIZE-3; i += 4){
             if (!Check_Guard(&cor->guard[i])){
                 stackminheadroom = i < stackminheadroom ? i : stackminheadroom;
                 break;
