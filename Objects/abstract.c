@@ -214,7 +214,6 @@ _PyObject_GetItem_Inlinable(PyObject *o, PyObject *key, struct _PyInterpreterFra
         if (meth && meth != Py_None) {
             struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
             result = _PyObject_CallOneArg_Inlinable(meth, key, inlined);
-            printf("Class getitem %p %p\n", frame, inlined ? *inlined : NULL);
             Py_DECREF(meth);
             return result;
         }
