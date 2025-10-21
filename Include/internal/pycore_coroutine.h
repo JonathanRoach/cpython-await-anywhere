@@ -1,6 +1,7 @@
 #ifndef Py_INTERNAL_COROUTINE_H
 #define Py_INTERNAL_COROUTINE_H
 
+#include "Python.h"
 #include <stdbool.h>
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -79,15 +80,20 @@
 //   +------------------+  <- stack bottom
 
 // Each coroutine has this much stack:
+// In Pythonland, we set it to 4 * (enough for a PyEval_EvalDefault), so we get at least 3
+// calls deep before we need a new chunk, ie maximum multi-chunk wastage is 25%. There's a
+// trade-off between smaller chunk sizes which increase the number of async tasks which can
+// possibly co-exist on a thread, and larger chunk sizes which waste less memory in part-used
+// chunks.
 #ifndef COROUTINE_STACK_SIZE
-    #define COROUTINE_STACK_SIZE 65536
+    #define COROUTINE_STACK_SIZE (PYOS_STACK_MARGIN_BYTES * 4)
 #endif
 
 // When Coroutine is started, an amount of stack is set aside to give
 // the caller of Coroutine_StartSystem a bit of room to work before calling
 // Coroutine_Run(), that is this amount:
 #ifndef COROUTINE_STARTUP_STACK_SIZE
-    #define COROUTINE_STARTUP_STACK_SIZE 4096
+    #define COROUTINE_STARTUP_STACK_SIZE (1024 * sizeof(void *))
 #endif
 
 // Returned by Coroutine_StopSystem(), this summarises the coroutine session
