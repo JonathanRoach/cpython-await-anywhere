@@ -1349,6 +1349,9 @@
     <ClCompile Include="..\Python\compile.c">
       <Filter>Python</Filter>
     </ClCompile>
+    <ClCompile Include="..\Python\coroutine.c">
+      <Filter>Python</Filter>
+    </ClCompile>
     <ClCompile Include="..\Python\critical_section.c">
       <Filter>Python</Filter>
     </ClCompile>

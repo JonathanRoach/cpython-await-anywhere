@@ -91,6 +91,9 @@
     <ClCompile Include="..\Objects\codeobject.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Python\coroutine.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\Python\perf_trampoline.c">
       <Filter>Source Files</Filter>
     </ClCompile>

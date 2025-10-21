@@ -591,6 +591,7 @@
     <ClCompile Include="..\Python\codegen.c" />
     <ClCompile Include="..\Python\compile.c" />
     <ClCompile Include="..\Python\context.c" />
+    <ClCompile Include="..\Python\coroutine.c" />
     <ClCompile Include="..\Python\critical_section.c" />
     <ClCompile Include="..\Python\crossinterp.c" />
     <ClCompile Include="..\Python\dynamic_annotations.c" />
