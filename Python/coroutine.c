@@ -3,8 +3,6 @@
 #include <setjmp.h>
 #include <stdbool.h>
 #include <stddef.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include "pycore_cor_platform.h"
 
 
@@ -262,10 +260,7 @@ static void stack_chunk_base(
         here.value = here.start(here.entry_param);
 
         // check the guard
-        if (!Check_Guard(here.guard)){
-            printf("Coroutine has overrun its stack - checked after returning from coroutine function\n");
-            exit(EXIT_FAILURE);
-        }
+        assert(Check_Guard(here.guard));
 
         _Cor_Mutex_Lock(&g_c.mutex);
         g_c.active = NULL;
@@ -377,10 +372,7 @@ void Coroutine_Run_Coroutine(
         _Cor_Mutex_Unlock(&cors->mutex);
 
         // check the guard
-        if (!Check_Guard(cors->guard)){
-            printf("Coroutine startup stack as has overrun - checked on entering the main coroutine\n");
-            exit(EXIT_FAILURE);
-        }
+        assert(Check_Guard(cors->guard));
 
         // start the first coroutine
         Coroutine_RunNext();
@@ -483,10 +475,7 @@ void *Coroutine_Yield(
     void *yield_me
 ){
     Coroutine *me = g_c.active;
-    if (!Check_Guard(me->guard)){
-        printf("Coroutine has overrun its stack - checked when yielding coroutine\n");
-        exit(EXIT_FAILURE);
-    }
+    assert(Check_Guard(me->guard));
 
     _Cor_Mutex_Lock(&g_c.mutex);
     Coroutines *cors = me->coroutines;
@@ -576,10 +565,7 @@ void *Coroutine_Chain(
     Coroutine_Start start,
     void *value
 ){
-    if (!Check_Guard(Coroutine_GetActive()->guard)){
-        printf("Coroutine has overrun its stack - checked when chaining\n");
-        exit(EXIT_FAILURE);
-    }
+    assert(Check_Guard(Coroutine_GetActive()->guard));
     Coroutine *cor = Coroutine_New(Coroutine_ChainFn);
     struct Coroutine_ChainParam params = {
         start,
