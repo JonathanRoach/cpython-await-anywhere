@@ -529,12 +529,17 @@ int Coroutine_GetStackHeadroom(void){
 
 
 bool Coroutine_HasCoroutinesInFreePool(void){
-    return !List_IsEmpty(&g_c.free);
+    return (g_c.state == Coroutines_Started || g_c.state == Coroutines_Active) && !List_IsEmpty(&g_c.free);
 }
 
 
+// Pass the address of a local variable through this to avoid warnings about taking its address
+static inline void *mask_address(void *ptr){return ptr;}
+
+
 void *Coroutine_GetCStackTop(void){
-    return g_c.tip;
+    char here;
+    return (g_c.state == Coroutines_Started || g_c.state == Coroutines_Active) ? (void *)g_c.tip : mask_address(&here);
 }
 
 
