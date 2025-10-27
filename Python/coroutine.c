@@ -522,9 +522,9 @@ Coroutine *Coroutine_GetActive(void)
 }
 
 
-int Coroutine_GetStackHeadroom(void){
+intptr_t Coroutine_GetStackHeadroom(void){
     unsigned char tbuf[4];
-    return tbuf - g_c.active->guard - 4;
+    return g_c.active ? tbuf - g_c.active->guard - 4 : COROUTINE_STACK_SIZE;
 }
 
 
