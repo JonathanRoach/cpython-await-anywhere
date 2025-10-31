@@ -12,6 +12,7 @@
 #include "pycore_pystate.h"       // _PyThreadState_SetCurrent()
 #include "pycore_time.h"          // _PyTime_FromSeconds()
 #include "pycore_weakref.h"       // _PyWeakref_GET_REF()
+#include "pycore_coroutine.h"     // Coroutines
 
 #include <stddef.h>               // offsetof()
 #ifdef HAVE_SIGNAL_H
@@ -337,8 +338,8 @@ thread_bootstate_free(struct bootstate *boot, int decref)
     PyMem_RawFree(boot);
 }
 
-static void
-thread_run(void *boot_raw)
+static void *
+thread_run_coroutine(void *boot_raw)
 {
     struct bootstate *boot = (struct bootstate *) boot_raw;
     PyThreadState *tstate = boot->tstate;
@@ -400,7 +401,14 @@ exit:
     // bpo-44434: Don't call explicitly PyThread_exit_thread(). On Linux with
     // the glibc, pthread_exit() can abort the whole process if dlopen() fails
     // to open the libgcc_s.so library (ex: EMFILE error).
-    return;
+    return NULL;
+}
+
+static void
+thread_run(void *boot_raw){
+    Coroutine_StartSystem();
+    Coroutine_Run(thread_run_coroutine, boot_raw);
+    Coroutine_StopSystem();
 }
 
 static int

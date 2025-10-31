@@ -32,6 +32,7 @@
 #include "pycore_typeobject.h"    // _PyBufferWrapper_Type
 #include "pycore_typevarobject.h" // _PyTypeAlias_Type
 #include "pycore_unionobject.h"   // _PyUnion_Type
+#include "pycore_cor_tools.h"     // _PY_ENSURE_COSTACK_HEADROOM_FOR_FN?_?
 
 
 #ifdef Py_LIMITED_API
@@ -750,6 +751,12 @@ _PyObject_Dump(PyObject* op)
     fflush(stderr);
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(static, PyObject *, do_repr_call, reprfunc, PyObject*)
+static inline PyObject *do_repr_call(reprfunc repr, PyObject *self){
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(PyObject *, do_repr_call, repr, self)
+    return (*repr)(self);
+}
+
 PyObject *
 PyObject_Repr(PyObject *v)
 {
@@ -776,7 +783,7 @@ PyObject_Repr(PyObject *v)
                                      " while getting the repr of an object")) {
         return NULL;
     }
-    res = (*Py_TYPE(v)->tp_repr)(v);
+    res = do_repr_call(Py_TYPE(v)->tp_repr, v);
     _Py_LeaveRecursiveCallTstate(tstate);
 
     if (res == NULL) {
@@ -819,7 +826,7 @@ PyObject_Str(PyObject *v)
     if (_Py_EnterRecursiveCallTstate(tstate, " while getting the str of an object")) {
         return NULL;
     }
-    res = (*Py_TYPE(v)->tp_str)(v);
+    res = do_repr_call(*Py_TYPE(v)->tp_str, v);
     _Py_LeaveRecursiveCallTstate(tstate);
 
     if (res == NULL) {
@@ -1039,9 +1046,11 @@ static const char * const opstrings[] = {"<", "<=", "==", "!=", ">", ">="};
 
 /* Perform a rich comparison, raising TypeError when the requested comparison
    operator is not supported. */
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(static, PyObject *, do_richcompare, PyThreadState *, PyObject*, PyObject*, int)
 static PyObject *
 do_richcompare(PyThreadState *tstate, PyObject *v, PyObject *w, int op)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(PyObject *, do_richcompare, tstate, v, w, op)
     richcmpfunc f;
     PyObject *res;
     int checked_reverse_op = 0;
@@ -3244,6 +3253,11 @@ _PyObject_AssertFailed(PyObject *obj, const char *expr, const char *msg,
 }
 
 
+static void *Do_Py_Dealloc(void *op){
+    _Py_Dealloc((PyObject *)op);
+    return NULL;
+}
+
 /*
 When deallocating a container object, it's possible to trigger an unbounded
 chain of deallocations, as each Py_DECREF in turn drops the refcount on "the
@@ -3260,6 +3274,10 @@ _Py_Dealloc(PyObject *op)
     intptr_t margin = _Py_RecursionLimit_GetMargin(tstate);
     if (margin < 2) {
         _PyTrash_thread_deposit_object(tstate, (PyObject *)op);
+        return;
+    }
+    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES) {
+        _Py_Coroutine_Chain(Do_Py_Dealloc, op);
         return;
     }
 #ifdef Py_DEBUG

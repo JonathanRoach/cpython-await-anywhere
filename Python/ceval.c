@@ -40,6 +40,7 @@
 #include "pycore_traceback.h"     // _PyTraceBack_FromFrame
 #include "pycore_tuple.h"         // _PyTuple_ITEMS()
 #include "pycore_uop_ids.h"       // Uops
+#include "pycore_cor_tools.h"     // _PY_ENSURE_COSTACK_HEADROOM_FOR_FN?_?
 
 #include "dictobject.h"
 #include "frameobject.h"          // _PyInterpreterFrame_GetLine
@@ -495,12 +496,20 @@ int
 _Py_CheckRecursiveCall(PyThreadState *tstate, const char *where)
 {
     _PyThreadStateImpl *_tstate = (_PyThreadStateImpl *)tstate;
-    uintptr_t here_addr = _Py_get_machine_stack_pointer();
+    intptr_t coroutine_headroom = _Py_Coroutine_GetStackHeadroom();
+    if (coroutine_headroom >= (intptr_t)(2*PYOS_STACK_MARGIN_BYTES) ){
+        // not close
+        return 0;
+    }
+    if (Coroutine_CanStartCoroutine((void *)_tstate->c_stack_hard_limit)){
+        // still not close as we can chain
+        return 0;
+    }
     assert(_tstate->c_stack_soft_limit != 0);
     assert(_tstate->c_stack_hard_limit != 0);
-    if (here_addr < _tstate->c_stack_hard_limit) {
+    if (coroutine_headroom < (intptr_t)PYOS_STACK_MARGIN_BYTES) {
         /* Overflowing while handling an overflow. Give up. */
-        int kbytes_used = (int)(_tstate->c_stack_top - here_addr)/1024;
+        int kbytes_used = (int)(_tstate->c_stack_top - (uintptr_t)Coroutine_GetCStackTop())/1024;
         char buffer[80];
         snprintf(buffer, 80, "Unrecoverable stack overflow (used %d kB)%s", kbytes_used, where);
         Py_FatalError(buffer);
@@ -509,7 +518,7 @@ _Py_CheckRecursiveCall(PyThreadState *tstate, const char *where)
         return 0;
     }
     else {
-        int kbytes_used = (int)(_tstate->c_stack_top - here_addr)/1024;
+        int kbytes_used = (int)(_tstate->c_stack_top - (uintptr_t)Coroutine_GetCStackTop())/1024;
         tstate->recursion_headroom++;
         _PyErr_Format(tstate, PyExc_RecursionError,
                     "Stack overflow (used %d kB)%s",
@@ -1017,12 +1026,12 @@ _PyEval_EvalFrameDefault(PyThreadState *tstate, _PyInterpreterFrame *frame, int 
     return _PyEval_EvalFramesDefault(tstate, frame, frame, 1, throwflag);
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN5_A(extern, PyObject *, _PyEval_EvalFramesDefault, PyThreadState *, _PyInterpreterFrame *, _PyInterpreterFrame *, int, int)
 PyObject* _Py_HOT_FUNCTION DONT_SLP_VECTORIZE
 _PyEval_EvalFramesDefault(PyThreadState *tstate, _PyInterpreterFrame *framebase, _PyInterpreterFrame *frame, int frame_count, int throwflag)
 {
     _Py_EnsureTstateNotNULL(tstate);
     check_invalid_reentrancy();
-    CALL_STAT_INC(pyeval_calls);
 
 #if USE_COMPUTED_GOTOS && !Py_TAIL_CALL_INTERP
 /* Import the static jump table */
@@ -1063,6 +1072,9 @@ _PyEval_EvalFramesDefault(PyThreadState *tstate, _PyInterpreterFrame *framebase,
         }
         return NULL;
     }
+    CALL_STAT_INC(pyeval_calls);
+
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN5_B(PyObject *, _PyEval_EvalFramesDefault, tstate, framebase, frame, frame_count, throwflag)
 
     /* Local "register" variables.
      * These are cached values from the frame and code object.  */

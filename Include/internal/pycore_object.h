@@ -8,13 +8,14 @@ extern "C" {
 #  error "this header requires Py_BUILD_CORE define"
 #endif
 
-#include "pycore_emscripten_trampoline.h" // _PyCFunction_TrampolineCall()
 #include "pycore_gc.h"            // _PyObject_GC_TRACK()
 #include "pycore_pyatomic_ft_wrappers.h" // FT_ATOMIC_LOAD_PTR_ACQUIRE()
 #include "pycore_pystate.h"       // _PyInterpreterState_GET()
 #include "pycore_runtime.h"       // _PyRuntime
 #include "pycore_typeobject.h"    // _PyStaticType_GetState()
 #include "pycore_uniqueid.h"      // _PyObject_ThreadIncrefSlow()
+#include "pycore_cor_tools.h"     // _PY_ENSURE_COSTACK_HEADROOM_FOR_FN?_?
+#include "pycore_emscripten_trampoline.h" // _PyCFunction_TrampolineCall()
 
 #include <stdbool.h>              // bool
 
@@ -993,12 +994,22 @@ PyAPI_FUNC(PyObject*) _PyObject_GetState(PyObject *);
  * Third party code unintentionally rely on problematic fpcasts. The call
  * trampoline mitigates common occurrences of bad fpcasts on Emscripten.
  */
-#if !(defined(__EMSCRIPTEN__) && defined(PY_CALL_TRAMPOLINE))
-#define _PyCFunction_TrampolineCall(meth, self, args) \
-    (meth)((self), (args))
-#define _PyCFunctionWithKeywords_TrampolineCall(meth, self, args, kw) \
-    (meth)((self), (args), (kw))
-#endif // __EMSCRIPTEN__ && PY_CALL_TRAMPOLINE
+// #if !(defined(__EMSCRIPTEN__) && defined(PY_CALL_TRAMPOLINE))
+// #define _PyCFunction_TrampolineCall(meth, self, args) \
+//     (meth)((self), (args))
+// // #define _PyCFunctionWithKeywords_TrampolineCall(meth, self, args, kw) \
+// //     (meth)((self), (args), (kw))
+// _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(static, PyObject *, _PyCFunctionWithKeywords_TrampolineCall, PyCFunctionWithKeywords, PyObject*, PyObject*, PyObject*)
+// static inline PyObject *_PyCFunctionWithKeywords_TrampolineCall(
+//     PyCFunctionWithKeywords func,
+//     PyObject* self,
+//     PyObject* args,
+//     PyObject* kw
+// ){
+//     _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(PyObject *, _PyCFunctionWithKeywords_TrampolineCall, func, self, args, kw)
+//     return meth(self, args, kw);
+// }
+// #endif // __EMSCRIPTEN__ && PY_CALL_TRAMPOLINE
 
 // Export these 2 symbols for '_pickle' shared extension
 PyAPI_DATA(PyTypeObject) _PyNone_Type;

@@ -6014,9 +6014,12 @@ class NTimesUnwrappable:
 
     @property
     def __wrapped__(self):
+        print(f'Unwrap {self.n}')
         if self.n <= 0:
+            print('do raise')
             raise Exception("Unwrapped too many times")
         if self._next is None:
+            print('do new NTimesUnwrappable')
             self._next = NTimesUnwrappable(self.n - 1)
         return self._next
 
@@ -6077,8 +6080,11 @@ class TestUnwrap(unittest.TestCase):
 
     def test_recursion_limit(self):
         obj = NTimesUnwrappable(sys.getrecursionlimit() + 1)
+        print('do test')
         with self.assertRaisesRegex(ValueError, 'wrapper loop'):
+            print('do unwrap')
             inspect.unwrap(obj)
+            print('unwrap done')
 
     def test_wrapped_descriptor(self):
         self.assertIs(inspect.unwrap(NTimesUnwrappable), NTimesUnwrappable)

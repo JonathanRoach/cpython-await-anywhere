@@ -2914,9 +2914,11 @@ save_tuple(PickleState *state, PicklerObject *self, PyObject *obj)
  * empty list, or list-like object, for the APPENDS to operate on.
  * Returns 0 on success, <0 on error.
  */
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(static, int, batch_list, PickleState *, PicklerObject *, PyObject *, PyObject *)
 static int
 batch_list(PickleState *state, PicklerObject *self, PyObject *iter, PyObject *origobj)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, batch_list, state, self, iter, origobj)
     PyObject *obj = NULL;
     PyObject *firstitem = NULL;
     int i, n;
@@ -3041,9 +3043,11 @@ batch_list(PickleState *state, PicklerObject *self, PyObject *iter, PyObject *or
  *
  * Note that this only works for protocols > 0.
  */
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, int, batch_list_exact, PickleState *, PicklerObject *, PyObject*)
 static int
 batch_list_exact(PickleState *state, PicklerObject *self, PyObject *obj)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(int, batch_list_exact, state, self, obj)
     PyObject *item = NULL;
     Py_ssize_t this_batch, total;
 
@@ -3170,9 +3174,11 @@ save_list(PickleState *state, PicklerObject *self, PyObject *obj)
  * the C level, though, that attempts to combine these routines were too
  * ugly to bear.
  */
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(static, int, batch_dict, PickleState *, PicklerObject *, PyObject *, PyObject *)
 static int
 batch_dict(PickleState *state, PicklerObject *self, PyObject *iter, PyObject *origobj)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, batch_dict, state, self, iter, origobj)
     PyObject *obj = NULL;
     PyObject *firstitem = NULL;
     int i, n;
@@ -3317,9 +3323,11 @@ batch_dict(PickleState *state, PicklerObject *self, PyObject *iter, PyObject *or
  *
  * Note that this currently doesn't work for protocol 0.
  */
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, int, batch_dict_exact, PickleState *, PicklerObject *, PyObject *)
 static int
 batch_dict_exact(PickleState *state, PicklerObject *self, PyObject *obj)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(int, batch_dict_exact, state, self, obj)
     PyObject *key = NULL, *value = NULL;
     int i;
     Py_ssize_t dict_size, ppos = 0;
@@ -4353,70 +4361,17 @@ save_reduce(PickleState *st, PicklerObject *self, PyObject *args,
     return 0;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(static, int, save_inner, PickleState *, PicklerObject *, PyObject*, int)
 static int
-save(PickleState *st, PicklerObject *self, PyObject *obj, int pers_save)
+save_inner(PickleState *st, PicklerObject *self, PyObject *obj, int pers_save)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, save_inner, st, self, obj, pers_save)
     PyTypeObject *type;
     PyObject *reduce_func = NULL;
     PyObject *reduce_value = NULL;
     int status = 0;
 
-    if (_Pickler_OpcodeBoundary(self) < 0)
-        return -1;
-
-    /* The extra pers_save argument is necessary to avoid calling save_pers()
-       on its returned object. */
-    if (!pers_save && self->persistent_id) {
-        /* save_pers() returns:
-            -1   to signal an error;
-             0   if it did nothing successfully;
-             1   if a persistent id was saved.
-         */
-        if ((status = save_pers(st, self, obj)) != 0)
-            return status;
-    }
-
     type = Py_TYPE(obj);
-
-    /* The old cPickle had an optimization that used switch-case statement
-       dispatching on the first letter of the type name.  This has was removed
-       since benchmarks shown that this optimization was actually slowing
-       things down. */
-
-    /* Atom types; these aren't memoized, so don't check the memo. */
-
-    if (obj == Py_None) {
-        return save_none(self, obj);
-    }
-    else if (obj == Py_False || obj == Py_True) {
-        return save_bool(self, obj);
-    }
-    else if (type == &PyLong_Type) {
-        return save_long(self, obj);
-    }
-    else if (type == &PyFloat_Type) {
-        return save_float(self, obj);
-    }
-
-    /* Check the memo to see if it has the object. If so, generate
-       a GET (or BINGET) opcode, instead of pickling the object
-       once again. */
-    if (PyMemoTable_Get(self->memo, obj)) {
-        return memo_get(st, self, obj);
-    }
-
-    if (type == &PyBytes_Type) {
-        return save_bytes(st, self, obj);
-    }
-    else if (type == &PyUnicode_Type) {
-        return save_unicode(st, self, obj);
-    }
-
-    /* We're only calling _Py_EnterRecursiveCall here so that atomic
-       types above are pickled faster. */
-    if (_Py_EnterRecursiveCall(" while pickling an object")) {
-        return -1;
-    }
 
     if (type == &PyDict_Type) {
         status = save_dict(st, self, obj);
@@ -4570,6 +4525,76 @@ save(PickleState *st, PicklerObject *self, PyObject *obj, int pers_save)
     _Py_LeaveRecursiveCall();
     Py_XDECREF(reduce_func);
     Py_XDECREF(reduce_value);
+
+    return status;
+}
+
+static int
+save(PickleState *st, PicklerObject *self, PyObject *obj, int pers_save)
+{
+    PyTypeObject *type;
+    int status = 0;
+
+    if (_Pickler_OpcodeBoundary(self) < 0)
+        return -1;
+
+    /* The extra pers_save argument is necessary to avoid calling save_pers()
+       on its returned object. */
+    if (!pers_save && self->persistent_id) {
+        /* save_pers() returns:
+            -1   to signal an error;
+             0   if it did nothing successfully;
+             1   if a persistent id was saved.
+         */
+        if ((status = save_pers(st, self, obj)) != 0)
+            return status;
+    }
+
+    type = Py_TYPE(obj);
+
+    /* The old cPickle had an optimization that used switch-case statement
+       dispatching on the first letter of the type name.  This has was removed
+       since benchmarks shown that this optimization was actually slowing
+       things down. */
+
+    /* Atom types; these aren't memoized, so don't check the memo. */
+
+    if (obj == Py_None) {
+        return save_none(self, obj);
+    }
+    else if (obj == Py_False || obj == Py_True) {
+        return save_bool(self, obj);
+    }
+    else if (type == &PyLong_Type) {
+        return save_long(self, obj);
+    }
+    else if (type == &PyFloat_Type) {
+        return save_float(self, obj);
+    }
+
+    /* Check the memo to see if it has the object. If so, generate
+       a GET (or BINGET) opcode, instead of pickling the object
+       once again. */
+    if (PyMemoTable_Get(self->memo, obj)) {
+        return memo_get(st, self, obj);
+    }
+
+    if (type == &PyBytes_Type) {
+        return save_bytes(st, self, obj);
+    }
+    else if (type == &PyUnicode_Type) {
+        return save_unicode(st, self, obj);
+    }
+
+    /* We're only calling _Py_EnterRecursiveCall here so that atomic
+       types above are pickled faster. */
+    if (_Py_EnterRecursiveCall(" while pickling an object")) {
+        return -1;
+    }
+
+    status = save_inner(st, self, obj, pers_save);
+
+    _Py_LeaveRecursiveCall();
 
     return status;
 }

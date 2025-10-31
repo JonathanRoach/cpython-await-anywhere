@@ -961,9 +961,11 @@ print_exception_message(struct exception_print_context *ctx, PyObject *type,
     return 0;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(static, int, print_exception, struct exception_print_context *, PyObject *)
 static int
 print_exception(struct exception_print_context *ctx, PyObject *value)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(int, print_exception, ctx, value)
     PyObject *f = ctx->file;
 
     if (!PyExceptionInstance_Check(value)) {
@@ -1064,10 +1066,12 @@ print_exception_seen_lookup(struct exception_print_context *ctx,
     return false;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(static, int, print_exception_cause_and_context, struct exception_print_context *, PyObject *)
 static int
 print_exception_cause_and_context(struct exception_print_context *ctx,
                                   PyObject *value)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(int, print_exception_cause_and_context, ctx, value)
     PyObject *value_id = PyLong_FromVoidPtr(value);
     if (value_id == NULL || PySet_Add(ctx->seen, value_id) == -1) {
         PyErr_Clear();
@@ -1104,9 +1108,11 @@ print_exception_cause_and_context(struct exception_print_context *ctx,
     return 0;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(static, int, print_exception_recursive, struct exception_print_context *, PyObject *)
 static int
 print_exception_recursive(struct exception_print_context *ctx, PyObject *value)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(int, print_exception_recursive, ctx, value)
     if (_Py_EnterRecursiveCall(" in print_exception_recursive")) {
         return -1;
     }

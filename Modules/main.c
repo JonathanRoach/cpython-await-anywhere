@@ -12,6 +12,7 @@
 #include "pycore_pystate.h"       // _PyInterpreterState_GET()
 #include "pycore_pythonrun.h"     // _PyRun_AnyFileObject()
 #include "pycore_unicodeobject.h" // _PyUnicode_Dedent()
+#include "pycore_coroutine.h"     // C coroutines
 
 /* Includes for exit_sigint() */
 #include <stdio.h>                // perror()
@@ -606,9 +607,10 @@ pymain_repl(PyConfig *config, int *exitcode)
 }
 
 
-static void
-pymain_run_python(int *exitcode)
+static void *
+pymain_run_python(void *exitcodep)
 {
+    int *exitcode = (int *)exitcodep;
     PyObject *main_importer_path = NULL;
     PyInterpreterState *interp = _PyInterpreterState_GET();
     /* pymain_run_stdin() modify the config */
@@ -632,7 +634,7 @@ pymain_run_python(int *exitcode)
            Otherwise, main_importer_path is left unchanged. */
         if (pymain_get_importer(config->run_filename, &main_importer_path,
                                 exitcode)) {
-            return;
+            return NULL;
         }
     }
 
@@ -703,6 +705,7 @@ error:
 done:
     _PyInterpreterState_SetNotRunningMain(interp);
     Py_XDECREF(main_importer_path);
+    return NULL;
 }
 
 
@@ -769,7 +772,9 @@ Py_RunMain(void)
 
     _PyRuntime.signals.unhandled_keyboard_interrupt = 0;
 
-    pymain_run_python(&exitcode);
+    Coroutine_StartSystem();
+    Coroutine_Run(pymain_run_python, &exitcode);
+    Coroutine_StopSystem();
 
     if (Py_FinalizeEx() < 0) {
         /* Value unlikely to be confused with a non-error exit status or

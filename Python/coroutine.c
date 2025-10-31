@@ -8,6 +8,7 @@
 
 static void Coroutine_RunNext(void);
 static void _Coroutine_Continue(Coroutine *cor, void *value, bool early);
+static void *StackTopNow(void);
 
 ///////////////////////////////////////////////////////////////////////////////
 // 2-way linked lists...
@@ -402,6 +403,7 @@ Coroutine *Coroutine_New(
     Coroutine_Start start
 ){
     assert((g_c.state == Coroutines_Started && List_IsEmpty(&g_c.inactive)) || g_c.state == Coroutines_Active);
+    assert(!g_c.active || Check_Guard(g_c.active->guard));
 
     // if none free - add one
     if (List_IsEmpty(&g_c.free)){
@@ -522,24 +524,61 @@ Coroutine *Coroutine_GetActive(void)
 }
 
 
-intptr_t Coroutine_GetStackHeadroom(void){
+intptr_t _Py_Coroutine_GetStackHeadroom(void){
     unsigned char tbuf[4];
     return g_c.active ? tbuf - g_c.active->guard - 4 : COROUTINE_STACK_SIZE;
 }
 
 
-bool Coroutine_HasCoroutinesInFreePool(void){
-    return (g_c.state == Coroutines_Started || g_c.state == Coroutines_Active) && !List_IsEmpty(&g_c.free);
+// This is used to avoid compiler warnings about returning the address of a local
+static inline void *StopAddressComplaints(void *p)
+{
+    return p;
 }
 
 
-// Pass the address of a local variable through this to avoid warnings about taking its address
-static inline void *mask_address(void *ptr){return ptr;}
+void *Coroutine_GetStackHWM(void){
+    assert(g_c.state == Coroutines_Active);
+    // Find where the guards end
+    unsigned char *guard;
+    for (guard = g_c.active->guard; Check_Guard(guard); guard += 4){
+        // do nothing
+    }
+    return guard;
+}
+
+
+void Coroutine_ClearStackForHWM(void){
+    assert(g_c.state == Coroutines_Active);
+    unsigned char *end = StackTopNow();
+    for (unsigned char *guard = g_c.active->guard+4; guard < end; guard += 4){
+        guard[0] = 0xde;
+        guard[1] = 0xad;
+        guard[2] = 0xbe;
+        guard[3] = 0xef;
+    }
+}
+
+
+bool Coroutine_CanStartCoroutine(void *stack_end){
+    assert(g_c.state == Coroutines_Active);
+    if (!List_IsEmpty(&g_c.free)){
+        return true;
+    }
+    uintptr_t overhead_per_coroutine = g_c.report.stack_per_coroutine-COROUTINE_STACK_SIZE;
+    intptr_t stack_available_for_new_coroutines = (char *)g_c.tip - (char *)stack_end - overhead_per_coroutine;
+    return stack_available_for_new_coroutines > (intptr_t)g_c.report.stack_per_coroutine;
+}
 
 
 void *Coroutine_GetCStackTop(void){
-    char here;
-    return (g_c.state == Coroutines_Started || g_c.state == Coroutines_Active) ? (void *)g_c.tip : mask_address(&here);
+    return (g_c.state == Coroutines_Started || g_c.state == Coroutines_Active) ? (void *)g_c.tip : StackTopNow();
+}
+
+
+static void *StackTopNow(void){
+    unsigned char here[4];
+    return StopAddressComplaints(here);
 }
 
 
@@ -566,11 +605,15 @@ static void Coroutine_ChainYield(
 }
 
 
-void *Coroutine_Chain(
+void *_Py_Coroutine_Chain(
     Coroutine_Start start,
     void *value
 ){
     assert(Check_Guard(Coroutine_GetActive()->guard));
+    printf("Chain %p\n", start);
+    if (((uintptr_t)start & 0xfff) == 0x370){
+        printf("NOW\n");
+    }
     Coroutine *cor = Coroutine_New(Coroutine_ChainFn);
     struct Coroutine_ChainParam params = {
         start,
@@ -580,6 +623,7 @@ void *Coroutine_Chain(
     Coroutine_Continue(cor, &params, true);
     void *res = Coroutine_Yield(NULL, Coroutine_ChainYield, NULL);
     Coroutine_Delete(cor);
+    printf("Unchain %p\n", start);
     return res;
 }
 

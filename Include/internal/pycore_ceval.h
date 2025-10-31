@@ -16,6 +16,7 @@ extern "C" {
 #include "pycore_pystate.h"       // _PyThreadState_GET()
 #include "pycore_stats.h"         // EVAL_CALL_STAT_INC()
 #include "pycore_typedefs.h"      // _PyInterpreterFrame
+#include "pycore_coroutine.h"     // Coroutine_GetStackHeadroom and others
 
 
 /* Forward declarations */
@@ -212,9 +213,7 @@ extern void _PyEval_DeactivateOpCache(void);
 /* --- _Py_EnterRecursiveCall() ----------------------------------------- */
 
 static inline int _Py_MakeRecCheck(PyThreadState *tstate)  {
-    uintptr_t here_addr = _Py_get_machine_stack_pointer();
-    _PyThreadStateImpl *_tstate = (_PyThreadStateImpl *)tstate;
-    return here_addr < _tstate->c_stack_soft_limit;
+    return _Py_Coroutine_GetStackHeadroom() < (intptr_t)(2*PYOS_STACK_MARGIN_BYTES);
 }
 
 // Export for '_json' shared extension, used via _Py_EnterRecursiveCall()

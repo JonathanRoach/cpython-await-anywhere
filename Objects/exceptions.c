@@ -1257,6 +1257,7 @@ typedef struct {
     PyObject *rest;
 } _exceptiongroup_split_result;
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN5_A(static, int, exceptiongroup_split_recursive, PyObject *, _exceptiongroup_split_matcher_type, PyObject *, bool, _exceptiongroup_split_result *)
 static int
 exceptiongroup_split_recursive(PyObject *exc,
                                _exceptiongroup_split_matcher_type matcher_type,
@@ -1264,6 +1265,7 @@ exceptiongroup_split_recursive(PyObject *exc,
                                bool construct_rest,
                                _exceptiongroup_split_result *result)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN5_B(int, exceptiongroup_split_recursive, exc, matcher_type, matcher_value, construct_rest, result)
     result->match = NULL;
     result->rest = NULL;
 
@@ -1436,9 +1438,11 @@ BaseExceptionGroup_subgroup_impl(PyBaseExceptionGroupObject *self,
     return result;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(static, int, collect_exception_group_leaf_ids, PyObject *, PyObject *)
 static int
 collect_exception_group_leaf_ids(PyObject *exc, PyObject *leaf_ids)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(int, collect_exception_group_leaf_ids, exc, leaf_ids)
     if (Py_IsNone(exc)) {
         return 0;
     }

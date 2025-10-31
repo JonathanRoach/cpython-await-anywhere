@@ -8,6 +8,7 @@
 #include "pycore_object.h"
 #include "pycore_pyerrors.h"
 #include "pycore_pystate.h"       // _PyThreadState_GET()
+#include "pycore_cor_tools.h"     // _PY_ENSURE_COSTACK_HEADROOM_FOR_FN?_?
 
 
 /* undefine macro trampoline to PyCFunction_NewEx */
@@ -432,6 +433,15 @@ cfunction_enter_call(PyThreadState *tstate, PyObject *func)
     return (funcptr)PyCFunction_GET_FUNCTION(func);
 }
 
+
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(static inline, PyObject *, dovectorcall_FASTCALL, PyCFunctionFast, PyObject*, PyObject*const *, Py_ssize_t)
+static inline PyObject *dovectorcall_FASTCALL(
+    PyCFunctionFast meth, PyObject *self, PyObject *const *args, Py_ssize_t nargs)
+{
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(PyObject *, dovectorcall_FASTCALL, meth, self, args, nargs)
+    return meth(self, args, nargs);
+}
+
 /* Now the actual vectorcall functions */
 static PyObject *
 cfunction_vectorcall_FASTCALL(
@@ -447,7 +457,7 @@ cfunction_vectorcall_FASTCALL(
     if (meth == NULL) {
         return NULL;
     }
-    PyObject *result = meth(PyCFunction_GET_SELF(func), args, nargs);
+    PyObject *result = dovectorcall_FASTCALL(meth, PyCFunction_GET_SELF(func), args, nargs);
     _Py_LeaveRecursiveCallTstate(tstate);
     return result;
 }

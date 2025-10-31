@@ -1087,6 +1087,7 @@ CDataType_in_dll_impl(PyObject *type, PyTypeObject *cls, PyObject *dll,
     return NULL;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, PyObject *, CDataType_from_param_impl, PyObject *, PyTypeObject *, PyObject *)
 /*[clinic input]
 _ctypes.CDataType.from_param as CDataType_from_param
 
@@ -1102,6 +1103,7 @@ static PyObject *
 CDataType_from_param_impl(PyObject *type, PyTypeObject *cls, PyObject *value)
 /*[clinic end generated code: output=8da9e34263309f9e input=275a52c4899ddff0]*/
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(PyObject *, CDataType_from_param_impl, type, cls, value)
     PyObject *as_parameter;
     int res = PyObject_IsInstance(value, type);
     if (res == -1)
@@ -1907,6 +1909,7 @@ class _ctypes.c_void_p "PyObject *" "clinic_state_sub()->PyCSimpleType_Type"
 /*[clinic end generated code: output=da39a3ee5e6b4b0d input=dd4d9646c56f43a9]*/
 
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, PyObject *, c_wchar_p_from_param_impl, PyObject *, PyTypeObject *, PyObject *)
 /*[clinic input]
 _ctypes.c_wchar_p.from_param as c_wchar_p_from_param
 
@@ -1920,6 +1923,7 @@ static PyObject *
 c_wchar_p_from_param_impl(PyObject *type, PyTypeObject *cls, PyObject *value)
 /*[clinic end generated code: output=e453949a2f725a4c input=d322c7237a319607]*/
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(PyObject *, c_wchar_p_from_param_impl, type, cls, value)
     PyObject *as_parameter;
     int res;
     if (value == Py_None) {
@@ -1996,6 +2000,7 @@ c_wchar_p_from_param_impl(PyObject *type, PyTypeObject *cls, PyObject *value)
     return NULL;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, PyObject *, c_char_p_from_param_impl, PyObject *, PyTypeObject *, PyObject *)
 /*[clinic input]
 _ctypes.c_char_p.from_param as c_char_p_from_param
 
@@ -2009,6 +2014,7 @@ static PyObject *
 c_char_p_from_param_impl(PyObject *type, PyTypeObject *cls, PyObject *value)
 /*[clinic end generated code: output=219652ab7c174aa1 input=6cf0d1b6bb4ede11]*/
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(PyObject *, c_char_p_from_param_impl, type, cls, value)
     PyObject *as_parameter;
     int res;
     if (value == Py_None) {
@@ -2085,6 +2091,7 @@ c_char_p_from_param_impl(PyObject *type, PyTypeObject *cls, PyObject *value)
     return NULL;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, PyObject *, c_void_p_from_param_impl, PyObject *, PyTypeObject *, PyObject *)
 /*[clinic input]
 _ctypes.c_void_p.from_param as c_void_p_from_param
 
@@ -2098,6 +2105,7 @@ static PyObject *
 c_void_p_from_param_impl(PyObject *type, PyTypeObject *cls, PyObject *value)
 /*[clinic end generated code: output=984d0075b6038cc7 input=0e8b343fc19c77d4]*/
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(PyObject *, c_void_p_from_param_impl, type, cls, value)
     PyObject *as_parameter;
     int res;
 
@@ -2519,6 +2527,7 @@ PyCSimpleType_init(PyObject *self, PyObject *args, PyObject *kwds)
  * Convert a parameter into something that ConvParam can handle.
  */
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, PyObject *, PyCSimpleType_from_param_impl, PyObject *, PyTypeObject *, PyObject *)
 /*[clinic input]
 _ctypes.PyCSimpleType.from_param as PyCSimpleType_from_param
 
@@ -2535,6 +2544,7 @@ PyCSimpleType_from_param_impl(PyObject *type, PyTypeObject *cls,
                               PyObject *value)
 /*[clinic end generated code: output=8a8453d9663e3a2e input=61cc48ce3a87a570]*/
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(PyObject *, PyCSimpleType_from_param_impl, type, cls, value)
     const char *fmt;
     PyCArgObject *parg;
     struct fielddesc *fd;

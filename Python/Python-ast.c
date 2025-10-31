@@ -6099,8 +6099,10 @@ static int obj2ast_object(struct ast_state *Py_UNUSED(state), PyObject* obj, PyO
     return 0;
 }
 
-static int obj2ast_constant(struct ast_state *Py_UNUSED(state), PyObject* obj, PyObject** out, PyArena* arena)
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(static, int, obj2ast_constant, struct ast_state *, PyObject*, PyObject**, PyArena*)
+static int obj2ast_constant(struct ast_state *state, PyObject* obj, PyObject** out, PyArena* arena)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, obj2ast_constant, state, obj, out, arena)
     if (_PyArena_AddPyObject(arena, obj) < 0) {
         *out = NULL;
         return -1;
@@ -6109,8 +6111,10 @@ static int obj2ast_constant(struct ast_state *Py_UNUSED(state), PyObject* obj, P
     return 0;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(static, int, obj2ast_identifier, struct ast_state *, PyObject*, PyObject**, PyArena*)
 static int obj2ast_identifier(struct ast_state *state, PyObject* obj, PyObject** out, PyArena* arena)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, obj2ast_identifier, state, obj, out, arena)
     if (!PyUnicode_CheckExact(obj) && obj != Py_None) {
         PyErr_SetString(PyExc_TypeError, "AST identifier must be of type str");
         return -1;
@@ -6118,8 +6122,10 @@ static int obj2ast_identifier(struct ast_state *state, PyObject* obj, PyObject**
     return obj2ast_object(state, obj, out, arena);
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(static, int, obj2ast_string, struct ast_state *, PyObject*, PyObject**, PyArena*)
 static int obj2ast_string(struct ast_state *state, PyObject* obj, PyObject** out, PyArena* arena)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, obj2ast_string, state, obj, out, arena)
     if (!PyUnicode_CheckExact(obj) && !PyBytes_CheckExact(obj)) {
         PyErr_SetString(PyExc_TypeError, "AST string must be of type str");
         return -1;
@@ -6127,8 +6133,10 @@ static int obj2ast_string(struct ast_state *state, PyObject* obj, PyObject** out
     return obj2ast_object(state, obj, out, arena);
 }
 
-static int obj2ast_int(struct ast_state* Py_UNUSED(state), PyObject* obj, int* out, PyArena* arena)
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(static, int, obj2ast_int, struct ast_state *, PyObject*, int*, PyArena*)
+static int obj2ast_int(struct ast_state* state, PyObject* obj, int* out, PyArena* arena)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, obj2ast_int, state, obj, out, arena)
     int i;
     if (!PyLong_Check(obj)) {
         PyErr_Format(PyExc_ValueError, "invalid integer value: %R", obj);
@@ -11130,10 +11138,12 @@ obj2ast_mod(struct ast_state *state, PyObject* obj, mod_ty* out, PyArena* arena)
     return -1;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(extern, int, obj2ast_stmt, struct ast_state *, PyObject*, stmt_ty*, PyArena*)
 int
 obj2ast_stmt(struct ast_state *state, PyObject* obj, stmt_ty* out, PyArena*
              arena)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, obj2ast_stmt, state, obj, out, arena)
     int isinstance;
 
     PyObject *tmp = NULL;
@@ -13787,10 +13797,12 @@ obj2ast_stmt(struct ast_state *state, PyObject* obj, stmt_ty* out, PyArena*
     return -1;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(extern, int, obj2ast_expr, struct ast_state *, PyObject*, expr_ty*, PyArena*)
 int
 obj2ast_expr(struct ast_state *state, PyObject* obj, expr_ty* out, PyArena*
              arena)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, obj2ast_expr, state, obj, out, arena)
     int isinstance;
 
     PyObject *tmp = NULL;
@@ -15699,10 +15711,12 @@ obj2ast_expr(struct ast_state *state, PyObject* obj, expr_ty* out, PyArena*
     return -1;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(extern, int, obj2ast_expr_context, struct ast_state *, PyObject*, expr_context_ty*, PyArena*)
 int
 obj2ast_expr_context(struct ast_state *state, PyObject* obj, expr_context_ty*
                      out, PyArena* arena)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, obj2ast_expr_context, state, obj, out, arena)
     int isinstance;
 
     isinstance = PyObject_IsInstance(obj, state->Load_type);
@@ -15734,10 +15748,12 @@ obj2ast_expr_context(struct ast_state *state, PyObject* obj, expr_context_ty*
     return -1;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(extern, int, obj2ast_boolop, struct ast_state *, PyObject*, boolop_ty*, PyArena*)
 int
 obj2ast_boolop(struct ast_state *state, PyObject* obj, boolop_ty* out, PyArena*
                arena)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, obj2ast_boolop, state, obj, out, arena)
     int isinstance;
 
     isinstance = PyObject_IsInstance(obj, state->And_type);
@@ -15761,10 +15777,12 @@ obj2ast_boolop(struct ast_state *state, PyObject* obj, boolop_ty* out, PyArena*
     return -1;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(extern, int, obj2ast_operator, struct ast_state *, PyObject*, operator_ty*, PyArena*)
 int
 obj2ast_operator(struct ast_state *state, PyObject* obj, operator_ty* out,
                  PyArena* arena)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, obj2ast_operator, state, obj, out, arena)
     int isinstance;
 
     isinstance = PyObject_IsInstance(obj, state->Add_type);
@@ -15876,10 +15894,12 @@ obj2ast_operator(struct ast_state *state, PyObject* obj, operator_ty* out,
     return -1;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(extern, int, obj2ast_unaryop, struct ast_state *, PyObject*, unaryop_ty*, PyArena*)
 int
 obj2ast_unaryop(struct ast_state *state, PyObject* obj, unaryop_ty* out,
                 PyArena* arena)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, obj2ast_unaryop, state, obj, out, arena)
     int isinstance;
 
     isinstance = PyObject_IsInstance(obj, state->Invert_type);
@@ -15919,10 +15939,12 @@ obj2ast_unaryop(struct ast_state *state, PyObject* obj, unaryop_ty* out,
     return -1;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(extern, int, obj2ast_cmpop, struct ast_state *, PyObject*, cmpop_ty*, PyArena*)
 int
 obj2ast_cmpop(struct ast_state *state, PyObject* obj, cmpop_ty* out, PyArena*
               arena)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, obj2ast_cmpop, state, obj, out, arena)
     int isinstance;
 
     isinstance = PyObject_IsInstance(obj, state->Eq_type);
@@ -16010,10 +16032,12 @@ obj2ast_cmpop(struct ast_state *state, PyObject* obj, cmpop_ty* out, PyArena*
     return -1;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(extern, int, obj2ast_comprehension, struct ast_state *, PyObject*, comprehension_ty*, PyArena*)
 int
 obj2ast_comprehension(struct ast_state *state, PyObject* obj, comprehension_ty*
                       out, PyArena* arena)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, obj2ast_comprehension, state, obj, out, arena)
     PyObject* tmp = NULL;
     expr_ty target;
     expr_ty iter;
@@ -16117,10 +16141,12 @@ failed:
     return -1;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(extern, int, obj2ast_excepthandler, struct ast_state *, PyObject*, excepthandler_ty*, PyArena*)
 int
 obj2ast_excepthandler(struct ast_state *state, PyObject* obj, excepthandler_ty*
                       out, PyArena* arena)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, obj2ast_excepthandler, state, obj, out, arena)
     int isinstance;
 
     PyObject *tmp = NULL;
@@ -16296,10 +16322,12 @@ obj2ast_excepthandler(struct ast_state *state, PyObject* obj, excepthandler_ty*
     return -1;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(extern, int, obj2ast_arguments, struct ast_state *, PyObject*, arguments_ty*, PyArena*)
 int
 obj2ast_arguments(struct ast_state *state, PyObject* obj, arguments_ty* out,
                   PyArena* arena)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, obj2ast_arguments, state, obj, out, arena)
     PyObject* tmp = NULL;
     asdl_arg_seq* posonlyargs;
     asdl_arg_seq* args;
@@ -16542,9 +16570,11 @@ failed:
     return -1;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(extern, int, obj2ast_arg, struct ast_state *, PyObject*, arg_ty*, PyArena*)
 int
 obj2ast_arg(struct ast_state *state, PyObject* obj, arg_ty* out, PyArena* arena)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, obj2ast_arg, state, obj, out, arena)
     PyObject* tmp = NULL;
     identifier arg;
     expr_ty annotation;
@@ -16682,10 +16712,12 @@ failed:
     return -1;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(extern, int, obj2ast_keyword, struct ast_state *, PyObject*, keyword_ty*, PyArena*)
 int
 obj2ast_keyword(struct ast_state *state, PyObject* obj, keyword_ty* out,
                 PyArena* arena)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, obj2ast_keyword, state, obj, out, arena)
     PyObject* tmp = NULL;
     identifier arg;
     expr_ty value;
@@ -16805,10 +16837,12 @@ failed:
     return -1;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(extern, int, obj2ast_alias, struct ast_state *, PyObject*, alias_ty*, PyArena*)
 int
 obj2ast_alias(struct ast_state *state, PyObject* obj, alias_ty* out, PyArena*
               arena)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, obj2ast_alias, state, obj, out, arena)
     PyObject* tmp = NULL;
     identifier name;
     identifier asname;
@@ -16928,10 +16962,12 @@ failed:
     return -1;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(extern, int, obj2ast_withitem, struct ast_state *, PyObject*, withitem_ty*, PyArena*)
 int
 obj2ast_withitem(struct ast_state *state, PyObject* obj, withitem_ty* out,
                  PyArena* arena)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, obj2ast_withitem, state, obj, out, arena)
     PyObject* tmp = NULL;
     expr_ty context_expr;
     expr_ty optional_vars;
@@ -16978,10 +17014,12 @@ failed:
     return -1;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(extern, int, obj2ast_match_case, struct ast_state *, PyObject*, match_case_ty*, PyArena*)
 int
 obj2ast_match_case(struct ast_state *state, PyObject* obj, match_case_ty* out,
                    PyArena* arena)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, obj2ast_match_case, state, obj, out, arena)
     PyObject* tmp = NULL;
     pattern_ty pattern;
     expr_ty guard;
@@ -17067,10 +17105,12 @@ failed:
     return -1;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(extern, int, obj2ast_pattern, struct ast_state *, PyObject*, pattern_ty*, PyArena*)
 int
 obj2ast_pattern(struct ast_state *state, PyObject* obj, pattern_ty* out,
                 PyArena* arena)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, obj2ast_pattern, state, obj, out, arena)
     int isinstance;
 
     PyObject *tmp = NULL;
@@ -17655,10 +17695,12 @@ obj2ast_pattern(struct ast_state *state, PyObject* obj, pattern_ty* out,
     return -1;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(extern, int, obj2ast_type_ignore, struct ast_state *, PyObject*, type_ignore_ty*, PyArena*)
 int
 obj2ast_type_ignore(struct ast_state *state, PyObject* obj, type_ignore_ty*
                     out, PyArena* arena)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, obj2ast_type_ignore, state, obj, out, arena)
     int isinstance;
 
     PyObject *tmp = NULL;
@@ -17722,10 +17764,12 @@ obj2ast_type_ignore(struct ast_state *state, PyObject* obj, type_ignore_ty*
     return -1;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(extern, int, obj2ast_type_param, struct ast_state *, PyObject*, type_param_ty*, PyArena*)
 int
 obj2ast_type_param(struct ast_state *state, PyObject* obj, type_param_ty* out,
                    PyArena* arena)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, obj2ast_type_param, state, obj, out, arena)
     int isinstance;
 
     PyObject *tmp = NULL;

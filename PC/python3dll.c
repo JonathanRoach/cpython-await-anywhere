@@ -15,6 +15,8 @@
 
 EXPORT_FUNC(_Py_BuildValue_SizeT)
 EXPORT_FUNC(_Py_CheckRecursiveCall)
+EXPORT_FUNC(_Py_Coroutine_Chain)
+EXPORT_FUNC(_Py_Coroutine_GetStackHeadroom)
 EXPORT_FUNC(_Py_Dealloc)
 EXPORT_FUNC(_Py_DecRef)
 EXPORT_FUNC(_Py_IncRef)

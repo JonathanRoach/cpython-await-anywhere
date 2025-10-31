@@ -9,6 +9,7 @@
 #include "pycore_pystate.h"       // _PyThreadState_GET()
 #include "pycore_tuple.h"         // _PyTuple_ITEMS()
 #include "pycore_interpframe.h"    // _PyEvalFramePushAndInit
+#include "pycore_cor_tools.h"     // _PY_ENSURE_COSTACK_HEADROOM_FOR_FN?_?
 
 
 static PyObject *
@@ -338,6 +339,13 @@ PyObject_Vectorcall(PyObject *callable, PyObject *const *args,
 }
 
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(static, PyObject *, doternarycall, ternaryfunc, PyObject *, PyObject *, PyObject *)
+static inline PyObject *doternarycall(ternaryfunc call, PyObject *callable, PyObject *args, PyObject *kwargs){
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(PyObject *, doternarycall, call, callable, args, kwargs)
+    return (*call)(callable, args, kwargs);
+}
+
+
 PyObject *
 _PyObject_Call(PyThreadState *tstate, PyObject *callable,
                PyObject *args, PyObject *kwargs)
@@ -367,7 +375,7 @@ _PyObject_Call(PyThreadState *tstate, PyObject *callable,
             return NULL;
         }
 
-        result = (*call)(callable, args, kwargs);
+        result = doternarycall(call, callable, args, kwargs);
 
         _Py_LeaveRecursiveCallTstate(tstate);
 
@@ -406,9 +414,11 @@ _PyObject_CallOneArg_Inlinable(PyObject *func, PyObject *arg,
 }
 
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(extern, PyObject *, PyObject_CallOneArg, PyObject *, PyObject *)
 PyObject *
 PyObject_CallOneArg(PyObject *func, PyObject *arg)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(PyObject *, PyObject_CallOneArg, func, arg)
     return _PyObject_CallOneArg_Inlinable(func, arg, NULL);
 }
 

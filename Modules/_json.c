@@ -14,6 +14,7 @@
 #include "pycore_pyerrors.h"      // _PyErr_FormatNote
 #include "pycore_runtime.h"       // _PyRuntime
 #include "pycore_unicodeobject.h" // _PyUnicode_CheckConsistency()
+#include "pycore_cor_tools.h"     // _PY_ENSURE_COSTACK_HEADROOM_FOR_FN?_?
 
 #include <stdbool.h>              // bool
 
@@ -657,9 +658,11 @@ scanner_clear(PyObject *op)
     return 0;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN5_A(static, PyObject *, _parse_object_unicode, PyScannerObject *, PyObject*, PyObject*, Py_ssize_t, Py_ssize_t *)
 static PyObject *
 _parse_object_unicode(PyScannerObject *s, PyObject *memo, PyObject *pystr, Py_ssize_t idx, Py_ssize_t *next_idx_ptr)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN5_B(PyObject *, _parse_object_unicode, s, memo, pystr, idx, next_idx_ptr)
     /* Read a JSON object from PyUnicode pystr.
     idx is the index of the first character after the opening curly brace.
     *next_idx_ptr is a return-by-reference index to the first character after
@@ -789,8 +792,10 @@ bail:
     return NULL;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN5_A(static, PyObject *, _parse_array_unicode, PyScannerObject *, PyObject*, PyObject*, Py_ssize_t, Py_ssize_t *)
 static PyObject *
 _parse_array_unicode(PyScannerObject *s, PyObject *memo, PyObject *pystr, Py_ssize_t idx, Py_ssize_t *next_idx_ptr) {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN5_B(PyObject *, _parse_array_unicode, s, memo, pystr, idx, next_idx_ptr)
     /* Read a JSON array from PyUnicode pystr.
     idx is the index of the first character after the opening brace.
     *next_idx_ptr is a return-by-reference index to the first character after
@@ -1460,11 +1465,13 @@ _steal_accumulate(PyUnicodeWriter *writer, PyObject *stolen)
     return rval;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN5_A(static, int, encoder_listencode_obj, PyEncoderObject *, PyUnicodeWriter *, PyObject*, Py_ssize_t, PyObject *)
 static int
 encoder_listencode_obj(PyEncoderObject *s, PyUnicodeWriter *writer,
                        PyObject *obj,
                        Py_ssize_t indent_level, PyObject *indent_cache)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN5_B(int, encoder_listencode_obj, s, writer, obj, indent_level, indent_cache)
     /* Encode Python object obj to a JSON term */
     PyObject *newobj;
     int rv;
@@ -1636,11 +1643,13 @@ encoder_encode_key_value(PyEncoderObject *s, PyUnicodeWriter *writer, bool *firs
     return 0;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN5_A(static, int, encoder_listencode_dict, PyEncoderObject *, PyUnicodeWriter *, PyObject*, Py_ssize_t, PyObject *)
 static int
 encoder_listencode_dict(PyEncoderObject *s, PyUnicodeWriter *writer,
                         PyObject *dct,
                        Py_ssize_t indent_level, PyObject *indent_cache)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN5_B(int, encoder_listencode_dict, s, writer, dct, indent_level, indent_cache)
     /* Encode Python dict dct a JSON term */
     PyObject *ident = NULL;
     PyObject *items = NULL;
@@ -1735,11 +1744,13 @@ bail:
     return -1;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN5_A(static, int, encoder_listencode_list, PyEncoderObject *, PyUnicodeWriter*, PyObject*, Py_ssize_t, PyObject*)
 static int
 encoder_listencode_list(PyEncoderObject *s, PyUnicodeWriter *writer,
                         PyObject *seq,
                         Py_ssize_t indent_level, PyObject *indent_cache)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN5_B(int, encoder_listencode_list, s, writer, seq, indent_level, indent_cache)
     PyObject *ident = NULL;
     PyObject *s_fast = NULL;
     Py_ssize_t i;

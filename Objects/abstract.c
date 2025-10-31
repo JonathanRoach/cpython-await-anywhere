@@ -16,6 +16,7 @@
 #include "pycore_unionobject.h"   // _PyUnion_Check()
 #include "pycore_interpframe.h"   // _PyReturnAction_ctor()
 #include "pycore_typeobject.h"    // _PyTypeSlot_nb_???() and _PyTypeSlot_nb_???_Inlinable()
+#include "pycore_cor_tools.h"     // _PY_ENSURE_COSTACK_HEADROOM_FOR_FN?_?
 
 #include <stddef.h>               // offsetof()
 
@@ -3373,9 +3374,11 @@ abstract_get_bases(PyObject *cls)
 }
 
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(static, int, abstract_issubclass, PyObject *, PyObject *)
 static int
 abstract_issubclass(PyObject *derived, PyObject *cls)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(int, abstract_issubclass, derived, cls)
     PyObject *bases = NULL;
     Py_ssize_t i, n;
     int r = 0;
@@ -3476,9 +3479,12 @@ object_isinstance(PyObject *inst, PyObject *cls)
     return retval;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, int, object_recursive_isinstance, PyThreadState *, PyObject *, PyObject *)
 static int
 object_recursive_isinstance(PyThreadState *tstate, PyObject *inst, PyObject *cls)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(int, object_recursive_isinstance, tstate, inst, cls)
+
     /* Quick test for an exact match */
     if (Py_IS_TYPE(inst, (PyTypeObject *)cls)) {
         return 1;
@@ -3569,9 +3575,11 @@ recursive_issubclass(PyObject *derived, PyObject *cls)
     return abstract_issubclass(derived, cls);
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, int, object_issubclass, PyThreadState *, PyObject *, PyObject *)
 static int
 object_issubclass(PyThreadState *tstate, PyObject *derived, PyObject *cls)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(int, object_issubclass, tstate, derived, cls)
     PyObject *checker;
 
     /* We know what type's __subclasscheck__ does. */

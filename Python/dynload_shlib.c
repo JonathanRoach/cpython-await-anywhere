@@ -7,6 +7,7 @@
 #include "pycore_importdl.h"
 #include "pycore_interp.h"        // _PyInterpreterState.dlopenflags
 #include "pycore_pystate.h"       // _PyInterpreterState_GET()
+#include "pycore_cor_tools.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -51,11 +52,20 @@ const char *_PyImport_DynLoadFiletab[] = {
 };
 
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(extern, dl_funcptr, _PyImport_FindSharedFuncptr, const char *, const char *, const char *, FILE *)
 dl_funcptr
 _PyImport_FindSharedFuncptr(const char *prefix,
                             const char *shortname,
                             const char *pathname, FILE *fp)
 {
+    // After metering the stack usage of dlopen(), 26k on MacOS was seen, so check a margin of 32k (ie 4096 'void *'s)
+#define NECESSARY_dlopen_STACK (4096*sizeof(void *))
+    assert(COROUTINE_STACK_SIZE > NECESSARY_dlopen_STACK);
+    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)NECESSARY_dlopen_STACK) {
+        struct Do_Call_Params__PyImport_FindSharedFuncptr params = {prefix, shortname, pathname, fp};
+        return (dl_funcptr)(uintptr_t)_Py_Coroutine_Chain(Do_Call__PyImport_FindSharedFuncptr, (void *)&params);
+    }
+
     dl_funcptr p;
     void *handle;
     char funcname[258];

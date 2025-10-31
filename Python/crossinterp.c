@@ -12,6 +12,7 @@
 #include "pycore_pythonrun.h"     // _Py_SourceAsString()
 #include "pycore_setobject.h"     // _PySet_NextEntry()
 #include "pycore_typeobject.h"    // _PyStaticType_InitBuiltin()
+#include "pycore_cor_tools.h"     // _PY_ENSURE_COSTACK_HEADROOM_FOR_FN?_?
 
 
 static Py_ssize_t
@@ -460,11 +461,13 @@ _PyObject_GetXIDataNoFallback(PyThreadState *tstate,
     return _get_xidata(tstate, obj, _PyXIDATA_XIDATA_ONLY, xidata);
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(extern, int, _PyObject_GetXIData, PyThreadState *, PyObject*, xidata_fallback_t, _PyXIData_t *)
 int
 _PyObject_GetXIData(PyThreadState *tstate,
                     PyObject *obj, xidata_fallback_t fallback,
                     _PyXIData_t *xidata)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, _PyObject_GetXIData, tstate, obj, fallback, xidata)
     switch (fallback) {
         case _PyXIDATA_XIDATA_ONLY:
             return _get_xidata(tstate, obj, fallback, xidata);

@@ -10,6 +10,7 @@ extern "C" {
 
 #include "pycore_typedefs.h"      // _PyRuntimeState
 #include "pycore_tstate.h"
+#include "pycore_coroutine.h"
 
 
 // Values for PyThreadState.state. A thread must be in the "attached" state
@@ -332,8 +333,15 @@ _Py_RecursionLimit_GetMargin(PyThreadState *tstate)
 {
     _PyThreadStateImpl *_tstate = (_PyThreadStateImpl *)tstate;
     assert(_tstate->c_stack_hard_limit != 0);
-    intptr_t here_addr = _Py_get_machine_stack_pointer();
-    return Py_ARITHMETIC_RIGHT_SHIFT(intptr_t, here_addr - (intptr_t)_tstate->c_stack_soft_limit, PYOS_STACK_MARGIN_SHIFT);
+    if (Coroutine_IsStarted()){
+        if (Coroutine_CanStartCoroutine((void *)_tstate->c_stack_hard_limit)){
+            return 4;
+        }
+        return Py_ARITHMETIC_RIGHT_SHIFT(intptr_t, _Py_Coroutine_GetStackHeadroom(), PYOS_STACK_MARGIN_SHIFT);
+    } else {
+        intptr_t here_addr = _Py_get_machine_stack_pointer();
+        return Py_ARITHMETIC_RIGHT_SHIFT(intptr_t, here_addr - (intptr_t)_tstate->c_stack_soft_limit, PYOS_STACK_MARGIN_SHIFT);
+    }
 }
 
 #ifdef __cplusplus
