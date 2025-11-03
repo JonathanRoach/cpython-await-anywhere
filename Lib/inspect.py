@@ -680,22 +680,13 @@ def unwrap(func, *, stop=None):
     # ensure they aren't destroyed, which would allow their IDs to be reused.
     memo = {id(f): f}
     recursion_limit = sys.getrecursionlimit()
-    print('inspect.unwrap')
     while not isinstance(func, type) and hasattr(func, '__wrapped__'):
         if stop is not None and stop(func):
             break
-        print('get __wrapped__')
         func = func.__wrapped__
-        print('got __wrapped__')
         id_func = id(func)
-        print('got id')
         if (id_func in memo) or (len(memo) >= recursion_limit):
-            print('exit recursion limit reached')
-            ex = ValueError('wrapper loop when unwrapping {!r}'.format(f))
-            print('ex built')
-            del memo
-            print("memo del'ed")
-            raise ex
+            raise ValueError('wrapper loop when unwrapping {!r}'.format(f))
         memo[id_func] = func
     return func
 
