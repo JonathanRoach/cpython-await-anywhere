@@ -179,6 +179,7 @@ static void stack_chunk_chunk(Coroutine *parent);
 static void stack_chunk_base(Coroutine *parent, unsigned char *guard);
 
 
+#define GUARD_PATTERN_SIZE (4)
 // Check whether the guard is intact
 static inline bool Check_Guard(
     unsigned char *guard
@@ -190,15 +191,18 @@ static inline bool Check_Guard(
 }
 
 
+static inline void Apply_Guard(unsigned char *guard){
+    guard[0] = 0xde;
+    guard[1] = 0xad;
+    guard[2] = 0xbe;
+    guard[3] = 0xef;
+}
+
+
 static void Coroutine_PrimeStackChunks(void)
 {
-    unsigned char chunk_of_stack[COROUTINE_STARTUP_STACK_SIZE];
-    for (uintptr_t i = 0; i < COROUTINE_STARTUP_STACK_SIZE-3; i += 4){
-        chunk_of_stack[i+0] = 0xde;
-        chunk_of_stack[i+1] = 0xad;
-        chunk_of_stack[i+2] = 0xbe;
-        chunk_of_stack[i+3] = 0xef;
-    }
+    unsigned char chunk_of_stack[COROUTINE_STARTUP_STACK_SIZE + GUARD_PATTERN_SIZE];
+    Apply_Guard(chunk_of_stack);
     assert(Check_Guard(chunk_of_stack));
 
     // Stacks grow down in memory (almost always), so if the caller of this function changes
@@ -212,13 +216,8 @@ static void Coroutine_PrimeStackChunks(void)
 static void stack_chunk_chunk(
     Coroutine *parent
 ){
-    unsigned char chunk_of_stack[COROUTINE_STACK_SIZE];
-    for (uintptr_t i = 0; i < COROUTINE_STACK_SIZE-3; i += 4){
-        chunk_of_stack[i+0] = 0xde;
-        chunk_of_stack[i+1] = 0xad;
-        chunk_of_stack[i+2] = 0xbe;
-        chunk_of_stack[i+3] = 0xef;
-    }
+    unsigned char chunk_of_stack[COROUTINE_STACK_SIZE + GUARD_PATTERN_SIZE];
+    Apply_Guard(chunk_of_stack);
     stack_chunk_base(parent, chunk_of_stack);
 }
 
@@ -229,54 +228,63 @@ static void stack_chunk_base(
 ){
     Coroutine here;
     here.state = Coroutine_Constructing;
-    switch (setjmp(here.buf)) {
-    case Chunk_Initial:
-        // got here for the first time
-        // parent now has a chunk_of_stack - add it to the free list
-        if (parent) {
-            assert(parent->state == Coroutine_Constructing);
-            assert(Check_Guard(guard));
-            parent->guard = guard;
-            parent->state = Coroutine_Free;
-            List_AddHead(&g_c.free, &parent->link);
-            g_c.report.coroutines_pool_size += 1;
+    for(;;){
+        switch (setjmp(here.buf)) {
+        case Chunk_Initial:
+            if (here.state == Coroutine_Constructing){
+                // got here for the first time
+                // parent now has a chunk_of_stack - add it to the free list
+                if (parent) {
+                    assert(parent->state == Coroutine_Constructing);
+                    assert(Check_Guard(guard));
+                    parent->guard = guard;
+                    parent->state = Coroutine_Free;
+                    List_AddHead(&g_c.free, &parent->link);
+                    g_c.report.coroutines_pool_size += 1;
+                }
+                // note that here is the tip of the chunk-claim stack
+                here.coroutines = &g_c;
+                g_c.tip = &here;
+
+                // return to the coroutine allocator
+                longjmp(g_c.chunk_allocated, 1);
+            } else {
+                assert(here.state == Coroutine_Complete);
+                // we finish here to ensure the setjmp is redone
+                if (g_c.primary == &here) {
+                    // if primary coroutine - return to Coroutine_Run
+                    longjmp(g_c.controller, Coroutines_CoroutineComplete);
+                }
+                _Cor_Mutex_Unlock(&g_c.mutex);
+                Coroutine_RunNext();
+                assert(false);
+            }
+        case Chunk_Create:
+            // request to create a new chunk on the stack
+            assert(here.state == Coroutine_Constructing);
+            stack_chunk_chunk(&here);
+            assert(false);
+        case Chunk_Enter:
+            // request to start a coroutine (ie use the chunk for a coroutine)
+            // arrive here with mutex locked
+            assert(here.state == Coroutine_Running);
+            g_c.active = &here;
+            _Cor_Mutex_Unlock(&g_c.mutex);
+            here.value = here.start(here.entry_param);
+
+            // check the guard
+            assert(Check_Guard(here.guard));
+
+            _Cor_Mutex_Lock(&g_c.mutex);
+            g_c.active = NULL;
+            assert(here.state == Coroutine_Running);
+            List_Remove(&here.link);
+            here.state = Coroutine_Complete;
+            List_AddTail(&g_c.inactive, &here.link);
+            // Coroutine has completed
+            // Loop round to redo the setjmp() - if this coroutine yielded, then the setjmp will
+            // need reseting
         }
-        // note that here is the tip of the chunk-claim stack
-        here.coroutines = &g_c;
-        g_c.tip = &here;
-
-        // return to the coroutine allocator
-        longjmp(g_c.chunk_allocated, 1);
-    case Chunk_Create:
-        // request to create a new chunk on the stack
-        assert(here.state == Coroutine_Constructing);
-        stack_chunk_chunk(&here);
-        assert(false);
-    case Chunk_Enter:
-        // request to start a coroutine (ie use the chunk for a coroutine)
-        // arrive here with mutex locked
-        assert(here.state == Coroutine_Running);
-        g_c.active = &here;
-        _Cor_Mutex_Unlock(&g_c.mutex);
-        here.value = here.start(here.entry_param);
-
-        // check the guard
-        assert(Check_Guard(here.guard));
-
-        _Cor_Mutex_Lock(&g_c.mutex);
-        g_c.active = NULL;
-        assert(here.state == Coroutine_Running);
-        List_Remove(&here.link);
-        here.state = Coroutine_Complete;
-        List_AddTail(&g_c.inactive, &here.link);
-        // coroutine has completed
-        if (g_c.primary == &here) {
-            // if primary coroutine - return to Coroutine_Run
-            longjmp(g_c.controller, Coroutines_CoroutineComplete);
-        }
-        _Cor_Mutex_Unlock(&g_c.mutex);
-        Coroutine_RunNext();
-        assert(false);
     }
 }
 
@@ -429,6 +437,7 @@ Coroutine *Coroutine_New(
 void Coroutine_Delete(
     Coroutine *cor
 ){
+    assert(!g_c.active || Check_Guard(g_c.active->guard));
     Coroutines *cors = cor->coroutines;
     _Cor_Mutex_Lock(&cors->mutex);
     assert(cor->state == Coroutine_Idle || cor->state == Coroutine_Complete);
@@ -464,6 +473,7 @@ void Coroutine_Continue(
     void *value,
     bool early
 ){
+    assert(!g_c.active || Check_Guard(g_c.active->guard));
     Coroutines *cors = cor->coroutines;
     _Cor_Mutex_Lock(&cors->mutex);
     _Coroutine_Continue(cor, value, early);
@@ -501,6 +511,7 @@ void *Coroutine_Yield(
     case Chunk_Enter:
         // arrive here with mutex locked
         cors->active = me;
+        assert(Check_Guard(me->guard));
         // when we return here - we are running again
         assert(me->state == Coroutine_Running);
         void *res = me->entry_param;
@@ -550,18 +561,17 @@ void *Coroutine_GetStackHWM(void){
 
 void Coroutine_ClearStackForHWM(void){
     assert(g_c.state == Coroutines_Active);
-    unsigned char *end = StackTopNow();
-    for (unsigned char *guard = g_c.active->guard+4; guard < end; guard += 4){
-        guard[0] = 0xde;
-        guard[1] = 0xad;
-        guard[2] = 0xbe;
-        guard[3] = 0xef;
+    assert(Check_Guard(g_c.active->guard));
+    unsigned char *end = StackTopNow() - GUARD_PATTERN_SIZE;
+    for (unsigned char *guard = g_c.active->guard+GUARD_PATTERN_SIZE; guard <= end; guard += GUARD_PATTERN_SIZE){
+        Apply_Guard(guard);
     }
 }
 
 
 bool Coroutine_CanStartCoroutine(void *stack_end){
     assert(g_c.state == Coroutines_Active);
+    assert(Check_Guard(g_c.active->guard));
     if (!List_IsEmpty(&g_c.free)){
         return true;
     }
@@ -572,6 +582,7 @@ bool Coroutine_CanStartCoroutine(void *stack_end){
 
 
 void *Coroutine_GetCStackTop(void){
+    assert(!g_c.active || Check_Guard(g_c.active->guard));
     return (g_c.state == Coroutines_Started || g_c.state == Coroutines_Active) ? (void *)g_c.tip : StackTopNow();
 }
 
@@ -610,10 +621,6 @@ void *_Py_Coroutine_Chain(
     void *value
 ){
     assert(Check_Guard(Coroutine_GetActive()->guard));
-    printf("Chain %p\n", start);
-    if (((uintptr_t)start & 0xfff) == 0x370){
-        printf("NOW\n");
-    }
     Coroutine *cor = Coroutine_New(Coroutine_ChainFn);
     struct Coroutine_ChainParam params = {
         start,
@@ -623,7 +630,6 @@ void *_Py_Coroutine_Chain(
     Coroutine_Continue(cor, &params, true);
     void *res = Coroutine_Yield(NULL, Coroutine_ChainYield, NULL);
     Coroutine_Delete(cor);
-    printf("Unchain %p\n", start);
     return res;
 }
 
