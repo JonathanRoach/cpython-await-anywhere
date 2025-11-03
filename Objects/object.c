@@ -3276,7 +3276,7 @@ _Py_Dealloc(PyObject *op)
         _PyTrash_thread_deposit_object(tstate, (PyObject *)op);
         return;
     }
-    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES) {
+    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(2*PYOS_STACK_MARGIN_BYTES)) {
         _Py_Coroutine_Chain(Do_Py_Dealloc, op);
         return;
     }
