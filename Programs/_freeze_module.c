@@ -13,6 +13,7 @@
 #include <marshal.h>
 #include "pycore_fileutils.h"     // _Py_stat_struct
 #include <pycore_import.h>
+#include <pycore_coroutine.h>
 
 #include <stdio.h>
 #include <stdlib.h>               // malloc()
@@ -202,9 +203,18 @@ write_frozen(const char *outpath, const char *inpath, const char *name,
     return 0;
 }
 
-int
-main(int argc, char *argv[])
+struct argparams {
+    int argc;
+    char **argv;
+};
+
+void *
+_main(void *_params)
 {
+    struct argparams *params = (struct argparams *)_params;
+    int argc = params->argc;
+    char **argv = params->argv;
+
     const char *name, *inpath, *outpath;
 
     _PyImport_FrozenBootstrap = no_modules;
@@ -215,7 +225,7 @@ main(int argc, char *argv[])
 
     if (argc != 4) {
         fprintf(stderr, "need to specify the name, input and output paths\n");
-        return 2;
+        return (void *)2;
     }
     name = argv[1];
     inpath = argv[2];
@@ -241,11 +251,20 @@ main(int argc, char *argv[])
     }
 
     Py_Finalize();
-    return 0;
+    return (void *)0;
 
 error:
     PyErr_Print();
     Py_Finalize();
-    return 1;
+    return (void *)1;
 }
 
+int
+main(int argc, char *argv[])
+{
+    struct argparams params = {argc, argv};
+    Coroutine_StartSystem();
+    int rc = (int)(intptr_t)Coroutine_Run(_main, &params);
+    Coroutine_StopSystem();
+    return rc;
+}

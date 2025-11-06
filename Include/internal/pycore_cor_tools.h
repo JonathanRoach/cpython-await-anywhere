@@ -1,6 +1,7 @@
 #ifndef Py_INTERNAL_COR_TOOLS_H
 #define Py_INTERNAL_COR_TOOLS_H
 #include "pycore_coroutine.h"
+#include "pycore_pystate.h"
 
 #define _PY_ENSURE_COSTACK_HEADROOM_FOR_FN0_A(decl, r_t, fn) \
 decl r_t fn(void); \
@@ -9,7 +10,8 @@ static void *Do_Call_##fn(void *param) { \
     return (void *)(uintptr_t)fn(); \
 }
 #define _PY_ENSURE_COSTACK_HEADROOM_FOR_FN0_B(r_t, fn) \
-    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES) { \
+    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES && \
+        _Py_Coroutine_CanStartCoroutine((void *)((_PyThreadStateImpl *)_PyThreadState_GET())->c_stack_hard_limit)) { \
         return (r_t)(uintptr_t)_Py_Coroutine_Chain(Do_Call_##fn, NULL); \
     }
 
@@ -23,7 +25,8 @@ static void *Do_Call_##fn(void *param) { \
     return (void *)(uintptr_t)fn(params->v0); \
 }
 #define _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(r_t, fn, p0) \
-    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES) { \
+    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES && \
+        _Py_Coroutine_CanStartCoroutine((void *)((_PyThreadStateImpl *)_PyThreadState_GET())->c_stack_hard_limit)) { \
         struct Do_Call_Params_##fn params = {p0}; \
         return (r_t)(uintptr_t)_Py_Coroutine_Chain(Do_Call_##fn, (void *)&params); \
     }
@@ -39,7 +42,8 @@ static void *Do_Call_##fn(void *param) { \
     return (void *)(uintptr_t)fn(params->v0, params->v1); \
 }
 #define _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(r_t, fn, p0, p1) \
-    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES) { \
+    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES && \
+        _Py_Coroutine_CanStartCoroutine((void *)((_PyThreadStateImpl *)_PyThreadState_GET())->c_stack_hard_limit)) { \
         struct Do_Call_Params_##fn params = {p0, p1}; \
         return (r_t)(uintptr_t)_Py_Coroutine_Chain(Do_Call_##fn, (void *)&params); \
     }
@@ -56,7 +60,8 @@ static void *Do_Call_##fn(void *param) { \
     return (void *)(uintptr_t)fn(params->v0, params->v1, params->v2); \
 }
 #define _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(r_t, fn, p0, p1, p2) \
-    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES) { \
+    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES && \
+        _Py_Coroutine_CanStartCoroutine((void *)((_PyThreadStateImpl *)_PyThreadState_GET())->c_stack_hard_limit)) { \
         struct Do_Call_Params_##fn params = {p0, p1, p2}; \
         return (r_t)(uintptr_t)_Py_Coroutine_Chain(Do_Call_##fn, (void *)&params); \
     }
@@ -74,7 +79,8 @@ static void *Do_Call_##fn(void *param) { \
     return (void *)(uintptr_t)fn(params->v0, params->v1, params->v2, params->v3); \
 }
 #define _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(r_t, fn, p0, p1, p2, p3) \
-    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES) { \
+    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES && \
+        _Py_Coroutine_CanStartCoroutine((void *)((_PyThreadStateImpl *)_PyThreadState_GET())->c_stack_hard_limit)) { \
         struct Do_Call_Params_##fn params = {p0, p1, p2, p3}; \
         return (r_t)(uintptr_t)_Py_Coroutine_Chain(Do_Call_##fn, (void *)&params); \
     }
@@ -93,7 +99,8 @@ static void *Do_Call_##fn(void *param) { \
     return (void *)(uintptr_t)fn(params->v0, params->v1, params->v2, params->v3, params->v4); \
 }
 #define _PY_ENSURE_COSTACK_HEADROOM_FOR_FN5_B(r_t, fn, p0, p1, p2, p3, p4) \
-    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES) { \
+    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES && \
+        _Py_Coroutine_CanStartCoroutine((void *)((_PyThreadStateImpl *)_PyThreadState_GET())->c_stack_hard_limit)) { \
         struct Do_Call_Params_##fn params = {p0, p1, p2, p3, p4}; \
         return (r_t)(uintptr_t)_Py_Coroutine_Chain(Do_Call_##fn, (void *)&params); \
     }

@@ -1413,36 +1413,53 @@ pyinit_main(PyThreadState *tstate)
 }
 
 
-PyStatus
-Py_InitializeFromConfig(const PyConfig *config)
+struct Py_InitializeFromConfig_Params {
+    const PyConfig *config;
+    PyStatus status;
+};
+
+
+void *
+_Py_InitializeFromConfig(void *_params)
 {
+    struct Py_InitializeFromConfig_Params *params = (struct Py_InitializeFromConfig_Params *)_params;
+    const PyConfig *config = params->config;
     if (config == NULL) {
-        return _PyStatus_ERR("initialization config is NULL");
+        params->status = _PyStatus_ERR("initialization config is NULL");
+        return NULL;
     }
 
-    PyStatus status;
-
-    status = _PyRuntime_Initialize();
-    if (_PyStatus_EXCEPTION(status)) {
-        return status;
+    params->status = _PyRuntime_Initialize();
+    if (_PyStatus_EXCEPTION(params->status)) {
+        return NULL;
     }
     _PyRuntimeState *runtime = &_PyRuntime;
 
     PyThreadState *tstate = NULL;
-    status = pyinit_core(runtime, config, &tstate);
-    if (_PyStatus_EXCEPTION(status)) {
-        return status;
+    params->status = pyinit_core(runtime, config, &tstate);
+    if (_PyStatus_EXCEPTION(params->status)) {
+        return NULL;
     }
     config = _PyInterpreterState_GetConfig(tstate->interp);
 
     if (config->_init_main) {
-        status = pyinit_main(tstate);
-        if (_PyStatus_EXCEPTION(status)) {
-            return status;
+        params->status = pyinit_main(tstate);
+        if (_PyStatus_EXCEPTION(params->status)) {
+            return NULL;
         }
     }
 
-    return _PyStatus_OK();
+    params->status = _PyStatus_OK();
+    return NULL;
+}
+
+
+PyStatus
+Py_InitializeFromConfig(const PyConfig *config)
+{
+    struct Py_InitializeFromConfig_Params params = {config};
+    Coroutine_Run(_Py_InitializeFromConfig, &params);
+    return params.status;
 }
 
 
@@ -2003,14 +2020,15 @@ resolve_final_tstate(_PyRuntimeState *runtime)
     return main_tstate;
 }
 
-static int
-_Py_Finalize(_PyRuntimeState *runtime)
+static void *
+__Py_Finalize(void *_runtime)
 {
+    _PyRuntimeState *runtime = _runtime;
     int status = 0;
 
     /* Bail out early if already finalized (or never initialized). */
     if (!runtime->initialized) {
-        return status;
+        return (void *)(intptr_t)status;
     }
 
     /* Get final thread state pointer. */
@@ -2242,8 +2260,16 @@ _Py_Finalize(_PyRuntimeState *runtime)
     call_ll_exitfuncs(runtime);
 
     _PyRuntime_Finalize();
-    return status;
+    return (void *)(intptr_t)status;
 }
+
+
+static int
+_Py_Finalize(_PyRuntimeState *runtime)
+{
+    return (int)(intptr_t)Coroutine_Run(__Py_Finalize, runtime);
+}
+
 
 int
 Py_FinalizeEx(void)
@@ -2271,20 +2297,30 @@ Py_Finalize(void)
 
 */
 
-static PyStatus
-new_interpreter(PyThreadState **tstate_p,
-                const PyInterpreterConfig *config, long whence)
-{
+struct new_interpreter_params {
+    PyThreadState **tstate_p;
+    const PyInterpreterConfig *config;
+    long whence;
     PyStatus status;
+};
 
-    status = _PyRuntime_Initialize();
-    if (_PyStatus_EXCEPTION(status)) {
-        return status;
+static void *
+_new_interpreter(void *_params)
+{
+    struct new_interpreter_params *params = (struct new_interpreter_params *)_params;
+    PyThreadState **tstate_p = params->tstate_p;
+    const PyInterpreterConfig *config = params->config;
+    long whence = params->whence;
+
+    params->status = _PyRuntime_Initialize();
+    if (_PyStatus_EXCEPTION(params->status)) {
+        return NULL;
     }
     _PyRuntimeState *runtime = &_PyRuntime;
 
     if (!runtime->initialized) {
-        return _PyStatus_ERR("Py_Initialize must be called first");
+        params->status = _PyStatus_ERR("Py_Initialize must be called first");
+        return NULL;
     }
 
     /* Issue #10915, #15751: The GIL API doesn't work with multiple
@@ -2294,7 +2330,8 @@ new_interpreter(PyThreadState **tstate_p,
     PyInterpreterState *interp = PyInterpreterState_New();
     if (interp == NULL) {
         *tstate_p = NULL;
-        return _PyStatus_OK();
+        params->status = _PyStatus_OK();
+        return NULL;
     }
     _PyInterpreterState_SetWhence(interp, whence);
     interp->_ready = 1;
@@ -2324,35 +2361,35 @@ new_interpreter(PyThreadState **tstate_p,
     }
 
     /* This does not require that the GIL be held. */
-    status = _PyConfig_Copy(&interp->config, src_config);
-    if (_PyStatus_EXCEPTION(status)) {
+    params->status = _PyConfig_Copy(&interp->config, src_config);
+    if (_PyStatus_EXCEPTION(params->status)) {
         goto error;
     }
 
     /* This does not require that the GIL be held. */
-    status = init_interp_settings(interp, config);
-    if (_PyStatus_EXCEPTION(status)) {
+    params->status = init_interp_settings(interp, config);
+    if (_PyStatus_EXCEPTION(params->status)) {
         goto error;
     }
 
     // This could be done in init_interpreter() (in pystate.c) if it
     // didn't depend on interp->feature_flags being set already.
-    status = _PyObject_InitState(interp);
-    if (_PyStatus_EXCEPTION(status)) {
-        return status;
+    params->status = _PyObject_InitState(interp);
+    if (_PyStatus_EXCEPTION(params->status)) {
+        return NULL;
     }
 
     // initialize the interp->obmalloc state.  This must be done after
     // the settings are loaded (so that feature_flags are set) but before
     // any calls are made to obmalloc functions.
     if (_PyMem_init_obmalloc(interp) < 0) {
-        status = _PyStatus_NO_MEMORY();
+        params->status = _PyStatus_NO_MEMORY();
         goto error;
     }
 
     tstate = _PyThreadState_New(interp, _PyThreadState_WHENCE_INIT);
     if (tstate == NULL) {
-        status = _PyStatus_NO_MEMORY();
+        params->status = _PyStatus_NO_MEMORY();
         goto error;
     }
 
@@ -2361,18 +2398,19 @@ new_interpreter(PyThreadState **tstate_p,
 
     /* No objects have been created yet. */
 
-    status = pycore_interp_init(tstate);
-    if (_PyStatus_EXCEPTION(status)) {
+    params->status = pycore_interp_init(tstate);
+    if (_PyStatus_EXCEPTION(params->status)) {
         goto error;
     }
 
-    status = init_interp_main(tstate);
-    if (_PyStatus_EXCEPTION(status)) {
+    params->status = init_interp_main(tstate);
+    if (_PyStatus_EXCEPTION(params->status)) {
         goto error;
     }
 
     *tstate_p = tstate;
-    return _PyStatus_OK();
+    params->status =_PyStatus_OK();
+    return NULL;
 
 error:
     *tstate_p = NULL;
@@ -2386,7 +2424,16 @@ error:
     }
     PyInterpreterState_Delete(interp);
 
-    return status;
+    return NULL;
+}
+
+static PyStatus
+new_interpreter(PyThreadState **tstate_p,
+                const PyInterpreterConfig *config, long whence)
+{
+    struct new_interpreter_params params = {tstate_p, config, whence};
+    Coroutine_Run(_new_interpreter, &params);
+    return params.status;
 }
 
 PyStatus

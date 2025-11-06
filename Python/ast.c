@@ -6,6 +6,7 @@
 #include "pycore_ast.h"           // asdl_stmt_seq
 #include "pycore_pystate.h"       // _PyThreadState_GET()
 #include "pycore_unicodeobject.h" // _PyUnicode_EqualToASCIIString()
+#include "pycore_cor_tools.h"     // _PY_ENSURE_COSTACK_HEADROOM_FOR_FN*
 
 #include <stdbool.h>              // bool
 
@@ -153,6 +154,7 @@ validate_arguments(arguments_ty args)
     return validate_exprs(args->defaults, Load, 0) && validate_exprs(args->kw_defaults, Load, 1);
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, int, validate_constant, PyObject *)
 static int
 validate_constant(PyObject *value)
 {
@@ -169,6 +171,7 @@ validate_constant(PyObject *value)
         return 1;
 
     if (PyTuple_CheckExact(value) || PyFrozenSet_CheckExact(value)) {
+        _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(int, validate_constant, value)
         ENTER_RECURSIVE();
 
         PyObject *it = PyObject_GetIter(value);
@@ -206,12 +209,14 @@ validate_constant(PyObject *value)
     return 0;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(static, int, validate_expr, expr_ty, expr_context_ty)
 static int
 validate_expr(expr_ty exp, expr_context_ty ctx)
 {
     assert(!PyErr_Occurred());
     VALIDATE_POSITIONS(exp);
     int ret = -1;
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(int, validate_expr, exp, ctx)
     ENTER_RECURSIVE();
     int check_ctx = 1;
     expr_context_ty actual_ctx;
@@ -546,12 +551,14 @@ validate_capture(PyObject *name)
     return validate_name(name);
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(static, int, validate_pattern, pattern_ty, int)
 static int
 validate_pattern(pattern_ty p, int star_ok)
 {
     assert(!PyErr_Occurred());
     VALIDATE_POSITIONS(p);
     int ret = -1;
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(int, validate_pattern, p, star_ok)
     ENTER_RECURSIVE();
     switch (p->kind) {
         case MatchValue_kind:
@@ -723,12 +730,14 @@ validate_body(asdl_stmt_seq *body, const char *owner)
     return validate_nonempty_seq(body, "body", owner) && validate_stmts(body);
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, int, validate_stmt, stmt_ty)
 static int
 validate_stmt(stmt_ty stmt)
 {
     assert(!PyErr_Occurred());
     VALIDATE_POSITIONS(stmt);
     int ret = -1;
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(int, validate_stmt, stmt)
     ENTER_RECURSIVE();
     switch (stmt->kind) {
     case FunctionDef_kind:

@@ -5,6 +5,7 @@
 #include "pycore_format.h"        // F_LJUST
 #include "pycore_runtime.h"       // _Py_STR()
 #include "pycore_unicodeobject.h" // _PyUnicode_EqualToASCIIString()
+#include "pycore_cor_tools.h"     // _PY_ENSURE_COSTACK_HEADROOM_FOR_FN*
 
 
 /* See PEP 765 */
@@ -487,9 +488,11 @@ astfold_mod(mod_ty node_, PyArena *ctx_, _PyASTPreprocessState *state)
     return 1;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, int, astfold_expr, expr_ty, PyArena *, _PyASTPreprocessState *)
 static int
 astfold_expr(expr_ty node_, PyArena *ctx_, _PyASTPreprocessState *state)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(int, astfold_expr, node_, ctx_, state)
     ENTER_RECURSIVE();
     switch (node_->kind) {
     case BoolOp_kind:
@@ -650,9 +653,11 @@ astfold_arg(arg_ty node_, PyArena *ctx_, _PyASTPreprocessState *state)
     return 1;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, int, astfold_stmt, stmt_ty, PyArena *, _PyASTPreprocessState *)
 static int
 astfold_stmt(stmt_ty node_, PyArena *ctx_, _PyASTPreprocessState *state)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(int, astfold_stmt, node_, ctx_, state)
     ENTER_RECURSIVE();
     switch (node_->kind) {
     case FunctionDef_kind: {
@@ -868,12 +873,14 @@ fold_const_match_patterns(expr_ty node, PyArena *ctx_, _PyASTPreprocessState *st
     return 1;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, int, astfold_pattern, pattern_ty, PyArena *, _PyASTPreprocessState *)
 static int
 astfold_pattern(pattern_ty node_, PyArena *ctx_, _PyASTPreprocessState *state)
 {
     // Currently, this is really only used to form complex/negative numeric
     // constants in MatchValue and MatchMapping nodes
     // We still recurse into all subexpressions and subpatterns anyway
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(int, astfold_pattern, node_, ctx_, state)
     ENTER_RECURSIVE();
     switch (node_->kind) {
         case MatchValue_kind:

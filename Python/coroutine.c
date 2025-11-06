@@ -399,10 +399,21 @@ void *Coroutine_Run(
     Coroutine_Start start,
     void *value
 ){
+    if (g_c.active){
+        return start(value);
+    }
+    assert(g_c.state == Coroutines_Idle || g_c.state == Coroutines_Started);
+    bool need_start = g_c.state == Coroutines_Idle;
+    if (need_start){
+        Coroutine_StartSystem();
+    }
     Coroutine *cor = Coroutine_New(start);
     Coroutine_Run_Coroutine(cor, value);
     void *res = Coroutine_GetValue(cor);
     Coroutine_Delete(cor);
+    if (need_start){
+        Coroutine_StopSystem();
+    }
     return res;
 }
 
@@ -569,7 +580,7 @@ void Coroutine_ClearStackForHWM(void){
 }
 
 
-bool Coroutine_CanStartCoroutine(void *stack_end){
+bool _Py_Coroutine_CanStartCoroutine(void *stack_end){
     assert(g_c.state == Coroutines_Active);
     assert(Check_Guard(g_c.active->guard));
     if (!List_IsEmpty(&g_c.free)){

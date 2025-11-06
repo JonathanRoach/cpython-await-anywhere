@@ -406,9 +406,7 @@ exit:
 
 static void
 thread_run(void *boot_raw){
-    Coroutine_StartSystem();
     Coroutine_Run(thread_run_coroutine, boot_raw);
-    Coroutine_StopSystem();
 }
 
 static int

@@ -4,6 +4,8 @@
 #include <Python.h>
 #include <pycore_ast.h>
 #include <pycore_token.h>
+#include <pycore_coroutine.h>
+#include <pycore_cor_tools.h>
 
 #include "lexer/state.h"
 

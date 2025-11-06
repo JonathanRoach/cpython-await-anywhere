@@ -5,6 +5,7 @@
 #include "pycore_runtime.h"       // _Py_ID()
 #include "pycore_symtable.h"      // PySTEntryObject
 #include "pycore_unicodeobject.h" // _PyUnicode_EqualToASCIIString
+#include "pycore_cor_tools.h"     // _PY_ENSURE_COSTACK_HEADROOM_FOR_FN*
 
 #include <stddef.h>               // offsetof()
 
@@ -1814,9 +1815,11 @@ allows_top_level_await(struct symtable *st)
             st->st_cur->ste_type == ModuleBlock;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(static, int, symtable_visit_stmt, struct symtable *, stmt_ty)
 static int
 symtable_visit_stmt(struct symtable *st, stmt_ty s)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(int, symtable_visit_stmt, st, s)
     ENTER_RECURSIVE();
     switch (s->kind) {
     case FunctionDef_kind: {
@@ -2368,9 +2371,11 @@ symtable_handle_namedexpr(struct symtable *st, expr_ty e)
     return 1;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(static, int, symtable_visit_expr, struct symtable *, expr_ty)
 static int
 symtable_visit_expr(struct symtable *st, expr_ty e)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(int, symtable_visit_expr, st, e)
     ENTER_RECURSIVE();
     switch (e->kind) {
     case NamedExpr_kind:
@@ -2583,9 +2588,11 @@ symtable_visit_type_param_bound_or_default(
     return 1;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(static, int, symtable_visit_type_param, struct symtable *, type_param_ty)
 static int
 symtable_visit_type_param(struct symtable *st, type_param_ty tp)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(int, symtable_visit_type_param, st, tp)
     ENTER_RECURSIVE();
     switch(tp->kind) {
     case TypeVar_kind:
@@ -2639,9 +2646,11 @@ symtable_visit_type_param(struct symtable *st, type_param_ty tp)
     return 1;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(static, int, symtable_visit_pattern, struct symtable *, pattern_ty)
 static int
 symtable_visit_pattern(struct symtable *st, pattern_ty p)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(int, symtable_visit_pattern, st, p)
     ENTER_RECURSIVE();
     switch (p->kind) {
     case MatchValue_kind:

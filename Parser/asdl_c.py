@@ -508,11 +508,15 @@ class Obj2ModVisitor(PickleVisitor):
         yield
         self.emit('_Py_LeaveRecursiveCall();', level)
 
-    def funcHeader(self, name):
+    def funcHeader(self, name, recursive=False):
         ctype = get_c_type(name)
+        if recursive:
+            self.emit(f"_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(extern, int, obj2ast_{name}, struct ast_state *, PyObject*, {ctype}*, PyArena*)", 0)
         self.emit("int", 0)
         self.emit("obj2ast_%s(struct ast_state *state, PyObject* obj, %s* out, PyArena* arena)" % (name, ctype), 0)
         self.emit("{", 0)
+        if recursive:
+            self.emit(f"_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, obj2ast_{name}, state, obj, out, arena)", 1)
         self.emit("int isinstance;", 1)
         self.emit("", 0)
 
@@ -548,7 +552,7 @@ class Obj2ModVisitor(PickleVisitor):
         return ", ".join(fields + ["arena"])
 
     def complexSum(self, sum, name):
-        self.funcHeader(name)
+        self.funcHeader(name, recursive=True)
         self.emit("PyObject *tmp = NULL;", 1)
         self.emit("PyObject *tp;", 1)
         for a in sum.attributes:
@@ -592,9 +596,11 @@ class Obj2ModVisitor(PickleVisitor):
 
     def visitProduct(self, prod, name):
         ctype = get_c_type(name)
+        self.emit(f"_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(extern, int, obj2ast_{name}, struct ast_state *, PyObject*, {ctype}*, PyArena*)", 0)
         self.emit("int", 0)
         self.emit("obj2ast_%s(struct ast_state *state, PyObject* obj, %s* out, PyArena* arena)" % (name, ctype), 0)
         self.emit("{", 0)
+        self.emit(f"_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, obj2ast_{name}, state, obj, out, arena)", 1)
         self.emit("PyObject* tmp = NULL;", 1)
         for f in prod.fields:
             self.visitFieldDeclaration(f, name, prod=prod, depth=1)
@@ -2039,6 +2045,7 @@ class ObjVisitor(PickleVisitor):
 
     def func_begin(self, name):
         ctype = get_c_type(name)
+        self.emit(f"_PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(extern, PyObject*, ast2obj_{name}, struct ast_state *, void*)", 0)
         self.emit("PyObject*", 0)
         self.emit("ast2obj_%s(struct ast_state *state, void* _o)" % (name), 0)
         self.emit("{", 0)
@@ -2048,6 +2055,7 @@ class ObjVisitor(PickleVisitor):
         self.emit('if (!o) {', 1)
         self.emit("Py_RETURN_NONE;", 2)
         self.emit("}", 1)
+        self.emit(f"_PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(PyObject*, ast2obj_{name}, state, o)", 1)
         self.emit('if (Py_EnterRecursiveCall("during  ast construction")) {', 1)
         self.emit("return NULL;", 2)
         self.emit("}", 1)
@@ -2306,6 +2314,8 @@ def generate_module_def(mod, metadata, f, internal_h):
         #include "pycore_runtime.h"       // _Py_ID()
         #include "pycore_setobject.h"     // _PySet_NextEntry()
         #include "pycore_unionobject.h"   // _Py_union_type_or
+        #include "pycore_cor_tools.h"     // _PY_ENSURE_COSTACK_HEADROOM_FOR_FN*
+        #include "pycore_coroutine.h"     // for Coroutine_*
 
         #include <stddef.h>               // offsetof()
 

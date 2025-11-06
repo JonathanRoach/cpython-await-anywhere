@@ -607,10 +607,9 @@ pymain_repl(PyConfig *config, int *exitcode)
 }
 
 
-static void *
-pymain_run_python(void *exitcodep)
+static void
+pymain_run_python(int *exitcode)
 {
-    int *exitcode = (int *)exitcodep;
     PyObject *main_importer_path = NULL;
     PyInterpreterState *interp = _PyInterpreterState_GET();
     /* pymain_run_stdin() modify the config */
@@ -634,7 +633,7 @@ pymain_run_python(void *exitcodep)
            Otherwise, main_importer_path is left unchanged. */
         if (pymain_get_importer(config->run_filename, &main_importer_path,
                                 exitcode)) {
-            return NULL;
+            return;
         }
     }
 
@@ -705,7 +704,6 @@ error:
 done:
     _PyInterpreterState_SetNotRunningMain(interp);
     Py_XDECREF(main_importer_path);
-    return NULL;
 }
 
 
@@ -765,16 +763,14 @@ pymain_exit_error(PyStatus status)
 }
 
 
-int
-Py_RunMain(void)
-{
+static void *
+_Py_RunMain(void *param){
+    (void)param;
     int exitcode = 0;
 
     _PyRuntime.signals.unhandled_keyboard_interrupt = 0;
 
-    Coroutine_StartSystem();
-    Coroutine_Run(pymain_run_python, &exitcode);
-    Coroutine_StopSystem();
+    pymain_run_python(&exitcode);
 
     if (Py_FinalizeEx() < 0) {
         /* Value unlikely to be confused with a non-error exit status or
@@ -788,23 +784,36 @@ Py_RunMain(void)
         exitcode = exit_sigint();
     }
 
-    return exitcode;
+    return (void *)(intptr_t)exitcode;
 }
 
 
-static int
-pymain_main(_PyArgv *args)
+int
+Py_RunMain(void)
 {
+    return (int)(intptr_t)Coroutine_Run(_Py_RunMain, NULL);
+}
+
+
+static void *_pymain_main(void *_args){
+    _PyArgv *args = (_PyArgv *)_args;
+
     PyStatus status = pymain_init(args);
     if (_PyStatus_IS_EXIT(status)) {
         pymain_free();
-        return status.exitcode;
+        return (void *)(intptr_t)status.exitcode;
     }
     if (_PyStatus_EXCEPTION(status)) {
         pymain_exit_error(status);
     }
 
-    return Py_RunMain();
+    return (void *)(intptr_t)Py_RunMain();
+}
+
+static int
+pymain_main(_PyArgv *args)
+{
+    return (int)(intptr_t)Coroutine_Run(_pymain_main, args);
 }
 
 

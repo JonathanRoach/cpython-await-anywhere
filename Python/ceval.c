@@ -351,23 +351,30 @@ Py_SetRecursionLimit(int new_limit)
 int
 _Py_ReachedRecursionLimitWithMargin(PyThreadState *tstate, int margin_count)
 {
-    uintptr_t here_addr = _Py_get_machine_stack_pointer();
-    _PyThreadStateImpl *_tstate = (_PyThreadStateImpl *)tstate;
-    if (here_addr > _tstate->c_stack_soft_limit + margin_count * PYOS_STACK_MARGIN_BYTES) {
-        return 0;
-    }
-    if (_tstate->c_stack_hard_limit == 0) {
+     _PyThreadStateImpl *_tstate = (_PyThreadStateImpl *)tstate;
+     if (_tstate->c_stack_hard_limit == 0) {
         _Py_InitializeRecursionLimits(tstate);
     }
-    return here_addr <= _tstate->c_stack_soft_limit + margin_count * PYOS_STACK_MARGIN_BYTES;
+    if (_Py_Coroutine_CanStartCoroutine((void *)_tstate->c_stack_hard_limit)){
+        // If a new coroutine can be started, there's enough room
+        return 0;
+    }
+    // 1 PYOS_STACK_MARGIN_BYTES for creating the stack overflow exception in an emergency (hard limit)
+    // 1 PYOS_STACK_MARGIN_BYTES for creating the stack overflow exception when stack is running low (soft limit)
+    // margin_count * PYOS_STACK_MARGIN_BYTES for working in.
+    return _Py_Coroutine_GetStackHeadroom() < (intptr_t)((2+margin_count) * PYOS_STACK_MARGIN_BYTES);
 }
 
 void
 _Py_EnterRecursiveCallUnchecked(PyThreadState *tstate)
 {
-    uintptr_t here_addr = _Py_get_machine_stack_pointer();
-    _PyThreadStateImpl *_tstate = (_PyThreadStateImpl *)tstate;
-    if (here_addr < _tstate->c_stack_hard_limit) {
+     _PyThreadStateImpl *_tstate = (_PyThreadStateImpl *)tstate;
+    if (_tstate->c_stack_hard_limit == 0) {
+        // If a new coroutine can be started, there's enough room
+        _Py_InitializeRecursionLimits(tstate);
+    }
+    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES){
+        // hard limit reached
         Py_FatalError("Unchecked stack overflow.");
     }
 }
@@ -501,7 +508,7 @@ _Py_CheckRecursiveCall(PyThreadState *tstate, const char *where)
         // not close
         return 0;
     }
-    if (Coroutine_CanStartCoroutine((void *)_tstate->c_stack_hard_limit)){
+    if (_Py_Coroutine_CanStartCoroutine((void *)_tstate->c_stack_hard_limit)){
         // still not close as we can chain
         return 0;
     }

@@ -119,7 +119,6 @@ extern void Coroutine_Continue(Coroutine *cor, void *value, bool early);
 extern void *Coroutine_Yield(void *value, Coroutine_YieldCallback on_yield, void *me);
 extern void *Coroutine_GetValue(Coroutine *cor);
 extern Coroutine *Coroutine_GetActive(void);
-extern bool Coroutine_CanStartCoroutine(void *stack_end);
 extern void *Coroutine_GetCStackTop(void);
 extern bool Coroutine_IsStarted(void);
 extern bool Coroutine_IsRunning(Coroutine *cor);
@@ -128,6 +127,7 @@ extern void Coroutine_ClearStackForHWM(void);
 extern void *Coroutine_GetStackHWM(void);
 
 // export for _ctype, _json and _pickle for the _PY_ENSURE_COSTACK_HEADROOM_FOR_FN macros
+PyAPI_FUNC(bool) _Py_Coroutine_CanStartCoroutine(void *stack_end);
 PyAPI_FUNC(intptr_t) _Py_Coroutine_GetStackHeadroom(void);
 PyAPI_FUNC(void *) _Py_Coroutine_Chain(Coroutine_Start start, void *value);
 
