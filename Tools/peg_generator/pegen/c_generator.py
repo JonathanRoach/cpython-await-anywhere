@@ -379,7 +379,8 @@ class CParserGenerator(ParserGenerator, GrammarVisitor):
         self.skip_actions = skip_actions
         self.cleanup_statements: List[str] = []
 
-    def add_level(self) -> None:
+    def add_level(self, node: Rule, result_type: str) -> None:
+        self.print(f"_PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B({result_type}, {node.name}_rule, p)")
         self.print("if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {")
         with self.indent():
             self.print("_Pypegen_stack_overflow(p);")
@@ -548,7 +549,7 @@ class CParserGenerator(ParserGenerator, GrammarVisitor):
     def _set_up_rule_memoization(self, node: Rule, result_type: str) -> None:
         self.print("{")
         with self.indent():
-            self.add_level()
+            self.add_level(node, result_type)
             self.print(f"{result_type} _res = NULL;")
             self.print(f"if (_PyPegen_is_memoized(p, {node.name}_type, &_res)) {{")
             with self.indent():
@@ -586,7 +587,7 @@ class CParserGenerator(ParserGenerator, GrammarVisitor):
         memoize = self._should_memoize(node)
 
         with self.indent():
-            self.add_level()
+            self.add_level(node, result_type)
             self._check_for_errors()
             self.print(f"{result_type} _res = NULL;")
             if memoize:
@@ -617,7 +618,7 @@ class CParserGenerator(ParserGenerator, GrammarVisitor):
         is_repeat1 = node.name.startswith("_loop1")
 
         with self.indent():
-            self.add_level()
+            self.add_level(node, "asdl_seq *")
             self._check_for_errors()
             self.print("void *_res = NULL;")
             if memoize:
@@ -670,6 +671,7 @@ class CParserGenerator(ParserGenerator, GrammarVisitor):
         if node.left_recursive and node.leader:
             self.print(f"static {result_type} {node.name}_raw(Parser *);")
 
+        self.print(f"_PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, {result_type}, {node.name}_rule, Parser *)")
         self.print(f"static {result_type}")
         self.print(f"{node.name}_rule(Parser *p)")
 
