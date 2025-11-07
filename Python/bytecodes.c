@@ -5168,7 +5168,7 @@ dummy_func(
 
             _PyInterpreterFrame *inlined = frame;
             assert(_PyEval_BinaryOps[oparg]);
-            PyObject *res_o = _PyEval_BinaryOps[oparg](lhs_o, rhs_o, &inlined);
+            PyObject *res_o = _PyEval_BinaryOps[oparg](lhs_o, rhs_o, tstate->interp->eval_frame ? NULL : &inlined);
             if ( inlined != frame ){
                 // Manipulate stack directly because we exit with DISPATCH_INLINED().
                 DECREF_INPUTS();

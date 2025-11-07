@@ -6926,7 +6926,7 @@
             _PyInterpreterFrame *inlined = frame;
             assert(_PyEval_BinaryOps[oparg]);
             _PyFrame_SetStackPointer(frame, stack_pointer);
-            PyObject *res_o = _PyEval_BinaryOps[oparg](lhs_o, rhs_o, &inlined);
+            PyObject *res_o = _PyEval_BinaryOps[oparg](lhs_o, rhs_o, tstate->interp->eval_frame ? NULL : &inlined);
             stack_pointer = _PyFrame_GetStackPointer(frame);
             if ( inlined != frame ){
                 _PyFrame_SetStackPointer(frame, stack_pointer);
