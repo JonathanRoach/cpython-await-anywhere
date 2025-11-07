@@ -216,6 +216,8 @@ static inline int _Py_MakeRecCheck(PyThreadState *tstate)  {
     return _Py_Coroutine_GetStackHeadroom() < (intptr_t)(2*PYOS_STACK_MARGIN_BYTES);
 }
 
+int _Py_StackNearlyExhausted(void);
+
 // Export for '_json' shared extension, used via _Py_EnterRecursiveCall()
 // static inline function.
 PyAPI_FUNC(int) _Py_CheckRecursiveCall(

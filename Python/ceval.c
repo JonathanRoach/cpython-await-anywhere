@@ -497,6 +497,21 @@ _Py_InitializeRecursionLimits(PyThreadState *tstate)
 #endif
 }
 
+int _Py_StackNearlyExhausted(void)
+{
+    intptr_t coroutine_headroom = _Py_Coroutine_GetStackHeadroom();
+    if (coroutine_headroom >= (intptr_t)(2*PYOS_STACK_MARGIN_BYTES) ){
+        // not close
+        return 0;
+    }
+    if (_Py_Coroutine_CanStartCoroutine((void *)((_PyThreadStateImpl *)_PyThreadState_GET())->c_stack_hard_limit)){
+        // still not close as we can chain
+        return 0;
+    }
+    return -1;
+}
+
+
 /* The function _Py_EnterRecursiveCallTstate() only calls _Py_CheckRecursiveCall()
    if the recursion_depth reaches recursion_limit. */
 int

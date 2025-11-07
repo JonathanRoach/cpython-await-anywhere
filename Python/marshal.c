@@ -14,6 +14,8 @@
 #include "pycore_pystate.h"          // _PyInterpreterState_GET()
 #include "pycore_setobject.h"        // _PySet_NextEntryRef()
 #include "pycore_unicodeobject.h"    // _PyUnicode_InternImmortal()
+#include "pycore_cor_tools.h"        // _PY_ENSURE_COSTACK_HEADROOM_FOR_FN*
+#include "pycore_ceval.h"            // _Py_StackNearlyExhausted()
 
 #include "marshal.h"                 // Py_MARSHAL_VERSION
 
@@ -102,7 +104,8 @@ module marshal
 #define WFERR_UNMARSHALLABLE 1
 #define WFERR_NESTEDTOODEEP 2
 #define WFERR_NOMEMORY 3
-#define WFERR_CODE_NOT_ALLOWED 4
+#define WFERR_NOSTACK 4
+#define WFERR_CODE_NOT_ALLOWED 5
 
 typedef struct {
     FILE *fp;
@@ -426,17 +429,20 @@ err:
 static void
 w_complex_object(PyObject *v, char flag, WFILE *p);
 
-static void
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(static, int, w_object, PyObject *, WFILE *)
+static int
 w_object(PyObject *v, WFILE *p)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(int, w_object, v, p)
     char flag = '\0';
 
     p->depth++;
 
     if (p->depth > MAX_MARSHAL_STACK_DEPTH) {
         p->error = WFERR_NESTEDTOODEEP;
-    }
-    else if (v == NULL) {
+    } else if (_Py_StackNearlyExhausted()) {
+        p->error = WFERR_NOSTACK;
+    } else if (v == NULL) {
         w_byte(TYPE_NULL, p);
     }
     else if (v == Py_None) {
@@ -458,6 +464,8 @@ w_object(PyObject *v, WFILE *p)
         w_complex_object(v, flag, p);
 
     p->depth--;
+
+    return 0;
 }
 
 static void
@@ -1120,9 +1128,11 @@ r_ref(PyObject *o, int flag, RFILE *p)
     return o;
 }
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, PyObject *, r_object, RFILE *)
 static PyObject *
 r_object(RFILE *p)
 {
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(PyObject *, r_object, p)
     /* NULL is a valid return value, it does not necessarily means that
        an exception is set. */
     PyObject *v, *v2;
@@ -1137,6 +1147,11 @@ r_object(RFILE *p)
             PyErr_SetString(PyExc_EOFError,
                             "EOF read where object expected");
         }
+        return NULL;
+    }
+
+    if (_Py_StackNearlyExhausted()){
+        PyErr_SetString(PyExc_ValueError, "insufficient stack to marshal");
         return NULL;
     }
 
@@ -1864,6 +1879,10 @@ _PyMarshal_WriteObjectToString(PyObject *x, int version, int allow_code)
     if (wf.error != WFERR_OK) {
         Py_XDECREF(wf.str);
         switch (wf.error) {
+        case WFERR_NOSTACK:
+            PyErr_SetString(PyExc_ValueError,
+                            "object too deeply nested to marshal with this amount of stack");
+            break;
         case WFERR_NOMEMORY:
             PyErr_NoMemory();
             break;
