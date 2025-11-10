@@ -105,4 +105,109 @@ static void *Do_Call_##fn(void *param) { \
         return (r_t)(uintptr_t)_Py_Coroutine_Chain(Do_Call_##fn, (void *)&params); \
     }
 
+#define _PY_ENSURE_COSTACK_FOR_FN1_A(fn, p0_t, p0) \
+struct Do_Call_Params_##fn { \
+    p0_t p0; \
+}; \
+static void *Do_Call_##fn(void *param);
+#define _PY_ENSURE_COSTACK_FOR_FN1_B(r_t, fn, p0) \
+    struct Do_Call_Params_##fn params = {p0}; \
+    return (r_t)(uintptr_t)Coroutine_Run(Do_Call_##fn, (void *)&params); \
+} \
+static void *Do_Call_##fn(void *_params){ \
+    struct Do_Call_Params_##fn *params = (struct Do_Call_Params_##fn *)_params;
+
+#define _PY_ENSURE_COSTACK_FOR_FN2_A(fn, p0_t, p0, p1_t, p1) \
+struct Do_Call_Params_##fn { \
+    p0_t p0; \
+    p1_t p1; \
+}; \
+static void *Do_Call_##fn(void *param);
+#define _PY_ENSURE_COSTACK_FOR_FN2_B(r_t, fn, p0, p1) \
+    struct Do_Call_Params_##fn params = {p0, p1}; \
+    return (r_t)(uintptr_t)Coroutine_Run(Do_Call_##fn, (void *)&params); \
+} \
+static void *Do_Call_##fn(void *_params){ \
+    struct Do_Call_Params_##fn *params = (struct Do_Call_Params_##fn *)_params;
+
+#define _PY_ENSURE_COSTACK_FOR_FN3_A(fn, p0_t, p0, p1_t, p1, p2_t, p2) \
+struct Do_Call_Params_##fn { \
+    p0_t p0; \
+    p1_t p1; \
+    p2_t p2; \
+}; \
+static void *Do_Call_##fn(void *param);
+#define _PY_ENSURE_COSTACK_FOR_FN3_B(r_t, fn, p0, p1, p2) \
+    struct Do_Call_Params_##fn params = {p0, p1, p2}; \
+    return (r_t)(uintptr_t)Coroutine_Run(Do_Call_##fn, (void *)&params); \
+} \
+static void *Do_Call_##fn(void *_params){ \
+    struct Do_Call_Params_##fn *params = (struct Do_Call_Params_##fn *)_params;
+
+#define _PY_ENSURE_COSTACK_FOR_FN4_A(fn, p0_t, p0, p1_t, p1, p2_t, p2, p3_t, p3) \
+struct Do_Call_Params_##fn { \
+    p0_t p0; \
+    p1_t p1; \
+    p2_t p2; \
+    p3_t p3; \
+}; \
+static void *Do_Call_##fn(void *param);
+#define _PY_ENSURE_COSTACK_FOR_FN4_B(r_t, fn, p0, p1, p2, p3) \
+    struct Do_Call_Params_##fn params = {p0, p1, p2, p3}; \
+    return (r_t)(uintptr_t)Coroutine_Run(Do_Call_##fn, (void *)&params); \
+} \
+static void *Do_Call_##fn(void *_params){ \
+    struct Do_Call_Params_##fn *params = (struct Do_Call_Params_##fn *)_params;
+
+#define _PY_ENSURE_COSTACK_FOR_FN5_A(fn, p0_t, p0, p1_t, p1, p2_t, p2, p3_t, p3, p4_t, p4) \
+struct Do_Call_Params_##fn { \
+    p0_t p0; \
+    p1_t p1; \
+    p2_t p2; \
+    p3_t p3; \
+    p4_t p4; \
+}; \
+static void *Do_Call_##fn(void *param);
+#define _PY_ENSURE_COSTACK_FOR_FN5_B(r_t, fn, p0, p1, p2, p3, p4) \
+    struct Do_Call_Params_##fn params = {p0, p1, p2, p3, p4}; \
+    return (r_t)(uintptr_t)Coroutine_Run(Do_Call_##fn, (void *)&params); \
+} \
+static void *Do_Call_##fn(void *_params){ \
+    struct Do_Call_Params_##fn *params = (struct Do_Call_Params_##fn *)_params;
+
+#define _PY_ENSURE_COSTACK_FOR_FN6_A(fn, p0_t, p0, p1_t, p1, p2_t, p2, p3_t, p3, p4_t, p4, p5_t, p5) \
+struct Do_Call_Params_##fn { \
+    p0_t p0; \
+    p1_t p1; \
+    p2_t p2; \
+    p3_t p3; \
+    p4_t p4; \
+    p5_t p5; \
+}; \
+static void *Do_Call_##fn(void *param);
+#define _PY_ENSURE_COSTACK_FOR_FN6_B(r_t, fn, p0, p1, p2, p3, p4, p5) \
+    struct Do_Call_Params_##fn params = {p0, p1, p2, p3, p4, p5}; \
+    return (r_t)(uintptr_t)Coroutine_Run(Do_Call_##fn, (void *)&params); \
+} \
+static void *Do_Call_##fn(void *_params){ \
+    struct Do_Call_Params_##fn *params = (struct Do_Call_Params_##fn *)_params;
+
+#define _PY_ENSURE_COSTACK_FOR_FN7_A(fn, p0_t, p0, p1_t, p1, p2_t, p2, p3_t, p3, p4_t, p4, p5_t, p5, p6_t, p6) \
+struct Do_Call_Params_##fn { \
+    p0_t p0; \
+    p1_t p1; \
+    p2_t p2; \
+    p3_t p3; \
+    p4_t p4; \
+    p5_t p5; \
+    p6_t p6; \
+}; \
+static void *Do_Call_##fn(void *param);
+#define _PY_ENSURE_COSTACK_FOR_FN7_B(r_t, fn, p0, p1, p2, p3, p4, p5, p6) \
+    struct Do_Call_Params_##fn params = {p0, p1, p2, p3, p4, p5, p6}; \
+    return (r_t)(uintptr_t)Coroutine_Run(Do_Call_##fn, (void *)&params); \
+} \
+static void *Do_Call_##fn(void *_params){ \
+    struct Do_Call_Params_##fn *params = (struct Do_Call_Params_##fn *)_params;
+
 #endif

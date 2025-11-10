@@ -26,6 +26,7 @@
 #include "pycore_sysmodule.h"     // _PySys_SetAttr()
 #include "pycore_traceback.h"     // _PyTraceBack_Print()
 #include "pycore_unicodeobject.h" // _PyUnicode_Equal()
+#include "pycore_cor_tools.h"     // _PY_ENSURE_COSTACK_FOR_FN*
 
 #include "errcode.h"              // E_EOF
 #include "marshal.h"              // PyMarshal_ReadLongFromFile()
@@ -87,21 +88,25 @@ _PyRun_AnyFileObject(FILE *fp, PyObject *filename, int closeit,
     return res;
 }
 
+_PY_ENSURE_COSTACK_FOR_FN4_A(PyRun_AnyFileExFlags, FILE *, fp, const char *, filename, int, closeit,
+                     PyCompilerFlags *, flags)
 int
 PyRun_AnyFileExFlags(FILE *fp, const char *filename, int closeit,
                      PyCompilerFlags *flags)
 {
+    _PY_ENSURE_COSTACK_FOR_FN4_B(int, PyRun_AnyFileExFlags, fp, filename, closeit,
+                        flags)
     PyObject *filename_obj = NULL;
-    if (filename != NULL) {
-        filename_obj = PyUnicode_DecodeFSDefault(filename);
+    if (params->filename != NULL) {
+        filename_obj = PyUnicode_DecodeFSDefault(params->filename);
         if (filename_obj == NULL) {
             PyErr_Print();
-            return -1;
+            return (void *)-1;
         }
     }
-    int res = _PyRun_AnyFileObject(fp, filename_obj, closeit, flags);
+    int res = _PyRun_AnyFileObject(params->fp, filename_obj, params->closeit, params->flags);
     Py_XDECREF(filename_obj);
-    return res;
+    return (void *)(intptr_t)res;
 }
 
 
@@ -179,19 +184,21 @@ _PyRun_InteractiveLoopObject(FILE *fp, PyObject *filename, PyCompilerFlags *flag
 }
 
 
+_PY_ENSURE_COSTACK_FOR_FN3_A(PyRun_InteractiveLoopFlags, FILE *, fp, const char *, filename, PyCompilerFlags *, flags)
 int
 PyRun_InteractiveLoopFlags(FILE *fp, const char *filename, PyCompilerFlags *flags)
 {
-    PyObject *filename_obj = PyUnicode_DecodeFSDefault(filename);
+    _PY_ENSURE_COSTACK_FOR_FN3_B(int, PyRun_InteractiveLoopFlags, fp, filename, flags)
+
+    PyObject *filename_obj = PyUnicode_DecodeFSDefault(params->filename);
     if (filename_obj == NULL) {
         PyErr_Print();
-        return -1;
+        return (void *)-1;
     }
 
-    int err = _PyRun_InteractiveLoopObject(fp, filename_obj, flags);
+    int err = _PyRun_InteractiveLoopObject(params->fp, filename_obj, params->flags);
     Py_DECREF(filename_obj);
-    return err;
-
+    return (void *)(intptr_t)err;
 }
 
 
@@ -544,48 +551,54 @@ _PyRun_SimpleFileObject(FILE *fp, PyObject *filename, int closeit,
 }
 
 
+_PY_ENSURE_COSTACK_FOR_FN4_A(PyRun_SimpleFileExFlags, FILE *, fp, const char *, filename, int, closeit,
+                        PyCompilerFlags *, flags)
 int
 PyRun_SimpleFileExFlags(FILE *fp, const char *filename, int closeit,
                         PyCompilerFlags *flags)
 {
-    PyObject *filename_obj = PyUnicode_DecodeFSDefault(filename);
+    _PY_ENSURE_COSTACK_FOR_FN4_B(int, PyRun_SimpleFileExFlags, fp, filename, closeit,
+                            flags)
+    PyObject *filename_obj = PyUnicode_DecodeFSDefault(params->filename);
     if (filename_obj == NULL) {
-        return -1;
+        return (void *)-1;
     }
-    int res = _PyRun_SimpleFileObject(fp, filename_obj, closeit, flags);
+    int res = _PyRun_SimpleFileObject(params->fp, filename_obj, params->closeit, params->flags);
     Py_DECREF(filename_obj);
-    return res;
+    return (void *)(uintptr_t)res;
 }
 
 
+_PY_ENSURE_COSTACK_FOR_FN3_A(_PyRun_SimpleStringFlagsWithName, const char *, command, const char*, name, PyCompilerFlags *, flags)
 int
 _PyRun_SimpleStringFlagsWithName(const char *command, const char* name, PyCompilerFlags *flags) {
+    _PY_ENSURE_COSTACK_FOR_FN3_B(int, _PyRun_SimpleStringFlagsWithName, command, name, flags)
     PyObject *main_module = PyImport_AddModuleRef("__main__");
     if (main_module == NULL) {
-        return -1;
+        return (void *)-1;
     }
     PyObject *dict = PyModule_GetDict(main_module);  // borrowed ref
 
     PyObject *res = NULL;
-    if (name == NULL) {
-        res = PyRun_StringFlags(command, Py_file_input, dict, dict, flags);
+    if (params->name == NULL) {
+        res = PyRun_StringFlags(params->command, Py_file_input, dict, dict, params->flags);
     } else {
-        PyObject* the_name = PyUnicode_FromString(name);
+        PyObject* the_name = PyUnicode_FromString(params->name);
         if (!the_name) {
             PyErr_Print();
-            return -1;
+            return (void *)-1;
         }
-        res = _PyRun_StringFlagsWithName(command, the_name, Py_file_input, dict, dict, flags, 0);
+        res = _PyRun_StringFlagsWithName(params->command, the_name, Py_file_input, dict, dict, params->flags, 0);
         Py_DECREF(the_name);
     }
     Py_DECREF(main_module);
     if (res == NULL) {
         PyErr_Print();
-        return -1;
+        return (void *)-1;
     }
 
     Py_DECREF(res);
-    return 0;
+    return (void *)0;
 }
 
 int
@@ -690,13 +703,15 @@ handle_system_exit(void)
 }
 
 
+_PY_ENSURE_COSTACK_FOR_FN2_A(_PyErr_PrintEx, PyThreadState *, tstate, int, set_sys_last_vars)
 static void
 _PyErr_PrintEx(PyThreadState *tstate, int set_sys_last_vars)
 {
+    _PY_ENSURE_COSTACK_FOR_FN2_B(void, _PyErr_PrintEx, tstate, set_sys_last_vars)
     PyObject *typ = NULL, *tb = NULL, *hook = NULL;
     handle_system_exit();
 
-    PyObject *exc = _PyErr_GetRaisedException(tstate);
+    PyObject *exc = _PyErr_GetRaisedException(params->tstate);
     if (exc == NULL) {
         goto done;
     }
@@ -707,25 +722,25 @@ _PyErr_PrintEx(PyThreadState *tstate, int set_sys_last_vars)
         tb = Py_NewRef(Py_None);
     }
 
-    if (set_sys_last_vars) {
+    if (params->set_sys_last_vars) {
         if (_PySys_SetAttr(&_Py_ID(last_exc), exc) < 0) {
-            _PyErr_Clear(tstate);
+            _PyErr_Clear(params->tstate);
         }
         /* Legacy version: */
         if (_PySys_SetAttr(&_Py_ID(last_type), typ) < 0) {
-            _PyErr_Clear(tstate);
+            _PyErr_Clear(params->tstate);
         }
         if (_PySys_SetAttr(&_Py_ID(last_value), exc) < 0) {
-            _PyErr_Clear(tstate);
+            _PyErr_Clear(params->tstate);
         }
         if (_PySys_SetAttr(&_Py_ID(last_traceback), tb) < 0) {
-            _PyErr_Clear(tstate);
+            _PyErr_Clear(params->tstate);
         }
     }
     if (PySys_GetOptionalAttr(&_Py_ID(excepthook), &hook) < 0) {
         PyErr_Clear();
     }
-    if (_PySys_Audit(tstate, "sys.excepthook", "OOOO", hook ? hook : Py_None,
+    if (_PySys_Audit(params->tstate, "sys.excepthook", "OOOO", hook ? hook : Py_None,
                      typ, exc, tb) < 0) {
         if (PyErr_ExceptionMatches(PyExc_RuntimeError)) {
             PyErr_Clear();
@@ -739,7 +754,7 @@ _PyErr_PrintEx(PyThreadState *tstate, int set_sys_last_vars)
         if (result == NULL) {
             handle_system_exit();
 
-            PyObject *exc2 = _PyErr_GetRaisedException(tstate);
+            PyObject *exc2 = _PyErr_GetRaisedException(params->tstate);
             assert(exc2 && PyExceptionInstance_Check(exc2));
             fflush(stdout);
             PySys_WriteStderr("Error in sys.excepthook:\n");
@@ -762,6 +777,7 @@ done:
     Py_XDECREF(typ);
     Py_XDECREF(exc);
     Py_XDECREF(tb);
+    return NULL;
 }
 
 void
@@ -1199,34 +1215,41 @@ fallback:
     }
 }
 
+
+_PY_ENSURE_COSTACK_FOR_FN3_A(PyErr_Display, PyObject *, unused, PyObject *, value, PyObject *, tb)
 void
 PyErr_Display(PyObject *unused, PyObject *value, PyObject *tb)
 {
+    _PY_ENSURE_COSTACK_FOR_FN3_B(void, PyErr_Display, unused, value, tb)
     PyObject *file;
     if (PySys_GetOptionalAttr(&_Py_ID(stderr), &file) < 0) {
         PyObject *exc = PyErr_GetRaisedException();
-        _PyObject_Dump(value);
+        _PyObject_Dump(params->value);
         fprintf(stderr, "lost sys.stderr\n");
         _PyObject_Dump(exc);
         Py_DECREF(exc);
-        return;
+        return NULL;
     }
     if (file == NULL) {
-        _PyObject_Dump(value);
+        _PyObject_Dump(params->value);
         fprintf(stderr, "lost sys.stderr\n");
-        return;
+        return NULL;
     }
     if (file == Py_None) {
         Py_DECREF(file);
-        return;
+        return NULL;
     }
-    _PyErr_Display(file, NULL, value, tb);
+    _PyErr_Display(file, NULL, params->value, params->tb);
     Py_DECREF(file);
+    return NULL;
 }
 
+_PY_ENSURE_COSTACK_FOR_FN2_A(_PyErr_DisplayException, PyObject *, file, PyObject *, exc)
 void _PyErr_DisplayException(PyObject *file, PyObject *exc)
 {
-    _PyErr_Display(file, NULL, exc, NULL);
+    _PY_ENSURE_COSTACK_FOR_FN2_B(void, _PyErr_DisplayException, file, exc)
+    _PyErr_Display(params->file, NULL, params->exc, NULL);
+    return NULL;
 }
 
 void PyErr_DisplayException(PyObject *exc)
@@ -1234,11 +1257,17 @@ void PyErr_DisplayException(PyObject *exc)
     PyErr_Display(NULL, exc, NULL);
 }
 
+_PY_ENSURE_COSTACK_FOR_FN7_A(_PyRun_StringFlagsWithName, const char *, str, PyObject*, name, int, start,
+                           PyObject *, globals, PyObject *, locals, PyCompilerFlags *, flags,
+                           int, generate_new_source)
 static PyObject *
 _PyRun_StringFlagsWithName(const char *str, PyObject* name, int start,
                            PyObject *globals, PyObject *locals, PyCompilerFlags *flags,
                            int generate_new_source)
 {
+    _PY_ENSURE_COSTACK_FOR_FN7_B(PyObject *, _PyRun_StringFlagsWithName, str, name, start,
+                               globals, locals, flags,
+                               generate_new_source)
     PyObject *ret = NULL;
     mod_ty mod;
     PyArena *arena;
@@ -1250,19 +1279,19 @@ _PyRun_StringFlagsWithName(const char *str, PyObject* name, int start,
     PyObject* source = NULL;
     _Py_DECLARE_STR(anon_string, "<string>");
 
-    if (name) {
-        source = PyUnicode_FromString(str);
+    if (params->name) {
+        source = PyUnicode_FromString(params->str);
         if (!source) {
             PyErr_Clear();
         }
     } else {
-        name = &_Py_STR(anon_string);
+        params->name = &_Py_STR(anon_string);
     }
 
-    mod = _PyParser_ASTFromString(str, name, start, flags, arena);
+    mod = _PyParser_ASTFromString(params->str, params->name, params->start, params->flags, arena);
 
    if (mod != NULL) {
-        ret = run_mod(mod, name, globals, locals, flags, arena, source, generate_new_source);
+        ret = run_mod(mod, params->name, params->globals, params->locals, params->flags, arena, source, params->generate_new_source);
     }
     Py_XDECREF(source);
     _PyArena_Free(arena);
@@ -1307,17 +1336,21 @@ pyrun_file(FILE *fp, PyObject *filename, int start, PyObject *globals,
 }
 
 
+_PY_ENSURE_COSTACK_FOR_FN7_A(PyRun_FileExFlags, FILE *, fp, const char *, filename, int, start, PyObject *, globals,
+                  PyObject *, locals, int, closeit, PyCompilerFlags *, flags)
 PyObject *
 PyRun_FileExFlags(FILE *fp, const char *filename, int start, PyObject *globals,
                   PyObject *locals, int closeit, PyCompilerFlags *flags)
 {
-    PyObject *filename_obj = PyUnicode_DecodeFSDefault(filename);
+    _PY_ENSURE_COSTACK_FOR_FN7_B(PyObject *, PyRun_FileExFlags, fp, filename, start, globals,
+                    locals, closeit, flags)
+    PyObject *filename_obj = PyUnicode_DecodeFSDefault(params->filename);
     if (filename_obj == NULL) {
         return NULL;
     }
 
-    PyObject *res = pyrun_file(fp, filename_obj, start, globals,
-                               locals, closeit, flags);
+    PyObject *res = pyrun_file(params->fp, filename_obj, params->start, params->globals,
+                               params->locals, params->closeit, params->flags);
     Py_DECREF(filename_obj);
     return res;
 
@@ -1487,24 +1520,29 @@ error:
     return NULL;
 }
 
+
+_PY_ENSURE_COSTACK_FOR_FN5_A(Py_CompileStringObject, const char *, str, PyObject *, filename, int, start,
+                       PyCompilerFlags *, flags, int, optimize)
 PyObject *
 Py_CompileStringObject(const char *str, PyObject *filename, int start,
                        PyCompilerFlags *flags, int optimize)
 {
+    _PY_ENSURE_COSTACK_FOR_FN5_B(PyObject *, Py_CompileStringObject, str, filename, start,
+                        flags, optimize)
     PyCodeObject *co;
     mod_ty mod;
     PyArena *arena = _PyArena_New();
     if (arena == NULL)
         return NULL;
 
-    mod = _PyParser_ASTFromString(str, filename, start, flags, arena);
+    mod = _PyParser_ASTFromString(params->str, params->filename, params->start, params->flags, arena);
     if (mod == NULL) {
         _PyArena_Free(arena);
         return NULL;
     }
-    if (flags && (flags->cf_flags & PyCF_ONLY_AST)) {
-        int syntax_check_only = ((flags->cf_flags & PyCF_OPTIMIZED_AST) == PyCF_ONLY_AST); /* unoptiomized AST */
-        if (_PyCompile_AstPreprocess(mod, filename, flags, optimize, arena, syntax_check_only) < 0) {
+    if (params->flags && (params->flags->cf_flags & PyCF_ONLY_AST)) {
+        int syntax_check_only = ((params->flags->cf_flags & PyCF_OPTIMIZED_AST) == PyCF_ONLY_AST); /* unoptiomized AST */
+        if (_PyCompile_AstPreprocess(mod, params->filename, params->flags, params->optimize, arena, syntax_check_only) < 0) {
             _PyArena_Free(arena);
             return NULL;
         }
@@ -1512,22 +1550,25 @@ Py_CompileStringObject(const char *str, PyObject *filename, int start,
         _PyArena_Free(arena);
         return result;
     }
-    co = _PyAST_Compile(mod, filename, flags, optimize, arena);
+    co = _PyAST_Compile(mod, params->filename, params->flags, params->optimize, arena);
     _PyArena_Free(arena);
     return (PyObject *)co;
 }
 
+_PY_ENSURE_COSTACK_FOR_FN5_A(Py_CompileStringExFlags, const char *, str, const char *, filename_str, int, start,
+    PyCompilerFlags *, flags, int, optimize)
 PyObject *
 Py_CompileStringExFlags(const char *str, const char *filename_str, int start,
                         PyCompilerFlags *flags, int optimize)
 {
+    _PY_ENSURE_COSTACK_FOR_FN5_B(PyObject *, Py_CompileStringExFlags, str, filename_str, start, flags, optimize)
     PyObject *filename, *co;
-    filename = PyUnicode_DecodeFSDefault(filename_str);
+    filename = PyUnicode_DecodeFSDefault(params->filename_str);
     if (filename == NULL)
         return NULL;
-    co = Py_CompileStringObject(str, filename, start, flags, optimize);
+    co = Py_CompileStringObject(params->str, filename, params->start, params->flags, params->optimize);
     Py_DECREF(filename);
-    return co;
+    return (void *)co;
 }
 
 int
