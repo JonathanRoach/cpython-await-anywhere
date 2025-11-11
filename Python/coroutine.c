@@ -547,6 +547,7 @@ Coroutine *Coroutine_GetActive(void)
 
 
 intptr_t _Py_Coroutine_GetStackHeadroom(void){
+    assert(!g_c.active || Check_Guard(g_c.active->guard));
     unsigned char tbuf[4];
     return g_c.active ? tbuf - g_c.active->guard - 4 : COROUTINE_STACK_SIZE;
 }
