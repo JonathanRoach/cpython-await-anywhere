@@ -630,28 +630,6 @@ PyType_Spec carg_spec = {
  *    and value.
  */
 
-union result {
-    char c;
-    char b;
-    short h;
-    int i;
-    long l;
-    long long q;
-    long double g;
-    double d;
-    float f;
-    void *p;
-    double D[2];
-    float F[2];
-    long double G[2];
-};
-
-struct argument {
-    ffi_type *ffi_type;
-    PyObject *keep;
-    union result value;
-};
-
 /*
  * Convert a single Python object into a PyCArgObject and return it.
  */
@@ -1158,6 +1136,22 @@ GetComError(ctypes_state *st, HRESULT errcode, GUID *riid, IUnknown *pIunk)
 #define IS_PASS_BY_REF(x) (x > 8 || !POW2(x))
 #endif
 
+static void *_ctypes_callproc_inner(void *);
+struct _ctypes_callproc_params {
+    ctypes_state *st;
+    PPROC pProc;
+    PyObject *argtuple;
+#ifdef MS_WIN32
+    IUnknown *pIunk;
+    GUID *iid;
+#endif
+    int flags;
+    PyObject *argtypes;
+    PyObject *restype;
+    PyObject *checker;
+    Py_ssize_t argcount;
+};
+
 /*
  * Requirements, must be ensured by the caller:
  * - argtuple is tuple of arguments
@@ -1179,13 +1173,7 @@ PyObject *_ctypes_callproc(ctypes_state *st,
             PyObject *restype,
             PyObject *checker)
 {
-    Py_ssize_t i, n, argcount, argtype_count;
-    void *resbuf;
-    struct argument *args, *pa;
-    ffi_type **atypes;
-    ffi_type *rtype;
-    void **avalues;
-    PyObject *retval = NULL;
+    Py_ssize_t argcount;
 
     // Both call_function and call_cdeclfunction call us:
 #if SIZEOF_VOID_P == SIZEOF_LONG
@@ -1202,7 +1190,7 @@ PyObject *_ctypes_callproc(ctypes_state *st,
         return NULL;
     }
 
-    n = argcount = PyTuple_GET_SIZE(argtuple);
+    argcount = PyTuple_GET_SIZE(argtuple);
 #ifdef MS_WIN32
     /* an optional COM object this pointer */
     if (pIunk)
@@ -1216,6 +1204,67 @@ PyObject *_ctypes_callproc(ctypes_state *st,
         return NULL;
     }
 
+    struct _ctypes_callproc_params params = {
+        st,
+        pProc,
+        argtuple,
+#ifdef MS_WIN32
+        pIunk,
+        iid,
+#endif
+        flags,
+        argtypes,
+        restype,
+        checker,
+        argcount
+    };
+
+    // Ensure there's enough stack to marshall the arguments, and call the function
+    uintptr_t stack_requirement = CTYPES_ARGUMENT_WORKSPACE * argcount + PYOS_STACK_MARGIN_BYTES;
+    if ((intptr_t)stack_requirement > _Py_Coroutine_GetStackHeadroom()){
+        assert(stack_requirement <= COROUTINE_STACK_SIZE);
+        return _Py_Coroutine_Chain(_ctypes_callproc_inner, &params);
+    } else {
+        return _ctypes_callproc_inner(&params);
+    }
+}
+
+
+static void *_ctypes_callproc_inner(void *_params)
+{
+    struct _ctypes_callproc_params *params = (struct _ctypes_callproc_params *)_params;
+    ctypes_state *st;
+    PPROC pProc;
+    PyObject *argtuple;
+#ifdef MS_WIN32
+    IUnknown *pIunk;
+    GUID *iid;
+#endif
+    int flags;
+    PyObject *argtypes;
+    PyObject *restype;
+    PyObject *checker;
+    struct argument *args, *pa;
+    Py_ssize_t i, n, argcount, argtype_count;
+    void *resbuf;
+    ffi_type **atypes;
+    ffi_type *rtype;
+    void **avalues;
+    PyObject *retval = NULL;
+
+    st = params->st;
+    pProc = params->pProc;
+    argtuple = params->argtuple;
+#ifdef MS_WIN32
+    pIunk = params->pIunk;
+    iid = params->iid;
+#endif
+    flags = params->flags;
+    argtypes = params->argtypes;
+    restype = params->restype;
+    checker = params->checker;
+
+    n = argcount = params->argcount;
     args = alloca(sizeof(struct argument) * argcount);
     memset(args, 0, sizeof(struct argument) * argcount);
     argtype_count = argtypes ? PyTuple_GET_SIZE(argtypes) : 0;

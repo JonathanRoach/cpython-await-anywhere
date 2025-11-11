@@ -20,6 +20,8 @@
 #include "pycore_typeobject.h"    // _PyType_GetModuleState()
 #include "pycore_critical_section.h"
 #include "pycore_pyatomic_ft_wrappers.h"
+#include "pythonrun.h"
+#include "pycore_coroutine.h"
 
 // Do we support C99 complex types in ffi?
 // For Apple's libffi, this must be determined at runtime (see gh-128156).
@@ -46,6 +48,35 @@
 #define PARAMFLAG_FLCID 0x4
 #endif
 
+union result {
+    char c;
+    char b;
+    short h;
+    int i;
+    long l;
+    long long q;
+    long double g;
+    double d;
+    float f;
+    void *p;
+    double D[2];
+    float F[2];
+    long double G[2];
+};
+
+struct argument {
+    ffi_type *ffi_type;
+    PyObject *keep;
+    union result value;
+};
+
+// see _ctypes_callproc_inner(): each argument needs:
+// struct argument to prepare an argument
+// void * to point to the value
+// void * to point to the value's type
+// void * to point to a pointer to the value if it's a ref argument
+#define CTYPES_ARGUMENT_WORKSPACE (sizeof(struct argument) * 3*sizeof(void *))
+
 /*
  * bpo-13097: Max number of arguments CFuncPtr._argtypes_ and
  * _ctypes_callproc() will accept.
@@ -55,9 +86,9 @@
  */
 #ifndef CTYPES_MAX_ARGCOUNT
   #ifdef __EMSCRIPTEN__
-    #define CTYPES_MAX_ARGCOUNT 1000
+    #define CTYPES_MAX_ARGCOUNT ((Py_ssize_t)min(1000, (COROUTINE_STACK_SIZE-PYOS_STACK_MARGIN_BYTES) / CTYPES_ARGUMENT_WORKSPACE))
   #else
-    #define CTYPES_MAX_ARGCOUNT 1024
+    #define CTYPES_MAX_ARGCOUNT ((Py_ssize_t)min(1024, (COROUTINE_STACK_SIZE-PYOS_STACK_MARGIN_BYTES) / CTYPES_ARGUMENT_WORKSPACE))
   #endif
 #endif
 
