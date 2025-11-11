@@ -80,13 +80,21 @@
 //   +------------------+  <- stack bottom
 
 // Each coroutine has this much stack:
-// In Pythonland, we set it to 4 * (enough for a PyEval_EvalDefault), so we get at least 3
-// calls deep before we need a new chunk, ie maximum multi-chunk wastage is 25%. There's a
-// trade-off between smaller chunk sizes which increase the number of async tasks which can
-// possibly co-exist on a thread, and larger chunk sizes which waste less memory in part-used
-// chunks.
+// For Python, we set it to 8 * (enough for a PyEval_EvalDefault), so we get at least 7
+// calls deep before we need a new chunk, ie maximum multi-chunk wastage is 12.5%.
+//
+// There's a trade-off between smaller chunk sizes, which allow more async tasks to co-exist
+// on a thread, and larger chunk sizes which waste less memory in part-used chunks.
+//
+// Maximum number of concurrent async tasks on a thread = thread's stack size / COROUTINE_STACK_SIZE
+//
+// ... which means 10000 async tasks need a 1.280 GB stack, which fits comfortably in the address map.
+// 
+// Note, when developing the use of Coroutine in Python, the author found Tk_Init was the biggest
+// uncontrolled user of stack - on an Intel 64 bit Mac it used 72k. On that machine, PYOS_STACK_MARGIN_BYTES
+// is 2k * sizeof(void *), ie 16k, or 8 of those, 128k, should give enough slack to operate well.
 #ifndef COROUTINE_STACK_SIZE
-    #define COROUTINE_STACK_SIZE (PYOS_STACK_MARGIN_BYTES * 4)
+    #define COROUTINE_STACK_SIZE (PYOS_STACK_MARGIN_BYTES * 8)
 #endif
 
 // When Coroutine is started, an amount of stack is set aside to give

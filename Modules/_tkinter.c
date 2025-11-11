@@ -32,6 +32,7 @@ Copyright (C) 1994 Steen Lumholt.
 
 #include "pycore_long.h"          // _PyLong_IsNegative()
 #include "pycore_unicodeobject.h" // _PyUnicode_AsUTF8String
+#include "pycore_coroutine.h"
 
 #ifdef MS_WINDOWS
 #  include <windows.h>
@@ -584,6 +585,19 @@ Tcl_AppInit(Tcl_Interp *interp)
 static void EnableEventHook(void); /* Forward */
 static void DisableEventHook(void); /* Forward */
 
+
+struct Tkapp_New_Params {
+    const char *screenName;
+    const char *className;
+    int interactive;
+    int wantobjects;
+    int wantTk;
+    int sync;
+    const char *use;
+};
+
+static void *Do_Tkapp_New(void *_params);
+
 static TkappObject *
 Tkapp_New(const char *screenName, const char *className,
           int interactive, int wantobjects, int wantTk, int sync,
@@ -591,6 +605,15 @@ Tkapp_New(const char *screenName, const char *className,
 {
     TkappObject *v;
     char *argv0;
+
+    // Ensure we have enough stack
+    // 12000 * sizeof(void *) is based on intel macos (72k, ie 9k * sizeof(void *)) used by Tk_Init())
+    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(12000*sizeof(void *))) {
+        struct Tkapp_New_Params params = {screenName, className,
+            interactive, wantobjects, wantTk, sync,
+            use};
+        return (TkappObject *)_Py_Coroutine_Chain(Do_Tkapp_New, &params);
+    }
 
     v = PyObject_New(TkappObject, (PyTypeObject *) Tkapp_Type);
     if (v == NULL)
@@ -753,6 +776,15 @@ Tkapp_New(const char *screenName, const char *className,
     EnableEventHook();
 
     return v;
+}
+
+
+static void *Do_Tkapp_New(void *_params)
+{
+    struct Tkapp_New_Params *params = (struct Tkapp_New_Params *)_params;
+    return Tkapp_New(params->screenName, params->className,
+            params->interactive, params->wantobjects, params->wantTk, params->sync,
+            params->use);
 }
 
 
