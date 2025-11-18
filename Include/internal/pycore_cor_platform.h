@@ -6,6 +6,8 @@
 
 #define _Cor_thread_local _Py_thread_local
 
+#define COROUTINE_HAVE_ALLOCA_H HAVE_ALLOCA_H
+
 #define _Cor_Mutex PyMutex
 static inline void _Cor_Mutex_ctor(_Cor_Mutex *mut){ *mut = (PyMutex){0};}
 static inline void _Cor_Mutex_dtor(_Cor_Mutex *mut){(void)mut;}

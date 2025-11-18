@@ -334,7 +334,7 @@ _Py_RecursionLimit_GetMargin(PyThreadState *tstate)
     _PyThreadStateImpl *_tstate = (_PyThreadStateImpl *)tstate;
     assert(_tstate->c_stack_hard_limit != 0);
     if (Coroutine_IsStarted()){
-        if (_Py_Coroutine_CanStartCoroutine((void *)_tstate->c_stack_hard_limit)){
+        if (_Py_Coroutine_CanStartCoroutine()) {
             return 4;
         }
         return Py_ARITHMETIC_RIGHT_SHIFT(intptr_t, _Py_Coroutine_GetStackHeadroom(), PYOS_STACK_MARGIN_SHIFT);

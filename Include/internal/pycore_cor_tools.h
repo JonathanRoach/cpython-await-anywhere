@@ -3,6 +3,19 @@
 #include "pycore_coroutine.h"
 #include "pycore_pystate.h"
 
+// _PY_ENSURE_COSTACK_HEADROOM_FOR_FN<N>_[A/B]
+// Macros to ensure at least PYOS_STACK_MARGIN_BYTES to call a function
+// <N> - the number of parameters
+// [A/B] - need to have 2 parts, A before the function, and B within the function
+// Assumes PYOS_STACK_MARGIN_BYTES is much smaller than coroutine stack
+//
+// _PY_ENSURE_COSTACK_FOR_FN<N>_[A/B]
+// Macros to ensure a function is running within a coroutine
+//
+// _PY_ENSURE_STACK_FOR_FN<N>_[A/B]
+// Macros to ensure a given amount of stack is available for running a routine
+// Assumes 'PyObject *' returned; always marshalls the parameters
+
 #define _PY_ENSURE_COSTACK_HEADROOM_FOR_FN0_A(decl, r_t, fn) \
 decl r_t fn(void); \
 static void *Do_Call_##fn(void *param) { \
@@ -11,7 +24,7 @@ static void *Do_Call_##fn(void *param) { \
 }
 #define _PY_ENSURE_COSTACK_HEADROOM_FOR_FN0_B(r_t, fn) \
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES && \
-        _Py_Coroutine_CanStartCoroutine((void *)((_PyThreadStateImpl *)_PyThreadState_GET())->c_stack_hard_limit)) { \
+        _Py_Coroutine_CanStartCoroutine()) { \
         return (r_t)(uintptr_t)_Py_Coroutine_Chain(Do_Call_##fn, NULL); \
     }
 
@@ -26,7 +39,7 @@ static void *Do_Call_##fn(void *param) { \
 }
 #define _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(r_t, fn, p0) \
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES && \
-        _Py_Coroutine_CanStartCoroutine((void *)((_PyThreadStateImpl *)_PyThreadState_GET())->c_stack_hard_limit)) { \
+        _Py_Coroutine_CanStartCoroutine()) { \
         struct Do_Call_Params_##fn params = {p0}; \
         return (r_t)(uintptr_t)_Py_Coroutine_Chain(Do_Call_##fn, (void *)&params); \
     }
@@ -43,7 +56,7 @@ static void *Do_Call_##fn(void *param) { \
 }
 #define _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(r_t, fn, p0, p1) \
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES && \
-        _Py_Coroutine_CanStartCoroutine((void *)((_PyThreadStateImpl *)_PyThreadState_GET())->c_stack_hard_limit)) { \
+        _Py_Coroutine_CanStartCoroutine()) { \
         struct Do_Call_Params_##fn params = {p0, p1}; \
         return (r_t)(uintptr_t)_Py_Coroutine_Chain(Do_Call_##fn, (void *)&params); \
     }
@@ -61,7 +74,7 @@ static void *Do_Call_##fn(void *param) { \
 }
 #define _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(r_t, fn, p0, p1, p2) \
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES && \
-        _Py_Coroutine_CanStartCoroutine((void *)((_PyThreadStateImpl *)_PyThreadState_GET())->c_stack_hard_limit)) { \
+        _Py_Coroutine_CanStartCoroutine()) { \
         struct Do_Call_Params_##fn params = {p0, p1, p2}; \
         return (r_t)(uintptr_t)_Py_Coroutine_Chain(Do_Call_##fn, (void *)&params); \
     }
@@ -80,7 +93,7 @@ static void *Do_Call_##fn(void *param) { \
 }
 #define _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(r_t, fn, p0, p1, p2, p3) \
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES && \
-        _Py_Coroutine_CanStartCoroutine((void *)((_PyThreadStateImpl *)_PyThreadState_GET())->c_stack_hard_limit)) { \
+        _Py_Coroutine_CanStartCoroutine()) { \
         struct Do_Call_Params_##fn params = {p0, p1, p2, p3}; \
         return (r_t)(uintptr_t)_Py_Coroutine_Chain(Do_Call_##fn, (void *)&params); \
     }
@@ -100,7 +113,7 @@ static void *Do_Call_##fn(void *param) { \
 }
 #define _PY_ENSURE_COSTACK_HEADROOM_FOR_FN5_B(r_t, fn, p0, p1, p2, p3, p4) \
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES && \
-        _Py_Coroutine_CanStartCoroutine((void *)((_PyThreadStateImpl *)_PyThreadState_GET())->c_stack_hard_limit)) { \
+        _Py_Coroutine_CanStartCoroutine()) { \
         struct Do_Call_Params_##fn params = {p0, p1, p2, p3, p4}; \
         return (r_t)(uintptr_t)_Py_Coroutine_Chain(Do_Call_##fn, (void *)&params); \
     }
@@ -209,5 +222,80 @@ static void *Do_Call_##fn(void *param);
 } \
 static void *Do_Call_##fn(void *_params){ \
     struct Do_Call_Params_##fn *params = (struct Do_Call_Params_##fn *)_params;
+
+
+#define _PY_ENSURE_STACK_FOR_FN1_A(fn, p0_t) \
+static void *Do_##fn(void *); \
+struct Do_Call_Params_##fn { \
+    p0_t v0; \
+};
+// Function definition start goes here
+#define _PY_ENSURE_STACK_FOR_FN1_B(space, nomemret, r_t, fn, p0_t, p0) \
+    struct Do_Call_Params_##fn params = {p0}; \
+    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(space) ){ \
+        if ( _Py_Coroutine_CanStartCoroutine()) { \
+            return (r_t)(intptr_t)_Py_Coroutine_Chain(Do_##fn, &params); \
+        } else { \
+            PyErr_NoMemory(); \
+            return nomemret; \
+        } \
+    } \
+    return (r_t)(intptr_t)Do_##fn(&params); \
+} \
+static void *Do_##fn(void *_params) { \
+    struct Do_Call_Params_##fn *params = (struct Do_Call_Params_##fn *)_params; \
+    p0_t p0 = params->v0;
+
+
+#define _PY_ENSURE_STACK_FOR_FN2_A(fn, p0_t, p1_t) \
+static void *Do_##fn(void *); \
+struct Do_Call_Params_##fn { \
+    p0_t v0; \
+    p1_t v1; \
+};
+// Function definition start goes here
+#define _PY_ENSURE_STACK_FOR_FN2_B(space, nomemret, r_t, fn, p0_t, p0, p1_t, p1) \
+    struct Do_Call_Params_##fn params = {p0, p1}; \
+    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(space) ){ \
+        if ( _Py_Coroutine_CanStartCoroutine()) { \
+            return (r_t)(intptr_t)_Py_Coroutine_Chain(Do_##fn, &params); \
+        } else { \
+            PyErr_NoMemory(); \
+            return nomemret; \
+        } \
+    } \
+    return (r_t)(intptr_t)Do_##fn(&params); \
+} \
+static void *Do_##fn(void *_params) { \
+    struct Do_Call_Params_##fn *params = (struct Do_Call_Params_##fn *)_params; \
+    p0_t p0 = params->v0; \
+    p1_t p1 = params->v1;
+
+
+#define _PY_ENSURE_STACK_FOR_FN3_A(fn, p0_t, p1_t, p2_t) \
+static void *Do_##fn(void *); \
+struct Do_Call_Params_##fn { \
+    p0_t v0; \
+    p1_t v1; \
+    p2_t v2; \
+};
+// Function definition start goes here
+#define _PY_ENSURE_STACK_FOR_FN3_B(space, nomemret, r_t, fn, p0_t, p0, p1_t, p1, p2_t, p2) \
+    struct Do_Call_Params_##fn params = {p0, p1, p2}; \
+    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(space) ){ \
+        if ( _Py_Coroutine_CanStartCoroutine()) { \
+            return (r_t)(intptr_t)_Py_Coroutine_Chain(Do_##fn, &params); \
+        } else { \
+            PyErr_NoMemory(); \
+            return nomemret; \
+        } \
+    } \
+    return (r_t)(intptr_t)Do_##fn(&params); \
+} \
+static void *Do_##fn(void *_params) { \
+    struct Do_Call_Params_##fn *params = (struct Do_Call_Params_##fn *)_params; \
+    p0_t p0 = params->v0; \
+    p1_t p1 = params->v1; \
+    p2_t p2 = params->v2;
 
 #endif

@@ -80,21 +80,24 @@
 //   +------------------+  <- stack bottom
 
 // Each coroutine has this much stack:
-// For Python, we set it to 8 * (enough for a PyEval_EvalDefault), so we get at least 7
-// calls deep before we need a new chunk, ie maximum multi-chunk wastage is 12.5%.
+// For Python, we set it to 17 * (enough for a PyEval_EvalDefault), so we get at least 7
+// calls deep before we need a new chunk, ie maximum multi-chunk wastage is under 6% address space.
 //
 // There's a trade-off between smaller chunk sizes, which allow more async tasks to co-exist
 // on a thread, and larger chunk sizes which waste less memory in part-used chunks.
 //
 // Maximum number of concurrent async tasks on a thread = thread's stack size / COROUTINE_STACK_SIZE
 //
-// ... which means 10000 async tasks need a 1.280 GB stack, which fits comfortably in the address map.
+// ... which means 10000 async tasks need a 2.6 GB stack, which fits comfortably in the address map.
 // 
-// Note, when developing the use of Coroutine in Python, the author found Tk_Init was the biggest
-// uncontrolled user of stack - on an Intel 64 bit Mac it used 72k. On that machine, PYOS_STACK_MARGIN_BYTES
-// is 2k * sizeof(void *), ie 16k, or 8 of those, 128k, should give enough slack to operate well.
+// Note, when developing the use of Coroutine in Python, the author found the following used
+// excessive amounts of stack space:
+// Tk_Init: on an Intel 64 bit Mac it used 72k.
+// _decimal multplies of big decimal numbers: 256k+640 (2 x 128k buffers in squaretrans_pow2() + workings)
+//
+// On 64 bit macos, PYOS_STACK_MARGIN_BYTES is 2k * sizeof(void *), ie 16k, or 17 of those, 272k, should give enough slack to operate well.
 #ifndef COROUTINE_STACK_SIZE
-    #define COROUTINE_STACK_SIZE (PYOS_STACK_MARGIN_BYTES * 8)
+    #define COROUTINE_STACK_SIZE (PYOS_STACK_MARGIN_BYTES * 17)
 #endif
 
 // When Coroutine is started, an amount of stack is set aside to give
@@ -109,7 +112,6 @@ typedef struct Coroutine_Report {
     unsigned coroutines_created;
     unsigned coroutines_pool_size;
     unsigned lowest_headroom;
-    uintptr_t stack_per_coroutine;
 } Coroutine_Report;
 
 typedef struct Coroutine Coroutine;
@@ -118,6 +120,7 @@ typedef void (*Coroutine_YieldCallback)(void *me);
 typedef void *(*Coroutine_Start)(void *);
 
 extern void Coroutine_StartSystem(void);
+extern void Coroutine_SetStackLimit(void *);
 extern Coroutine_Report Coroutine_StopSystem(void);
 extern Coroutine *Coroutine_New(Coroutine_Start start);
 extern void Coroutine_Run_Coroutine(Coroutine *cor, void *value);
@@ -135,7 +138,7 @@ extern void Coroutine_ClearStackForHWM(void);
 extern void *Coroutine_GetStackHWM(void);
 
 // export for _ctype, _json and _pickle for the _PY_ENSURE_COSTACK_HEADROOM_FOR_FN macros
-PyAPI_FUNC(bool) _Py_Coroutine_CanStartCoroutine(void *stack_end);
+PyAPI_FUNC(bool) _Py_Coroutine_CanStartCoroutine(void);
 PyAPI_FUNC(intptr_t) _Py_Coroutine_GetStackHeadroom(void);
 PyAPI_FUNC(void *) _Py_Coroutine_Chain(Coroutine_Start start, void *value);
 

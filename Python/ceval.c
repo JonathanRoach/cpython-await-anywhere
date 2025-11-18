@@ -355,7 +355,7 @@ _Py_ReachedRecursionLimitWithMargin(PyThreadState *tstate, int margin_count)
      if (_tstate->c_stack_hard_limit == 0) {
         _Py_InitializeRecursionLimits(tstate);
     }
-    if (_Py_Coroutine_CanStartCoroutine((void *)_tstate->c_stack_hard_limit)){
+    if (_Py_Coroutine_CanStartCoroutine()) {
         // If a new coroutine can be started, there's enough room
         return 0;
     }
@@ -462,6 +462,7 @@ _Py_InitializeRecursionLimits(PyThreadState *tstate)
     _tstate->c_stack_top = (uintptr_t)high;
     ULONG guarantee = 0;
     SetThreadStackGuarantee(&guarantee);
+    Coroutine_SetStackLimit((unsigned char *)low + guarantee);
     _tstate->c_stack_hard_limit = ((uintptr_t)low) + guarantee + PYOS_STACK_MARGIN_BYTES;
     _tstate->c_stack_soft_limit = _tstate->c_stack_hard_limit + PYOS_STACK_MARGIN_BYTES;
 #else
@@ -479,6 +480,7 @@ _Py_InitializeRecursionLimits(PyThreadState *tstate)
     if (err == 0) {
         uintptr_t base = ((uintptr_t)stack_addr) + guard_size;
         _tstate->c_stack_top = base + stack_size;
+        Coroutine_SetStackLimit((unsigned char *)base);
 #ifdef _Py_THREAD_SANITIZER
         // Thread sanitizer crashes if we use a bit more than half the stack.
         _tstate->c_stack_soft_limit = base + (stack_size / 2);
@@ -494,6 +496,7 @@ _Py_InitializeRecursionLimits(PyThreadState *tstate)
     _tstate->c_stack_top = _Py_SIZE_ROUND_UP(here_addr, 4096);
     _tstate->c_stack_soft_limit = _tstate->c_stack_top - Py_C_STACK_SIZE;
     _tstate->c_stack_hard_limit = _tstate->c_stack_top - (Py_C_STACK_SIZE + PYOS_STACK_MARGIN_BYTES);
+    Coroutine_SetStackLimit((unsigned char *)_tstate->c_stack_hard_limit + PYOS_STACK_MARGIN_BYTES);
 #endif
 }
 
@@ -504,7 +507,7 @@ int _Py_StackNearlyExhausted(void)
         // not close
         return 0;
     }
-    if (_Py_Coroutine_CanStartCoroutine((void *)((_PyThreadStateImpl *)_PyThreadState_GET())->c_stack_hard_limit)){
+    if (_Py_Coroutine_CanStartCoroutine()) {
         // still not close as we can chain
         return 0;
     }
@@ -523,7 +526,7 @@ _Py_CheckRecursiveCall(PyThreadState *tstate, const char *where)
         // not close
         return 0;
     }
-    if (_Py_Coroutine_CanStartCoroutine((void *)_tstate->c_stack_hard_limit)){
+    if (_Py_Coroutine_CanStartCoroutine()) {
         // still not close as we can chain
         return 0;
     }
