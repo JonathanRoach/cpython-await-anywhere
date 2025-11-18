@@ -4780,6 +4780,11 @@ class SignalsTest(unittest.TestCase):
 
         read_results = []
         def _read():
+            # Mask the alarm signal here, rather than wrapping the t.start()
+            # to avoid a peculiarity/bug in MacOS
+            if hasattr(signal, 'pthread_sigmask'):
+                # create the thread with SIGALRM signal blocked
+                signal.pthread_sigmask(signal.SIG_BLOCK, [signal.SIGALRM])
             s = os.read(r, 1)
             read_results.append(s)
 
@@ -4790,13 +4795,9 @@ class SignalsTest(unittest.TestCase):
         large_data = item * (support.PIPE_MAX_SIZE // len(item) + 1)
         try:
             wio = self.io.open(w, **fdopen_kwargs)
-            if hasattr(signal, 'pthread_sigmask'):
-                # create the thread with SIGALRM signal blocked
-                signal.pthread_sigmask(signal.SIG_BLOCK, [signal.SIGALRM])
-                t.start()
-                signal.pthread_sigmask(signal.SIG_UNBLOCK, [signal.SIGALRM])
-            else:
-                t.start()
+            # Mask the alarm signal in _read(), rather than wrapping the t.start()
+            # here, to avoid a peculiarity/bug in MacOS
+            t.start()
 
             # Fill the pipe enough that the write will be blocking.
             # It will be interrupted by the timer armed above.  Since the
