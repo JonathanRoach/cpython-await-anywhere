@@ -955,9 +955,7 @@ make_gen(PyTypeObject *type, PyFunctionObject *func)
     gen->gi_resume_iframe = &gen->gi_iframe;
     gen->gi_resume_gen = gen;
     gen->gi_resume_frame_count = 1;
-    gen->gi_datastack.chunk = NULL;
-    gen->gi_datastack.top = NULL;
-    gen->gi_datastack.limit = NULL;
+    _PyDataStack_Init(&gen->gi_datastack);
     gen->gi_previous_datastack = NULL;
     gen->gi_frame_state = FRAME_CLEARED;
     gen->gi_weakreflist = NULL;

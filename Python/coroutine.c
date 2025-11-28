@@ -465,10 +465,10 @@ void *Coroutine_Run(
     if (need_start){
         Coroutine_StartSystem();
     }
-    Coroutine *cor = Coroutine_New(start);
+    Coroutine *cor = _Py_Coroutine_New(start);
     Coroutine_Run_Coroutine(cor, value);
-    void *res = Coroutine_GetValue(cor);
-    Coroutine_Delete(cor);
+    void *res = _Py_Coroutine_GetValue(cor);
+    _Py_Coroutine_Delete(cor);
     if (need_start){
         Coroutine_StopSystem();
     }
@@ -476,7 +476,7 @@ void *Coroutine_Run(
 }
 
 
-Coroutine *Coroutine_New(
+Coroutine *_Py_Coroutine_New(
     Coroutine_Start start
 ){
     assert((g_c.state == Coroutines_Started && List_IsEmpty(&g_c.inactive)) || g_c.state == Coroutines_Active);
@@ -513,7 +513,7 @@ Coroutine *Coroutine_New(
 }
 
 
-void Coroutine_Delete(
+void _Py_Coroutine_Delete(
     Coroutine *cor
 ){
     assert(Coroutine_StackHasNotOverrun());
@@ -547,7 +547,7 @@ static void _Coroutine_Continue(
 }
 
 
-void Coroutine_Continue(
+void _Py_Coroutine_Continue(
     Coroutine *cor,
     void *value,
     bool early
@@ -560,7 +560,7 @@ void Coroutine_Continue(
 }
 
 
-void *Coroutine_Yield(
+void *_Py_Coroutine_Yield(
     void *value,
     Coroutine_YieldCallback on_yield,
     void *yield_me
@@ -607,14 +607,14 @@ void *Coroutine_Yield(
 }
 
 
-void *Coroutine_GetValue(
+void *_Py_Coroutine_GetValue(
     Coroutine *cor
 ){
     return cor->value;
 }
 
 
-Coroutine *Coroutine_GetActive(void)
+Coroutine *_Py_Coroutine_GetActive(void)
 {
     return g_c.active;
 }
@@ -722,7 +722,7 @@ static void *Coroutine_ChainFn(
     void *param
 ){
     struct Coroutine_ChainParam *params = (struct Coroutine_ChainParam *)param;
-    Coroutine_Continue(params->ret, params->start(params->value), true);
+    _Py_Coroutine_Continue(params->ret, params->start(params->value), true);
     return NULL;
 }
 
@@ -738,26 +738,35 @@ void *_Py_Coroutine_Chain(
     Coroutine_Start start,
     void *value
 ){
-    assert(Check_Guard(Coroutine_GetActive()->guard));
-    Coroutine *cor = Coroutine_New(Coroutine_ChainFn);
+    assert(Check_Guard(_Py_Coroutine_GetActive()->guard));
+    Coroutine *cor = _Py_Coroutine_New(Coroutine_ChainFn);
     struct Coroutine_ChainParam params = {
         start,
         value,
-        Coroutine_GetActive()
+        _Py_Coroutine_GetActive()
     };
-    Coroutine_Continue(cor, &params, true);
-    void *res = Coroutine_Yield(NULL, Coroutine_ChainYield, NULL);
-    Coroutine_Delete(cor);
+    _Py_Coroutine_Continue(cor, &params, true);
+    void *res = _Py_Coroutine_Yield(NULL, Coroutine_ChainYield, NULL);
+    _Py_Coroutine_Delete(cor);
     return res;
 }
 
 
-bool Coroutine_IsRunning(
+bool _Py_Coroutine_IsRunning(
     Coroutine *cor
 )
 {
     int state = cor->state;
     return state == Coroutine_Running || state == Coroutine_Waiting;
+}
+
+
+bool _Py_Coroutine_IsComplete(
+    Coroutine *cor
+)
+{
+    int state = cor->state;
+    return state == Coroutine_Complete;
 }
 
 

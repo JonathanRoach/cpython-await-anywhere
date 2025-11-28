@@ -122,17 +122,10 @@ typedef void *(*Coroutine_Start)(void *);
 extern void Coroutine_StartSystem(void);
 extern void Coroutine_SetStackLimit(void *);
 extern Coroutine_Report Coroutine_StopSystem(void);
-extern Coroutine *Coroutine_New(Coroutine_Start start);
 extern void Coroutine_Run_Coroutine(Coroutine *cor, void *value);
 extern void *Coroutine_Run(Coroutine_Start start, void *value);
-extern void Coroutine_Delete(Coroutine *cor);
-extern void Coroutine_Continue(Coroutine *cor, void *value, bool early);
-extern void *Coroutine_Yield(void *value, Coroutine_YieldCallback on_yield, void *me);
-extern void *Coroutine_GetValue(Coroutine *cor);
-extern Coroutine *Coroutine_GetActive(void);
 extern void *Coroutine_GetCStackTop(void);
 extern bool Coroutine_IsStarted(void);
-extern bool Coroutine_IsRunning(Coroutine *cor);
 
 extern void Coroutine_ClearStackForHWM(void);
 extern void *Coroutine_GetStackHWM(void);
@@ -141,5 +134,13 @@ extern void *Coroutine_GetStackHWM(void);
 PyAPI_FUNC(bool) _Py_Coroutine_CanStartCoroutine(void);
 PyAPI_FUNC(intptr_t) _Py_Coroutine_GetStackHeadroom(void);
 PyAPI_FUNC(void *) _Py_Coroutine_Chain(Coroutine_Start start, void *value);
+PyAPI_FUNC(Coroutine *) _Py_Coroutine_New(Coroutine_Start start);
+PyAPI_FUNC(void) _Py_Coroutine_Delete(Coroutine *cor);
+PyAPI_FUNC(bool) _Py_Coroutine_IsRunning(Coroutine *cor);
+PyAPI_FUNC(bool) _Py_Coroutine_IsComplete(Coroutine *cor);
+PyAPI_FUNC(void) _Py_Coroutine_Continue(Coroutine *cor, void *value, bool early);
+PyAPI_FUNC(void *) _Py_Coroutine_Yield(void *value, Coroutine_YieldCallback on_yield, void *me);
+PyAPI_FUNC(void *) _Py_Coroutine_GetValue(Coroutine *cor);
+PyAPI_FUNC(Coroutine *) _Py_Coroutine_GetActive(void);
 
 #endif

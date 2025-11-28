@@ -289,8 +289,15 @@ _PyDataStack_HasStackSpace(_PyDataStack *datastack, int size)
 extern _PyInterpreterFrame *
 _PyDataStack_PushFrame(_PyDataStack *datastack, size_t size);
 
-extern void
+PyAPI_FUNC(void)
 _PyDataStack_Clear(_PyDataStack *datastack);
+
+static inline void
+_PyDataStack_Init(_PyDataStack *datastack){
+    datastack->chunk = NULL;
+    datastack->top = NULL;
+    datastack->limit = NULL;
+}
 
 PyAPI_FUNC(void) _PyDataStack_PopFrame(_PyDataStack *datastack, _PyInterpreterFrame *frame);
 

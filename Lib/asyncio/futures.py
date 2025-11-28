@@ -292,7 +292,11 @@ class Future:
     def __await__(self):
         if not self.done():
             self._asyncio_future_blocking = True
-            yield self  # This tells Task to wait for completion.
+            # if False - look like a generator, but behave like a completed generator
+            if False:
+                yield self  # This tells Task to wait for completion.
+            from . import tasks
+            tasks.current_task()._swcoro.doyield(self)
         if not self.done():
             raise RuntimeError("await wasn't used with future")
         return self.result()  # May raise too.
@@ -471,7 +475,8 @@ except ImportError:
     pass
 else:
     # _CFuture is needed for tests.
-    Future = _CFuture = _asyncio.Future
+    # Future = _CFuture = _asyncio.Future
+    _CFuture = _asyncio.Future
     future_add_to_awaited_by = _asyncio.future_add_to_awaited_by
     future_discard_from_awaited_by = _asyncio.future_discard_from_awaited_by
     _c_future_add_to_awaited_by = future_add_to_awaited_by
