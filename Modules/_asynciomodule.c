@@ -14,6 +14,7 @@
 #include "pycore_pystate.h"       // _PyThreadState_GET()
 #include "pycore_runtime_init.h"  // _Py_ID()
 #include "pycore_coroutine.h"     // for Coroutine
+#include "pycore_genobject.h"     // _PyCoro_DoYield
 #include "pycore_interpframe.h"   // _PyDataStack_Init etc
 
 #include <stddef.h>               // offsetof()
@@ -65,7 +66,6 @@ typedef struct TaskObj {
     int task_num_cancels_requested;
     PyObject *task_fut_waiter;
     PyObject *task_coro;
-    PyObject *task_swcoro;
     PyObject *task_name;
     PyObject *task_context;
     struct llist_node task_node;
@@ -257,7 +257,6 @@ static void unregister_task(TaskObj *task);
 static void
 clear_task_coro(TaskObj *task)
 {
-    Py_CLEAR(task->task_swcoro);
     Py_CLEAR(task->task_coro);
 }
 
@@ -268,11 +267,6 @@ set_task_coro(TaskObj *task, PyObject *coro)
     assert(coro != NULL);
     Py_INCREF(coro);
     Py_XSETREF(task->task_coro, coro);
-    asyncio_state *state = get_asyncio_state_by_def((PyObject *)task);
-
-    StackWrappedCoroObj *swcoro = PyObject_GC_New(StackWrappedCoroObj, state->StackWrappedCoroType);
-    StackWrappedCoro___init__(swcoro, coro);
-    task->task_swcoro = (PyObject *)swcoro;
 }
 
 
@@ -1909,20 +1903,11 @@ FutureIter_am_send(PyObject *op,
     /* arg is unused, see the comment on FutureIter_send for clarification */
     PySendResult res;
     FutureObj *fut = it->future;
-    asyncio_state *state;
-    PyObject *current_task;
-    PyObject *_swcoro;
     Py_BEGIN_CRITICAL_SECTION(fut);
     res = FutureIter_am_send_lock_held(it, result);
     Py_END_CRITICAL_SECTION();
     if (res == PYGEN_NEXT){
-        state = get_asyncio_state_by_def((PyObject *)fut);
-        current_task = PyObject_CallMethod(state->asyncio_mod, "current_task", "");
-        _swcoro = PyObject_GetAttrString(current_task, "_swcoro");
-        Py_DECREF(current_task);
-        fut->fut_blocking = 1;
-        PyObject_CallMethod(_swcoro, "doyield", "O", fut);
-        Py_DECREF(_swcoro);
+        _PyCoro_DoYield((PyObject *)fut);
         Py_BEGIN_CRITICAL_SECTION(it->future);
         res = FutureIter_am_send_lock_held(it, result);
         Py_END_CRITICAL_SECTION();
@@ -2477,7 +2462,6 @@ TaskObj_traverse(PyObject *op, visitproc visit, void *arg)
     Py_VISIT(Py_TYPE(task));
     Py_VISIT(task->task_context);
     Py_VISIT(task->task_coro);
-    Py_VISIT(task->task_swcoro);
     Py_VISIT(task->task_name);
     Py_VISIT(task->task_fut_waiter);
     FutureObj *fut = (FutureObj *)task;
@@ -2567,23 +2551,6 @@ _asyncio_Task__coro_get_impl(TaskObj *self)
 {
     if (self->task_coro) {
         return Py_NewRef(self->task_coro);
-    }
-
-    Py_RETURN_NONE;
-}
-
-/*[clinic input]
-@critical_section
-@getter
-_asyncio.Task._swcoro
-[clinic start generated code]*/
-
-static PyObject *
-_asyncio_Task__swcoro_get_impl(TaskObj *self)
-/*[clinic end generated code: output=04923cd06b05592d input=8b9007005160e75d]*/
-{
-    if (self->task_swcoro) {
-        return Py_NewRef(self->task_swcoro);
     }
 
     Py_RETURN_NONE;
@@ -3020,7 +2987,6 @@ static PyGetSetDef TaskType_getsetlist[] = {
     _ASYNCIO_TASK__LOG_DESTROY_PENDING_GETSETDEF
     _ASYNCIO_TASK__MUST_CANCEL_GETSETDEF
     _ASYNCIO_TASK__CORO_GETSETDEF
-    _ASYNCIO_TASK__SWCORO_GETSETDEF
     _ASYNCIO_TASK__FUT_WAITER_GETSETDEF
     {NULL} /* Sentinel */
 };
@@ -3185,10 +3151,10 @@ task_step_impl(asyncio_state *state, TaskObj *task, PyObject *exc)
 
     int gen_status = PYGEN_ERROR;
     if (exc == NULL) {
-        gen_status = PyIter_Send(task->task_swcoro, Py_None, &result);
+        gen_status = PyIter_Send(task->task_coro, Py_None, &result);
     }
     else {
-        result = PyObject_CallMethodOneArg(task->task_swcoro, &_Py_ID(throw), exc);
+        result = PyObject_CallMethodOneArg(task->task_coro, &_Py_ID(throw), exc);
         gen_status = gen_status_from_result(&result);
         if (clear_exc) {
             /* We created 'exc' during this call */

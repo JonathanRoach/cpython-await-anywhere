@@ -1058,31 +1058,6 @@ _asyncio_Task__coro_get(PyObject *self, void *Py_UNUSED(context))
     return return_value;
 }
 
-#if !defined(_asyncio_Task__swcoro_DOCSTR)
-#  define _asyncio_Task__swcoro_DOCSTR NULL
-#endif
-#if defined(_ASYNCIO_TASK__SWCORO_GETSETDEF)
-#  undef _ASYNCIO_TASK__SWCORO_GETSETDEF
-#  define _ASYNCIO_TASK__SWCORO_GETSETDEF {"_swcoro", (getter)_asyncio_Task__swcoro_get, (setter)_asyncio_Task__swcoro_set, _asyncio_Task__swcoro_DOCSTR},
-#else
-#  define _ASYNCIO_TASK__SWCORO_GETSETDEF {"_swcoro", (getter)_asyncio_Task__swcoro_get, NULL, _asyncio_Task__swcoro_DOCSTR},
-#endif
-
-static PyObject *
-_asyncio_Task__swcoro_get_impl(TaskObj *self);
-
-static PyObject *
-_asyncio_Task__swcoro_get(PyObject *self, void *Py_UNUSED(context))
-{
-    PyObject *return_value = NULL;
-
-    Py_BEGIN_CRITICAL_SECTION(self);
-    return_value = _asyncio_Task__swcoro_get_impl((TaskObj *)self);
-    Py_END_CRITICAL_SECTION();
-
-    return return_value;
-}
-
 #if !defined(_asyncio_Task__fut_waiter_DOCSTR)
 #  define _asyncio_Task__fut_waiter_DOCSTR NULL
 #endif
@@ -2340,4 +2315,4 @@ _asyncio_future_discard_from_awaited_by(PyObject *module, PyObject *const *args,
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=a2fdfb7c3ee52a13 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=801764ab97576a3e input=a9049054013a1b77]*/

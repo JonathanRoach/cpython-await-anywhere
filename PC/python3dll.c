@@ -15,6 +15,7 @@
 
 EXPORT_FUNC(_Py_BuildValue_SizeT)
 EXPORT_FUNC(_Py_CheckRecursiveCall)
+EXPORT_FUNC(_PyCoro_DoYield)
 EXPORT_FUNC(_Py_Coroutine_CanStartCoroutine)
 EXPORT_FUNC(_Py_Coroutine_Chain)
 EXPORT_FUNC(_Py_Coroutine_New)

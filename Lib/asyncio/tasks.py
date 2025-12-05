@@ -102,7 +102,6 @@ class Task(futures._PyFuture):  # Inherit Python Task implementation
         self._must_cancel = False
         self._fut_waiter = None
         self._coro = coro
-        self._swcoro = _asyncio.StackWrappedCoro(coro)
         if context is None:
             self._context = contextvars.copy_context()
         else:
@@ -260,7 +259,6 @@ class Task(futures._PyFuture):  # Inherit Python Task implementation
                 assert curtask is self
             finally:
                 if self.done():
-                    self._swcoro = None
                     self._coro = None
                     self = None  # Needed to break cycles when an exception occurs.
                 else:
@@ -284,14 +282,14 @@ class Task(futures._PyFuture):  # Inherit Python Task implementation
             self = None  # Needed to break cycles when an exception occurs.
 
     def __step_run_and_handle_result(self, exc):
-        swcoro = self._swcoro
+        coro = self._coro
         try:
             if exc is None:
                 # We use the `send` method directly, because coroutines
                 # don't have `__iter__` and `__next__` methods.
-                result = swcoro.send(None)
+                result = coro.send(None)
             else:
-                result = swcoro.throw(exc)
+                result = coro.throw(exc)
         except StopIteration as exc:
             if self._must_cancel:
                 # Task is cancelled right before coro stops.

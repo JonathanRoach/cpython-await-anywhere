@@ -2003,9 +2003,6 @@
             _PyInterpreterFrame *yielding_gen_frame = &yielding_gen->gi_iframe;
             frame = tstate->current_frame = yielding_gen_frame->previous;
             yielding_gen_frame->previous = NULL;
-            assert(yielding_gen->gi_previous_datastack);
-            _PyThreadState_ActivateDataStack(tstate, yielding_gen->gi_previous_datastack);
-            yielding_gen->gi_previous_datastack = NULL;
             assert(INLINE_CACHE_ENTRIES_SEND == INLINE_CACHE_ENTRIES_FOR_ITER);
             #if TIER_ONE
             assert(frame->instr_ptr->op.code == INSTRUMENTED_LINE ||
@@ -5368,7 +5365,6 @@
             PyGenObject *resume_gen = gen->gi_resume_gen;
             _PyInterpreterFrame *resume_frame = resume_gen->gi_resume_iframe;
             gen_frame->previous = frame;
-            gen->gi_previous_datastack = _PyThreadState_ActivateDataStack(tstate, &resume_gen->gi_datastack);
             CALL_STAT_INC(inlined_py_calls);
             frame = tstate->current_frame = resume_frame;
             tstate->py_recursion_remaining -= gen->gi_resume_frame_count;

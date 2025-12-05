@@ -27,6 +27,21 @@ _FINISHED = base_futures._FINISHED
 
 STACK_DEBUG = logging.DEBUG - 1  # heavy-duty debugging
 
+def _GetCoroutineClass():
+    async def _CoroutineWhichDoesNothing():
+        ...
+
+    cr = _CoroutineWhichDoesNothing()
+
+    # prevent the warning that we haven't used the coroutine
+    try:
+        cr.send(None)
+    except StopIteration:
+        pass
+
+    return cr.__class__
+
+_CoroutineClass = _GetCoroutineClass()
 
 class Future:
     """This class is *almost* compatible with concurrent.futures.Future.
@@ -295,8 +310,7 @@ class Future:
             # if False - look like a generator, but behave like a completed generator
             if False:
                 yield self  # This tells Task to wait for completion.
-            from . import tasks
-            tasks.current_task()._swcoro.doyield(self)
+            _CoroutineClass.doyield(self)
         if not self.done():
             raise RuntimeError("await wasn't used with future")
         return self.result()  # May raise too.
@@ -475,8 +489,7 @@ except ImportError:
     pass
 else:
     # _CFuture is needed for tests.
-    # Future = _CFuture = _asyncio.Future
-    _CFuture = _asyncio.Future
+    Future = _CFuture = _asyncio.Future
     future_add_to_awaited_by = _asyncio.future_add_to_awaited_by
     future_discard_from_awaited_by = _asyncio.future_discard_from_awaited_by
     _c_future_add_to_awaited_by = future_add_to_awaited_by

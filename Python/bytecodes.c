@@ -1288,7 +1288,7 @@ dummy_func(
                 frame->return_offset = (uint16_t)(INSTRUCTION_SIZE + oparg);
                 assert(gen_frame->previous == NULL);
                 gen_frame->previous = frame;
-                gen->gi_previous_datastack = _PyThreadState_ActivateDataStack(tstate, &resume_gen->gi_datastack);
+                // gen->gi_previous_datastack = _PyThreadState_ActivateDataStack(tstate, &resume_gen->gi_datastack);
 
                 // consume (count-1) recursions, as DISPATCH_INLINED will consume one more, and check the result
                 tstate->py_recursion_remaining -= gen->gi_resume_frame_count-1;
@@ -1396,9 +1396,9 @@ dummy_func(
 
             frame = tstate->current_frame = yielding_gen_frame->previous;
             yielding_gen_frame->previous = NULL;
-            assert(yielding_gen->gi_previous_datastack);
-            _PyThreadState_ActivateDataStack(tstate, yielding_gen->gi_previous_datastack);
-            yielding_gen->gi_previous_datastack = NULL;
+            // assert(yielding_gen->gi_previous_datastack);
+            // _PyThreadState_ActivateDataStack(tstate, yielding_gen->gi_previous_datastack);
+            // yielding_gen->gi_previous_datastack = NULL;
 
             /* We don't know which of these is relevant here, so keep them equal */
             assert(INLINE_CACHE_ENTRIES_SEND == INLINE_CACHE_ENTRIES_FOR_ITER);
@@ -3254,7 +3254,7 @@ dummy_func(
                     PyGenObject *resume_gen = gen->gi_resume_gen;
                     _PyInterpreterFrame *resume_frame = resume_gen->gi_resume_iframe;
                     gen_frame->previous = frame;
-                    gen->gi_previous_datastack = _PyThreadState_ActivateDataStack(tstate, &resume_gen->gi_datastack);
+                    // gen->gi_previous_datastack = _PyThreadState_ActivateDataStack(tstate, &resume_gen->gi_datastack);
                     assert(gen->gi_resume_frame_count == 1);
                     DISPATCH_INLINED(resume_frame);
                 }
@@ -4097,7 +4097,7 @@ dummy_func(
             PyGenObject *resume_gen = gen->gi_resume_gen;
             _PyInterpreterFrame *resume_frame = resume_gen->gi_resume_iframe;
             gen_frame->previous = frame;
-            gen->gi_previous_datastack = _PyThreadState_ActivateDataStack(tstate, &resume_gen->gi_datastack);
+            // gen->gi_previous_datastack = _PyThreadState_ActivateDataStack(tstate, &resume_gen->gi_datastack);
             CALL_STAT_INC(inlined_py_calls);
             frame = tstate->current_frame = resume_frame;
             tstate->py_recursion_remaining -= gen->gi_resume_frame_count;

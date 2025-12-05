@@ -37,6 +37,8 @@ extern PyTypeObject _PyCoroWrapper_Type;
 extern PyTypeObject _PyAsyncGenWrappedValue_Type;
 extern PyTypeObject _PyAsyncGenAThrow_Type;
 
+PyAPI_FUNC(PyObject *) _PyCoro_DoYield(PyObject *);
+
 #ifdef __cplusplus
 }
 #endif

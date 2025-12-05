@@ -2114,10 +2114,10 @@ clear_gen_frame(PyThreadState *tstate, _PyInterpreterFrame * frame)
     _PyErr_ClearExcState(&gen->gi_exc_state);
 
     // restore previous datastack
-    assert(gen->gi_previous_datastack);
-    _PyDataStack *prev = _PyThreadState_ActivateDataStack(tstate, gen->gi_previous_datastack);
-    assert(prev == &gen->gi_datastack);
-    gen->gi_previous_datastack = NULL;
+    // assert(gen->gi_previous_datastack);
+    // _PyDataStack *prev = _PyThreadState_ActivateDataStack(tstate, gen->gi_previous_datastack);
+    // assert(prev == &gen->gi_datastack);
+    // gen->gi_previous_datastack = NULL;
 
     frame->previous = NULL;
 }
