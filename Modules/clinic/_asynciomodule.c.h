@@ -1537,89 +1537,6 @@ _asyncio_Task_set_name(PyObject *self, PyObject *value)
     return return_value;
 }
 
-PyDoc_STRVAR(_asyncio_StackWrappedCoro___init____doc__,
-"StackWrappedCoro(coro)\n"
-"--\n"
-"\n"
-"A coroutine wrapped with stacks.");
-
-static int
-_asyncio_StackWrappedCoro___init___impl(StackWrappedCoroObj *self,
-                                        PyObject *coro);
-
-static int
-_asyncio_StackWrappedCoro___init__(PyObject *self, PyObject *args, PyObject *kwargs)
-{
-    int return_value = -1;
-    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
-
-    #define NUM_KEYWORDS 1
-    static struct {
-        PyGC_Head _this_is_not_used;
-        PyObject_VAR_HEAD
-        Py_hash_t ob_hash;
-        PyObject *ob_item[NUM_KEYWORDS];
-    } _kwtuple = {
-        .ob_base = PyVarObject_HEAD_INIT(&PyTuple_Type, NUM_KEYWORDS)
-        .ob_hash = -1,
-        .ob_item = { &_Py_ID(coro), },
-    };
-    #undef NUM_KEYWORDS
-    #define KWTUPLE (&_kwtuple.ob_base.ob_base)
-
-    #else  // !Py_BUILD_CORE
-    #  define KWTUPLE NULL
-    #endif  // !Py_BUILD_CORE
-
-    static const char * const _keywords[] = {"coro", NULL};
-    static _PyArg_Parser _parser = {
-        .keywords = _keywords,
-        .fname = "StackWrappedCoro",
-        .kwtuple = KWTUPLE,
-    };
-    #undef KWTUPLE
-    PyObject *argsbuf[1];
-    PyObject * const *fastargs;
-    Py_ssize_t nargs = PyTuple_GET_SIZE(args);
-    PyObject *coro;
-
-    fastargs = _PyArg_UnpackKeywords(_PyTuple_CAST(args)->ob_item, nargs, kwargs, NULL, &_parser,
-            /*minpos*/ 1, /*maxpos*/ 1, /*minkw*/ 0, /*varpos*/ 0, argsbuf);
-    if (!fastargs) {
-        goto exit;
-    }
-    coro = fastargs[0];
-    return_value = _asyncio_StackWrappedCoro___init___impl((StackWrappedCoroObj *)self, coro);
-
-exit:
-    return return_value;
-}
-
-#if !defined(_asyncio_StackWrappedCoro__coro_DOCSTR)
-#  define _asyncio_StackWrappedCoro__coro_DOCSTR NULL
-#endif
-#if defined(_ASYNCIO_STACKWRAPPEDCORO__CORO_GETSETDEF)
-#  undef _ASYNCIO_STACKWRAPPEDCORO__CORO_GETSETDEF
-#  define _ASYNCIO_STACKWRAPPEDCORO__CORO_GETSETDEF {"_coro", (getter)_asyncio_StackWrappedCoro__coro_get, (setter)_asyncio_StackWrappedCoro__coro_set, _asyncio_StackWrappedCoro__coro_DOCSTR},
-#else
-#  define _ASYNCIO_STACKWRAPPEDCORO__CORO_GETSETDEF {"_coro", (getter)_asyncio_StackWrappedCoro__coro_get, NULL, _asyncio_StackWrappedCoro__coro_DOCSTR},
-#endif
-
-static PyObject *
-_asyncio_StackWrappedCoro__coro_get_impl(StackWrappedCoroObj *self);
-
-static PyObject *
-_asyncio_StackWrappedCoro__coro_get(PyObject *self, void *Py_UNUSED(context))
-{
-    PyObject *return_value = NULL;
-
-    Py_BEGIN_CRITICAL_SECTION(self);
-    return_value = _asyncio_StackWrappedCoro__coro_get_impl((StackWrappedCoroObj *)self);
-    Py_END_CRITICAL_SECTION();
-
-    return return_value;
-}
-
 PyDoc_STRVAR(_asyncio__get_running_loop__doc__,
 "_get_running_loop($module, /)\n"
 "--\n"
@@ -2315,4 +2232,4 @@ _asyncio_future_discard_from_awaited_by(PyObject *module, PyObject *const *args,
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=801764ab97576a3e input=a9049054013a1b77]*/
+/*[clinic end generated code: output=b69948ed810591d9 input=a9049054013a1b77]*/

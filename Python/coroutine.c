@@ -466,6 +466,7 @@ void *Coroutine_Run(
         Coroutine_StartSystem();
     }
     Coroutine *cor = _Py_Coroutine_New(start);
+    assert(cor);
     Coroutine_Run_Coroutine(cor, value);
     void *res = _Py_Coroutine_GetValue(cor);
     _Py_Coroutine_Delete(cor);
@@ -481,10 +482,14 @@ Coroutine *_Py_Coroutine_New(
 ){
     assert((g_c.state == Coroutines_Started && List_IsEmpty(&g_c.inactive)) || g_c.state == Coroutines_Active);
     assert(Coroutine_StackHasNotOverrun());
-    assert(_Py_Coroutine_CanStartCoroutine());
 
     // if none free - add one
     if (List_IsEmpty(&g_c.free)){
+        // no free stack blocks
+        if (g_c.stack_limit && g_c.stack_limit > (unsigned char *)g_c.tip - 2*COROUTINE_STACK_SIZE){
+            // no space for a new stack block
+            return NULL;
+        }
         Coroutine *tip = g_c.tip;
         Coroutine *me = g_c.active;
         if (tip == me) {
@@ -740,6 +745,7 @@ void *_Py_Coroutine_Chain(
 ){
     assert(Check_Guard(_Py_Coroutine_GetActive()->guard));
     Coroutine *cor = _Py_Coroutine_New(Coroutine_ChainFn);
+    assert(cor);
     struct Coroutine_ChainParam params = {
         start,
         value,

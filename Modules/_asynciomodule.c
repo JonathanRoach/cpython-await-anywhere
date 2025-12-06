@@ -81,17 +81,6 @@ typedef struct {
     PyObject *sw_arg;
 } TaskStepMethWrapper;
 
-typedef struct {
-    PyObject_HEAD
-    PyObject *gen;
-    _PyDataStack datastack;
-    Coroutine *coroutine;
-    Coroutine *return_coroutine;
-
-    // The following are recorded for restoration with ThreadState when resuming after yield
-    int py_recusion_depth_at_entry;
-} StackWrappedCoroObj;
-
 #define Future_CheckExact(state, obj) Py_IS_TYPE(obj, state->FutureType)
 #define Task_CheckExact(state, obj) Py_IS_TYPE(obj, state->TaskType)
 
@@ -160,7 +149,6 @@ typedef struct {
     PyTypeObject *TaskStepMethWrapper_Type;
     PyTypeObject *FutureType;
     PyTypeObject *TaskType;
-    PyTypeObject *StackWrappedCoroType;
 
     PyObject *asyncio_mod;
     PyObject *context_kwname;
@@ -191,9 +179,6 @@ typedef struct {
     PyObject *asyncio_task_print_stack_func;
     PyObject *asyncio_task_repr_func;
 
-    /* Imports from asyncio.base_stackstappedcoros */
-    PyObject *asyncio_stackwrappedcoro_repr_func;
-
     /* Imports from asyncio.coroutines. */
     PyObject *asyncio_iscoroutine_func;
 
@@ -208,8 +193,6 @@ typedef struct {
     void *debug_offsets;
 
 } asyncio_state;
-
-static void StackWrappedCoro___init__(StackWrappedCoroObj *self, PyObject *gen);
 
 static inline asyncio_state *
 get_asyncio_state(PyObject *mod)
@@ -3635,322 +3618,6 @@ task_wakeup(PyObject *op, PyObject *arg)
 }
 
 
-
-/*[clinic input]
-class _asyncio.StackWrappedCoro "StackWrappedCoroObj *" "&StackWrappedCoro_Type"
-[clinic start generated code]*/
-/*[clinic end generated code: output=da39a3ee5e6b4b0d input=54433091dc397131]*/
-
-
-static void *StackWrappedCoro_Entry(void *_self){
-    StackWrappedCoroObj *self = (StackWrappedCoroObj *)_self;
-
-    PyThreadState *tstate = _PyThreadState_GET();
-    _PyThreadState_ActivateDataStack(tstate, &self->datastack);
-    PyObject *result = PyObject_CallMethodOneArg(self->gen,
-                                            &_Py_ID(send),
-                                            Py_None);
-    _Py_Coroutine_Continue(self->return_coroutine, NULL, true);
-    return result;
-}
-
-static void
-StackWrappedCoro___init__(StackWrappedCoroObj *self,
-                                        PyObject *gen)
-{
-    Py_INCREF(gen);
-    self->gen = gen;
-
-    _PyDataStack_Init(&self->datastack);
-    self->coroutine = _Py_Coroutine_New(StackWrappedCoro_Entry);
-}
-
-/*[clinic input]
-_asyncio.StackWrappedCoro.__init__
-
-    coro: object
-
-A coroutine wrapped with stacks.
-[clinic start generated code]*/
-
-static int
-_asyncio_StackWrappedCoro___init___impl(StackWrappedCoroObj *self,
-                                        PyObject *coro)
-/*[clinic end generated code: output=cafa6d6cb1155d21 input=24b521def666bc50]*/
-{
-    asyncio_state *state = get_asyncio_state_by_def((PyObject *)self);
-    int is_coro = is_coroutine(state, coro);
-    if (is_coro == -1) {
-        return -1;
-    }
-    if (is_coro == 0) {
-        PyErr_Format(PyExc_TypeError,
-                     "a coroutine was expected, got %R",
-                     coro, NULL);
-        return -1;
-    }
-
-    assert(coro != NULL);
-   StackWrappedCoro___init__(self, coro);
-
-    return 0;
-}
-
-static int
-StackWrappedCoroObj_clear(PyObject *op)
-{
-    StackWrappedCoroObj *stackwrappedcoro = (StackWrappedCoroObj*)op;
-    Py_CLEAR(stackwrappedcoro->gen);
-    _PyDataStack_Clear(&stackwrappedcoro->datastack);
-    _Py_Coroutine_Delete(stackwrappedcoro->coroutine);
-    return 0;
-}
-
-static void
-StackWrappedCoroObj_dealloc(PyObject *self)
-{
-    PyTypeObject *tp = Py_TYPE(self);
-    PyObject_GC_UnTrack(self);
-
-    PyObject_ClearWeakRefs(self);
-
-    (void)StackWrappedCoroObj_clear(self);
-    tp->tp_free(self);
-    Py_DECREF(tp);
-}
-
-static PyObject *
-StackWrappedCoroObj_repr(PyObject *self)
-{
-    asyncio_state *state = get_asyncio_state_by_def(self);
-    return PyObject_CallOneArg(state->asyncio_stackwrappedcoro_repr_func, self);
-}
-
-static int
-StackWrappedCoroObj_traverse(PyObject *op, visitproc visit, void *arg)
-{
-    StackWrappedCoroObj *it = (StackWrappedCoroObj*)op;
-    Py_VISIT(Py_TYPE(it));
-    Py_VISIT(it->gen);
-    return 0;
-}
-
-/*[clinic input]
-@critical_section
-@getter
-_asyncio.StackWrappedCoro._coro
-[clinic start generated code]*/
-
-static PyObject *
-_asyncio_StackWrappedCoro__coro_get_impl(StackWrappedCoroObj *self)
-/*[clinic end generated code: output=c86c50d1cf2ac030 input=4665c947b320e564]*/
-{
-    if (self->gen) {
-        return Py_NewRef(self->gen);
-    }
-
-    Py_RETURN_NONE;
-}
-
-static void
-StackWrappedCoroObj_finalize(PyObject *op)
-{
-    StackWrappedCoroObj *self = (StackWrappedCoroObj*)op;
-
-    if (!_Py_Coroutine_IsRunning(self->coroutine)) {
-        goto done;
-    }
-
-    // TBD - raise an exception
-
-done:
-    ;
-}
-
-
-static void
-StackWrappedCoro_onyield(void *param){
-    (void)param;
-}
-
-
-PyDoc_STRVAR(StackWrappedCoro_send_doc,
-"send(arg) -> send 'arg' to a coroutine, with internal stacks swapped.");
-
-static PyObject *
-StackWrappedCoro_DoSend(StackWrappedCoroObj *self, void *value)
-{
-    PyThreadState *tstate = _PyThreadState_GET();
-
-    // save the situation at entry
-    self->py_recusion_depth_at_entry = tstate->py_recursion_limit - tstate->py_recursion_remaining;
-    _PyInterpreterFrame *current_frame = tstate->current_frame;
-    int recursion_headroom = tstate->recursion_headroom;
-    _PyErr_StackItem *exc_info = tstate->exc_info;
-    _PyDataStack *datastack = tstate->active_datastack;
-
-    self->return_coroutine = _Py_Coroutine_GetActive();
-    _Py_Coroutine_Continue(self->coroutine, value, true);
-    _Py_Coroutine_Yield(NULL, StackWrappedCoro_onyield, NULL);
-
-    // restore the situation at entry
-    _PyThreadState_ActivateDataStack(tstate, datastack);
-    tstate->exc_info = exc_info;
-    tstate->current_frame = current_frame;
-    tstate->recursion_headroom = recursion_headroom;
-    tstate->py_recursion_remaining = tstate->py_recursion_limit - self->py_recusion_depth_at_entry;
-
-    PyObject *result = (PyObject *)_Py_Coroutine_GetValue(self->coroutine);
-    if (result){
-        // return or yield
-        if (_Py_Coroutine_IsRunning(self->coroutine)){
-            // yield
-            return Py_NewRef(result);
-        }
-        // return - convert to a StopIteration error
-        if (result == Py_None) {
-            PyErr_SetNone(PyExc_StopIteration);
-        } else {
-            PyObject *exc = PyObject_CallOneArg(PyExc_StopIteration, result);
-            if (exc) {
-                PyErr_SetRaisedException(exc /* stolen */);
-            }
-        }
-        Py_CLEAR(result);
-    }
-
-    return NULL;
-}
-
-static PyObject *
-StackWrappedCoro_send(PyObject *_self, PyObject *fut)
-{
-    StackWrappedCoroObj *self = (StackWrappedCoroObj *)_self;
-
-    if (_Py_Coroutine_IsComplete(self->coroutine)) {
-        //  not running - must have completed
-        PyErr_SetString(
-            PyExc_RuntimeError,
-            "cannot reuse a completed StackWrappedCoro");
-        return NULL;
-    }
-    if (!_Py_Coroutine_IsRunning(self->coroutine)){
-        // 1st time send ourself
-        return StackWrappedCoro_DoSend(self, self);
-    }
-
-    return StackWrappedCoro_DoSend(self, NULL);
-}
-
-PyDoc_STRVAR(StackWrappedCoro_throw_doc,
-"throw(value)\n\
-throw(type[,value[,tb]])\n\
-\n\
-Raise exception in a stack-wrapped coroutine, return next yielded value or raise\n\
-StopIteration.\n\
-the (type, val, tb) signature is deprecated, \n\
-and may be removed in a future version of Python.");
-
-
-static PyObject *
-StackWrappedCoro_throw(PyObject *op, PyObject *exc)
-{
-    StackWrappedCoroObj *self = (StackWrappedCoroObj *)op;
-
-    if (!_Py_Coroutine_IsRunning(self->coroutine)){
-        //  not running - why are we throwing it an exception?
-        PyErr_SetString(
-            PyExc_RuntimeError,
-            "can only throw to a running StackWrappedCoro");
-        return NULL;
-    }
-
-    return StackWrappedCoro_DoSend(self, exc ? Py_NewRef(exc) : NULL);
-}
-
-PyDoc_STRVAR(StackWrappedCoro_doyield_doc,
-"yield() -> yield the stack wrapped coroutine.");
-
-static PyObject *
-StackWrappedCoro_doyield(PyObject *_self, PyObject *arg)
-{
-    StackWrappedCoroObj *self = (StackWrappedCoroObj *)_self;
-
-    if (!_Py_Coroutine_IsRunning(self->coroutine)){
-        //  not running
-        PyErr_SetString(
-            PyExc_RuntimeError,
-            "can only yield the running StackWrappedCoro");
-        return NULL;
-    }
-
-
-    // The following are recorded for restoration with ThreadState when resuming after yield
-    PyThreadState *tstate = _PyThreadState_GET();
-    int py_recusion_depth_for_coroutine = tstate->py_recursion_limit - tstate->py_recursion_remaining - self->py_recusion_depth_at_entry;
-    _PyInterpreterFrame *current_frame = tstate->current_frame;
-    int recursion_headroom = tstate->recursion_headroom;
-    _PyErr_StackItem *exc_info = tstate->exc_info;
-    _PyDataStack *datastack = tstate->active_datastack;
-
-    _Py_Coroutine_Continue(self->return_coroutine, NULL, true);
-    PyObject *exc = _Py_Coroutine_Yield(arg, StackWrappedCoro_onyield, NULL);
-
-    _PyThreadState_ActivateDataStack(tstate, datastack);
-    PyGenObject *gen = (PyGenObject *)self->gen;
-    gen->gi_exc_state.previous_item = tstate->exc_info;
-    tstate->exc_info = exc_info;
-    ((PyGenObject*)gen)->gi_iframe.previous->previous = tstate->current_frame;
-    tstate->recursion_headroom = recursion_headroom;
-    tstate->current_frame = current_frame;
-    int current_depth = tstate->py_recursion_limit - tstate->py_recursion_remaining;
-    tstate->py_recursion_remaining = tstate->py_recursion_limit - current_depth - py_recusion_depth_for_coroutine;
-    self->py_recusion_depth_at_entry = current_depth;
-
-    if (exc){
-        PyErr_SetRaisedException(exc);
-        return NULL;
-    }
-    Py_RETURN_NONE;
-}
-
-static PyMethodDef StackWrappedCoroType_methods[] = {
-    {"send", StackWrappedCoro_send, METH_O, StackWrappedCoro_send_doc},
-    {"throw", StackWrappedCoro_throw, METH_O, StackWrappedCoro_throw_doc},
-    {"doyield", StackWrappedCoro_doyield, METH_O, StackWrappedCoro_doyield_doc},
-    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS, PyDoc_STR("See PEP 585")},
-    {NULL, NULL}        /* Sentinel */
-};
-
-static PyGetSetDef StackWrappedCoroType_getsetlist[] = {
-    _ASYNCIO_STACKWRAPPEDCORO__CORO_GETSETDEF
-    {NULL} /* Sentinel */
-};
-
-static PyType_Slot StackWrappedCoro_slots[] = {
-    {Py_tp_dealloc, StackWrappedCoroObj_dealloc},
-    {Py_tp_repr, StackWrappedCoroObj_repr},
-    {Py_tp_doc, (void *)_asyncio_StackWrappedCoro___init____doc__},
-    {Py_tp_traverse, StackWrappedCoroObj_traverse},
-    {Py_tp_clear, StackWrappedCoroObj_clear},
-    {Py_tp_methods, StackWrappedCoroType_methods},
-    {Py_tp_getset, StackWrappedCoroType_getsetlist},
-    {Py_tp_init, _asyncio_StackWrappedCoro___init__},
-    {Py_tp_new, PyType_GenericNew},
-    {Py_tp_finalize, StackWrappedCoroObj_finalize},
-    {0, NULL},
-};
-
-static PyType_Spec StackWrappedCoro_spec = {
-    .name = "_asyncio.StackWrappedCoro",
-    .basicsize = sizeof(StackWrappedCoroObj),
-    .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE |
-              Py_TPFLAGS_IMMUTABLETYPE | Py_TPFLAGS_MANAGED_DICT |
-              Py_TPFLAGS_MANAGED_WEAKREF),
-    .slots = StackWrappedCoro_slots,
-};
-
-
 /*********************** Functions **************************/
 
 
@@ -4551,7 +4218,6 @@ module_traverse(PyObject *mod, visitproc visit, void *arg)
     Py_VISIT(state->asyncio_task_repr_func);
     Py_VISIT(state->asyncio_InvalidStateError);
     Py_VISIT(state->asyncio_CancelledError);
-    Py_VISIT(state->asyncio_stackwrappedcoro_repr_func);
 
     Py_VISIT(state->non_asyncio_tasks);
     Py_VISIT(state->non_asyncio_eager_tasks);
@@ -4582,7 +4248,6 @@ module_clear(PyObject *mod)
     Py_CLEAR(state->asyncio_task_repr_func);
     Py_CLEAR(state->asyncio_InvalidStateError);
     Py_CLEAR(state->asyncio_CancelledError);
-    Py_CLEAR(state->asyncio_stackwrappedcoro_repr_func);
 
     Py_CLEAR(state->non_asyncio_tasks);
     Py_CLEAR(state->non_asyncio_eager_tasks);
@@ -4652,9 +4317,6 @@ module_init(asyncio_state *state)
     GET_MOD_ATTR(state->asyncio_task_repr_func, "_task_repr")
     GET_MOD_ATTR(state->asyncio_task_get_stack_func, "_task_get_stack")
     GET_MOD_ATTR(state->asyncio_task_print_stack_func, "_task_print_stack")
-
-    WITH_MOD("asyncio.base_stackwrappedcoros")
-    GET_MOD_ATTR(state->asyncio_stackwrappedcoro_repr_func, "_stackwrappedcoro_repr")
 
     WITH_MOD("asyncio.coroutines")
     GET_MOD_ATTR(state->asyncio_iscoroutine_func, "iscoroutine")
@@ -4729,7 +4391,6 @@ module_exec(PyObject *mod)
     CREATE_TYPE(mod, state->FutureIterType, &FutureIter_spec, NULL);
     CREATE_TYPE(mod, state->FutureType, &Future_spec, NULL);
     CREATE_TYPE(mod, state->TaskType, &Task_spec, state->FutureType);
-    CREATE_TYPE(mod, state->StackWrappedCoroType, &StackWrappedCoro_spec, NULL);
 
 #undef CREATE_TYPE
 
@@ -4738,10 +4399,6 @@ module_exec(PyObject *mod)
     }
 
     if (PyModule_AddType(mod, state->TaskType) < 0) {
-        return -1;
-    }
-
-    if (PyModule_AddType(mod, state->StackWrappedCoroType) < 0) {
         return -1;
     }
 

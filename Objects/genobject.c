@@ -1312,7 +1312,7 @@ coro_send(PyObject *op, PyObject *arg)
         //  not running - must have completed
         PyErr_SetString(
             PyExc_RuntimeError,
-            "cannot reuse a completed StackWrappedCoro");
+            "cannot reuse a completed Coroutine");
         return NULL;
     }
 
@@ -1367,7 +1367,7 @@ coro_throw(PyObject *op, PyObject *const *args, Py_ssize_t nargs)
         //  not running - why are we throwing it an exception?
         PyErr_SetString(
             PyExc_RuntimeError,
-            "can only throw to a running StackWrappedCoro");
+            "can only throw to a running Coroutine");
         return NULL;
     }
 

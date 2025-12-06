@@ -21,7 +21,6 @@ import weakref
 from types import GenericAlias
 
 from . import base_tasks
-from . import base_stackwrappedcoros
 from . import coroutines
 from . import events
 from . import exceptions
