@@ -53,6 +53,22 @@ def all_tasks(loop=None):
             if futures._get_loop(t) is loop and not t.done()}
 
 
+def _GetCoroutineClass():
+    async def _CoroutineWhichDoesNothing():
+        ...
+
+    cr = _CoroutineWhichDoesNothing()
+
+    # prevent the warning that we haven't used the coroutine
+    try:
+        cr.send(None)
+    except StopIteration:
+        pass
+
+    return cr.__class__
+
+_CoroutineClass = _GetCoroutineClass()
+
 class Task(futures._PyFuture):  # Inherit Python Task implementation
                                 # from a Python Future implementation.
 
@@ -672,22 +688,10 @@ def as_completed(fs, *, timeout=None):
     return _AsCompletedIterator(fs, timeout)
 
 
-@types.coroutine
-def __sleep0():
-    """Skip one event loop run cycle.
-
-    This is a private helper for 'asyncio.sleep()', used
-    when the 'delay' is set to 0.  It uses a bare 'yield'
-    expression (which Task.__step knows how to handle)
-    instead of creating a Future object.
-    """
-    yield
-
-
 async def sleep(delay, result=None):
     """Coroutine that completes after a given time (in seconds)."""
     if delay <= 0:
-        await __sleep0()
+        _CoroutineClass.doyield(None)
         return result
 
     if math.isnan(delay):

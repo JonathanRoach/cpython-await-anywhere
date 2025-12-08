@@ -522,13 +522,15 @@ void _Py_Coroutine_Delete(
     Coroutine *cor
 ){
     assert(Coroutine_StackHasNotOverrun());
-    Coroutines *cors = cor->coroutines;
-    _Cor_Mutex_Lock(&cors->mutex);
-    assert(cor->state == Coroutine_Idle || cor->state == Coroutine_Complete);
-    cor->state = Coroutine_Free;
-    List_Remove(&cor->link);
-    List_AddTail(&cors->free, &cor->link);
-    _Cor_Mutex_Unlock(&cors->mutex);
+    if (cor){
+        Coroutines *cors = cor->coroutines;
+        _Cor_Mutex_Lock(&cors->mutex);
+        assert(cor->state == Coroutine_Idle || cor->state == Coroutine_Complete);
+        cor->state = Coroutine_Free;
+        List_Remove(&cor->link);
+        List_AddTail(&cors->free, &cor->link);
+        _Cor_Mutex_Unlock(&cors->mutex);
+    }
 }
 
 

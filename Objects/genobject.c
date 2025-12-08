@@ -462,7 +462,7 @@ gen_close(PyObject *self, PyObject *args)
     }
 
     PyObject *retval;
-    if (PyCoro_CheckExact(gen)) {
+    if (PyCoro_CheckExact(gen) && ((PyCoroObject*)self)->cr_coroutine) {
         PyCoroObject *coro = (PyCoroObject *)self;
         PySendResult sendresult = coro_dosend(coro, _PyObject_CallNoArgs(PyExc_GeneratorExit));
         retval = gen_to_return(self, sendresult, coro->cr_result);
@@ -991,6 +991,7 @@ static void *coro_entry(void *self){
     PyThreadState *tstate = _PyThreadState_GET();
     _PyThreadState_ActivateDataStack(tstate, &coro->cr_datastack);
     PySendResult sendresult = gen_send_ex2((PyGenObject*)coro, Py_None, &coro->cr_result, 0, 0);
+    assert(sendresult != PYGEN_NEXT);
     _Py_Coroutine_Continue(coro->cr_return_coroutine, NULL, true);
     return (void *)(intptr_t)sendresult;
 }
@@ -1023,7 +1024,7 @@ _Py_MakeCoro(PyFunctionObject *func)
         return NULL;
     }
     _PyDataStack_Init(&((PyCoroObject *)coro)->cr_datastack);
-    ((PyCoroObject *)coro)->cr_coroutine = _Py_Coroutine_New(coro_entry);
+    ((PyCoroObject *)coro)->cr_coroutine = NULL;
     PyThreadState *tstate = _PyThreadState_GET();
     int origin_depth = tstate->coroutine_origin_tracking_depth;
 
@@ -1174,7 +1175,7 @@ _coro_dealloc_inner(PyGenObject *gen)
     Py_CLEAR(coro->cr_origin_or_finalizer);
 
     _PyDataStack_Clear(&coro->cr_datastack);
-    _Py_Coroutine_Delete(((PyCoroObject *)coro)->cr_coroutine);
+    _Py_Coroutine_Delete(coro->cr_coroutine);
 }
 
 static void
@@ -1271,6 +1272,29 @@ coro_onyield(void *param){
 static PySendResult
 coro_dosend(PyCoroObject *coro, void *value)
 {
+    if (!coro->cr_coroutine){
+        if (coro->cr_frame_state != FRAME_CREATED){
+            PyErr_SetString(
+                PyExc_RuntimeError,
+                "cannot .send() an awaited coroutine");
+            return PYGEN_ERROR;
+        }
+        coro->cr_coroutine = _Py_Coroutine_New(coro_entry);
+        if (!coro->cr_coroutine){
+            PyErr_NoMemory();
+            return PYGEN_ERROR;
+        }
+        _PyDataStack_Init(&coro->cr_datastack);
+    } else {
+        if (_Py_Coroutine_IsComplete(coro->cr_coroutine)) {
+            //  not running - must have completed
+            PyErr_SetString(
+                PyExc_RuntimeError,
+                "cannot reuse a completed Coroutine");
+            return PYGEN_ERROR;
+        }
+    }
+
     PyCoroObject *prev_coro_active = coro_active;
     coro_active = coro;
 
@@ -1296,6 +1320,13 @@ coro_dosend(PyCoroObject *coro, void *value)
 
     PySendResult sendresult = (PySendResult)(intptr_t)_Py_Coroutine_GetValue(coro->cr_coroutine);
     coro_active = prev_coro_active;
+    if (sendresult != PYGEN_NEXT){
+        // completed in some way - discard the coroutine
+        _Py_Coroutine_Delete(coro->cr_coroutine);
+        coro->cr_coroutine = NULL;
+    }
+    assert((_PyErr_Occurred(tstate) != NULL) == (sendresult == PYGEN_ERROR));
+    assert(!coro->cr_coroutine || !_Py_Coroutine_IsComplete(coro->cr_coroutine));
     return sendresult;
 }
 
@@ -1307,25 +1338,18 @@ static PyObject *
 coro_send(PyObject *op, PyObject *arg)
 {
     PyCoroObject *coro = _PyCoroObject_CAST(op);
-
-    if (_Py_Coroutine_IsComplete(coro->cr_coroutine)) {
-        //  not running - must have completed
-        PyErr_SetString(
-            PyExc_RuntimeError,
-            "cannot reuse a completed Coroutine");
-        return NULL;
-    }
-
-    PySendResult sendresult = coro_dosend(coro, _Py_Coroutine_IsRunning(coro->cr_coroutine) ? NULL : coro);
-    return gen_to_return((PyObject *)coro, sendresult, coro->cr_result);
+    PySendResult sendresult = coro_dosend(coro, coro->cr_coroutine ? NULL : coro);
+    PyObject *result = gen_to_return((PyObject *)coro, sendresult, coro->cr_result);
+    assert((_PyErr_Occurred(_PyThreadState_GET()) != NULL) == (result == NULL));
+    return result;
 }
 
 static PySendResult
 PyCoro_am_send(PyObject *self, PyObject *arg, PyObject **result)
 {
     PyCoroObject *coro = _PyCoroObject_CAST(self);
-    PySendResult sendresult = coro_dosend(coro, _Py_Coroutine_IsRunning(coro->cr_coroutine) ? NULL : coro);
-    *result = coro->cr_result;
+    PySendResult sendresult = coro_dosend(coro, coro->cr_coroutine ? NULL : coro);
+    *result = sendresult == PYGEN_ERROR ? NULL : coro->cr_result;
     return sendresult;
 }
 
@@ -1363,14 +1387,6 @@ coro_throw(PyObject *op, PyObject *const *args, Py_ssize_t nargs)
         val = args[1];
     }
 
-    if (!_Py_Coroutine_IsRunning(coro->cr_coroutine)){
-        //  not running - why are we throwing it an exception?
-        PyErr_SetString(
-            PyExc_RuntimeError,
-            "can only throw to a running Coroutine");
-        return NULL;
-    }
-
     PySendResult sendresult = coro_dosend(coro, val ? Py_NewRef(val) : NULL);
     return gen_to_return((PyObject *)coro, sendresult, coro->cr_result);
 }
@@ -1379,7 +1395,7 @@ PyObject *_PyCoro_DoYield(PyObject *op)
 {
     PyCoroObject *coro = coro_active;
 
-    if (!_Py_Coroutine_IsRunning(coro->cr_coroutine)){
+    if (!coro->cr_coroutine){
         //  not running
         PyErr_SetString(
             PyExc_RuntimeError,
