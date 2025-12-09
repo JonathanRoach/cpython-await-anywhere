@@ -25,7 +25,7 @@
 static PyObject* gen_close(PyObject *, PyObject *);
 static PyObject* async_gen_asend_new(PyAsyncGenObject *, PyObject *);
 static PyObject* async_gen_athrow_new(PyAsyncGenObject *, PyObject *);
-static PySendResult coro_dosend(PyCoroObject *coro, void *value);
+static PySendResult coro_dosend(PyCoroObject *coro, PyObject *exc, int closing);
 
 #define _PyGen_CAST(op) \
     _Py_CAST(PyGenObject*, (op))
@@ -464,7 +464,7 @@ gen_close(PyObject *self, PyObject *args)
     PyObject *retval;
     if (PyCoro_CheckExact(gen) && ((PyCoroObject*)self)->cr_coroutine) {
         PyCoroObject *coro = (PyCoroObject *)self;
-        PySendResult sendresult = coro_dosend(coro, _PyObject_CallNoArgs(PyExc_GeneratorExit));
+        PySendResult sendresult = coro_dosend(coro, _PyObject_CallNoArgs(PyExc_GeneratorExit), true);
         retval = gen_to_return(self, sendresult, coro->cr_result);
     } else {
         if (err == 0) {
@@ -985,12 +985,22 @@ make_gen(PyTypeObject *type, PyFunctionObject *func)
 static PyObject *
 compute_cr_origin(int origin_depth, _PyInterpreterFrame *current_frame);
 
-static void *coro_entry(void *self){
-    PyCoroObject *coro = (PyCoroObject *)self;
+typedef struct {
+    PyCoroObject *coro;
+    PyObject *exc;
+    int closing;
+} Entry_Param;
+
+static void *coro_entry(void *_param){
+    Entry_Param *param = (Entry_Param *)_param;
+    PyCoroObject *coro = param->coro;
 
     PyThreadState *tstate = _PyThreadState_GET();
     _PyThreadState_ActivateDataStack(tstate, &coro->cr_datastack);
-    PySendResult sendresult = gen_send_ex2((PyGenObject*)coro, Py_None, &coro->cr_result, 0, 0);
+    if (param->exc){
+        PyErr_SetRaisedException(param->exc);
+    }
+    PySendResult sendresult = gen_send_ex2((PyGenObject *)(coro), Py_None, &coro->cr_result, param->exc != NULL, param->closing);
     assert(sendresult != PYGEN_NEXT);
     _Py_Coroutine_Continue(coro->cr_return_coroutine, NULL, true);
     return (void *)(intptr_t)sendresult;
@@ -1270,7 +1280,7 @@ coro_onyield(void *param){
 }
 
 static PySendResult
-coro_dosend(PyCoroObject *coro, void *value)
+coro_dosend(PyCoroObject *coro, PyObject *exc, int closing)
 {
     if (!coro->cr_coroutine){
         if (coro->cr_frame_state != FRAME_CREATED){
@@ -1308,7 +1318,8 @@ coro_dosend(PyCoroObject *coro, void *value)
     _PyDataStack *datastack = tstate->active_datastack;
 
     coro->cr_return_coroutine = _Py_Coroutine_GetActive();
-    _Py_Coroutine_Continue(coro->cr_coroutine, value, true);
+    Entry_Param param = {coro, exc, closing};
+    _Py_Coroutine_Continue(coro->cr_coroutine, &param, true);
     _Py_Coroutine_Yield(NULL, coro_onyield, NULL);
 
     // restore the situation at entry
@@ -1338,7 +1349,7 @@ static PyObject *
 coro_send(PyObject *op, PyObject *arg)
 {
     PyCoroObject *coro = _PyCoroObject_CAST(op);
-    PySendResult sendresult = coro_dosend(coro, coro->cr_coroutine ? NULL : coro);
+    PySendResult sendresult = coro_dosend(coro, NULL, false);
     PyObject *result = gen_to_return((PyObject *)coro, sendresult, coro->cr_result);
     assert((_PyErr_Occurred(_PyThreadState_GET()) != NULL) == (result == NULL));
     return result;
@@ -1348,7 +1359,7 @@ static PySendResult
 PyCoro_am_send(PyObject *self, PyObject *arg, PyObject **result)
 {
     PyCoroObject *coro = _PyCoroObject_CAST(self);
-    PySendResult sendresult = coro_dosend(coro, coro->cr_coroutine ? NULL : coro);
+    PySendResult sendresult = coro_dosend(coro, NULL, false);
     *result = sendresult == PYGEN_ERROR ? NULL : coro->cr_result;
     return sendresult;
 }
@@ -1367,27 +1378,13 @@ static PyObject *
 coro_throw(PyObject *op, PyObject *const *args, Py_ssize_t nargs)
 {
     PyCoroObject *coro = _PyCoroObject_CAST(op);
-    PyObject *val = NULL;
 
     if (!_PyArg_CheckPositional("throw", nargs, 1, 3)) {
         return NULL;
     }
-    if (nargs > 1) {
-        if (PyErr_WarnEx(PyExc_DeprecationWarning,
-                            "the (type, exc, tb) signature of throw() is deprecated, "
-                            "use the single-arg signature instead.",
-                            1) < 0) {
-            return NULL;
-        }
-    }
-    if (nargs == 3) {
-        val = args[1];
-    }
-    else if (nargs == 2) {
-        val = args[1];
-    }
+    PyObject *typ = args[0];
 
-    PySendResult sendresult = coro_dosend(coro, val ? Py_NewRef(val) : NULL);
+    PySendResult sendresult = coro_dosend(coro, Py_NewRef(typ), false);
     return gen_to_return((PyObject *)coro, sendresult, coro->cr_result);
 }
 
@@ -1413,7 +1410,7 @@ PyObject *_PyCoro_DoYield(PyObject *op)
 
     _Py_Coroutine_Continue(coro->cr_return_coroutine, NULL, true);
     coro->cr_result = Py_NewRef(op);
-    PyObject *exc = _Py_Coroutine_Yield((void *)PYGEN_NEXT, coro_onyield, NULL);
+    Entry_Param *param = (Entry_Param *)_Py_Coroutine_Yield((void *)PYGEN_NEXT, coro_onyield, NULL);
 
     _PyThreadState_ActivateDataStack(tstate, datastack);
     coro->cr_exc_state.previous_item = tstate->exc_info;
@@ -1425,8 +1422,8 @@ PyObject *_PyCoro_DoYield(PyObject *op)
     tstate->py_recursion_remaining = tstate->py_recursion_limit - current_depth - py_recusion_depth_for_coroutine;
     coro->cr_py_recursion_depth_at_entry = current_depth;
 
-    if (exc){
-        PyErr_SetRaisedException(exc);
+    if (param->exc){
+        PyErr_SetRaisedException(param->exc);
         return NULL;
     }
     Py_RETURN_NONE;
