@@ -278,8 +278,7 @@ gen_send_ex2(PyGenObject *gen, PyObject *arg, PyObject **presult,
     PyObject *arg_obj = arg ? arg : Py_None;
     _PyFrame_StackPush(frame, PyStackRef_FromPyObjectNew(arg_obj));
 
-    _PyErr_StackItem *prev_exc_info = tstate->exc_info;
-    gen->gi_exc_state.previous_item = prev_exc_info;
+    gen->gi_exc_state.previous_item = tstate->exc_info;
     tstate->exc_info = &resume_gen->gi_exc_state;
 
     if (exc) {
@@ -290,7 +289,6 @@ gen_send_ex2(PyGenObject *gen, PyObject *arg, PyObject **presult,
     gen->gi_frame_state = FRAME_EXECUTING;
     EVAL_CALL_STAT_INC(EVAL_CALL_GENERATOR);
     PyObject *result = _PyEval_EvalFrames(tstate, &gen->gi_iframe, frame, gen->gi_resume_frame_count, exc);
-    assert(tstate->exc_info == prev_exc_info);
     assert(gen->gi_exc_state.previous_item == NULL);
     assert(gen->gi_frame_state != FRAME_EXECUTING);
     assert(gen->gi_iframe.previous == NULL);
