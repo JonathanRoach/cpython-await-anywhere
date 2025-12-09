@@ -342,6 +342,7 @@ gen_to_return(PyObject *op, PySendResult sendres, PyObject *result)
         }
         Py_CLEAR(result);
     }
+    assert(!result != !_PyErr_Occurred(_PyThreadState_GET()));
     return result;
 }
 

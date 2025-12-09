@@ -1891,12 +1891,20 @@ FutureIter_am_send(PyObject *op,
     Py_END_CRITICAL_SECTION();
     if (res == PYGEN_NEXT){
         _PyCoro_DoYield((PyObject *)fut);
-        Py_BEGIN_CRITICAL_SECTION(it->future);
-        res = FutureIter_am_send_lock_held(it, result);
-        Py_END_CRITICAL_SECTION();
-        if (res == PYGEN_NEXT){
+        if(fut->fut_state == STATE_PENDING){
             PyErr_SetString(PyExc_RuntimeError,
-                        "future waited twice");
+                        "future still pending after coroutine yield");
+            return PYGEN_ERROR;
+        }
+        // We assume an error will be recorded on the Future too
+        if (!_PyErr_Occurred(_PyThreadState_GET())){
+            Py_BEGIN_CRITICAL_SECTION(it->future);
+            res = FutureIter_am_send_lock_held(it, result);
+            Py_END_CRITICAL_SECTION();
+            if (res == PYGEN_NEXT){
+                PyErr_SetString(PyExc_RuntimeError,
+                            "future waited twice");
+            }
         }
     }
     return res;
