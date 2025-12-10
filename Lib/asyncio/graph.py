@@ -55,17 +55,14 @@ def _build_graph_for_future(
     st: list[FrameCallGraphEntry] = []
     awaited_by: list[FutureCallGraph] = []
 
-    while coro is not None:
-        if hasattr(coro, 'cr_await'):
-            # A native coroutine or duck-type compatible iterator
-            st.append(FrameCallGraphEntry(coro.cr_frame))
-            coro = coro.cr_await
-        elif hasattr(coro, 'ag_await'):
-            # A native async generator or duck-type compatible iterator
-            st.append(FrameCallGraphEntry(coro.cr_frame))
-            coro = coro.ag_await
-        else:
-            break
+    if coro is not None:
+        base_frame = coro.cr_frame
+        if hasattr(coro, 'cr_active_frame'):
+            active_frame = coro.cr_active_frame
+            while active_frame and active_frame != base_frame:
+                st.insert(0, FrameCallGraphEntry(active_frame))
+                active_frame = active_frame.f_back
+        st.insert(0, FrameCallGraphEntry(base_frame))
 
     if future._asyncio_awaited_by:
         for parent in future._asyncio_awaited_by:
