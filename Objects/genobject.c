@@ -1249,6 +1249,19 @@ cr_getframe(PyObject *coro, void *Py_UNUSED(ignored))
 }
 
 static PyObject *
+cr_getactiveframe(PyObject *self, void *Py_UNUSED(ignored))
+{
+    if (PySys_Audit("object.__getattr__", "Os", self, "cr_active_frame") < 0) {
+        return NULL;
+    }
+    PyCoroObject *coro = _PyCoroObject_CAST(self);
+    if (FRAME_STATE_FINISHED(coro->cr_frame_state)) {
+        Py_RETURN_NONE;
+    }
+    return _Py_XNewRef((PyObject *)_PyFrame_GetFrameObject(coro->cr_resume_iframe));
+}
+
+static PyObject *
 cr_getcode(PyObject *coro, void *Py_UNUSED(ignored))
 {
     return _gen_getcode(_PyGen_CAST(coro), "cr_code");
@@ -1263,6 +1276,7 @@ static PyGetSetDef coro_getsetlist[] = {
      PyDoc_STR("object being awaited on, or None")},
     {"cr_running", cr_getrunning, NULL, NULL},
     {"cr_frame", cr_getframe, NULL, NULL},
+    {"cr_active_frame", cr_getactiveframe, NULL, NULL},
     {"cr_code", cr_getcode, NULL, NULL},
     {"cr_suspended", cr_getsuspended, NULL, NULL},
     {NULL} /* Sentinel */
@@ -1286,11 +1300,13 @@ coro_dosend(PyCoroObject *coro, PyObject *exc, int closing)
             PyErr_SetString(
                 PyExc_RuntimeError,
                 "cannot .send() an awaited coroutine");
+            coro->cr_result = NULL;
             return PYGEN_ERROR;
         }
         coro->cr_coroutine = _Py_Coroutine_New(coro_entry);
         if (!coro->cr_coroutine){
             PyErr_NoMemory();
+            coro->cr_result = NULL;
             return PYGEN_ERROR;
         }
         _PyDataStack_Init(&coro->cr_datastack);
@@ -1300,6 +1316,7 @@ coro_dosend(PyCoroObject *coro, PyObject *exc, int closing)
             PyErr_SetString(
                 PyExc_RuntimeError,
                 "cannot reuse a completed Coroutine");
+            coro->cr_result = NULL;
             return PYGEN_ERROR;
         }
     }
@@ -1408,8 +1425,12 @@ PyObject *_PyCoro_DoYield(PyObject *op)
     _PyDataStack *datastack = tstate->active_datastack;
 
     _Py_Coroutine_Continue(coro->cr_return_coroutine, NULL, true);
+    coro->cr_resume_iframe = current_frame;
     coro->cr_result = Py_NewRef(op);
+    coro->cr_frame_state = FRAME_SUSPENDED;
     Entry_Param *param = (Entry_Param *)_Py_Coroutine_Yield((void *)PYGEN_NEXT, coro_onyield, NULL);
+    coro->cr_frame_state = FRAME_EXECUTING;
+    coro->cr_resume_iframe = &coro->cr_iframe;;
 
     _PyThreadState_ActivateDataStack(tstate, datastack);
     coro->cr_exc_state.previous_item = tstate->exc_info;
