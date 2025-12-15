@@ -1404,7 +1404,8 @@ coro_throw(PyObject *op, PyObject *const *args, Py_ssize_t nargs)
     return gen_to_return((PyObject *)coro, sendresult, coro->cr_result);
 }
 
-PyObject *_PyCoro_DoYield(PyObject *op)
+PyObject *
+_PyCoro_DoYield(PyObject *op)
 {
     PyCoroObject *coro = coro_active;
 
@@ -1443,7 +1444,7 @@ PyObject *_PyCoro_DoYield(PyObject *op)
     coro->cr_py_recursion_depth_at_entry = current_depth;
 
     if (param->exc){
-        PyErr_SetRaisedException(param->exc);
+        PyErr_SetObject((PyObject *)Py_TYPE(param->exc), param->exc);
         return NULL;
     }
     Py_RETURN_NONE;
