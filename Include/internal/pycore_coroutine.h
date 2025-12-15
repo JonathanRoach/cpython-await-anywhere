@@ -16,7 +16,10 @@
 // Usage:
 //   Coroutine_StartSystem();  // call once per thread before using coroutines
 //   Coroutine *co = Coroutine_New(start_function);
-//   void *result = Coroutine_Run(co, initial_value);
+//   void *result;
+//   if (Coroutine_Run(co, initial_value, &result)) {
+//       // Handle the failure
+//   }
 //   Coroutine_Delete(co);
 //   Coroutine_StopSystem();   // call once per thread when done with coroutines
 //
@@ -127,7 +130,7 @@ extern void Coroutine_StartSystem(void);
 extern void Coroutine_SetStackLimit(void *);
 extern Coroutine_Report Coroutine_StopSystem(void);
 extern void Coroutine_Run_Coroutine(Coroutine *cor, void *value);
-extern void *Coroutine_Run(Coroutine_Start start, void *value);
+extern bool Coroutine_Run(Coroutine_Start start, void *value, void **result);
 extern void *Coroutine_GetCStackTop(void);
 extern bool Coroutine_IsStarted(void);
 

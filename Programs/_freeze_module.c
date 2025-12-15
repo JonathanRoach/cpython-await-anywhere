@@ -263,8 +263,8 @@ int
 main(int argc, char *argv[])
 {
     struct argparams params = {argc, argv};
-    Coroutine_StartSystem();
-    int rc = (int)(intptr_t)Coroutine_Run(_main, &params);
-    Coroutine_StopSystem();
-    return rc;
+    void *res;
+    bool fail = Coroutine_Run(_main, &params, &res);
+    assert(!fail);
+    return (int)(intptr_t)res;
 }

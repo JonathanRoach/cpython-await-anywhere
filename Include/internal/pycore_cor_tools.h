@@ -125,7 +125,10 @@ struct Do_Call_Params_##fn { \
 static void *Do_Call_##fn(void *param);
 #define _PY_ENSURE_COSTACK_FOR_FN1_B(r_t, fn, p0) \
     struct Do_Call_Params_##fn params = {p0}; \
-    return (r_t)(uintptr_t)Coroutine_Run(Do_Call_##fn, (void *)&params); \
+    void *res; \
+    bool fail = Coroutine_Run(Do_Call_##fn, (void *)&params, &res); \
+    assert(!fail); \
+    return (r_t)(uintptr_t)res; \
 } \
 static void *Do_Call_##fn(void *_params){ \
     struct Do_Call_Params_##fn *params = (struct Do_Call_Params_##fn *)_params;
@@ -138,7 +141,10 @@ struct Do_Call_Params_##fn { \
 static void *Do_Call_##fn(void *param);
 #define _PY_ENSURE_COSTACK_FOR_FN2_B(r_t, fn, p0, p1) \
     struct Do_Call_Params_##fn params = {p0, p1}; \
-    return (r_t)(uintptr_t)Coroutine_Run(Do_Call_##fn, (void *)&params); \
+    void *res; \
+    bool fail = Coroutine_Run(Do_Call_##fn, (void *)&params, &res); \
+    assert(!fail); \
+    return (r_t)(uintptr_t)res; \
 } \
 static void *Do_Call_##fn(void *_params){ \
     struct Do_Call_Params_##fn *params = (struct Do_Call_Params_##fn *)_params;
@@ -152,7 +158,10 @@ struct Do_Call_Params_##fn { \
 static void *Do_Call_##fn(void *param);
 #define _PY_ENSURE_COSTACK_FOR_FN3_B(r_t, fn, p0, p1, p2) \
     struct Do_Call_Params_##fn params = {p0, p1, p2}; \
-    return (r_t)(uintptr_t)Coroutine_Run(Do_Call_##fn, (void *)&params); \
+    void *res; \
+    bool fail = Coroutine_Run(Do_Call_##fn, (void *)&params, &res); \
+    assert(!fail); \
+    return (r_t)(uintptr_t)res; \
 } \
 static void *Do_Call_##fn(void *_params){ \
     struct Do_Call_Params_##fn *params = (struct Do_Call_Params_##fn *)_params;
@@ -167,7 +176,10 @@ struct Do_Call_Params_##fn { \
 static void *Do_Call_##fn(void *param);
 #define _PY_ENSURE_COSTACK_FOR_FN4_B(r_t, fn, p0, p1, p2, p3) \
     struct Do_Call_Params_##fn params = {p0, p1, p2, p3}; \
-    return (r_t)(uintptr_t)Coroutine_Run(Do_Call_##fn, (void *)&params); \
+    void *res; \
+    bool fail = Coroutine_Run(Do_Call_##fn, (void *)&params, &res); \
+    assert(!fail); \
+    return (r_t)(uintptr_t)res; \
 } \
 static void *Do_Call_##fn(void *_params){ \
     struct Do_Call_Params_##fn *params = (struct Do_Call_Params_##fn *)_params;
@@ -183,7 +195,10 @@ struct Do_Call_Params_##fn { \
 static void *Do_Call_##fn(void *param);
 #define _PY_ENSURE_COSTACK_FOR_FN5_B(r_t, fn, p0, p1, p2, p3, p4) \
     struct Do_Call_Params_##fn params = {p0, p1, p2, p3, p4}; \
-    return (r_t)(uintptr_t)Coroutine_Run(Do_Call_##fn, (void *)&params); \
+    void *res; \
+    bool fail = Coroutine_Run(Do_Call_##fn, (void *)&params, &res); \
+    assert(!fail); \
+    return (r_t)(uintptr_t)res; \
 } \
 static void *Do_Call_##fn(void *_params){ \
     struct Do_Call_Params_##fn *params = (struct Do_Call_Params_##fn *)_params;
@@ -200,7 +215,10 @@ struct Do_Call_Params_##fn { \
 static void *Do_Call_##fn(void *param);
 #define _PY_ENSURE_COSTACK_FOR_FN6_B(r_t, fn, p0, p1, p2, p3, p4, p5) \
     struct Do_Call_Params_##fn params = {p0, p1, p2, p3, p4, p5}; \
-    return (r_t)(uintptr_t)Coroutine_Run(Do_Call_##fn, (void *)&params); \
+    void *res; \
+    bool fail = Coroutine_Run(Do_Call_##fn, (void *)&params, &res); \
+    assert(!fail); \
+    return (r_t)(uintptr_t)res; \
 } \
 static void *Do_Call_##fn(void *_params){ \
     struct Do_Call_Params_##fn *params = (struct Do_Call_Params_##fn *)_params;
@@ -218,7 +236,10 @@ struct Do_Call_Params_##fn { \
 static void *Do_Call_##fn(void *param);
 #define _PY_ENSURE_COSTACK_FOR_FN7_B(r_t, fn, p0, p1, p2, p3, p4, p5, p6) \
     struct Do_Call_Params_##fn params = {p0, p1, p2, p3, p4, p5, p6}; \
-    return (r_t)(uintptr_t)Coroutine_Run(Do_Call_##fn, (void *)&params); \
+    void *res; \
+    bool fail = Coroutine_Run(Do_Call_##fn, (void *)&params, &res); \
+    assert(!fail); \
+    return (r_t)(uintptr_t)res; \
 } \
 static void *Do_Call_##fn(void *_params){ \
     struct Do_Call_Params_##fn *params = (struct Do_Call_Params_##fn *)_params;

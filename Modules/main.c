@@ -791,7 +791,10 @@ _Py_RunMain(void *param){
 int
 Py_RunMain(void)
 {
-    return (int)(intptr_t)Coroutine_Run(_Py_RunMain, NULL);
+    void *res;
+    bool fail = Coroutine_Run(_Py_RunMain, NULL, &res);
+    assert(!fail);
+    return (int)(intptr_t)res;
 }
 
 
@@ -813,7 +816,10 @@ static void *_pymain_main(void *_args){
 static int
 pymain_main(_PyArgv *args)
 {
-    return (int)(intptr_t)Coroutine_Run(_pymain_main, args);
+    void *res;
+    bool fail = Coroutine_Run(_pymain_main, args, &res);
+    assert(!fail);
+    return (int)(intptr_t)res;
 }
 
 

@@ -1458,7 +1458,8 @@ PyStatus
 Py_InitializeFromConfig(const PyConfig *config)
 {
     struct Py_InitializeFromConfig_Params params = {config};
-    Coroutine_Run(_Py_InitializeFromConfig, &params);
+    bool fail = Coroutine_Run(_Py_InitializeFromConfig, &params, NULL);
+    assert(!fail);
     return params.status;
 }
 
@@ -2267,7 +2268,10 @@ __Py_Finalize(void *_runtime)
 static int
 _Py_Finalize(_PyRuntimeState *runtime)
 {
-    return (int)(intptr_t)Coroutine_Run(__Py_Finalize, runtime);
+    void *res;
+    bool fail = Coroutine_Run(__Py_Finalize, runtime, &res);
+    assert(!fail);
+    return (int)(intptr_t)res;
 }
 
 
@@ -2432,7 +2436,8 @@ new_interpreter(PyThreadState **tstate_p,
                 const PyInterpreterConfig *config, long whence)
 {
     struct new_interpreter_params params = {tstate_p, config, whence};
-    Coroutine_Run(_new_interpreter, &params);
+    bool fail = Coroutine_Run(_new_interpreter, &params, NULL);
+    assert(!fail);
     return params.status;
 }
 

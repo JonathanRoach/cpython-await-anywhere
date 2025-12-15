@@ -453,12 +453,18 @@ void Coroutine_Run_Coroutine(
 }
 
 
-void *Coroutine_Run(
+bool Coroutine_Run(
     Coroutine_Start start,
-    void *value
+    void *value,
+    void **result
 ){
     if (g_c.active){
-        return start(value);
+        void *res = start(value);
+        if (result){
+            *result = res;
+        }
+        // no failures, so...
+        return false;
     }
     assert(g_c.state == Coroutines_Idle || g_c.state == Coroutines_Started);
     bool need_start = g_c.state == Coroutines_Idle;
@@ -466,14 +472,20 @@ void *Coroutine_Run(
         Coroutine_StartSystem();
     }
     Coroutine *cor = _Py_Coroutine_New(start);
-    assert(cor);
+    if (!cor){
+        // that didn't work
+        return true;
+    }
     Coroutine_Run_Coroutine(cor, value);
-    void *res = _Py_Coroutine_GetValue(cor);
+    if (result){
+        *result = _Py_Coroutine_GetValue(cor);
+    }
     _Py_Coroutine_Delete(cor);
     if (need_start){
         Coroutine_StopSystem();
     }
-    return res;
+    // no failures, so...
+    return false;
 }
 
 
