@@ -753,13 +753,17 @@ static void Coroutine_ChainYield(
 }
 
 
-void *_Py_Coroutine_Chain(
+bool _Py_Coroutine_Chain(
     Coroutine_Start start,
-    void *value
+    void *value,
+    void **result
 ){
     assert(Check_Guard(_Py_Coroutine_GetActive()->guard));
     Coroutine *cor = _Py_Coroutine_New(Coroutine_ChainFn);
-    assert(cor);
+    if (!cor){
+        // failed
+        return true;
+    }
     struct Coroutine_ChainParam params = {
         start,
         value,
@@ -768,7 +772,11 @@ void *_Py_Coroutine_Chain(
     _Py_Coroutine_Continue(cor, &params, true);
     void *res = _Py_Coroutine_Yield(NULL, Coroutine_ChainYield, NULL);
     _Py_Coroutine_Delete(cor);
-    return res;
+    if (result){
+        *result = res;
+    }
+    // success!
+    return false;
 }
 
 
