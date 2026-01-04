@@ -3278,7 +3278,7 @@ _Py_Dealloc(PyObject *op)
     }
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(2*PYOS_STACK_MARGIN_BYTES)) {
         // This should always succeed, given the pre-conditioning above
-        bool fail = _Py_Coroutine_Chain(Do_Py_Dealloc, op, NULL);
+        bool fail = _Py_Coroutine_Chain(PYOS_COSTACK_STD_SIZE, Do_Py_Dealloc, op, NULL);
         assert(!fail);
         return;
     }

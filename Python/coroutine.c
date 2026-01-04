@@ -3,6 +3,7 @@
 #include <setjmp.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdio.h>
 #include "pycore_cor_platform.h"
 
 // see CPython again, this time from ctypes.h
@@ -66,11 +67,45 @@ static inline List_Link *List_GetHead(
 }
 
 
-// static inline List_Link *List_GetTail(
-//     const List_Head *list
-// ){
-//     return List_IsEmpty(list) ? NULL : list->back.link.prev;
-// }
+static inline List_Link *List_Begin(
+    const List_Head *list
+){
+    return list->fwd.link.next;
+}
+
+
+static inline bool Link_NextIsLink(
+    const List_Link *link
+){
+    return link->next != NULL;
+}
+
+
+static inline List_Link *Link_Next(
+    List_Link *link
+){
+    return link->next;
+}
+
+
+static inline bool Link_PrevIsLink(
+    const List_Link *link
+){
+    return link->prev != NULL;
+}
+
+
+static inline List_Link *Link_Prev(
+    List_Link *link
+){
+    return link->prev;
+}
+
+static inline List_Link *List_GetTail(
+    const List_Head *list
+){
+    return List_IsEmpty(list) ? NULL : list->back.link.prev;
+}
 
 
 #define OFFSETOF(Container, Field) ((char *)&((Container *)4)->Field - (char *)(Container *)4)
@@ -86,15 +121,33 @@ static inline void List_Init(
 }
 
 
+static inline void Link_AddAfter(
+    List_Link *link,
+    List_Link *after
+){
+    link->next = after->next;
+    link->prev = after;
+    after->next->prev = link;
+    after->next = link;
+}
+
+
 static inline void List_AddHead(
     List_Head *list,
     List_Link *link
 ){
-    List_Link *first = list->fwd.link.next;
-    link->next = first;
-    link->prev = &list->fwd.link;
-    first->prev = link;
-    list->fwd.link.next = link;
+    Link_AddAfter(link, &list->fwd.link);
+}
+
+
+static inline void Link_AddBefore(
+    List_Link *link,
+    List_Link *before
+){
+    link->prev = before->prev;
+    link->next = before;
+    before->prev->next = link;
+    before->prev = link;
 }
 
 
@@ -102,15 +155,11 @@ static inline void List_AddTail(
     List_Head *list,
     List_Link *link
 ){
-    List_Link *last = list->back.link.prev;
-    link->prev = last;
-    link->next = &list->back.link;
-    last->next = link;
-    list->back.link.prev = link;
+    Link_AddBefore(link, &list->back.link);
 }
 
 
-static inline void List_Remove(
+static inline void Link_Remove(
     List_Link *link
 ){
     link->prev->next = link->next;
@@ -124,7 +173,6 @@ static inline void List_Remove(
 typedef struct Coroutines Coroutines;
 
 enum {
-    Coroutines_Idle,
     Coroutines_Starting,
     Coroutines_Started,
     Coroutines_Active,
@@ -134,6 +182,7 @@ enum {
 enum {
     Chunk_Initial,
     Chunk_Create,
+    Chunk_Split,
     Chunk_Enter    
 };
 
@@ -154,8 +203,13 @@ enum {
 struct Coroutine {
     Coroutines *coroutines;     // so can work with it off-thread
     List_Link link;             // for whichever list it's on
+    List_Link all_link;         // list of all Coroutines
     jmp_buf buf;                // how to get back to it
+    unsigned char *prev_limit;  // the previous Coroutine's stack limit
+    unsigned char *base;        // where the base (high address) of this Coroutine's stack is
+    unsigned char *limit;       // where the limit (low address) of this Coroutine's stack is
     unsigned char *guard;       // where the stack overrun guard is
+    size_t size;
     Coroutine_Start start;      // entry point
     void *entry_param;          // to pass to start
     void *value;                // yielded/returned
@@ -167,7 +221,8 @@ struct Coroutines {
     _Cor_Mutex mutex;
     jmp_buf controller;     // to return from Coroutine_Run
     jmp_buf chunk_allocated;// for chunk allocation
-    unsigned char *guard;   // the stack guard for the startup sequence
+    size_t gap_before;      // bytes between previous's stack_top and next's Coroutine
+    size_t gap_after;       // bytes between Coroutine and stack_base
 
     // singletons
     Coroutine *tip;     // top of stack chunk
@@ -176,7 +231,8 @@ struct Coroutines {
     unsigned char *stack_limit;  // when not NULL, where the stack finishes
 
     // lists
-    List_Head free;
+    List_Head all;          // all Coroutines (in address order)
+    List_Head free;         // free Coroutines
     List_Head inactive;     // idle or complete
     List_Head runable;      // running or waiting to run
     List_Head waiting;      // yielded / waiting to run
@@ -189,10 +245,10 @@ struct Coroutines {
     char state;
 };
 
-_Cor_thread_local Coroutines g_c;
+_Cor_thread_local Coroutines *g_c;
 
-static void stack_chunk_chunk(Coroutine *parent, size_t chunk_size);
-static void stack_chunk_base(void);
+static void ReserveStackSpace(Coroutines *cors, Coroutine *parent, size_t chunk_size, unsigned char *childs_limit);
+static void stack_chunk_base(Coroutines *cors, Coroutine *parent, unsigned char *prev_limit, unsigned char *limit);
 
 
 #define GUARD_PATTERN_SIZE (4)
@@ -216,49 +272,29 @@ static inline void Apply_Guard(unsigned char *guard){
 }
 
 
-static bool Coroutine_StackHasNotOverrun(void){
+static bool Coroutine_StackHasOverrun(void){
     unsigned char *stack_top = StackTopNow();
-    unsigned char *stack_limit = g_c.stack_limit;
+    unsigned char *stack_limit = g_c ? g_c->stack_limit : NULL;
     if (stack_limit && stack_top < stack_limit){
         // current stack top is beyond limit - we are overrunning NOW
-        return false;
-    }
-    Coroutine *me = g_c.active;
-    if (!me){
         return true;
     }
+    Coroutine *me = g_c ? g_c->active : NULL;
+    if (!me){
+        return false;
+    }
     if (me->guard){
-        return Check_Guard(me->guard);
+        return !Check_Guard(me->guard);
     }
-    unsigned char *coroutine_limit;
-    if (!stack_limit || stack_limit <= (unsigned char *)me - 2*COROUTINE_STACK_SIZE){
-        // no stack limit, or can start a coroutine, so limit ourselves to one unit of coroutine stack
-        coroutine_limit = (unsigned char *)me - 1*COROUTINE_STACK_SIZE + GUARD_PATTERN_SIZE;
-    } else {
-        // can't start coroutine, and have a stack limit - use that
-        coroutine_limit = stack_limit;
-    }
-    return stack_top >= coroutine_limit;
+    return stack_top < me->limit;
 }
 
 
-static void Coroutine_PrimeStackChunks(void)
-{
-    unsigned char chunk_of_stack[COROUTINE_STARTUP_STACK_SIZE + GUARD_PATTERN_SIZE];
-    Apply_Guard(chunk_of_stack);
-    assert(Check_Guard(chunk_of_stack));
-
-    // Stacks grow down in memory (almost always), so if the caller of this function changes
-    // the guard before entering the coroutine system, it has overrun the startup stack
-    g_c.guard = chunk_of_stack;
-    
-    stack_chunk_base();
-}
-
-
-static void stack_chunk_chunk(
+static void ReserveStackSpace(
+    Coroutines *cors,
     Coroutine *parent,
-    size_t chunk_size
+    size_t chunk_size,
+    unsigned char *childs_limit
 ){
     unsigned char *chunk_of_stack = alloca(chunk_size);
 #if COROUTINE_RECORD_LOWEST_HEADROOM
@@ -268,35 +304,64 @@ static void stack_chunk_chunk(
 #else
     Apply_Guard(chunk_of_stack);
 #endif
-    parent->guard = chunk_of_stack;
-    stack_chunk_base();
+    if (parent){
+        parent->guard = chunk_of_stack;
+        parent->limit = chunk_of_stack;
+        parent->base = chunk_of_stack + chunk_size;
+    }
+    stack_chunk_base(cors, parent, chunk_of_stack, childs_limit);
 }
 
 
 static void stack_chunk_base(
-    void
+    Coroutines *cors,
+    Coroutine *parent,
+    unsigned char *prev_limit,
+    unsigned char *limit
 ){
     Coroutine here;
+    here.coroutines = cors;
     here.state = Coroutine_Free;
-    here.guard = NULL;
-    here.coroutines = &g_c;
-    List_AddHead(&g_c.free, &here.link);
-    g_c.report.coroutines_pool_size += 1;
-    g_c.tip = &here;
+    here.prev_limit = prev_limit;
+    here.size = 0;
+    here.base = NULL;
+    here.guard = limit;
+    here.limit = limit;
+    if (limit){
+        here.base = (unsigned char *)&here - cors->gap_after;
+        here.size = here.base - here.limit;
+        Apply_Guard(limit);
+    }
+
+    // insert into all list
+    if (parent){
+        Link_AddAfter(&here.all_link, &parent->all_link);
+    } else {
+        List_AddHead(&cors->all, &here.all_link);
+    }
+    // add to free list
+    List_AddTail(&cors->free, &here.link);
+
+    cors->report.coroutines_pool_size += 1;
+
+    if (!cors->tip || &here < cors->tip){
+        cors->tip = &here;
+    }
+
     for(;;){
         switch (setjmp(here.buf)) {
         case Chunk_Initial:
             if (here.state == Coroutine_Free){
                 // return to the coroutine allocator
-                longjmp(g_c.chunk_allocated, 1);
+                longjmp(cors->chunk_allocated, 1);
             } else {
                 assert(here.state == Coroutine_Complete);
                 // we finish here to ensure the setjmp is redone
-                if (g_c.primary == &here) {
+                if (cors->primary == &here) {
                     // if primary coroutine - return to Coroutine_Run
-                    longjmp(g_c.controller, Coroutines_CoroutineComplete);
+                    longjmp(cors->controller, Coroutines_CoroutineComplete);
                 }
-                _Cor_Mutex_Unlock(&g_c.mutex);
+                _Cor_Mutex_Unlock(&cors->mutex);
                 Coroutine_RunNext();
                 assert(false);
             }
@@ -306,27 +371,35 @@ static void stack_chunk_base(
             // Allocated, but not 'run' (Coroutine_Idle)
             // Run, but not not entered yet (Coroutine_Running)
             // Completed (Coroutine_Complete)
-            assert(here.state == Coroutine_Idle || here.state == Coroutine_Running || here.state == Coroutine_Complete);
-            unsigned char *ideal_limit = (unsigned char *)&here - COROUTINE_STACK_SIZE;
-            stack_chunk_chunk(&here, StackTopNow() - ideal_limit);
+            // Free, and the coroutines system is starting - we're characterising the system
+            assert(here.state == Coroutine_Idle ||
+                here.state == Coroutine_Running ||
+                here.state == Coroutine_Complete ||
+                (here.state == Coroutine_Free && cors->state == Coroutines_Starting));
+            ReserveStackSpace(here.coroutines, &here, here.size, NULL);
+            assert(false);
+        case Chunk_Split:
+            // Request to split this free block into two
+            // here.size will be set to our shorter size
+            ReserveStackSpace(here.coroutines, &here, here.size, here.limit);
             assert(false);
         case Chunk_Enter:
             // request to start a coroutine (ie use the chunk for a coroutine)
             // arrive here with mutex locked
             assert(here.state == Coroutine_Running);
-            g_c.active = &here;
-            _Cor_Mutex_Unlock(&g_c.mutex);
+            here.coroutines->active = &here;
+            _Cor_Mutex_Unlock(&cors->mutex);
             here.value = here.start(here.entry_param);
 
             // check the guard
             assert(Check_Guard(here.guard));
 
-            _Cor_Mutex_Lock(&g_c.mutex);
-            g_c.active = NULL;
+            _Cor_Mutex_Lock(&here.coroutines->mutex);
+            here.coroutines->active = NULL;
             assert(here.state == Coroutine_Running);
-            List_Remove(&here.link);
+            Link_Remove(&here.link);
             here.state = Coroutine_Complete;
-            List_AddTail(&g_c.inactive, &here.link);
+            List_AddTail(&here.coroutines->inactive, &here.link);
             // Coroutine has completed
             // Loop round to redo the setjmp() - if this coroutine yielded, then the setjmp will
             // need reseting
@@ -338,9 +411,9 @@ static void stack_chunk_base(
 static void Coroutine_RunNext(void)
 {
     // arrive here with mutex unlocked
-    _Cor_Mutex_Lock(&g_c.waiting_mutex);
-    _Cor_Mutex_Lock(&g_c.mutex);
-    Coroutine *next = List_Link_Container(Coroutine, link, List_GetHead(&g_c.runable));
+    _Cor_Mutex_Lock(&g_c->waiting_mutex);
+    _Cor_Mutex_Lock(&g_c->mutex);
+    Coroutine *next = List_Link_Container(Coroutine, link, List_GetHead(&g_c->runable));
     assert(next->state == Coroutine_Running);
     longjmp(next->buf, Chunk_Enter);
     assert(false);
@@ -349,54 +422,76 @@ static void Coroutine_RunNext(void)
 
 void Coroutine_StartSystem(void)
 {
-    assert(g_c.state == Coroutines_Idle);
-    g_c.state = Coroutines_Starting;
+    assert(!g_c);
 
-    _Cor_Mutex_ctor(&g_c.mutex);
+    Coroutines *cors = _Cor_Malloc(sizeof(*g_c));
+    assert(cors);
 
-    g_c.tip = NULL;
-    g_c.active = NULL;
+    cors->state = Coroutines_Starting;
+    _Cor_Mutex_ctor(&cors->mutex);
 
-    List_Init(&g_c.free);
-    List_Init(&g_c.inactive);
-    List_Init(&g_c.runable);
-    List_Init(&g_c.waiting);
-    _Cor_Mutex_ctor(&g_c.waiting_mutex);
-    _Cor_Mutex_Lock(&g_c.waiting_mutex);
+    cors->tip = NULL;
+    cors->active = NULL;
+    cors->primary = NULL;
+    cors->stack_limit = NULL;
 
-    g_c.report.coroutines_created = 0;
-    g_c.report.coroutines_pool_size = 0;
+    List_Init(&cors->all);
+    List_Init(&cors->free);
+    List_Init(&cors->inactive);
+    List_Init(&cors->runable);
+    List_Init(&cors->waiting);
+    _Cor_Mutex_ctor(&cors->waiting_mutex);
+    _Cor_Mutex_Lock(&cors->waiting_mutex);
 
-    // prime the chunk system
-    if (!setjmp(g_c.chunk_allocated)){
-        Coroutine_PrimeStackChunks();
-        assert(false);
+    cors->report.coroutines_created = 0;
+    cors->report.coroutines_pool_size = 0;
+    cors->report.largest_stack = 0;
+
+    // Charactersize the system...
+    if (!setjmp(cors->chunk_allocated)){
+        ReserveStackSpace(cors, NULL, COROUTINE_STARTUP_STACK_SIZE, NULL);
     }
+    Coroutine *cor = List_Link_Container(Coroutine, link, List_GetHead(&cors->free));
+    cor->size = COROUTINE_STARTUP_STACK_SIZE;
+    if (!setjmp(cors->chunk_allocated)){
+        longjmp(cor->buf, Chunk_Create);
+    }
+    cors->gap_before = cor->prev_limit - (unsigned char *)cor;
+    cors->gap_after = (unsigned char *)cor - cor->base;
+    // ...charactersize the system
 
-    assert(g_c.state == Coroutines_Starting);
-    g_c.state = Coroutines_Started;
+    // discard what we've just created
+    List_Init(&cors->all);
+    List_Init(&cors->free);
+    cors->tip = NULL;
+
+    cors->state = Coroutines_Started;
+
+    g_c = cors;
 }
 
 
 void Coroutine_SetStackLimit(void *limit){
-    assert(!limit || !(g_c.state == Coroutines_Started || g_c.state == Coroutines_Active) || (unsigned char *)limit < (unsigned char *)g_c.tip);
-    g_c.stack_limit = limit;
+    assert(g_c);
+    assert(!limit || !(g_c->state == Coroutines_Started || g_c->state == Coroutines_Active) || (unsigned char *)limit < (unsigned char *)g_c->tip || !g_c->tip);
+    g_c->stack_limit = limit;
 }
 
 
 Coroutine_Report Coroutine_StopSystem(void)
 {
-    _Cor_Mutex_Lock(&g_c.mutex);
-    assert(g_c.state == Coroutines_Started);
-    g_c.state = Coroutines_Stopping;
+    assert(g_c);
+    assert(g_c->state == Coroutines_Started);
+    _Cor_Mutex_Lock(&g_c->mutex);
+    g_c->state = Coroutines_Stopping;
 
-    uintptr_t stackminheadroom;;
+    uintptr_t stackminheadroom;
 #if COROUTINE_RECORD_LOWEST_HEADROOM
-    stackminheadroom = COROUTINE_STACK_SIZE;
-    for (List_Link *link = g_c.free.fwd.link.next; link->next; link = link->next){
+    stackminheadroom = g_c->report.largest_stack;
+    for (List_Link *link = g_c->free.fwd.link.next; Link_NextIsLink(link); link = Link_Next(link)){
         Coroutine *cor = List_Link_Container(Coroutine, link, link);
         if (cor->guard){
-            for (uintptr_t i = 4; i < COROUTINE_STACK_SIZE-3; i += 4){
+            for (uintptr_t i = 4; i < cor->size-3; i += 4){
                 if (!Check_Guard(&cor->guard[i])){
                     stackminheadroom = i < stackminheadroom ? i : stackminheadroom;
                     break;
@@ -407,18 +502,22 @@ Coroutine_Report Coroutine_StopSystem(void)
 #else
     stackminheadroom = 0;
 #endif
-    g_c.report.lowest_headroom = stackminheadroom;
+    g_c->report.lowest_headroom = stackminheadroom;
 
-    assert(List_IsEmpty(&g_c.inactive));
-    _Cor_Mutex_Unlock(&g_c.waiting_mutex);
-    _Cor_Mutex_dtor(&g_c.waiting_mutex);
+    assert(List_IsEmpty(&g_c->inactive));
+    _Cor_Mutex_Unlock(&g_c->waiting_mutex);
+    _Cor_Mutex_dtor(&g_c->waiting_mutex);
 
-    assert(g_c.state == Coroutines_Stopping);
-    g_c.state = Coroutines_Idle;
-    _Cor_Mutex_Unlock(&g_c.mutex);
-    _Cor_Mutex_dtor(&g_c.mutex);
+    assert(g_c->state == Coroutines_Stopping);
+    _Cor_Mutex_Unlock(&g_c->mutex);
+    _Cor_Mutex_dtor(&g_c->mutex);
 
-    return g_c.report;
+    Coroutine_Report ret = g_c->report;
+
+    _Cor_Free(g_c);
+    g_c = NULL;
+
+    return ret;
 }
 
 
@@ -427,7 +526,10 @@ void Coroutine_Run_Coroutine(
     void *value
 ){
     Coroutines *cors = cor->coroutines;
-    assert(&g_c == cors);
+
+    // Can't Coroutine_Run_Coroutine() off-thread
+    assert(g_c == cors);
+
     _Cor_Mutex_Lock(&cors->mutex);
     assert(cors->state == Coroutines_Started);
     cors->state = Coroutines_Active;
@@ -437,9 +539,6 @@ void Coroutine_Run_Coroutine(
 
     if (!setjmp(cors->controller)){
         _Cor_Mutex_Unlock(&cors->mutex);
-
-        // check the guard
-        assert(Check_Guard(cors->guard));
 
         // start the first coroutine
         Coroutine_RunNext();
@@ -454,11 +553,12 @@ void Coroutine_Run_Coroutine(
 
 
 bool Coroutine_Run(
+    size_t stack,
     Coroutine_Start start,
     void *value,
     void **result
 ){
-    if (g_c.active){
+    if (g_c && g_c->active){
         void *res = start(value);
         if (result){
             *result = res;
@@ -466,12 +566,12 @@ bool Coroutine_Run(
         // no failures, so...
         return false;
     }
-    assert(g_c.state == Coroutines_Idle || g_c.state == Coroutines_Started);
-    bool need_start = g_c.state == Coroutines_Idle;
+    assert(!g_c || g_c->state == Coroutines_Started);
+    bool need_start = !g_c;
     if (need_start){
         Coroutine_StartSystem();
     }
-    Coroutine *cor = _Py_Coroutine_New(start);
+    Coroutine *cor = _Py_Coroutine_New(stack, start);
     if (!cor){
         // that didn't work
         return true;
@@ -489,42 +589,164 @@ bool Coroutine_Run(
 }
 
 
-Coroutine *_Py_Coroutine_New(
+static void Coroutine_FreeToIdle(
+    Coroutine *cor,
     Coroutine_Start start
 ){
-    assert((g_c.state == Coroutines_Started && List_IsEmpty(&g_c.inactive)) || g_c.state == Coroutines_Active);
-    assert(Coroutine_StackHasNotOverrun());
-
-    // if none free - add one
-    if (List_IsEmpty(&g_c.free)){
-        // no free stack blocks
-        if (g_c.stack_limit && g_c.stack_limit > (unsigned char *)g_c.tip - 2*COROUTINE_STACK_SIZE){
-            // no space for a new stack block
-            return NULL;
-        }
-        Coroutine *tip = g_c.tip;
-        Coroutine *me = g_c.active;
-        if (tip == me) {
-            if (!setjmp(g_c.chunk_allocated)){
-                unsigned char *ideal_limit = (unsigned char *)me - COROUTINE_STACK_SIZE;
-                stack_chunk_chunk(me, StackTopNow() - ideal_limit);
-            }
-        } else {
-            if (!setjmp(g_c.chunk_allocated)){
-                longjmp(tip->buf, Chunk_Create);
-            }
-        }
-    }
-
-    Coroutine *cor = List_Link_Container(Coroutine, link, List_GetHead(&g_c.free));
     assert(cor->state == Coroutine_Free);
     cor->state = Coroutine_Idle;
     cor->start = start;
     cor->value = NULL;
-    List_Remove(&cor->link);
-    List_AddHead(&g_c.inactive, &cor->link);
+    Link_Remove(&cor->link);
+    List_AddHead(&g_c->inactive, &cor->link);
 
-    g_c.report.coroutines_created += 1;
+    g_c->report.coroutines_created += 1;
+}
+
+
+static void Coroutine_FreeToIdleSize(
+    Coroutine *cor,
+    Coroutine_Start start,
+    size_t size
+){
+    assert(!cor->guard);
+    cor->size = size;
+    cor->base = (unsigned char *)cor - g_c->gap_after;
+    cor->limit = cor->base - cor->size;
+    Coroutine_FreeToIdle(cor, start);
+}
+
+
+static Coroutine *Coroutine_New_Lock_Assumed(
+    size_t size,
+    Coroutine_Start start
+){
+    List_Link *link;
+
+    if (!g_c->tip){
+        // no tip - time to create one
+
+        // we're the non-Coroutine which starts the Coroutine system.
+        // Add a single free block
+        if (!setjmp(g_c->chunk_allocated)){
+            ReserveStackSpace(g_c, NULL, COROUTINE_STARTUP_STACK_SIZE, NULL);
+        }
+    }
+
+    Coroutine *cor = NULL;
+    for (link = List_Begin(&g_c->free); Link_NextIsLink(link); link = Link_Next(link)){
+        Coroutine *candidate = List_Link_Container(Coroutine, link, link);
+        if (!candidate->guard) {
+            // this must be the tip
+            assert(candidate == g_c->tip);
+
+            // If this is the only Coroutine in the system, go ahead and use it regardless of size.
+            // Note: there can only be one free block if there's no other sort of blocks as we merge on free
+            if (List_IsEmpty(&g_c->inactive) &&
+                List_IsEmpty(&g_c->runable) &&
+                List_IsEmpty(&g_c->waiting) ){
+                if (g_c->stack_limit){
+                    size_t available = (unsigned char *)candidate - g_c->stack_limit - g_c->gap_after;
+                    size = available < size ? available : size;
+                }
+                Coroutine_FreeToIdleSize(candidate, start, size);
+                return candidate;
+            }
+
+            // Not the only coroutine in the system - check size
+            if (g_c->stack_limit){
+                // there's a limit - see what that space allows....
+                size_t available = (unsigned char *)candidate - g_c->stack_limit - g_c->gap_after;
+
+                if (available < size){
+                    // not enough space for this coroutine
+                    printf("Not enough stack space (A) %ld\n", available);
+                    return NULL;
+                }
+                
+                if (available < size + g_c->gap_before + g_c->gap_after + COROUTINE_MINIMUM_STACK_SIZE) {
+                    // not enough space for another coroutine - use all the space for this one
+                    size = available;
+                }
+            }
+            Coroutine_FreeToIdleSize(candidate, start, size);
+            return candidate;
+        }
+        if (candidate->size >= size && candidate > cor){
+            // chunk big enough, and a better choice than cor
+            cor = candidate;
+        }
+    }
+
+    if (cor){
+        // - work out whether we're splitting or using the whole chunk
+        if (cor->size >= size + g_c->gap_before + g_c->gap_after + COROUTINE_MINIMUM_STACK_SIZE){
+            // enough space for a second coroutine so split this free block
+            cor->size = size;
+            if (!setjmp(g_c->chunk_allocated)){
+                longjmp(cor->buf, Chunk_Split);
+            }
+        }
+        // cor now ready to use
+        Coroutine_FreeToIdle(cor, start);
+        return cor;
+    }
+
+    // No big-enough free blocks - check if there's space beyond the tip block
+
+    if (g_c->stack_limit) {
+        ptrdiff_t available = (unsigned char *)g_c->tip->limit - g_c->gap_before - g_c->gap_after - g_c->stack_limit;
+        if (available < (ptrdiff_t)size){
+            // no space for a new stack block
+            printf("Not enough stack space (B) %p %zu %zu %p %ld\n", g_c->tip->limit, g_c->gap_before, g_c->gap_after, g_c->stack_limit, available);
+            printf("g_c->tip = %p; tip-limit = %ld; tip->size = %zu\n", g_c->tip, (unsigned char *)g_c->tip - g_c->tip->limit, g_c->tip->size);
+            return NULL;
+        }
+    }
+    Coroutine *tip = g_c->tip;
+    Coroutine *me = g_c->active;
+    if (tip == me) {
+        if (!setjmp(g_c->chunk_allocated)){
+            ReserveStackSpace(g_c, me, StackTopNow() - me->limit, NULL);
+        }
+    } else {
+        if (!setjmp(g_c->chunk_allocated)){
+            longjmp(tip->buf, Chunk_Create);
+        }
+    }
+
+    cor = List_Link_Container(Coroutine, link, List_GetTail(&g_c->free));
+    assert(cor->state == Coroutine_Free);
+    cor->size = size;
+    cor->limit = (unsigned char *)cor - g_c->gap_after - size;
+    cor->state = Coroutine_Idle;
+    cor->start = start;
+    cor->value = NULL;
+    Link_Remove(&cor->link);
+    List_AddHead(&g_c->inactive, &cor->link);
+
+    g_c->report.coroutines_created += 1;
+    return cor;
+}
+
+
+Coroutine *_Py_Coroutine_New(
+    size_t stack,
+    Coroutine_Start start
+){
+    assert(g_c);
+    assert((g_c->state == Coroutines_Started && List_IsEmpty(&g_c->inactive)) || g_c->state == Coroutines_Active);
+    assert(!Coroutine_StackHasOverrun());
+
+    _Cor_Mutex_Lock(&g_c->mutex);
+
+    Coroutine *cor = Coroutine_New_Lock_Assumed(stack, start);
+
+    if (cor && cor->size > g_c->report.largest_stack){
+        g_c->report.largest_stack = cor->size;
+    }
+
+    _Cor_Mutex_Unlock(&g_c->mutex);
 
     return cor;
 }
@@ -533,14 +755,51 @@ Coroutine *_Py_Coroutine_New(
 void _Py_Coroutine_Delete(
     Coroutine *cor
 ){
-    assert(Coroutine_StackHasNotOverrun());
+    assert(!Coroutine_StackHasOverrun());
     if (cor){
         Coroutines *cors = cor->coroutines;
         _Cor_Mutex_Lock(&cors->mutex);
         assert(cor->state == Coroutine_Idle || cor->state == Coroutine_Complete);
         cor->state = Coroutine_Free;
-        List_Remove(&cor->link);
-        List_AddTail(&cors->free, &cor->link);
+        Link_Remove(&cor->link);
+
+        // insert into free list
+        List_AddHead(&cors->free, &cor->link);
+
+        // Check for merge with following Coroutine
+        List_Link *link = Link_Next(&cor->all_link);
+        if (Link_NextIsLink(link)){
+            Coroutine *listcor = List_Link_Container(Coroutine, all_link, link);
+            if (listcor->state == Coroutine_Free){
+                // merge
+                cor->size += cor->limit - listcor->limit;
+                cor->limit = listcor->limit;
+                cor->guard = listcor->guard;
+                Link_Remove(&listcor->all_link);
+                Link_Remove(&listcor->link);
+                if (g_c->tip == listcor){
+                    g_c->tip = cor;
+                }
+            }
+        }
+
+        // check for merge with prev coroutine
+        link = Link_Prev(&cor->all_link);
+        if (Link_PrevIsLink(link)){
+            Coroutine *listcor = List_Link_Container(Coroutine, all_link, link);
+            if (listcor->state == Coroutine_Free){
+                // merge
+                listcor->size += listcor->limit - cor->limit;
+                listcor->limit = cor->limit;
+                listcor->guard = cor->guard;
+                Link_Remove(&cor->all_link);
+                Link_Remove(&cor->link);
+                if (g_c->tip == cor){
+                    g_c->tip = listcor;
+                }
+            }
+        }
+        
         _Cor_Mutex_Unlock(&cors->mutex);
     }
 }
@@ -556,7 +815,7 @@ static void _Coroutine_Continue(
     assert(cor->state == Coroutine_Idle || cor->state == Coroutine_Waiting);
     cor->entry_param = value;
     cor->state = Coroutine_Running;
-    List_Remove(&cor->link);
+    Link_Remove(&cor->link);
     if ( early ) {
         List_AddHead(&cors->runable, &cor->link);
     } else {
@@ -571,7 +830,7 @@ void _Py_Coroutine_Continue(
     void *value,
     bool early
 ){
-    assert(Coroutine_StackHasNotOverrun());
+    assert(!Coroutine_StackHasOverrun());
     Coroutines *cors = cor->coroutines;
     _Cor_Mutex_Lock(&cors->mutex);
     _Coroutine_Continue(cor, value, early);
@@ -584,18 +843,19 @@ void *_Py_Coroutine_Yield(
     Coroutine_YieldCallback on_yield,
     void *yield_me
 ){
-    Coroutine *me = g_c.active;
+    assert(g_c);
+    Coroutine *me = g_c->active;
     assert(me);
-    assert(Coroutine_StackHasNotOverrun());
+    assert(!Coroutine_StackHasOverrun());
 
-    _Cor_Mutex_Lock(&g_c.mutex);
+    _Cor_Mutex_Lock(&g_c->mutex);
     Coroutines *cors = me->coroutines;
-    assert(me && me->state == Coroutine_Running && cors == &g_c);
+    assert(me && me->state == Coroutine_Running && cors == g_c);
     me->stack_top = StackTopNow();
     me->value = value;
     me->state = Coroutine_Waiting;
 
-    List_Remove(&me->link);
+    Link_Remove(&me->link);
     if (!List_IsEmpty(&cors->runable)){
         _Cor_Mutex_Unlock(&cors->waiting_mutex);
     }
@@ -608,14 +868,13 @@ void *_Py_Coroutine_Yield(
         Coroutine_RunNext();
         assert(false);
     case Chunk_Create:
-        assert(me == g_c.tip);
-        unsigned char *ideal_limit = (unsigned char *)me - COROUTINE_STACK_SIZE;
-        stack_chunk_chunk(me, me->stack_top - ideal_limit);
+        assert(me == g_c->tip);
+        ReserveStackSpace(me->coroutines, me, me->stack_top - me->limit, NULL);
         assert(false);
     case Chunk_Enter:
         // arrive here with mutex locked
         cors->active = me;
-        assert(Coroutine_StackHasNotOverrun());
+        assert(!Coroutine_StackHasOverrun());
         // when we return here - we are running again
         assert(me->state == Coroutine_Running);
         void *res = me->entry_param;
@@ -635,58 +894,43 @@ void *_Py_Coroutine_GetValue(
 
 Coroutine *_Py_Coroutine_GetActive(void)
 {
-    return g_c.active;
+    return g_c ? g_c->active : NULL;
 }
 
 
 intptr_t _Py_Coroutine_GetStackHeadroom(void){
-    assert(Coroutine_StackHasNotOverrun());
-    Coroutine *me = g_c.active;
+    assert(g_c);
+    assert(!Coroutine_StackHasOverrun());
+    Coroutine *me = g_c->active;
     if (!me){
         // no active coroutine
-        unsigned char *stack_limit = g_c.stack_limit;
+        unsigned char *stack_limit = g_c->stack_limit;
         if (stack_limit){
             // no stack limit - assume we'll use COROUTINE_STACK_SIZE
             return StackTopNow() - stack_limit;
         } else {
             // no information where the stack ends - return something
-            return COROUTINE_STACK_SIZE;
+            return COROUTINE_MINIMUM_STACK_SIZE;
         }
     }
-    unsigned char *stack_top = StackTopNow();
-    if (me->guard){
-        // guard established - that's where we'll measure to
-        return stack_top - me->guard;
-    }
-    intptr_t used = (unsigned char *)me - stack_top;
-    unsigned char *stack_limit = g_c.stack_limit;
-    if (!stack_limit){
-        // no stack limit - assume we'll use COROUTINE_STACK_SIZE
-        return COROUTINE_STACK_SIZE - used;
-    }
-    intptr_t available = (unsigned char *)me - stack_limit;
-    if (available < (intptr_t)(2*COROUTINE_STACK_SIZE)){
-        // can't start another coroutine, so whatever's left in the C stack is what we've got
-        return available - used;
-    }
-    // can start another coroutine, so limit ourselves to a coroutine stack size's worth
-    return COROUTINE_STACK_SIZE - used;
+    return StackTopNow() - me->limit;
 }
 
 
 // This is used to avoid compiler warnings about returning the address of a local
-static inline void *StopAddressComplaints(void *p)
+static inline void *StopAddressWarnings(void *p)
 {
     return p;
 }
 
 
 void *Coroutine_GetStackHWM(void){
-    assert(g_c.state == Coroutines_Active);
-    assert(Coroutine_StackHasNotOverrun());
+    assert(g_c);
+    assert(g_c->state == Coroutines_Active);
+    assert(!Coroutine_StackHasOverrun());
     // Find where the guards end
     unsigned char *guard;
-    for (guard = g_c.active->guard; Check_Guard(guard); guard += 4){
+    for (guard = g_c->active->guard; Check_Guard(guard); guard += 4){
         // do nothing
     }
     return guard;
@@ -694,30 +938,74 @@ void *Coroutine_GetStackHWM(void){
 
 
 void Coroutine_ClearStackForHWM(void){
-    assert(g_c.state == Coroutines_Active);
-    assert(Coroutine_StackHasNotOverrun());
+    assert(g_c);
+    assert(g_c->state == Coroutines_Active);
+    assert(!Coroutine_StackHasOverrun());
     unsigned char *end = StackTopNow() - GUARD_PATTERN_SIZE;
-    for (unsigned char *guard = g_c.active->guard+GUARD_PATTERN_SIZE; guard <= end; guard += GUARD_PATTERN_SIZE){
+    for (unsigned char *guard = g_c->active->guard+GUARD_PATTERN_SIZE; guard <= end; guard += GUARD_PATTERN_SIZE){
         Apply_Guard(guard);
     }
 }
 
 
-bool _Py_Coroutine_CanStartCoroutine(void){
-    assert(g_c.state == Coroutines_Started || g_c.state == Coroutines_Active);
-    assert(Coroutine_StackHasNotOverrun());
-    if (!List_IsEmpty(&g_c.free)){
+static bool Coroutine_CanStartCoroutine_Lock_Assumed(
+    size_t size
+){
+    assert(g_c);
+    assert(g_c->state == Coroutines_Started || g_c->state == Coroutines_Active);
+    assert(!Coroutine_StackHasOverrun());
+
+    if (!g_c->stack_limit){
         return true;
     }
 
-    return !g_c.stack_limit || g_c.stack_limit <= (unsigned char *)g_c.tip - 2*COROUTINE_STACK_SIZE;
+    if (!g_c->tip){
+        return true;
+    }
+
+    if (g_c->tip->state == Coroutine_Free){
+        // last block is free
+        if ((unsigned char *)g_c->tip - g_c->stack_limit >= (ptrdiff_t)(g_c->gap_after + size)){
+            // enough room in free block, which is the last block
+            return true;
+        }
+    } else {
+        // last block is allocated
+        if (g_c->tip->limit - g_c->stack_limit >= (ptrdiff_t)(g_c->gap_before + g_c->gap_after + size)){
+            // enough room after the last block, which is allocated
+            return true;
+        }
+    }
+
+    // not enough room between allocated blocks and stack limit, so check free list
+    List_Link *link;
+    for (link = List_Begin(&g_c->free); Link_NextIsLink(link); link = Link_Next(link)){
+        Coroutine *cor = List_Link_Container(Coroutine, link, link);
+        if (cor->size >= size){
+            return true;
+        }
+    }
+
+    return false;
 }
 
 
+bool _Py_Coroutine_CanStartCoroutine(
+    size_t size
+){
+    _Cor_Mutex_Lock(&g_c->mutex);
+
+    bool result = Coroutine_CanStartCoroutine_Lock_Assumed(size);
+
+    _Cor_Mutex_Unlock(&g_c->mutex);
+
+    return result;
+}
+
 void *Coroutine_GetCStackTop(void){
-    assert(Coroutine_StackHasNotOverrun());
-    if ((g_c.state == Coroutines_Started || g_c.state == Coroutines_Active) && g_c.tip != g_c.active) {
-        return g_c.tip->stack_top;
+    assert(!Coroutine_StackHasOverrun());
+    if ((g_c->state == Coroutines_Started || g_c->state == Coroutines_Active) && g_c->tip != g_c->active) {
+        return g_c->tip->stack_top;
     } else {
         return StackTopNow();
     }
@@ -726,7 +1014,7 @@ void *Coroutine_GetCStackTop(void){
 
 static unsigned char *StackTopNow(void){
     unsigned char here[4];
-    return StopAddressComplaints(here);
+    return StopAddressWarnings(here);
 }
 
 
@@ -754,12 +1042,13 @@ static void Coroutine_ChainYield(
 
 
 bool _Py_Coroutine_Chain(
+    size_t size,
     Coroutine_Start start,
     void *value,
     void **result
 ){
     assert(Check_Guard(_Py_Coroutine_GetActive()->guard));
-    Coroutine *cor = _Py_Coroutine_New(Coroutine_ChainFn);
+    Coroutine *cor = _Py_Coroutine_New(size, Coroutine_ChainFn);
     if (!cor){
         // failed
         return true;
@@ -799,5 +1088,21 @@ bool _Py_Coroutine_IsComplete(
 
 
 bool Coroutine_IsStarted(void){
-    return g_c.state == Coroutines_Active || g_c.state == Coroutines_Started;
+    return g_c && (g_c->state == Coroutines_Active || g_c->state == Coroutines_Started);
+}
+
+void _Coroutine_Dump(void){
+    char *state_to_text[] = {
+        "Free",
+        "Idle",
+        "Running",
+        "Waiting",
+        "Complete"
+    };
+    unsigned idx = 0;
+    List_Link *link;
+    for (link = List_Begin(&g_c->all); Link_NextIsLink(link); link = Link_Next(link)){
+        Coroutine *cor = List_Link_Container(Coroutine, all_link, link);
+        printf("%d) %p (%s) %ld%s\n", idx++, cor, state_to_text[cor->state], cor->size, cor == g_c->tip ? " (TIP)" : "");
+    }
 }

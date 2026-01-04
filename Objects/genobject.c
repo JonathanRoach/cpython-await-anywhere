@@ -67,24 +67,9 @@ gen_traverse(PyObject *self, visitproc visit, void *arg)
         _PyInterpreterFrame *gen_frame = &gen->gi_iframe;
         assert(gen_frame->frame_obj == NULL ||
             gen_frame->frame_obj->f_frame->owner == FRAME_OWNED_BY_GENERATOR);
-        _PyInterpreterFrame *frame;
-        if ( gen->gi_frame_state < FRAME_EXECUTING ) {
-            // this generator is yielded - visit all frames held in the generator's stack
-            frame = gen->gi_resume_iframe;
-        } else {
-            // this generator is executing - only need to visit itself
-            frame = gen_frame;
-        }
-        for(;;){
-            int err = _PyFrame_Traverse(frame, visit, arg);
-            if (err) {
-                return err;
-            }
-            if ( frame == gen_frame ) {
-                break;
-            }
-            assert(frame->previous);
-            frame = frame->previous;
+        int err = _PyFrame_Traverse(gen_frame, visit, arg);
+        if (err) {
+            return err;
         }
     }
     else {
@@ -1193,6 +1178,30 @@ coro_dealloc(PyObject *self)
     _gen_dealloc_outer(self, _coro_dealloc_inner);
 }
 
+static int
+coro_traverse(PyObject *self, visitproc visit, void *arg)
+{
+    int err = gen_traverse(self, visit, arg);
+    if (err){
+        return err;
+    }
+
+    PyCoroObject *coro = _PyCoroObject_CAST(self);
+    if (coro->cr_coroutine && coro->cr_frame_state == FRAME_SUSPENDED){
+        // Have a datastack to traverse
+        struct _PyInterpreterFrame *frame;
+        for (frame = coro->cr_resume_iframe; frame != &coro->cr_iframe; frame = frame->previous){
+            if (frame->owner == FRAME_OWNED_BY_THREAD){
+                int err = _PyFrame_Traverse(frame, visit, arg);
+                if (err) {
+                    return err;
+                }
+            }
+        }
+    }
+    return 0;
+}
+
 static PyObject *
 coro_repr(PyObject *self)
 {
@@ -1303,7 +1312,7 @@ coro_dosend(PyCoroObject *coro, PyObject *exc, int closing)
             coro->cr_result = NULL;
             return PYGEN_ERROR;
         }
-        coro->cr_coroutine = _Py_Coroutine_New(coro_entry);
+        coro->cr_coroutine = _Py_Coroutine_New(PYOS_COSTACK_STD_SIZE, coro_entry);
         if (!coro->cr_coroutine){
             PyErr_NoMemory();
             coro->cr_result = NULL;
@@ -1503,7 +1512,7 @@ PyTypeObject PyCoro_Type = {
     0,                                          /* tp_as_buffer */
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,    /* tp_flags */
     0,                                          /* tp_doc */
-    gen_traverse,                               /* tp_traverse */
+    coro_traverse,                              /* tp_traverse */
     0,                                          /* tp_clear */
     0,                                          /* tp_richcompare */
     offsetof(PyCoroObject, cr_weakreflist),     /* tp_weaklistoffset */

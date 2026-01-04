@@ -41,6 +41,7 @@ PyAPI_DATA(int) (*PyOS_InputHook)(void);
 #define PYOS_STACK_MARGIN_SHIFT (PYOS_LOG2_STACK_MARGIN + 2)
 #endif
 
+#define PYOS_COSTACK_STD_SIZE (3*PYOS_STACK_MARGIN_BYTES)
 
 #if defined(WIN32)
 #define USE_STACKCHECK

@@ -4,6 +4,18 @@
 #include "Python.h"
 #include "pycore_lock.h"
 
+// malloc & free...
+static inline void *
+_Cor_Malloc(size_t size){
+    return PyMem_RawMalloc(size);
+}
+
+static inline void
+_Cor_Free(void *ptr){
+    PyMem_RawFree(ptr);
+}
+// ...malloc & free
+
 #define _Cor_thread_local _Py_thread_local
 
 #define COROUTINE_HAVE_ALLOCA_H HAVE_ALLOCA_H

@@ -25,7 +25,7 @@ static void *Do_Call_##fn(void *param) { \
 #define _PY_ENSURE_COSTACK_HEADROOM_FOR_FN0_B(r_t, fn) \
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES ) { \
         void *res; \
-        if (!_Py_Coroutine_Chain(Do_Call_##fn, NULL, &res)) { \
+        if (!_Py_Coroutine_Chain(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, NULL, &res)) { \
             return (r_t)(uintptr_t)res; \
         } \
     }
@@ -43,7 +43,7 @@ static void *Do_Call_##fn(void *param) { \
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES ) { \
         void *res; \
         struct Do_Call_Params_##fn params = {p0}; \
-        if (!_Py_Coroutine_Chain(Do_Call_##fn, (void *)&params, &res)) { \
+        if (!_Py_Coroutine_Chain(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res)) { \
             return (r_t)(uintptr_t)res; \
         } \
     }
@@ -62,7 +62,7 @@ static void *Do_Call_##fn(void *param) { \
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES ) { \
         void *res; \
         struct Do_Call_Params_##fn params = {p0, p1}; \
-        if (!_Py_Coroutine_Chain(Do_Call_##fn, (void *)&params, &res)) { \
+        if (!_Py_Coroutine_Chain(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res)) { \
             return (r_t)(uintptr_t)res; \
         } \
     }
@@ -82,7 +82,7 @@ static void *Do_Call_##fn(void *param) { \
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES ) { \
         void *res; \
         struct Do_Call_Params_##fn params = {p0, p1, p2}; \
-        if (!_Py_Coroutine_Chain(Do_Call_##fn, (void *)&params, &res)) { \
+        if (!_Py_Coroutine_Chain(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res)) { \
             return (r_t)(uintptr_t)res; \
         } \
     }
@@ -103,7 +103,7 @@ static void *Do_Call_##fn(void *param) { \
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES ) { \
         void *res; \
         struct Do_Call_Params_##fn params = {p0, p1, p2, p3}; \
-        if (!_Py_Coroutine_Chain(Do_Call_##fn, (void *)&params, &res)) { \
+        if (!_Py_Coroutine_Chain(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res)) { \
             return (r_t)(uintptr_t)res; \
         } \
     }
@@ -125,7 +125,7 @@ static void *Do_Call_##fn(void *param) { \
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES ) { \
         void *res; \
         struct Do_Call_Params_##fn params = {p0, p1, p2, p3, p4}; \
-        if (!_Py_Coroutine_Chain(Do_Call_##fn, (void *)&params, &res)) { \
+        if (!_Py_Coroutine_Chain(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res)) { \
             return (r_t)(uintptr_t)res; \
         } \
     }
@@ -138,7 +138,7 @@ static void *Do_Call_##fn(void *param);
 #define _PY_ENSURE_COSTACK_FOR_FN1_B(r_t, fn, p0) \
     struct Do_Call_Params_##fn params = {p0}; \
     void *res; \
-    bool fail = Coroutine_Run(Do_Call_##fn, (void *)&params, &res); \
+    bool fail = Coroutine_Run(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res); \
     assert(!fail); \
     return (r_t)(uintptr_t)res; \
 } \
@@ -154,7 +154,7 @@ static void *Do_Call_##fn(void *param);
 #define _PY_ENSURE_COSTACK_FOR_FN2_B(r_t, fn, p0, p1) \
     struct Do_Call_Params_##fn params = {p0, p1}; \
     void *res; \
-    bool fail = Coroutine_Run(Do_Call_##fn, (void *)&params, &res); \
+    bool fail = Coroutine_Run(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res); \
     assert(!fail); \
     return (r_t)(uintptr_t)res; \
 } \
@@ -171,7 +171,7 @@ static void *Do_Call_##fn(void *param);
 #define _PY_ENSURE_COSTACK_FOR_FN3_B(r_t, fn, p0, p1, p2) \
     struct Do_Call_Params_##fn params = {p0, p1, p2}; \
     void *res; \
-    bool fail = Coroutine_Run(Do_Call_##fn, (void *)&params, &res); \
+    bool fail = Coroutine_Run(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res); \
     assert(!fail); \
     return (r_t)(uintptr_t)res; \
 } \
@@ -189,7 +189,7 @@ static void *Do_Call_##fn(void *param);
 #define _PY_ENSURE_COSTACK_FOR_FN4_B(r_t, fn, p0, p1, p2, p3) \
     struct Do_Call_Params_##fn params = {p0, p1, p2, p3}; \
     void *res; \
-    bool fail = Coroutine_Run(Do_Call_##fn, (void *)&params, &res); \
+    bool fail = Coroutine_Run(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res); \
     assert(!fail); \
     return (r_t)(uintptr_t)res; \
 } \
@@ -208,7 +208,7 @@ static void *Do_Call_##fn(void *param);
 #define _PY_ENSURE_COSTACK_FOR_FN5_B(r_t, fn, p0, p1, p2, p3, p4) \
     struct Do_Call_Params_##fn params = {p0, p1, p2, p3, p4}; \
     void *res; \
-    bool fail = Coroutine_Run(Do_Call_##fn, (void *)&params, &res); \
+    bool fail = Coroutine_Run(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res); \
     assert(!fail); \
     return (r_t)(uintptr_t)res; \
 } \
@@ -228,7 +228,7 @@ static void *Do_Call_##fn(void *param);
 #define _PY_ENSURE_COSTACK_FOR_FN6_B(r_t, fn, p0, p1, p2, p3, p4, p5) \
     struct Do_Call_Params_##fn params = {p0, p1, p2, p3, p4, p5}; \
     void *res; \
-    bool fail = Coroutine_Run(Do_Call_##fn, (void *)&params, &res); \
+    bool fail = Coroutine_Run(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res); \
     assert(!fail); \
     return (r_t)(uintptr_t)res; \
 } \
@@ -249,7 +249,7 @@ static void *Do_Call_##fn(void *param);
 #define _PY_ENSURE_COSTACK_FOR_FN7_B(r_t, fn, p0, p1, p2, p3, p4, p5, p6) \
     struct Do_Call_Params_##fn params = {p0, p1, p2, p3, p4, p5, p6}; \
     void *res; \
-    bool fail = Coroutine_Run(Do_Call_##fn, (void *)&params, &res); \
+    bool fail = Coroutine_Run(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res); \
     assert(!fail); \
     return (r_t)(uintptr_t)res; \
 } \
@@ -267,7 +267,7 @@ struct Do_Call_Params_##fn { \
     struct Do_Call_Params_##fn params = {p0}; \
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(space) ){ \
         void *result; \
-        if ( !_Py_Coroutine_Chain(Do_##fn, &params, &result)) { \
+        if ( !_Py_Coroutine_Chain(space, Do_##fn, &params, &result)) { \
             return (r_t)result; \
         } else { \
             PyErr_NoMemory(); \
@@ -292,7 +292,7 @@ struct Do_Call_Params_##fn { \
     struct Do_Call_Params_##fn params = {p0, p1}; \
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(space) ){ \
         void *result; \
-        if ( !_Py_Coroutine_Chain(Do_##fn, &params, &result)) { \
+        if ( !_Py_Coroutine_Chain(space, Do_##fn, &params, &result)) { \
             return (r_t)result; \
         } else { \
             PyErr_NoMemory(); \
@@ -319,7 +319,7 @@ struct Do_Call_Params_##fn { \
     struct Do_Call_Params_##fn params = {p0, p1, p2}; \
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(space) ){ \
         void *result; \
-        if ( !_Py_Coroutine_Chain(Do_##fn, &params, &result)) { \
+        if ( !_Py_Coroutine_Chain(space, Do_##fn, &params, &result)) { \
             return (r_t)result; \
         } else { \
             PyErr_NoMemory(); \
@@ -351,7 +351,7 @@ struct Do_Call_Params_##fn { \
     struct Do_Call_Params_##fn params = {p0, p1, p2, p3, p4, p5, p6}; \
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(space) ){ \
         void *result; \
-        if ( !_Py_Coroutine_Chain(Do_##fn, &params, &result)) { \
+        if ( !_Py_Coroutine_Chain(space, Do_##fn, &params, &result)) { \
             return (r_t)result; \
         } else { \
             PyErr_NoMemory(); \

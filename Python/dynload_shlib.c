@@ -64,7 +64,7 @@ _PyImport_FindSharedFuncptr(const char *prefix,
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)NECESSARY_dlopen_STACK) {
         struct Do_Call_Params__PyImport_FindSharedFuncptr params = {prefix, shortname, pathname, fp};
         void *result;
-        if (_Py_Coroutine_Chain(Do_Call__PyImport_FindSharedFuncptr, (void *)&params, &result)){
+        if (_Py_Coroutine_Chain(COROUTINE_STACK_SIZE, Do_Call__PyImport_FindSharedFuncptr, (void *)&params, &result)){
             // not enough stack ot load dll
             return NULL;
         }
