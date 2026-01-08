@@ -1190,30 +1190,30 @@ static struct PyMemberDef mmap_object_members[] = {
 };
 
 static struct PyMethodDef mmap_object_methods[] = {
-    {"close",           mmap_close_method,        METH_NOARGS},
-    {"find",            mmap_find_method,         METH_VARARGS},
-    {"rfind",           mmap_rfind_method,        METH_VARARGS},
-    {"flush",           mmap_flush_method,        METH_VARARGS},
+    {"close",           mmap_close_method,        METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"find",            mmap_find_method,         METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"rfind",           mmap_rfind_method,        METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"flush",           mmap_flush_method,        METH_VARARGS|METH_C_STACK_FRUGAL},
 #ifdef HAVE_MADVISE
-    {"madvise",         mmap_madvise_method,      METH_VARARGS},
+    {"madvise",         mmap_madvise_method,      METH_VARARGS|METH_C_STACK_FRUGAL},
 #endif
-    {"move",            mmap_move_method,         METH_VARARGS},
-    {"read",            mmap_read_method,         METH_VARARGS},
-    {"read_byte",       mmap_read_byte_method,    METH_NOARGS},
-    {"readline",        mmap_read_line_method,    METH_NOARGS},
-    {"resize",          mmap_resize_method,       METH_VARARGS},
-    {"seek",            mmap_seek_method,         METH_VARARGS},
-    {"seekable",        mmap_seekable_method,     METH_NOARGS},
-    {"size",            mmap_size_method,         METH_NOARGS},
-    {"tell",            mmap_tell_method,         METH_NOARGS},
-    {"write",           mmap_write_method,        METH_VARARGS},
-    {"write_byte",      mmap_write_byte_method,   METH_VARARGS},
-    {"__enter__",       mmap__enter__method,      METH_NOARGS},
-    {"__exit__",        mmap__exit__method,       METH_VARARGS},
+    {"move",            mmap_move_method,         METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"read",            mmap_read_method,         METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"read_byte",       mmap_read_byte_method,    METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"readline",        mmap_read_line_method,    METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"resize",          mmap_resize_method,       METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"seek",            mmap_seek_method,         METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"seekable",        mmap_seekable_method,     METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"size",            mmap_size_method,         METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"tell",            mmap_tell_method,         METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"write",           mmap_write_method,        METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"write_byte",      mmap_write_byte_method,   METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"__enter__",       mmap__enter__method,      METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"__exit__",        mmap__exit__method,       METH_VARARGS|METH_C_STACK_FRUGAL},
 #ifdef MS_WINDOWS
-    {"__sizeof__",      mmap__sizeof__method,     METH_NOARGS},
+    {"__sizeof__",      mmap__sizeof__method,     METH_NOARGS|METH_C_STACK_FRUGAL},
 #ifdef Py_DEBUG
-    {"_protect",        mmap_protect_method,      METH_VARARGS},
+    {"_protect",        mmap_protect_method,      METH_VARARGS|METH_C_STACK_FRUGAL},
 #endif // Py_DEBUG
 #endif // MS_WINDOWS
     {NULL,         NULL}       /* sentinel */

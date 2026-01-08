@@ -1893,15 +1893,15 @@ static PyType_Spec PyEncoderType_spec = {
 static PyMethodDef speedups_methods[] = {
     {"encode_basestring_ascii",
         py_encode_basestring_ascii,
-        METH_O,
+        METH_O|METH_C_STACK_FRUGAL,
         pydoc_encode_basestring_ascii},
     {"encode_basestring",
         py_encode_basestring,
-        METH_O,
+        METH_O|METH_C_STACK_FRUGAL,
         pydoc_encode_basestring},
     {"scanstring",
         py_scanstring,
-        METH_VARARGS,
+        METH_VARARGS|METH_C_STACK_FRUGAL,
         pydoc_scanstring},
     {NULL, NULL, 0, NULL}
 };

@@ -3379,7 +3379,7 @@ static PyMethodDef textiowrapper_methods[] = {
     _IO_TEXTIOWRAPPER_TELL_METHODDEF
     _IO_TEXTIOWRAPPER_TRUNCATE_METHODDEF
 
-    {"__getstate__", _PyIOBase_cannot_pickle, METH_NOARGS},
+    {"__getstate__", _PyIOBase_cannot_pickle, METH_NOARGS|METH_C_STACK_FRUGAL},
     {NULL, NULL}
 };
 

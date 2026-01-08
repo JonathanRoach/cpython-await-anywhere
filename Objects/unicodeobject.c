@@ -14494,12 +14494,12 @@ static PyMethodDef unicode_methods[] = {
     UNICODE_ISIDENTIFIER_METHODDEF
     UNICODE_ISPRINTABLE_METHODDEF
     UNICODE_ZFILL_METHODDEF
-    {"format", _PyCFunction_CAST(do_string_format), METH_VARARGS | METH_KEYWORDS, format__doc__},
-    {"format_map", do_string_format_map, METH_O, format_map__doc__},
+    {"format", _PyCFunction_CAST(do_string_format), METH_VARARGS | METH_KEYWORDS|METH_C_STACK_FRUGAL, format__doc__},
+    {"format_map", do_string_format_map, METH_O|METH_C_STACK_FRUGAL, format_map__doc__},
     UNICODE___FORMAT___METHODDEF
     UNICODE_MAKETRANS_METHODDEF
     UNICODE_SIZEOF_METHODDEF
-    {"__getnewargs__",  unicode_getnewargs, METH_NOARGS},
+    {"__getnewargs__",  unicode_getnewargs, METH_NOARGS|METH_C_STACK_FRUGAL},
     {NULL, NULL}
 };
 
@@ -16326,9 +16326,9 @@ unicodeiter_setstate(PyObject *op, PyObject *state)
 PyDoc_STRVAR(setstate_doc, "Set state information for unpickling.");
 
 static PyMethodDef unicodeiter_methods[] = {
-    {"__length_hint__", unicodeiter_len, METH_NOARGS, length_hint_doc},
-    {"__reduce__",      unicodeiter_reduce, METH_NOARGS, reduce_doc},
-    {"__setstate__",    unicodeiter_setstate, METH_O, setstate_doc},
+    {"__length_hint__", unicodeiter_len, METH_NOARGS|METH_C_STACK_FRUGAL, length_hint_doc},
+    {"__reduce__",      unicodeiter_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, reduce_doc},
+    {"__setstate__",    unicodeiter_setstate, METH_O|METH_C_STACK_FRUGAL, setstate_doc},
     {NULL,      NULL}       /* sentinel */
 };
 
@@ -16654,9 +16654,9 @@ _PyUnicode_Fini(PyInterpreterState *interp)
 
 static PyMethodDef _string_methods[] = {
     {"formatter_field_name_split", formatter_field_name_split,
-     METH_O, PyDoc_STR("split the argument as a field name")},
+     METH_O|METH_C_STACK_FRUGAL, PyDoc_STR("split the argument as a field name")},
     {"formatter_parser", formatter_parser,
-     METH_O, PyDoc_STR("parse the argument as a format string")},
+     METH_O|METH_C_STACK_FRUGAL, PyDoc_STR("parse the argument as a format string")},
     {NULL, NULL}
 };
 

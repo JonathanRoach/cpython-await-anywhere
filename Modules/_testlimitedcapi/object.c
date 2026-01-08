@@ -63,9 +63,9 @@ test_constants(PyObject *Py_UNUSED(module), PyObject *Py_UNUSED(args))
 }
 
 static PyMethodDef test_methods[] = {
-    {"get_constant", get_constant, METH_VARARGS},
-    {"get_constant_borrowed", get_constant_borrowed, METH_VARARGS},
-    {"test_constants", test_constants, METH_NOARGS},
+    {"get_constant", get_constant, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"get_constant_borrowed", get_constant_borrowed, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"test_constants", test_constants, METH_NOARGS|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

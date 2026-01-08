@@ -216,7 +216,7 @@ _destroy(PyObject *setweakref, PyObject *objweakref)
 }
 
 static PyMethodDef _destroy_def = {
-    "_destroy", _destroy, METH_O
+    "_destroy", _destroy, METH_O|METH_C_STACK_FRUGAL
 };
 
 static int

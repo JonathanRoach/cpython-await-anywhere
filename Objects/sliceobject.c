@@ -57,7 +57,7 @@ ellipsis_reduce(PyObject *op, PyObject *Py_UNUSED(ignored))
 }
 
 static PyMethodDef ellipsis_methods[] = {
-    {"__reduce__", ellipsis_reduce, METH_NOARGS, NULL},
+    {"__reduce__", ellipsis_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
     {NULL, NULL}
 };
 
@@ -567,8 +567,8 @@ slice_reduce(PyObject *op, PyObject *Py_UNUSED(ignored))
 PyDoc_STRVAR(reduce_doc, "Return state information for pickling.");
 
 static PyMethodDef slice_methods[] = {
-    {"indices", slice_indices, METH_O, slice_indices_doc},
-    {"__reduce__", slice_reduce, METH_NOARGS, reduce_doc},
+    {"indices", slice_indices, METH_O|METH_C_STACK_FRUGAL, slice_indices_doc},
+    {"__reduce__", slice_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, reduce_doc},
     {NULL, NULL}
 };
 

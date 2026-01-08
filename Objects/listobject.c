@@ -3546,7 +3546,7 @@ static PyObject *list_iter(PyObject *seq);
 static PyObject *list_subscript(PyObject*, PyObject*);
 
 static PyMethodDef list_methods[] = {
-    {"__getitem__", list_subscript, METH_O|METH_COEXIST,
+    {"__getitem__", list_subscript, METH_O|METH_COEXIST|METH_C_STACK_FRUGAL,
      PyDoc_STR("__getitem__($self, index, /)\n--\n\nReturn self[index].")},
     LIST___REVERSED___METHODDEF
     LIST___SIZEOF___METHODDEF
@@ -3561,7 +3561,7 @@ static PyMethodDef list_methods[] = {
     LIST_COUNT_METHODDEF
     LIST_REVERSE_METHODDEF
     LIST_SORT_METHODDEF
-    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS, PyDoc_STR("See PEP 585")},
+    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, PyDoc_STR("See PEP 585")},
     {NULL,              NULL}           /* sentinel */
 };
 
@@ -3930,9 +3930,9 @@ PyDoc_STRVAR(reduce_doc, "Return state information for pickling.");
 PyDoc_STRVAR(setstate_doc, "Set state information for unpickling.");
 
 static PyMethodDef listiter_methods[] = {
-    {"__length_hint__", listiter_len, METH_NOARGS, length_hint_doc},
-    {"__reduce__", listiter_reduce, METH_NOARGS, reduce_doc},
-    {"__setstate__", listiter_setstate, METH_O, setstate_doc},
+    {"__length_hint__", listiter_len, METH_NOARGS|METH_C_STACK_FRUGAL, length_hint_doc},
+    {"__reduce__", listiter_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, reduce_doc},
+    {"__setstate__", listiter_setstate, METH_O|METH_C_STACK_FRUGAL, setstate_doc},
     {NULL,              NULL}           /* sentinel */
 };
 
@@ -4084,9 +4084,9 @@ static PyObject *listreviter_reduce(PyObject *, PyObject *);
 static PyObject *listreviter_setstate(PyObject *, PyObject *);
 
 static PyMethodDef listreviter_methods[] = {
-    {"__length_hint__", listreviter_len, METH_NOARGS, length_hint_doc},
-    {"__reduce__", listreviter_reduce, METH_NOARGS, reduce_doc},
-    {"__setstate__", listreviter_setstate, METH_O, setstate_doc},
+    {"__length_hint__", listreviter_len, METH_NOARGS|METH_C_STACK_FRUGAL, length_hint_doc},
+    {"__reduce__", listreviter_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, reduce_doc},
+    {"__setstate__", listreviter_setstate, METH_O|METH_C_STACK_FRUGAL, setstate_doc},
     {NULL,              NULL}           /* sentinel */
 };
 

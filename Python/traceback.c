@@ -214,7 +214,7 @@ traceback_tb_next_set_impl(PyTracebackObject *self, PyObject *value)
 
 
 static PyMethodDef tb_methods[] = {
-   {"__dir__", tb_dir, METH_NOARGS, NULL},
+   {"__dir__", tb_dir, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
    {NULL, NULL, 0, NULL},
 };
 

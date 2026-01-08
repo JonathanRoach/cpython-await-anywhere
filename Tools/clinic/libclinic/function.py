@@ -99,6 +99,7 @@ class Function:
     full_name: str
     return_converter: CReturnConverter
     kind: FunctionKind
+    c_stack_frugal: bool
     coexist: bool
     return_annotation: object = inspect.Signature.empty
     docstring: str = ''
@@ -165,6 +166,8 @@ class Function:
                 assert kind in acceptable_kinds, f"unknown kind: {kind!r}"
         if self.coexist:
             flags.append('METH_COEXIST')
+        if self.c_stack_frugal:
+            flags.append('METH_C_STACK_FRUGAL')
         return '|'.join(flags)
 
     def __repr__(self) -> str:

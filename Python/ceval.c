@@ -359,6 +359,7 @@ _Py_ReachedRecursionLimitWithMargin(PyThreadState *tstate, int margin_count)
         // If a new coroutine can be started, there's enough room
         return 0;
     }
+    printf("%lu %lu\n", _Py_Coroutine_GetStackHeadroom(), (2+margin_count) * PYOS_STACK_MARGIN_BYTES);
     // 1 PYOS_STACK_MARGIN_BYTES for creating the stack overflow exception in an emergency (hard limit)
     // 1 PYOS_STACK_MARGIN_BYTES for creating the stack overflow exception when stack is running low (soft limit)
     // margin_count * PYOS_STACK_MARGIN_BYTES for working in.
@@ -1099,6 +1100,9 @@ _PyEval_EvalFramesDefault(PyThreadState *tstate, _PyInterpreterFrame *framebase,
     }
     CALL_STAT_INC(pyeval_calls);
 
+    if (_Py_Coroutine_GetStackHeadroom() == 18448){
+        printf("%lu\n", _Py_Coroutine_GetStackHeadroom());
+    }
     _PY_ENSURE_COSTACK_HEADROOM_FOR_FN5_B(PyObject *, _PyEval_EvalFramesDefault, tstate, framebase, frame, frame_count, throwflag)
 
     /* Local "register" variables.

@@ -302,9 +302,9 @@ enum_reduce(PyObject *op, PyObject *Py_UNUSED(ignored))
 PyDoc_STRVAR(reduce_doc, "Return state information for pickling.");
 
 static PyMethodDef enum_methods[] = {
-    {"__reduce__", enum_reduce, METH_NOARGS, reduce_doc},
+    {"__reduce__", enum_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, reduce_doc},
     {"__class_getitem__",    Py_GenericAlias,
-    METH_O|METH_CLASS,       PyDoc_STR("See PEP 585")},
+    METH_O|METH_CLASS|METH_C_STACK_FRUGAL,       PyDoc_STR("See PEP 585")},
     {NULL,              NULL}           /* sentinel */
 };
 
@@ -533,9 +533,9 @@ reversed_setstate(PyObject *op, PyObject *state)
 PyDoc_STRVAR(setstate_doc, "Set state information for unpickling.");
 
 static PyMethodDef reversediter_methods[] = {
-    {"__length_hint__", reversed_len, METH_NOARGS, length_hint_doc},
-    {"__reduce__", reversed_reduce, METH_NOARGS, reduce_doc},
-    {"__setstate__", reversed_setstate, METH_O, setstate_doc},
+    {"__length_hint__", reversed_len, METH_NOARGS|METH_C_STACK_FRUGAL, length_hint_doc},
+    {"__reduce__", reversed_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, reduce_doc},
+    {"__setstate__", reversed_setstate, METH_O|METH_C_STACK_FRUGAL, setstate_doc},
     {NULL,              NULL}           /* sentinel */
 };
 

@@ -51,9 +51,9 @@ is_immortal(PyObject *self, PyObject *op)
 }
 
 static PyMethodDef test_methods[] = {
-    {"test_immortal_builtins",   test_immortal_builtins,     METH_NOARGS},
-    {"test_immortal_small_ints", test_immortal_small_ints,   METH_NOARGS},
-    {"is_immortal",              is_immortal,                METH_O},
+    {"test_immortal_builtins",   test_immortal_builtins,     METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_immortal_small_ints", test_immortal_small_ints,   METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"is_immortal",              is_immortal,                METH_O|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

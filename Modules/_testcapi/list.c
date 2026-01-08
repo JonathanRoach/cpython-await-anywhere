@@ -104,12 +104,12 @@ test_list_api(PyObject *self, PyObject *Py_UNUSED(ignored))
 
 
 static PyMethodDef test_methods[] = {
-    {"list_get_size", list_get_size, METH_O},
-    {"list_get_item", list_get_item, METH_VARARGS},
-    {"list_set_item", list_set_item, METH_VARARGS},
-    {"list_clear", list_clear, METH_O},
-    {"list_extend", list_extend, METH_VARARGS},
-    {"test_list_api", test_list_api, METH_NOARGS},
+    {"list_get_size", list_get_size, METH_O|METH_C_STACK_FRUGAL},
+    {"list_get_item", list_get_item, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"list_set_item", list_set_item, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"list_clear", list_clear, METH_O|METH_C_STACK_FRUGAL},
+    {"list_extend", list_extend, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"test_list_api", test_list_api, METH_NOARGS|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

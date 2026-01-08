@@ -1240,7 +1240,7 @@ create_cfunction(PyObject *self, PyObject *args)
 static PyMethodDef ml = {
     "create_cfunction",
     create_cfunction,
-    METH_NOARGS,
+    METH_NOARGS|METH_C_STACK_FRUGAL,
     NULL
 };
 
@@ -2547,99 +2547,99 @@ toggle_reftrace_printer(PyObject *ob, PyObject *arg)
 }
 
 static PyMethodDef TestMethods[] = {
-    {"set_errno",               set_errno,                       METH_VARARGS},
-    {"test_config",             test_config,                     METH_NOARGS},
-    {"test_sizeof_c_types",     test_sizeof_c_types,             METH_NOARGS},
-    {"test_lazy_hash_inheritance",      test_lazy_hash_inheritance,METH_NOARGS},
+    {"set_errno",               set_errno,                       METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"test_config",             test_config,                     METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_sizeof_c_types",     test_sizeof_c_types,             METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_lazy_hash_inheritance",      test_lazy_hash_inheritance,METH_NOARGS|METH_C_STACK_FRUGAL},
     {"test_structseq_newtype_doesnt_leak",
-        test_structseq_newtype_doesnt_leak, METH_NOARGS},
+        test_structseq_newtype_doesnt_leak, METH_NOARGS|METH_C_STACK_FRUGAL},
     {"test_structseq_newtype_null_descr_doc",
-        test_structseq_newtype_null_descr_doc, METH_NOARGS},
-    {"pyobject_repr_from_null", pyobject_repr_from_null, METH_NOARGS},
-    {"pyobject_str_from_null",  pyobject_str_from_null, METH_NOARGS},
-    {"pyobject_bytes_from_null", pyobject_bytes_from_null, METH_NOARGS},
-    {"test_capsule", test_capsule, METH_NOARGS},
-    {"test_from_contiguous", test_from_contiguous, METH_NOARGS},
+        test_structseq_newtype_null_descr_doc, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"pyobject_repr_from_null", pyobject_repr_from_null, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"pyobject_str_from_null",  pyobject_str_from_null, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"pyobject_bytes_from_null", pyobject_bytes_from_null, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_capsule", test_capsule, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_from_contiguous", test_from_contiguous, METH_NOARGS|METH_C_STACK_FRUGAL},
 #if (defined(__linux__) || defined(__FreeBSD__)) && defined(__GNUC__)
-    {"test_pep3118_obsolete_write_locks", test_pep3118_obsolete_write_locks, METH_NOARGS},
+    {"test_pep3118_obsolete_write_locks", test_pep3118_obsolete_write_locks, METH_NOARGS|METH_C_STACK_FRUGAL},
 #endif
-    {"getbuffer_with_null_view", getbuffer_with_null_view,       METH_O},
-    {"PyBuffer_SizeFromFormat",  test_PyBuffer_SizeFromFormat,   METH_VARARGS},
-    {"py_buildvalue",            py_buildvalue,                  METH_VARARGS},
-    {"py_buildvalue_ints",       py_buildvalue_ints,             METH_VARARGS},
-    {"test_buildvalue_N",        test_buildvalue_N,              METH_NOARGS},
-    {"test_buildvalue_p",       test_buildvalue_p,               METH_NOARGS},
-    {"test_reftracer",          test_reftracer,                  METH_NOARGS},
-    {"_test_thread_state",      test_thread_state,               METH_VARARGS},
-    {"gilstate_ensure_release", gilstate_ensure_release,         METH_NOARGS},
+    {"getbuffer_with_null_view", getbuffer_with_null_view,       METH_O|METH_C_STACK_FRUGAL},
+    {"PyBuffer_SizeFromFormat",  test_PyBuffer_SizeFromFormat,   METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"py_buildvalue",            py_buildvalue,                  METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"py_buildvalue_ints",       py_buildvalue_ints,             METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"test_buildvalue_N",        test_buildvalue_N,              METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_buildvalue_p",       test_buildvalue_p,               METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_reftracer",          test_reftracer,                  METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"_test_thread_state",      test_thread_state,               METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"gilstate_ensure_release", gilstate_ensure_release,         METH_NOARGS|METH_C_STACK_FRUGAL},
 #ifndef MS_WINDOWS
-    {"_spawn_pthread_waiter",   spawn_pthread_waiter,            METH_NOARGS},
-    {"_end_spawned_pthread",    end_spawned_pthread,             METH_NOARGS},
+    {"_spawn_pthread_waiter",   spawn_pthread_waiter,            METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"_end_spawned_pthread",    end_spawned_pthread,             METH_NOARGS|METH_C_STACK_FRUGAL},
 #endif
     {"_pending_threadfunc",     _PyCFunction_CAST(pending_threadfunc),
-     METH_VARARGS|METH_KEYWORDS},
+     METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL},
 #ifdef HAVE_GETTIMEOFDAY
-    {"profile_int",             profile_int,                     METH_NOARGS},
+    {"profile_int",             profile_int,                     METH_NOARGS|METH_C_STACK_FRUGAL},
 #endif
-    {"argparsing",              argparsing,                      METH_VARARGS},
-    {"code_newempty",           code_newempty,                   METH_VARARGS},
-    {"eval_code_ex",            eval_eval_code_ex,               METH_VARARGS},
+    {"argparsing",              argparsing,                      METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"code_newempty",           code_newempty,                   METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"eval_code_ex",            eval_eval_code_ex,               METH_VARARGS|METH_C_STACK_FRUGAL},
     {"make_memoryview_from_NULL_pointer", make_memoryview_from_NULL_pointer,
-     METH_NOARGS},
-    {"buffer_fill_info",        buffer_fill_info,                METH_VARARGS},
-    {"crash_no_current_thread", crash_no_current_thread,         METH_NOARGS},
-    {"test_current_tstate_matches", test_current_tstate_matches, METH_NOARGS},
-    {"run_in_subinterp",        run_in_subinterp,                METH_VARARGS},
-    {"create_cfunction",        create_cfunction,                METH_NOARGS},
-    {"call_in_temporary_c_thread", call_in_temporary_c_thread, METH_VARARGS,
+     METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"buffer_fill_info",        buffer_fill_info,                METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"crash_no_current_thread", crash_no_current_thread,         METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_current_tstate_matches", test_current_tstate_matches, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"run_in_subinterp",        run_in_subinterp,                METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"create_cfunction",        create_cfunction,                METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"call_in_temporary_c_thread", call_in_temporary_c_thread, METH_VARARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("set_error_class(error_class) -> None")},
-    {"join_temporary_c_thread", join_temporary_c_thread, METH_NOARGS},
+    {"join_temporary_c_thread", join_temporary_c_thread, METH_NOARGS|METH_C_STACK_FRUGAL},
     {"pymarshal_write_long_to_file",
-        pymarshal_write_long_to_file, METH_VARARGS},
+        pymarshal_write_long_to_file, METH_VARARGS|METH_C_STACK_FRUGAL},
     {"pymarshal_write_object_to_file",
-        pymarshal_write_object_to_file, METH_VARARGS},
+        pymarshal_write_object_to_file, METH_VARARGS|METH_C_STACK_FRUGAL},
     {"pymarshal_read_short_from_file",
-        pymarshal_read_short_from_file, METH_VARARGS},
+        pymarshal_read_short_from_file, METH_VARARGS|METH_C_STACK_FRUGAL},
     {"pymarshal_read_long_from_file",
-        pymarshal_read_long_from_file, METH_VARARGS},
+        pymarshal_read_long_from_file, METH_VARARGS|METH_C_STACK_FRUGAL},
     {"pymarshal_read_last_object_from_file",
-        pymarshal_read_last_object_from_file, METH_VARARGS},
+        pymarshal_read_last_object_from_file, METH_VARARGS|METH_C_STACK_FRUGAL},
     {"pymarshal_read_object_from_file",
-        pymarshal_read_object_from_file, METH_VARARGS},
-    {"return_null_without_error", return_null_without_error, METH_NOARGS},
-    {"return_result_with_error", return_result_with_error, METH_NOARGS},
-    {"getitem_with_error", getitem_with_error, METH_VARARGS},
-    {"Py_CompileString",     pycompilestring, METH_O},
-    {"raise_SIGINT_then_send_None", raise_SIGINT_then_send_None, METH_VARARGS},
-    {"stack_pointer", stack_pointer, METH_NOARGS},
+        pymarshal_read_object_from_file, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"return_null_without_error", return_null_without_error, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"return_result_with_error", return_result_with_error, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"getitem_with_error", getitem_with_error, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"Py_CompileString",     pycompilestring, METH_O|METH_C_STACK_FRUGAL},
+    {"raise_SIGINT_then_send_None", raise_SIGINT_then_send_None, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"stack_pointer", stack_pointer, METH_NOARGS|METH_C_STACK_FRUGAL},
 #ifdef W_STOPCODE
-    {"W_STOPCODE", py_w_stopcode, METH_VARARGS},
+    {"W_STOPCODE", py_w_stopcode, METH_VARARGS|METH_C_STACK_FRUGAL},
 #endif
-    {"test_pythread_tss_key_state", test_pythread_tss_key_state, METH_VARARGS},
-    {"bad_get", bad_get, METH_VARARGS},
-    {"meth_varargs", meth_varargs, METH_VARARGS},
-    {"meth_varargs_keywords", _PyCFunction_CAST(meth_varargs_keywords), METH_VARARGS|METH_KEYWORDS},
-    {"meth_o", meth_o, METH_O},
-    {"meth_noargs", meth_noargs, METH_NOARGS},
-    {"meth_fastcall", _PyCFunction_CAST(meth_fastcall), METH_FASTCALL},
-    {"meth_fastcall_keywords", _PyCFunction_CAST(meth_fastcall_keywords), METH_FASTCALL|METH_KEYWORDS},
-    {"pycfunction_call", test_pycfunction_call, METH_VARARGS},
-    {"pynumber_tobase", pynumber_tobase, METH_VARARGS},
-    {"get_basic_static_type", get_basic_static_type, METH_VARARGS, NULL},
-    {"test_tstate_capi", test_tstate_capi, METH_NOARGS, NULL},
-    {"gen_get_code", gen_get_code, METH_O, NULL},
-    {"get_feature_macros", get_feature_macros, METH_NOARGS, NULL},
-    {"test_code_api", test_code_api, METH_NOARGS, NULL},
-    {"settrace_to_error", settrace_to_error, METH_O, NULL},
-    {"settrace_to_record", settrace_to_record, METH_O, NULL},
-    {"test_macros", test_macros, METH_NOARGS, NULL},
-    {"test_weakref_capi", test_weakref_capi, METH_NOARGS},
-    {"function_set_warning", function_set_warning, METH_NOARGS},
-    {"test_critical_sections", test_critical_sections, METH_NOARGS},
-    {"finalize_thread_hang", finalize_thread_hang, METH_O, NULL},
-    {"test_atexit", test_atexit, METH_NOARGS},
-    {"code_offset_to_line", _PyCFunction_CAST(code_offset_to_line), METH_FASTCALL},
-    {"toggle_reftrace_printer", toggle_reftrace_printer, METH_O},
+    {"test_pythread_tss_key_state", test_pythread_tss_key_state, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"bad_get", bad_get, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"meth_varargs", meth_varargs, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"meth_varargs_keywords", _PyCFunction_CAST(meth_varargs_keywords), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL},
+    {"meth_o", meth_o, METH_O|METH_C_STACK_FRUGAL},
+    {"meth_noargs", meth_noargs, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"meth_fastcall", _PyCFunction_CAST(meth_fastcall), METH_FASTCALL|METH_C_STACK_FRUGAL},
+    {"meth_fastcall_keywords", _PyCFunction_CAST(meth_fastcall_keywords), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL},
+    {"pycfunction_call", test_pycfunction_call, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"pynumber_tobase", pynumber_tobase, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"get_basic_static_type", get_basic_static_type, METH_VARARGS|METH_C_STACK_FRUGAL, NULL},
+    {"test_tstate_capi", test_tstate_capi, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
+    {"gen_get_code", gen_get_code, METH_O|METH_C_STACK_FRUGAL, NULL},
+    {"get_feature_macros", get_feature_macros, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
+    {"test_code_api", test_code_api, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
+    {"settrace_to_error", settrace_to_error, METH_O|METH_C_STACK_FRUGAL, NULL},
+    {"settrace_to_record", settrace_to_record, METH_O|METH_C_STACK_FRUGAL, NULL},
+    {"test_macros", test_macros, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
+    {"test_weakref_capi", test_weakref_capi, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"function_set_warning", function_set_warning, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_critical_sections", test_critical_sections, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"finalize_thread_hang", finalize_thread_hang, METH_O|METH_C_STACK_FRUGAL, NULL},
+    {"test_atexit", test_atexit, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"code_offset_to_line", _PyCFunction_CAST(code_offset_to_line), METH_FASTCALL|METH_C_STACK_FRUGAL},
+    {"toggle_reftrace_printer", toggle_reftrace_printer, METH_O|METH_C_STACK_FRUGAL},
     {NULL, NULL} /* sentinel */
 };
 
@@ -2956,7 +2956,7 @@ generic_alias_mro_entries(PyObject *op, PyObject *Py_UNUSED(bases))
 }
 
 static PyMethodDef generic_alias_methods[] = {
-    {"__mro_entries__", generic_alias_mro_entries, METH_O, NULL},
+    {"__mro_entries__", generic_alias_mro_entries, METH_O|METH_C_STACK_FRUGAL, NULL},
     {NULL}  /* sentinel */
 };
 
@@ -2992,7 +2992,7 @@ generic_class_getitem(PyObject *type, PyObject *item)
 }
 
 static PyMethodDef generic_methods[] = {
-    {"__class_getitem__", generic_class_getitem, METH_O|METH_CLASS, NULL},
+    {"__class_getitem__", generic_class_getitem, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, NULL},
     {NULL}  /* sentinel */
 };
 
@@ -3006,12 +3006,12 @@ static PyTypeObject Generic_Type = {
 };
 
 static PyMethodDef meth_instance_methods[] = {
-    {"meth_varargs", meth_varargs, METH_VARARGS},
-    {"meth_varargs_keywords", _PyCFunction_CAST(meth_varargs_keywords), METH_VARARGS|METH_KEYWORDS},
-    {"meth_o", meth_o, METH_O},
-    {"meth_noargs", meth_noargs, METH_NOARGS},
-    {"meth_fastcall", _PyCFunction_CAST(meth_fastcall), METH_FASTCALL},
-    {"meth_fastcall_keywords", _PyCFunction_CAST(meth_fastcall_keywords), METH_FASTCALL|METH_KEYWORDS},
+    {"meth_varargs", meth_varargs, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"meth_varargs_keywords", _PyCFunction_CAST(meth_varargs_keywords), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL},
+    {"meth_o", meth_o, METH_O|METH_C_STACK_FRUGAL},
+    {"meth_noargs", meth_noargs, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"meth_fastcall", _PyCFunction_CAST(meth_fastcall), METH_FASTCALL|METH_C_STACK_FRUGAL},
+    {"meth_fastcall_keywords", _PyCFunction_CAST(meth_fastcall_keywords), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL},
     {NULL, NULL} /* sentinel */
 };
 
@@ -3028,12 +3028,12 @@ static PyTypeObject MethInstance_Type = {
 };
 
 static PyMethodDef meth_class_methods[] = {
-    {"meth_varargs", meth_varargs, METH_VARARGS|METH_CLASS},
-    {"meth_varargs_keywords", _PyCFunction_CAST(meth_varargs_keywords), METH_VARARGS|METH_KEYWORDS|METH_CLASS},
-    {"meth_o", meth_o, METH_O|METH_CLASS},
-    {"meth_noargs", meth_noargs, METH_NOARGS|METH_CLASS},
-    {"meth_fastcall", _PyCFunction_CAST(meth_fastcall), METH_FASTCALL|METH_CLASS},
-    {"meth_fastcall_keywords", _PyCFunction_CAST(meth_fastcall_keywords), METH_FASTCALL|METH_KEYWORDS|METH_CLASS},
+    {"meth_varargs", meth_varargs, METH_VARARGS|METH_CLASS|METH_C_STACK_FRUGAL},
+    {"meth_varargs_keywords", _PyCFunction_CAST(meth_varargs_keywords), METH_VARARGS|METH_KEYWORDS|METH_CLASS|METH_C_STACK_FRUGAL},
+    {"meth_o", meth_o, METH_O|METH_CLASS|METH_C_STACK_FRUGAL},
+    {"meth_noargs", meth_noargs, METH_NOARGS|METH_CLASS|METH_C_STACK_FRUGAL},
+    {"meth_fastcall", _PyCFunction_CAST(meth_fastcall), METH_FASTCALL|METH_CLASS|METH_C_STACK_FRUGAL},
+    {"meth_fastcall_keywords", _PyCFunction_CAST(meth_fastcall_keywords), METH_FASTCALL|METH_KEYWORDS|METH_CLASS|METH_C_STACK_FRUGAL},
     {NULL, NULL} /* sentinel */
 };
 
@@ -3050,12 +3050,12 @@ static PyTypeObject MethClass_Type = {
 };
 
 static PyMethodDef meth_static_methods[] = {
-    {"meth_varargs", meth_varargs, METH_VARARGS|METH_STATIC},
-    {"meth_varargs_keywords", _PyCFunction_CAST(meth_varargs_keywords), METH_VARARGS|METH_KEYWORDS|METH_STATIC},
-    {"meth_o", meth_o, METH_O|METH_STATIC},
-    {"meth_noargs", meth_noargs, METH_NOARGS|METH_STATIC},
-    {"meth_fastcall", _PyCFunction_CAST(meth_fastcall), METH_FASTCALL|METH_STATIC},
-    {"meth_fastcall_keywords", _PyCFunction_CAST(meth_fastcall_keywords), METH_FASTCALL|METH_KEYWORDS|METH_STATIC},
+    {"meth_varargs", meth_varargs, METH_VARARGS|METH_STATIC|METH_C_STACK_FRUGAL},
+    {"meth_varargs_keywords", _PyCFunction_CAST(meth_varargs_keywords), METH_VARARGS|METH_KEYWORDS|METH_STATIC|METH_C_STACK_FRUGAL},
+    {"meth_o", meth_o, METH_O|METH_STATIC|METH_C_STACK_FRUGAL},
+    {"meth_noargs", meth_noargs, METH_NOARGS|METH_STATIC|METH_C_STACK_FRUGAL},
+    {"meth_fastcall", _PyCFunction_CAST(meth_fastcall), METH_FASTCALL|METH_STATIC|METH_C_STACK_FRUGAL},
+    {"meth_fastcall_keywords", _PyCFunction_CAST(meth_fastcall_keywords), METH_FASTCALL|METH_KEYWORDS|METH_STATIC|METH_C_STACK_FRUGAL},
     {NULL, NULL} /* sentinel */
 };
 

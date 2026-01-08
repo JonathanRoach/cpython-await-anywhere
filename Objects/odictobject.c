@@ -1338,28 +1338,28 @@ static PyMethodDef odict_methods[] = {
 
     /* overridden dict methods */
     ORDEREDDICT_FROMKEYS_METHODDEF
-    {"__sizeof__",      odict_sizeof,      METH_NOARGS,
+    {"__sizeof__",      odict_sizeof,      METH_NOARGS|METH_C_STACK_FRUGAL,
      odict_sizeof__doc__},
-    {"__reduce__",      odict_reduce,      METH_NOARGS,
+    {"__reduce__",      odict_reduce,      METH_NOARGS|METH_C_STACK_FRUGAL,
      odict_reduce__doc__},
     ORDEREDDICT_SETDEFAULT_METHODDEF
     ORDEREDDICT_POP_METHODDEF
     ORDEREDDICT_POPITEM_METHODDEF
-    {"keys",            odictkeys_new,                  METH_NOARGS,
+    {"keys",            odictkeys_new,                  METH_NOARGS|METH_C_STACK_FRUGAL,
      odict_keys__doc__},
-    {"values",          odictvalues_new,                METH_NOARGS,
+    {"values",          odictvalues_new,                METH_NOARGS|METH_C_STACK_FRUGAL,
      odict_values__doc__},
-    {"items",           odictitems_new,                 METH_NOARGS,
+    {"items",           odictitems_new,                 METH_NOARGS|METH_C_STACK_FRUGAL,
      odict_items__doc__},
-    {"update",          _PyCFunction_CAST(odict_update), METH_VARARGS | METH_KEYWORDS,
+    {"update",          _PyCFunction_CAST(odict_update), METH_VARARGS | METH_KEYWORDS|METH_C_STACK_FRUGAL,
      odict_update__doc__},
-    {"clear",           odict_clear,       METH_NOARGS,
+    {"clear",           odict_clear,       METH_NOARGS|METH_C_STACK_FRUGAL,
      odict_clear__doc__},
-    {"copy",            odict_copy,        METH_NOARGS,
+    {"copy",            odict_copy,        METH_NOARGS|METH_C_STACK_FRUGAL,
      odict_copy__doc__},
 
     /* new methods */
-    {"__reversed__",    odict_reversed,    METH_NOARGS,
+    {"__reversed__",    odict_reversed,    METH_NOARGS|METH_C_STACK_FRUGAL,
      odict_reversed__doc__},
     ORDEREDDICT_MOVE_TO_END_METHODDEF
 
@@ -1806,7 +1806,7 @@ odictiter_reduce(PyObject *op, PyObject *Py_UNUSED(ignored))
 }
 
 static PyMethodDef odictiter_methods[] = {
-    {"__reduce__", odictiter_reduce, METH_NOARGS, reduce_doc},
+    {"__reduce__", odictiter_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, reduce_doc},
     {NULL,              NULL}           /* sentinel */
 };
 
@@ -1901,7 +1901,7 @@ odictkeys_reversed(PyObject *op, PyObject *Py_UNUSED(ignored))
 }
 
 static PyMethodDef odictkeys_methods[] = {
-    {"__reversed__", odictkeys_reversed, METH_NOARGS, NULL},
+    {"__reversed__", odictkeys_reversed, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
     {NULL,          NULL}           /* sentinel */
 };
 
@@ -1970,7 +1970,7 @@ odictitems_reversed(PyObject *op, PyObject *Py_UNUSED(ignored))
 }
 
 static PyMethodDef odictitems_methods[] = {
-    {"__reversed__", odictitems_reversed, METH_NOARGS, NULL},
+    {"__reversed__", odictitems_reversed, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
     {NULL,          NULL}           /* sentinel */
 };
 
@@ -2039,7 +2039,7 @@ odictvalues_reversed(PyObject *op, PyObject *Py_UNUSED(ignored))
 }
 
 static PyMethodDef odictvalues_methods[] = {
-    {"__reversed__", odictvalues_reversed, METH_NOARGS, NULL},
+    {"__reversed__", odictvalues_reversed, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
     {NULL,          NULL}           /* sentinel */
 };
 

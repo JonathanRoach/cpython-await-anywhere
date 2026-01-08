@@ -8286,7 +8286,7 @@ os_sched_param_reduce(PyObject *self, PyObject *Py_UNUSED(dummy))
 }
 
 static PyMethodDef os_sched_param_reduce_method = {
-    "__reduce__", os_sched_param_reduce, METH_NOARGS | METH_COEXIST, NULL,
+    "__reduce__", os_sched_param_reduce, METH_NOARGS | METH_COEXIST|METH_C_STACK_FRUGAL, NULL,
 };
 
 PyDoc_VAR(os_sched_param__doc__);
@@ -15992,7 +15992,7 @@ static PyMethodDef DirEntry_methods[] = {
     OS_DIRENTRY_INODE_METHODDEF
     OS_DIRENTRY___FSPATH___METHODDEF
     {"__class_getitem__",       Py_GenericAlias,
-    METH_O|METH_CLASS,          PyDoc_STR("See PEP 585")},
+    METH_O|METH_CLASS|METH_C_STACK_FRUGAL,          PyDoc_STR("See PEP 585")},
     {NULL}
 };
 
@@ -16431,9 +16431,9 @@ ScandirIterator_dealloc(PyObject *op)
 }
 
 static PyMethodDef ScandirIterator_methods[] = {
-    {"__enter__", ScandirIterator_enter, METH_NOARGS},
-    {"__exit__", ScandirIterator_exit, METH_VARARGS},
-    {"close", ScandirIterator_close, METH_NOARGS},
+    {"__enter__", ScandirIterator_enter, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"__exit__", ScandirIterator_exit, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"close", ScandirIterator_close, METH_NOARGS|METH_C_STACK_FRUGAL},
     {NULL}
 };
 

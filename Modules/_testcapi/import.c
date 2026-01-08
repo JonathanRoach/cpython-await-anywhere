@@ -31,8 +31,8 @@ pyimport_importmoduleattrstring(PyObject *self, PyObject *args)
 
 
 static PyMethodDef test_methods[] = {
-    {"PyImport_ImportModuleAttr", pyimport_importmoduleattr, METH_VARARGS},
-    {"PyImport_ImportModuleAttrString", pyimport_importmoduleattrstring, METH_VARARGS},
+    {"PyImport_ImportModuleAttr", pyimport_importmoduleattr, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"PyImport_ImportModuleAttrString", pyimport_importmoduleattrstring, METH_VARARGS|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

@@ -142,9 +142,9 @@ iter_setstate(PyObject *op, PyObject *state)
 PyDoc_STRVAR(setstate_doc, "Set state information for unpickling.");
 
 static PyMethodDef seqiter_methods[] = {
-    {"__length_hint__", iter_len, METH_NOARGS, length_hint_doc},
-    {"__reduce__", iter_reduce, METH_NOARGS, reduce_doc},
-    {"__setstate__", iter_setstate, METH_O, setstate_doc},
+    {"__length_hint__", iter_len, METH_NOARGS|METH_C_STACK_FRUGAL, length_hint_doc},
+    {"__reduce__", iter_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, reduce_doc},
+    {"__setstate__", iter_setstate, METH_O|METH_C_STACK_FRUGAL, setstate_doc},
     {NULL,              NULL}           /* sentinel */
 };
 
@@ -270,7 +270,7 @@ calliter_reduce(PyObject *op, PyObject *Py_UNUSED(ignored))
 }
 
 static PyMethodDef calliter_methods[] = {
-    {"__reduce__", calliter_reduce, METH_NOARGS, reduce_doc},
+    {"__reduce__", calliter_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, reduce_doc},
     {NULL,              NULL}           /* sentinel */
 };
 
@@ -480,9 +480,9 @@ PyDoc_STRVAR(close_doc,
 
 
 static PyMethodDef anextawaitable_methods[] = {
-    {"send", anextawaitable_send, METH_O, send_doc},
-    {"throw", anextawaitable_throw, METH_VARARGS, throw_doc},
-    {"close", anextawaitable_close, METH_NOARGS, close_doc},
+    {"send", anextawaitable_send, METH_O|METH_C_STACK_FRUGAL, send_doc},
+    {"throw", anextawaitable_throw, METH_VARARGS|METH_C_STACK_FRUGAL, throw_doc},
+    {"close", anextawaitable_close, METH_NOARGS|METH_C_STACK_FRUGAL, close_doc},
     {NULL, NULL}        /* Sentinel */
 };
 

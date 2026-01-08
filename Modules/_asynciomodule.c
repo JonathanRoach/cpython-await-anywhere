@@ -1758,7 +1758,7 @@ static PyMethodDef FutureType_methods[] = {
     _ASYNCIO_FUTURE_DONE_METHODDEF
     _ASYNCIO_FUTURE_GET_LOOP_METHODDEF
     _ASYNCIO_FUTURE__MAKE_CANCELLED_ERROR_METHODDEF
-    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS, PyDoc_STR("See PEP 585")},
+    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, PyDoc_STR("See PEP 585")},
     {NULL, NULL}        /* Sentinel */
 };
 
@@ -2038,9 +2038,9 @@ FutureIter_traverse(PyObject *op, visitproc visit, void *arg)
 }
 
 static PyMethodDef FutureIter_methods[] = {
-    {"send",  FutureIter_send, METH_O, NULL},
-    {"throw", _PyCFunction_CAST(FutureIter_throw), METH_FASTCALL, NULL},
-    {"close", FutureIter_close, METH_NOARGS, NULL},
+    {"send",  FutureIter_send, METH_O|METH_C_STACK_FRUGAL, NULL},
+    {"throw", _PyCFunction_CAST(FutureIter_throw), METH_FASTCALL|METH_C_STACK_FRUGAL, NULL},
+    {"close", FutureIter_close, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
     {NULL, NULL}        /* Sentinel */
 };
 
@@ -2210,7 +2210,7 @@ TaskStepMethWrapper_new(TaskObj *task, PyObject *arg)
 static  PyMethodDef TaskWakeupDef = {
     "task_wakeup",
     task_wakeup,
-    METH_O,
+    METH_O|METH_C_STACK_FRUGAL,
     NULL
 };
 
@@ -2970,7 +2970,7 @@ static PyMethodDef TaskType_methods[] = {
     _ASYNCIO_TASK_SET_NAME_METHODDEF
     _ASYNCIO_TASK_GET_CORO_METHODDEF
     _ASYNCIO_TASK_GET_CONTEXT_METHODDEF
-    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS, PyDoc_STR("See PEP 585")},
+    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, PyDoc_STR("See PEP 585")},
     {NULL, NULL}        /* Sentinel */
 };
 

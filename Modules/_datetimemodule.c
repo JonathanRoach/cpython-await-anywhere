@@ -3029,10 +3029,10 @@ static PyMemberDef delta_members[] = {
 };
 
 static PyMethodDef delta_methods[] = {
-    {"total_seconds", delta_total_seconds, METH_NOARGS,
+    {"total_seconds", delta_total_seconds, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Total seconds in the duration.")},
 
-    {"__reduce__", delta_reduce, METH_NOARGS,
+    {"__reduce__", delta_reduce, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("__reduce__() -> (cls, state)")},
 
     {NULL,      NULL},
@@ -3692,7 +3692,7 @@ static PyGetSetDef iso_calendar_date_getset[] = {
 };
 
 static PyMethodDef iso_calendar_date_methods[] = {
-    {"__reduce__", iso_calendar_date_reduce, METH_NOARGS,
+    {"__reduce__", iso_calendar_date_reduce, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("__reduce__() -> (cls, state)")},
     {NULL, NULL},
 };
@@ -3900,66 +3900,66 @@ static PyMethodDef date_methods[] = {
     /* Class methods: */
     DATETIME_DATE_FROMTIMESTAMP_METHODDEF
 
-    {"fromordinal", date_fromordinal, METH_VARARGS | METH_CLASS,
+    {"fromordinal", date_fromordinal, METH_VARARGS | METH_CLASS|METH_C_STACK_FRUGAL,
      PyDoc_STR("int -> date corresponding to a proleptic Gregorian "
                "ordinal.")},
 
-     {"fromisoformat", date_fromisoformat,  METH_O | METH_CLASS,
+     {"fromisoformat", date_fromisoformat,  METH_O | METH_CLASS|METH_C_STACK_FRUGAL,
       PyDoc_STR("str -> Construct a date from a string in ISO 8601 format.")},
 
      {"fromisocalendar", _PyCFunction_CAST(date_fromisocalendar),
-      METH_VARARGS | METH_KEYWORDS | METH_CLASS,
+      METH_VARARGS | METH_KEYWORDS | METH_CLASS|METH_C_STACK_FRUGAL,
       PyDoc_STR("int, int, int -> Construct a date from the ISO year, week "
                 "number and weekday.\n\n"
                 "This is the inverse of the date.isocalendar() function")},
 
-    {"strptime", date_strptime, METH_VARARGS | METH_CLASS,
+    {"strptime", date_strptime, METH_VARARGS | METH_CLASS|METH_C_STACK_FRUGAL,
      PyDoc_STR("string, format -> new date parsed from a string "
                "(like time.strptime()).")},
 
-    {"today", date_today, METH_NOARGS | METH_CLASS,
+    {"today", date_today, METH_NOARGS | METH_CLASS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Current date or datetime:  same as "
                "self.__class__.fromtimestamp(time.time()).")},
 
     /* Instance methods: */
 
-    {"ctime", date_ctime, METH_NOARGS,
+    {"ctime", date_ctime, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Return ctime() style string.")},
 
-    {"strftime", _PyCFunction_CAST(date_strftime), METH_VARARGS | METH_KEYWORDS,
+    {"strftime", _PyCFunction_CAST(date_strftime), METH_VARARGS | METH_KEYWORDS|METH_C_STACK_FRUGAL,
      PyDoc_STR("format -> strftime() style string.")},
 
-    {"__format__", date_format, METH_VARARGS,
+    {"__format__", date_format, METH_VARARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Formats self with strftime.")},
 
-    {"timetuple", date_timetuple, METH_NOARGS,
+    {"timetuple", date_timetuple, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Return time tuple, compatible with time.localtime().")},
 
-    {"isocalendar", date_isocalendar,  METH_NOARGS,
+    {"isocalendar", date_isocalendar,  METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Return a named tuple containing ISO year, week number, and "
                "weekday.")},
 
-    {"isoformat", date_isoformat, METH_NOARGS,
+    {"isoformat", date_isoformat, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Return string in ISO 8601 format, YYYY-MM-DD.")},
 
-    {"isoweekday", date_isoweekday, METH_NOARGS,
+    {"isoweekday", date_isoweekday, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Return the day of the week represented by the date.\n"
                "Monday == 1 ... Sunday == 7")},
 
-    {"toordinal", date_toordinal, METH_NOARGS,
+    {"toordinal", date_toordinal, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Return proleptic Gregorian ordinal.  January 1 of year "
                "1 is day 1.")},
 
-    {"weekday", date_weekday, METH_NOARGS,
+    {"weekday", date_weekday, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Return the day of the week represented by the date.\n"
                "Monday == 0 ... Sunday == 6")},
 
     DATETIME_DATE_REPLACE_METHODDEF
 
-    {"__replace__", _PyCFunction_CAST(datetime_date_replace), METH_FASTCALL | METH_KEYWORDS,
+    {"__replace__", _PyCFunction_CAST(datetime_date_replace), METH_FASTCALL | METH_KEYWORDS|METH_C_STACK_FRUGAL,
      PyDoc_STR("__replace__($self, /, **changes)\n--\n\nThe same as replace().")},
 
-    {"__reduce__", date_reduce, METH_NOARGS,
+    {"__reduce__", date_reduce, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("__reduce__() -> (cls, state)")},
 
     {NULL,      NULL}
@@ -4185,20 +4185,20 @@ tzinfo_reduce(PyObject *self, PyObject *Py_UNUSED(dummy))
 
 static PyMethodDef tzinfo_methods[] = {
 
-    {"tzname", tzinfo_tzname, METH_O,
+    {"tzname", tzinfo_tzname, METH_O|METH_C_STACK_FRUGAL,
      PyDoc_STR("datetime -> string name of time zone.")},
 
-    {"utcoffset", tzinfo_utcoffset, METH_O,
+    {"utcoffset", tzinfo_utcoffset, METH_O|METH_C_STACK_FRUGAL,
      PyDoc_STR("datetime -> timedelta showing offset from UTC, negative "
            "values indicating West of UTC")},
 
-    {"dst", tzinfo_dst, METH_O,
+    {"dst", tzinfo_dst, METH_O|METH_C_STACK_FRUGAL,
      PyDoc_STR("datetime -> DST offset as timedelta positive east of UTC.")},
 
-    {"fromutc", tzinfo_fromutc, METH_O,
+    {"fromutc", tzinfo_fromutc, METH_O|METH_C_STACK_FRUGAL,
      PyDoc_STR("datetime in UTC -> datetime in local time.")},
 
-    {"__reduce__",  tzinfo_reduce, METH_NOARGS,
+    {"__reduce__",  tzinfo_reduce, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("-> (cls, state)")},
 
     {NULL, NULL}
@@ -4429,20 +4429,20 @@ timezone_getinitargs(PyObject *op, PyObject *Py_UNUSED(dummy))
 }
 
 static PyMethodDef timezone_methods[] = {
-    {"tzname", timezone_tzname, METH_O,
+    {"tzname", timezone_tzname, METH_O|METH_C_STACK_FRUGAL,
      PyDoc_STR("If name is specified when timezone is created, returns the name."
                "  Otherwise returns offset as 'UTC(+|-)HH:MM'.")},
 
-    {"utcoffset", timezone_utcoffset, METH_O,
+    {"utcoffset", timezone_utcoffset, METH_O|METH_C_STACK_FRUGAL,
      PyDoc_STR("Return fixed offset.")},
 
-    {"dst", timezone_dst, METH_O,
+    {"dst", timezone_dst, METH_O|METH_C_STACK_FRUGAL,
      PyDoc_STR("Return None.")},
 
-    {"fromutc", timezone_fromutc, METH_O,
+    {"fromutc", timezone_fromutc, METH_O|METH_C_STACK_FRUGAL,
      PyDoc_STR("datetime in UTC -> datetime in local time.")},
 
-    {"__getinitargs__", timezone_getinitargs, METH_NOARGS,
+    {"__getinitargs__", timezone_getinitargs, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("pickle support")},
 
     {NULL, NULL}
@@ -5141,13 +5141,13 @@ static PyMethodDef time_methods[] = {
     /* Class method: */
 
     {"strptime", time_strptime,
-     METH_VARARGS | METH_CLASS,
+     METH_VARARGS | METH_CLASS|METH_C_STACK_FRUGAL,
      PyDoc_STR("string, format -> new time parsed from a string "
                "(like time.strptime()).")},
 
     /* Instance methods: */
 
-    {"isoformat", _PyCFunction_CAST(time_isoformat), METH_VARARGS | METH_KEYWORDS,
+    {"isoformat", _PyCFunction_CAST(time_isoformat), METH_VARARGS | METH_KEYWORDS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Return string in ISO 8601 format, [HH[:MM[:SS[.mmm[uuu]]]]]"
                "[+HH:MM].\n\n"
                "The optional argument timespec specifies the number "
@@ -5155,33 +5155,33 @@ static PyMethodDef time_methods[] = {
                "options are 'auto', 'hours', 'minutes',\n'seconds', "
                "'milliseconds' and 'microseconds'.\n")},
 
-    {"strftime", _PyCFunction_CAST(time_strftime), METH_VARARGS | METH_KEYWORDS,
+    {"strftime", _PyCFunction_CAST(time_strftime), METH_VARARGS | METH_KEYWORDS|METH_C_STACK_FRUGAL,
      PyDoc_STR("format -> strftime() style string.")},
 
-    {"__format__", date_format, METH_VARARGS,
+    {"__format__", date_format, METH_VARARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Formats self with strftime.")},
 
-    {"utcoffset", time_utcoffset, METH_NOARGS,
+    {"utcoffset", time_utcoffset, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Return self.tzinfo.utcoffset(self).")},
 
-    {"tzname", time_tzname, METH_NOARGS,
+    {"tzname", time_tzname, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Return self.tzinfo.tzname(self).")},
 
-    {"dst", time_dst, METH_NOARGS,
+    {"dst", time_dst, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Return self.tzinfo.dst(self).")},
 
     DATETIME_TIME_REPLACE_METHODDEF
 
-    {"__replace__", _PyCFunction_CAST(datetime_time_replace), METH_FASTCALL | METH_KEYWORDS,
+    {"__replace__", _PyCFunction_CAST(datetime_time_replace), METH_FASTCALL | METH_KEYWORDS|METH_C_STACK_FRUGAL,
      PyDoc_STR("__replace__($self, /, **changes)\n--\n\nThe same as replace().")},
 
-     {"fromisoformat", time_fromisoformat, METH_O | METH_CLASS,
+     {"fromisoformat", time_fromisoformat, METH_O | METH_CLASS|METH_C_STACK_FRUGAL,
      PyDoc_STR("string -> time from a string in ISO 8601 format")},
 
-    {"__reduce_ex__", time_reduce_ex, METH_VARARGS,
+    {"__reduce_ex__", time_reduce_ex, METH_VARARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("__reduce_ex__(proto) -> (cls, state)")},
 
-    {"__reduce__", time_reduce, METH_NOARGS,
+    {"__reduce__", time_reduce, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("__reduce__() -> (cls, state)")},
 
     {NULL,      NULL}
@@ -7014,54 +7014,54 @@ static PyMethodDef datetime_methods[] = {
     DATETIME_DATETIME_NOW_METHODDEF
 
     {"utcnow", datetime_utcnow,
-     METH_NOARGS | METH_CLASS,
+     METH_NOARGS | METH_CLASS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Return a new datetime representing UTC day and time.")},
 
     {"fromtimestamp", _PyCFunction_CAST(datetime_fromtimestamp),
-     METH_VARARGS | METH_KEYWORDS | METH_CLASS,
+     METH_VARARGS | METH_KEYWORDS | METH_CLASS|METH_C_STACK_FRUGAL,
      PyDoc_STR("timestamp[, tz] -> tz's local time from POSIX timestamp.")},
 
     {"utcfromtimestamp", datetime_utcfromtimestamp,
-     METH_VARARGS | METH_CLASS,
+     METH_VARARGS | METH_CLASS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Construct a naive UTC datetime from a POSIX timestamp.")},
 
     {"strptime", datetime_strptime,
-     METH_VARARGS | METH_CLASS,
+     METH_VARARGS | METH_CLASS|METH_C_STACK_FRUGAL,
      PyDoc_STR("string, format -> new datetime parsed from a string "
                "(like time.strptime()).")},
 
     {"combine", _PyCFunction_CAST(datetime_combine),
-     METH_VARARGS | METH_KEYWORDS | METH_CLASS,
+     METH_VARARGS | METH_KEYWORDS | METH_CLASS|METH_C_STACK_FRUGAL,
      PyDoc_STR("date, time -> datetime with same date and time fields")},
 
     {"fromisoformat", datetime_fromisoformat,
-     METH_O | METH_CLASS,
+     METH_O | METH_CLASS|METH_C_STACK_FRUGAL,
      PyDoc_STR("string -> datetime from a string in most ISO 8601 formats")},
 
     /* Instance methods: */
 
-    {"date", datetime_getdate, METH_NOARGS,
+    {"date", datetime_getdate, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Return date object with same year, month and day.")},
 
-    {"time", datetime_gettime, METH_NOARGS,
+    {"time", datetime_gettime, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Return time object with same time but with tzinfo=None.")},
 
-    {"timetz", datetime_gettimetz, METH_NOARGS,
+    {"timetz", datetime_gettimetz, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Return time object with same time and tzinfo.")},
 
-    {"ctime", datetime_ctime, METH_NOARGS,
+    {"ctime", datetime_ctime, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Return ctime() style string.")},
 
-    {"timetuple", datetime_timetuple, METH_NOARGS,
+    {"timetuple", datetime_timetuple, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Return time tuple, compatible with time.localtime().")},
 
-    {"timestamp", datetime_timestamp, METH_NOARGS,
+    {"timestamp", datetime_timestamp, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Return POSIX timestamp as float.")},
 
-    {"utctimetuple", datetime_utctimetuple, METH_NOARGS,
+    {"utctimetuple", datetime_utctimetuple, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Return UTC time tuple, compatible with time.localtime().")},
 
-    {"isoformat", _PyCFunction_CAST(datetime_isoformat), METH_VARARGS | METH_KEYWORDS,
+    {"isoformat", _PyCFunction_CAST(datetime_isoformat), METH_VARARGS | METH_KEYWORDS|METH_C_STACK_FRUGAL,
      PyDoc_STR("[sep] -> string in ISO 8601 format, "
                "YYYY-MM-DDT[HH[:MM[:SS[.mmm[uuu]]]]][+HH:MM].\n"
                "sep is used to separate the year from the time, and "
@@ -7071,27 +7071,27 @@ static PyMethodDef datetime_methods[] = {
                "options are 'auto', 'hours', 'minutes',\n'seconds', "
                "'milliseconds' and 'microseconds'.\n")},
 
-    {"utcoffset", datetime_utcoffset, METH_NOARGS,
+    {"utcoffset", datetime_utcoffset, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Return self.tzinfo.utcoffset(self).")},
 
-    {"tzname", datetime_tzname,   METH_NOARGS,
+    {"tzname", datetime_tzname,   METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Return self.tzinfo.tzname(self).")},
 
-    {"dst", datetime_dst, METH_NOARGS,
+    {"dst", datetime_dst, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Return self.tzinfo.dst(self).")},
 
     DATETIME_DATETIME_REPLACE_METHODDEF
 
-    {"__replace__", _PyCFunction_CAST(datetime_datetime_replace), METH_FASTCALL | METH_KEYWORDS,
+    {"__replace__", _PyCFunction_CAST(datetime_datetime_replace), METH_FASTCALL | METH_KEYWORDS|METH_C_STACK_FRUGAL,
      PyDoc_STR("__replace__($self, /, **changes)\n--\n\nThe same as replace().")},
 
-    {"astimezone",  _PyCFunction_CAST(datetime_astimezone), METH_VARARGS | METH_KEYWORDS,
+    {"astimezone",  _PyCFunction_CAST(datetime_astimezone), METH_VARARGS | METH_KEYWORDS|METH_C_STACK_FRUGAL,
      PyDoc_STR("tz -> convert to local time in new timezone tz\n")},
 
-    {"__reduce_ex__", datetime_reduce_ex, METH_VARARGS,
+    {"__reduce_ex__", datetime_reduce_ex, METH_VARARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("__reduce_ex__(proto) -> (cls, state)")},
 
-    {"__reduce__", datetime_reduce, METH_NOARGS,
+    {"__reduce__", datetime_reduce, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("__reduce__() -> (cls, state)")},
 
     {NULL,      NULL}

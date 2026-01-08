@@ -235,19 +235,19 @@ test_pytime_object_to_timespec(PyObject *self, PyObject *args)
 }
 
 static PyMethodDef TestMethods[] = {
-    {"_PyTime_AsMicroseconds",    test_PyTime_AsMicroseconds,     METH_VARARGS},
-    {"_PyTime_AsMilliseconds",    test_PyTime_AsMilliseconds,     METH_VARARGS},
+    {"_PyTime_AsMicroseconds",    test_PyTime_AsMicroseconds,     METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"_PyTime_AsMilliseconds",    test_PyTime_AsMilliseconds,     METH_VARARGS|METH_C_STACK_FRUGAL},
 #ifdef HAVE_CLOCK_GETTIME
-    {"_PyTime_AsTimespec",        test_PyTime_AsTimespec,         METH_VARARGS},
-    {"_PyTime_AsTimespec_clamp",  test_PyTime_AsTimespec_clamp,   METH_VARARGS},
+    {"_PyTime_AsTimespec",        test_PyTime_AsTimespec,         METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"_PyTime_AsTimespec_clamp",  test_PyTime_AsTimespec_clamp,   METH_VARARGS|METH_C_STACK_FRUGAL},
 #endif
-    {"_PyTime_AsTimeval",         test_PyTime_AsTimeval,          METH_VARARGS},
-    {"_PyTime_AsTimeval_clamp",   test_PyTime_AsTimeval_clamp,    METH_VARARGS},
-    {"_PyTime_FromSeconds",       test_pytime_fromseconds,        METH_VARARGS},
-    {"_PyTime_FromSecondsObject", test_pytime_fromsecondsobject,  METH_VARARGS},
-    {"_PyTime_ObjectToTime_t",    test_pytime_object_to_time_t,   METH_VARARGS},
-    {"_PyTime_ObjectToTimespec",  test_pytime_object_to_timespec, METH_VARARGS},
-    {"_PyTime_ObjectToTimeval",   test_pytime_object_to_timeval,  METH_VARARGS},
+    {"_PyTime_AsTimeval",         test_PyTime_AsTimeval,          METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"_PyTime_AsTimeval_clamp",   test_PyTime_AsTimeval_clamp,    METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"_PyTime_FromSeconds",       test_pytime_fromseconds,        METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"_PyTime_FromSecondsObject", test_pytime_fromsecondsobject,  METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"_PyTime_ObjectToTime_t",    test_pytime_object_to_time_t,   METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"_PyTime_ObjectToTimespec",  test_pytime_object_to_timespec, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"_PyTime_ObjectToTimeval",   test_pytime_object_to_timeval,  METH_VARARGS|METH_C_STACK_FRUGAL},
     {NULL, NULL} /* sentinel */
 };
 

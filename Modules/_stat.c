@@ -466,19 +466,19 @@ stat_filemode(PyObject *self, PyObject *omode)
 
 
 static PyMethodDef stat_methods[] = {
-    {"S_ISDIR",         stat_S_ISDIR,  METH_O, stat_S_ISDIR_doc},
-    {"S_ISCHR",         stat_S_ISCHR,  METH_O, stat_S_ISCHR_doc},
-    {"S_ISBLK",         stat_S_ISBLK,  METH_O, stat_S_ISBLK_doc},
-    {"S_ISREG",         stat_S_ISREG,  METH_O, stat_S_ISREG_doc},
-    {"S_ISFIFO",        stat_S_ISFIFO, METH_O, stat_S_ISFIFO_doc},
-    {"S_ISLNK",         stat_S_ISLNK,  METH_O, stat_S_ISLNK_doc},
-    {"S_ISSOCK",        stat_S_ISSOCK, METH_O, stat_S_ISSOCK_doc},
-    {"S_ISDOOR",        stat_S_ISDOOR, METH_O, stat_S_ISDOOR_doc},
-    {"S_ISPORT",        stat_S_ISPORT, METH_O, stat_S_ISPORT_doc},
-    {"S_ISWHT",         stat_S_ISWHT,  METH_O, stat_S_ISWHT_doc},
-    {"S_IMODE",         stat_S_IMODE,  METH_O, stat_S_IMODE_doc},
-    {"S_IFMT",          stat_S_IFMT,   METH_O, stat_S_IFMT_doc},
-    {"filemode",        stat_filemode, METH_O, stat_filemode_doc},
+    {"S_ISDIR",         stat_S_ISDIR,  METH_O|METH_C_STACK_FRUGAL, stat_S_ISDIR_doc},
+    {"S_ISCHR",         stat_S_ISCHR,  METH_O|METH_C_STACK_FRUGAL, stat_S_ISCHR_doc},
+    {"S_ISBLK",         stat_S_ISBLK,  METH_O|METH_C_STACK_FRUGAL, stat_S_ISBLK_doc},
+    {"S_ISREG",         stat_S_ISREG,  METH_O|METH_C_STACK_FRUGAL, stat_S_ISREG_doc},
+    {"S_ISFIFO",        stat_S_ISFIFO, METH_O|METH_C_STACK_FRUGAL, stat_S_ISFIFO_doc},
+    {"S_ISLNK",         stat_S_ISLNK,  METH_O|METH_C_STACK_FRUGAL, stat_S_ISLNK_doc},
+    {"S_ISSOCK",        stat_S_ISSOCK, METH_O|METH_C_STACK_FRUGAL, stat_S_ISSOCK_doc},
+    {"S_ISDOOR",        stat_S_ISDOOR, METH_O|METH_C_STACK_FRUGAL, stat_S_ISDOOR_doc},
+    {"S_ISPORT",        stat_S_ISPORT, METH_O|METH_C_STACK_FRUGAL, stat_S_ISPORT_doc},
+    {"S_ISWHT",         stat_S_ISWHT,  METH_O|METH_C_STACK_FRUGAL, stat_S_ISWHT_doc},
+    {"S_IMODE",         stat_S_IMODE,  METH_O|METH_C_STACK_FRUGAL, stat_S_IMODE_doc},
+    {"S_IFMT",          stat_S_IFMT,   METH_O|METH_C_STACK_FRUGAL, stat_S_IFMT_doc},
+    {"filemode",        stat_filemode, METH_O|METH_C_STACK_FRUGAL, stat_filemode_doc},
     {NULL,              NULL}           /* sentinel */
 };
 

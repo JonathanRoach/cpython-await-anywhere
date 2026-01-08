@@ -66,42 +66,42 @@ test_with_docstring(PyObject *self, PyObject *Py_UNUSED(ignored))
 
 static PyMethodDef test_methods[] = {
     {"docstring_empty",
-        test_with_docstring, METH_VARARGS,
+        test_with_docstring, METH_VARARGS|METH_C_STACK_FRUGAL,
         docstring_empty},
     {"docstring_no_signature",
-        test_with_docstring, METH_VARARGS,
+        test_with_docstring, METH_VARARGS|METH_C_STACK_FRUGAL,
         docstring_no_signature},
     {"docstring_no_signature_noargs",
-        test_with_docstring, METH_NOARGS,
+        test_with_docstring, METH_NOARGS|METH_C_STACK_FRUGAL,
         docstring_no_signature},
     {"docstring_no_signature_o",
-        test_with_docstring, METH_O,
+        test_with_docstring, METH_O|METH_C_STACK_FRUGAL,
         docstring_no_signature},
     {"docstring_with_invalid_signature",
-        test_with_docstring, METH_VARARGS,
+        test_with_docstring, METH_VARARGS|METH_C_STACK_FRUGAL,
         docstring_with_invalid_signature},
     {"docstring_with_invalid_signature2",
-        test_with_docstring, METH_VARARGS,
+        test_with_docstring, METH_VARARGS|METH_C_STACK_FRUGAL,
         docstring_with_invalid_signature2},
     {"docstring_with_signature",
-        test_with_docstring, METH_VARARGS,
+        test_with_docstring, METH_VARARGS|METH_C_STACK_FRUGAL,
         docstring_with_signature},
     {"docstring_with_signature_and_extra_newlines",
-        test_with_docstring, METH_VARARGS,
+        test_with_docstring, METH_VARARGS|METH_C_STACK_FRUGAL,
         docstring_with_signature_and_extra_newlines},
     {"docstring_with_signature_but_no_doc",
-        test_with_docstring, METH_VARARGS,
+        test_with_docstring, METH_VARARGS|METH_C_STACK_FRUGAL,
         docstring_with_signature_but_no_doc},
     {"docstring_with_signature_with_defaults",
-        test_with_docstring, METH_VARARGS,
+        test_with_docstring, METH_VARARGS|METH_C_STACK_FRUGAL,
         docstring_with_signature_with_defaults},
     {"no_docstring",
-        test_with_docstring, METH_VARARGS},
+        test_with_docstring, METH_VARARGS|METH_C_STACK_FRUGAL},
     {"test_with_docstring",
-        test_with_docstring,              METH_VARARGS,
+        test_with_docstring,              METH_VARARGS|METH_C_STACK_FRUGAL,
         PyDoc_STR("This is a pretty normal docstring.")},
     {"func_with_unrepresentable_signature",
-        test_with_docstring, METH_VARARGS,
+        test_with_docstring, METH_VARARGS|METH_C_STACK_FRUGAL,
         PyDoc_STR(
             "func_with_unrepresentable_signature($module, /, a, b=<x>)\n"
             "--\n\n"
@@ -112,28 +112,28 @@ static PyMethodDef test_methods[] = {
 
 static PyMethodDef DocStringNoSignatureTest_methods[] = {
     {"meth_noargs",
-        test_with_docstring, METH_NOARGS,
+        test_with_docstring, METH_NOARGS|METH_C_STACK_FRUGAL,
         docstring_no_signature},
     {"meth_o",
-        test_with_docstring, METH_O,
+        test_with_docstring, METH_O|METH_C_STACK_FRUGAL,
         docstring_no_signature},
     {"meth_noargs_class",
-        test_with_docstring, METH_NOARGS|METH_CLASS,
+        test_with_docstring, METH_NOARGS|METH_CLASS|METH_C_STACK_FRUGAL,
         docstring_no_signature},
     {"meth_o_class",
-        test_with_docstring, METH_O|METH_CLASS,
+        test_with_docstring, METH_O|METH_CLASS|METH_C_STACK_FRUGAL,
         docstring_no_signature},
     {"meth_noargs_static",
-        test_with_docstring, METH_NOARGS|METH_STATIC,
+        test_with_docstring, METH_NOARGS|METH_STATIC|METH_C_STACK_FRUGAL,
         docstring_no_signature},
     {"meth_o_static",
-        test_with_docstring, METH_O|METH_STATIC,
+        test_with_docstring, METH_O|METH_STATIC|METH_C_STACK_FRUGAL,
         docstring_no_signature},
     {"meth_noargs_coexist",
-        test_with_docstring, METH_NOARGS|METH_COEXIST,
+        test_with_docstring, METH_NOARGS|METH_COEXIST|METH_C_STACK_FRUGAL,
         docstring_no_signature},
     {"meth_o_coexist",
-        test_with_docstring, METH_O|METH_COEXIST,
+        test_with_docstring, METH_O|METH_COEXIST|METH_C_STACK_FRUGAL,
         docstring_no_signature},
     {NULL},
 };
@@ -149,28 +149,28 @@ static PyTypeObject DocStringNoSignatureTest = {
 
 static PyMethodDef DocStringUnrepresentableSignatureTest_methods[] = {
     {"meth",
-        test_with_docstring, METH_VARARGS,
+        test_with_docstring, METH_VARARGS|METH_C_STACK_FRUGAL,
         PyDoc_STR(
             "meth($self, /, a, b=<x>)\n"
             "--\n\n"
             "This docstring has a signature with unrepresentable default."
         )},
     {"classmeth",
-        test_with_docstring, METH_VARARGS|METH_CLASS,
+        test_with_docstring, METH_VARARGS|METH_CLASS|METH_C_STACK_FRUGAL,
         PyDoc_STR(
             "classmeth($type, /, a, b=<x>)\n"
             "--\n\n"
             "This docstring has a signature with unrepresentable default."
         )},
     {"staticmeth",
-        test_with_docstring, METH_VARARGS|METH_STATIC,
+        test_with_docstring, METH_VARARGS|METH_STATIC|METH_C_STACK_FRUGAL,
         PyDoc_STR(
             "staticmeth(a, b=<x>)\n"
             "--\n\n"
             "This docstring has a signature with unrepresentable default."
         )},
     {"with_default",
-        test_with_docstring, METH_VARARGS,
+        test_with_docstring, METH_VARARGS|METH_C_STACK_FRUGAL,
         PyDoc_STR(
             "with_default($self, /, x=ONE)\n"
             "--\n\n"

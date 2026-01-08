@@ -54,10 +54,10 @@ _testcapi_config_set(PyObject *module, PyObject *args)
 
 
 static PyMethodDef test_methods[] = {
-    {"config_get", _testcapi_config_get, METH_O},
-    {"config_getint", _testcapi_config_getint, METH_O},
-    {"config_names", _testcapi_config_names, METH_NOARGS},
-    {"config_set", _testcapi_config_set, METH_VARARGS},
+    {"config_get", _testcapi_config_get, METH_O|METH_C_STACK_FRUGAL},
+    {"config_getint", _testcapi_config_getint, METH_O|METH_C_STACK_FRUGAL},
+    {"config_names", _testcapi_config_names, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"config_set", _testcapi_config_set, METH_VARARGS|METH_C_STACK_FRUGAL},
     {NULL}
 };
 

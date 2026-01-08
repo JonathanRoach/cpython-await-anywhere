@@ -848,7 +848,7 @@ static PyMethodDef tuple_methods[] = {
     TUPLE___GETNEWARGS___METHODDEF
     TUPLE_INDEX_METHODDEF
     TUPLE_COUNT_METHODDEF
-    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS, PyDoc_STR("See PEP 585")},
+    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, PyDoc_STR("See PEP 585")},
     {NULL,              NULL}           /* sentinel */
 };
 
@@ -1092,9 +1092,9 @@ PyDoc_STRVAR(reduce_doc, "Return state information for pickling.");
 PyDoc_STRVAR(setstate_doc, "Set state information for unpickling.");
 
 static PyMethodDef tupleiter_methods[] = {
-    {"__length_hint__", tupleiter_len, METH_NOARGS, length_hint_doc},
-    {"__reduce__", tupleiter_reduce, METH_NOARGS, reduce_doc},
-    {"__setstate__", tupleiter_setstate, METH_O, setstate_doc},
+    {"__length_hint__", tupleiter_len, METH_NOARGS|METH_C_STACK_FRUGAL, length_hint_doc},
+    {"__reduce__", tupleiter_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, reduce_doc},
+    {"__setstate__", tupleiter_setstate, METH_O|METH_C_STACK_FRUGAL, setstate_doc},
     {NULL, NULL, 0, NULL} /* sentinel */
 };
 

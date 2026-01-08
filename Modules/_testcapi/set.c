@@ -32,8 +32,8 @@ test_set_type_size(PyObject *self, PyObject *Py_UNUSED(ignored))
 
 
 static PyMethodDef test_methods[] = {
-    {"set_get_size", set_get_size, METH_O},
-    {"test_set_type_size", test_set_type_size, METH_NOARGS},
+    {"set_get_size", set_get_size, METH_O|METH_C_STACK_FRUGAL},
+    {"test_set_type_size", test_set_type_size, METH_NOARGS|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

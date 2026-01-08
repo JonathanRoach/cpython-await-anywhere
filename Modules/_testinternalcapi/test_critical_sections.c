@@ -285,12 +285,12 @@ test_critical_sections_gc(PyObject *self, PyObject *Py_UNUSED(args))
 #endif
 
 static PyMethodDef test_methods[] = {
-    {"test_critical_sections", test_critical_sections, METH_NOARGS},
-    {"test_critical_sections_nest", test_critical_sections_nest, METH_NOARGS},
-    {"test_critical_sections_suspend", test_critical_sections_suspend, METH_NOARGS},
+    {"test_critical_sections", test_critical_sections, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_critical_sections_nest", test_critical_sections_nest, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_critical_sections_suspend", test_critical_sections_suspend, METH_NOARGS|METH_C_STACK_FRUGAL},
 #ifdef Py_CAN_START_THREADS
-    {"test_critical_sections_threads", test_critical_sections_threads, METH_NOARGS},
-    {"test_critical_sections_gc", test_critical_sections_gc, METH_NOARGS},
+    {"test_critical_sections_threads", test_critical_sections_threads, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_critical_sections_gc", test_critical_sections_gc, METH_NOARGS|METH_C_STACK_FRUGAL},
 #endif
     {NULL, NULL} /* sentinel */
 };

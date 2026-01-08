@@ -314,11 +314,11 @@ static PyType_Spec ObjExtraData_TypeSpec = {
 };
 
 static PyMethodDef test_methods[] = {
-    {"test_gc_control", test_gc_control, METH_NOARGS},
-    {"test_gc_visit_objects_basic", test_gc_visit_objects_basic, METH_NOARGS, NULL},
-    {"test_gc_visit_objects_exit_early", test_gc_visit_objects_exit_early, METH_NOARGS, NULL},
-    {"without_gc", without_gc, METH_O, NULL},
-    {"with_tp_del", with_tp_del, METH_VARARGS, NULL},
+    {"test_gc_control", test_gc_control, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_gc_visit_objects_basic", test_gc_visit_objects_basic, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
+    {"test_gc_visit_objects_exit_early", test_gc_visit_objects_exit_early, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
+    {"without_gc", without_gc, METH_O|METH_C_STACK_FRUGAL, NULL},
+    {"with_tp_del", with_tp_del, METH_VARARGS|METH_C_STACK_FRUGAL, NULL},
     {NULL}
 };
 

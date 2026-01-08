@@ -24,7 +24,7 @@ static PyObject* _fuzz_run(PyObject* self, PyObject* args) {
 }
 
 static PyMethodDef module_methods[] = {
-    {"run", _fuzz_run, METH_VARARGS, ""},
+    {"run", _fuzz_run, METH_VARARGS|METH_C_STACK_FRUGAL, ""},
     {NULL},
 };
 

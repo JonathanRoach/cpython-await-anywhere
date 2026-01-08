@@ -2842,13 +2842,13 @@ code__varname_from_oparg_impl(PyCodeObject *self, int oparg)
 /* XXX code objects need to participate in GC? */
 
 static struct PyMethodDef code_methods[] = {
-    {"__sizeof__", code_sizeof, METH_NOARGS},
-    {"co_lines", code_linesiterator, METH_NOARGS},
-    {"co_branches", code_branchesiterator, METH_NOARGS},
-    {"co_positions", code_positionsiterator, METH_NOARGS},
+    {"__sizeof__", code_sizeof, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"co_lines", code_linesiterator, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"co_branches", code_branchesiterator, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"co_positions", code_positionsiterator, METH_NOARGS|METH_C_STACK_FRUGAL},
     CODE_REPLACE_METHODDEF
     CODE__VARNAME_FROM_OPARG_METHODDEF
-    {"__replace__", _PyCFunction_CAST(code_replace), METH_FASTCALL|METH_KEYWORDS,
+    {"__replace__", _PyCFunction_CAST(code_replace), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL,
      PyDoc_STR("__replace__($self, /, **changes)\n--\n\nThe same as replace().")},
     {NULL, NULL}                /* sentinel */
 };

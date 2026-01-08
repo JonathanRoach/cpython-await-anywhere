@@ -1550,7 +1550,7 @@ static PyGetSetDef cm_getsetlist[] = {
 };
 
 static PyMethodDef cm_methodlist[] = {
-    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS, NULL},
+    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, NULL},
     {NULL} /* Sentinel */
 };
 
@@ -1787,7 +1787,7 @@ static PyGetSetDef sm_getsetlist[] = {
 };
 
 static PyMethodDef sm_methodlist[] = {
-    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS, NULL},
+    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, NULL},
     {NULL} /* Sentinel */
 };
 

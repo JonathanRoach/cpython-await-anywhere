@@ -108,9 +108,9 @@ var_heaptype_get_data(PyObject *self, PyTypeObject *defining_class,
 
 static PyMethodDef var_heaptype_methods[] = {
     {"set_data_to_3s", _PyCFunction_CAST(var_heaptype_set_data_to_3s),
-        METH_METHOD | METH_FASTCALL | METH_KEYWORDS},
+        METH_METHOD | METH_FASTCALL | METH_KEYWORDS|METH_C_STACK_FRUGAL},
     {"get_data", _PyCFunction_CAST(var_heaptype_get_data),
-        METH_METHOD | METH_FASTCALL | METH_KEYWORDS},
+        METH_METHOD | METH_FASTCALL | METH_KEYWORDS|METH_C_STACK_FRUGAL},
     {NULL},
 };
 
@@ -325,11 +325,11 @@ static PyType_Spec HeapCTypeWithRelativeWeakref_spec = {
 };
 
 static PyMethodDef heaptype_with_member_methods[] = {
-    {"get_memb", heaptype_with_member_get_memb, METH_NOARGS},
-    {"set_memb", heaptype_with_member_set_memb, METH_O},
-    {"get_memb_offset", get_memb_offset, METH_NOARGS},
-    {"get_memb_relative", heaptype_with_member_get_memb_relative, METH_NOARGS},
-    {"set_memb_relative", heaptype_with_member_set_memb_relative, METH_O},
+    {"get_memb", heaptype_with_member_get_memb, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"set_memb", heaptype_with_member_set_memb, METH_O|METH_C_STACK_FRUGAL},
+    {"get_memb_offset", get_memb_offset, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"get_memb_relative", heaptype_with_member_get_memb_relative, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"set_memb_relative", heaptype_with_member_set_memb_relative, METH_O|METH_C_STACK_FRUGAL},
     {NULL},
 };
 
@@ -412,11 +412,11 @@ test_alignof_max_align_t(PyObject *module, PyObject *Py_UNUSED(ignored))
 }
 
 static PyMethodDef TestMethods[] = {
-    {"make_sized_heaptypes", make_sized_heaptypes, METH_VARARGS},
-    {"subclass_var_heaptype", subclass_var_heaptype, METH_VARARGS},
-    {"subclass_heaptype", subclass_heaptype, METH_VARARGS},
+    {"make_sized_heaptypes", make_sized_heaptypes, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"subclass_var_heaptype", subclass_var_heaptype, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"subclass_heaptype", subclass_heaptype, METH_VARARGS|METH_C_STACK_FRUGAL},
     MAKE_HEAPTYPE_WITH_MEMBER_METHODDEF
-    {"test_alignof_max_align_t", test_alignof_max_align_t, METH_NOARGS},
+    {"test_alignof_max_align_t", test_alignof_max_align_t, METH_NOARGS|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

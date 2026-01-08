@@ -2555,7 +2555,7 @@ static PyMethodDef bufferedreader_methods[] = {
     _IO__BUFFERED_TRUNCATE_METHODDEF
     _IO__BUFFERED___SIZEOF___METHODDEF
 
-    {"__getstate__", _PyIOBase_cannot_pickle, METH_NOARGS},
+    {"__getstate__", _PyIOBase_cannot_pickle, METH_NOARGS|METH_C_STACK_FRUGAL},
     {NULL, NULL}
 };
 
@@ -2614,7 +2614,7 @@ static PyMethodDef bufferedwriter_methods[] = {
     _IO__BUFFERED_TELL_METHODDEF
     _IO__BUFFERED___SIZEOF___METHODDEF
 
-    {"__getstate__", _PyIOBase_cannot_pickle, METH_NOARGS},
+    {"__getstate__", _PyIOBase_cannot_pickle, METH_NOARGS|METH_C_STACK_FRUGAL},
     {NULL, NULL}
 };
 
@@ -2656,20 +2656,20 @@ PyType_Spec bufferedwriter_spec = {
 };
 
 static PyMethodDef bufferedrwpair_methods[] = {
-    {"read", bufferedrwpair_read, METH_VARARGS},
-    {"peek", bufferedrwpair_peek, METH_VARARGS},
-    {"read1", bufferedrwpair_read1, METH_VARARGS},
-    {"readinto", bufferedrwpair_readinto, METH_VARARGS},
-    {"readinto1", bufferedrwpair_readinto1, METH_VARARGS},
+    {"read", bufferedrwpair_read, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"peek", bufferedrwpair_peek, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"read1", bufferedrwpair_read1, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"readinto", bufferedrwpair_readinto, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"readinto1", bufferedrwpair_readinto1, METH_VARARGS|METH_C_STACK_FRUGAL},
 
-    {"write", bufferedrwpair_write, METH_VARARGS},
-    {"flush", bufferedrwpair_flush, METH_NOARGS},
+    {"write", bufferedrwpair_write, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"flush", bufferedrwpair_flush, METH_NOARGS|METH_C_STACK_FRUGAL},
 
-    {"readable", bufferedrwpair_readable, METH_NOARGS},
-    {"writable", bufferedrwpair_writable, METH_NOARGS},
+    {"readable", bufferedrwpair_readable, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"writable", bufferedrwpair_writable, METH_NOARGS|METH_C_STACK_FRUGAL},
 
-    {"close", bufferedrwpair_close, METH_NOARGS},
-    {"isatty", bufferedrwpair_isatty, METH_NOARGS},
+    {"close", bufferedrwpair_close, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"isatty", bufferedrwpair_isatty, METH_NOARGS|METH_C_STACK_FRUGAL},
 
     {NULL, NULL}
 };
@@ -2731,7 +2731,7 @@ static PyMethodDef bufferedrandom_methods[] = {
     _IO_BUFFEREDWRITER_WRITE_METHODDEF
     _IO__BUFFERED___SIZEOF___METHODDEF
 
-    {"__getstate__", _PyIOBase_cannot_pickle, METH_NOARGS},
+    {"__getstate__", _PyIOBase_cannot_pickle, METH_NOARGS|METH_C_STACK_FRUGAL},
     {NULL, NULL}
 };
 

@@ -743,7 +743,7 @@ static PyMethodDef PyContext_methods[] = {
     _CONTEXTVARS_CONTEXT_KEYS_METHODDEF
     _CONTEXTVARS_CONTEXT_VALUES_METHODDEF
     _CONTEXTVARS_CONTEXT_COPY_METHODDEF
-    {"run", _PyCFunction_CAST(context_run), METH_FASTCALL | METH_KEYWORDS, NULL},
+    {"run", _PyCFunction_CAST(context_run), METH_FASTCALL | METH_KEYWORDS|METH_C_STACK_FRUGAL, NULL},
     {NULL, NULL}
 };
 
@@ -1102,7 +1102,7 @@ static PyMethodDef PyContextVar_methods[] = {
     _CONTEXTVARS_CONTEXTVAR_SET_METHODDEF
     _CONTEXTVARS_CONTEXTVAR_RESET_METHODDEF
     {"__class_getitem__", Py_GenericAlias,
-    METH_O|METH_CLASS,       PyDoc_STR("See PEP 585")},
+    METH_O|METH_CLASS|METH_C_STACK_FRUGAL,       PyDoc_STR("See PEP 585")},
     {NULL, NULL}
 };
 
@@ -1268,7 +1268,7 @@ token_exit_impl(PyContextToken *self, PyObject *type, PyObject *val,
 
 static PyMethodDef PyContextTokenType_methods[] = {
     {"__class_getitem__",    Py_GenericAlias,
-    METH_O|METH_CLASS,       PyDoc_STR("See PEP 585")},
+    METH_O|METH_CLASS|METH_C_STACK_FRUGAL,       PyDoc_STR("See PEP 585")},
     TOKEN_ENTER_METHODDEF
     TOKEN_EXIT_METHODDEF
     {NULL}

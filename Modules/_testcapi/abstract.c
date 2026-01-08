@@ -179,18 +179,18 @@ sequence_fast_get_item(PyObject *self, PyObject *args)
 
 
 static PyMethodDef test_methods[] = {
-    {"object_getoptionalattr", object_getoptionalattr, METH_VARARGS},
-    {"object_getoptionalattrstring", object_getoptionalattrstring, METH_VARARGS},
-    {"object_hasattrwitherror", object_hasattrwitherror, METH_VARARGS},
-    {"object_hasattrstringwitherror", object_hasattrstringwitherror, METH_VARARGS},
-    {"mapping_getoptionalitem", mapping_getoptionalitem, METH_VARARGS},
-    {"mapping_getoptionalitemstring", mapping_getoptionalitemstring, METH_VARARGS},
+    {"object_getoptionalattr", object_getoptionalattr, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"object_getoptionalattrstring", object_getoptionalattrstring, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"object_hasattrwitherror", object_hasattrwitherror, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"object_hasattrstringwitherror", object_hasattrstringwitherror, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"mapping_getoptionalitem", mapping_getoptionalitem, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"mapping_getoptionalitemstring", mapping_getoptionalitemstring, METH_VARARGS|METH_C_STACK_FRUGAL},
 
-    {"PyIter_Next", pyiter_next, METH_O},
-    {"PyIter_NextItem", pyiter_nextitem, METH_O},
+    {"PyIter_Next", pyiter_next, METH_O|METH_C_STACK_FRUGAL},
+    {"PyIter_NextItem", pyiter_nextitem, METH_O|METH_C_STACK_FRUGAL},
 
-    {"sequence_fast_get_size", sequence_fast_get_size, METH_O},
-    {"sequence_fast_get_item", sequence_fast_get_item, METH_VARARGS},
+    {"sequence_fast_get_size", sequence_fast_get_size, METH_O|METH_C_STACK_FRUGAL},
+    {"sequence_fast_get_item", sequence_fast_get_item, METH_VARARGS|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

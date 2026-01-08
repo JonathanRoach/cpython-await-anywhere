@@ -2661,9 +2661,9 @@ bytes_getnewargs(PyObject *op, PyObject *Py_UNUSED(dummy))
 
 static PyMethodDef
 bytes_methods[] = {
-    {"__getnewargs__", bytes_getnewargs,  METH_NOARGS},
+    {"__getnewargs__", bytes_getnewargs,  METH_NOARGS|METH_C_STACK_FRUGAL},
     BYTES___BYTES___METHODDEF
-    {"capitalize", stringlib_capitalize, METH_NOARGS,
+    {"capitalize", stringlib_capitalize, METH_NOARGS|METH_C_STACK_FRUGAL,
      _Py_capitalize__doc__},
     STRINGLIB_CENTER_METHODDEF
     BYTES_COUNT_METHODDEF
@@ -2674,25 +2674,25 @@ bytes_methods[] = {
     BYTES_FROMHEX_METHODDEF
     BYTES_HEX_METHODDEF
     BYTES_INDEX_METHODDEF
-    {"isalnum", stringlib_isalnum, METH_NOARGS,
+    {"isalnum", stringlib_isalnum, METH_NOARGS|METH_C_STACK_FRUGAL,
      _Py_isalnum__doc__},
-    {"isalpha", stringlib_isalpha, METH_NOARGS,
+    {"isalpha", stringlib_isalpha, METH_NOARGS|METH_C_STACK_FRUGAL,
      _Py_isalpha__doc__},
-    {"isascii", stringlib_isascii, METH_NOARGS,
+    {"isascii", stringlib_isascii, METH_NOARGS|METH_C_STACK_FRUGAL,
      _Py_isascii__doc__},
-    {"isdigit", stringlib_isdigit, METH_NOARGS,
+    {"isdigit", stringlib_isdigit, METH_NOARGS|METH_C_STACK_FRUGAL,
      _Py_isdigit__doc__},
-    {"islower", stringlib_islower, METH_NOARGS,
+    {"islower", stringlib_islower, METH_NOARGS|METH_C_STACK_FRUGAL,
      _Py_islower__doc__},
-    {"isspace", stringlib_isspace, METH_NOARGS,
+    {"isspace", stringlib_isspace, METH_NOARGS|METH_C_STACK_FRUGAL,
      _Py_isspace__doc__},
-    {"istitle", stringlib_istitle, METH_NOARGS,
+    {"istitle", stringlib_istitle, METH_NOARGS|METH_C_STACK_FRUGAL,
      _Py_istitle__doc__},
-    {"isupper", stringlib_isupper, METH_NOARGS,
+    {"isupper", stringlib_isupper, METH_NOARGS|METH_C_STACK_FRUGAL,
      _Py_isupper__doc__},
     BYTES_JOIN_METHODDEF
     STRINGLIB_LJUST_METHODDEF
-    {"lower", stringlib_lower, METH_NOARGS, _Py_lower__doc__},
+    {"lower", stringlib_lower, METH_NOARGS|METH_C_STACK_FRUGAL, _Py_lower__doc__},
     BYTES_LSTRIP_METHODDEF
     BYTES_MAKETRANS_METHODDEF
     BYTES_PARTITION_METHODDEF
@@ -2709,11 +2709,11 @@ bytes_methods[] = {
     BYTES_SPLITLINES_METHODDEF
     BYTES_STARTSWITH_METHODDEF
     BYTES_STRIP_METHODDEF
-    {"swapcase", stringlib_swapcase, METH_NOARGS,
+    {"swapcase", stringlib_swapcase, METH_NOARGS|METH_C_STACK_FRUGAL,
      _Py_swapcase__doc__},
-    {"title", stringlib_title, METH_NOARGS, _Py_title__doc__},
+    {"title", stringlib_title, METH_NOARGS|METH_C_STACK_FRUGAL, _Py_title__doc__},
     BYTES_TRANSLATE_METHODDEF
-    {"upper", stringlib_upper, METH_NOARGS, _Py_upper__doc__},
+    {"upper", stringlib_upper, METH_NOARGS|METH_C_STACK_FRUGAL, _Py_upper__doc__},
     STRINGLIB_ZFILL_METHODDEF
     {NULL,     NULL}                         /* sentinel */
 };
@@ -3369,9 +3369,9 @@ striter_setstate(PyObject *op, PyObject *state)
 PyDoc_STRVAR(setstate_doc, "Set state information for unpickling.");
 
 static PyMethodDef striter_methods[] = {
-    {"__length_hint__", striter_len, METH_NOARGS, length_hint_doc},
-    {"__reduce__",      striter_reduce, METH_NOARGS, reduce_doc},
-    {"__setstate__",    striter_setstate, METH_O, setstate_doc},
+    {"__length_hint__", striter_len, METH_NOARGS|METH_C_STACK_FRUGAL, length_hint_doc},
+    {"__reduce__",      striter_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, reduce_doc},
+    {"__setstate__",    striter_setstate, METH_O|METH_C_STACK_FRUGAL, setstate_doc},
     {NULL,              NULL}           /* sentinel */
 };
 

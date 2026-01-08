@@ -5289,7 +5289,7 @@ Array_length(PyObject *myself)
 
 static PyMethodDef Array_methods[] = {
     {"__class_getitem__",    Py_GenericAlias,
-    METH_O|METH_CLASS,       PyDoc_STR("See PEP 585")},
+    METH_O|METH_CLASS|METH_C_STACK_FRUGAL,       PyDoc_STR("See PEP 585")},
     { NULL, NULL }
 };
 

@@ -70,7 +70,7 @@ Example_demo(PyObject *op, PyObject *args)
 #include "clinic/_testmultiphase.c.h"
 
 static PyMethodDef Example_methods[] = {
-    {"demo",            Example_demo,  METH_VARARGS,
+    {"demo",            Example_demo,  METH_VARARGS|METH_C_STACK_FRUGAL,
         PyDoc_STR("demo() -> None")},
     {NULL,              NULL}           /* sentinel */
 };
@@ -279,7 +279,7 @@ static PyMethodDef StateAccessType_methods[] = {
     {
         "increment_count_noclinic",
         _PyCFunction_CAST(_StateAccessType_increment_count_noclinic),
-        METH_METHOD|METH_FASTCALL|METH_KEYWORDS,
+        METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL,
         _StateAccessType_decrement_count__doc__
     },
     {NULL,              NULL}           /* sentinel */
@@ -372,10 +372,10 @@ static PyType_Spec Str_Type_spec = {
 };
 
 static PyMethodDef testexport_methods[] = {
-    {"foo",             testexport_foo,         METH_VARARGS,
+    {"foo",             testexport_foo,         METH_VARARGS|METH_C_STACK_FRUGAL,
         testexport_foo_doc},
     {"call_state_registration_func",  call_state_registration_func,
-        METH_VARARGS, call_state_registration_func_doc},
+        METH_VARARGS|METH_C_STACK_FRUGAL, call_state_registration_func_doc},
     {NULL,              NULL}           /* sentinel */
 };
 
@@ -511,7 +511,7 @@ nonmodule_bar(PyObject *self, PyObject *args)
 }
 
 static PyMethodDef nonmodule_methods[] = {
-    {"bar", nonmodule_bar, METH_VARARGS, nonmodule_bar_doc},
+    {"bar", nonmodule_bar, METH_VARARGS|METH_C_STACK_FRUGAL, nonmodule_bar_doc},
     {NULL, NULL}           /* sentinel */
 };
 

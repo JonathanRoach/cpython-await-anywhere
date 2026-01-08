@@ -1902,48 +1902,48 @@ init_timezone(PyObject *m)
 #include "clinic/timemodule.c.h"
 
 static PyMethodDef time_methods[] = {
-    {"time",            time_time, METH_NOARGS, time_doc},
-    {"time_ns",         time_time_ns, METH_NOARGS, time_ns_doc},
+    {"time",            time_time, METH_NOARGS|METH_C_STACK_FRUGAL, time_doc},
+    {"time_ns",         time_time_ns, METH_NOARGS|METH_C_STACK_FRUGAL, time_ns_doc},
 #ifdef HAVE_CLOCK_GETTIME
     TIME_CLOCK_GETTIME_METHODDEF
     TIME_CLOCK_GETTIME_NS_METHODDEF
 #endif
 #ifdef HAVE_CLOCK_SETTIME
-    {"clock_settime",   time_clock_settime, METH_VARARGS, clock_settime_doc},
-    {"clock_settime_ns",time_clock_settime_ns, METH_VARARGS, clock_settime_ns_doc},
+    {"clock_settime",   time_clock_settime, METH_VARARGS|METH_C_STACK_FRUGAL, clock_settime_doc},
+    {"clock_settime_ns",time_clock_settime_ns, METH_VARARGS|METH_C_STACK_FRUGAL, clock_settime_ns_doc},
 #endif
 #ifdef HAVE_CLOCK_GETRES
-    {"clock_getres",    time_clock_getres, METH_VARARGS, clock_getres_doc},
+    {"clock_getres",    time_clock_getres, METH_VARARGS|METH_C_STACK_FRUGAL, clock_getres_doc},
 #endif
 #ifdef HAVE_PTHREAD_GETCPUCLOCKID
-    {"pthread_getcpuclockid", time_pthread_getcpuclockid, METH_VARARGS, pthread_getcpuclockid_doc},
+    {"pthread_getcpuclockid", time_pthread_getcpuclockid, METH_VARARGS|METH_C_STACK_FRUGAL, pthread_getcpuclockid_doc},
 #endif
-    {"sleep",           time_sleep, METH_O, sleep_doc},
-    {"gmtime",          time_gmtime, METH_VARARGS, gmtime_doc},
-    {"localtime",       time_localtime, METH_VARARGS, localtime_doc},
-    {"asctime",         time_asctime, METH_VARARGS, asctime_doc},
-    {"ctime",           time_ctime, METH_VARARGS, ctime_doc},
+    {"sleep",           time_sleep, METH_O|METH_C_STACK_FRUGAL, sleep_doc},
+    {"gmtime",          time_gmtime, METH_VARARGS|METH_C_STACK_FRUGAL, gmtime_doc},
+    {"localtime",       time_localtime, METH_VARARGS|METH_C_STACK_FRUGAL, localtime_doc},
+    {"asctime",         time_asctime, METH_VARARGS|METH_C_STACK_FRUGAL, asctime_doc},
+    {"ctime",           time_ctime, METH_VARARGS|METH_C_STACK_FRUGAL, ctime_doc},
 #ifdef HAVE_MKTIME
-    {"mktime",          time_mktime, METH_O, mktime_doc},
+    {"mktime",          time_mktime, METH_O|METH_C_STACK_FRUGAL, mktime_doc},
 #endif
 #ifdef HAVE_STRFTIME
-    {"strftime",        time_strftime, METH_VARARGS, strftime_doc},
+    {"strftime",        time_strftime, METH_VARARGS|METH_C_STACK_FRUGAL, strftime_doc},
 #endif
-    {"strptime",        time_strptime, METH_VARARGS, strptime_doc},
+    {"strptime",        time_strptime, METH_VARARGS|METH_C_STACK_FRUGAL, strptime_doc},
 #ifdef HAVE_WORKING_TZSET
-    {"tzset",           time_tzset, METH_NOARGS, tzset_doc},
+    {"tzset",           time_tzset, METH_NOARGS|METH_C_STACK_FRUGAL, tzset_doc},
 #endif
-    {"monotonic",       time_monotonic, METH_NOARGS, monotonic_doc},
-    {"monotonic_ns",    time_monotonic_ns, METH_NOARGS, monotonic_ns_doc},
-    {"process_time",    time_process_time, METH_NOARGS, process_time_doc},
-    {"process_time_ns", time_process_time_ns, METH_NOARGS, process_time_ns_doc},
+    {"monotonic",       time_monotonic, METH_NOARGS|METH_C_STACK_FRUGAL, monotonic_doc},
+    {"monotonic_ns",    time_monotonic_ns, METH_NOARGS|METH_C_STACK_FRUGAL, monotonic_ns_doc},
+    {"process_time",    time_process_time, METH_NOARGS|METH_C_STACK_FRUGAL, process_time_doc},
+    {"process_time_ns", time_process_time_ns, METH_NOARGS|METH_C_STACK_FRUGAL, process_time_ns_doc},
 #ifdef HAVE_THREAD_TIME
-    {"thread_time",     time_thread_time, METH_NOARGS, thread_time_doc},
-    {"thread_time_ns",  time_thread_time_ns, METH_NOARGS, thread_time_ns_doc},
+    {"thread_time",     time_thread_time, METH_NOARGS|METH_C_STACK_FRUGAL, thread_time_doc},
+    {"thread_time_ns",  time_thread_time_ns, METH_NOARGS|METH_C_STACK_FRUGAL, thread_time_ns_doc},
 #endif
-    {"perf_counter",    time_perf_counter, METH_NOARGS, perf_counter_doc},
-    {"perf_counter_ns", time_perf_counter_ns, METH_NOARGS, perf_counter_ns_doc},
-    {"get_clock_info",  time_get_clock_info, METH_VARARGS, get_clock_info_doc},
+    {"perf_counter",    time_perf_counter, METH_NOARGS|METH_C_STACK_FRUGAL, perf_counter_doc},
+    {"perf_counter_ns", time_perf_counter_ns, METH_NOARGS|METH_C_STACK_FRUGAL, perf_counter_ns_doc},
+    {"get_clock_info",  time_get_clock_info, METH_VARARGS|METH_C_STACK_FRUGAL, get_clock_info_doc},
     {NULL,              NULL}           /* sentinel */
 };
 

@@ -108,13 +108,13 @@ sys_getxoptions(PyObject *Py_UNUSED(module), PyObject *Py_UNUSED(ignored))
 
 
 static PyMethodDef test_methods[] = {
-    {"sys_getattr", sys_getattr, METH_O},
-    {"sys_getattrstring", sys_getattrstring, METH_O},
-    {"sys_getoptionalattr", sys_getoptionalattr, METH_O},
-    {"sys_getoptionalattrstring", sys_getoptionalattrstring, METH_O},
-    {"sys_getobject", sys_getobject, METH_O},
-    {"sys_setobject", sys_setobject, METH_VARARGS},
-    {"sys_getxoptions", sys_getxoptions, METH_NOARGS},
+    {"sys_getattr", sys_getattr, METH_O|METH_C_STACK_FRUGAL},
+    {"sys_getattrstring", sys_getattrstring, METH_O|METH_C_STACK_FRUGAL},
+    {"sys_getoptionalattr", sys_getoptionalattr, METH_O|METH_C_STACK_FRUGAL},
+    {"sys_getoptionalattrstring", sys_getoptionalattrstring, METH_O|METH_C_STACK_FRUGAL},
+    {"sys_getobject", sys_getobject, METH_O|METH_C_STACK_FRUGAL},
+    {"sys_setobject", sys_setobject, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"sys_getxoptions", sys_getxoptions, METH_NOARGS|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

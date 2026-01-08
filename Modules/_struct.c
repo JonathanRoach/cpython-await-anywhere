@@ -1988,7 +1988,7 @@ unpackiter_len(PyObject *op, PyObject *Py_UNUSED(dummy))
 }
 
 static PyMethodDef unpackiter_methods[] = {
-    {"__length_hint__", unpackiter_len, METH_NOARGS, NULL},
+    {"__length_hint__", unpackiter_len, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
     {NULL,              NULL}           /* sentinel */
 };
 
@@ -2372,11 +2372,11 @@ s_repr(PyObject *op)
 
 static struct PyMethodDef s_methods[] = {
     STRUCT_ITER_UNPACK_METHODDEF
-    {"pack",            _PyCFunction_CAST(s_pack), METH_FASTCALL, s_pack__doc__},
-    {"pack_into",       _PyCFunction_CAST(s_pack_into), METH_FASTCALL, s_pack_into__doc__},
+    {"pack",            _PyCFunction_CAST(s_pack), METH_FASTCALL|METH_C_STACK_FRUGAL, s_pack__doc__},
+    {"pack_into",       _PyCFunction_CAST(s_pack_into), METH_FASTCALL|METH_C_STACK_FRUGAL, s_pack_into__doc__},
     STRUCT_UNPACK_METHODDEF
     STRUCT_UNPACK_FROM_METHODDEF
-    {"__sizeof__",      s_sizeof, METH_NOARGS, s_sizeof__doc__},
+    {"__sizeof__",      s_sizeof, METH_NOARGS|METH_C_STACK_FRUGAL, s_sizeof__doc__},
     {NULL,       NULL}          /* sentinel */
 };
 
@@ -2616,8 +2616,8 @@ static struct PyMethodDef module_functions[] = {
     _CLEARCACHE_METHODDEF
     CALCSIZE_METHODDEF
     ITER_UNPACK_METHODDEF
-    {"pack",            _PyCFunction_CAST(pack), METH_FASTCALL,   pack_doc},
-    {"pack_into",       _PyCFunction_CAST(pack_into), METH_FASTCALL,   pack_into_doc},
+    {"pack",            _PyCFunction_CAST(pack), METH_FASTCALL|METH_C_STACK_FRUGAL,   pack_doc},
+    {"pack_into",       _PyCFunction_CAST(pack_into), METH_FASTCALL|METH_C_STACK_FRUGAL,   pack_into_doc},
     UNPACK_METHODDEF
     UNPACK_FROM_METHODDEF
     {NULL,       NULL}          /* sentinel */

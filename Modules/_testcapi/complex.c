@@ -83,15 +83,15 @@ _py_c_abs(PyObject *Py_UNUSED(module), PyObject* obj)
 
 
 static PyMethodDef test_methods[] = {
-    {"complex_fromccomplex", complex_fromccomplex, METH_O},
-    {"complex_asccomplex", complex_asccomplex, METH_O},
-    {"_py_c_sum", _py_c_sum, METH_VARARGS},
-    {"_py_c_diff", _py_c_diff, METH_VARARGS},
-    {"_py_c_neg", _py_c_neg, METH_O},
-    {"_py_c_prod", _py_c_prod, METH_VARARGS},
-    {"_py_c_quot", _py_c_quot, METH_VARARGS},
-    {"_py_c_pow", _py_c_pow, METH_VARARGS},
-    {"_py_c_abs", _py_c_abs, METH_O},
+    {"complex_fromccomplex", complex_fromccomplex, METH_O|METH_C_STACK_FRUGAL},
+    {"complex_asccomplex", complex_asccomplex, METH_O|METH_C_STACK_FRUGAL},
+    {"_py_c_sum", _py_c_sum, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"_py_c_diff", _py_c_diff, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"_py_c_neg", _py_c_neg, METH_O|METH_C_STACK_FRUGAL},
+    {"_py_c_prod", _py_c_prod, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"_py_c_quot", _py_c_quot, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"_py_c_pow", _py_c_pow, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"_py_c_abs", _py_c_abs, METH_O|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

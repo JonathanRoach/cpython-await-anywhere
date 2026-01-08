@@ -532,17 +532,17 @@ writer_finish(PyObject *self_raw, PyObject *Py_UNUSED(args))
 
 
 static PyMethodDef writer_methods[] = {
-    {"write_char", _PyCFunction_CAST(writer_write_char), METH_VARARGS},
-    {"write_utf8", _PyCFunction_CAST(writer_write_utf8), METH_VARARGS},
-    {"write_ascii", _PyCFunction_CAST(writer_write_ascii), METH_VARARGS},
-    {"write_widechar", _PyCFunction_CAST(writer_write_widechar), METH_VARARGS},
-    {"write_ucs4", _PyCFunction_CAST(writer_write_ucs4), METH_VARARGS},
-    {"write_str", _PyCFunction_CAST(writer_write_str), METH_VARARGS},
-    {"write_repr", _PyCFunction_CAST(writer_write_repr), METH_VARARGS},
-    {"write_substring", _PyCFunction_CAST(writer_write_substring), METH_VARARGS},
-    {"decodeutf8stateful", _PyCFunction_CAST(writer_decodeutf8stateful), METH_VARARGS},
-    {"get_pointer", _PyCFunction_CAST(writer_get_pointer), METH_VARARGS},
-    {"finish", _PyCFunction_CAST(writer_finish), METH_NOARGS},
+    {"write_char", _PyCFunction_CAST(writer_write_char), METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"write_utf8", _PyCFunction_CAST(writer_write_utf8), METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"write_ascii", _PyCFunction_CAST(writer_write_ascii), METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"write_widechar", _PyCFunction_CAST(writer_write_widechar), METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"write_ucs4", _PyCFunction_CAST(writer_write_ucs4), METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"write_str", _PyCFunction_CAST(writer_write_str), METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"write_repr", _PyCFunction_CAST(writer_write_repr), METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"write_substring", _PyCFunction_CAST(writer_write_substring), METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"decodeutf8stateful", _PyCFunction_CAST(writer_decodeutf8stateful), METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"get_pointer", _PyCFunction_CAST(writer_get_pointer), METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"finish", _PyCFunction_CAST(writer_finish), METH_NOARGS|METH_C_STACK_FRUGAL},
     {NULL,              NULL}           /* sentinel */
 };
 
@@ -563,13 +563,13 @@ static PyType_Spec Writer_spec = {
 
 
 static PyMethodDef TestMethods[] = {
-    {"unicode_new",              unicode_new,                    METH_VARARGS},
-    {"unicode_fill",             unicode_fill,                   METH_VARARGS},
-    {"unicode_fromkindanddata",  unicode_fromkindanddata,        METH_VARARGS},
-    {"unicode_asucs4",           unicode_asucs4,                 METH_VARARGS},
-    {"unicode_asucs4copy",       unicode_asucs4copy,             METH_VARARGS},
-    {"unicode_asutf8",           unicode_asutf8,                 METH_VARARGS},
-    {"unicode_copycharacters",   unicode_copycharacters,         METH_VARARGS},
+    {"unicode_new",              unicode_new,                    METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"unicode_fill",             unicode_fill,                   METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"unicode_fromkindanddata",  unicode_fromkindanddata,        METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"unicode_asucs4",           unicode_asucs4,                 METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"unicode_asucs4copy",       unicode_asucs4copy,             METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"unicode_asutf8",           unicode_asutf8,                 METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"unicode_copycharacters",   unicode_copycharacters,         METH_VARARGS|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

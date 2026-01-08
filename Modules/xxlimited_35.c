@@ -79,7 +79,7 @@ Xxo_demo(PyObject *self, PyObject *args)
 }
 
 static PyMethodDef Xxo_methods[] = {
-    {"demo", Xxo_demo,  METH_VARARGS, PyDoc_STR("demo() -> None")},
+    {"demo", Xxo_demo,  METH_VARARGS|METH_C_STACK_FRUGAL, PyDoc_STR("demo() -> None")},
     {NULL, NULL}  /* sentinel */
 };
 
@@ -231,11 +231,11 @@ static PyType_Spec Null_Type_spec = {
 /* List of functions defined in the module */
 
 static PyMethodDef xx_methods[] = {
-    {"roj",             xx_roj,         METH_VARARGS,
+    {"roj",             xx_roj,         METH_VARARGS|METH_C_STACK_FRUGAL,
         PyDoc_STR("roj(a,b) -> None")},
-    {"foo",             xx_foo,         METH_VARARGS,
+    {"foo",             xx_foo,         METH_VARARGS|METH_C_STACK_FRUGAL,
         xx_foo_doc},
-    {"new",             xx_new,         METH_VARARGS,
+    {"new",             xx_new,         METH_VARARGS|METH_C_STACK_FRUGAL,
         PyDoc_STR("new() -> new Xx object")},
     {NULL,              NULL}           /* sentinel */
 };

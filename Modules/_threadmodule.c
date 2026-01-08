@@ -735,9 +735,9 @@ static PyGetSetDef ThreadHandle_getsetlist[] = {
 };
 
 static PyMethodDef ThreadHandle_methods[] = {
-    {"join", PyThreadHandleObject_join, METH_VARARGS, NULL},
-    {"_set_done", PyThreadHandleObject_set_done, METH_NOARGS, NULL},
-    {"is_done", PyThreadHandleObject_is_done, METH_NOARGS, NULL},
+    {"join", PyThreadHandleObject_join, METH_VARARGS|METH_C_STACK_FRUGAL, NULL},
+    {"_set_done", PyThreadHandleObject_set_done, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
+    {"is_done", PyThreadHandleObject_is_done, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
     {0, 0}
 };
 
@@ -964,24 +964,24 @@ lock_new_impl(PyTypeObject *type)
 
 static PyMethodDef lock_methods[] = {
     {"acquire_lock", _PyCFunction_CAST(lock_PyThread_acquire_lock),
-     METH_VARARGS | METH_KEYWORDS, acquire_lock_doc},
+     METH_VARARGS | METH_KEYWORDS|METH_C_STACK_FRUGAL, acquire_lock_doc},
     {"acquire",      _PyCFunction_CAST(lock_PyThread_acquire_lock),
-     METH_VARARGS | METH_KEYWORDS, acquire_doc},
+     METH_VARARGS | METH_KEYWORDS|METH_C_STACK_FRUGAL, acquire_doc},
     {"release_lock", lock_PyThread_release_lock,
-     METH_NOARGS, release_lock_doc},
+     METH_NOARGS|METH_C_STACK_FRUGAL, release_lock_doc},
     {"release",      lock_PyThread_release_lock,
-     METH_NOARGS, release_doc},
+     METH_NOARGS|METH_C_STACK_FRUGAL, release_doc},
     {"locked_lock",  lock_locked_lock,
-     METH_NOARGS, locked_lock_doc},
+     METH_NOARGS|METH_C_STACK_FRUGAL, locked_lock_doc},
     {"locked",       lock_locked_lock,
-     METH_NOARGS, locked_doc},
+     METH_NOARGS|METH_C_STACK_FRUGAL, locked_doc},
     {"__enter__",    _PyCFunction_CAST(lock_PyThread_acquire_lock),
-     METH_VARARGS | METH_KEYWORDS, enter_doc},
+     METH_VARARGS | METH_KEYWORDS|METH_C_STACK_FRUGAL, enter_doc},
     {"__exit__",    lock_PyThread_release_lock,
-     METH_VARARGS, lock_exit_doc},
+     METH_VARARGS|METH_C_STACK_FRUGAL, lock_exit_doc},
 #ifdef HAVE_FORK
     {"_at_fork_reinit", lock__at_fork_reinit,
-     METH_NOARGS, NULL},
+     METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
 #endif
     {NULL,           NULL}              /* sentinel */
 };
@@ -1266,26 +1266,26 @@ rlock__at_fork_reinit(PyObject *op, PyObject *Py_UNUSED(dummy))
 
 static PyMethodDef rlock_methods[] = {
     {"acquire",      _PyCFunction_CAST(rlock_acquire),
-     METH_VARARGS | METH_KEYWORDS, rlock_acquire_doc},
+     METH_VARARGS | METH_KEYWORDS|METH_C_STACK_FRUGAL, rlock_acquire_doc},
     {"release",      rlock_release,
-     METH_NOARGS, rlock_release_doc},
+     METH_NOARGS|METH_C_STACK_FRUGAL, rlock_release_doc},
     {"locked",       rlock_locked,
-     METH_NOARGS, rlock_locked_doc},
+     METH_NOARGS|METH_C_STACK_FRUGAL, rlock_locked_doc},
     {"_is_owned",     rlock_is_owned,
-     METH_NOARGS, rlock_is_owned_doc},
+     METH_NOARGS|METH_C_STACK_FRUGAL, rlock_is_owned_doc},
     {"_acquire_restore", rlock_acquire_restore,
-     METH_VARARGS, rlock_acquire_restore_doc},
+     METH_VARARGS|METH_C_STACK_FRUGAL, rlock_acquire_restore_doc},
     {"_release_save", rlock_release_save,
-     METH_NOARGS, rlock_release_save_doc},
+     METH_NOARGS|METH_C_STACK_FRUGAL, rlock_release_save_doc},
     {"_recursion_count", rlock_recursion_count,
-     METH_NOARGS, rlock_recursion_count_doc},
+     METH_NOARGS|METH_C_STACK_FRUGAL, rlock_recursion_count_doc},
     {"__enter__",    _PyCFunction_CAST(rlock_acquire),
-     METH_VARARGS | METH_KEYWORDS, rlock_enter_doc},
+     METH_VARARGS | METH_KEYWORDS|METH_C_STACK_FRUGAL, rlock_enter_doc},
     {"__exit__",    rlock_release,
-     METH_VARARGS, rlock_exit_doc},
+     METH_VARARGS|METH_C_STACK_FRUGAL, rlock_exit_doc},
 #ifdef HAVE_FORK
     {"_at_fork_reinit", rlock__at_fork_reinit,
-     METH_NOARGS, NULL},
+     METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
 #endif
     {NULL,           NULL}              /* sentinel */
 };
@@ -1425,7 +1425,7 @@ static PyObject *
 create_sentinel_wr(localobject *self)
 {
     static PyMethodDef wr_callback_def = {
-        "clear_locals", clear_locals, METH_O
+        "clear_locals", clear_locals, METH_O|METH_C_STACK_FRUGAL
     };
 
     PyThreadState *tstate = PyThreadState_Get();
@@ -2597,43 +2597,43 @@ _thread_set_name_impl(PyObject *module, PyObject *name_obj)
 
 static PyMethodDef thread_methods[] = {
     {"start_new_thread",        thread_PyThread_start_new_thread,
-     METH_VARARGS, start_new_thread_doc},
+     METH_VARARGS|METH_C_STACK_FRUGAL, start_new_thread_doc},
     {"start_new",               thread_PyThread_start_new_thread,
-     METH_VARARGS, start_new_doc},
+     METH_VARARGS|METH_C_STACK_FRUGAL, start_new_doc},
     {"start_joinable_thread",   _PyCFunction_CAST(thread_PyThread_start_joinable_thread),
-     METH_VARARGS | METH_KEYWORDS, start_joinable_doc},
+     METH_VARARGS | METH_KEYWORDS|METH_C_STACK_FRUGAL, start_joinable_doc},
     {"daemon_threads_allowed",  thread_daemon_threads_allowed,
-     METH_NOARGS, daemon_threads_allowed_doc},
+     METH_NOARGS|METH_C_STACK_FRUGAL, daemon_threads_allowed_doc},
     {"allocate_lock",           thread_PyThread_allocate_lock,
-     METH_NOARGS, allocate_lock_doc},
+     METH_NOARGS|METH_C_STACK_FRUGAL, allocate_lock_doc},
     {"allocate",                thread_PyThread_allocate_lock,
-     METH_NOARGS, allocate_doc},
+     METH_NOARGS|METH_C_STACK_FRUGAL, allocate_doc},
     {"exit_thread",             thread_PyThread_exit_thread,
-     METH_NOARGS, exit_thread_doc},
+     METH_NOARGS|METH_C_STACK_FRUGAL, exit_thread_doc},
     {"exit",                    thread_PyThread_exit_thread,
-     METH_NOARGS, exit_doc},
+     METH_NOARGS|METH_C_STACK_FRUGAL, exit_doc},
     {"interrupt_main",          thread_PyThread_interrupt_main,
-     METH_VARARGS, interrupt_doc},
+     METH_VARARGS|METH_C_STACK_FRUGAL, interrupt_doc},
     {"get_ident",               thread_get_ident,
-     METH_NOARGS, get_ident_doc},
+     METH_NOARGS|METH_C_STACK_FRUGAL, get_ident_doc},
 #ifdef PY_HAVE_THREAD_NATIVE_ID
     {"get_native_id",           thread_get_native_id,
-     METH_NOARGS, get_native_id_doc},
+     METH_NOARGS|METH_C_STACK_FRUGAL, get_native_id_doc},
 #endif
     {"_count",                  thread__count,
-     METH_NOARGS, _count_doc},
+     METH_NOARGS|METH_C_STACK_FRUGAL, _count_doc},
     {"stack_size",              thread_stack_size,
-     METH_VARARGS, stack_size_doc},
+     METH_VARARGS|METH_C_STACK_FRUGAL, stack_size_doc},
     {"_excepthook",             thread_excepthook,
      METH_O, excepthook_doc},
     {"_is_main_interpreter",    thread__is_main_interpreter,
-     METH_NOARGS, thread__is_main_interpreter_doc},
+     METH_NOARGS|METH_C_STACK_FRUGAL, thread__is_main_interpreter_doc},
     {"_shutdown",               thread_shutdown,
-     METH_NOARGS, shutdown_doc},
+     METH_NOARGS|METH_C_STACK_FRUGAL, shutdown_doc},
     {"_make_thread_handle", thread__make_thread_handle,
      METH_O, thread__make_thread_handle_doc},
     {"_get_main_thread_ident", thread__get_main_thread_ident,
-     METH_NOARGS, thread__get_main_thread_ident_doc},
+     METH_NOARGS|METH_C_STACK_FRUGAL, thread__get_main_thread_ident_doc},
     _THREAD_SET_NAME_METHODDEF
     _THREAD__GET_NAME_METHODDEF
     {NULL,                      NULL}           /* sentinel */

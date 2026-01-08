@@ -261,7 +261,7 @@ _testcapi_has_vectorcall_flag_impl(PyObject *module, PyTypeObject *type)
 static PyMethodDef TestMethods[] = {
     _TESTCAPI_PYOBJECT_FASTCALLDICT_METHODDEF
     _TESTCAPI_PYOBJECT_VECTORCALL_METHODDEF
-    {"function_setvectorcall", function_setvectorcall, METH_O},
+    {"function_setvectorcall", function_setvectorcall, METH_O|METH_C_STACK_FRUGAL},
     _TESTCAPI_PYVECTORCALL_CALL_METHODDEF
     _TESTCAPI_MAKE_VECTORCALL_CLASS_METHODDEF
     _TESTCAPI_HAS_VECTORCALL_FLAG_METHODDEF

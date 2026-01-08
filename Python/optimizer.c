@@ -397,10 +397,10 @@ get_jit_code(PyObject *self, PyObject *Py_UNUSED(ignored))
 }
 
 static PyMethodDef uop_executor_methods[] = {
-    { "is_valid", is_valid, METH_NOARGS, NULL },
+    { "is_valid", is_valid, METH_NOARGS|METH_C_STACK_FRUGAL|METH_C_STACK_FRUGAL, NULL },
     { "get_jit_code", get_jit_code, METH_NOARGS, NULL},
-    { "get_opcode", get_opcode, METH_NOARGS, NULL },
-    { "get_oparg", get_oparg, METH_NOARGS, NULL },
+    { "get_opcode", get_opcode, METH_NOARGS|METH_C_STACK_FRUGAL, NULL },
+    { "get_oparg", get_oparg, METH_NOARGS|METH_C_STACK_FRUGAL, NULL },
     { NULL, NULL },
 };
 

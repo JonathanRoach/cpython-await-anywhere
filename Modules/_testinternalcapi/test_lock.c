@@ -501,15 +501,15 @@ test_lock_recursive(PyObject *self, PyObject *obj)
 }
 
 static PyMethodDef test_methods[] = {
-    {"test_lock_basic", test_lock_basic, METH_NOARGS},
-    {"test_lock_two_threads", test_lock_two_threads, METH_NOARGS},
-    {"test_lock_counter", test_lock_counter, METH_NOARGS},
-    {"test_lock_counter_slow", test_lock_counter_slow, METH_NOARGS},
+    {"test_lock_basic", test_lock_basic, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_lock_two_threads", test_lock_two_threads, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_lock_counter", test_lock_counter, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_lock_counter_slow", test_lock_counter_slow, METH_NOARGS|METH_C_STACK_FRUGAL},
     _TESTINTERNALCAPI_BENCHMARK_LOCKS_METHODDEF
-    {"test_lock_benchmark", test_lock_benchmark, METH_NOARGS},
-    {"test_lock_once", test_lock_once, METH_NOARGS},
-    {"test_lock_rwlock", test_lock_rwlock, METH_NOARGS},
-    {"test_lock_recursive", test_lock_recursive, METH_NOARGS},
+    {"test_lock_benchmark", test_lock_benchmark, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_lock_once", test_lock_once, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_lock_rwlock", test_lock_rwlock, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_lock_recursive", test_lock_recursive, METH_NOARGS|METH_C_STACK_FRUGAL},
     {NULL, NULL} /* sentinel */
 };
 

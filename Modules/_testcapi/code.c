@@ -103,7 +103,7 @@ finally:
 }
 
 static PyMethodDef TestMethods[] = {
-    {"test_code_extra", test_code_extra, METH_NOARGS},
+    {"test_code_extra", test_code_extra, METH_NOARGS|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

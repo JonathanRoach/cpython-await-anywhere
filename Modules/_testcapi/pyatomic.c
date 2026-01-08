@@ -160,15 +160,15 @@ test_atomic_load_store_int_release_acquire(PyObject *self, PyObject *obj) { \
 // in test_pyatomic.py
 
 #define BIND_TEST_ADD(suffix, dtype) \
-    {"test_atomic_add_" #suffix, test_atomic_add_##suffix, METH_NOARGS},
+    {"test_atomic_add_" #suffix, test_atomic_add_##suffix, METH_NOARGS|METH_C_STACK_FRUGAL},
 #define BIND_TEST_COMPARE_EXCHANGE(suffix, dtype) \
-    {"test_atomic_compare_exchange_" #suffix, test_atomic_compare_exchange_##suffix, METH_NOARGS},
+    {"test_atomic_compare_exchange_" #suffix, test_atomic_compare_exchange_##suffix, METH_NOARGS|METH_C_STACK_FRUGAL},
 #define BIND_TEST_EXCHANGE(suffix, dtype) \
-    {"test_atomic_exchange_" #suffix, test_atomic_exchange_##suffix, METH_NOARGS},
+    {"test_atomic_exchange_" #suffix, test_atomic_exchange_##suffix, METH_NOARGS|METH_C_STACK_FRUGAL},
 #define BIND_TEST_LOAD_STORE(suffix, dtype) \
-    {"test_atomic_load_store_" #suffix, test_atomic_load_store_##suffix, METH_NOARGS},
+    {"test_atomic_load_store_" #suffix, test_atomic_load_store_##suffix, METH_NOARGS|METH_C_STACK_FRUGAL},
 #define BIND_TEST_AND_OR(suffix, dtype) \
-    {"test_atomic_and_or_" #suffix, test_atomic_and_or_##suffix, METH_NOARGS},
+    {"test_atomic_and_or_" #suffix, test_atomic_and_or_##suffix, METH_NOARGS|METH_C_STACK_FRUGAL},
 
 static PyMethodDef test_methods[] = {
     FOR_ARITHMETIC_TYPES(BIND_TEST_ADD)
@@ -176,9 +176,9 @@ static PyMethodDef test_methods[] = {
     FOR_ALL_TYPES(BIND_TEST_EXCHANGE)
     FOR_ALL_TYPES(BIND_TEST_LOAD_STORE)
     FOR_BITWISE_TYPES(BIND_TEST_AND_OR)
-    {"test_atomic_fences", test_atomic_fences, METH_NOARGS},
-    {"test_atomic_release_acquire", test_atomic_release_acquire, METH_NOARGS},
-    {"test_atomic_load_store_int_release_acquire", test_atomic_load_store_int_release_acquire, METH_NOARGS},
+    {"test_atomic_fences", test_atomic_fences, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_atomic_release_acquire", test_atomic_release_acquire, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_atomic_load_store_int_release_acquire", test_atomic_load_store_int_release_acquire, METH_NOARGS|METH_C_STACK_FRUGAL},
     {NULL, NULL} /* sentinel */
 };
 

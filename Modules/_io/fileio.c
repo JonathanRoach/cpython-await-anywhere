@@ -1260,9 +1260,9 @@ static PyMethodDef fileio_methods[] = {
     _IO_FILEIO_WRITABLE_METHODDEF
     _IO_FILEIO_FILENO_METHODDEF
     _IO_FILEIO_ISATTY_METHODDEF
-    {"_isatty_open_only", _io_FileIO_isatty_open_only, METH_NOARGS},
-    {"_dealloc_warn", fileio_dealloc_warn, METH_O, NULL},
-    {"__getstate__", _PyIOBase_cannot_pickle, METH_NOARGS},
+    {"_isatty_open_only", _io_FileIO_isatty_open_only, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"_dealloc_warn", fileio_dealloc_warn, METH_O|METH_C_STACK_FRUGAL, NULL},
+    {"__getstate__", _PyIOBase_cannot_pickle, METH_NOARGS|METH_C_STACK_FRUGAL},
     {NULL,           NULL}             /* sentinel */
 };
 

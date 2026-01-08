@@ -601,8 +601,8 @@ getpath_nowarn(PyObject *Py_UNUSED(self), PyObject *args)
 }
 
 
-static PyMethodDef getpath_warn_method = {"warn", getpath_warn, METH_VARARGS, NULL};
-static PyMethodDef getpath_nowarn_method = {"warn", getpath_nowarn, METH_VARARGS, NULL};
+static PyMethodDef getpath_warn_method = {"warn", getpath_warn, METH_VARARGS|METH_C_STACK_FRUGAL, NULL};
+static PyMethodDef getpath_nowarn_method = {"warn", getpath_nowarn, METH_VARARGS|METH_C_STACK_FRUGAL, NULL};
 
 /* Add the helper functions to the dict */
 static int

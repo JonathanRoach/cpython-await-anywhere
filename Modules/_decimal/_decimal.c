@@ -838,7 +838,7 @@ signaldict_copy(PyObject *self, PyObject *Py_UNUSED(dummy))
 
 
 static PyMethodDef signaldict_methods[] = {
-    { "copy", signaldict_copy, METH_NOARGS, NULL},
+    { "copy", signaldict_copy, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
     {NULL, NULL}
 };
 
@@ -2037,8 +2037,8 @@ ctxmanager_restore_global(PyObject *op, PyObject *Py_UNUSED(args))
 
 
 static PyMethodDef ctxmanager_methods[] = {
-  {"__enter__", ctxmanager_set_local, METH_NOARGS, NULL},
-  {"__exit__", ctxmanager_restore_global, METH_VARARGS, NULL},
+  {"__enter__", ctxmanager_set_local, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
+  {"__exit__", ctxmanager_restore_global, METH_VARARGS|METH_C_STACK_FRUGAL, NULL},
   {NULL, NULL}
 };
 
@@ -5121,92 +5121,92 @@ static PyGetSetDef dec_getsets [] =
 static PyMethodDef dec_methods [] =
 {
   /* Unary arithmetic functions, optional context arg */
-  { "exp", _PyCFunction_CAST(dec_mpd_qexp), METH_VARARGS|METH_KEYWORDS, doc_exp },
-  { "ln", _PyCFunction_CAST(dec_mpd_qln), METH_VARARGS|METH_KEYWORDS, doc_ln },
-  { "log10", _PyCFunction_CAST(dec_mpd_qlog10), METH_VARARGS|METH_KEYWORDS, doc_log10 },
-  { "next_minus", _PyCFunction_CAST(dec_mpd_qnext_minus), METH_VARARGS|METH_KEYWORDS, doc_next_minus },
-  { "next_plus", _PyCFunction_CAST(dec_mpd_qnext_plus), METH_VARARGS|METH_KEYWORDS, doc_next_plus },
-  { "normalize", _PyCFunction_CAST(dec_mpd_qreduce), METH_VARARGS|METH_KEYWORDS, doc_normalize },
-  { "to_integral", _PyCFunction_CAST(PyDec_ToIntegralValue), METH_VARARGS|METH_KEYWORDS, doc_to_integral },
-  { "to_integral_exact", _PyCFunction_CAST(PyDec_ToIntegralExact), METH_VARARGS|METH_KEYWORDS, doc_to_integral_exact },
-  { "to_integral_value", _PyCFunction_CAST(PyDec_ToIntegralValue), METH_VARARGS|METH_KEYWORDS, doc_to_integral_value },
-  { "sqrt", _PyCFunction_CAST(dec_mpd_qsqrt), METH_VARARGS|METH_KEYWORDS, doc_sqrt },
+  { "exp", _PyCFunction_CAST(dec_mpd_qexp), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_exp },
+  { "ln", _PyCFunction_CAST(dec_mpd_qln), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_ln },
+  { "log10", _PyCFunction_CAST(dec_mpd_qlog10), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_log10 },
+  { "next_minus", _PyCFunction_CAST(dec_mpd_qnext_minus), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_next_minus },
+  { "next_plus", _PyCFunction_CAST(dec_mpd_qnext_plus), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_next_plus },
+  { "normalize", _PyCFunction_CAST(dec_mpd_qreduce), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_normalize },
+  { "to_integral", _PyCFunction_CAST(PyDec_ToIntegralValue), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_to_integral },
+  { "to_integral_exact", _PyCFunction_CAST(PyDec_ToIntegralExact), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_to_integral_exact },
+  { "to_integral_value", _PyCFunction_CAST(PyDec_ToIntegralValue), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_to_integral_value },
+  { "sqrt", _PyCFunction_CAST(dec_mpd_qsqrt), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_sqrt },
 
   /* Binary arithmetic functions, optional context arg */
-  { "compare", _PyCFunction_CAST(dec_mpd_qcompare), METH_VARARGS|METH_KEYWORDS, doc_compare },
-  { "compare_signal", _PyCFunction_CAST(dec_mpd_qcompare_signal), METH_VARARGS|METH_KEYWORDS, doc_compare_signal },
-  { "max", _PyCFunction_CAST(dec_mpd_qmax), METH_VARARGS|METH_KEYWORDS, doc_max },
-  { "max_mag", _PyCFunction_CAST(dec_mpd_qmax_mag), METH_VARARGS|METH_KEYWORDS, doc_max_mag },
-  { "min", _PyCFunction_CAST(dec_mpd_qmin), METH_VARARGS|METH_KEYWORDS, doc_min },
-  { "min_mag", _PyCFunction_CAST(dec_mpd_qmin_mag), METH_VARARGS|METH_KEYWORDS, doc_min_mag },
-  { "next_toward", _PyCFunction_CAST(dec_mpd_qnext_toward), METH_VARARGS|METH_KEYWORDS, doc_next_toward },
-  { "quantize", _PyCFunction_CAST(dec_mpd_qquantize), METH_VARARGS|METH_KEYWORDS, doc_quantize },
-  { "remainder_near", _PyCFunction_CAST(dec_mpd_qrem_near), METH_VARARGS|METH_KEYWORDS, doc_remainder_near },
+  { "compare", _PyCFunction_CAST(dec_mpd_qcompare), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_compare },
+  { "compare_signal", _PyCFunction_CAST(dec_mpd_qcompare_signal), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_compare_signal },
+  { "max", _PyCFunction_CAST(dec_mpd_qmax), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_max },
+  { "max_mag", _PyCFunction_CAST(dec_mpd_qmax_mag), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_max_mag },
+  { "min", _PyCFunction_CAST(dec_mpd_qmin), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_min },
+  { "min_mag", _PyCFunction_CAST(dec_mpd_qmin_mag), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_min_mag },
+  { "next_toward", _PyCFunction_CAST(dec_mpd_qnext_toward), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_next_toward },
+  { "quantize", _PyCFunction_CAST(dec_mpd_qquantize), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_quantize },
+  { "remainder_near", _PyCFunction_CAST(dec_mpd_qrem_near), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_remainder_near },
 
   /* Ternary arithmetic functions, optional context arg */
-  { "fma", _PyCFunction_CAST(dec_mpd_qfma), METH_VARARGS|METH_KEYWORDS, doc_fma },
+  { "fma", _PyCFunction_CAST(dec_mpd_qfma), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_fma },
 
   /* Boolean functions, no context arg */
-  { "is_canonical", dec_mpd_iscanonical, METH_NOARGS, doc_is_canonical },
-  { "is_finite", dec_mpd_isfinite, METH_NOARGS, doc_is_finite },
-  { "is_infinite", dec_mpd_isinfinite, METH_NOARGS, doc_is_infinite },
-  { "is_nan", dec_mpd_isnan, METH_NOARGS, doc_is_nan },
-  { "is_qnan", dec_mpd_isqnan, METH_NOARGS, doc_is_qnan },
-  { "is_snan", dec_mpd_issnan, METH_NOARGS, doc_is_snan },
-  { "is_signed", dec_mpd_issigned, METH_NOARGS, doc_is_signed },
-  { "is_zero", dec_mpd_iszero, METH_NOARGS, doc_is_zero },
+  { "is_canonical", dec_mpd_iscanonical, METH_NOARGS|METH_C_STACK_FRUGAL, doc_is_canonical },
+  { "is_finite", dec_mpd_isfinite, METH_NOARGS|METH_C_STACK_FRUGAL, doc_is_finite },
+  { "is_infinite", dec_mpd_isinfinite, METH_NOARGS|METH_C_STACK_FRUGAL, doc_is_infinite },
+  { "is_nan", dec_mpd_isnan, METH_NOARGS|METH_C_STACK_FRUGAL, doc_is_nan },
+  { "is_qnan", dec_mpd_isqnan, METH_NOARGS|METH_C_STACK_FRUGAL, doc_is_qnan },
+  { "is_snan", dec_mpd_issnan, METH_NOARGS|METH_C_STACK_FRUGAL, doc_is_snan },
+  { "is_signed", dec_mpd_issigned, METH_NOARGS|METH_C_STACK_FRUGAL, doc_is_signed },
+  { "is_zero", dec_mpd_iszero, METH_NOARGS|METH_C_STACK_FRUGAL, doc_is_zero },
 
   /* Boolean functions, optional context arg */
-  { "is_normal", _PyCFunction_CAST(dec_mpd_isnormal), METH_VARARGS|METH_KEYWORDS, doc_is_normal },
-  { "is_subnormal", _PyCFunction_CAST(dec_mpd_issubnormal), METH_VARARGS|METH_KEYWORDS, doc_is_subnormal },
+  { "is_normal", _PyCFunction_CAST(dec_mpd_isnormal), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_is_normal },
+  { "is_subnormal", _PyCFunction_CAST(dec_mpd_issubnormal), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_is_subnormal },
 
   /* Unary functions, no context arg */
-  { "adjusted", dec_mpd_adjexp, METH_NOARGS, doc_adjusted },
-  { "canonical", dec_canonical, METH_NOARGS, doc_canonical },
-  { "conjugate", dec_conjugate, METH_NOARGS, doc_conjugate },
-  { "radix", dec_mpd_radix, METH_NOARGS, doc_radix },
+  { "adjusted", dec_mpd_adjexp, METH_NOARGS|METH_C_STACK_FRUGAL, doc_adjusted },
+  { "canonical", dec_canonical, METH_NOARGS|METH_C_STACK_FRUGAL, doc_canonical },
+  { "conjugate", dec_conjugate, METH_NOARGS|METH_C_STACK_FRUGAL, doc_conjugate },
+  { "radix", dec_mpd_radix, METH_NOARGS|METH_C_STACK_FRUGAL, doc_radix },
 
   /* Unary functions, optional context arg for conversion errors */
-  { "copy_abs", dec_mpd_qcopy_abs, METH_NOARGS, doc_copy_abs },
-  { "copy_negate", dec_mpd_qcopy_negate, METH_NOARGS, doc_copy_negate },
+  { "copy_abs", dec_mpd_qcopy_abs, METH_NOARGS|METH_C_STACK_FRUGAL, doc_copy_abs },
+  { "copy_negate", dec_mpd_qcopy_negate, METH_NOARGS|METH_C_STACK_FRUGAL, doc_copy_negate },
 
   /* Unary functions, optional context arg */
-  { "logb", _PyCFunction_CAST(dec_mpd_qlogb), METH_VARARGS|METH_KEYWORDS, doc_logb },
-  { "logical_invert", _PyCFunction_CAST(dec_mpd_qinvert), METH_VARARGS|METH_KEYWORDS, doc_logical_invert },
-  { "number_class", _PyCFunction_CAST(dec_mpd_class), METH_VARARGS|METH_KEYWORDS, doc_number_class },
-  { "to_eng_string", _PyCFunction_CAST(dec_mpd_to_eng), METH_VARARGS|METH_KEYWORDS, doc_to_eng_string },
+  { "logb", _PyCFunction_CAST(dec_mpd_qlogb), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_logb },
+  { "logical_invert", _PyCFunction_CAST(dec_mpd_qinvert), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_logical_invert },
+  { "number_class", _PyCFunction_CAST(dec_mpd_class), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_number_class },
+  { "to_eng_string", _PyCFunction_CAST(dec_mpd_to_eng), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_to_eng_string },
 
   /* Binary functions, optional context arg for conversion errors */
-  { "compare_total", _PyCFunction_CAST(dec_mpd_compare_total), METH_VARARGS|METH_KEYWORDS, doc_compare_total },
-  { "compare_total_mag", _PyCFunction_CAST(dec_mpd_compare_total_mag), METH_VARARGS|METH_KEYWORDS, doc_compare_total_mag },
-  { "copy_sign", _PyCFunction_CAST(dec_mpd_qcopy_sign), METH_VARARGS|METH_KEYWORDS, doc_copy_sign },
-  { "same_quantum", _PyCFunction_CAST(dec_mpd_same_quantum), METH_VARARGS|METH_KEYWORDS, doc_same_quantum },
+  { "compare_total", _PyCFunction_CAST(dec_mpd_compare_total), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_compare_total },
+  { "compare_total_mag", _PyCFunction_CAST(dec_mpd_compare_total_mag), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_compare_total_mag },
+  { "copy_sign", _PyCFunction_CAST(dec_mpd_qcopy_sign), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_copy_sign },
+  { "same_quantum", _PyCFunction_CAST(dec_mpd_same_quantum), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_same_quantum },
 
   /* Binary functions, optional context arg */
-  { "logical_and", _PyCFunction_CAST(dec_mpd_qand), METH_VARARGS|METH_KEYWORDS, doc_logical_and },
-  { "logical_or", _PyCFunction_CAST(dec_mpd_qor), METH_VARARGS|METH_KEYWORDS, doc_logical_or },
-  { "logical_xor", _PyCFunction_CAST(dec_mpd_qxor), METH_VARARGS|METH_KEYWORDS, doc_logical_xor },
-  { "rotate", _PyCFunction_CAST(dec_mpd_qrotate), METH_VARARGS|METH_KEYWORDS, doc_rotate },
-  { "scaleb", _PyCFunction_CAST(dec_mpd_qscaleb), METH_VARARGS|METH_KEYWORDS, doc_scaleb },
-  { "shift", _PyCFunction_CAST(dec_mpd_qshift), METH_VARARGS|METH_KEYWORDS, doc_shift },
+  { "logical_and", _PyCFunction_CAST(dec_mpd_qand), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_logical_and },
+  { "logical_or", _PyCFunction_CAST(dec_mpd_qor), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_logical_or },
+  { "logical_xor", _PyCFunction_CAST(dec_mpd_qxor), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_logical_xor },
+  { "rotate", _PyCFunction_CAST(dec_mpd_qrotate), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_rotate },
+  { "scaleb", _PyCFunction_CAST(dec_mpd_qscaleb), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_scaleb },
+  { "shift", _PyCFunction_CAST(dec_mpd_qshift), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_shift },
 
   /* Miscellaneous */
-  { "from_float", dec_from_float, METH_O|METH_CLASS, doc_from_float },
-  { "from_number", dec_from_number, METH_O|METH_CLASS, doc_from_number },
-  { "as_tuple", PyDec_AsTuple, METH_NOARGS, doc_as_tuple },
-  { "as_integer_ratio", dec_as_integer_ratio, METH_NOARGS, doc_as_integer_ratio },
+  { "from_float", dec_from_float, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, doc_from_float },
+  { "from_number", dec_from_number, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, doc_from_number },
+  { "as_tuple", PyDec_AsTuple, METH_NOARGS|METH_C_STACK_FRUGAL, doc_as_tuple },
+  { "as_integer_ratio", dec_as_integer_ratio, METH_NOARGS|METH_C_STACK_FRUGAL, doc_as_integer_ratio },
 
   /* Special methods */
-  { "__copy__", dec_copy, METH_NOARGS, NULL },
-  { "__deepcopy__", dec_copy, METH_O, NULL },
-  { "__format__", dec_format, METH_VARARGS, NULL },
-  { "__reduce__", dec_reduce, METH_NOARGS, NULL },
-  { "__round__", PyDec_Round, METH_VARARGS, NULL },
-  { "__ceil__", dec_ceil, METH_NOARGS, NULL },
-  { "__floor__", dec_floor, METH_NOARGS, NULL },
-  { "__trunc__", dec_trunc, METH_NOARGS, NULL },
-  { "__complex__", dec_complex, METH_NOARGS, NULL },
-  { "__sizeof__", dec_sizeof, METH_NOARGS, NULL },
+  { "__copy__", dec_copy, METH_NOARGS|METH_C_STACK_FRUGAL, NULL },
+  { "__deepcopy__", dec_copy, METH_O|METH_C_STACK_FRUGAL, NULL },
+  { "__format__", dec_format, METH_VARARGS|METH_C_STACK_FRUGAL, NULL },
+  { "__reduce__", dec_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, NULL },
+  { "__round__", PyDec_Round, METH_VARARGS|METH_C_STACK_FRUGAL, NULL },
+  { "__ceil__", dec_ceil, METH_NOARGS|METH_C_STACK_FRUGAL, NULL },
+  { "__floor__", dec_floor, METH_NOARGS|METH_C_STACK_FRUGAL, NULL },
+  { "__trunc__", dec_trunc, METH_NOARGS|METH_C_STACK_FRUGAL, NULL },
+  { "__complex__", dec_complex, METH_NOARGS|METH_C_STACK_FRUGAL, NULL },
+  { "__sizeof__", dec_sizeof, METH_NOARGS|METH_C_STACK_FRUGAL, NULL },
 
   { NULL, NULL, 1 }
 };
@@ -5833,105 +5833,105 @@ ctx_mpd_same_quantum(PyObject *context, PyObject *args)
 static PyMethodDef context_methods [] =
 {
   /* Unary arithmetic functions */
-  { "abs", ctx_mpd_qabs, METH_O, doc_ctx_abs },
-  { "exp", ctx_mpd_qexp, METH_O, doc_ctx_exp },
-  { "ln", ctx_mpd_qln, METH_O, doc_ctx_ln },
-  { "log10", ctx_mpd_qlog10, METH_O, doc_ctx_log10 },
-  { "minus", ctx_mpd_qminus, METH_O, doc_ctx_minus },
-  { "next_minus", ctx_mpd_qnext_minus, METH_O, doc_ctx_next_minus },
-  { "next_plus", ctx_mpd_qnext_plus, METH_O, doc_ctx_next_plus },
-  { "normalize", ctx_mpd_qreduce, METH_O, doc_ctx_normalize },
-  { "plus", ctx_mpd_qplus, METH_O, doc_ctx_plus },
-  { "to_integral", ctx_mpd_qround_to_int, METH_O, doc_ctx_to_integral },
-  { "to_integral_exact", ctx_mpd_qround_to_intx, METH_O, doc_ctx_to_integral_exact },
-  { "to_integral_value", ctx_mpd_qround_to_int, METH_O, doc_ctx_to_integral_value },
-  { "sqrt", ctx_mpd_qsqrt, METH_O, doc_ctx_sqrt },
+  { "abs", ctx_mpd_qabs, METH_O|METH_C_STACK_FRUGAL, doc_ctx_abs },
+  { "exp", ctx_mpd_qexp, METH_O|METH_C_STACK_FRUGAL, doc_ctx_exp },
+  { "ln", ctx_mpd_qln, METH_O|METH_C_STACK_FRUGAL, doc_ctx_ln },
+  { "log10", ctx_mpd_qlog10, METH_O|METH_C_STACK_FRUGAL, doc_ctx_log10 },
+  { "minus", ctx_mpd_qminus, METH_O|METH_C_STACK_FRUGAL, doc_ctx_minus },
+  { "next_minus", ctx_mpd_qnext_minus, METH_O|METH_C_STACK_FRUGAL, doc_ctx_next_minus },
+  { "next_plus", ctx_mpd_qnext_plus, METH_O|METH_C_STACK_FRUGAL, doc_ctx_next_plus },
+  { "normalize", ctx_mpd_qreduce, METH_O|METH_C_STACK_FRUGAL, doc_ctx_normalize },
+  { "plus", ctx_mpd_qplus, METH_O|METH_C_STACK_FRUGAL, doc_ctx_plus },
+  { "to_integral", ctx_mpd_qround_to_int, METH_O|METH_C_STACK_FRUGAL, doc_ctx_to_integral },
+  { "to_integral_exact", ctx_mpd_qround_to_intx, METH_O|METH_C_STACK_FRUGAL, doc_ctx_to_integral_exact },
+  { "to_integral_value", ctx_mpd_qround_to_int, METH_O|METH_C_STACK_FRUGAL, doc_ctx_to_integral_value },
+  { "sqrt", ctx_mpd_qsqrt, METH_O|METH_C_STACK_FRUGAL, doc_ctx_sqrt },
 
   /* Binary arithmetic functions */
-  { "add", ctx_mpd_qadd, METH_VARARGS, doc_ctx_add },
-  { "compare", ctx_mpd_qcompare, METH_VARARGS, doc_ctx_compare },
-  { "compare_signal", ctx_mpd_qcompare_signal, METH_VARARGS, doc_ctx_compare_signal },
-  { "divide", ctx_mpd_qdiv, METH_VARARGS, doc_ctx_divide },
-  { "divide_int", ctx_mpd_qdivint, METH_VARARGS, doc_ctx_divide_int },
-  { "divmod", ctx_mpd_qdivmod, METH_VARARGS, doc_ctx_divmod },
-  { "max", ctx_mpd_qmax, METH_VARARGS, doc_ctx_max },
-  { "max_mag", ctx_mpd_qmax_mag, METH_VARARGS, doc_ctx_max_mag },
-  { "min", ctx_mpd_qmin, METH_VARARGS, doc_ctx_min },
-  { "min_mag", ctx_mpd_qmin_mag, METH_VARARGS, doc_ctx_min_mag },
-  { "multiply", ctx_mpd_qmul, METH_VARARGS, doc_ctx_multiply },
-  { "next_toward", ctx_mpd_qnext_toward, METH_VARARGS, doc_ctx_next_toward },
-  { "quantize", ctx_mpd_qquantize, METH_VARARGS, doc_ctx_quantize },
-  { "remainder", ctx_mpd_qrem, METH_VARARGS, doc_ctx_remainder },
-  { "remainder_near", ctx_mpd_qrem_near, METH_VARARGS, doc_ctx_remainder_near },
-  { "subtract", ctx_mpd_qsub, METH_VARARGS, doc_ctx_subtract },
+  { "add", ctx_mpd_qadd, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_add },
+  { "compare", ctx_mpd_qcompare, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_compare },
+  { "compare_signal", ctx_mpd_qcompare_signal, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_compare_signal },
+  { "divide", ctx_mpd_qdiv, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_divide },
+  { "divide_int", ctx_mpd_qdivint, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_divide_int },
+  { "divmod", ctx_mpd_qdivmod, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_divmod },
+  { "max", ctx_mpd_qmax, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_max },
+  { "max_mag", ctx_mpd_qmax_mag, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_max_mag },
+  { "min", ctx_mpd_qmin, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_min },
+  { "min_mag", ctx_mpd_qmin_mag, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_min_mag },
+  { "multiply", ctx_mpd_qmul, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_multiply },
+  { "next_toward", ctx_mpd_qnext_toward, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_next_toward },
+  { "quantize", ctx_mpd_qquantize, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_quantize },
+  { "remainder", ctx_mpd_qrem, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_remainder },
+  { "remainder_near", ctx_mpd_qrem_near, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_remainder_near },
+  { "subtract", ctx_mpd_qsub, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_subtract },
 
   /* Binary or ternary arithmetic functions */
-  { "power", _PyCFunction_CAST(ctx_mpd_qpow), METH_VARARGS|METH_KEYWORDS, doc_ctx_power },
+  { "power", _PyCFunction_CAST(ctx_mpd_qpow), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_ctx_power },
 
   /* Ternary arithmetic functions */
-  { "fma", ctx_mpd_qfma, METH_VARARGS, doc_ctx_fma },
+  { "fma", ctx_mpd_qfma, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_fma },
 
   /* No argument */
-  { "Etiny", context_getetiny, METH_NOARGS, doc_ctx_Etiny },
-  { "Etop", context_getetop, METH_NOARGS, doc_ctx_Etop },
-  { "radix", ctx_mpd_radix, METH_NOARGS, doc_ctx_radix },
+  { "Etiny", context_getetiny, METH_NOARGS|METH_C_STACK_FRUGAL, doc_ctx_Etiny },
+  { "Etop", context_getetop, METH_NOARGS|METH_C_STACK_FRUGAL, doc_ctx_Etop },
+  { "radix", ctx_mpd_radix, METH_NOARGS|METH_C_STACK_FRUGAL, doc_ctx_radix },
 
   /* Boolean functions */
-  { "is_canonical", ctx_iscanonical, METH_O, doc_ctx_is_canonical },
-  { "is_finite", ctx_mpd_isfinite, METH_O, doc_ctx_is_finite },
-  { "is_infinite", ctx_mpd_isinfinite, METH_O, doc_ctx_is_infinite },
-  { "is_nan", ctx_mpd_isnan, METH_O, doc_ctx_is_nan },
-  { "is_normal", ctx_mpd_isnormal, METH_O, doc_ctx_is_normal },
-  { "is_qnan", ctx_mpd_isqnan, METH_O, doc_ctx_is_qnan },
-  { "is_signed", ctx_mpd_issigned, METH_O, doc_ctx_is_signed },
-  { "is_snan", ctx_mpd_issnan, METH_O, doc_ctx_is_snan },
-  { "is_subnormal", ctx_mpd_issubnormal, METH_O, doc_ctx_is_subnormal },
-  { "is_zero", ctx_mpd_iszero, METH_O, doc_ctx_is_zero },
+  { "is_canonical", ctx_iscanonical, METH_O|METH_C_STACK_FRUGAL, doc_ctx_is_canonical },
+  { "is_finite", ctx_mpd_isfinite, METH_O|METH_C_STACK_FRUGAL, doc_ctx_is_finite },
+  { "is_infinite", ctx_mpd_isinfinite, METH_O|METH_C_STACK_FRUGAL, doc_ctx_is_infinite },
+  { "is_nan", ctx_mpd_isnan, METH_O|METH_C_STACK_FRUGAL, doc_ctx_is_nan },
+  { "is_normal", ctx_mpd_isnormal, METH_O|METH_C_STACK_FRUGAL, doc_ctx_is_normal },
+  { "is_qnan", ctx_mpd_isqnan, METH_O|METH_C_STACK_FRUGAL, doc_ctx_is_qnan },
+  { "is_signed", ctx_mpd_issigned, METH_O|METH_C_STACK_FRUGAL, doc_ctx_is_signed },
+  { "is_snan", ctx_mpd_issnan, METH_O|METH_C_STACK_FRUGAL, doc_ctx_is_snan },
+  { "is_subnormal", ctx_mpd_issubnormal, METH_O|METH_C_STACK_FRUGAL, doc_ctx_is_subnormal },
+  { "is_zero", ctx_mpd_iszero, METH_O|METH_C_STACK_FRUGAL, doc_ctx_is_zero },
 
   /* Functions with a single decimal argument */
-  { "_apply", PyDecContext_Apply, METH_O, NULL }, /* alias for apply */
+  { "_apply", PyDecContext_Apply, METH_O|METH_C_STACK_FRUGAL, NULL }, /* alias for apply */
 #ifdef EXTRA_FUNCTIONALITY
-  { "apply", PyDecContext_Apply, METH_O, doc_ctx_apply },
+  { "apply", PyDecContext_Apply, METH_O|METH_C_STACK_FRUGAL, doc_ctx_apply },
 #endif
-  { "canonical", ctx_canonical, METH_O, doc_ctx_canonical },
-  { "copy_abs", ctx_mpd_qcopy_abs, METH_O, doc_ctx_copy_abs },
-  { "copy_decimal", ctx_copy_decimal, METH_O, doc_ctx_copy_decimal },
-  { "copy_negate", ctx_mpd_qcopy_negate, METH_O, doc_ctx_copy_negate },
-  { "logb", ctx_mpd_qlogb, METH_O, doc_ctx_logb },
-  { "logical_invert", ctx_mpd_qinvert, METH_O, doc_ctx_logical_invert },
-  { "number_class", ctx_mpd_class, METH_O, doc_ctx_number_class },
-  { "to_sci_string", ctx_mpd_to_sci, METH_O, doc_ctx_to_sci_string },
-  { "to_eng_string", ctx_mpd_to_eng, METH_O, doc_ctx_to_eng_string },
+  { "canonical", ctx_canonical, METH_O|METH_C_STACK_FRUGAL, doc_ctx_canonical },
+  { "copy_abs", ctx_mpd_qcopy_abs, METH_O|METH_C_STACK_FRUGAL, doc_ctx_copy_abs },
+  { "copy_decimal", ctx_copy_decimal, METH_O|METH_C_STACK_FRUGAL, doc_ctx_copy_decimal },
+  { "copy_negate", ctx_mpd_qcopy_negate, METH_O|METH_C_STACK_FRUGAL, doc_ctx_copy_negate },
+  { "logb", ctx_mpd_qlogb, METH_O|METH_C_STACK_FRUGAL, doc_ctx_logb },
+  { "logical_invert", ctx_mpd_qinvert, METH_O|METH_C_STACK_FRUGAL, doc_ctx_logical_invert },
+  { "number_class", ctx_mpd_class, METH_O|METH_C_STACK_FRUGAL, doc_ctx_number_class },
+  { "to_sci_string", ctx_mpd_to_sci, METH_O|METH_C_STACK_FRUGAL, doc_ctx_to_sci_string },
+  { "to_eng_string", ctx_mpd_to_eng, METH_O|METH_C_STACK_FRUGAL, doc_ctx_to_eng_string },
 
   /* Functions with two decimal arguments */
-  { "compare_total", ctx_mpd_compare_total, METH_VARARGS, doc_ctx_compare_total },
-  { "compare_total_mag", ctx_mpd_compare_total_mag, METH_VARARGS, doc_ctx_compare_total_mag },
-  { "copy_sign", ctx_mpd_qcopy_sign, METH_VARARGS, doc_ctx_copy_sign },
-  { "logical_and", ctx_mpd_qand, METH_VARARGS, doc_ctx_logical_and },
-  { "logical_or", ctx_mpd_qor, METH_VARARGS, doc_ctx_logical_or },
-  { "logical_xor", ctx_mpd_qxor, METH_VARARGS, doc_ctx_logical_xor },
-  { "rotate", ctx_mpd_qrotate, METH_VARARGS, doc_ctx_rotate },
-  { "same_quantum", ctx_mpd_same_quantum, METH_VARARGS, doc_ctx_same_quantum },
-  { "scaleb", ctx_mpd_qscaleb, METH_VARARGS, doc_ctx_scaleb },
-  { "shift", ctx_mpd_qshift, METH_VARARGS, doc_ctx_shift },
+  { "compare_total", ctx_mpd_compare_total, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_compare_total },
+  { "compare_total_mag", ctx_mpd_compare_total_mag, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_compare_total_mag },
+  { "copy_sign", ctx_mpd_qcopy_sign, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_copy_sign },
+  { "logical_and", ctx_mpd_qand, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_logical_and },
+  { "logical_or", ctx_mpd_qor, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_logical_or },
+  { "logical_xor", ctx_mpd_qxor, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_logical_xor },
+  { "rotate", ctx_mpd_qrotate, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_rotate },
+  { "same_quantum", ctx_mpd_same_quantum, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_same_quantum },
+  { "scaleb", ctx_mpd_qscaleb, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_scaleb },
+  { "shift", ctx_mpd_qshift, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_shift },
 
   /* Set context values */
-  { "clear_flags", context_clear_flags, METH_NOARGS, doc_ctx_clear_flags },
-  { "clear_traps", context_clear_traps, METH_NOARGS, doc_ctx_clear_traps },
+  { "clear_flags", context_clear_flags, METH_NOARGS|METH_C_STACK_FRUGAL, doc_ctx_clear_flags },
+  { "clear_traps", context_clear_traps, METH_NOARGS|METH_C_STACK_FRUGAL, doc_ctx_clear_traps },
 
 #ifdef CONFIG_32
   /* Unsafe set functions with relaxed range checks */
-  { "_unsafe_setprec", context_unsafe_setprec, METH_O, NULL },
-  { "_unsafe_setemin", context_unsafe_setemin, METH_O, NULL },
-  { "_unsafe_setemax", context_unsafe_setemax, METH_O, NULL },
+  { "_unsafe_setprec", context_unsafe_setprec, METH_O|METH_C_STACK_FRUGAL, NULL },
+  { "_unsafe_setemin", context_unsafe_setemin, METH_O|METH_C_STACK_FRUGAL, NULL },
+  { "_unsafe_setemax", context_unsafe_setemax, METH_O|METH_C_STACK_FRUGAL, NULL },
 #endif
 
   /* Miscellaneous */
-  { "__copy__", context_copy, METH_NOARGS, NULL },
-  { "__reduce__", context_reduce, METH_NOARGS, NULL },
-  { "copy", context_copy, METH_NOARGS, doc_ctx_copy },
-  { "create_decimal", ctx_create_decimal, METH_VARARGS, doc_ctx_create_decimal },
-  { "create_decimal_from_float", ctx_from_float, METH_O, doc_ctx_create_decimal_from_float },
+  { "__copy__", context_copy, METH_NOARGS|METH_C_STACK_FRUGAL, NULL },
+  { "__reduce__", context_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, NULL },
+  { "copy", context_copy, METH_NOARGS|METH_C_STACK_FRUGAL, doc_ctx_copy },
+  { "create_decimal", ctx_create_decimal, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_create_decimal },
+  { "create_decimal_from_float", ctx_from_float, METH_O|METH_C_STACK_FRUGAL, doc_ctx_create_decimal_from_float },
 
   { NULL, NULL, 1 }
 };
@@ -5963,10 +5963,10 @@ static PyType_Spec context_spec = {
 
 static PyMethodDef _decimal_methods [] =
 {
-  { "getcontext", PyDec_GetCurrentContext, METH_NOARGS, doc_getcontext},
-  { "setcontext", PyDec_SetCurrentContext, METH_O, doc_setcontext},
-  { "localcontext", _PyCFunction_CAST(ctxmanager_new), METH_VARARGS|METH_KEYWORDS, doc_localcontext},
-  { "IEEEContext", ieee_context, METH_O, doc_ieee_context},
+  { "getcontext", PyDec_GetCurrentContext, METH_NOARGS|METH_C_STACK_FRUGAL, doc_getcontext},
+  { "setcontext", PyDec_SetCurrentContext, METH_O|METH_C_STACK_FRUGAL, doc_setcontext},
+  { "localcontext", _PyCFunction_CAST(ctxmanager_new), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_localcontext},
+  { "IEEEContext", ieee_context, METH_O|METH_C_STACK_FRUGAL, doc_ieee_context},
   { NULL, NULL, 1, NULL }
 };
 

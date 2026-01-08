@@ -1692,7 +1692,7 @@ static PyMemberDef BaseExceptionGroup_members[] = {
 
 static PyMethodDef BaseExceptionGroup_methods[] = {
     {"__class_getitem__", Py_GenericAlias,
-      METH_O|METH_CLASS, PyDoc_STR("See PEP 585")},
+      METH_O|METH_CLASS|METH_C_STACK_FRUGAL, PyDoc_STR("See PEP 585")},
     BASEEXCEPTIONGROUP_DERIVE_METHODDEF
     BASEEXCEPTIONGROUP_SPLIT_METHODDEF
     BASEEXCEPTIONGROUP_SUBGROUP_METHODDEF
@@ -1881,7 +1881,7 @@ static PyMemberDef ImportError_members[] = {
 };
 
 static PyMethodDef ImportError_methods[] = {
-    {"__reduce__", ImportError_reduce, METH_NOARGS},
+    {"__reduce__", ImportError_reduce, METH_NOARGS|METH_C_STACK_FRUGAL},
     {NULL}
 };
 
@@ -2346,7 +2346,7 @@ static PyMemberDef OSError_members[] = {
 };
 
 static PyMethodDef OSError_methods[] = {
-    {"__reduce__", OSError_reduce, METH_NOARGS},
+    {"__reduce__", OSError_reduce, METH_NOARGS|METH_C_STACK_FRUGAL},
     {NULL}
 };
 
@@ -2627,8 +2627,8 @@ static PyMemberDef AttributeError_members[] = {
 };
 
 static PyMethodDef AttributeError_methods[] = {
-    {"__getstate__", AttributeError_getstate, METH_NOARGS},
-    {"__reduce__", AttributeError_reduce, METH_NOARGS },
+    {"__getstate__", AttributeError_getstate, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"__reduce__", AttributeError_reduce, METH_NOARGS|METH_C_STACK_FRUGAL },
     {NULL}
 };
 

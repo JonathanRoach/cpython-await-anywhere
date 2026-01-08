@@ -115,14 +115,14 @@ frame_getvarstring(PyObject *self, PyObject *args)
 
 
 static PyMethodDef test_methods[] = {
-    {"frame_getlocals", frame_getlocals, METH_O, NULL},
-    {"frame_getglobals", frame_getglobals, METH_O, NULL},
-    {"frame_getgenerator", frame_getgenerator, METH_O, NULL},
-    {"frame_getbuiltins", frame_getbuiltins, METH_O, NULL},
-    {"frame_getlasti", frame_getlasti, METH_O, NULL},
-    {"frame_new", frame_new, METH_VARARGS, NULL},
-    {"frame_getvar", frame_getvar, METH_VARARGS, NULL},
-    {"frame_getvarstring", frame_getvarstring, METH_VARARGS, NULL},
+    {"frame_getlocals", frame_getlocals, METH_O|METH_C_STACK_FRUGAL, NULL},
+    {"frame_getglobals", frame_getglobals, METH_O|METH_C_STACK_FRUGAL, NULL},
+    {"frame_getgenerator", frame_getgenerator, METH_O|METH_C_STACK_FRUGAL, NULL},
+    {"frame_getbuiltins", frame_getbuiltins, METH_O|METH_C_STACK_FRUGAL, NULL},
+    {"frame_getlasti", frame_getlasti, METH_O|METH_C_STACK_FRUGAL, NULL},
+    {"frame_new", frame_new, METH_VARARGS|METH_C_STACK_FRUGAL, NULL},
+    {"frame_getvar", frame_getvar, METH_VARARGS|METH_C_STACK_FRUGAL, NULL},
+    {"frame_getvarstring", frame_getvarstring, METH_VARARGS|METH_C_STACK_FRUGAL, NULL},
     {NULL},
 };
 

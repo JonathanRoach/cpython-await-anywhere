@@ -2017,7 +2017,7 @@ kqueue_tracking_after_fork(PyObject *module, PyObject *Py_UNUSED(dummy)) {
 
 static PyMethodDef kqueue_tracking_after_fork_def = {
     "kqueue_tracking_after_fork", kqueue_tracking_after_fork,
-    METH_NOARGS, "Invalidate open select.kqueue objects after fork."
+    METH_NOARGS|METH_C_STACK_FRUGAL, "Invalidate open select.kqueue objects after fork."
 };
 
 static void

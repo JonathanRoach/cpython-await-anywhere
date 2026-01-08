@@ -2683,13 +2683,13 @@ static PyBufferProcs bytearray_as_buffer = {
 };
 
 static PyMethodDef bytearray_methods[] = {
-    {"__alloc__", bytearray_alloc, METH_NOARGS, alloc_doc},
+    {"__alloc__", bytearray_alloc, METH_NOARGS|METH_C_STACK_FRUGAL, alloc_doc},
     BYTEARRAY_REDUCE_METHODDEF
     BYTEARRAY_REDUCE_EX_METHODDEF
     BYTEARRAY_SIZEOF_METHODDEF
     BYTEARRAY_APPEND_METHODDEF
-    {"capitalize", bytearray_capitalize, METH_NOARGS, _Py_capitalize__doc__},
-    {"center", _PyCFunction_CAST(bytearray_center), METH_FASTCALL,
+    {"capitalize", bytearray_capitalize, METH_NOARGS|METH_C_STACK_FRUGAL, _Py_capitalize__doc__},
+    {"center", _PyCFunction_CAST(bytearray_center), METH_FASTCALL|METH_C_STACK_FRUGAL,
     stringlib_center__doc__},
     BYTEARRAY_CLEAR_METHODDEF
     BYTEARRAY_COPY_METHODDEF
@@ -2697,25 +2697,25 @@ static PyMethodDef bytearray_methods[] = {
     BYTEARRAY_DECODE_METHODDEF
     BYTEARRAY_ENDSWITH_METHODDEF
     {"expandtabs", _PyCFunction_CAST(bytearray_expandtabs),
-    METH_FASTCALL|METH_KEYWORDS, stringlib_expandtabs__doc__},
+    METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, stringlib_expandtabs__doc__},
     BYTEARRAY_EXTEND_METHODDEF
     BYTEARRAY_FIND_METHODDEF
     BYTEARRAY_FROMHEX_METHODDEF
     BYTEARRAY_HEX_METHODDEF
     BYTEARRAY_INDEX_METHODDEF
     BYTEARRAY_INSERT_METHODDEF
-    {"isalnum", bytearray_isalnum, METH_NOARGS, _Py_isalnum__doc__},
-    {"isalpha", bytearray_isalpha, METH_NOARGS, _Py_isalpha__doc__},
-    {"isascii", bytearray_isascii, METH_NOARGS, _Py_isascii__doc__},
-    {"isdigit", bytearray_isdigit, METH_NOARGS, _Py_isdigit__doc__},
-    {"islower", bytearray_islower, METH_NOARGS, _Py_islower__doc__},
-    {"isspace", bytearray_isspace, METH_NOARGS, _Py_isspace__doc__},
-    {"istitle", bytearray_istitle, METH_NOARGS, _Py_istitle__doc__},
-    {"isupper", bytearray_isupper, METH_NOARGS, _Py_isupper__doc__},
+    {"isalnum", bytearray_isalnum, METH_NOARGS|METH_C_STACK_FRUGAL, _Py_isalnum__doc__},
+    {"isalpha", bytearray_isalpha, METH_NOARGS|METH_C_STACK_FRUGAL, _Py_isalpha__doc__},
+    {"isascii", bytearray_isascii, METH_NOARGS|METH_C_STACK_FRUGAL, _Py_isascii__doc__},
+    {"isdigit", bytearray_isdigit, METH_NOARGS|METH_C_STACK_FRUGAL, _Py_isdigit__doc__},
+    {"islower", bytearray_islower, METH_NOARGS|METH_C_STACK_FRUGAL, _Py_islower__doc__},
+    {"isspace", bytearray_isspace, METH_NOARGS|METH_C_STACK_FRUGAL, _Py_isspace__doc__},
+    {"istitle", bytearray_istitle, METH_NOARGS|METH_C_STACK_FRUGAL, _Py_istitle__doc__},
+    {"isupper", bytearray_isupper, METH_NOARGS|METH_C_STACK_FRUGAL, _Py_isupper__doc__},
     BYTEARRAY_JOIN_METHODDEF
-    {"ljust", _PyCFunction_CAST(bytearray_ljust), METH_FASTCALL,
+    {"ljust", _PyCFunction_CAST(bytearray_ljust), METH_FASTCALL|METH_C_STACK_FRUGAL,
     stringlib_ljust__doc__},
-    {"lower", bytearray_lower, METH_NOARGS, _Py_lower__doc__},
+    {"lower", bytearray_lower, METH_NOARGS|METH_C_STACK_FRUGAL, _Py_lower__doc__},
     BYTEARRAY_LSTRIP_METHODDEF
     BYTEARRAY_MAKETRANS_METHODDEF
     BYTEARRAY_PARTITION_METHODDEF
@@ -2728,7 +2728,7 @@ static PyMethodDef bytearray_methods[] = {
     BYTEARRAY_REVERSE_METHODDEF
     BYTEARRAY_RFIND_METHODDEF
     BYTEARRAY_RINDEX_METHODDEF
-    {"rjust", _PyCFunction_CAST(bytearray_rjust), METH_FASTCALL,
+    {"rjust", _PyCFunction_CAST(bytearray_rjust), METH_FASTCALL|METH_C_STACK_FRUGAL,
     stringlib_rjust__doc__},
     BYTEARRAY_RPARTITION_METHODDEF
     BYTEARRAY_RSPLIT_METHODDEF
@@ -2737,11 +2737,11 @@ static PyMethodDef bytearray_methods[] = {
     BYTEARRAY_SPLITLINES_METHODDEF
     BYTEARRAY_STARTSWITH_METHODDEF
     BYTEARRAY_STRIP_METHODDEF
-    {"swapcase", bytearray_swapcase, METH_NOARGS, _Py_swapcase__doc__},
-    {"title", bytearray_title, METH_NOARGS, _Py_title__doc__},
+    {"swapcase", bytearray_swapcase, METH_NOARGS|METH_C_STACK_FRUGAL, _Py_swapcase__doc__},
+    {"title", bytearray_title, METH_NOARGS|METH_C_STACK_FRUGAL, _Py_title__doc__},
     BYTEARRAY_TRANSLATE_METHODDEF
-    {"upper", bytearray_upper, METH_NOARGS, _Py_upper__doc__},
-    {"zfill", bytearray_zfill, METH_O, stringlib_zfill__doc__},
+    {"upper", bytearray_upper, METH_NOARGS|METH_C_STACK_FRUGAL, _Py_upper__doc__},
+    {"zfill", bytearray_zfill, METH_O|METH_C_STACK_FRUGAL, stringlib_zfill__doc__},
     {NULL}
 };
 
@@ -2961,11 +2961,11 @@ bytearrayiter_setstate(PyObject *self, PyObject *state)
 PyDoc_STRVAR(setstate_doc, "Set state information for unpickling.");
 
 static PyMethodDef bytearrayiter_methods[] = {
-    {"__length_hint__", bytearrayiter_length_hint, METH_NOARGS,
+    {"__length_hint__", bytearrayiter_length_hint, METH_NOARGS|METH_C_STACK_FRUGAL,
      length_hint_doc},
-     {"__reduce__",     bytearrayiter_reduce, METH_NOARGS,
+     {"__reduce__",     bytearrayiter_reduce, METH_NOARGS|METH_C_STACK_FRUGAL,
      bytearray_reduce__doc__},
-    {"__setstate__",    bytearrayiter_setstate, METH_O,
+    {"__setstate__",    bytearrayiter_setstate, METH_O|METH_C_STACK_FRUGAL,
      setstate_doc},
     {NULL, NULL} /* sentinel */
 };

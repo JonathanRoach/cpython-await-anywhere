@@ -124,15 +124,15 @@ function_set_closure(PyObject *self, PyObject *args)
 
 
 static PyMethodDef test_methods[] = {
-    {"function_get_code", function_get_code, METH_O, NULL},
-    {"function_get_globals", function_get_globals, METH_O, NULL},
-    {"function_get_module", function_get_module, METH_O, NULL},
-    {"function_get_defaults", function_get_defaults, METH_O, NULL},
-    {"function_set_defaults", function_set_defaults, METH_VARARGS, NULL},
-    {"function_get_kw_defaults", function_get_kw_defaults, METH_O, NULL},
-    {"function_set_kw_defaults", function_set_kw_defaults, METH_VARARGS, NULL},
-    {"function_get_closure", function_get_closure, METH_O, NULL},
-    {"function_set_closure", function_set_closure, METH_VARARGS, NULL},
+    {"function_get_code", function_get_code, METH_O|METH_C_STACK_FRUGAL, NULL},
+    {"function_get_globals", function_get_globals, METH_O|METH_C_STACK_FRUGAL, NULL},
+    {"function_get_module", function_get_module, METH_O|METH_C_STACK_FRUGAL, NULL},
+    {"function_get_defaults", function_get_defaults, METH_O|METH_C_STACK_FRUGAL, NULL},
+    {"function_set_defaults", function_set_defaults, METH_VARARGS|METH_C_STACK_FRUGAL, NULL},
+    {"function_get_kw_defaults", function_get_kw_defaults, METH_O|METH_C_STACK_FRUGAL, NULL},
+    {"function_set_kw_defaults", function_set_kw_defaults, METH_VARARGS|METH_C_STACK_FRUGAL, NULL},
+    {"function_get_closure", function_get_closure, METH_O|METH_C_STACK_FRUGAL, NULL},
+    {"function_set_closure", function_set_closure, METH_VARARGS|METH_C_STACK_FRUGAL, NULL},
     {NULL},
 };
 

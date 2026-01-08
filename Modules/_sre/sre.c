@@ -3173,7 +3173,7 @@ static PyMethodDef pattern_methods[] = {
     _SRE_SRE_PATTERN___COPY___METHODDEF
     _SRE_SRE_PATTERN___DEEPCOPY___METHODDEF
     _SRE_SRE_PATTERN__FAIL_AFTER_METHODDEF
-    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS,
+    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS|METH_C_STACK_FRUGAL,
      PyDoc_STR("See PEP 585")},
     {NULL, NULL}
 };
@@ -3229,7 +3229,7 @@ static PyMethodDef match_methods[] = {
     _SRE_SRE_MATCH_EXPAND_METHODDEF
     _SRE_SRE_MATCH___COPY___METHODDEF
     _SRE_SRE_MATCH___DEEPCOPY___METHODDEF
-    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS,
+    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS|METH_C_STACK_FRUGAL,
      PyDoc_STR("See PEP 585")},
     {NULL, NULL}
 };

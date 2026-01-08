@@ -2784,14 +2784,14 @@ hamt_py_dump(PyObject *op, PyObject *Py_UNUSED(args))
 
 
 static PyMethodDef PyHamt_methods[] = {
-    {"set", hamt_py_set, METH_VARARGS, NULL},
-    {"get", hamt_py_get, METH_VARARGS, NULL},
-    {"delete", hamt_py_delete, METH_O, NULL},
-    {"items", hamt_py_items, METH_NOARGS, NULL},
-    {"keys", hamt_py_keys, METH_NOARGS, NULL},
-    {"values", hamt_py_values, METH_NOARGS, NULL},
+    {"set", hamt_py_set, METH_VARARGS|METH_C_STACK_FRUGAL, NULL},
+    {"get", hamt_py_get, METH_VARARGS|METH_C_STACK_FRUGAL, NULL},
+    {"delete", hamt_py_delete, METH_O|METH_C_STACK_FRUGAL, NULL},
+    {"items", hamt_py_items, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
+    {"keys", hamt_py_keys, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
+    {"values", hamt_py_values, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
 #ifdef Py_DEBUG
-    {"__dump__", hamt_py_dump, METH_NOARGS, NULL},
+    {"__dump__", hamt_py_dump, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
 #endif
     {NULL, NULL}
 };

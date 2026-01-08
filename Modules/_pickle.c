@@ -4754,7 +4754,7 @@ _pickle_Pickler___sizeof___impl(PicklerObject *self)
 }
 
 static struct PyMethodDef Pickler_methods[] = {
-    {"persistent_id", persistent_id, METH_O,
+    {"persistent_id", persistent_id, METH_O|METH_C_STACK_FRUGAL,
         PyDoc_STR("persistent_id($self, obj, /)\n--\n\n")},
     _PICKLE_PICKLER_DUMP_METHODDEF
     _PICKLE_PICKLER_CLEAR_MEMO_METHODDEF

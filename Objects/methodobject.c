@@ -202,7 +202,7 @@ meth_reduce(PyObject *self, PyObject *Py_UNUSED(ignored))
 }
 
 static PyMethodDef meth_methods[] = {
-    {"__reduce__", meth_reduce, METH_NOARGS, NULL},
+    {"__reduce__", meth_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
     {NULL, NULL}
 };
 
@@ -551,6 +551,13 @@ cfunction_vectorcall_O(
 }
 
 
+static void *Do_cfunction_call(void *);
+struct Do_Call_Params_cfunction_call {
+    PyObject *func;
+    PyObject *args;
+    PyObject *kwargs;
+};
+static int cnt;
 static PyObject *
 cfunction_call(PyObject *func, PyObject *args, PyObject *kwargs)
 {
@@ -560,6 +567,44 @@ cfunction_call(PyObject *func, PyObject *args, PyObject *kwargs)
     assert(!_PyErr_Occurred(tstate));
 
     int flags = PyCFunction_GET_FLAGS(func);
+
+    struct Do_Call_Params_cfunction_call params = {func, args, kwargs};
+    if ((flags & METH_C_STACK_FRUGAL) == 0){
+        // Ensure enough stack headroom
+        if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(2*PYOS_STACK_MARGIN_BYTES)){
+            // Chain with a new stack
+            PyTypeObject* tp = PyCFunction_GET_CLASS(func);
+            printf("Chain %lu %d %s.%s\n", _Py_Coroutine_GetStackHeadroom(), cnt, tp ? tp->tp_name : "", _PyCFunctionObject_CAST(func)->m_ml->ml_name);
+            if (cnt == 0){
+                printf("Too Soon!\n");
+            }
+            cnt = 0;
+            void *result;
+            if ( !_Py_Coroutine_Chain(PYOS_COSTACK_STD_SIZE, Do_cfunction_call, &params, &result)) {
+                return (PyObject *)result;
+            } else {
+                return PyErr_NoMemory();
+            }
+        }
+    }
+    cnt++;
+    return (PyObject *)Do_cfunction_call(&params);
+}
+
+static void *
+Do_cfunction_call(void *_params)
+{
+    if (cnt == 0){
+        printf("New headroom %lu\n", _Py_Coroutine_GetStackHeadroom());
+    }
+    struct Do_Call_Params_cfunction_call *params = (struct Do_Call_Params_cfunction_call *)_params;
+    PyObject *func = params->func;
+    PyObject *args = params->args;
+    PyObject *kwargs = params->kwargs;
+
+    PyThreadState *tstate = _PyThreadState_GET();
+    int flags = PyCFunction_GET_FLAGS(func);
+
     if (!(flags & METH_VARARGS)) {
         /* If this is not a METH_VARARGS function, delegate to vectorcall */
         return PyVectorcall_Call(func, args, kwargs);

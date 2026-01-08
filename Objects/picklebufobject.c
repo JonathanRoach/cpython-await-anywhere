@@ -203,8 +203,8 @@ PyDoc_STRVAR(picklebuf_release_doc,
 Release the underlying buffer exposed by the PickleBuffer object.");
 
 static PyMethodDef picklebuf_methods[] = {
-    {"raw",     picklebuf_raw,     METH_NOARGS, picklebuf_raw_doc},
-    {"release", picklebuf_release, METH_NOARGS, picklebuf_release_doc},
+    {"raw",     picklebuf_raw,     METH_NOARGS|METH_C_STACK_FRUGAL, picklebuf_raw_doc},
+    {"release", picklebuf_release, METH_NOARGS|METH_C_STACK_FRUGAL, picklebuf_release_doc},
     {NULL,      NULL}
 };
 

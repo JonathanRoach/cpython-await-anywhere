@@ -259,16 +259,16 @@ test_dict_iteration(PyObject* self, PyObject *Py_UNUSED(ignored))
 
 
 static PyMethodDef test_methods[] = {
-    {"dict_containsstring", dict_containsstring, METH_VARARGS},
-    {"dict_getitemref", dict_getitemref, METH_VARARGS},
-    {"dict_getitemstringref", dict_getitemstringref, METH_VARARGS},
-    {"dict_setdefault", dict_setdefault, METH_VARARGS},
-    {"dict_setdefaultref", dict_setdefaultref, METH_VARARGS},
-    {"dict_pop", dict_pop, METH_VARARGS},
-    {"dict_pop_null", dict_pop_null, METH_VARARGS},
-    {"dict_popstring", dict_popstring, METH_VARARGS},
-    {"dict_popstring_null", dict_popstring_null, METH_VARARGS},
-    {"test_dict_iteration",     test_dict_iteration,             METH_NOARGS},
+    {"dict_containsstring", dict_containsstring, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"dict_getitemref", dict_getitemref, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"dict_getitemstringref", dict_getitemstringref, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"dict_setdefault", dict_setdefault, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"dict_setdefaultref", dict_setdefaultref, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"dict_pop", dict_pop, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"dict_pop_null", dict_pop_null, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"dict_popstring", dict_popstring, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"dict_popstring_null", dict_popstring_null, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"test_dict_iteration",     test_dict_iteration,             METH_NOARGS|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

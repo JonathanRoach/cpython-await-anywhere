@@ -46,12 +46,12 @@ _PY_RC_FUNC2(quot)
 
 
 static PyMethodDef test_methods[] = {
-    {"_py_cr_sum", _py_cr_sum, METH_VARARGS},
-    {"_py_cr_diff", _py_cr_diff, METH_VARARGS},
-    {"_py_rc_diff", _py_rc_diff, METH_VARARGS},
-    {"_py_cr_prod", _py_cr_prod, METH_VARARGS},
-    {"_py_cr_quot", _py_cr_quot, METH_VARARGS},
-    {"_py_rc_quot", _py_rc_quot, METH_VARARGS},
+    {"_py_cr_sum", _py_cr_sum, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"_py_cr_diff", _py_cr_diff, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"_py_rc_diff", _py_rc_diff, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"_py_cr_prod", _py_cr_prod, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"_py_cr_quot", _py_cr_quot, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"_py_rc_quot", _py_rc_quot, METH_VARARGS|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

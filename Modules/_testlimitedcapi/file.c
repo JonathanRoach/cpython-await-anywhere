@@ -113,10 +113,10 @@ _testcapi_pyobject_asfiledescriptor(PyObject *module, PyObject *obj)
 
 
 static PyMethodDef test_methods[] = {
-    {"pyfile_fromfd", pyfile_fromfd, METH_VARARGS},
+    {"pyfile_fromfd", pyfile_fromfd, METH_VARARGS|METH_C_STACK_FRUGAL},
     _TESTCAPI_PYFILE_GETLINE_METHODDEF
     _TESTCAPI_PYFILE_WRITEOBJECT_METHODDEF
-    {"pyfile_writestring", pyfile_writestring, METH_VARARGS},
+    {"pyfile_writestring", pyfile_writestring, METH_VARARGS|METH_C_STACK_FRUGAL},
     _TESTCAPI_PYOBJECT_ASFILEDESCRIPTOR_METHODDEF
     {NULL},
 };

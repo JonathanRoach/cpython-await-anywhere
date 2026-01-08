@@ -228,19 +228,19 @@ type_freeze(PyObject *module, PyObject *arg)
 
 
 static PyMethodDef test_methods[] = {
-    {"get_heaptype_for_name", get_heaptype_for_name, METH_NOARGS},
-    {"get_type_name", get_type_name, METH_O},
-    {"get_type_qualname",  get_type_qualname, METH_O},
-    {"get_type_fullyqualname", get_type_fullyqualname, METH_O},
-    {"get_type_module_name", get_type_module_name, METH_O},
-    {"test_get_type_dict", test_get_type_dict, METH_NOARGS},
-    {"test_get_statictype_slots", test_get_statictype_slots,     METH_NOARGS},
-    {"type_get_version", type_get_version, METH_O, PyDoc_STR("type->tp_version_tag")},
-    {"type_modified", type_modified, METH_O, PyDoc_STR("PyType_Modified")},
-    {"type_assign_version", type_assign_version, METH_O, PyDoc_STR("PyUnstable_Type_AssignVersionTag")},
-    {"type_get_tp_bases", type_get_tp_bases, METH_O},
-    {"type_get_tp_mro", type_get_tp_mro, METH_O},
-    {"type_freeze", type_freeze, METH_O},
+    {"get_heaptype_for_name", get_heaptype_for_name, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"get_type_name", get_type_name, METH_O|METH_C_STACK_FRUGAL},
+    {"get_type_qualname",  get_type_qualname, METH_O|METH_C_STACK_FRUGAL},
+    {"get_type_fullyqualname", get_type_fullyqualname, METH_O|METH_C_STACK_FRUGAL},
+    {"get_type_module_name", get_type_module_name, METH_O|METH_C_STACK_FRUGAL},
+    {"test_get_type_dict", test_get_type_dict, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_get_statictype_slots", test_get_statictype_slots,     METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"type_get_version", type_get_version, METH_O|METH_C_STACK_FRUGAL, PyDoc_STR("type->tp_version_tag")},
+    {"type_modified", type_modified, METH_O|METH_C_STACK_FRUGAL, PyDoc_STR("PyType_Modified")},
+    {"type_assign_version", type_assign_version, METH_O|METH_C_STACK_FRUGAL, PyDoc_STR("PyUnstable_Type_AssignVersionTag")},
+    {"type_get_tp_bases", type_get_tp_bases, METH_O|METH_C_STACK_FRUGAL},
+    {"type_get_tp_mro", type_get_tp_mro, METH_O|METH_C_STACK_FRUGAL},
+    {"type_freeze", type_freeze, METH_O|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

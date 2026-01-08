@@ -542,9 +542,9 @@ static PyTypeObject PyRecursingInfinitelyError_Type = {
 };
 
 static PyMethodDef test_methods[] = {
-    {"err_restore",             err_restore,                     METH_VARARGS},
-    {"err_writeunraisable",     err_writeunraisable,             METH_VARARGS},
-    {"err_formatunraisable",    err_formatunraisable,            METH_VARARGS},
+    {"err_restore",             err_restore,                     METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"err_writeunraisable",     err_writeunraisable,             METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"err_formatunraisable",    err_formatunraisable,            METH_VARARGS|METH_C_STACK_FRUGAL},
     _TESTCAPI_ERR_SET_RAISED_METHODDEF
     _TESTCAPI_EXCEPTION_PRINT_METHODDEF
     _TESTCAPI_FATAL_ERROR_METHODDEF
@@ -559,18 +559,18 @@ static PyMethodDef test_methods[] = {
     _TESTCAPI_SET_EXCEPTION_METHODDEF
     _TESTCAPI_TRACEBACK_PRINT_METHODDEF
     _TESTCAPI_UNSTABLE_EXC_PREP_RERAISE_STAR_METHODDEF
-    {"unicode_encode_get_start", unicode_encode_get_start,       METH_O},
-    {"unicode_decode_get_start", unicode_decode_get_start,       METH_O},
-    {"unicode_translate_get_start", unicode_translate_get_start, METH_O},
-    {"unicode_encode_set_start", unicode_encode_set_start,       METH_VARARGS},
-    {"unicode_decode_set_start", unicode_decode_set_start,       METH_VARARGS},
-    {"unicode_translate_set_start", unicode_translate_set_start, METH_VARARGS},
-    {"unicode_encode_get_end", unicode_encode_get_end,           METH_O},
-    {"unicode_decode_get_end", unicode_decode_get_end,           METH_O},
-    {"unicode_translate_get_end", unicode_translate_get_end,     METH_O},
-    {"unicode_encode_set_end", unicode_encode_set_end,           METH_VARARGS},
-    {"unicode_decode_set_end", unicode_decode_set_end,           METH_VARARGS},
-    {"unicode_translate_set_end", unicode_translate_set_end,     METH_VARARGS},
+    {"unicode_encode_get_start", unicode_encode_get_start,       METH_O|METH_C_STACK_FRUGAL},
+    {"unicode_decode_get_start", unicode_decode_get_start,       METH_O|METH_C_STACK_FRUGAL},
+    {"unicode_translate_get_start", unicode_translate_get_start, METH_O|METH_C_STACK_FRUGAL},
+    {"unicode_encode_set_start", unicode_encode_set_start,       METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"unicode_decode_set_start", unicode_decode_set_start,       METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"unicode_translate_set_start", unicode_translate_set_start, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"unicode_encode_get_end", unicode_encode_get_end,           METH_O|METH_C_STACK_FRUGAL},
+    {"unicode_decode_get_end", unicode_decode_get_end,           METH_O|METH_C_STACK_FRUGAL},
+    {"unicode_translate_get_end", unicode_translate_get_end,     METH_O|METH_C_STACK_FRUGAL},
+    {"unicode_encode_set_end", unicode_encode_set_end,           METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"unicode_decode_set_end", unicode_decode_set_end,           METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"unicode_translate_set_end", unicode_translate_set_end,     METH_VARARGS|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

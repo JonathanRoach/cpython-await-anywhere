@@ -228,19 +228,19 @@ bytes_decodeescape(PyObject *Py_UNUSED(module), PyObject *args)
 
 
 static PyMethodDef test_methods[] = {
-    {"bytes_check", bytes_check, METH_O},
-    {"bytes_checkexact", bytes_checkexact, METH_O},
-    {"bytes_fromstringandsize", bytes_fromstringandsize, METH_VARARGS},
-    {"bytes_fromstring", bytes_fromstring, METH_O},
-    {"bytes_fromobject", bytes_fromobject, METH_O},
-    {"bytes_size", bytes_size, METH_O},
-    {"bytes_asstring", bytes_asstring, METH_VARARGS},
-    {"bytes_asstringandsize", bytes_asstringandsize, METH_VARARGS},
-    {"bytes_asstringandsize_null", bytes_asstringandsize_null, METH_VARARGS},
-    {"bytes_repr", bytes_repr, METH_VARARGS},
-    {"bytes_concat", bytes_concat, METH_VARARGS},
-    {"bytes_concatanddel", bytes_concatanddel, METH_VARARGS},
-    {"bytes_decodeescape", bytes_decodeescape, METH_VARARGS},
+    {"bytes_check", bytes_check, METH_O|METH_C_STACK_FRUGAL},
+    {"bytes_checkexact", bytes_checkexact, METH_O|METH_C_STACK_FRUGAL},
+    {"bytes_fromstringandsize", bytes_fromstringandsize, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"bytes_fromstring", bytes_fromstring, METH_O|METH_C_STACK_FRUGAL},
+    {"bytes_fromobject", bytes_fromobject, METH_O|METH_C_STACK_FRUGAL},
+    {"bytes_size", bytes_size, METH_O|METH_C_STACK_FRUGAL},
+    {"bytes_asstring", bytes_asstring, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"bytes_asstringandsize", bytes_asstringandsize, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"bytes_asstringandsize_null", bytes_asstringandsize_null, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"bytes_repr", bytes_repr, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"bytes_concat", bytes_concat, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"bytes_concatanddel", bytes_concatanddel, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"bytes_decodeescape", bytes_decodeescape, METH_VARARGS|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

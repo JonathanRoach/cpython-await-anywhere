@@ -2389,7 +2389,7 @@ NotImplemented_reduce(PyObject *op, PyObject *Py_UNUSED(ignored))
 }
 
 static PyMethodDef notimplemented_methods[] = {
-    {"__reduce__", NotImplemented_reduce, METH_NOARGS, NULL},
+    {"__reduce__", NotImplemented_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
     {NULL, NULL}
 };
 

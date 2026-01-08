@@ -254,6 +254,7 @@ class DSLParser:
     parameter_state: ParamState
     indent: IndentStack
     kind: FunctionKind
+    c_stack_frugal: bool
     coexist: bool
     forced_text_signature: str | None
     parameter_continuation: str
@@ -291,6 +292,7 @@ class DSLParser:
         self.parameter_state: ParamState = ParamState.START
         self.indent = IndentStack()
         self.kind = CALLABLE
+        self.c_stack_frugal = False
         self.coexist = False
         self.forced_text_signature = None
         self.parameter_continuation = ''
@@ -418,6 +420,11 @@ class DSLParser:
         if self.kind is not CALLABLE:
             fail("Can't set @classmethod, function is not a normal callable")
         self.kind = CLASS_METHOD
+
+    def at_c_stack_frugal(self) -> None:
+        if self.kind is not CALLABLE:
+            fail("Can't set @c_stack_frugal, function is not a normal callable")
+        self.c_stack_frugal = True
 
     def at_critical_section(self, *args: str) -> None:
         if len(args) > 2:
@@ -703,6 +710,7 @@ class DSLParser:
             c_basename=c_basename,
             return_converter=return_converter,
             kind=self.kind,
+            c_stack_frugal=self.c_stack_frugal,
             coexist=self.coexist,
             critical_section=self.critical_section,
             disable_fastcall=self.disable_fastcall,

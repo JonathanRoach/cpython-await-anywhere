@@ -872,11 +872,11 @@ PyDoc_STRVAR(sizeof__doc__,
 "gen.__sizeof__() -> size of gen in memory, in bytes");
 
 static PyMethodDef gen_methods[] = {
-    {"send", gen_send, METH_O, send_doc},
-    {"throw", _PyCFunction_CAST(gen_throw), METH_FASTCALL, throw_doc},
-    {"close", gen_close, METH_NOARGS, close_doc},
-    {"__sizeof__", gen_sizeof, METH_NOARGS, sizeof__doc__},
-    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS, PyDoc_STR("See PEP 585")},
+    {"send", gen_send, METH_O|METH_C_STACK_FRUGAL, send_doc},
+    {"throw", _PyCFunction_CAST(gen_throw), METH_FASTCALL|METH_C_STACK_FRUGAL, throw_doc},
+    {"close", gen_close, METH_NOARGS|METH_C_STACK_FRUGAL, close_doc},
+    {"__sizeof__", gen_sizeof, METH_NOARGS|METH_C_STACK_FRUGAL, sizeof__doc__},
+    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, PyDoc_STR("See PEP 585")},
     {NULL, NULL}        /* Sentinel */
 };
 
@@ -1473,12 +1473,12 @@ PyDoc_STRVAR(coro_close_doc,
 "close() -> raise GeneratorExit inside coroutine.");
 
 static PyMethodDef coro_methods[] = {
-    {"send", coro_send, METH_O, coro_send_doc},
-    {"throw",_PyCFunction_CAST(coro_throw), METH_FASTCALL, coro_throw_doc},
-    {"close", gen_close, METH_NOARGS, coro_close_doc},
-    {"doyield", coro_doyield, METH_O|METH_STATIC, coro_doyield_doc},
-    {"__sizeof__", gen_sizeof, METH_NOARGS, sizeof__doc__},
-    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS, PyDoc_STR("See PEP 585")},
+    {"send", coro_send, METH_O|METH_C_STACK_FRUGAL, coro_send_doc},
+    {"throw",_PyCFunction_CAST(coro_throw), METH_FASTCALL|METH_C_STACK_FRUGAL, coro_throw_doc},
+    {"close", gen_close, METH_NOARGS|METH_C_STACK_FRUGAL, coro_close_doc},
+    {"doyield", coro_doyield, METH_O|METH_STATIC|METH_C_STACK_FRUGAL, coro_doyield_doc},
+    {"__sizeof__", gen_sizeof, METH_NOARGS|METH_C_STACK_FRUGAL, sizeof__doc__},
+    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, PyDoc_STR("See PEP 585")},
     {NULL, NULL}        /* Sentinel */
 };
 
@@ -1587,10 +1587,10 @@ coro_wrapper_traverse(PyObject *self, visitproc visit, void *arg)
 }
 
 static PyMethodDef coro_wrapper_methods[] = {
-    {"send", coro_wrapper_send, METH_O, coro_send_doc},
-    {"throw", _PyCFunction_CAST(coro_wrapper_throw), METH_FASTCALL,
+    {"send", coro_wrapper_send, METH_O|METH_C_STACK_FRUGAL, coro_send_doc},
+    {"throw", _PyCFunction_CAST(coro_wrapper_throw), METH_FASTCALL|METH_C_STACK_FRUGAL,
      coro_throw_doc},
-    {"close", coro_wrapper_close, METH_NOARGS, coro_close_doc},
+    {"close", coro_wrapper_close, METH_NOARGS|METH_C_STACK_FRUGAL, coro_close_doc},
     {NULL, NULL}        /* Sentinel */
 };
 
@@ -1920,12 +1920,12 @@ the (type, val, tb) signature is deprecated, \n\
 and may be removed in a future version of Python.");
 
 static PyMethodDef async_gen_methods[] = {
-    {"asend", async_gen_asend, METH_O, async_asend_doc},
-    {"athrow", async_gen_athrow, METH_VARARGS, async_athrow_doc},
-    {"aclose", async_gen_aclose, METH_NOARGS, async_aclose_doc},
-    {"__sizeof__", gen_sizeof, METH_NOARGS, sizeof__doc__},
+    {"asend", async_gen_asend, METH_O|METH_C_STACK_FRUGAL, async_asend_doc},
+    {"athrow", async_gen_athrow, METH_VARARGS|METH_C_STACK_FRUGAL, async_athrow_doc},
+    {"aclose", async_gen_aclose, METH_NOARGS|METH_C_STACK_FRUGAL, async_aclose_doc},
+    {"__sizeof__", gen_sizeof, METH_NOARGS|METH_C_STACK_FRUGAL, sizeof__doc__},
     {"__class_getitem__",    Py_GenericAlias,
-    METH_O|METH_CLASS,       PyDoc_STR("See PEP 585")},
+    METH_O|METH_CLASS|METH_C_STACK_FRUGAL,       PyDoc_STR("See PEP 585")},
     {NULL, NULL}        /* Sentinel */
 };
 
@@ -2187,9 +2187,9 @@ async_gen_asend_finalize(PyObject *self)
 }
 
 static PyMethodDef async_gen_asend_methods[] = {
-    {"send", async_gen_asend_send, METH_O, send_doc},
-    {"throw", _PyCFunction_CAST(async_gen_asend_throw), METH_FASTCALL, throw_doc},
-    {"close", async_gen_asend_close, METH_NOARGS, close_doc},
+    {"send", async_gen_asend_send, METH_O|METH_C_STACK_FRUGAL, send_doc},
+    {"throw", _PyCFunction_CAST(async_gen_asend_throw), METH_FASTCALL|METH_C_STACK_FRUGAL, throw_doc},
+    {"close", async_gen_asend_close, METH_NOARGS|METH_C_STACK_FRUGAL, close_doc},
     {NULL, NULL}        /* Sentinel */
 };
 
@@ -2624,10 +2624,10 @@ async_gen_athrow_finalize(PyObject *op)
 }
 
 static PyMethodDef async_gen_athrow_methods[] = {
-    {"send", async_gen_athrow_send, METH_O, send_doc},
+    {"send", async_gen_athrow_send, METH_O|METH_C_STACK_FRUGAL, send_doc},
     {"throw", _PyCFunction_CAST(async_gen_athrow_throw),
-    METH_FASTCALL, throw_doc},
-    {"close", async_gen_athrow_close, METH_NOARGS, close_doc},
+    METH_FASTCALL|METH_C_STACK_FRUGAL, throw_doc},
+    {"close", async_gen_athrow_close, METH_NOARGS|METH_C_STACK_FRUGAL, close_doc},
     {NULL, NULL}        /* Sentinel */
 };
 

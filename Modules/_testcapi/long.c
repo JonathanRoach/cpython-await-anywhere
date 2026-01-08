@@ -264,17 +264,17 @@ get_pylong_layout(PyObject *module, PyObject *Py_UNUSED(args))
 
 static PyMethodDef test_methods[] = {
     _TESTCAPI_CALL_LONG_COMPACT_API_METHODDEF
-    {"pylong_fromunicodeobject",    pylong_fromunicodeobject,   METH_VARARGS},
-    {"pylong_asnativebytes",        pylong_asnativebytes,       METH_VARARGS},
-    {"pylong_fromnativebytes",      pylong_fromnativebytes,     METH_VARARGS},
-    {"pylong_getsign",              pylong_getsign,             METH_O},
-    {"pylong_aspid",                pylong_aspid,               METH_O},
-    {"pylong_export",               pylong_export,              METH_O},
-    {"pylongwriter_create",         pylongwriter_create,        METH_VARARGS},
-    {"get_pylong_layout",           get_pylong_layout,          METH_NOARGS},
-    {"pylong_ispositive",           pylong_ispositive,          METH_O},
-    {"pylong_isnegative",           pylong_isnegative,          METH_O},
-    {"pylong_iszero",               pylong_iszero,              METH_O},
+    {"pylong_fromunicodeobject",    pylong_fromunicodeobject,   METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"pylong_asnativebytes",        pylong_asnativebytes,       METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"pylong_fromnativebytes",      pylong_fromnativebytes,     METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"pylong_getsign",              pylong_getsign,             METH_O|METH_C_STACK_FRUGAL},
+    {"pylong_aspid",                pylong_aspid,               METH_O|METH_C_STACK_FRUGAL},
+    {"pylong_export",               pylong_export,              METH_O|METH_C_STACK_FRUGAL},
+    {"pylongwriter_create",         pylongwriter_create,        METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"get_pylong_layout",           get_pylong_layout,          METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"pylong_ispositive",           pylong_ispositive,          METH_O|METH_C_STACK_FRUGAL},
+    {"pylong_isnegative",           pylong_isnegative,          METH_O|METH_C_STACK_FRUGAL},
+    {"pylong_iszero",               pylong_iszero,              METH_O|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

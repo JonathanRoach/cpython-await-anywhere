@@ -894,20 +894,20 @@ static PyMappingMethods framelocalsproxy_as_mapping = {
 };
 
 static PyMethodDef framelocalsproxy_methods[] = {
-    {"__contains__", framelocalsproxy___contains__, METH_O | METH_COEXIST, NULL},
-    {"__getitem__", framelocalsproxy_getitem, METH_O | METH_COEXIST, NULL},
-    {"update", framelocalsproxy_update, METH_O, NULL},
-    {"__reversed__", framelocalsproxy_reversed, METH_NOARGS, NULL},
-    {"copy", framelocalsproxy_copy, METH_NOARGS, NULL},
-    {"keys", framelocalsproxy_keys, METH_NOARGS, NULL},
-    {"values", framelocalsproxy_values, METH_NOARGS, NULL},
-    {"items", _PyCFunction_CAST(framelocalsproxy_items), METH_NOARGS, NULL},
-    {"get", _PyCFunction_CAST(framelocalsproxy_get), METH_FASTCALL, NULL},
-    {"pop", _PyCFunction_CAST(framelocalsproxy_pop), METH_FASTCALL, NULL},
+    {"__contains__", framelocalsproxy___contains__, METH_O | METH_COEXIST|METH_C_STACK_FRUGAL, NULL},
+    {"__getitem__", framelocalsproxy_getitem, METH_O | METH_COEXIST|METH_C_STACK_FRUGAL, NULL},
+    {"update", framelocalsproxy_update, METH_O|METH_C_STACK_FRUGAL, NULL},
+    {"__reversed__", framelocalsproxy_reversed, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
+    {"copy", framelocalsproxy_copy, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
+    {"keys", framelocalsproxy_keys, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
+    {"values", framelocalsproxy_values, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
+    {"items", _PyCFunction_CAST(framelocalsproxy_items), METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
+    {"get", _PyCFunction_CAST(framelocalsproxy_get), METH_FASTCALL|METH_C_STACK_FRUGAL, NULL},
+    {"pop", _PyCFunction_CAST(framelocalsproxy_pop), METH_FASTCALL|METH_C_STACK_FRUGAL, NULL},
     {
         "setdefault",
         _PyCFunction_CAST(framelocalsproxy_setdefault),
-        METH_FASTCALL,
+        METH_FASTCALL|METH_C_STACK_FRUGAL,
         NULL
     },
     {NULL, NULL}   /* sentinel */

@@ -90,10 +90,10 @@ object_generichash(PyObject *Py_UNUSED(module), PyObject *arg)
 
 
 static PyMethodDef test_methods[] = {
-    {"hash_getfuncdef", hash_getfuncdef, METH_NOARGS},
-    {"hash_pointer", hash_pointer, METH_O},
-    {"hash_buffer", hash_buffer, METH_VARARGS},
-    {"object_generichash", object_generichash, METH_O},
+    {"hash_getfuncdef", hash_getfuncdef, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"hash_pointer", hash_pointer, METH_O|METH_C_STACK_FRUGAL},
+    {"hash_buffer", hash_buffer, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"object_generichash", object_generichash, METH_O|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

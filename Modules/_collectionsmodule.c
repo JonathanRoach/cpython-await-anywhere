@@ -1839,7 +1839,7 @@ static PyMethodDef deque_methods[] = {
     DEQUE_ROTATE_METHODDEF
     DEQUE___SIZEOF___METHODDEF
     {"__class_getitem__",       Py_GenericAlias,
-        METH_O|METH_CLASS,       PyDoc_STR("See PEP 585")},
+        METH_O|METH_CLASS|METH_C_STACK_FRUGAL,       PyDoc_STR("See PEP 585")},
     {NULL,              NULL}   /* sentinel */
 };
 
@@ -2053,8 +2053,8 @@ dequeiter_reduce(PyObject *op, PyObject *Py_UNUSED(dummy))
 }
 
 static PyMethodDef dequeiter_methods[] = {
-    {"__length_hint__", dequeiter_len, METH_NOARGS, length_hint_doc},
-    {"__reduce__", dequeiter_reduce, METH_NOARGS, reduce_doc},
+    {"__length_hint__", dequeiter_len, METH_NOARGS|METH_C_STACK_FRUGAL, length_hint_doc},
+    {"__reduce__", dequeiter_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, reduce_doc},
     {NULL,              NULL}           /* sentinel */
 };
 
@@ -2316,15 +2316,15 @@ defdict_reduce(PyObject *op, PyObject *Py_UNUSED(dummy))
 }
 
 static PyMethodDef defdict_methods[] = {
-    {"__missing__", defdict_missing, METH_O,
+    {"__missing__", defdict_missing, METH_O|METH_C_STACK_FRUGAL,
      defdict_missing_doc},
-    {"copy", defdict_copy, METH_NOARGS,
+    {"copy", defdict_copy, METH_NOARGS|METH_C_STACK_FRUGAL,
      defdict_copy_doc},
-    {"__copy__", defdict_copy, METH_NOARGS,
+    {"__copy__", defdict_copy, METH_NOARGS|METH_C_STACK_FRUGAL,
      defdict_copy_doc},
-    {"__reduce__", defdict_reduce, METH_NOARGS,
+    {"__reduce__", defdict_reduce, METH_NOARGS|METH_C_STACK_FRUGAL,
      reduce_doc},
-    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS,
+    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS|METH_C_STACK_FRUGAL,
      PyDoc_STR("See PEP 585")},
     {NULL}
 };
@@ -2753,7 +2753,7 @@ static PyMemberDef tuplegetter_members[] = {
 };
 
 static PyMethodDef tuplegetter_methods[] = {
-    {"__reduce__", tuplegetter_reduce, METH_NOARGS, NULL},
+    {"__reduce__", tuplegetter_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
     {NULL},
 };
 

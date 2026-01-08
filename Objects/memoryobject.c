@@ -3440,9 +3440,9 @@ static PyMethodDef memory_methods[] = {
     MEMORYVIEW__FROM_FLAGS_METHODDEF
     MEMORYVIEW_COUNT_METHODDEF
     MEMORYVIEW_INDEX_METHODDEF
-    {"__enter__",   memory_enter, METH_NOARGS, NULL},
-    {"__exit__",    memory_exit, METH_VARARGS, memory_exit_doc},
-    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS, PyDoc_STR("See PEP 585")},
+    {"__enter__",   memory_enter, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
+    {"__exit__",    memory_exit, METH_VARARGS|METH_C_STACK_FRUGAL, memory_exit_doc},
+    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, PyDoc_STR("See PEP 585")},
     {NULL,          NULL}
 };
 

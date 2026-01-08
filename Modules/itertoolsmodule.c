@@ -1035,7 +1035,7 @@ tee_dealloc(PyObject *op)
 }
 
 static PyMethodDef tee_methods[] = {
-    {"__copy__", tee_copy, METH_NOARGS, teecopy_doc},
+    {"__copy__", tee_copy, METH_NOARGS|METH_C_STACK_FRUGAL, teecopy_doc},
     {NULL,              NULL}           /* sentinel */
 };
 
@@ -1930,7 +1930,7 @@ iterable, until all of the iterables are exhausted.");
 static PyMethodDef chain_methods[] = {
     ITERTOOLS_CHAIN_FROM_ITERABLE_METHODDEF
     {"__class_getitem__",    Py_GenericAlias,
-    METH_O|METH_CLASS,       PyDoc_STR("See PEP 585")},
+    METH_O|METH_CLASS|METH_C_STACK_FRUGAL,       PyDoc_STR("See PEP 585")},
     {NULL,              NULL}           /* sentinel */
 };
 
@@ -2173,7 +2173,7 @@ empty:
 }
 
 static PyMethodDef product_methods[] = {
-    {"__sizeof__", product_sizeof, METH_NOARGS, sizeof_doc},
+    {"__sizeof__", product_sizeof, METH_NOARGS|METH_C_STACK_FRUGAL, sizeof_doc},
     {NULL,              NULL}   /* sentinel */
 };
 
@@ -2405,7 +2405,7 @@ empty:
 }
 
 static PyMethodDef combinations_methods[] = {
-    {"__sizeof__", combinations_sizeof, METH_NOARGS, sizeof_doc},
+    {"__sizeof__", combinations_sizeof, METH_NOARGS|METH_C_STACK_FRUGAL, sizeof_doc},
     {NULL,              NULL}   /* sentinel */
 };
 
@@ -2643,7 +2643,7 @@ empty:
 }
 
 static PyMethodDef cwr_methods[] = {
-    {"__sizeof__", cwr_sizeof, METH_NOARGS, sizeof_doc},
+    {"__sizeof__", cwr_sizeof, METH_NOARGS|METH_C_STACK_FRUGAL, sizeof_doc},
     {NULL,              NULL}   /* sentinel */
 };
 
@@ -2913,7 +2913,7 @@ empty:
 }
 
 static PyMethodDef permuations_methods[] = {
-    {"__sizeof__", permutations_sizeof, METH_NOARGS, sizeof_doc},
+    {"__sizeof__", permutations_sizeof, METH_NOARGS|METH_C_STACK_FRUGAL, sizeof_doc},
     {NULL,              NULL}   /* sentinel */
 };
 
@@ -3671,7 +3671,7 @@ repeat_len(PyObject *op, PyObject *Py_UNUSED(args))
 PyDoc_STRVAR(length_hint_doc, "Private method returning an estimate of len(list(it)).");
 
 static PyMethodDef repeat_methods[] = {
-    {"__length_hint__", repeat_len, METH_NOARGS, length_hint_doc},
+    {"__length_hint__", repeat_len, METH_NOARGS|METH_C_STACK_FRUGAL, length_hint_doc},
     {NULL,              NULL}           /* sentinel */
 };
 

@@ -81,7 +81,7 @@ NoDefault_reduce(PyObject *op, PyObject *Py_UNUSED(ignored))
 }
 
 static PyMethodDef nodefault_methods[] = {
-    {"__reduce__", NoDefault_reduce, METH_NOARGS, NULL},
+    {"__reduce__", NoDefault_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
     {NULL, NULL}
 };
 
@@ -861,7 +861,7 @@ static PyMethodDef typevar_methods[] = {
     TYPEVAR_TYPING_PREPARE_SUBST_METHODDEF
     TYPEVAR_REDUCE_METHODDEF
     TYPEVAR_HAS_DEFAULT_METHODDEF
-    {"__mro_entries__", typevar_mro_entries, METH_O},
+    {"__mro_entries__", typevar_mro_entries, METH_O|METH_C_STACK_FRUGAL},
     {0}
 };
 
@@ -1041,7 +1041,7 @@ paramspecargs_mro_entries(PyObject *self, PyObject *args)
 }
 
 static PyMethodDef paramspecargs_methods[] = {
-    {"__mro_entries__", paramspecargs_mro_entries, METH_O},
+    {"__mro_entries__", paramspecargs_mro_entries, METH_O|METH_C_STACK_FRUGAL},
     {0}
 };
 
@@ -1121,7 +1121,7 @@ paramspeckwargs_mro_entries(PyObject *self, PyObject *args)
 }
 
 static PyMethodDef paramspeckwargs_methods[] = {
-    {"__mro_entries__", paramspeckwargs_mro_entries, METH_O},
+    {"__mro_entries__", paramspeckwargs_mro_entries, METH_O|METH_C_STACK_FRUGAL},
     {0}
 };
 
@@ -1429,7 +1429,7 @@ static PyMethodDef paramspec_methods[] = {
     PARAMSPEC_TYPING_PREPARE_SUBST_METHODDEF
     PARAMSPEC_HAS_DEFAULT_METHODDEF
     PARAMSPEC_REDUCE_METHODDEF
-    {"__mro_entries__", paramspec_mro_entries, METH_O},
+    {"__mro_entries__", paramspec_mro_entries, METH_O|METH_C_STACK_FRUGAL},
     {0}
 };
 
@@ -1738,7 +1738,7 @@ static PyMethodDef typevartuple_methods[] = {
     TYPEVARTUPLE_TYPING_PREPARE_SUBST_METHODDEF
     TYPEVARTUPLE_REDUCE_METHODDEF
     TYPEVARTUPLE_HAS_DEFAULT_METHODDEF
-    {"__mro_entries__", typevartuple_mro_entries, METH_O},
+    {"__mro_entries__", typevartuple_mro_entries, METH_O|METH_C_STACK_FRUGAL},
     {0}
 };
 
@@ -2287,10 +2287,10 @@ _Py_subscript_generic(PyThreadState* unused, PyObject *params)
 
 static PyMethodDef generic_methods[] = {
     {"__class_getitem__", _PyCFunction_CAST(generic_class_getitem),
-     METH_VARARGS | METH_KEYWORDS | METH_CLASS,
+     METH_VARARGS | METH_KEYWORDS | METH_CLASS|METH_C_STACK_FRUGAL,
      generic_class_getitem_doc},
     {"__init_subclass__", _PyCFunction_CAST(generic_init_subclass),
-     METH_VARARGS | METH_KEYWORDS | METH_CLASS,
+     METH_VARARGS | METH_KEYWORDS | METH_CLASS|METH_C_STACK_FRUGAL,
      PyDoc_STR("Function to initialize subclasses.")},
     {NULL} /* Sentinel */
 };

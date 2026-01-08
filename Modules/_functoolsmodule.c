@@ -71,7 +71,7 @@ placeholder_reduce(PyObject *op, PyObject *Py_UNUSED(ignored))
 }
 
 static PyMethodDef placeholder_methods[] = {
-    {"__reduce__", placeholder_reduce, METH_NOARGS, NULL},
+    {"__reduce__", placeholder_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
     {NULL, NULL}
 };
 
@@ -752,10 +752,10 @@ partial_setstate(PyObject *self, PyObject *state)
 }
 
 static PyMethodDef partial_methods[] = {
-    {"__reduce__", partial_reduce, METH_NOARGS},
-    {"__setstate__", partial_setstate, METH_O},
+    {"__reduce__", partial_reduce, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"__setstate__", partial_setstate, METH_O|METH_C_STACK_FRUGAL},
     {"__class_getitem__",    Py_GenericAlias,
-    METH_O|METH_CLASS,       PyDoc_STR("See PEP 585")},
+    METH_O|METH_CLASS|METH_C_STACK_FRUGAL,       PyDoc_STR("See PEP 585")},
     {NULL,              NULL}           /* sentinel */
 };
 
@@ -1760,9 +1760,9 @@ cache_info_type:    namedtuple class with the fields:\n\
 static PyMethodDef lru_cache_methods[] = {
     _FUNCTOOLS__LRU_CACHE_WRAPPER_CACHE_INFO_METHODDEF
     _FUNCTOOLS__LRU_CACHE_WRAPPER_CACHE_CLEAR_METHODDEF
-    {"__reduce__", lru_cache_reduce, METH_NOARGS},
-    {"__copy__", lru_cache_copy, METH_VARARGS},
-    {"__deepcopy__", lru_cache_deepcopy, METH_VARARGS},
+    {"__reduce__", lru_cache_reduce, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"__copy__", lru_cache_copy, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"__deepcopy__", lru_cache_deepcopy, METH_VARARGS|METH_C_STACK_FRUGAL},
     {NULL}
 };
 

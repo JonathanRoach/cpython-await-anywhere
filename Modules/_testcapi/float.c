@@ -160,7 +160,7 @@ test_string_to_double(PyObject *self, PyObject *Py_UNUSED(ignored))
 static PyMethodDef test_methods[] = {
     _TESTCAPI_FLOAT_PACK_METHODDEF
     _TESTCAPI_FLOAT_UNPACK_METHODDEF
-    {"test_string_to_double", test_string_to_double, METH_NOARGS},
+    {"test_string_to_double", test_string_to_double, METH_NOARGS|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

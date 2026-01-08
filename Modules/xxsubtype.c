@@ -68,17 +68,17 @@ spamlist_specialmeth(PyObject *self, PyObject *args, PyObject *kw)
 }
 
 static PyMethodDef spamlist_methods[] = {
-    {"getstate", spamlist_getstate, METH_VARARGS,
+    {"getstate", spamlist_getstate, METH_VARARGS|METH_C_STACK_FRUGAL,
         PyDoc_STR("getstate() -> state")},
-    {"setstate", spamlist_setstate, METH_VARARGS,
+    {"setstate", spamlist_setstate, METH_VARARGS|METH_C_STACK_FRUGAL,
         PyDoc_STR("setstate(state)")},
     /* These entries differ only in the flags; they are used by the tests
        in test.test_descr. */
     {"classmeth", _PyCFunction_CAST(spamlist_specialmeth),
-        METH_VARARGS | METH_KEYWORDS | METH_CLASS,
+        METH_VARARGS | METH_KEYWORDS | METH_CLASS|METH_C_STACK_FRUGAL,
         PyDoc_STR("classmeth(*args, **kw)")},
     {"staticmeth", _PyCFunction_CAST(spamlist_specialmeth),
-        METH_VARARGS | METH_KEYWORDS | METH_STATIC,
+        METH_VARARGS | METH_KEYWORDS | METH_STATIC|METH_C_STACK_FRUGAL,
         PyDoc_STR("staticmeth(*args, **kw)")},
     {NULL,      NULL},
 };
@@ -181,9 +181,9 @@ spamdict_setstate(PyObject *op, PyObject *args)
 }
 
 static PyMethodDef spamdict_methods[] = {
-    {"getstate", spamdict_getstate, METH_VARARGS,
+    {"getstate", spamdict_getstate, METH_VARARGS|METH_C_STACK_FRUGAL,
         PyDoc_STR("getstate() -> state")},
-    {"setstate", spamdict_setstate, METH_VARARGS,
+    {"setstate", spamdict_setstate, METH_VARARGS|METH_C_STACK_FRUGAL,
         PyDoc_STR("setstate(state)")},
     {NULL,      NULL},
 };
@@ -269,7 +269,7 @@ spam_bench(PyObject *self, PyObject *args)
 }
 
 static PyMethodDef xxsubtype_functions[] = {
-    {"bench",           spam_bench,     METH_VARARGS},
+    {"bench",           spam_bench,     METH_VARARGS|METH_C_STACK_FRUGAL},
     {NULL,              NULL}           /* sentinel */
 };
 

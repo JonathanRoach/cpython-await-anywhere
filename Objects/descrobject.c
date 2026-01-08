@@ -636,7 +636,7 @@ descr_reduce(PyObject *self, PyObject *Py_UNUSED(ignored))
 }
 
 static PyMethodDef descr_methods[] = {
-    {"__reduce__", descr_reduce, METH_NOARGS, NULL},
+    {"__reduce__", descr_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
     {NULL, NULL}
 };
 
@@ -1167,20 +1167,20 @@ mappingproxy_reversed(PyObject *self, PyObject *Py_UNUSED(ignored))
             to the underlying mapping */
 
 static PyMethodDef mappingproxy_methods[] = {
-    {"get",       _PyCFunction_CAST(mappingproxy_get), METH_FASTCALL,
+    {"get",       _PyCFunction_CAST(mappingproxy_get), METH_FASTCALL|METH_C_STACK_FRUGAL,
      PyDoc_STR("get($self, key, default=None, /)\n--\n\n"
         "Return the value for key if key is in the mapping, else default.")},
-    {"keys",      mappingproxy_keys,       METH_NOARGS,
+    {"keys",      mappingproxy_keys,       METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("D.keys() -> a set-like object providing a view on D's keys")},
-    {"values",    mappingproxy_values,     METH_NOARGS,
+    {"values",    mappingproxy_values,     METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("D.values() -> an object providing a view on D's values")},
-    {"items",     mappingproxy_items,      METH_NOARGS,
+    {"items",     mappingproxy_items,      METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("D.items() -> a set-like object providing a view on D's items")},
-    {"copy",      mappingproxy_copy,       METH_NOARGS,
+    {"copy",      mappingproxy_copy,       METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("D.copy() -> a shallow copy of D")},
-    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS,
+    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS|METH_C_STACK_FRUGAL,
      PyDoc_STR("See PEP 585")},
-    {"__reversed__", mappingproxy_reversed, METH_NOARGS,
+    {"__reversed__", mappingproxy_reversed, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("D.__reversed__() -> reverse iterator")},
     {0}
 };
@@ -1375,7 +1375,7 @@ wrapper_reduce(PyObject *self, PyObject *Py_UNUSED(ignored))
 }
 
 static PyMethodDef wrapper_methods[] = {
-    {"__reduce__", wrapper_reduce, METH_NOARGS, NULL},
+    {"__reduce__", wrapper_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
     {NULL, NULL}
 };
 
@@ -1622,10 +1622,10 @@ property_set_name(PyObject *self, PyObject *args) {
 }
 
 static PyMethodDef property_methods[] = {
-    {"getter", property_getter, METH_O, getter_doc},
-    {"setter", property_setter, METH_O, setter_doc},
-    {"deleter", property_deleter, METH_O, deleter_doc},
-    {"__set_name__", property_set_name, METH_VARARGS, set_name_doc},
+    {"getter", property_getter, METH_O|METH_C_STACK_FRUGAL, getter_doc},
+    {"setter", property_setter, METH_O|METH_C_STACK_FRUGAL, setter_doc},
+    {"deleter", property_deleter, METH_O|METH_C_STACK_FRUGAL, deleter_doc},
+    {"__set_name__", property_set_name, METH_VARARGS|METH_C_STACK_FRUGAL, set_name_doc},
     {0}
 };
 

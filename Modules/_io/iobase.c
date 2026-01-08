@@ -839,16 +839,16 @@ static PyMethodDef iobase_methods[] = {
     _IO__IOBASE_READABLE_METHODDEF
     _IO__IOBASE_WRITABLE_METHODDEF
 
-    {"_checkClosed",   _PyIOBase_check_closed, METH_NOARGS},
-    {"_checkSeekable", iobase_check_seekable, METH_NOARGS},
-    {"_checkReadable", iobase_check_readable, METH_NOARGS},
-    {"_checkWritable", iobase_check_writable, METH_NOARGS},
+    {"_checkClosed",   _PyIOBase_check_closed, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"_checkSeekable", iobase_check_seekable, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"_checkReadable", iobase_check_readable, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"_checkWritable", iobase_check_writable, METH_NOARGS|METH_C_STACK_FRUGAL},
 
     _IO__IOBASE_FILENO_METHODDEF
     _IO__IOBASE_ISATTY_METHODDEF
 
-    {"__enter__", iobase_enter, METH_NOARGS},
-    {"__exit__", iobase_exit, METH_VARARGS},
+    {"__enter__", iobase_enter, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"__exit__", iobase_exit, METH_VARARGS|METH_C_STACK_FRUGAL},
 
     _IO__IOBASE_READLINE_METHODDEF
     _IO__IOBASE_READLINES_METHODDEF
@@ -1028,8 +1028,8 @@ rawiobase_write(PyObject *self, PyObject *args)
 static PyMethodDef rawiobase_methods[] = {
     _IO__RAWIOBASE_READ_METHODDEF
     _IO__RAWIOBASE_READALL_METHODDEF
-    {"readinto", rawiobase_readinto, METH_VARARGS},
-    {"write", rawiobase_write, METH_VARARGS},
+    {"readinto", rawiobase_readinto, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"write", rawiobase_write, METH_VARARGS|METH_C_STACK_FRUGAL},
     {NULL, NULL}
 };
 

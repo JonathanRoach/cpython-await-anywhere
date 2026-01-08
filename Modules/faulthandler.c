@@ -1251,66 +1251,66 @@ PyDoc_STRVAR(module_doc,
 
 static PyMethodDef module_methods[] = {
     {"enable",
-     _PyCFunction_CAST(faulthandler_py_enable), METH_VARARGS|METH_KEYWORDS,
+     _PyCFunction_CAST(faulthandler_py_enable), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL,
      PyDoc_STR("enable($module, /, file=sys.stderr, all_threads=True)\n--\n\n"
                "Enable the fault handler.")},
-    {"disable", faulthandler_disable_py, METH_NOARGS,
+    {"disable", faulthandler_disable_py, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("disable($module, /)\n--\n\n"
                "Disable the fault handler.")},
-    {"is_enabled", faulthandler_is_enabled, METH_NOARGS,
+    {"is_enabled", faulthandler_is_enabled, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("is_enabled($module, /)\n--\n\n"
                "Check if the handler is enabled.")},
     {"dump_traceback",
-     _PyCFunction_CAST(faulthandler_dump_traceback_py), METH_VARARGS|METH_KEYWORDS,
+     _PyCFunction_CAST(faulthandler_dump_traceback_py), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL,
      PyDoc_STR("dump_traceback($module, /, file=sys.stderr, all_threads=True)\n--\n\n"
                "Dump the traceback of the current thread, or of all threads "
                "if all_threads is True, into file.")},
      {"dump_c_stack",
-      _PyCFunction_CAST(faulthandler_dump_c_stack_py), METH_VARARGS|METH_KEYWORDS,
+      _PyCFunction_CAST(faulthandler_dump_c_stack_py), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL,
       PyDoc_STR("dump_c_stack($module, /, file=sys.stderr)\n--\n\n"
               "Dump the C stack of the current thread.")},
     {"dump_traceback_later",
-     _PyCFunction_CAST(faulthandler_dump_traceback_later), METH_VARARGS|METH_KEYWORDS,
+     _PyCFunction_CAST(faulthandler_dump_traceback_later), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL,
      PyDoc_STR("dump_traceback_later($module, /, timeout, repeat=False, file=sys.stderr, exit=False)\n--\n\n"
                "Dump the traceback of all threads in timeout seconds,\n"
                "or each timeout seconds if repeat is True. If exit is True, "
                "call _exit(1) which is not safe.")},
     {"cancel_dump_traceback_later",
-     faulthandler_cancel_dump_traceback_later_py, METH_NOARGS,
+     faulthandler_cancel_dump_traceback_later_py, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("cancel_dump_traceback_later($module, /)\n--\n\n"
                "Cancel the previous call to dump_traceback_later().")},
 #ifdef FAULTHANDLER_USER
     {"register",
-     _PyCFunction_CAST(faulthandler_register_py), METH_VARARGS|METH_KEYWORDS,
+     _PyCFunction_CAST(faulthandler_register_py), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL,
      PyDoc_STR("register($module, /, signum, file=sys.stderr, all_threads=True, chain=False)\n--\n\n"
                "Register a handler for the signal 'signum': dump the "
                "traceback of the current thread, or of all threads if "
                "all_threads is True, into file.")},
     {"unregister",
-     _PyCFunction_CAST(faulthandler_unregister_py), METH_VARARGS,
+     _PyCFunction_CAST(faulthandler_unregister_py), METH_VARARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("unregister($module, signum, /)\n--\n\n"
                "Unregister the handler of the signal "
                "'signum' registered by register().")},
 #endif
-    {"_sigsegv", faulthandler_sigsegv, METH_VARARGS,
+    {"_sigsegv", faulthandler_sigsegv, METH_VARARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("_sigsegv($module, release_gil=False, /)\n--\n\n"
                "Raise a SIGSEGV signal.")},
-    {"_fatal_error_c_thread", faulthandler_fatal_error_c_thread, METH_NOARGS,
+    {"_fatal_error_c_thread", faulthandler_fatal_error_c_thread, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("_fatal_error_c_thread($module, /)\n--\n\n"
                "Call Py_FatalError() in a new C thread.")},
-    {"_sigabrt", faulthandler_sigabrt, METH_NOARGS,
+    {"_sigabrt", faulthandler_sigabrt, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("_sigabrt($module, /)\n--\n\n"
                "Raise a SIGABRT signal.")},
-    {"_sigfpe", faulthandler_sigfpe, METH_NOARGS,
+    {"_sigfpe", faulthandler_sigfpe, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("_sigfpe($module, /)\n--\n\n"
                "Raise a SIGFPE signal.")},
 #ifdef FAULTHANDLER_STACK_OVERFLOW
-    {"_stack_overflow", faulthandler_stack_overflow, METH_NOARGS,
+    {"_stack_overflow", faulthandler_stack_overflow, METH_NOARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("_stack_overflow($module, /)\n--\n\n"
                "Recursive call to raise a stack overflow.")},
 #endif
 #ifdef MS_WINDOWS
-    {"_raise_exception", faulthandler_raise_exception, METH_VARARGS,
+    {"_raise_exception", faulthandler_raise_exception, METH_VARARGS|METH_C_STACK_FRUGAL,
      PyDoc_STR("_raise_exception($module, code, flags=0, /)\n--\n\n"
                "Call RaiseException(code, flags).")},
 #endif

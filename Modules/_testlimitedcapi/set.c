@@ -156,24 +156,24 @@ error:
 }
 
 static PyMethodDef test_methods[] = {
-    {"set_check", set_check, METH_O},
-    {"set_checkexact", set_checkexact, METH_O},
-    {"frozenset_check", frozenset_check, METH_O},
-    {"frozenset_checkexact", frozenset_checkexact, METH_O},
-    {"anyset_check", anyset_check, METH_O},
-    {"anyset_checkexact", anyset_checkexact, METH_O},
+    {"set_check", set_check, METH_O|METH_C_STACK_FRUGAL},
+    {"set_checkexact", set_checkexact, METH_O|METH_C_STACK_FRUGAL},
+    {"frozenset_check", frozenset_check, METH_O|METH_C_STACK_FRUGAL},
+    {"frozenset_checkexact", frozenset_checkexact, METH_O|METH_C_STACK_FRUGAL},
+    {"anyset_check", anyset_check, METH_O|METH_C_STACK_FRUGAL},
+    {"anyset_checkexact", anyset_checkexact, METH_O|METH_C_STACK_FRUGAL},
 
-    {"set_new", set_new, METH_VARARGS},
-    {"frozenset_new", frozenset_new, METH_VARARGS},
+    {"set_new", set_new, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"frozenset_new", frozenset_new, METH_VARARGS|METH_C_STACK_FRUGAL},
 
-    {"set_size", set_size, METH_O},
-    {"set_contains", set_contains, METH_VARARGS},
-    {"set_add", set_add, METH_VARARGS},
-    {"set_discard", set_discard, METH_VARARGS},
-    {"set_pop", set_pop, METH_O},
-    {"set_clear", set_clear, METH_O},
+    {"set_size", set_size, METH_O|METH_C_STACK_FRUGAL},
+    {"set_contains", set_contains, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"set_add", set_add, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"set_discard", set_discard, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"set_pop", set_pop, METH_O|METH_C_STACK_FRUGAL},
+    {"set_clear", set_clear, METH_O|METH_C_STACK_FRUGAL},
 
-    {"test_frozenset_add_in_capi", test_frozenset_add_in_capi, METH_NOARGS},
+    {"test_frozenset_add_in_capi", test_frozenset_add_in_capi, METH_NOARGS|METH_C_STACK_FRUGAL},
 
     {NULL},
 };

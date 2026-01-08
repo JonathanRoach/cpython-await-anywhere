@@ -52,8 +52,8 @@ bytes_join(PyObject *Py_UNUSED(module), PyObject *args)
 
 
 static PyMethodDef test_methods[] = {
-    {"bytes_resize", bytes_resize, METH_VARARGS},
-    {"bytes_join", bytes_join, METH_VARARGS},
+    {"bytes_resize", bytes_resize, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"bytes_join", bytes_join, METH_VARARGS|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

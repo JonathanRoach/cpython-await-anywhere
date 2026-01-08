@@ -98,8 +98,8 @@ run_fileexflags(PyObject *mod, PyObject *pos_args)
 }
 
 static PyMethodDef test_methods[] = {
-    {"run_stringflags", run_stringflags, METH_VARARGS},
-    {"run_fileexflags", run_fileexflags, METH_VARARGS},
+    {"run_stringflags", run_stringflags, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"run_fileexflags", run_fileexflags, METH_VARARGS|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

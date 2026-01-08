@@ -276,6 +276,7 @@ static bool Coroutine_StackHasOverrun(void){
     unsigned char *stack_top = StackTopNow();
     unsigned char *stack_limit = g_c ? g_c->stack_limit : NULL;
     if (stack_limit && stack_top < stack_limit){
+        printf("top %p < limit %p\n", stack_top, stack_limit);
         // current stack top is beyond limit - we are overrunning NOW
         return true;
     }
@@ -284,9 +285,17 @@ static bool Coroutine_StackHasOverrun(void){
         return false;
     }
     if (me->guard){
-        return !Check_Guard(me->guard);
+        bool ret = !Check_Guard(me->guard);
+        if (ret){
+            printf("Broken guard me=%p; me->guard=%p me->limit-%p stack top=%p\n", me, me->guard, me->limit, stack_top);
+        }
+        return ret;
     }
-    return stack_top < me->limit;
+    bool ret = stack_top < me->limit;
+    if (ret){
+        printf("stack top %p < me->limit %p\n", stack_top, me->limit);
+    }
+    return ret;
 }
 
 
@@ -951,10 +960,6 @@ void Coroutine_ClearStackForHWM(void){
 static bool Coroutine_CanStartCoroutine_Lock_Assumed(
     size_t size
 ){
-    assert(g_c);
-    assert(g_c->state == Coroutines_Started || g_c->state == Coroutines_Active);
-    assert(!Coroutine_StackHasOverrun());
-
     if (!g_c->stack_limit){
         return true;
     }
@@ -993,6 +998,10 @@ static bool Coroutine_CanStartCoroutine_Lock_Assumed(
 bool _Py_Coroutine_CanStartCoroutine(
     size_t size
 ){
+    assert(g_c);
+    assert(g_c->state == Coroutines_Started || g_c->state == Coroutines_Active);
+    assert(!Coroutine_StackHasOverrun());
+
     _Cor_Mutex_Lock(&g_c->mutex);
 
     bool result = Coroutine_CanStartCoroutine_Lock_Assumed(size);

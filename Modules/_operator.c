@@ -1200,7 +1200,7 @@ itemgetter_reduce(PyObject *op, PyObject *Py_UNUSED(dummy))
 PyDoc_STRVAR(reduce_doc, "Return state information for pickling");
 
 static PyMethodDef itemgetter_methods[] = {
-    {"__reduce__", itemgetter_reduce, METH_NOARGS,
+    {"__reduce__", itemgetter_reduce, METH_NOARGS|METH_C_STACK_FRUGAL,
      reduce_doc},
     {NULL}
 };
@@ -1565,7 +1565,7 @@ attrgetter_reduce(PyObject *op, PyObject *Py_UNUSED(dummy))
 }
 
 static PyMethodDef attrgetter_methods[] = {
-    {"__reduce__", attrgetter_reduce, METH_NOARGS,
+    {"__reduce__", attrgetter_reduce, METH_NOARGS|METH_C_STACK_FRUGAL,
      reduce_doc},
     {NULL}
 };
@@ -1907,7 +1907,7 @@ methodcaller_reduce(PyObject *op, PyObject *Py_UNUSED(dummy))
 }
 
 static PyMethodDef methodcaller_methods[] = {
-    {"__reduce__", methodcaller_reduce, METH_NOARGS,
+    {"__reduce__", methodcaller_reduce, METH_NOARGS|METH_C_STACK_FRUGAL,
      reduce_doc},
     {NULL}
 };

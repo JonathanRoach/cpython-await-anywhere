@@ -4743,7 +4743,7 @@ In either case, this is followed by: for k in F:  D[k] = F[k]");
 
 static PyMethodDef mapp_methods[] = {
     DICT___CONTAINS___METHODDEF
-    {"__getitem__",     dict_subscript,                 METH_O | METH_COEXIST,
+    {"__getitem__",     dict_subscript,                 METH_O | METH_COEXIST|METH_C_STACK_FRUGAL,
      getitem__doc__},
     DICT___SIZEOF___METHODDEF
     DICT_GET_METHODDEF
@@ -4753,13 +4753,13 @@ static PyMethodDef mapp_methods[] = {
     DICT_KEYS_METHODDEF
     DICT_ITEMS_METHODDEF
     DICT_VALUES_METHODDEF
-    {"update",          _PyCFunction_CAST(dict_update), METH_VARARGS | METH_KEYWORDS,
+    {"update",          _PyCFunction_CAST(dict_update), METH_VARARGS | METH_KEYWORDS|METH_C_STACK_FRUGAL,
      update__doc__},
     DICT_FROMKEYS_METHODDEF
     DICT_CLEAR_METHODDEF
     DICT_COPY_METHODDEF
     DICT___REVERSED___METHODDEF
-    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS, PyDoc_STR("See PEP 585")},
+    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, PyDoc_STR("See PEP 585")},
     {NULL,              NULL}   /* sentinel */
 };
 
@@ -5140,9 +5140,9 @@ dictiter_reduce(PyObject *di, PyObject *Py_UNUSED(ignored));
 PyDoc_STRVAR(reduce_doc, "Return state information for pickling.");
 
 static PyMethodDef dictiter_methods[] = {
-    {"__length_hint__", dictiter_len,                   METH_NOARGS,
+    {"__length_hint__", dictiter_len,                   METH_NOARGS|METH_C_STACK_FRUGAL,
      length_hint_doc},
-     {"__reduce__",     dictiter_reduce,                METH_NOARGS,
+     {"__reduce__",     dictiter_reduce,                METH_NOARGS|METH_C_STACK_FRUGAL,
      reduce_doc},
     {NULL,              NULL}           /* sentinel */
 };
@@ -6453,9 +6453,9 @@ PyDoc_STRVAR(reversed_keys_doc,
 "Return a reverse iterator over the dict keys.");
 
 static PyMethodDef dictkeys_methods[] = {
-    {"isdisjoint",      dictviews_isdisjoint,           METH_O,
+    {"isdisjoint",      dictviews_isdisjoint,           METH_O|METH_C_STACK_FRUGAL,
      isdisjoint_doc},
-    {"__reversed__",    dictkeys_reversed,              METH_NOARGS,
+    {"__reversed__",    dictkeys_reversed,              METH_NOARGS|METH_C_STACK_FRUGAL,
      reversed_keys_doc},
     {NULL,              NULL}           /* sentinel */
 };
@@ -6565,9 +6565,9 @@ PyDoc_STRVAR(reversed_items_doc,
 "Return a reverse iterator over the dict items.");
 
 static PyMethodDef dictitems_methods[] = {
-    {"isdisjoint",      dictviews_isdisjoint,           METH_O,
+    {"isdisjoint",      dictviews_isdisjoint,           METH_O|METH_C_STACK_FRUGAL,
      isdisjoint_doc},
-    {"__reversed__",    dictitems_reversed,             METH_NOARGS,
+    {"__reversed__",    dictitems_reversed,             METH_NOARGS|METH_C_STACK_FRUGAL,
      reversed_items_doc},
     {NULL,              NULL}           /* sentinel */
 };
@@ -6657,7 +6657,7 @@ PyDoc_STRVAR(reversed_values_doc,
 "Return a reverse iterator over the dict values.");
 
 static PyMethodDef dictvalues_methods[] = {
-    {"__reversed__",    dictvalues_reversed,            METH_NOARGS,
+    {"__reversed__",    dictvalues_reversed,            METH_NOARGS|METH_C_STACK_FRUGAL,
      reversed_values_doc},
     {NULL,              NULL}           /* sentinel */
 };

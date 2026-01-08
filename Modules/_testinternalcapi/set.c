@@ -47,8 +47,8 @@ set_next_entry(PyObject *self, PyObject *args)
 
 
 static PyMethodDef TestMethods[] = {
-    {"set_update", set_update, METH_VARARGS},
-    {"set_next_entry", set_next_entry, METH_VARARGS},
+    {"set_update", set_update, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"set_next_entry", set_next_entry, METH_VARARGS|METH_C_STACK_FRUGAL},
 
     {NULL},
 };

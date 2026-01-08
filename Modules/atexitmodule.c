@@ -298,13 +298,13 @@ atexit_unregister(PyObject *module, PyObject *func)
 
 
 static PyMethodDef atexit_methods[] = {
-    {"register", _PyCFunction_CAST(atexit_register), METH_VARARGS|METH_KEYWORDS,
+    {"register", _PyCFunction_CAST(atexit_register), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL,
         atexit_register__doc__},
-    {"_clear", atexit_clear, METH_NOARGS, atexit_clear__doc__},
-    {"unregister", atexit_unregister, METH_O, atexit_unregister__doc__},
-    {"_run_exitfuncs", atexit_run_exitfuncs, METH_NOARGS,
+    {"_clear", atexit_clear, METH_NOARGS|METH_C_STACK_FRUGAL, atexit_clear__doc__},
+    {"unregister", atexit_unregister, METH_O|METH_C_STACK_FRUGAL, atexit_unregister__doc__},
+    {"_run_exitfuncs", atexit_run_exitfuncs, METH_NOARGS|METH_C_STACK_FRUGAL,
         atexit_run_exitfuncs__doc__},
-    {"_ncallbacks", atexit_ncallbacks, METH_NOARGS,
+    {"_ncallbacks", atexit_ncallbacks, METH_NOARGS|METH_C_STACK_FRUGAL,
         atexit_ncallbacks__doc__},
     {NULL, NULL}        /* sentinel */
 };

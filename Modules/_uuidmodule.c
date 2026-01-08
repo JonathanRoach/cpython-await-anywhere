@@ -124,7 +124,7 @@ uuid_exec(PyObject *module)
 
 static PyMethodDef uuid_methods[] = {
 #if defined(HAVE_UUID_UUID_H) || defined(HAVE_UUID_H)
-    {"generate_time_safe", py_uuid_generate_time_safe, METH_NOARGS, NULL},
+    {"generate_time_safe", py_uuid_generate_time_safe, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
 #endif
 #if defined(MS_WINDOWS)
     {"UuidCreate", py_UuidCreate, METH_NOARGS, NULL},

@@ -60,11 +60,11 @@ complex_imagasdouble(PyObject *Py_UNUSED(module), PyObject *obj)
 
 
 static PyMethodDef test_methods[] = {
-    {"complex_check", complex_check, METH_O},
-    {"complex_checkexact", complex_checkexact, METH_O},
-    {"complex_fromdoubles", complex_fromdoubles, METH_VARARGS},
-    {"complex_realasdouble", complex_realasdouble, METH_O},
-    {"complex_imagasdouble", complex_imagasdouble, METH_O},
+    {"complex_check", complex_check, METH_O|METH_C_STACK_FRUGAL},
+    {"complex_checkexact", complex_checkexact, METH_O|METH_C_STACK_FRUGAL},
+    {"complex_fromdoubles", complex_fromdoubles, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"complex_realasdouble", complex_realasdouble, METH_O|METH_C_STACK_FRUGAL},
+    {"complex_imagasdouble", complex_imagasdouble, METH_O|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

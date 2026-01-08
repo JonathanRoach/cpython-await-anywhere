@@ -105,11 +105,11 @@ _check_tuple_item_is_NULL(PyObject *Py_UNUSED(module), PyObject *args)
 
 
 static PyMethodDef test_methods[] = {
-    {"tuple_get_size", tuple_get_size, METH_O},
-    {"tuple_get_item", tuple_get_item, METH_VARARGS},
-    {"tuple_set_item", tuple_set_item, METH_VARARGS},
-    {"_tuple_resize", _tuple_resize, METH_VARARGS},
-    {"_check_tuple_item_is_NULL", _check_tuple_item_is_NULL, METH_VARARGS},
+    {"tuple_get_size", tuple_get_size, METH_O|METH_C_STACK_FRUGAL},
+    {"tuple_get_item", tuple_get_item, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"tuple_set_item", tuple_set_item, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"_tuple_resize", _tuple_resize, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"_check_tuple_item_is_NULL", _check_tuple_item_is_NULL, METH_VARARGS|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

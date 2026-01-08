@@ -764,10 +764,10 @@ PyDoc_STRVAR(index_doc,
 "Raise ValueError if the value is not present.");
 
 static PyMethodDef range_methods[] = {
-    {"__reversed__",    range_reverse,              METH_NOARGS, reverse_doc},
-    {"__reduce__",      range_reduce,               METH_NOARGS},
-    {"count",           range_count,                METH_O,      count_doc},
-    {"index",           range_index,                METH_O,      index_doc},
+    {"__reversed__",    range_reverse,              METH_NOARGS|METH_C_STACK_FRUGAL, reverse_doc},
+    {"__reduce__",      range_reduce,               METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"count",           range_count,                METH_O|METH_C_STACK_FRUGAL,      count_doc},
+    {"index",           range_index,                METH_O|METH_C_STACK_FRUGAL,      index_doc},
     {NULL,              NULL}           /* sentinel */
 };
 
@@ -908,9 +908,9 @@ PyDoc_STRVAR(reduce_doc, "Return state information for pickling.");
 PyDoc_STRVAR(setstate_doc, "Set state information for unpickling.");
 
 static PyMethodDef rangeiter_methods[] = {
-    {"__length_hint__", rangeiter_len, METH_NOARGS, length_hint_doc},
-    {"__reduce__", rangeiter_reduce, METH_NOARGS, reduce_doc},
-    {"__setstate__", rangeiter_setstate, METH_O, setstate_doc},
+    {"__length_hint__", rangeiter_len, METH_NOARGS|METH_C_STACK_FRUGAL, length_hint_doc},
+    {"__reduce__", rangeiter_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, reduce_doc},
+    {"__setstate__", rangeiter_setstate, METH_O|METH_C_STACK_FRUGAL, setstate_doc},
     {NULL,              NULL}           /* sentinel */
 };
 
@@ -1080,9 +1080,9 @@ longrangeiter_setstate(PyObject *op, PyObject *state)
 }
 
 static PyMethodDef longrangeiter_methods[] = {
-    {"__length_hint__", longrangeiter_len, METH_NOARGS, length_hint_doc},
-    {"__reduce__", longrangeiter_reduce, METH_NOARGS, reduce_doc},
-    {"__setstate__", longrangeiter_setstate, METH_O, setstate_doc},
+    {"__length_hint__", longrangeiter_len, METH_NOARGS|METH_C_STACK_FRUGAL, length_hint_doc},
+    {"__reduce__", longrangeiter_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, reduce_doc},
+    {"__setstate__", longrangeiter_setstate, METH_O|METH_C_STACK_FRUGAL, setstate_doc},
     {NULL,              NULL}           /* sentinel */
 };
 

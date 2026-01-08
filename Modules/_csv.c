@@ -583,8 +583,8 @@ Dialect_reduce(PyObject *self, PyObject *args) {
 }
 
 static struct PyMethodDef dialect_methods[] = {
-    {"__reduce__", Dialect_reduce, METH_VARARGS, dialect_reduce_doc},
-    {"__reduce_ex__", Dialect_reduce, METH_VARARGS, dialect_reduce_doc},
+    {"__reduce__", Dialect_reduce, METH_VARARGS|METH_C_STACK_FRUGAL, dialect_reduce_doc},
+    {"__reduce_ex__", Dialect_reduce, METH_VARARGS|METH_C_STACK_FRUGAL, dialect_reduce_doc},
     {NULL, NULL}
 };
 
@@ -1445,8 +1445,8 @@ csv_writerows(PyObject *self, PyObject *seqseq)
 }
 
 static struct PyMethodDef Writer_methods[] = {
-    {"writerow", csv_writerow, METH_O, csv_writerow_doc},
-    {"writerows", csv_writerows, METH_O, csv_writerows_doc},
+    {"writerow", csv_writerow, METH_O|METH_C_STACK_FRUGAL, csv_writerow_doc},
+    {"writerows", csv_writerows, METH_O|METH_C_STACK_FRUGAL, csv_writerows_doc},
     {NULL, NULL, 0, NULL}  /* sentinel */
 };
 
@@ -1739,11 +1739,11 @@ PyDoc_STRVAR(csv_register_dialect_doc,
 
 static struct PyMethodDef csv_methods[] = {
     { "reader", _PyCFunction_CAST(csv_reader),
-        METH_VARARGS | METH_KEYWORDS, csv_reader_doc},
+        METH_VARARGS | METH_KEYWORDS|METH_C_STACK_FRUGAL, csv_reader_doc},
     { "writer", _PyCFunction_CAST(csv_writer),
-        METH_VARARGS | METH_KEYWORDS, csv_writer_doc},
+        METH_VARARGS | METH_KEYWORDS|METH_C_STACK_FRUGAL, csv_writer_doc},
     { "register_dialect", _PyCFunction_CAST(csv_register_dialect),
-        METH_VARARGS | METH_KEYWORDS, csv_register_dialect_doc},
+        METH_VARARGS | METH_KEYWORDS|METH_C_STACK_FRUGAL, csv_register_dialect_doc},
     _CSV_LIST_DIALECTS_METHODDEF
     _CSV_UNREGISTER_DIALECT_METHODDEF
     _CSV_GET_DIALECT_METHODDEF

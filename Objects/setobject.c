@@ -881,8 +881,8 @@ setiter_reduce(PyObject *op, PyObject *Py_UNUSED(ignored))
 PyDoc_STRVAR(reduce_doc, "Return state information for pickling.");
 
 static PyMethodDef setiter_methods[] = {
-    {"__length_hint__", setiter_len, METH_NOARGS, length_hint_doc},
-    {"__reduce__", setiter_reduce, METH_NOARGS, reduce_doc},
+    {"__length_hint__", setiter_len, METH_NOARGS|METH_C_STACK_FRUGAL, length_hint_doc},
+    {"__reduce__", setiter_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, reduce_doc},
     {NULL,              NULL}           /* sentinel */
 };
 
@@ -2502,7 +2502,7 @@ static PyMethodDef set_methods[] = {
     SET_SYMMETRIC_DIFFERENCE_UPDATE_METHODDEF
     SET_UNION_METHODDEF
     SET_UPDATE_METHODDEF
-    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS, PyDoc_STR("See PEP 585")},
+    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, PyDoc_STR("See PEP 585")},
     {NULL,              NULL}   /* sentinel */
 };
 
@@ -2606,7 +2606,7 @@ static PyMethodDef frozenset_methods[] = {
     SET___SIZEOF___METHODDEF
     SET_SYMMETRIC_DIFFERENCE_METHODDEF
     SET_UNION_METHODDEF
-    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS, PyDoc_STR("See PEP 585")},
+    {"__class_getitem__", Py_GenericAlias, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, PyDoc_STR("See PEP 585")},
     {NULL,              NULL}   /* sentinel */
 };
 

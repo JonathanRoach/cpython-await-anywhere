@@ -6808,7 +6808,7 @@ static PyMethodDef type_methods[] = {
     TYPE_MRO_METHODDEF
     TYPE___SUBCLASSES___METHODDEF
     {"__prepare__", _PyCFunction_CAST(type_prepare),
-     METH_FASTCALL | METH_KEYWORDS | METH_CLASS,
+     METH_FASTCALL | METH_KEYWORDS | METH_CLASS|METH_C_STACK_FRUGAL,
      PyDoc_STR("__prepare__($cls, name, bases, /, **kwds)\n"
                "--\n"
                "\n"
@@ -8144,9 +8144,9 @@ static PyMethodDef object_methods[] = {
     OBJECT___REDUCE_EX___METHODDEF
     OBJECT___REDUCE___METHODDEF
     OBJECT___GETSTATE___METHODDEF
-    {"__subclasshook__", object_subclasshook, METH_CLASS | METH_O,
+    {"__subclasshook__", object_subclasshook, METH_CLASS | METH_O|METH_C_STACK_FRUGAL,
      object_subclasshook_doc},
-    {"__init_subclass__", object_init_subclass, METH_CLASS | METH_NOARGS,
+    {"__init_subclass__", object_init_subclass, METH_CLASS | METH_NOARGS|METH_C_STACK_FRUGAL,
      object_init_subclass_doc},
     OBJECT___FORMAT___METHODDEF
     OBJECT___SIZEOF___METHODDEF
@@ -10041,8 +10041,9 @@ tp_new_wrapper(PyObject *self, PyObject *args, PyObject *kwds)
     return res;
 }
 
+// We assume all C __new__'s are C-stack frugal. This may be a bogus assumption
 static struct PyMethodDef tp_new_methoddef[] = {
-    {"__new__", _PyCFunction_CAST(tp_new_wrapper), METH_VARARGS|METH_KEYWORDS,
+    {"__new__", _PyCFunction_CAST(tp_new_wrapper), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL,
      PyDoc_STR("__new__($type, *args, **kwargs)\n--\n\n"
                "Create and return a new object.  "
                "See help(type) for accurate signature.")},

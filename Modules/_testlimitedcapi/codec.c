@@ -15,7 +15,7 @@ codec_namereplace_errors(PyObject *Py_UNUSED(module), PyObject *exc)
 }
 
 static PyMethodDef test_methods[] = {
-    {"codec_namereplace_errors", codec_namereplace_errors, METH_O},
+    {"codec_namereplace_errors", codec_namereplace_errors, METH_O|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

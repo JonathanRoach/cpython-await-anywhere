@@ -2045,36 +2045,36 @@ buffer_info(PyObject *self, PyObject *arg)
 
 
 PyMethodDef _ctypes_module_methods[] = {
-    {"get_errno", get_errno, METH_NOARGS},
-    {"set_errno", set_errno, METH_VARARGS},
-    {"_unpickle", unpickle, METH_VARARGS },
-    {"buffer_info", buffer_info, METH_O, "Return buffer interface information"},
+    {"get_errno", get_errno, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"set_errno", set_errno, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"_unpickle", unpickle, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"buffer_info", buffer_info, METH_O|METH_C_STACK_FRUGAL, "Return buffer interface information"},
     _CTYPES_RESIZE_METHODDEF
 #ifdef MS_WIN32
-    {"get_last_error", get_last_error, METH_NOARGS},
-    {"set_last_error", set_last_error, METH_VARARGS},
-    {"CopyComPointer", copy_com_pointer, METH_VARARGS, copy_com_pointer_doc},
-    {"FormatError", format_error, METH_VARARGS, format_error_doc},
-    {"LoadLibrary", load_library, METH_VARARGS, load_library_doc},
-    {"FreeLibrary", free_library, METH_VARARGS, free_library_doc},
-    {"_check_HRESULT", check_hresult, METH_VARARGS},
+    {"get_last_error", get_last_error, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"set_last_error", set_last_error, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"CopyComPointer", copy_com_pointer, METH_VARARGS|METH_C_STACK_FRUGAL, copy_com_pointer_doc},
+    {"FormatError", format_error, METH_VARARGS|METH_C_STACK_FRUGAL, format_error_doc},
+    {"LoadLibrary", load_library, METH_VARARGS|METH_C_STACK_FRUGAL, load_library_doc},
+    {"FreeLibrary", free_library, METH_VARARGS|METH_C_STACK_FRUGAL, free_library_doc},
+    {"_check_HRESULT", check_hresult, METH_VARARGS|METH_C_STACK_FRUGAL},
 #else
-    {"dlopen", py_dl_open, METH_VARARGS,
+    {"dlopen", py_dl_open, METH_VARARGS|METH_C_STACK_FRUGAL,
      "dlopen(name, flag={RTLD_GLOBAL|RTLD_LOCAL}) open a shared library"},
-    {"dlclose", py_dl_close, METH_VARARGS, "dlclose a library"},
-    {"dlsym", py_dl_sym, METH_VARARGS, "find symbol in shared library"},
+    {"dlclose", py_dl_close, METH_VARARGS|METH_C_STACK_FRUGAL, "dlclose a library"},
+    {"dlsym", py_dl_sym, METH_VARARGS|METH_C_STACK_FRUGAL, "find symbol in shared library"},
 #endif
 #ifdef __APPLE__
-     {"_dyld_shared_cache_contains_path", py_dyld_shared_cache_contains_path, METH_VARARGS, "check if path is in the shared cache"},
+     {"_dyld_shared_cache_contains_path", py_dyld_shared_cache_contains_path, METH_VARARGS|METH_C_STACK_FRUGAL, "check if path is in the shared cache"},
 #endif
-    {"alignment", align_func, METH_O, alignment_doc},
+    {"alignment", align_func, METH_O|METH_C_STACK_FRUGAL, alignment_doc},
     _CTYPES_SIZEOF_METHODDEF
     _CTYPES_BYREF_METHODDEF
     _CTYPES_ADDRESSOF_METHODDEF
-    {"call_function", call_function, METH_VARARGS },
-    {"call_cdeclfunction", call_cdeclfunction, METH_VARARGS },
-    {"PyObj_FromPtr", My_PyObj_FromPtr, METH_VARARGS },
-    {"Py_INCREF", My_Py_INCREF, METH_O },
-    {"Py_DECREF", My_Py_DECREF, METH_O },
+    {"call_function", call_function, METH_VARARGS|METH_C_STACK_FRUGAL },
+    {"call_cdeclfunction", call_cdeclfunction, METH_VARARGS|METH_C_STACK_FRUGAL },
+    {"PyObj_FromPtr", My_PyObj_FromPtr, METH_VARARGS|METH_C_STACK_FRUGAL },
+    {"Py_INCREF", My_Py_INCREF, METH_O|METH_C_STACK_FRUGAL },
+    {"Py_DECREF", My_Py_DECREF, METH_O|METH_C_STACK_FRUGAL },
     {NULL,      NULL}        /* Sentinel */
 };

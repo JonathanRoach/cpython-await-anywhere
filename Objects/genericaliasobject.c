@@ -785,11 +785,11 @@ error:
 }
 
 static PyMethodDef ga_methods[] = {
-    {"__mro_entries__", ga_mro_entries, METH_O},
-    {"__instancecheck__", ga_instancecheck, METH_O},
-    {"__subclasscheck__", ga_subclasscheck, METH_O},
-    {"__reduce__", ga_reduce, METH_NOARGS},
-    {"__dir__", ga_dir, METH_NOARGS},
+    {"__mro_entries__", ga_mro_entries, METH_O|METH_C_STACK_FRUGAL},
+    {"__instancecheck__", ga_instancecheck, METH_O|METH_C_STACK_FRUGAL},
+    {"__subclasscheck__", ga_subclasscheck, METH_O|METH_C_STACK_FRUGAL},
+    {"__reduce__", ga_reduce, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"__dir__", ga_dir, METH_NOARGS|METH_C_STACK_FRUGAL},
     {0}
 };
 
@@ -945,7 +945,7 @@ ga_iter_reduce(PyObject *self, PyObject *Py_UNUSED(ignored))
 }
 
 static PyMethodDef ga_iter_methods[] = {
-    {"__reduce__", ga_iter_reduce, METH_NOARGS},
+    {"__reduce__", ga_iter_reduce, METH_NOARGS|METH_C_STACK_FRUGAL},
     {0}
 };
 

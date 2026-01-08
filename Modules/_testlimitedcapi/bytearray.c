@@ -101,14 +101,14 @@ bytearray_resize(PyObject *Py_UNUSED(module), PyObject *args)
 
 
 static PyMethodDef test_methods[] = {
-    {"bytearray_check", bytearray_check, METH_O},
-    {"bytearray_checkexact", bytearray_checkexact, METH_O},
-    {"bytearray_fromstringandsize", bytearray_fromstringandsize, METH_VARARGS},
-    {"bytearray_fromobject", bytearray_fromobject, METH_O},
-    {"bytearray_size", bytearray_size, METH_O},
-    {"bytearray_asstring", bytearray_asstring, METH_VARARGS},
-    {"bytearray_concat", bytearray_concat, METH_VARARGS},
-    {"bytearray_resize", bytearray_resize, METH_VARARGS},
+    {"bytearray_check", bytearray_check, METH_O|METH_C_STACK_FRUGAL},
+    {"bytearray_checkexact", bytearray_checkexact, METH_O|METH_C_STACK_FRUGAL},
+    {"bytearray_fromstringandsize", bytearray_fromstringandsize, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"bytearray_fromobject", bytearray_fromobject, METH_O|METH_C_STACK_FRUGAL},
+    {"bytearray_size", bytearray_size, METH_O|METH_C_STACK_FRUGAL},
+    {"bytearray_asstring", bytearray_asstring, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"bytearray_concat", bytearray_concat, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"bytearray_resize", bytearray_resize, METH_VARARGS|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

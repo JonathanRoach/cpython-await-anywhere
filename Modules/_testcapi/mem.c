@@ -685,24 +685,24 @@ error:
 
 
 static PyMethodDef test_methods[] = {
-    {"pymem_api_misuse",              pymem_api_misuse,              METH_NOARGS},
-    {"pymem_buffer_overflow",         pymem_buffer_overflow,         METH_NOARGS},
-    {"pymem_malloc_without_gil",      pymem_malloc_without_gil,      METH_NOARGS},
-    {"pyobject_malloc_without_gil",   pyobject_malloc_without_gil,   METH_NOARGS},
-    {"remove_mem_hooks",              remove_mem_hooks,              METH_NOARGS,
+    {"pymem_api_misuse",              pymem_api_misuse,              METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"pymem_buffer_overflow",         pymem_buffer_overflow,         METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"pymem_malloc_without_gil",      pymem_malloc_without_gil,      METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"pyobject_malloc_without_gil",   pyobject_malloc_without_gil,   METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"remove_mem_hooks",              remove_mem_hooks,              METH_NOARGS|METH_C_STACK_FRUGAL,
         PyDoc_STR("Remove memory hooks.")},
-    {"set_nomemory",                  set_nomemory,                  METH_VARARGS,
+    {"set_nomemory",                  set_nomemory,                  METH_VARARGS|METH_C_STACK_FRUGAL,
         PyDoc_STR("set_nomemory(start:int, stop:int = 0)")},
-    {"test_pymem_alloc0",             test_pymem_alloc0,             METH_NOARGS},
-    {"test_pymem_setallocators",      test_pymem_setallocators,      METH_NOARGS},
-    {"test_pymem_setrawallocators",   test_pymem_setrawallocators,   METH_NOARGS},
-    {"test_pyobject_new",             test_pyobject_new,             METH_NOARGS},
-    {"test_pyobject_setallocators",   test_pyobject_setallocators,   METH_NOARGS},
+    {"test_pymem_alloc0",             test_pymem_alloc0,             METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_pymem_setallocators",      test_pymem_setallocators,      METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_pymem_setrawallocators",   test_pymem_setrawallocators,   METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_pyobject_new",             test_pyobject_new,             METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"test_pyobject_setallocators",   test_pyobject_setallocators,   METH_NOARGS|METH_C_STACK_FRUGAL},
 
     // Tracemalloc tests
-    {"tracemalloc_track",             tracemalloc_track,             METH_VARARGS},
-    {"tracemalloc_untrack",           tracemalloc_untrack,           METH_VARARGS},
-    {"tracemalloc_track_race", tracemalloc_track_race, METH_NOARGS},
+    {"tracemalloc_track",             tracemalloc_track,             METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"tracemalloc_untrack",           tracemalloc_untrack,           METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"tracemalloc_track_race", tracemalloc_track_race, METH_NOARGS|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

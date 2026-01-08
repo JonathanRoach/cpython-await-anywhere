@@ -31,7 +31,7 @@ _testcext_add(PyObject *Py_UNUSED(module), PyObject *args)
 
 
 static PyMethodDef _testcext_methods[] = {
-    {"add", _testcext_add, METH_VARARGS, _testcext_add_doc},
+    {"add", _testcext_add, METH_VARARGS||METH_C_STACK_FRUGAL, _testcext_add_doc},
     {NULL, NULL, 0, NULL}  // sentinel
 };
 

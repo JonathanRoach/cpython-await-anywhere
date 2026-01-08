@@ -853,11 +853,11 @@ EXPORT(TestReg) get_last_tfrsuv_arg(void)
 }
 
 static PyMethodDef module_methods[] = {
-    {"get_last_tf_arg_s", get_last_tf_arg_s, METH_NOARGS},
-    {"get_last_tf_arg_u", get_last_tf_arg_u, METH_NOARGS},
-    {"func_si", py_func_si, METH_VARARGS},
-    {"func", py_func, METH_NOARGS},
-    {"get_generated_test_data", get_generated_test_data, METH_O},
+    {"get_last_tf_arg_s", get_last_tf_arg_s, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"get_last_tf_arg_u", get_last_tf_arg_u, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"func_si", py_func_si, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"func", py_func, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"get_generated_test_data", get_generated_test_data, METH_O|METH_C_STACK_FRUGAL},
     { NULL, NULL, 0, NULL},
 };
 

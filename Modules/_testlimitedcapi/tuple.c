@@ -114,14 +114,14 @@ tuple_setitem(PyObject *Py_UNUSED(module), PyObject *args)
 
 
 static PyMethodDef test_methods[] = {
-    {"tuple_check", tuple_check, METH_O},
-    {"tuple_checkexact", tuple_checkexact, METH_O},
-    {"tuple_new", tuple_new, METH_O},
-    {"tuple_pack", tuple_pack, METH_VARARGS},
-    {"tuple_size", tuple_size, METH_O},
-    {"tuple_getitem", tuple_getitem, METH_VARARGS},
-    {"tuple_getslice", tuple_getslice, METH_VARARGS},
-    {"tuple_setitem", tuple_setitem, METH_VARARGS},
+    {"tuple_check", tuple_check, METH_O|METH_C_STACK_FRUGAL},
+    {"tuple_checkexact", tuple_checkexact, METH_O|METH_C_STACK_FRUGAL},
+    {"tuple_new", tuple_new, METH_O|METH_C_STACK_FRUGAL},
+    {"tuple_pack", tuple_pack, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"tuple_size", tuple_size, METH_O|METH_C_STACK_FRUGAL},
+    {"tuple_getitem", tuple_getitem, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"tuple_getslice", tuple_getslice, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"tuple_setitem", tuple_setitem, METH_VARARGS|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

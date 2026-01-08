@@ -491,7 +491,7 @@ static PyMemberDef weakref_members[] = {
 
 static PyMethodDef weakref_methods[] = {
     {"__class_getitem__",    Py_GenericAlias,
-    METH_O|METH_CLASS,       PyDoc_STR("See PEP 585")},
+    METH_O|METH_CLASS|METH_C_STACK_FRUGAL,       PyDoc_STR("See PEP 585")},
     {NULL} /* Sentinel */
 };
 
@@ -785,8 +785,8 @@ WRAP_METHOD(proxy_reversed, __reversed__)
 
 
 static PyMethodDef proxy_methods[] = {
-        {"__bytes__", proxy_bytes, METH_NOARGS},
-        {"__reversed__", proxy_reversed, METH_NOARGS},
+        {"__bytes__", proxy_bytes, METH_NOARGS|METH_C_STACK_FRUGAL},
+        {"__reversed__", proxy_reversed, METH_NOARGS|METH_C_STACK_FRUGAL},
         {NULL, NULL}
 };
 

@@ -246,9 +246,9 @@ namespace_replace(PyObject *self, PyObject *args, PyObject *kwargs)
 
 
 static PyMethodDef namespace_methods[] = {
-    {"__reduce__", namespace_reduce, METH_NOARGS,
+    {"__reduce__", namespace_reduce, METH_NOARGS|METH_C_STACK_FRUGAL,
      namespace_reduce__doc__},
-    {"__replace__", _PyCFunction_CAST(namespace_replace), METH_VARARGS|METH_KEYWORDS,
+    {"__replace__", _PyCFunction_CAST(namespace_replace), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL,
      PyDoc_STR("__replace__($self, /, **changes)\n--\n\n"
         "Return a copy of the namespace object with new values for the specified attributes.")},
     {NULL,         NULL}  // sentinel

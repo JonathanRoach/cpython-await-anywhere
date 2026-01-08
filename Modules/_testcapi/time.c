@@ -142,13 +142,13 @@ test_pytime_time_raw(PyObject *Py_UNUSED(self), PyObject *Py_UNUSED(args))
 
 
 static PyMethodDef test_methods[] = {
-    {"PyTime_AsSecondsDouble", test_pytime_assecondsdouble, METH_VARARGS},
-    {"PyTime_Monotonic", test_pytime_monotonic, METH_NOARGS},
-    {"PyTime_MonotonicRaw", test_pytime_monotonic_raw, METH_NOARGS},
-    {"PyTime_PerfCounter", test_pytime_perf_counter, METH_NOARGS},
-    {"PyTime_PerfCounterRaw", test_pytime_perf_counter_raw, METH_NOARGS},
-    {"PyTime_Time", test_pytime_time, METH_NOARGS},
-    {"PyTime_TimeRaw", test_pytime_time_raw, METH_NOARGS},
+    {"PyTime_AsSecondsDouble", test_pytime_assecondsdouble, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"PyTime_Monotonic", test_pytime_monotonic, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"PyTime_MonotonicRaw", test_pytime_monotonic_raw, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"PyTime_PerfCounter", test_pytime_perf_counter, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"PyTime_PerfCounterRaw", test_pytime_perf_counter_raw, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"PyTime_Time", test_pytime_time, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"PyTime_TimeRaw", test_pytime_time_raw, METH_NOARGS|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

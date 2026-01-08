@@ -133,6 +133,24 @@ PyAPI_FUNC(PyObject *) PyCMethod_New(PyMethodDef *, PyObject *,
 #define METH_METHOD 0x0200
 #endif
 
+/* METH_C_STACK_FRUGAL means the function needs less than
+PYOS_STACK_MARGIN_BYTES of C stack. Without this,
+2*PYOS_STACK_MARGIN_BYTES of C stack is ensured before
+your method is called. Note: the maximum guaranteed
+amount of stack is 2*PYOS_STACK_MARGIN_BYTES before Python
+notifies the program of stack shortage. When stackful
+Cooutines where introduced, the C stack is divided between
+the coroutines, so, to maximise the number of
+coroutines a C stack can support, Python with stackful coroutines
+assuming with C stack headroom of PYOS_STACK_MARGIN_BYTES
+is enough between stack space checks. If your function only
+needs a little stack, set this flag to be nice to your
+calling program. However, beware that OS routines can
+use unexpectedly large amounts of stack (setipaddr() on
+MacOS, for example) - please check before you set!
+*/
+#define METH_C_STACK_FRUGAL 0x0400
+
 
 #ifndef Py_LIMITED_API
 #  define Py_CPYTHON_METHODOBJECT_H

@@ -2642,12 +2642,12 @@ ndarray_hash(PyObject *self)
 
 static PyMethodDef ndarray_methods[] =
 {
-    { "tolist", ndarray_tolist, METH_NOARGS, NULL },
-    { "tobytes", ndarray_tobytes, METH_NOARGS, NULL },
-    { "push", _PyCFunction_CAST(ndarray_push), METH_VARARGS|METH_KEYWORDS, NULL },
-    { "pop", ndarray_pop, METH_NOARGS, NULL },
-    { "add_suboffsets", ndarray_add_suboffsets, METH_NOARGS, NULL },
-    { "memoryview_from_buffer", ndarray_memoryview_from_buffer, METH_NOARGS, NULL },
+    { "tolist", ndarray_tolist, METH_NOARGS|METH_C_STACK_FRUGAL, NULL },
+    { "tobytes", ndarray_tobytes, METH_NOARGS|METH_C_STACK_FRUGAL, NULL },
+    { "push", _PyCFunction_CAST(ndarray_push), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, NULL },
+    { "pop", ndarray_pop, METH_NOARGS|METH_C_STACK_FRUGAL, NULL },
+    { "add_suboffsets", ndarray_add_suboffsets, METH_NOARGS|METH_C_STACK_FRUGAL, NULL },
+    { "memoryview_from_buffer", ndarray_memoryview_from_buffer, METH_NOARGS|METH_C_STACK_FRUGAL, NULL },
     {NULL}
 };
 
@@ -2814,13 +2814,13 @@ static PyTypeObject StaticArray_Type = {
 
 
 static struct PyMethodDef _testbuffer_functions[] = {
-    {"slice_indices", slice_indices, METH_VARARGS, NULL},
-    {"get_pointer", get_pointer, METH_VARARGS, NULL},
-    {"get_sizeof_void_p", get_sizeof_void_p, METH_NOARGS, NULL},
-    {"get_contiguous", get_contiguous, METH_VARARGS, NULL},
-    {"py_buffer_to_contiguous", py_buffer_to_contiguous, METH_VARARGS, NULL},
-    {"is_contiguous", is_contiguous, METH_VARARGS, NULL},
-    {"cmp_contig", cmp_contig, METH_VARARGS, NULL},
+    {"slice_indices", slice_indices, METH_VARARGS|METH_C_STACK_FRUGAL, NULL},
+    {"get_pointer", get_pointer, METH_VARARGS|METH_C_STACK_FRUGAL, NULL},
+    {"get_sizeof_void_p", get_sizeof_void_p, METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
+    {"get_contiguous", get_contiguous, METH_VARARGS|METH_C_STACK_FRUGAL, NULL},
+    {"py_buffer_to_contiguous", py_buffer_to_contiguous, METH_VARARGS|METH_C_STACK_FRUGAL, NULL},
+    {"is_contiguous", is_contiguous, METH_VARARGS|METH_C_STACK_FRUGAL, NULL},
+    {"cmp_contig", cmp_contig, METH_VARARGS|METH_C_STACK_FRUGAL, NULL},
     {NULL, NULL}
 };
 

@@ -69,14 +69,14 @@ float_getmin(PyObject *Py_UNUSED(module), PyObject *Py_UNUSED(arg))
 
 
 static PyMethodDef test_methods[] = {
-    {"float_check", float_check, METH_O},
-    {"float_checkexact", float_checkexact, METH_O},
-    {"float_fromstring", float_fromstring, METH_O},
-    {"float_fromdouble", float_fromdouble, METH_O},
-    {"float_asdouble", float_asdouble, METH_O},
-    {"float_getinfo", float_getinfo, METH_NOARGS},
-    {"float_getmax", float_getmax, METH_NOARGS},
-    {"float_getmin", float_getmin, METH_NOARGS},
+    {"float_check", float_check, METH_O|METH_C_STACK_FRUGAL},
+    {"float_checkexact", float_checkexact, METH_O|METH_C_STACK_FRUGAL},
+    {"float_fromstring", float_fromstring, METH_O|METH_C_STACK_FRUGAL},
+    {"float_fromdouble", float_fromdouble, METH_O|METH_C_STACK_FRUGAL},
+    {"float_asdouble", float_asdouble, METH_O|METH_C_STACK_FRUGAL},
+    {"float_getinfo", float_getinfo, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"float_getmax", float_getmax, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"float_getmin", float_getmin, METH_NOARGS|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

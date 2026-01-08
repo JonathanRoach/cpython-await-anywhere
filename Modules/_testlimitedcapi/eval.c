@@ -74,17 +74,17 @@ eval_set_recursion_limit(PyObject *module, PyObject *args)
 }
 
 static PyMethodDef test_methods[] = {
-    {"eval_get_func_name", eval_get_func_name, METH_O, NULL},
-    {"eval_get_func_desc", eval_get_func_desc, METH_O, NULL},
-    {"eval_getlocals", eval_getlocals, METH_NOARGS},
-    {"eval_getglobals", eval_getglobals, METH_NOARGS},
-    {"eval_getbuiltins", eval_getbuiltins, METH_NOARGS},
-    {"eval_getframe", eval_getframe, METH_NOARGS},
-    {"eval_getframe_builtins", eval_getframe_builtins, METH_NOARGS},
-    {"eval_getframe_globals", eval_getframe_globals, METH_NOARGS},
-    {"eval_getframe_locals", eval_getframe_locals, METH_NOARGS},
-    {"eval_get_recursion_limit", eval_get_recursion_limit, METH_NOARGS},
-    {"eval_set_recursion_limit", eval_set_recursion_limit, METH_VARARGS},
+    {"eval_get_func_name", eval_get_func_name, METH_O|METH_C_STACK_FRUGAL, NULL},
+    {"eval_get_func_desc", eval_get_func_desc, METH_O|METH_C_STACK_FRUGAL, NULL},
+    {"eval_getlocals", eval_getlocals, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"eval_getglobals", eval_getglobals, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"eval_getbuiltins", eval_getbuiltins, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"eval_getframe", eval_getframe, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"eval_getframe_builtins", eval_getframe_builtins, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"eval_getframe_globals", eval_getframe_globals, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"eval_getframe_locals", eval_getframe_locals, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"eval_get_recursion_limit", eval_get_recursion_limit, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"eval_set_recursion_limit", eval_set_recursion_limit, METH_VARARGS|METH_C_STACK_FRUGAL},
     {NULL},
 };
 

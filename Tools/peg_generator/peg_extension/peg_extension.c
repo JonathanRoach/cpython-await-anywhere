@@ -150,11 +150,11 @@ dump_memo_stats(PyObject *Py_UNUSED(self), PyObject *Py_UNUSED(ignored))
 }
 
 static PyMethodDef ParseMethods[] = {
-    {"parse_file", _PyCFunction_CAST(parse_file), METH_VARARGS|METH_KEYWORDS, "Parse a file."},
-    {"parse_string", _PyCFunction_CAST(parse_string), METH_VARARGS|METH_KEYWORDS, "Parse a string."},
-    {"clear_memo_stats", clear_memo_stats, METH_NOARGS},
-    {"dump_memo_stats", dump_memo_stats, METH_NOARGS},
-    {"get_memo_stats", get_memo_stats, METH_NOARGS},
+    {"parse_file", _PyCFunction_CAST(parse_file), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, "Parse a file."},
+    {"parse_string", _PyCFunction_CAST(parse_string), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, "Parse a string."},
+    {"clear_memo_stats", clear_memo_stats, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"dump_memo_stats", dump_memo_stats, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"get_memo_stats", get_memo_stats, METH_NOARGS|METH_C_STACK_FRUGAL},
     {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 

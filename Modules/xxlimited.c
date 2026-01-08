@@ -230,7 +230,7 @@ Xxo_demo(PyObject *op, PyTypeObject *defining_class,
 
 static PyMethodDef Xxo_methods[] = {
     {"demo",            _PyCFunction_CAST(Xxo_demo),
-     METH_METHOD | METH_FASTCALL | METH_KEYWORDS, PyDoc_STR("demo(o) -> o")},
+     METH_METHOD | METH_FASTCALL | METH_KEYWORDS|METH_C_STACK_FRUGAL, PyDoc_STR("demo(o) -> o")},
     {NULL,              NULL}           /* sentinel */
 };
 
@@ -348,9 +348,9 @@ xx_new(PyObject *module, PyObject *Py_UNUSED(unused))
 /* List of functions defined in the module */
 
 static PyMethodDef xx_methods[] = {
-    {"foo",             xx_foo,         METH_VARARGS,
+    {"foo",             xx_foo,         METH_VARARGS|METH_C_STACK_FRUGAL,
         xx_foo_doc},
-    {"new",             xx_new,         METH_NOARGS,
+    {"new",             xx_new,         METH_NOARGS|METH_C_STACK_FRUGAL,
         PyDoc_STR("new() -> new Xx object")},
     {NULL,              NULL}           /* sentinel */
 };

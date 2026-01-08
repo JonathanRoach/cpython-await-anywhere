@@ -2957,7 +2957,7 @@ android_log_write_impl(PyObject *self, PyObject *args)
 
 
 static PyMethodDef android_log_write_method = {
-    "android_log_write", android_log_write_impl, METH_VARARGS
+    "android_log_write", android_log_write_impl, METH_VARARGS|METH_C_STACK_FRUGAL
 };
 
 
@@ -3021,7 +3021,7 @@ apple_log_write_impl(PyObject *self, PyObject *args)
 
 
 static PyMethodDef apple_log_write_method = {
-    "apple_log_write", apple_log_write_impl, METH_VARARGS
+    "apple_log_write", apple_log_write_impl, METH_VARARGS|METH_C_STACK_FRUGAL
 };
 
 

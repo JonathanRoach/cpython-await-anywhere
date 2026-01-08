@@ -6445,18 +6445,18 @@ long_vectorcall(PyObject *type, PyObject * const*args,
 }
 
 static PyMethodDef long_methods[] = {
-    {"conjugate",       long_long_meth, METH_NOARGS,
+    {"conjugate",       long_long_meth, METH_NOARGS|METH_C_STACK_FRUGAL,
      "Returns self, the complex conjugate of any int."},
     INT_BIT_LENGTH_METHODDEF
     INT_BIT_COUNT_METHODDEF
     INT_TO_BYTES_METHODDEF
     INT_FROM_BYTES_METHODDEF
     INT_AS_INTEGER_RATIO_METHODDEF
-    {"__trunc__",       long_long_meth, METH_NOARGS,
+    {"__trunc__",       long_long_meth, METH_NOARGS|METH_C_STACK_FRUGAL,
      "Truncating an Integral returns itself."},
-    {"__floor__",       long_long_meth, METH_NOARGS,
+    {"__floor__",       long_long_meth, METH_NOARGS|METH_C_STACK_FRUGAL,
      "Flooring an Integral returns itself."},
-    {"__ceil__",        long_long_meth, METH_NOARGS,
+    {"__ceil__",        long_long_meth, METH_NOARGS|METH_C_STACK_FRUGAL,
      "Ceiling of an Integral returns itself."},
     INT___ROUND___METHODDEF
     INT___GETNEWARGS___METHODDEF

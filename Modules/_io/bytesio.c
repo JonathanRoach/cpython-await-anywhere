@@ -1124,9 +1124,9 @@ static struct PyMethodDef bytesio_methods[] = {
     _IO_BYTESIO_GETVALUE_METHODDEF
     _IO_BYTESIO_SEEK_METHODDEF
     _IO_BYTESIO_TRUNCATE_METHODDEF
-    {"__getstate__",  bytesio_getstate,  METH_NOARGS, NULL},
-    {"__setstate__",  bytesio_setstate,  METH_O, NULL},
-    {"__sizeof__", bytesio_sizeof,     METH_NOARGS, NULL},
+    {"__getstate__",  bytesio_getstate,  METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
+    {"__setstate__",  bytesio_setstate,  METH_O|METH_C_STACK_FRUGAL, NULL},
+    {"__sizeof__", bytesio_sizeof,     METH_NOARGS|METH_C_STACK_FRUGAL, NULL},
     {NULL, NULL}        /* sentinel */
 };
 
