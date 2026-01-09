@@ -1305,6 +1305,15 @@ static PySendResult
 coro_dosend(PyCoroObject *coro, PyObject *exc, int closing)
 {
     if (!coro->cr_coroutine){
+        if (FRAME_STATE_FINISHED(coro->cr_frame_state)) {
+            /* `gen` is an exhausted coroutine: raise an error,
+            except when called from gen_close(), which should
+            always be a silent method. */
+            PyErr_SetString(
+                PyExc_RuntimeError,
+                "cannot reuse already awaited coroutine");
+            return PYGEN_ERROR;
+        }
         if (coro->cr_frame_state != FRAME_CREATED){
             PyErr_SetString(
                 PyExc_RuntimeError,
