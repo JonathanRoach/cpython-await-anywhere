@@ -72,6 +72,7 @@ module winsound
 #include "clinic/winsound.c.h"
 
 /*[clinic input]
+@c_stack_frugal
 winsound.PlaySound
 
     sound: object
@@ -84,7 +85,7 @@ A wrapper around the Windows PlaySound API.
 
 static PyObject *
 winsound_PlaySound_impl(PyObject *module, PyObject *sound, int flags)
-/*[clinic end generated code: output=49a0fd16a372ebeb input=c63e1f2d848da2f2]*/
+/*[clinic end generated code: output=49a0fd16a372ebeb input=121df305c502a38b]*/
 {
     int ok;
     wchar_t *wsound;
@@ -146,6 +147,7 @@ winsound_PlaySound_impl(PyObject *module, PyObject *sound, int flags)
 }
 
 /*[clinic input]
+@c_stack_frugal
 winsound.Beep
 
     frequency: int
@@ -159,7 +161,7 @@ A wrapper around the Windows Beep API.
 
 static PyObject *
 winsound_Beep_impl(PyObject *module, int frequency, int duration)
-/*[clinic end generated code: output=f32382e52ee9b2fb input=40e360cfa00a5cf0]*/
+/*[clinic end generated code: output=f32382e52ee9b2fb input=a042993d66238300]*/
 {
     BOOL ok;
 
@@ -181,6 +183,7 @@ winsound_Beep_impl(PyObject *module, int frequency, int duration)
 }
 
 /*[clinic input]
+@c_stack_frugal
 winsound.MessageBeep
 
     type: int(c_default="MB_OK") = MB_OK
@@ -192,7 +195,7 @@ x defaults to MB_OK.
 
 static PyObject *
 winsound_MessageBeep_impl(PyObject *module, int type)
-/*[clinic end generated code: output=120875455121121f input=db185f741ae21401]*/
+/*[clinic end generated code: output=120875455121121f input=9bd65152ea898600]*/
 {
     BOOL ok;
 

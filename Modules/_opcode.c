@@ -21,6 +21,7 @@ module _opcode
 #include "clinic/_opcode.c.h"
 
 /*[clinic input]
+@c_stack_frugal
 
 _opcode.stack_effect -> int
 
@@ -36,7 +37,7 @@ Compute the stack effect of the opcode.
 static int
 _opcode_stack_effect_impl(PyObject *module, int opcode, PyObject *oparg,
                           PyObject *jump)
-/*[clinic end generated code: output=64a18f2ead954dbb input=461c9d4a44851898]*/
+/*[clinic end generated code: output=64a18f2ead954dbb input=6d69acd4e0419f22]*/
 {
     int oparg_int = 0;
     int jump_int;
@@ -71,6 +72,7 @@ _opcode_stack_effect_impl(PyObject *module, int opcode, PyObject *oparg,
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _opcode.is_valid -> bool
 
@@ -81,12 +83,13 @@ Return True if opcode is valid, False otherwise.
 
 static int
 _opcode_is_valid_impl(PyObject *module, int opcode)
-/*[clinic end generated code: output=b0d918ea1d073f65 input=fe23e0aa194ddae0]*/
+/*[clinic end generated code: output=b0d918ea1d073f65 input=23555e87944e1b01]*/
 {
     return IS_VALID_OPCODE(opcode);
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _opcode.has_arg -> bool
 
@@ -97,12 +100,13 @@ Return True if the opcode uses its oparg, False otherwise.
 
 static int
 _opcode_has_arg_impl(PyObject *module, int opcode)
-/*[clinic end generated code: output=7a062d3b2dcc0815 input=93d878ba6361db5f]*/
+/*[clinic end generated code: output=7a062d3b2dcc0815 input=6e81e9db864d93a0]*/
 {
     return IS_VALID_OPCODE(opcode) && OPCODE_HAS_ARG(opcode);
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _opcode.has_const -> bool
 
@@ -113,12 +117,13 @@ Return True if the opcode accesses a constant, False otherwise.
 
 static int
 _opcode_has_const_impl(PyObject *module, int opcode)
-/*[clinic end generated code: output=c646d5027c634120 input=a6999e4cf13f9410]*/
+/*[clinic end generated code: output=c646d5027c634120 input=a127f18b8a48714f]*/
 {
     return IS_VALID_OPCODE(opcode) && OPCODE_HAS_CONST(opcode);
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _opcode.has_name -> bool
 
@@ -129,12 +134,13 @@ Return True if the opcode accesses an attribute by name, False otherwise.
 
 static int
 _opcode_has_name_impl(PyObject *module, int opcode)
-/*[clinic end generated code: output=b49a83555c2fa517 input=448aa5e4bcc947ba]*/
+/*[clinic end generated code: output=b49a83555c2fa517 input=86278222e041bcc6]*/
 {
     return IS_VALID_OPCODE(opcode) && OPCODE_HAS_NAME(opcode);
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _opcode.has_jump -> bool
 
@@ -145,12 +151,13 @@ Return True if the opcode has a jump target, False otherwise.
 
 static int
 _opcode_has_jump_impl(PyObject *module, int opcode)
-/*[clinic end generated code: output=e9c583c669f1c46a input=35f711274357a0c3]*/
+/*[clinic end generated code: output=e9c583c669f1c46a input=872a54f1d953f191]*/
 {
     return IS_VALID_OPCODE(opcode) && OPCODE_HAS_JUMP(opcode);
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _opcode.has_free -> bool
 
@@ -166,12 +173,13 @@ or builtin scopes.
 
 static int
 _opcode_has_free_impl(PyObject *module, int opcode)
-/*[clinic end generated code: output=d81ae4d79af0ee26 input=117dcd5c19c1139b]*/
+/*[clinic end generated code: output=d81ae4d79af0ee26 input=2f82c1a13f36c340]*/
 {
     return IS_VALID_OPCODE(opcode) && OPCODE_HAS_FREE(opcode);
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _opcode.has_local -> bool
 
@@ -182,12 +190,13 @@ Return True if the opcode accesses a local variable, False otherwise.
 
 static int
 _opcode_has_local_impl(PyObject *module, int opcode)
-/*[clinic end generated code: output=da5a8616b7a5097b input=9a798ee24aaef49d]*/
+/*[clinic end generated code: output=da5a8616b7a5097b input=506b171b78621c53]*/
 {
     return IS_VALID_OPCODE(opcode) && OPCODE_HAS_LOCAL(opcode);
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _opcode.has_exc -> bool
 
@@ -198,12 +207,13 @@ Return True if the opcode sets an exception handler, False otherwise.
 
 static int
 _opcode_has_exc_impl(PyObject *module, int opcode)
-/*[clinic end generated code: output=41b68dff0ec82a52 input=db0e4bdb9bf13fa5]*/
+/*[clinic end generated code: output=41b68dff0ec82a52 input=f249792192d9bcdf]*/
 {
     return IS_VALID_OPCODE(opcode) && IS_BLOCK_PUSH_OPCODE(opcode);
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _opcode.get_specialization_stats
 
@@ -212,7 +222,7 @@ Return the specialization stats
 
 static PyObject *
 _opcode_get_specialization_stats_impl(PyObject *module)
-/*[clinic end generated code: output=fcbc32fdfbec5c17 input=e1f60db68d8ce5f6]*/
+/*[clinic end generated code: output=fcbc32fdfbec5c17 input=c8767e8a74ef9104]*/
 {
 #ifdef Py_STATS
     return _Py_GetSpecializationStats();
@@ -222,6 +232,7 @@ _opcode_get_specialization_stats_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _opcode.get_nb_ops
 
@@ -232,7 +243,7 @@ Indexed by the BINARY_OP oparg value.
 
 static PyObject *
 _opcode_get_nb_ops_impl(PyObject *module)
-/*[clinic end generated code: output=d997d306cc15426f input=9462fc544c823176]*/
+/*[clinic end generated code: output=d997d306cc15426f input=a092ab4ec77e21b7]*/
 {
     PyObject *list = PyList_New(NB_OPARG_LAST + 1);
     if (list == NULL) {
@@ -291,6 +302,7 @@ _opcode_get_nb_ops_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _opcode.get_intrinsic1_descs
 
@@ -299,7 +311,7 @@ Return a list of names of the unary intrinsics.
 
 static PyObject *
 _opcode_get_intrinsic1_descs_impl(PyObject *module)
-/*[clinic end generated code: output=bd1ddb6b4447d18b input=13b51c712618459b]*/
+/*[clinic end generated code: output=bd1ddb6b4447d18b input=91923dc380c247bb]*/
 {
     PyObject *list = PyList_New(MAX_INTRINSIC_1 + 1);
     if (list == NULL) {
@@ -318,6 +330,7 @@ _opcode_get_intrinsic1_descs_impl(PyObject *module)
 
 
 /*[clinic input]
+@c_stack_frugal
 
 _opcode.get_intrinsic2_descs
 
@@ -326,7 +339,7 @@ Return a list of names of the binary intrinsics.
 
 static PyObject *
 _opcode_get_intrinsic2_descs_impl(PyObject *module)
-/*[clinic end generated code: output=40e62bc27584c8a0 input=e83068f249f5471b]*/
+/*[clinic end generated code: output=40e62bc27584c8a0 input=231188dd4934b644]*/
 {
     PyObject *list = PyList_New(MAX_INTRINSIC_2 + 1);
     if (list == NULL) {
@@ -344,6 +357,7 @@ _opcode_get_intrinsic2_descs_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _opcode.get_special_method_names
 
@@ -352,7 +366,7 @@ Return a list of special method names.
 
 static PyObject *
 _opcode_get_special_method_names_impl(PyObject *module)
-/*[clinic end generated code: output=fce72614cd988d17 input=25f2115560bdf163]*/
+/*[clinic end generated code: output=fce72614cd988d17 input=4c1c9e287af409f0]*/
 {
     PyObject *list = PyList_New(SPECIAL_MAX + 1);
     if (list == NULL) {
@@ -370,6 +384,7 @@ _opcode_get_special_method_names_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _opcode.get_executor
 
@@ -381,7 +396,7 @@ Return the executor object at offset in code if exists, None otherwise.
 
 static PyObject *
 _opcode_get_executor_impl(PyObject *module, PyObject *code, int offset)
-/*[clinic end generated code: output=c035c7a47b16648f input=85eff93ea7aac282]*/
+/*[clinic end generated code: output=c035c7a47b16648f input=4af2c57433070bd7]*/
 {
     if (!PyCode_Check(code)) {
         PyErr_Format(PyExc_TypeError,

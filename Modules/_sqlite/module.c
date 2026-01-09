@@ -80,6 +80,7 @@ pysqlite_connect(PyObject *module, PyObject *const *args, Py_ssize_t nargsf,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sqlite3.complete_statement as pysqlite_complete_statement
 
     statement: str
@@ -89,7 +90,7 @@ Checks if a string contains a complete SQL statement.
 
 static PyObject *
 pysqlite_complete_statement_impl(PyObject *module, const char *statement)
-/*[clinic end generated code: output=e55f1ff1952df558 input=ac45d257375bb828]*/
+/*[clinic end generated code: output=e55f1ff1952df558 input=6268b76688cc5908]*/
 {
     if (sqlite3_complete(statement)) {
         return Py_NewRef(Py_True);
@@ -99,6 +100,7 @@ pysqlite_complete_statement_impl(PyObject *module, const char *statement)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sqlite3.register_adapter as pysqlite_register_adapter
 
     type: object(type='PyTypeObject *')
@@ -111,7 +113,7 @@ Register a function to adapt Python objects to SQLite values.
 static PyObject *
 pysqlite_register_adapter_impl(PyObject *module, PyTypeObject *type,
                                PyObject *caster)
-/*[clinic end generated code: output=a287e8db18e8af23 input=29a5e0f213030242]*/
+/*[clinic end generated code: output=a287e8db18e8af23 input=867c627ac557049a]*/
 {
     int rc;
 
@@ -134,6 +136,7 @@ pysqlite_register_adapter_impl(PyObject *module, PyTypeObject *type,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sqlite3.register_converter as pysqlite_register_converter
 
     typename as orig_name: unicode
@@ -146,7 +149,7 @@ Register a function to convert SQLite values to Python objects.
 static PyObject *
 pysqlite_register_converter_impl(PyObject *module, PyObject *orig_name,
                                  PyObject *callable)
-/*[clinic end generated code: output=a2f2bfeed7230062 input=159a444971b40378]*/
+/*[clinic end generated code: output=a2f2bfeed7230062 input=f07a347271530e0d]*/
 {
     PyObject* name = NULL;
     PyObject* retval = NULL;
@@ -169,6 +172,7 @@ error:
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sqlite3.enable_callback_tracebacks as pysqlite_enable_callback_trace
 
     enable: int
@@ -179,7 +183,7 @@ Enable or disable callback functions throwing errors to stderr.
 
 static PyObject *
 pysqlite_enable_callback_trace_impl(PyObject *module, int enable)
-/*[clinic end generated code: output=4ff1d051c698f194 input=cb79d3581eb77c40]*/
+/*[clinic end generated code: output=4ff1d051c698f194 input=0809a31a21abc589]*/
 {
     pysqlite_state *state = pysqlite_get_state(module);
     state->enable_callback_tracebacks = enable;
@@ -188,6 +192,7 @@ pysqlite_enable_callback_trace_impl(PyObject *module, int enable)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sqlite3.adapt as pysqlite_adapt
 
     obj: object
@@ -201,7 +206,7 @@ Adapt given object to given protocol.
 static PyObject *
 pysqlite_adapt_impl(PyObject *module, PyObject *obj, PyObject *proto,
                     PyObject *alt)
-/*[clinic end generated code: output=0c3927c5fcd23dd9 input=a53dc9993e81e15f]*/
+/*[clinic end generated code: output=0c3927c5fcd23dd9 input=73fda8489ab76340]*/
 {
     pysqlite_state *state = pysqlite_get_state(module);
     return pysqlite_microprotocols_adapt(state, obj, proto, alt);

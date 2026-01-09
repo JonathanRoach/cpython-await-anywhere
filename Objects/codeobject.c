@@ -2225,6 +2225,7 @@ class code "PyCodeObject *" "&PyCode_Type"
 /*[clinic end generated code: output=da39a3ee5e6b4b0d input=78aa5d576683bb4b]*/
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 code.__new__ as code_new
 
@@ -2259,7 +2260,7 @@ code_new_impl(PyTypeObject *type, int argcount, int posonlyargcount,
               PyObject *qualname, int firstlineno, PyObject *linetable,
               PyObject *exceptiontable, PyObject *freevars,
               PyObject *cellvars)
-/*[clinic end generated code: output=069fa20d299f9dda input=e31da3c41ad8064a]*/
+/*[clinic end generated code: output=069fa20d299f9dda input=f5cc3b787e77a56b]*/
 {
     PyObject *co = NULL;
     PyObject *ournames = NULL;
@@ -2705,6 +2706,7 @@ code_branchesiterator(PyObject *self, PyObject *Py_UNUSED(args))
 }
 
 /*[clinic input]
+@c_stack_frugal
 @text_signature "($self, /, **changes)"
 code.replace
 
@@ -2741,7 +2743,7 @@ code_replace_impl(PyCodeObject *self, int co_argcount,
                   PyObject *co_filename, PyObject *co_name,
                   PyObject *co_qualname, PyObject *co_linetable,
                   PyObject *co_exceptiontable)
-/*[clinic end generated code: output=e75c48a15def18b9 input=a455a89c57ac9d42]*/
+/*[clinic end generated code: output=e75c48a15def18b9 input=2c98fe7013389f81]*/
 {
 #define CHECK_INT_ARG(ARG) \
         if (ARG < 0) { \
@@ -2819,6 +2821,7 @@ error:
 }
 
 /*[clinic input]
+@c_stack_frugal
 code._varname_from_oparg
 
     oparg: int
@@ -2830,7 +2833,7 @@ WARNING: this method is for internal use only and may change or go away.
 
 static PyObject *
 code__varname_from_oparg_impl(PyCodeObject *self, int oparg)
-/*[clinic end generated code: output=1fd1130413184206 input=c5fa3ee9bac7d4ca]*/
+/*[clinic end generated code: output=1fd1130413184206 input=0d3c1605f4c2229d]*/
 {
     PyObject *name = PyTuple_GetItem(self->co_localsplusnames, oparg);
     if (name == NULL) {

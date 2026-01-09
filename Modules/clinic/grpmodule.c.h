@@ -17,7 +17,7 @@ PyDoc_STRVAR(grp_getgrgid__doc__,
 "If id is not valid, raise KeyError.");
 
 #define GRP_GETGRGID_METHODDEF    \
-    {"getgrgid", _PyCFunction_CAST(grp_getgrgid), METH_FASTCALL|METH_KEYWORDS, grp_getgrgid__doc__},
+    {"getgrgid", _PyCFunction_CAST(grp_getgrgid), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, grp_getgrgid__doc__},
 
 static PyObject *
 grp_getgrgid_impl(PyObject *module, PyObject *id);
@@ -77,7 +77,7 @@ PyDoc_STRVAR(grp_getgrnam__doc__,
 "If name is not valid, raise KeyError.");
 
 #define GRP_GETGRNAM_METHODDEF    \
-    {"getgrnam", _PyCFunction_CAST(grp_getgrnam), METH_FASTCALL|METH_KEYWORDS, grp_getgrnam__doc__},
+    {"getgrnam", _PyCFunction_CAST(grp_getgrnam), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, grp_getgrnam__doc__},
 
 static PyObject *
 grp_getgrnam_impl(PyObject *module, PyObject *name);
@@ -142,7 +142,7 @@ PyDoc_STRVAR(grp_getgrall__doc__,
 "to use YP/NIS and may not be accessible via getgrnam or getgrgid.");
 
 #define GRP_GETGRALL_METHODDEF    \
-    {"getgrall", (PyCFunction)grp_getgrall, METH_NOARGS, grp_getgrall__doc__},
+    {"getgrall", (PyCFunction)grp_getgrall, METH_NOARGS|METH_C_STACK_FRUGAL, grp_getgrall__doc__},
 
 static PyObject *
 grp_getgrall_impl(PyObject *module);
@@ -152,4 +152,4 @@ grp_getgrall(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return grp_getgrall_impl(module);
 }
-/*[clinic end generated code: output=35aa81c00dbd3229 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=5eb01a606ef19506 input=a9049054013a1b77]*/

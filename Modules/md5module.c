@@ -98,6 +98,7 @@ MD5_dealloc(PyObject *op)
 /* External methods for a hash object */
 
 /*[clinic input]
+@c_stack_frugal
 MD5Type.copy
 
     cls: defining_class
@@ -107,7 +108,7 @@ Return a copy of the hash object.
 
 static PyObject *
 MD5Type_copy_impl(MD5object *self, PyTypeObject *cls)
-/*[clinic end generated code: output=bf055e08244bf5ee input=d89087dcfb2a8620]*/
+/*[clinic end generated code: output=bf055e08244bf5ee input=539425c34b578d7e]*/
 {
     MD5State *st = PyType_GetModuleState(cls);
 
@@ -127,6 +128,7 @@ MD5Type_copy_impl(MD5object *self, PyTypeObject *cls)
 }
 
 /*[clinic input]
+@c_stack_frugal
 MD5Type.digest
 
 Return the digest value as a bytes object.
@@ -134,7 +136,7 @@ Return the digest value as a bytes object.
 
 static PyObject *
 MD5Type_digest_impl(MD5object *self)
-/*[clinic end generated code: output=eb691dc4190a07ec input=bc0c4397c2994be6]*/
+/*[clinic end generated code: output=eb691dc4190a07ec input=e72f52de079c37e6]*/
 {
     unsigned char digest[MD5_DIGESTSIZE];
     ENTER_HASHLIB(self);
@@ -144,6 +146,7 @@ MD5Type_digest_impl(MD5object *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 MD5Type.hexdigest
 
 Return the digest value as a string of hexadecimal digits.
@@ -151,7 +154,7 @@ Return the digest value as a string of hexadecimal digits.
 
 static PyObject *
 MD5Type_hexdigest_impl(MD5object *self)
-/*[clinic end generated code: output=17badced1f3ac932 input=b60b19de644798dd]*/
+/*[clinic end generated code: output=17badced1f3ac932 input=e765fbd29c83e181]*/
 {
     unsigned char digest[MD5_DIGESTSIZE];
     ENTER_HASHLIB(self);
@@ -189,6 +192,7 @@ update(Hacl_Hash_MD5_state_t *state, uint8_t *buf, Py_ssize_t len)
 }
 
 /*[clinic input]
+@c_stack_frugal
 MD5Type.update
 
     obj: object
@@ -199,7 +203,7 @@ Update this hash object's state with the provided string.
 
 static PyObject *
 MD5Type_update_impl(MD5object *self, PyObject *obj)
-/*[clinic end generated code: output=b0fed9a7ce7ad253 input=6e1efcd9ecf17032]*/
+/*[clinic end generated code: output=b0fed9a7ce7ad253 input=2e635c9e186fc72f]*/
 {
     Py_buffer buf;
 
@@ -274,6 +278,7 @@ static PyType_Spec md5_type_spec = {
 /* The single module-level function: new() */
 
 /*[clinic input]
+@c_stack_frugal
 _md5.md5
 
     data: object(c_default="NULL") = b''
@@ -287,7 +292,7 @@ Return a new MD5 hash object; optionally initialized with a string.
 static PyObject *
 _md5_md5_impl(PyObject *module, PyObject *data, int usedforsecurity,
               PyObject *string_obj)
-/*[clinic end generated code: output=d45e187d3d16f3a8 input=7ea5c5366dbb44bf]*/
+/*[clinic end generated code: output=d45e187d3d16f3a8 input=fbe944b07047e6f8]*/
 {
     PyObject *string;
     if (_Py_hashlib_data_argument(&string, data, string_obj) < 0) {

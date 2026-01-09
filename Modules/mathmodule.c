@@ -707,6 +707,7 @@ m_log10(double x)
 
 
 /*[clinic input]
+@c_stack_frugal
 math.gcd
 
     *integers as args: array
@@ -717,7 +718,7 @@ Greatest Common Divisor.
 static PyObject *
 math_gcd_impl(PyObject *module, PyObject * const *args,
               Py_ssize_t args_length)
-/*[clinic end generated code: output=a26c95907374ffb4 input=ded7f0ea3850c05c]*/
+/*[clinic end generated code: output=a26c95907374ffb4 input=678d1a1f35dced39]*/
 {
     // Fast-path for the common case: gcd(int, int)
     if (args_length == 2 && PyLong_CheckExact(args[0]) && PyLong_CheckExact(args[1]))
@@ -790,6 +791,7 @@ long_lcm(PyObject *a, PyObject *b)
 
 
 /*[clinic input]
+@c_stack_frugal
 math.lcm
 
     *integers as args: array
@@ -800,7 +802,7 @@ Least Common Multiple.
 static PyObject *
 math_lcm_impl(PyObject *module, PyObject * const *args,
               Py_ssize_t args_length)
-/*[clinic end generated code: output=c8a59a5c2e55c816 input=3e4f4b7cdf948a98]*/
+/*[clinic end generated code: output=c8a59a5c2e55c816 input=b1c618d368829a12]*/
 {
     PyObject *res, *x;
     Py_ssize_t i;
@@ -1110,6 +1112,7 @@ FUNC1(cbrt, cbrt, 0,
       "Return the cube root of x.")
 
 /*[clinic input]
+@c_stack_frugal
 math.ceil
 
     x as number: object
@@ -1122,7 +1125,7 @@ This is the smallest integer >= x.
 
 static PyObject *
 math_ceil(PyObject *module, PyObject *number)
-/*[clinic end generated code: output=6c3b8a78bc201c67 input=2725352806399cab]*/
+/*[clinic end generated code: output=6c3b8a78bc201c67 input=821f3567eefb3821]*/
 {
     double x;
 
@@ -1179,6 +1182,7 @@ FUNC1(fabs, fabs, 0,
       "Return the absolute value of the float x.")
 
 /*[clinic input]
+@c_stack_frugal
 math.floor
 
     x as number: object
@@ -1191,7 +1195,7 @@ This is the largest integer <= x.
 
 static PyObject *
 math_floor(PyObject *module, PyObject *number)
-/*[clinic end generated code: output=c6a65c4884884b8a input=63af6b5d7ebcc3d6]*/
+/*[clinic end generated code: output=c6a65c4884884b8a input=293ccc271808502c]*/
 {
     double x;
 
@@ -1349,6 +1353,7 @@ _fsum_realloc(double **p_ptr, Py_ssize_t  n,
 */
 
 /*[clinic input]
+@c_stack_frugal
 math.fsum
 
     seq: object
@@ -1361,7 +1366,7 @@ Assumes IEEE-754 floating-point arithmetic.
 
 static PyObject *
 math_fsum(PyObject *module, PyObject *seq)
-/*[clinic end generated code: output=ba5c672b87fe34fc input=4506244ded6057dc]*/
+/*[clinic end generated code: output=ba5c672b87fe34fc input=6b95031c833ec97b]*/
 {
     PyObject *item, *iter, *sum = NULL;
     Py_ssize_t i, j, n = 0, m = NUM_PARTIALS;
@@ -1681,6 +1686,7 @@ _approximate_isqrt(uint64_t n)
 }
 
 /*[clinic input]
+@c_stack_frugal
 math.isqrt
 
     n: object
@@ -1691,7 +1697,7 @@ Return the integer part of the square root of the input.
 
 static PyObject *
 math_isqrt(PyObject *module, PyObject *n)
-/*[clinic end generated code: output=35a6f7f980beab26 input=5b6e7ae4fa6c43d6]*/
+/*[clinic end generated code: output=35a6f7f980beab26 input=d70d22231bb77bdc]*/
 {
     int a_too_large, c_bit_length;
     int64_t c, d;
@@ -2002,6 +2008,7 @@ static const unsigned long SmallFactorials[] = {
 };
 
 /*[clinic input]
+@c_stack_frugal
 math.factorial
 
     n as arg: object
@@ -2012,7 +2019,7 @@ Find n!.
 
 static PyObject *
 math_factorial(PyObject *module, PyObject *arg)
-/*[clinic end generated code: output=6686f26fae00e9ca input=366cc321df3d4773]*/
+/*[clinic end generated code: output=6686f26fae00e9ca input=bd74d973103fbe07]*/
 {
     long x, two_valuation;
     int overflow;
@@ -2051,6 +2058,7 @@ math_factorial(PyObject *module, PyObject *arg)
 
 
 /*[clinic input]
+@c_stack_frugal
 math.trunc
 
     x: object
@@ -2063,7 +2071,7 @@ Uses the __trunc__ magic method.
 
 static PyObject *
 math_trunc(PyObject *module, PyObject *x)
-/*[clinic end generated code: output=34b9697b707e1031 input=2168b34e0a09134d]*/
+/*[clinic end generated code: output=34b9697b707e1031 input=6c906403b3a32a96]*/
 {
     if (PyFloat_CheckExact(x)) {
         return PyFloat_Type.tp_as_number->nb_int(x);
@@ -2083,6 +2091,7 @@ math_trunc(PyObject *module, PyObject *x)
 
 
 /*[clinic input]
+@c_stack_frugal
 math.frexp
 
     x: double
@@ -2096,7 +2105,7 @@ If x is 0, m and e are both 0.  Else 0.5 <= abs(m) < 1.0.
 
 static PyObject *
 math_frexp_impl(PyObject *module, double x)
-/*[clinic end generated code: output=03e30d252a15ad4a input=96251c9e208bc6e9]*/
+/*[clinic end generated code: output=03e30d252a15ad4a input=59b0a39af5b26c26]*/
 {
     int i;
     /* deal with special cases directly, to sidestep platform
@@ -2112,6 +2121,7 @@ math_frexp_impl(PyObject *module, double x)
 
 
 /*[clinic input]
+@c_stack_frugal
 math.ldexp
 
     x: double
@@ -2125,7 +2135,7 @@ This is essentially the inverse of frexp().
 
 static PyObject *
 math_ldexp_impl(PyObject *module, double x, PyObject *i)
-/*[clinic end generated code: output=b6892f3c2df9cc6a input=17d5970c1a40a8c1]*/
+/*[clinic end generated code: output=b6892f3c2df9cc6a input=3f50a1442d8ffc14]*/
 {
     double r;
     long exp;
@@ -2193,6 +2203,7 @@ math_ldexp_impl(PyObject *module, double x, PyObject *i)
 
 
 /*[clinic input]
+@c_stack_frugal
 math.modf
 
     x: double
@@ -2205,7 +2216,7 @@ Both results carry the sign of x and are floats.
 
 static PyObject *
 math_modf_impl(PyObject *module, double x)
-/*[clinic end generated code: output=90cee0260014c3c0 input=b4cfb6786afd9035]*/
+/*[clinic end generated code: output=90cee0260014c3c0 input=bef8b1d1817327b1]*/
 {
     double y;
     /* some platforms don't do the right thing for NaNs and
@@ -2304,6 +2315,7 @@ Return the logarithm of x to the given base.\n\n\
 If the base is not specified, returns the natural logarithm (base e) of x.");
 
 /*[clinic input]
+@c_stack_frugal
 math.log2
 
     x: object
@@ -2314,13 +2326,14 @@ Return the base 2 logarithm of x.
 
 static PyObject *
 math_log2(PyObject *module, PyObject *x)
-/*[clinic end generated code: output=5425899a4d5d6acb input=08321262bae4f39b]*/
+/*[clinic end generated code: output=5425899a4d5d6acb input=4b80f336dc2e0d64]*/
 {
     return loghelper(x, m_log2);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 math.log10
 
     x: object
@@ -2331,13 +2344,14 @@ Return the base 10 logarithm of x.
 
 static PyObject *
 math_log10(PyObject *module, PyObject *x)
-/*[clinic end generated code: output=be72a64617df9c6f input=b2469d02c6469e53]*/
+/*[clinic end generated code: output=be72a64617df9c6f input=0dc3a9eb3c99f2d6]*/
 {
     return loghelper(x, m_log10);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 math.fma
 
     x: double
@@ -2352,7 +2366,7 @@ Compute (x * y) + z with a single round.
 
 static PyObject *
 math_fma_impl(PyObject *module, double x, double y, double z)
-/*[clinic end generated code: output=4fc8626dbc278d17 input=e3ad1f4a4c89626e]*/
+/*[clinic end generated code: output=4fc8626dbc278d17 input=4cd901d784180b31]*/
 {
     double r = fma(x, y, z);
 
@@ -2380,6 +2394,7 @@ math_fma_impl(PyObject *module, double x, double y, double z)
 
 
 /*[clinic input]
+@c_stack_frugal
 math.fmod
 
     x: double
@@ -2393,7 +2408,7 @@ x % y may differ.
 
 static PyObject *
 math_fmod_impl(PyObject *module, double x, double y)
-/*[clinic end generated code: output=7559d794343a27b5 input=4f84caa8cfc26a03]*/
+/*[clinic end generated code: output=7559d794343a27b5 input=d62579dbf0087dee]*/
 {
     double r;
     /* fmod(x, +/-Inf) returns x for finite x. */
@@ -2579,6 +2594,7 @@ vector_norm(Py_ssize_t n, double *vec, double max, int found_nan)
 #define NUM_STACK_ELEMS 16
 
 /*[clinic input]
+@c_stack_frugal
 math.dist
 
     p: object
@@ -2596,7 +2612,7 @@ Roughly equivalent to:
 
 static PyObject *
 math_dist_impl(PyObject *module, PyObject *p, PyObject *q)
-/*[clinic end generated code: output=56bd9538d06bbcfe input=74e85e1b6092e68e]*/
+/*[clinic end generated code: output=56bd9538d06bbcfe input=be4ffd779448023f]*/
 {
     PyObject *item;
     double max = 0.0;
@@ -2676,6 +2692,7 @@ math_dist_impl(PyObject *module, PyObject *p, PyObject *q)
 }
 
 /*[clinic input]
+@c_stack_frugal
 math.hypot
 
     *coordinates as args: array
@@ -2697,7 +2714,7 @@ For example, the hypotenuse of a 3/4/5 right triangle is:
 static PyObject *
 math_hypot_impl(PyObject *module, PyObject * const *args,
                 Py_ssize_t args_length)
-/*[clinic end generated code: output=c9de404e24370068 input=1bceaf7d4fdcd9c2]*/
+/*[clinic end generated code: output=c9de404e24370068 input=ce4e1489f2c07826]*/
 {
     Py_ssize_t i;
     PyObject *item;
@@ -2750,6 +2767,7 @@ long_add_would_overflow(long a, long b)
 }
 
 /*[clinic input]
+@c_stack_frugal
 math.sumprod
 
     p: object
@@ -2768,7 +2786,7 @@ and sums are computed with extended precision.
 
 static PyObject *
 math_sumprod_impl(PyObject *module, PyObject *p, PyObject *q)
-/*[clinic end generated code: output=6722dbfe60664554 input=a2880317828c61d2]*/
+/*[clinic end generated code: output=6722dbfe60664554 input=c1b03d78e54546e8]*/
 {
     PyObject *p_i = NULL, *q_i = NULL, *term_i = NULL, *new_total = NULL;
     PyObject *p_it, *q_it, *total;
@@ -2986,6 +3004,7 @@ math_sumprod_impl(PyObject *module, PyObject *p, PyObject *q)
 */
 
 /*[clinic input]
+@c_stack_frugal
 math.pow
 
     x: double
@@ -2997,7 +3016,7 @@ Return x**y (x to the power of y).
 
 static PyObject *
 math_pow_impl(PyObject *module, double x, double y)
-/*[clinic end generated code: output=fff93e65abccd6b0 input=c26f1f6075088bfd]*/
+/*[clinic end generated code: output=fff93e65abccd6b0 input=b4d6c7a307dacd57]*/
 {
     double r;
     int odd_y;
@@ -3068,6 +3087,7 @@ static const double degToRad = Py_MATH_PI / 180.0;
 static const double radToDeg = 180.0 / Py_MATH_PI;
 
 /*[clinic input]
+@c_stack_frugal
 math.degrees
 
     x: double
@@ -3078,13 +3098,14 @@ Convert angle x from radians to degrees.
 
 static PyObject *
 math_degrees_impl(PyObject *module, double x)
-/*[clinic end generated code: output=7fea78b294acd12f input=81e016555d6e3660]*/
+/*[clinic end generated code: output=7fea78b294acd12f input=83586bcb18248798]*/
 {
     return PyFloat_FromDouble(x * radToDeg);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 math.radians
 
     x: double
@@ -3095,13 +3116,14 @@ Convert angle x from degrees to radians.
 
 static PyObject *
 math_radians_impl(PyObject *module, double x)
-/*[clinic end generated code: output=34daa47caf9b1590 input=91626fc489fe3d63]*/
+/*[clinic end generated code: output=34daa47caf9b1590 input=29a6cc2095c51370]*/
 {
     return PyFloat_FromDouble(x * degToRad);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 math.isfinite
 
     x: double
@@ -3112,13 +3134,14 @@ Return True if x is neither an infinity nor a NaN, and False otherwise.
 
 static PyObject *
 math_isfinite_impl(PyObject *module, double x)
-/*[clinic end generated code: output=8ba1f396440c9901 input=46967d254812e54a]*/
+/*[clinic end generated code: output=8ba1f396440c9901 input=110abc9d1c1f93c7]*/
 {
     return PyBool_FromLong((long)isfinite(x));
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 math.isnormal
 
     x: double
@@ -3129,13 +3152,14 @@ Return True if x is normal, and False otherwise.
 
 static PyObject *
 math_isnormal_impl(PyObject *module, double x)
-/*[clinic end generated code: output=c7b302b5b89c3541 input=fdaa00c58aa7bc17]*/
+/*[clinic end generated code: output=c7b302b5b89c3541 input=0e56d49e24ba38ec]*/
 {
     return PyBool_FromLong(isnormal(x));
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 math.issubnormal
 
     x: double
@@ -3146,7 +3170,7 @@ Return True if x is subnormal, and False otherwise.
 
 static PyObject *
 math_issubnormal_impl(PyObject *module, double x)
-/*[clinic end generated code: output=4e76ac98ddcae761 input=9a20aba7107d0d95]*/
+/*[clinic end generated code: output=4e76ac98ddcae761 input=f12154c35f76381f]*/
 {
 #if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 202311L
     return PyBool_FromLong(issubnormal(x));
@@ -3157,6 +3181,7 @@ math_issubnormal_impl(PyObject *module, double x)
 
 
 /*[clinic input]
+@c_stack_frugal
 math.isnan
 
     x: double
@@ -3167,13 +3192,14 @@ Return True if x is a NaN (not a number), and False otherwise.
 
 static PyObject *
 math_isnan_impl(PyObject *module, double x)
-/*[clinic end generated code: output=f537b4d6df878c3e input=935891e66083f46a]*/
+/*[clinic end generated code: output=f537b4d6df878c3e input=dd41a6f62352ddfc]*/
 {
     return PyBool_FromLong((long)isnan(x));
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 math.isinf
 
     x: double
@@ -3184,13 +3210,14 @@ Return True if x is a positive or negative infinity, and False otherwise.
 
 static PyObject *
 math_isinf_impl(PyObject *module, double x)
-/*[clinic end generated code: output=9f00cbec4de7b06b input=32630e4212cf961f]*/
+/*[clinic end generated code: output=9f00cbec4de7b06b input=f348a285c9421263]*/
 {
     return PyBool_FromLong((long)isinf(x));
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 math.isclose -> bool
 
     a: double
@@ -3218,7 +3245,7 @@ only close to themselves.
 static int
 math_isclose_impl(PyObject *module, double a, double b, double rel_tol,
                   double abs_tol)
-/*[clinic end generated code: output=b73070207511952d input=12d41764468bfdb8]*/
+/*[clinic end generated code: output=b73070207511952d input=c3ae4532815adc54]*/
 {
     double diff = 0.0;
 
@@ -3309,6 +3336,7 @@ _check_long_mult_overflow(long a, long b) {
 }
 
 /*[clinic input]
+@c_stack_frugal
 math.prod
 
     iterable: object
@@ -3327,7 +3355,7 @@ non-numeric types.
 
 static PyObject *
 math_prod_impl(PyObject *module, PyObject *iterable, PyObject *start)
-/*[clinic end generated code: output=36153bedac74a198 input=4c5ab0682782ed54]*/
+/*[clinic end generated code: output=36153bedac74a198 input=58a4aa6331918915]*/
 {
     PyObject *result = start;
     PyObject *temp, *item, *iter;
@@ -3755,6 +3783,7 @@ error:
 }
 
 /*[clinic input]
+@c_stack_frugal
 math.perm
 
     n: object
@@ -3775,7 +3804,7 @@ Raises ValueError if either of the arguments are negative.
 
 static PyObject *
 math_perm_impl(PyObject *module, PyObject *n, PyObject *k)
-/*[clinic end generated code: output=e021a25469653e23 input=5311c5a00f359b53]*/
+/*[clinic end generated code: output=e021a25469653e23 input=9609820b44a87b72]*/
 {
     PyObject *result = NULL;
     int overflow, cmp;
@@ -3848,6 +3877,7 @@ error:
 }
 
 /*[clinic input]
+@c_stack_frugal
 math.comb
 
     n: object
@@ -3870,7 +3900,7 @@ Raises ValueError if either of the arguments are negative.
 
 static PyObject *
 math_comb_impl(PyObject *module, PyObject *n, PyObject *k)
-/*[clinic end generated code: output=bd2cec8d854f3493 input=9a05315af2518709]*/
+/*[clinic end generated code: output=bd2cec8d854f3493 input=24a6872031dbc057]*/
 {
     PyObject *result = NULL, *temp;
     int overflow, cmp;
@@ -3967,6 +3997,7 @@ error:
 
 
 /*[clinic input]
+@c_stack_frugal
 math.nextafter
 
     x: double
@@ -3985,7 +4016,7 @@ Raises ValueError if steps is negative.
 
 static PyObject *
 math_nextafter_impl(PyObject *module, double x, double y, PyObject *steps)
-/*[clinic end generated code: output=cc6511f02afc099e input=7f2a5842112af2b4]*/
+/*[clinic end generated code: output=cc6511f02afc099e input=37744d236b4689ae]*/
 {
 #if defined(_AIX)
     if (x == y) {
@@ -4099,6 +4130,7 @@ math_nextafter_impl(PyObject *module, double x, double y, PyObject *steps)
 
 
 /*[clinic input]
+@c_stack_frugal
 math.ulp -> double
 
     x: double
@@ -4109,7 +4141,7 @@ Return the value of the least significant bit of the float x.
 
 static double
 math_ulp_impl(PyObject *module, double x)
-/*[clinic end generated code: output=f5207867a9384dd4 input=31f9bfbbe373fcaa]*/
+/*[clinic end generated code: output=f5207867a9384dd4 input=1aac4034a38f7663]*/
 {
     if (isnan(x)) {
         return x;

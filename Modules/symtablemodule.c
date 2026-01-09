@@ -10,6 +10,7 @@ module _symtable
 
 
 /*[clinic input]
+@c_stack_frugal
 _symtable.symtable
 
     source:    object
@@ -23,7 +24,7 @@ Return symbol and scope dictionaries used internally by compiler.
 static PyObject *
 _symtable_symtable_impl(PyObject *module, PyObject *source,
                         PyObject *filename, const char *startstr)
-/*[clinic end generated code: output=59eb0d5fc7285ac4 input=9dd8a50c0c36a4d7]*/
+/*[clinic end generated code: output=59eb0d5fc7285ac4 input=f5863b8aa4639eca]*/
 {
     struct symtable *st;
     PyObject *t;

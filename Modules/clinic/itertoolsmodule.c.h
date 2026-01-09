@@ -315,7 +315,7 @@ PyDoc_STRVAR(itertools_tee__doc__,
 "Returns a tuple of n independent iterators.");
 
 #define ITERTOOLS_TEE_METHODDEF    \
-    {"tee", _PyCFunction_CAST(itertools_tee), METH_FASTCALL, itertools_tee__doc__},
+    {"tee", _PyCFunction_CAST(itertools_tee), METH_FASTCALL|METH_C_STACK_FRUGAL, itertools_tee__doc__},
 
 static PyObject *
 itertools_tee_impl(PyObject *module, PyObject *iterable, Py_ssize_t n);
@@ -488,7 +488,7 @@ PyDoc_STRVAR(itertools_chain_from_iterable__doc__,
 "Alternative chain() constructor taking a single iterable argument that evaluates lazily.");
 
 #define ITERTOOLS_CHAIN_FROM_ITERABLE_METHODDEF    \
-    {"from_iterable", (PyCFunction)itertools_chain_from_iterable, METH_O|METH_CLASS, itertools_chain_from_iterable__doc__},
+    {"from_iterable", (PyCFunction)itertools_chain_from_iterable, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, itertools_chain_from_iterable__doc__},
 
 static PyObject *
 itertools_chain_from_iterable_impl(PyTypeObject *type, PyObject *arg);
@@ -965,4 +965,4 @@ skip_optional_pos:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=999758202a532e0a input=a9049054013a1b77]*/
+/*[clinic end generated code: output=f6a14214bc9b6875 input=a9049054013a1b77]*/

@@ -13,7 +13,7 @@ PyDoc_STRVAR(set_pop__doc__,
 "Raises KeyError if the set is empty.");
 
 #define SET_POP_METHODDEF    \
-    {"pop", (PyCFunction)set_pop, METH_NOARGS, set_pop__doc__},
+    {"pop", (PyCFunction)set_pop, METH_NOARGS|METH_C_STACK_FRUGAL, set_pop__doc__},
 
 static PyObject *
 set_pop_impl(PySetObject *so);
@@ -37,7 +37,7 @@ PyDoc_STRVAR(set_update__doc__,
 "Update the set, adding elements from all others.");
 
 #define SET_UPDATE_METHODDEF    \
-    {"update", _PyCFunction_CAST(set_update), METH_FASTCALL, set_update__doc__},
+    {"update", _PyCFunction_CAST(set_update), METH_FASTCALL|METH_C_STACK_FRUGAL, set_update__doc__},
 
 static PyObject *
 set_update_impl(PySetObject *so, PyObject * const *others,
@@ -64,7 +64,7 @@ PyDoc_STRVAR(set_copy__doc__,
 "Return a shallow copy of a set.");
 
 #define SET_COPY_METHODDEF    \
-    {"copy", (PyCFunction)set_copy, METH_NOARGS, set_copy__doc__},
+    {"copy", (PyCFunction)set_copy, METH_NOARGS|METH_C_STACK_FRUGAL, set_copy__doc__},
 
 static PyObject *
 set_copy_impl(PySetObject *so);
@@ -88,7 +88,7 @@ PyDoc_STRVAR(frozenset_copy__doc__,
 "Return a shallow copy of a set.");
 
 #define FROZENSET_COPY_METHODDEF    \
-    {"copy", (PyCFunction)frozenset_copy, METH_NOARGS, frozenset_copy__doc__},
+    {"copy", (PyCFunction)frozenset_copy, METH_NOARGS|METH_C_STACK_FRUGAL, frozenset_copy__doc__},
 
 static PyObject *
 frozenset_copy_impl(PySetObject *so);
@@ -112,7 +112,7 @@ PyDoc_STRVAR(set_clear__doc__,
 "Remove all elements from this set.");
 
 #define SET_CLEAR_METHODDEF    \
-    {"clear", (PyCFunction)set_clear, METH_NOARGS, set_clear__doc__},
+    {"clear", (PyCFunction)set_clear, METH_NOARGS|METH_C_STACK_FRUGAL, set_clear__doc__},
 
 static PyObject *
 set_clear_impl(PySetObject *so);
@@ -136,7 +136,7 @@ PyDoc_STRVAR(set_union__doc__,
 "Return a new set with elements from the set and all others.");
 
 #define SET_UNION_METHODDEF    \
-    {"union", _PyCFunction_CAST(set_union), METH_FASTCALL, set_union__doc__},
+    {"union", _PyCFunction_CAST(set_union), METH_FASTCALL|METH_C_STACK_FRUGAL, set_union__doc__},
 
 static PyObject *
 set_union_impl(PySetObject *so, PyObject * const *others,
@@ -163,7 +163,7 @@ PyDoc_STRVAR(set_intersection_multi__doc__,
 "Return a new set with elements common to the set and all others.");
 
 #define SET_INTERSECTION_MULTI_METHODDEF    \
-    {"intersection", _PyCFunction_CAST(set_intersection_multi), METH_FASTCALL, set_intersection_multi__doc__},
+    {"intersection", _PyCFunction_CAST(set_intersection_multi), METH_FASTCALL|METH_C_STACK_FRUGAL, set_intersection_multi__doc__},
 
 static PyObject *
 set_intersection_multi_impl(PySetObject *so, PyObject * const *others,
@@ -190,7 +190,7 @@ PyDoc_STRVAR(set_intersection_update_multi__doc__,
 "Update the set, keeping only elements found in it and all others.");
 
 #define SET_INTERSECTION_UPDATE_MULTI_METHODDEF    \
-    {"intersection_update", _PyCFunction_CAST(set_intersection_update_multi), METH_FASTCALL, set_intersection_update_multi__doc__},
+    {"intersection_update", _PyCFunction_CAST(set_intersection_update_multi), METH_FASTCALL|METH_C_STACK_FRUGAL, set_intersection_update_multi__doc__},
 
 static PyObject *
 set_intersection_update_multi_impl(PySetObject *so, PyObject * const *others,
@@ -217,7 +217,7 @@ PyDoc_STRVAR(set_isdisjoint__doc__,
 "Return True if two sets have a null intersection.");
 
 #define SET_ISDISJOINT_METHODDEF    \
-    {"isdisjoint", (PyCFunction)set_isdisjoint, METH_O, set_isdisjoint__doc__},
+    {"isdisjoint", (PyCFunction)set_isdisjoint, METH_O|METH_C_STACK_FRUGAL, set_isdisjoint__doc__},
 
 static PyObject *
 set_isdisjoint_impl(PySetObject *so, PyObject *other);
@@ -241,7 +241,7 @@ PyDoc_STRVAR(set_difference_update__doc__,
 "Update the set, removing elements found in others.");
 
 #define SET_DIFFERENCE_UPDATE_METHODDEF    \
-    {"difference_update", _PyCFunction_CAST(set_difference_update), METH_FASTCALL, set_difference_update__doc__},
+    {"difference_update", _PyCFunction_CAST(set_difference_update), METH_FASTCALL|METH_C_STACK_FRUGAL, set_difference_update__doc__},
 
 static PyObject *
 set_difference_update_impl(PySetObject *so, PyObject * const *others,
@@ -268,7 +268,7 @@ PyDoc_STRVAR(set_difference_multi__doc__,
 "Return a new set with elements in the set that are not in the others.");
 
 #define SET_DIFFERENCE_MULTI_METHODDEF    \
-    {"difference", _PyCFunction_CAST(set_difference_multi), METH_FASTCALL, set_difference_multi__doc__},
+    {"difference", _PyCFunction_CAST(set_difference_multi), METH_FASTCALL|METH_C_STACK_FRUGAL, set_difference_multi__doc__},
 
 static PyObject *
 set_difference_multi_impl(PySetObject *so, PyObject * const *others,
@@ -295,7 +295,7 @@ PyDoc_STRVAR(set_symmetric_difference_update__doc__,
 "Update the set, keeping only elements found in either set, but not in both.");
 
 #define SET_SYMMETRIC_DIFFERENCE_UPDATE_METHODDEF    \
-    {"symmetric_difference_update", (PyCFunction)set_symmetric_difference_update, METH_O, set_symmetric_difference_update__doc__},
+    {"symmetric_difference_update", (PyCFunction)set_symmetric_difference_update, METH_O|METH_C_STACK_FRUGAL, set_symmetric_difference_update__doc__},
 
 static PyObject *
 set_symmetric_difference_update_impl(PySetObject *so, PyObject *other);
@@ -317,7 +317,7 @@ PyDoc_STRVAR(set_symmetric_difference__doc__,
 "Return a new set with elements in either the set or other but not both.");
 
 #define SET_SYMMETRIC_DIFFERENCE_METHODDEF    \
-    {"symmetric_difference", (PyCFunction)set_symmetric_difference, METH_O, set_symmetric_difference__doc__},
+    {"symmetric_difference", (PyCFunction)set_symmetric_difference, METH_O|METH_C_STACK_FRUGAL, set_symmetric_difference__doc__},
 
 static PyObject *
 set_symmetric_difference_impl(PySetObject *so, PyObject *other);
@@ -341,7 +341,7 @@ PyDoc_STRVAR(set_issubset__doc__,
 "Report whether another set contains this set.");
 
 #define SET_ISSUBSET_METHODDEF    \
-    {"issubset", (PyCFunction)set_issubset, METH_O, set_issubset__doc__},
+    {"issubset", (PyCFunction)set_issubset, METH_O|METH_C_STACK_FRUGAL, set_issubset__doc__},
 
 static PyObject *
 set_issubset_impl(PySetObject *so, PyObject *other);
@@ -365,7 +365,7 @@ PyDoc_STRVAR(set_issuperset__doc__,
 "Report whether this set contains another set.");
 
 #define SET_ISSUPERSET_METHODDEF    \
-    {"issuperset", (PyCFunction)set_issuperset, METH_O, set_issuperset__doc__},
+    {"issuperset", (PyCFunction)set_issuperset, METH_O|METH_C_STACK_FRUGAL, set_issuperset__doc__},
 
 static PyObject *
 set_issuperset_impl(PySetObject *so, PyObject *other);
@@ -391,7 +391,7 @@ PyDoc_STRVAR(set_add__doc__,
 "This has no effect if the element is already present.");
 
 #define SET_ADD_METHODDEF    \
-    {"add", (PyCFunction)set_add, METH_O, set_add__doc__},
+    {"add", (PyCFunction)set_add, METH_O|METH_C_STACK_FRUGAL, set_add__doc__},
 
 static PyObject *
 set_add_impl(PySetObject *so, PyObject *key);
@@ -415,7 +415,7 @@ PyDoc_STRVAR(set___contains____doc__,
 "x.__contains__(y) <==> y in x.");
 
 #define SET___CONTAINS___METHODDEF    \
-    {"__contains__", (PyCFunction)set___contains__, METH_O|METH_COEXIST, set___contains____doc__},
+    {"__contains__", (PyCFunction)set___contains__, METH_O|METH_COEXIST|METH_C_STACK_FRUGAL, set___contains____doc__},
 
 static PyObject *
 set___contains___impl(PySetObject *so, PyObject *key);
@@ -439,7 +439,7 @@ PyDoc_STRVAR(frozenset___contains____doc__,
 "x.__contains__(y) <==> y in x.");
 
 #define FROZENSET___CONTAINS___METHODDEF    \
-    {"__contains__", (PyCFunction)frozenset___contains__, METH_O|METH_COEXIST, frozenset___contains____doc__},
+    {"__contains__", (PyCFunction)frozenset___contains__, METH_O|METH_COEXIST|METH_C_STACK_FRUGAL, frozenset___contains____doc__},
 
 static PyObject *
 frozenset___contains___impl(PySetObject *so, PyObject *key);
@@ -463,7 +463,7 @@ PyDoc_STRVAR(set_remove__doc__,
 "If the element is not a member, raise a KeyError.");
 
 #define SET_REMOVE_METHODDEF    \
-    {"remove", (PyCFunction)set_remove, METH_O, set_remove__doc__},
+    {"remove", (PyCFunction)set_remove, METH_O|METH_C_STACK_FRUGAL, set_remove__doc__},
 
 static PyObject *
 set_remove_impl(PySetObject *so, PyObject *key);
@@ -490,7 +490,7 @@ PyDoc_STRVAR(set_discard__doc__,
 "an exception when an element is missing from the set.");
 
 #define SET_DISCARD_METHODDEF    \
-    {"discard", (PyCFunction)set_discard, METH_O, set_discard__doc__},
+    {"discard", (PyCFunction)set_discard, METH_O|METH_C_STACK_FRUGAL, set_discard__doc__},
 
 static PyObject *
 set_discard_impl(PySetObject *so, PyObject *key);
@@ -514,7 +514,7 @@ PyDoc_STRVAR(set___reduce____doc__,
 "Return state information for pickling.");
 
 #define SET___REDUCE___METHODDEF    \
-    {"__reduce__", (PyCFunction)set___reduce__, METH_NOARGS, set___reduce____doc__},
+    {"__reduce__", (PyCFunction)set___reduce__, METH_NOARGS|METH_C_STACK_FRUGAL, set___reduce____doc__},
 
 static PyObject *
 set___reduce___impl(PySetObject *so);
@@ -538,7 +538,7 @@ PyDoc_STRVAR(set___sizeof____doc__,
 "S.__sizeof__() -> size of S in memory, in bytes.");
 
 #define SET___SIZEOF___METHODDEF    \
-    {"__sizeof__", (PyCFunction)set___sizeof__, METH_NOARGS, set___sizeof____doc__},
+    {"__sizeof__", (PyCFunction)set___sizeof__, METH_NOARGS|METH_C_STACK_FRUGAL, set___sizeof____doc__},
 
 static PyObject *
 set___sizeof___impl(PySetObject *so);
@@ -554,4 +554,4 @@ set___sizeof__(PyObject *so, PyObject *Py_UNUSED(ignored))
 
     return return_value;
 }
-/*[clinic end generated code: output=7f7fe845ca165078 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=5b356a81a382cf41 input=a9049054013a1b77]*/

@@ -110,6 +110,7 @@ mkgrent(PyObject *module, struct group *p)
 }
 
 /*[clinic input]
+@c_stack_frugal
 grp.getgrgid
 
     id: object
@@ -121,7 +122,7 @@ If id is not valid, raise KeyError.
 
 static PyObject *
 grp_getgrgid_impl(PyObject *module, PyObject *id)
-/*[clinic end generated code: output=30797c289504a1ba input=15fa0e2ccf5cda25]*/
+/*[clinic end generated code: output=30797c289504a1ba input=547b638cc8f701aa]*/
 {
     PyObject *retval = NULL;
     int nomem = 0;
@@ -190,6 +191,7 @@ grp_getgrgid_impl(PyObject *module, PyObject *id)
 }
 
 /*[clinic input]
+@c_stack_frugal
 grp.getgrnam
 
     name: unicode
@@ -201,7 +203,7 @@ If name is not valid, raise KeyError.
 
 static PyObject *
 grp_getgrnam_impl(PyObject *module, PyObject *name)
-/*[clinic end generated code: output=67905086f403c21c input=08ded29affa3c863]*/
+/*[clinic end generated code: output=67905086f403c21c input=4bb236dc649f612f]*/
 {
     char *buf = NULL, *buf2 = NULL, *name_chars;
     int nomem = 0;
@@ -268,6 +270,7 @@ out:
 }
 
 /*[clinic input]
+@c_stack_frugal
 grp.getgrall
 
 Return a list of all available group entries, in arbitrary order.
@@ -278,7 +281,7 @@ to use YP/NIS and may not be accessible via getgrnam or getgrgid.
 
 static PyObject *
 grp_getgrall_impl(PyObject *module)
-/*[clinic end generated code: output=585dad35e2e763d7 input=d7df76c825c367df]*/
+/*[clinic end generated code: output=585dad35e2e763d7 input=09bf3a8ff0a53a93]*/
 {
     PyObject *d = PyList_New(0);
     if (d == NULL) {

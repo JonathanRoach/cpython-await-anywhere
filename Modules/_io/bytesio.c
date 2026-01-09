@@ -269,6 +269,7 @@ bytesio_get_closed(PyObject *op, void *Py_UNUSED(closure))
 }
 
 /*[clinic input]
+@c_stack_frugal
 _io.BytesIO.readable
 
 Returns True if the IO object can be read.
@@ -276,13 +277,14 @@ Returns True if the IO object can be read.
 
 static PyObject *
 _io_BytesIO_readable_impl(bytesio *self)
-/*[clinic end generated code: output=4e93822ad5b62263 input=96c5d0cccfb29f5c]*/
+/*[clinic end generated code: output=4e93822ad5b62263 input=e12aa692beb17ad3]*/
 {
     CHECK_CLOSED(self);
     Py_RETURN_TRUE;
 }
 
 /*[clinic input]
+@c_stack_frugal
 _io.BytesIO.writable
 
 Returns True if the IO object can be written.
@@ -290,13 +292,14 @@ Returns True if the IO object can be written.
 
 static PyObject *
 _io_BytesIO_writable_impl(bytesio *self)
-/*[clinic end generated code: output=64ff6a254b1150b8 input=700eed808277560a]*/
+/*[clinic end generated code: output=64ff6a254b1150b8 input=3565168a7deb8e7f]*/
 {
     CHECK_CLOSED(self);
     Py_RETURN_TRUE;
 }
 
 /*[clinic input]
+@c_stack_frugal
 _io.BytesIO.seekable
 
 Returns True if the IO object can be seeked.
@@ -304,13 +307,14 @@ Returns True if the IO object can be seeked.
 
 static PyObject *
 _io_BytesIO_seekable_impl(bytesio *self)
-/*[clinic end generated code: output=6b417f46dcc09b56 input=9421f65627a344dd]*/
+/*[clinic end generated code: output=6b417f46dcc09b56 input=b2688e846130dd19]*/
 {
     CHECK_CLOSED(self);
     Py_RETURN_TRUE;
 }
 
 /*[clinic input]
+@c_stack_frugal
 _io.BytesIO.flush
 
 Does nothing.
@@ -318,13 +322,14 @@ Does nothing.
 
 static PyObject *
 _io_BytesIO_flush_impl(bytesio *self)
-/*[clinic end generated code: output=187e3d781ca134a0 input=561ea490be4581a7]*/
+/*[clinic end generated code: output=187e3d781ca134a0 input=6241fcd20af34f6a]*/
 {
     CHECK_CLOSED(self);
     Py_RETURN_NONE;
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.BytesIO.getbuffer
 
@@ -336,7 +341,7 @@ Get a read-write view over the contents of the BytesIO object.
 
 static PyObject *
 _io_BytesIO_getbuffer_impl(bytesio *self, PyTypeObject *cls)
-/*[clinic end generated code: output=045091d7ce87fe4e input=8295764061be77fd]*/
+/*[clinic end generated code: output=045091d7ce87fe4e input=922c03a37b7e7590]*/
 {
     _PyIO_State *state = get_io_state_by_cls(cls);
     PyTypeObject *type = state->PyBytesIOBuffer_Type;
@@ -355,6 +360,7 @@ _io_BytesIO_getbuffer_impl(bytesio *self, PyTypeObject *cls)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.BytesIO.getvalue
 
@@ -363,7 +369,7 @@ Retrieve the entire contents of the BytesIO object.
 
 static PyObject *
 _io_BytesIO_getvalue_impl(bytesio *self)
-/*[clinic end generated code: output=b3f6a3233c8fd628 input=c91bff398df0c352]*/
+/*[clinic end generated code: output=b3f6a3233c8fd628 input=db861bd2edb4bfc6]*/
 {
     CHECK_CLOSED(self);
     if (self->string_size <= 1 || FT_ATOMIC_LOAD_SSIZE_RELAXED(self->exports) > 0)
@@ -384,6 +390,7 @@ _io_BytesIO_getvalue_impl(bytesio *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _io.BytesIO.isatty
 
 Always returns False.
@@ -393,13 +400,14 @@ BytesIO objects are not connected to a TTY-like device.
 
 static PyObject *
 _io_BytesIO_isatty_impl(bytesio *self)
-/*[clinic end generated code: output=df67712e669f6c8f input=6f97f0985d13f827]*/
+/*[clinic end generated code: output=df67712e669f6c8f input=85f8f447b65ed1a8]*/
 {
     CHECK_CLOSED(self);
     Py_RETURN_FALSE;
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.BytesIO.tell
 
@@ -408,7 +416,7 @@ Current file position, an integer.
 
 static PyObject *
 _io_BytesIO_tell_impl(bytesio *self)
-/*[clinic end generated code: output=b54b0f93cd0e5e1d input=2c7b0e8f82e05c4d]*/
+/*[clinic end generated code: output=b54b0f93cd0e5e1d input=06db50914fe98680]*/
 {
     CHECK_CLOSED(self);
     return PyLong_FromSsize_t(self->pos);
@@ -436,6 +444,7 @@ read_bytes_lock_held(bytesio *self, Py_ssize_t size)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.BytesIO.read
     size: Py_ssize_t(accept={int, NoneType}) = -1
@@ -449,7 +458,7 @@ Return an empty bytes object at EOF.
 
 static PyObject *
 _io_BytesIO_read_impl(bytesio *self, Py_ssize_t size)
-/*[clinic end generated code: output=9cc025f21c75bdd2 input=9e2f7ff3075fdd39]*/
+/*[clinic end generated code: output=9cc025f21c75bdd2 input=492e5377a5f05e19]*/
 {
     Py_ssize_t n;
 
@@ -468,6 +477,7 @@ _io_BytesIO_read_impl(bytesio *self, Py_ssize_t size)
 
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.BytesIO.read1
     size: Py_ssize_t(accept={int, NoneType}) = -1
@@ -481,12 +491,13 @@ Return an empty bytes object at EOF.
 
 static PyObject *
 _io_BytesIO_read1_impl(bytesio *self, Py_ssize_t size)
-/*[clinic end generated code: output=d0f843285aa95f1c input=a08fc9e507ab380c]*/
+/*[clinic end generated code: output=d0f843285aa95f1c input=3e0b374ebc983aab]*/
 {
     return _io_BytesIO_read_impl(self, size);
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.BytesIO.readline
     size: Py_ssize_t(accept={int, NoneType}) = -1
@@ -501,7 +512,7 @@ Return an empty bytes object at EOF.
 
 static PyObject *
 _io_BytesIO_readline_impl(bytesio *self, Py_ssize_t size)
-/*[clinic end generated code: output=4bff3c251df8ffcd input=db09d47e23cf2c9e]*/
+/*[clinic end generated code: output=4bff3c251df8ffcd input=6401da746e640602]*/
 {
     Py_ssize_t n;
 
@@ -513,6 +524,7 @@ _io_BytesIO_readline_impl(bytesio *self, Py_ssize_t size)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.BytesIO.readlines
     size as arg: object = None
@@ -527,7 +539,7 @@ total number of bytes in the lines returned.
 
 static PyObject *
 _io_BytesIO_readlines_impl(bytesio *self, PyObject *arg)
-/*[clinic end generated code: output=09b8e34c880808ff input=5c57d7d78e409985]*/
+/*[clinic end generated code: output=09b8e34c880808ff input=38e0856492ce8876]*/
 {
     Py_ssize_t maxsize, size, n;
     PyObject *result, *line;
@@ -579,6 +591,7 @@ _io_BytesIO_readlines_impl(bytesio *self, PyObject *arg)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.BytesIO.readinto
     buffer: Py_buffer(accept={rwbuffer})
@@ -592,7 +605,7 @@ is set not to block and has no data to read.
 
 static PyObject *
 _io_BytesIO_readinto_impl(bytesio *self, Py_buffer *buffer)
-/*[clinic end generated code: output=a5d407217dcf0639 input=093a8d330de3fcd1]*/
+/*[clinic end generated code: output=a5d407217dcf0639 input=b2a9d737af8ebc61]*/
 {
     Py_ssize_t len, n;
 
@@ -616,6 +629,7 @@ _io_BytesIO_readinto_impl(bytesio *self, Py_buffer *buffer)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.BytesIO.truncate
     size: object = None
@@ -629,7 +643,7 @@ The current file position is unchanged.  Returns the new size.
 
 static PyObject *
 _io_BytesIO_truncate_impl(bytesio *self, PyObject *size)
-/*[clinic end generated code: output=ab42491b4824f384 input=b4acb5f80481c053]*/
+/*[clinic end generated code: output=ab42491b4824f384 input=5575eef9342b4fa9]*/
 {
     CHECK_CLOSED(self);
     CHECK_EXPORTS(self);
@@ -689,6 +703,7 @@ bytesio_iternext(PyObject *op)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.BytesIO.seek
     pos: Py_ssize_t
@@ -706,7 +721,7 @@ Returns the new absolute position.
 
 static PyObject *
 _io_BytesIO_seek_impl(bytesio *self, Py_ssize_t pos, int whence)
-/*[clinic end generated code: output=c26204a68e9190e4 input=20f05ddf659255df]*/
+/*[clinic end generated code: output=c26204a68e9190e4 input=b1586b8424ec3356]*/
 {
     CHECK_CLOSED(self);
 
@@ -749,6 +764,7 @@ _io_BytesIO_seek_impl(bytesio *self, Py_ssize_t pos, int whence)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.BytesIO.write
     b: object
@@ -761,13 +777,14 @@ Return the number of bytes written.
 
 static PyObject *
 _io_BytesIO_write_impl(bytesio *self, PyObject *b)
-/*[clinic end generated code: output=d3e46bcec8d9e21c input=46c0c17eac7474a4]*/
+/*[clinic end generated code: output=d3e46bcec8d9e21c input=4840503c14cd4c9c]*/
 {
     Py_ssize_t n = write_bytes_lock_held(self, b);
     return n >= 0 ? PyLong_FromSsize_t(n) : NULL;
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.BytesIO.writelines
     lines: object
@@ -782,7 +799,7 @@ each element.
 
 static PyObject *
 _io_BytesIO_writelines_impl(bytesio *self, PyObject *lines)
-/*[clinic end generated code: output=03a43a75773bc397 input=5d6a616ae39dc9ca]*/
+/*[clinic end generated code: output=03a43a75773bc397 input=734a9fa4b6722cec]*/
 {
     PyObject *it, *item;
 
@@ -810,6 +827,7 @@ _io_BytesIO_writelines_impl(bytesio *self, PyObject *lines)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.BytesIO.close
 
@@ -818,7 +836,7 @@ Disable all I/O operations.
 
 static PyObject *
 _io_BytesIO_close_impl(bytesio *self)
-/*[clinic end generated code: output=1471bb9411af84a0 input=34ce76d8bd17a23b]*/
+/*[clinic end generated code: output=1471bb9411af84a0 input=211944472249ae10]*/
 {
     CHECK_EXPORTS(self);
     Py_CLEAR(self->buf);
@@ -1008,6 +1026,7 @@ bytesio_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.BytesIO.__init__
     initial_bytes as initvalue: object(c_default="NULL") = b''
@@ -1017,7 +1036,7 @@ Buffered I/O implementation using an in-memory bytes buffer.
 
 static int
 _io_BytesIO___init___impl(bytesio *self, PyObject *initvalue)
-/*[clinic end generated code: output=65c0c51e24c5b621 input=3da5a74ee4c4f1ac]*/
+/*[clinic end generated code: output=65c0c51e24c5b621 input=cab29d26f6f86880]*/
 {
     /* In case, __init__ is called multiple times. */
     self->string_size = 0;

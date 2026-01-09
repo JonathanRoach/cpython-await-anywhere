@@ -14,7 +14,7 @@ PyDoc_STRVAR(_ssl_Certificate_public_bytes__doc__,
 "\n");
 
 #define _SSL_CERTIFICATE_PUBLIC_BYTES_METHODDEF    \
-    {"public_bytes", _PyCFunction_CAST(_ssl_Certificate_public_bytes), METH_FASTCALL|METH_KEYWORDS, _ssl_Certificate_public_bytes__doc__},
+    {"public_bytes", _PyCFunction_CAST(_ssl_Certificate_public_bytes), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _ssl_Certificate_public_bytes__doc__},
 
 static PyObject *
 _ssl_Certificate_public_bytes_impl(PySSLCertificate *self, int format);
@@ -79,7 +79,7 @@ PyDoc_STRVAR(_ssl_Certificate_get_info__doc__,
 "\n");
 
 #define _SSL_CERTIFICATE_GET_INFO_METHODDEF    \
-    {"get_info", (PyCFunction)_ssl_Certificate_get_info, METH_NOARGS, _ssl_Certificate_get_info__doc__},
+    {"get_info", (PyCFunction)_ssl_Certificate_get_info, METH_NOARGS|METH_C_STACK_FRUGAL, _ssl_Certificate_get_info__doc__},
 
 static PyObject *
 _ssl_Certificate_get_info_impl(PySSLCertificate *self);
@@ -89,4 +89,4 @@ _ssl_Certificate_get_info(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return _ssl_Certificate_get_info_impl((PySSLCertificate *)self);
 }
-/*[clinic end generated code: output=bab2dba7dbc1523c input=a9049054013a1b77]*/
+/*[clinic end generated code: output=4318646bd6314062 input=a9049054013a1b77]*/

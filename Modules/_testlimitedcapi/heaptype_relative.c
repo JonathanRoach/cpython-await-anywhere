@@ -334,6 +334,7 @@ static PyMethodDef heaptype_with_member_methods[] = {
 };
 
 /*[clinic input]
+@c_stack_frugal
 make_heaptype_with_member
 
     extra_base_size: int = 0
@@ -353,7 +354,7 @@ make_heaptype_with_member_impl(PyObject *module, int extra_base_size,
                                int add_relative_flag,
                                const char *member_name, int member_flags,
                                int member_type)
-/*[clinic end generated code: output=7005db9a07396997 input=007e29cdbe1d3390]*/
+/*[clinic end generated code: output=7005db9a07396997 input=dd8304529f018dd4]*/
 {
     PyObject *base = NULL;
     PyObject *result = NULL;

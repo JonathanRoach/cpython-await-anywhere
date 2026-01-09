@@ -28,7 +28,7 @@ PyDoc_STRVAR(marshal_dump__doc__,
 "to the file. The object will not be properly read back by load().");
 
 #define MARSHAL_DUMP_METHODDEF    \
-    {"dump", _PyCFunction_CAST(marshal_dump), METH_FASTCALL|METH_KEYWORDS, marshal_dump__doc__},
+    {"dump", _PyCFunction_CAST(marshal_dump), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, marshal_dump__doc__},
 
 static PyObject *
 marshal_dump_impl(PyObject *module, PyObject *value, PyObject *file,
@@ -121,7 +121,7 @@ PyDoc_STRVAR(marshal_load__doc__,
 "dump(), load() will substitute None for the unmarshallable type.");
 
 #define MARSHAL_LOAD_METHODDEF    \
-    {"load", _PyCFunction_CAST(marshal_load), METH_FASTCALL|METH_KEYWORDS, marshal_load__doc__},
+    {"load", _PyCFunction_CAST(marshal_load), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, marshal_load__doc__},
 
 static PyObject *
 marshal_load_impl(PyObject *module, PyObject *file, int allow_code);
@@ -199,7 +199,7 @@ PyDoc_STRVAR(marshal_dumps__doc__,
 "unsupported type.");
 
 #define MARSHAL_DUMPS_METHODDEF    \
-    {"dumps", _PyCFunction_CAST(marshal_dumps), METH_FASTCALL|METH_KEYWORDS, marshal_dumps__doc__},
+    {"dumps", _PyCFunction_CAST(marshal_dumps), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, marshal_dumps__doc__},
 
 static PyObject *
 marshal_dumps_impl(PyObject *module, PyObject *value, int version,
@@ -284,7 +284,7 @@ PyDoc_STRVAR(marshal_loads__doc__,
 "bytes in the input are ignored.");
 
 #define MARSHAL_LOADS_METHODDEF    \
-    {"loads", _PyCFunction_CAST(marshal_loads), METH_FASTCALL|METH_KEYWORDS, marshal_loads__doc__},
+    {"loads", _PyCFunction_CAST(marshal_loads), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, marshal_loads__doc__},
 
 static PyObject *
 marshal_loads_impl(PyObject *module, Py_buffer *bytes, int allow_code);
@@ -351,4 +351,4 @@ exit:
 
     return return_value;
 }
-/*[clinic end generated code: output=3e4bfc070a3c78ac input=a9049054013a1b77]*/
+/*[clinic end generated code: output=d4d93b34b91da371 input=a9049054013a1b77]*/

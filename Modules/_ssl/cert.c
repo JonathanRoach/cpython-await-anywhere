@@ -65,6 +65,7 @@ _PySSL_CertificateFromX509Stack(_sslmodulestate *state, STACK_OF(X509) *stack, i
 }
 
 /*[clinic input]
+@c_stack_frugal
 _ssl.Certificate.public_bytes
     format: int(c_default="PY_SSL_ENCODING_PEM") = Encoding.PEM
 
@@ -72,7 +73,7 @@ _ssl.Certificate.public_bytes
 
 static PyObject *
 _ssl_Certificate_public_bytes_impl(PySSLCertificate *self, int format)
-/*[clinic end generated code: output=c01ddbb697429e12 input=4d38c45e874b0e64]*/
+/*[clinic end generated code: output=c01ddbb697429e12 input=8bc55f876ec33bb2]*/
 {
     BIO *bio;
     int retcode;
@@ -116,13 +117,14 @@ _ssl_Certificate_public_bytes_impl(PySSLCertificate *self, int format)
 
 
 /*[clinic input]
+@c_stack_frugal
 _ssl.Certificate.get_info
 
 [clinic start generated code]*/
 
 static PyObject *
 _ssl_Certificate_get_info_impl(PySSLCertificate *self)
-/*[clinic end generated code: output=0f0deaac54f4408b input=ba2c1694b39d0778]*/
+/*[clinic end generated code: output=0f0deaac54f4408b input=299894e3998b9952]*/
 {
     return _decode_certificate(get_state_cert(self), self->cert);
 }

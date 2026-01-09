@@ -853,6 +853,7 @@ Unimplemented:
 }
 
 /*[clinic input]
+@c_stack_frugal
 complex.conjugate
 
 Return the complex conjugate of its argument. (3-4j).conjugate() == 3+4j.
@@ -860,7 +861,7 @@ Return the complex conjugate of its argument. (3-4j).conjugate() == 3+4j.
 
 static PyObject *
 complex_conjugate_impl(PyComplexObject *self)
-/*[clinic end generated code: output=5059ef162edfc68e input=5fea33e9747ec2c4]*/
+/*[clinic end generated code: output=5059ef162edfc68e input=01b59aff093aaa88]*/
 {
     Py_complex c = self->cval;
     c.imag = -c.imag;
@@ -868,13 +869,14 @@ complex_conjugate_impl(PyComplexObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 complex.__getnewargs__
 
 [clinic start generated code]*/
 
 static PyObject *
 complex___getnewargs___impl(PyComplexObject *self)
-/*[clinic end generated code: output=689b8206e8728934 input=539543e0a50533d7]*/
+/*[clinic end generated code: output=689b8206e8728934 input=d4df12e5a2a2abc4]*/
 {
     Py_complex c = self->cval;
     return Py_BuildValue("(dd)", c.real, c.imag);
@@ -882,6 +884,7 @@ complex___getnewargs___impl(PyComplexObject *self)
 
 
 /*[clinic input]
+@c_stack_frugal
 complex.__format__
 
     format_spec: unicode
@@ -892,7 +895,7 @@ Convert to a string according to format_spec.
 
 static PyObject *
 complex___format___impl(PyComplexObject *self, PyObject *format_spec)
-/*[clinic end generated code: output=bfcb60df24cafea0 input=014ef5488acbe1d5]*/
+/*[clinic end generated code: output=bfcb60df24cafea0 input=3d67f213797d9b82]*/
 {
     _PyUnicodeWriter writer;
     int ret;
@@ -909,6 +912,7 @@ complex___format___impl(PyComplexObject *self, PyObject *format_spec)
 }
 
 /*[clinic input]
+@c_stack_frugal
 complex.__complex__
 
 Convert this value to exact type complex.
@@ -916,7 +920,7 @@ Convert this value to exact type complex.
 
 static PyObject *
 complex___complex___impl(PyComplexObject *self)
-/*[clinic end generated code: output=e6b35ba3d275dc9c input=3589ada9d27db854]*/
+/*[clinic end generated code: output=e6b35ba3d275dc9c input=b7d6ac58b3cdf495]*/
 {
     if (PyComplex_CheckExact(self)) {
         return Py_NewRef(self);
@@ -1152,6 +1156,7 @@ actual_complex_new(PyTypeObject *type, PyObject *args, PyObject *kwargs)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 complex.__new__ as complex_new
     real as r: object(c_default="NULL") = 0
@@ -1167,7 +1172,7 @@ with the specified real and imaginary components.
 
 static PyObject *
 complex_new_impl(PyTypeObject *type, PyObject *r, PyObject *i)
-/*[clinic end generated code: output=b6c7dd577b537dc1 input=ff4268dc540958a4]*/
+/*[clinic end generated code: output=b6c7dd577b537dc1 input=e5cd3e7fdc35e781]*/
 {
     PyObject *tmp;
     PyNumberMethods *nbr, *nbi = NULL;
@@ -1297,6 +1302,7 @@ complex_new_impl(PyTypeObject *type, PyObject *r, PyObject *i)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 complex.from_number
 
@@ -1308,7 +1314,7 @@ Convert number to a complex floating-point number.
 
 static PyObject *
 complex_from_number_impl(PyTypeObject *type, PyObject *number)
-/*[clinic end generated code: output=7248bb593e1871e1 input=3f8bdd3a2bc3facd]*/
+/*[clinic end generated code: output=7248bb593e1871e1 input=6f83d05f892ad145]*/
 {
     if (PyComplex_CheckExact(number) && type == &PyComplex_Type) {
         Py_INCREF(number);

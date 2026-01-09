@@ -8,7 +8,7 @@ PyDoc_STRVAR(_testlimitedcapi_pack_full_version__doc__,
 "\n");
 
 #define _TESTLIMITEDCAPI_PACK_FULL_VERSION_METHODDEF    \
-    {"pack_full_version", (PyCFunction)(void(*)(void))_testlimitedcapi_pack_full_version, METH_FASTCALL, _testlimitedcapi_pack_full_version__doc__},
+    {"pack_full_version", (PyCFunction)(void(*)(void))_testlimitedcapi_pack_full_version, METH_FASTCALL|METH_C_STACK_FRUGAL, _testlimitedcapi_pack_full_version__doc__},
 
 static PyObject *
 _testlimitedcapi_pack_full_version_impl(PyObject *module, int major,
@@ -61,7 +61,7 @@ PyDoc_STRVAR(_testlimitedcapi_pack_version__doc__,
 "\n");
 
 #define _TESTLIMITEDCAPI_PACK_VERSION_METHODDEF    \
-    {"pack_version", (PyCFunction)(void(*)(void))_testlimitedcapi_pack_version, METH_FASTCALL, _testlimitedcapi_pack_version__doc__},
+    {"pack_version", (PyCFunction)(void(*)(void))_testlimitedcapi_pack_version, METH_FASTCALL|METH_C_STACK_FRUGAL, _testlimitedcapi_pack_version__doc__},
 
 static PyObject *
 _testlimitedcapi_pack_version_impl(PyObject *module, int major, int minor);
@@ -90,4 +90,4 @@ _testlimitedcapi_pack_version(PyObject *module, PyObject *const *args, Py_ssize_
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=aed3e226da77f2d2 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=a5379d923c30f12c input=a9049054013a1b77]*/

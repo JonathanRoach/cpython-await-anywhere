@@ -18,7 +18,7 @@ PyDoc_STRVAR(datetime_date_fromtimestamp__doc__,
 "as local time.");
 
 #define DATETIME_DATE_FROMTIMESTAMP_METHODDEF    \
-    {"fromtimestamp", (PyCFunction)datetime_date_fromtimestamp, METH_O|METH_CLASS, datetime_date_fromtimestamp__doc__},
+    {"fromtimestamp", (PyCFunction)datetime_date_fromtimestamp, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, datetime_date_fromtimestamp__doc__},
 
 static PyObject *
 datetime_date_fromtimestamp_impl(PyTypeObject *type, PyObject *timestamp);
@@ -105,7 +105,7 @@ PyDoc_STRVAR(datetime_date_replace__doc__,
 "Return date with new specified fields.");
 
 #define DATETIME_DATE_REPLACE_METHODDEF    \
-    {"replace", _PyCFunction_CAST(datetime_date_replace), METH_FASTCALL|METH_KEYWORDS, datetime_date_replace__doc__},
+    {"replace", _PyCFunction_CAST(datetime_date_replace), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, datetime_date_replace__doc__},
 
 static PyObject *
 datetime_date_replace_impl(PyDateTime_Date *self, int year, int month,
@@ -193,7 +193,7 @@ PyDoc_STRVAR(datetime_time_replace__doc__,
 "Return time with new specified fields.");
 
 #define DATETIME_TIME_REPLACE_METHODDEF    \
-    {"replace", _PyCFunction_CAST(datetime_time_replace), METH_FASTCALL|METH_KEYWORDS, datetime_time_replace__doc__},
+    {"replace", _PyCFunction_CAST(datetime_time_replace), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, datetime_time_replace__doc__},
 
 static PyObject *
 datetime_time_replace_impl(PyDateTime_Time *self, int hour, int minute,
@@ -317,7 +317,7 @@ PyDoc_STRVAR(datetime_datetime_now__doc__,
 "If no tz is specified, uses local timezone.");
 
 #define DATETIME_DATETIME_NOW_METHODDEF    \
-    {"now", _PyCFunction_CAST(datetime_datetime_now), METH_FASTCALL|METH_KEYWORDS|METH_CLASS, datetime_datetime_now__doc__},
+    {"now", _PyCFunction_CAST(datetime_datetime_now), METH_FASTCALL|METH_KEYWORDS|METH_CLASS|METH_C_STACK_FRUGAL, datetime_datetime_now__doc__},
 
 static PyObject *
 datetime_datetime_now_impl(PyTypeObject *type, PyObject *tz);
@@ -382,7 +382,7 @@ PyDoc_STRVAR(datetime_datetime_replace__doc__,
 "Return datetime with new specified fields.");
 
 #define DATETIME_DATETIME_REPLACE_METHODDEF    \
-    {"replace", _PyCFunction_CAST(datetime_datetime_replace), METH_FASTCALL|METH_KEYWORDS, datetime_datetime_replace__doc__},
+    {"replace", _PyCFunction_CAST(datetime_datetime_replace), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, datetime_datetime_replace__doc__},
 
 static PyObject *
 datetime_datetime_replace_impl(PyDateTime_DateTime *self, int year,
@@ -524,4 +524,4 @@ skip_optional_kwonly:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=809640e747529c72 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=107e0b0d36d6300c input=a9049054013a1b77]*/

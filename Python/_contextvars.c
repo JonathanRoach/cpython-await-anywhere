@@ -9,12 +9,13 @@ module _contextvars
 
 
 /*[clinic input]
+@c_stack_frugal
 _contextvars.copy_context
 [clinic start generated code]*/
 
 static PyObject *
 _contextvars_copy_context_impl(PyObject *module)
-/*[clinic end generated code: output=1fcd5da7225c4fa9 input=89bb9ae485888440]*/
+/*[clinic end generated code: output=1fcd5da7225c4fa9 input=605a87736677460c]*/
 {
     return PyContext_CopyCurrent();
 }

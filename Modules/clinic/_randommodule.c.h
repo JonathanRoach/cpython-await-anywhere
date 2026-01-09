@@ -13,7 +13,7 @@ PyDoc_STRVAR(_random_Random_random__doc__,
 "random() -> x in the interval [0, 1).");
 
 #define _RANDOM_RANDOM_RANDOM_METHODDEF    \
-    {"random", (PyCFunction)_random_Random_random, METH_NOARGS, _random_Random_random__doc__},
+    {"random", (PyCFunction)_random_Random_random, METH_NOARGS|METH_C_STACK_FRUGAL, _random_Random_random__doc__},
 
 static PyObject *
 _random_Random_random_impl(RandomObject *self);
@@ -40,7 +40,7 @@ PyDoc_STRVAR(_random_Random_seed__doc__,
 "of the current time and the process identifier.");
 
 #define _RANDOM_RANDOM_SEED_METHODDEF    \
-    {"seed", _PyCFunction_CAST(_random_Random_seed), METH_FASTCALL, _random_Random_seed__doc__},
+    {"seed", _PyCFunction_CAST(_random_Random_seed), METH_FASTCALL|METH_C_STACK_FRUGAL, _random_Random_seed__doc__},
 
 static PyObject *
 _random_Random_seed_impl(RandomObject *self, PyObject *n);
@@ -74,7 +74,7 @@ PyDoc_STRVAR(_random_Random_getstate__doc__,
 "getstate() -> tuple containing the current state.");
 
 #define _RANDOM_RANDOM_GETSTATE_METHODDEF    \
-    {"getstate", (PyCFunction)_random_Random_getstate, METH_NOARGS, _random_Random_getstate__doc__},
+    {"getstate", (PyCFunction)_random_Random_getstate, METH_NOARGS|METH_C_STACK_FRUGAL, _random_Random_getstate__doc__},
 
 static PyObject *
 _random_Random_getstate_impl(RandomObject *self);
@@ -98,7 +98,7 @@ PyDoc_STRVAR(_random_Random_setstate__doc__,
 "setstate(state) -> None.  Restores generator state.");
 
 #define _RANDOM_RANDOM_SETSTATE_METHODDEF    \
-    {"setstate", (PyCFunction)_random_Random_setstate, METH_O, _random_Random_setstate__doc__},
+    {"setstate", (PyCFunction)_random_Random_setstate, METH_O|METH_C_STACK_FRUGAL, _random_Random_setstate__doc__},
 
 static PyObject *
 _random_Random_setstate_impl(RandomObject *self, PyObject *state);
@@ -122,7 +122,7 @@ PyDoc_STRVAR(_random_Random_getrandbits__doc__,
 "getrandbits(k) -> x.  Generates an int with k random bits.");
 
 #define _RANDOM_RANDOM_GETRANDBITS_METHODDEF    \
-    {"getrandbits", (PyCFunction)_random_Random_getrandbits, METH_O, _random_Random_getrandbits__doc__},
+    {"getrandbits", (PyCFunction)_random_Random_getrandbits, METH_O|METH_C_STACK_FRUGAL, _random_Random_getrandbits__doc__},
 
 static PyObject *
 _random_Random_getrandbits_impl(RandomObject *self, uint64_t k);
@@ -143,4 +143,4 @@ _random_Random_getrandbits(PyObject *self, PyObject *arg)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=7ce97b2194eecaf7 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=602997fdce65bd87 input=a9049054013a1b77]*/

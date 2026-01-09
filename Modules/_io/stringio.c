@@ -274,6 +274,7 @@ fail:
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.StringIO.getvalue
 
@@ -282,7 +283,7 @@ Retrieve the entire contents of the object.
 
 static PyObject *
 _io_StringIO_getvalue_impl(stringio *self)
-/*[clinic end generated code: output=27b6a7bfeaebce01 input=fb5dee06b8d467f3]*/
+/*[clinic end generated code: output=27b6a7bfeaebce01 input=25b4d7858c69036c]*/
 {
     CHECK_INITIALIZED(self);
     CHECK_CLOSED(self);
@@ -293,6 +294,7 @@ _io_StringIO_getvalue_impl(stringio *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.StringIO.tell
 
@@ -301,7 +303,7 @@ Tell the current file position.
 
 static PyObject *
 _io_StringIO_tell_impl(stringio *self)
-/*[clinic end generated code: output=2e87ac67b116c77b input=98a08f3e2dae3550]*/
+/*[clinic end generated code: output=2e87ac67b116c77b input=ccf9a8c25bcce399]*/
 {
     CHECK_INITIALIZED(self);
     CHECK_CLOSED(self);
@@ -309,6 +311,7 @@ _io_StringIO_tell_impl(stringio *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.StringIO.read
     size: Py_ssize_t(accept={int, NoneType}) = -1
@@ -322,7 +325,7 @@ is reached. Return an empty string at EOF.
 
 static PyObject *
 _io_StringIO_read_impl(stringio *self, Py_ssize_t size)
-/*[clinic end generated code: output=ae8cf6002f71626c input=9fbef45d8aece8e7]*/
+/*[clinic end generated code: output=ae8cf6002f71626c input=e5d0b7065d72c45e]*/
 {
     Py_ssize_t n;
     Py_UCS4 *output;
@@ -382,6 +385,7 @@ _stringio_readline(stringio *self, Py_ssize_t limit)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.StringIO.readline
     size: Py_ssize_t(accept={int, NoneType}) = -1
@@ -394,7 +398,7 @@ Returns an empty string if EOF is hit immediately.
 
 static PyObject *
 _io_StringIO_readline_impl(stringio *self, Py_ssize_t size)
-/*[clinic end generated code: output=cabd6452f1b7e85d input=4d14b8495dea1d98]*/
+/*[clinic end generated code: output=cabd6452f1b7e85d input=41f18a8178809413]*/
 {
     CHECK_INITIALIZED(self);
     CHECK_CLOSED(self);
@@ -442,6 +446,7 @@ stringio_iternext(PyObject *op)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.StringIO.truncate
     pos: object = None
@@ -456,7 +461,7 @@ Returns the new absolute position.
 
 static PyObject *
 _io_StringIO_truncate_impl(stringio *self, PyObject *pos)
-/*[clinic end generated code: output=c76c43b5ecfaf4e2 input=d59fd2ee49757ae6]*/
+/*[clinic end generated code: output=c76c43b5ecfaf4e2 input=3968d762ea856b83]*/
 {
     CHECK_INITIALIZED(self);
     CHECK_CLOSED(self);
@@ -488,6 +493,7 @@ _io_StringIO_truncate_impl(stringio *self, PyObject *pos)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.StringIO.seek
     pos: Py_ssize_t
@@ -505,7 +511,7 @@ Returns the new absolute position.
 
 static PyObject *
 _io_StringIO_seek_impl(stringio *self, Py_ssize_t pos, int whence)
-/*[clinic end generated code: output=e9e0ac9a8ae71c25 input=c75ced09343a00d7]*/
+/*[clinic end generated code: output=e9e0ac9a8ae71c25 input=eb6a316aaddc625b]*/
 {
     CHECK_INITIALIZED(self);
     CHECK_CLOSED(self);
@@ -542,6 +548,7 @@ _io_StringIO_seek_impl(stringio *self, Py_ssize_t pos, int whence)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.StringIO.write
     s as obj: object
@@ -555,7 +562,7 @@ the length of the string.
 
 static PyObject *
 _io_StringIO_write_impl(stringio *self, PyObject *obj)
-/*[clinic end generated code: output=d53b1d841d7db288 input=1561272c0da4651f]*/
+/*[clinic end generated code: output=d53b1d841d7db288 input=01391ca0bb534915]*/
 {
     Py_ssize_t size;
 
@@ -575,6 +582,7 @@ _io_StringIO_write_impl(stringio *self, PyObject *obj)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.StringIO.close
 
@@ -588,7 +596,7 @@ This method has no effect if the file is already closed.
 
 static PyObject *
 _io_StringIO_close_impl(stringio *self)
-/*[clinic end generated code: output=04399355cbe518f1 input=305d19aa29cc40b9]*/
+/*[clinic end generated code: output=04399355cbe518f1 input=cba51a769054f98e]*/
 {
     self->closed = 1;
     /* Free up some memory */
@@ -668,6 +676,7 @@ stringio_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _io.StringIO.__init__
     initial_value as value: object(c_default="NULL") = ''
     newline as newline_obj: object(c_default="NULL") = '\n'
@@ -681,7 +690,7 @@ argument is like the one of TextIOWrapper's constructor.
 static int
 _io_StringIO___init___impl(stringio *self, PyObject *value,
                            PyObject *newline_obj)
-/*[clinic end generated code: output=a421ea023b22ef4e input=cee2d9181b2577a3]*/
+/*[clinic end generated code: output=a421ea023b22ef4e input=f841773607758327]*/
 {
     const char *newline = "\n";
     Py_ssize_t value_len;
@@ -792,6 +801,7 @@ _io_StringIO___init___impl(stringio *self, PyObject *value,
 /* Properties and pseudo-properties */
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.StringIO.readable
 
@@ -800,7 +810,7 @@ Returns True if the IO object can be read.
 
 static PyObject *
 _io_StringIO_readable_impl(stringio *self)
-/*[clinic end generated code: output=b19d44dd8b1ceb99 input=6cd2ffd65a8e8763]*/
+/*[clinic end generated code: output=b19d44dd8b1ceb99 input=dc02e88b5b4aadef]*/
 {
     CHECK_INITIALIZED(self);
     CHECK_CLOSED(self);
@@ -808,6 +818,7 @@ _io_StringIO_readable_impl(stringio *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.StringIO.writable
 
@@ -816,7 +827,7 @@ Returns True if the IO object can be written.
 
 static PyObject *
 _io_StringIO_writable_impl(stringio *self)
-/*[clinic end generated code: output=13e4dd77187074ca input=1b3c63dbaa761c69]*/
+/*[clinic end generated code: output=13e4dd77187074ca input=430a27e8b967c07b]*/
 {
     CHECK_INITIALIZED(self);
     CHECK_CLOSED(self);
@@ -824,6 +835,7 @@ _io_StringIO_writable_impl(stringio *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.StringIO.seekable
 
@@ -832,7 +844,7 @@ Returns True if the IO object can be seeked.
 
 static PyObject *
 _io_StringIO_seekable_impl(stringio *self)
-/*[clinic end generated code: output=4d20b4641c756879 input=a820fad2cf085fc3]*/
+/*[clinic end generated code: output=4d20b4641c756879 input=b20497cce5315838]*/
 {
     CHECK_INITIALIZED(self);
     CHECK_CLOSED(self);
@@ -852,6 +864,7 @@ _io_StringIO_seekable_impl(stringio *self)
 */
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.StringIO.__getstate__
 
@@ -859,7 +872,7 @@ _io.StringIO.__getstate__
 
 static PyObject *
 _io_StringIO___getstate___impl(stringio *self)
-/*[clinic end generated code: output=780be4a996410199 input=76f27255ef83bb92]*/
+/*[clinic end generated code: output=780be4a996410199 input=3f373cf5a1bb67d3]*/
 {
     PyObject *initvalue = _io_StringIO_getvalue_impl(self);
     PyObject *dict;
@@ -886,6 +899,7 @@ _io_StringIO___getstate___impl(stringio *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _io.StringIO.__setstate__
 
@@ -895,7 +909,7 @@ _io.StringIO.__setstate__
 
 static PyObject *
 _io_StringIO___setstate___impl(stringio *self, PyObject *state)
-/*[clinic end generated code: output=cb3962bc6d5c5609 input=8a27784b11b82e47]*/
+/*[clinic end generated code: output=cb3962bc6d5c5609 input=ff7be0d6fc2e1192]*/
 {
     PyObject *initarg;
     PyObject *position_obj;
@@ -997,6 +1011,7 @@ _io_StringIO___setstate___impl(stringio *self, PyObject *state)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @getter
 _io.StringIO.closed
@@ -1004,13 +1019,14 @@ _io.StringIO.closed
 
 static PyObject *
 _io_StringIO_closed_get_impl(stringio *self)
-/*[clinic end generated code: output=531ddca7954331d6 input=178d2ef24395fd49]*/
+/*[clinic end generated code: output=531ddca7954331d6 input=f08720e5a8a666e3]*/
 {
     CHECK_INITIALIZED(self);
     return PyBool_FromLong(self->closed);
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @getter
 _io.StringIO.line_buffering
@@ -1018,7 +1034,7 @@ _io.StringIO.line_buffering
 
 static PyObject *
 _io_StringIO_line_buffering_get_impl(stringio *self)
-/*[clinic end generated code: output=360710e0112966ae input=6a7634e7f890745e]*/
+/*[clinic end generated code: output=360710e0112966ae input=a8c1824b17a7e982]*/
 {
     CHECK_INITIALIZED(self);
     CHECK_CLOSED(self);
@@ -1026,6 +1042,7 @@ _io_StringIO_line_buffering_get_impl(stringio *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @getter
 _io.StringIO.newlines
@@ -1033,7 +1050,7 @@ _io.StringIO.newlines
 
 static PyObject *
 _io_StringIO_newlines_get_impl(stringio *self)
-/*[clinic end generated code: output=35d7c0b66d7e0160 input=092a14586718244b]*/
+/*[clinic end generated code: output=35d7c0b66d7e0160 input=9f490d6addab40e7]*/
 {
     CHECK_INITIALIZED(self);
     CHECK_CLOSED(self);

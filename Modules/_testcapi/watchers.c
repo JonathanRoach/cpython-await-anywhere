@@ -131,6 +131,7 @@ clear_dict_watcher(PyObject *self, PyObject *watcher_id)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.watch_dict
     watcher_id: int
     dict: object
@@ -139,7 +140,7 @@ _testcapi.watch_dict
 
 static PyObject *
 _testcapi_watch_dict_impl(PyObject *module, int watcher_id, PyObject *dict)
-/*[clinic end generated code: output=1426e0273cebe2d8 input=269b006d60c358bd]*/
+/*[clinic end generated code: output=1426e0273cebe2d8 input=6558aef880a1e75b]*/
 {
     if (PyDict_Watch(watcher_id, dict)) {
         return NULL;
@@ -148,12 +149,13 @@ _testcapi_watch_dict_impl(PyObject *module, int watcher_id, PyObject *dict)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.unwatch_dict = _testcapi.watch_dict
 [clinic start generated code]*/
 
 static PyObject *
 _testcapi_unwatch_dict_impl(PyObject *module, int watcher_id, PyObject *dict)
-/*[clinic end generated code: output=512b1a71ae33c351 input=cae7dc1b6f7713b8]*/
+/*[clinic end generated code: output=512b1a71ae33c351 input=0c6984f872744128]*/
 {
     if (PyDict_Unwatch(watcher_id, dict)) {
         return NULL;
@@ -265,6 +267,7 @@ get_type_modified_events(PyObject *self, PyObject *Py_UNUSED(args))
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.watch_type
     watcher_id: int
     type: object
@@ -273,7 +276,7 @@ _testcapi.watch_type
 
 static PyObject *
 _testcapi_watch_type_impl(PyObject *module, int watcher_id, PyObject *type)
-/*[clinic end generated code: output=fdf4777126724fc4 input=5a808bf12be7e3ed]*/
+/*[clinic end generated code: output=fdf4777126724fc4 input=4219070148bd95d2]*/
 {
     if (PyType_Watch(watcher_id, type)) {
         return NULL;
@@ -282,12 +285,13 @@ _testcapi_watch_type_impl(PyObject *module, int watcher_id, PyObject *type)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.unwatch_type = _testcapi.watch_type
 [clinic start generated code]*/
 
 static PyObject *
 _testcapi_unwatch_type_impl(PyObject *module, int watcher_id, PyObject *type)
-/*[clinic end generated code: output=0389672d4ad5f68b input=6701911fb45edc9e]*/
+/*[clinic end generated code: output=0389672d4ad5f68b input=e3328c9ed3939e91]*/
 {
     if (PyType_Unwatch(watcher_id, type)) {
         return NULL;
@@ -773,6 +777,7 @@ allocate_too_many_context_watchers(PyObject *self, PyObject *Py_UNUSED(args))
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.set_func_defaults_via_capi
     func: object
     defaults: object
@@ -782,7 +787,7 @@ _testcapi.set_func_defaults_via_capi
 static PyObject *
 _testcapi_set_func_defaults_via_capi_impl(PyObject *module, PyObject *func,
                                           PyObject *defaults)
-/*[clinic end generated code: output=caf0cb39db31ac24 input=e04a8508ca9d42fc]*/
+/*[clinic end generated code: output=caf0cb39db31ac24 input=67abc8c9a24fa2d3]*/
 {
     if (PyFunction_SetDefaults(func, defaults) < 0) {
         return NULL;
@@ -791,13 +796,14 @@ _testcapi_set_func_defaults_via_capi_impl(PyObject *module, PyObject *func,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.set_func_kwdefaults_via_capi = _testcapi.set_func_defaults_via_capi
 [clinic start generated code]*/
 
 static PyObject *
 _testcapi_set_func_kwdefaults_via_capi_impl(PyObject *module, PyObject *func,
                                             PyObject *defaults)
-/*[clinic end generated code: output=9ed3b08177025070 input=f3cd1ca3c18de8ce]*/
+/*[clinic end generated code: output=9ed3b08177025070 input=56975805337a2ec0]*/
 {
     if (PyFunction_SetKwDefaults(func, defaults) < 0) {
         return NULL;

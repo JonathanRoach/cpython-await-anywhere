@@ -1002,6 +1002,7 @@ PyMemoryView_GetContiguous(PyObject *obj, int buffertype, char order)
 
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 memoryview.__new__
 
@@ -1012,13 +1013,14 @@ Create a new memoryview object which references the given object.
 
 static PyObject *
 memoryview_impl(PyTypeObject *type, PyObject *object)
-/*[clinic end generated code: output=7de78e184ed66db8 input=f04429eb0bdf8c6e]*/
+/*[clinic end generated code: output=7de78e184ed66db8 input=901893920b51fbd8]*/
 {
     return PyMemoryView_FromObject(object);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 memoryview._from_flags
 
@@ -1030,7 +1032,7 @@ Create a new memoryview object which references the given object.
 
 static PyObject *
 memoryview__from_flags_impl(PyTypeObject *type, PyObject *object, int flags)
-/*[clinic end generated code: output=bf71f9906c266ee2 input=f5f82fd0e744356b]*/
+/*[clinic end generated code: output=bf71f9906c266ee2 input=c343cbbcc210974c]*/
 {
     return PyMemoryView_FromObjectAndFlags(object, flags);
 }
@@ -1120,6 +1122,7 @@ _memory_release(PyMemoryViewObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 memoryview.release
 
 Release the underlying buffer exposed by the memoryview object.
@@ -1127,7 +1130,7 @@ Release the underlying buffer exposed by the memoryview object.
 
 static PyObject *
 memoryview_release_impl(PyMemoryViewObject *self)
-/*[clinic end generated code: output=d0b7e3ba95b7fcb9 input=bc71d1d51f4a52f0]*/
+/*[clinic end generated code: output=d0b7e3ba95b7fcb9 input=df5be25c7a03f85f]*/
 {
     Py_ssize_t exports = get_exports(self);
     if (exports == 0) {
@@ -1436,6 +1439,7 @@ zero_in_shape(PyMemoryViewObject *mv)
    size of the original input. Otherwise, an error is raised.
 */
 /*[clinic input]
+@c_stack_frugal
 memoryview.cast
 
     format: unicode
@@ -1447,7 +1451,7 @@ Cast a memoryview to a new format or shape.
 static PyObject *
 memoryview_cast_impl(PyMemoryViewObject *self, PyObject *format,
                      PyObject *shape)
-/*[clinic end generated code: output=bae520b3a389cbab input=138936cc9041b1a3]*/
+/*[clinic end generated code: output=bae520b3a389cbab input=165439dc5042af66]*/
 {
     PyMemoryViewObject *mv = NULL;
     Py_ssize_t ndim = 1;
@@ -1499,6 +1503,7 @@ error:
 }
 
 /*[clinic input]
+@c_stack_frugal
 memoryview.toreadonly
 
 Return a readonly version of the memoryview.
@@ -1506,7 +1511,7 @@ Return a readonly version of the memoryview.
 
 static PyObject *
 memoryview_toreadonly_impl(PyMemoryViewObject *self)
-/*[clinic end generated code: output=2c7e056f04c99e62 input=dc06d20f19ba236f]*/
+/*[clinic end generated code: output=2c7e056f04c99e62 input=0610ac38c22dddbb]*/
 {
     CHECK_RELEASED(self);
     CHECK_RESTRICTED(self);
@@ -2232,6 +2237,7 @@ tolist_rec(PyMemoryViewObject *self, const char *ptr, Py_ssize_t ndim, const Py_
 /* Return a list representation of the memoryview. Currently only buffers
    with native format strings are supported. */
 /*[clinic input]
+@c_stack_frugal
 memoryview.tolist
 
 Return the data in the buffer as a list of elements.
@@ -2239,7 +2245,7 @@ Return the data in the buffer as a list of elements.
 
 static PyObject *
 memoryview_tolist_impl(PyMemoryViewObject *self)
-/*[clinic end generated code: output=a6cda89214fd5a1b input=21e7d0c1860b211a]*/
+/*[clinic end generated code: output=a6cda89214fd5a1b input=62916903e5f224fe]*/
 {
     const Py_buffer *view = &self->view;
     const char *fmt;
@@ -2265,6 +2271,7 @@ memoryview_tolist_impl(PyMemoryViewObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 memoryview.tobytes
 
     order: str(accept={str, NoneType}, c_default="NULL") = 'C'
@@ -2280,7 +2287,7 @@ to C first. order=None is the same as order='C'.
 
 static PyObject *
 memoryview_tobytes_impl(PyMemoryViewObject *self, const char *order)
-/*[clinic end generated code: output=1288b62560a32a23 input=0efa3ddaeda573a8]*/
+/*[clinic end generated code: output=1288b62560a32a23 input=29a6459a71154f1b]*/
 {
     Py_buffer *src = VIEW_ADDR(self);
     char ord = 'C';
@@ -2315,6 +2322,7 @@ memoryview_tobytes_impl(PyMemoryViewObject *self, const char *order)
 }
 
 /*[clinic input]
+@c_stack_frugal
 memoryview.hex
 
     sep: object = NULL
@@ -2340,7 +2348,7 @@ Example:
 static PyObject *
 memoryview_hex_impl(PyMemoryViewObject *self, PyObject *sep,
                     int bytes_per_sep)
-/*[clinic end generated code: output=430ca760f94f3ca7 input=539f6a3a5fb56946]*/
+/*[clinic end generated code: output=430ca760f94f3ca7 input=c7986aa78ca8354b]*/
 {
     Py_buffer *src = VIEW_ADDR(self);
     PyObject *bytes;
@@ -2772,6 +2780,7 @@ static PySequenceMethods memory_as_sequence = {
 /****************************************************************************/
 
 /*[clinic input]
+@c_stack_frugal
 memoryview.count
 
     value: object
@@ -2782,7 +2791,7 @@ Count the number of occurrences of a value.
 
 static PyObject *
 memoryview_count_impl(PyMemoryViewObject *self, PyObject *value)
-/*[clinic end generated code: output=a15cb19311985063 input=e3036ce1ed7d1823]*/
+/*[clinic end generated code: output=a15cb19311985063 input=ed5186d68acbb8e5]*/
 {
     PyObject *iter = PyObject_GetIter(_PyObject_CAST(self));
     if (iter == NULL) {
@@ -2821,6 +2830,7 @@ memoryview_count_impl(PyMemoryViewObject *self, PyObject *value)
 /**************************************************************************/
 
 /*[clinic input]
+@c_stack_frugal
 memoryview.index
 
     value: object
@@ -2836,7 +2846,7 @@ Raises ValueError if the value is not present.
 static PyObject *
 memoryview_index_impl(PyMemoryViewObject *self, PyObject *value,
                       Py_ssize_t start, Py_ssize_t stop)
-/*[clinic end generated code: output=e0185e3819e549df input=0697a0165bf90b5a]*/
+/*[clinic end generated code: output=e0185e3819e549df input=0fd9b872711ffde6]*/
 {
     const Py_buffer *view = &self->view;
     CHECK_RELEASED(self);

@@ -91,6 +91,7 @@ tb_create_raw(PyTracebackObject *next, PyFrameObject *frame, int lasti,
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 traceback.__new__ as tb_new
 
@@ -105,7 +106,7 @@ Create a new traceback object.
 static PyObject *
 tb_new_impl(PyTypeObject *type, PyObject *tb_next, PyFrameObject *tb_frame,
             int tb_lasti, int tb_lineno)
-/*[clinic end generated code: output=fa077debd72d861a input=b88143145454cb59]*/
+/*[clinic end generated code: output=fa077debd72d861a input=f472829d6aa6b164]*/
 {
     if (tb_next == Py_None) {
         tb_next = NULL;
@@ -127,6 +128,7 @@ tb_dir(PyObject *Py_UNUSED(self), PyObject *Py_UNUSED(ignored))
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @getter
 traceback.tb_next
@@ -134,7 +136,7 @@ traceback.tb_next
 
 static PyObject *
 traceback_tb_next_get_impl(PyTracebackObject *self)
-/*[clinic end generated code: output=963634df7d5fc837 input=8f6345f2b73cb965]*/
+/*[clinic end generated code: output=963634df7d5fc837 input=9d678c45c420f485]*/
 {
     PyObject* ret = (PyObject*)self->tb_next;
     if (!ret) {
@@ -167,6 +169,7 @@ tb_lineno_get(PyObject *op, void *Py_UNUSED(_))
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @setter
 traceback.tb_next
@@ -174,7 +177,7 @@ traceback.tb_next
 
 static int
 traceback_tb_next_set_impl(PyTracebackObject *self, PyObject *value)
-/*[clinic end generated code: output=d4868cbc48f2adac input=ce66367f85e3c443]*/
+/*[clinic end generated code: output=d4868cbc48f2adac input=a61f22546bfc1329]*/
 {
     if (!value) {
         PyErr_Format(PyExc_TypeError, "can't delete tb_next attribute");

@@ -34,6 +34,7 @@ module fcntl
 #include "clinic/fcntlmodule.c.h"
 
 /*[clinic input]
+@c_stack_frugal
 fcntl.fcntl
 
     fd: fildes
@@ -56,7 +57,7 @@ corresponding to the return value of the fcntl call in the C code.
 
 static PyObject *
 fcntl_fcntl_impl(PyObject *module, int fd, int code, PyObject *arg)
-/*[clinic end generated code: output=888fc93b51c295bd input=7955340198e5f334]*/
+/*[clinic end generated code: output=888fc93b51c295bd input=5dc605fcd9752366]*/
 {
     int ret;
     int async_err = 0;
@@ -152,6 +153,7 @@ fcntl_fcntl_impl(PyObject *module, int fd, int code, PyObject *arg)
 
 
 /*[clinic input]
+@c_stack_frugal
 fcntl.ioctl
 
     fd: fildes
@@ -193,7 +195,7 @@ code.
 static PyObject *
 fcntl_ioctl_impl(PyObject *module, int fd, unsigned long code, PyObject *arg,
                  int mutate_arg)
-/*[clinic end generated code: output=f72baba2454d7a62 input=9c6cca5e2c339622]*/
+/*[clinic end generated code: output=f72baba2454d7a62 input=c9e3b25467bd638b]*/
 {
     /* We use the unsigned non-checked 'I' format for the 'code' parameter
        because the system expects it to be a 32bit bit field value
@@ -334,6 +336,7 @@ fcntl_ioctl_impl(PyObject *module, int fd, unsigned long code, PyObject *arg,
 }
 
 /*[clinic input]
+@c_stack_frugal
 fcntl.flock
 
     fd: fildes
@@ -348,7 +351,7 @@ function is emulated using fcntl()).
 
 static PyObject *
 fcntl_flock_impl(PyObject *module, int fd, int code)
-/*[clinic end generated code: output=84059e2b37d2fc64 input=0bfc00f795953452]*/
+/*[clinic end generated code: output=84059e2b37d2fc64 input=43062d5a034e077f]*/
 {
     int ret;
     int async_err = 0;
@@ -400,6 +403,7 @@ fcntl_flock_impl(PyObject *module, int fd, int code)
 
 
 /*[clinic input]
+@c_stack_frugal
 fcntl.lockf
 
     fd: fildes
@@ -436,7 +440,7 @@ starts.  `whence` is as with fileobj.seek(), specifically:
 static PyObject *
 fcntl_lockf_impl(PyObject *module, int fd, int code, PyObject *lenobj,
                  PyObject *startobj, int whence)
-/*[clinic end generated code: output=4985e7a172e7461a input=5480479fc63a04b8]*/
+/*[clinic end generated code: output=4985e7a172e7461a input=5c2dd11783bd94d9]*/
 {
     int ret;
     int async_err = 0;

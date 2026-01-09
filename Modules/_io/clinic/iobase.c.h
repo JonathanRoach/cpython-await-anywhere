@@ -29,7 +29,7 @@ PyDoc_STRVAR(_io__IOBase_seek__doc__,
 "Return the new absolute position.");
 
 #define _IO__IOBASE_SEEK_METHODDEF    \
-    {"seek", _PyCFunction_CAST(_io__IOBase_seek), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _io__IOBase_seek__doc__},
+    {"seek", _PyCFunction_CAST(_io__IOBase_seek), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__IOBase_seek__doc__},
 
 static PyObject *
 _io__IOBase_seek_impl(PyObject *self, PyTypeObject *cls,
@@ -86,7 +86,7 @@ PyDoc_STRVAR(_io__IOBase_tell__doc__,
 "Return current stream position.");
 
 #define _IO__IOBASE_TELL_METHODDEF    \
-    {"tell", (PyCFunction)_io__IOBase_tell, METH_NOARGS, _io__IOBase_tell__doc__},
+    {"tell", (PyCFunction)_io__IOBase_tell, METH_NOARGS|METH_C_STACK_FRUGAL, _io__IOBase_tell__doc__},
 
 static PyObject *
 _io__IOBase_tell_impl(PyObject *self);
@@ -107,7 +107,7 @@ PyDoc_STRVAR(_io__IOBase_truncate__doc__,
 "as reported by tell(). Return the new size.");
 
 #define _IO__IOBASE_TRUNCATE_METHODDEF    \
-    {"truncate", _PyCFunction_CAST(_io__IOBase_truncate), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _io__IOBase_truncate__doc__},
+    {"truncate", _PyCFunction_CAST(_io__IOBase_truncate), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__IOBase_truncate__doc__},
 
 static PyObject *
 _io__IOBase_truncate_impl(PyObject *self, PyTypeObject *cls,
@@ -158,7 +158,7 @@ PyDoc_STRVAR(_io__IOBase_flush__doc__,
 "This is not implemented for read-only and non-blocking streams.");
 
 #define _IO__IOBASE_FLUSH_METHODDEF    \
-    {"flush", (PyCFunction)_io__IOBase_flush, METH_NOARGS, _io__IOBase_flush__doc__},
+    {"flush", (PyCFunction)_io__IOBase_flush, METH_NOARGS|METH_C_STACK_FRUGAL, _io__IOBase_flush__doc__},
 
 static PyObject *
 _io__IOBase_flush_impl(PyObject *self);
@@ -178,7 +178,7 @@ PyDoc_STRVAR(_io__IOBase_close__doc__,
 "This method has no effect if the file is already closed.");
 
 #define _IO__IOBASE_CLOSE_METHODDEF    \
-    {"close", (PyCFunction)_io__IOBase_close, METH_NOARGS, _io__IOBase_close__doc__},
+    {"close", (PyCFunction)_io__IOBase_close, METH_NOARGS|METH_C_STACK_FRUGAL, _io__IOBase_close__doc__},
 
 static PyObject *
 _io__IOBase_close_impl(PyObject *self);
@@ -199,7 +199,7 @@ PyDoc_STRVAR(_io__IOBase_seekable__doc__,
 "This method may need to do a test seek().");
 
 #define _IO__IOBASE_SEEKABLE_METHODDEF    \
-    {"seekable", (PyCFunction)_io__IOBase_seekable, METH_NOARGS, _io__IOBase_seekable__doc__},
+    {"seekable", (PyCFunction)_io__IOBase_seekable, METH_NOARGS|METH_C_STACK_FRUGAL, _io__IOBase_seekable__doc__},
 
 static PyObject *
 _io__IOBase_seekable_impl(PyObject *self);
@@ -219,7 +219,7 @@ PyDoc_STRVAR(_io__IOBase_readable__doc__,
 "If False, read() will raise OSError.");
 
 #define _IO__IOBASE_READABLE_METHODDEF    \
-    {"readable", (PyCFunction)_io__IOBase_readable, METH_NOARGS, _io__IOBase_readable__doc__},
+    {"readable", (PyCFunction)_io__IOBase_readable, METH_NOARGS|METH_C_STACK_FRUGAL, _io__IOBase_readable__doc__},
 
 static PyObject *
 _io__IOBase_readable_impl(PyObject *self);
@@ -239,7 +239,7 @@ PyDoc_STRVAR(_io__IOBase_writable__doc__,
 "If False, write() will raise OSError.");
 
 #define _IO__IOBASE_WRITABLE_METHODDEF    \
-    {"writable", (PyCFunction)_io__IOBase_writable, METH_NOARGS, _io__IOBase_writable__doc__},
+    {"writable", (PyCFunction)_io__IOBase_writable, METH_NOARGS|METH_C_STACK_FRUGAL, _io__IOBase_writable__doc__},
 
 static PyObject *
 _io__IOBase_writable_impl(PyObject *self);
@@ -259,7 +259,7 @@ PyDoc_STRVAR(_io__IOBase_fileno__doc__,
 "Raise OSError if the IO object does not use a file descriptor.");
 
 #define _IO__IOBASE_FILENO_METHODDEF    \
-    {"fileno", _PyCFunction_CAST(_io__IOBase_fileno), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _io__IOBase_fileno__doc__},
+    {"fileno", _PyCFunction_CAST(_io__IOBase_fileno), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__IOBase_fileno__doc__},
 
 static PyObject *
 _io__IOBase_fileno_impl(PyObject *self, PyTypeObject *cls);
@@ -283,7 +283,7 @@ PyDoc_STRVAR(_io__IOBase_isatty__doc__,
 "Return False if it can\'t be determined.");
 
 #define _IO__IOBASE_ISATTY_METHODDEF    \
-    {"isatty", (PyCFunction)_io__IOBase_isatty, METH_NOARGS, _io__IOBase_isatty__doc__},
+    {"isatty", (PyCFunction)_io__IOBase_isatty, METH_NOARGS|METH_C_STACK_FRUGAL, _io__IOBase_isatty__doc__},
 
 static PyObject *
 _io__IOBase_isatty_impl(PyObject *self);
@@ -307,7 +307,7 @@ PyDoc_STRVAR(_io__IOBase_readline__doc__,
 "terminator(s) recognized.");
 
 #define _IO__IOBASE_READLINE_METHODDEF    \
-    {"readline", _PyCFunction_CAST(_io__IOBase_readline), METH_FASTCALL, _io__IOBase_readline__doc__},
+    {"readline", _PyCFunction_CAST(_io__IOBase_readline), METH_FASTCALL|METH_C_STACK_FRUGAL, _io__IOBase_readline__doc__},
 
 static PyObject *
 _io__IOBase_readline_impl(PyObject *self, Py_ssize_t limit);
@@ -345,7 +345,7 @@ PyDoc_STRVAR(_io__IOBase_readlines__doc__,
 "lines so far exceeds hint.");
 
 #define _IO__IOBASE_READLINES_METHODDEF    \
-    {"readlines", _PyCFunction_CAST(_io__IOBase_readlines), METH_FASTCALL, _io__IOBase_readlines__doc__},
+    {"readlines", _PyCFunction_CAST(_io__IOBase_readlines), METH_FASTCALL|METH_C_STACK_FRUGAL, _io__IOBase_readlines__doc__},
 
 static PyObject *
 _io__IOBase_readlines_impl(PyObject *self, Py_ssize_t hint);
@@ -382,7 +382,7 @@ PyDoc_STRVAR(_io__IOBase_writelines__doc__,
 "lines provided to have a line separator at the end.");
 
 #define _IO__IOBASE_WRITELINES_METHODDEF    \
-    {"writelines", (PyCFunction)_io__IOBase_writelines, METH_O, _io__IOBase_writelines__doc__},
+    {"writelines", (PyCFunction)_io__IOBase_writelines, METH_O|METH_C_STACK_FRUGAL, _io__IOBase_writelines__doc__},
 
 PyDoc_STRVAR(_io__RawIOBase_read__doc__,
 "read($self, size=-1, /)\n"
@@ -390,7 +390,7 @@ PyDoc_STRVAR(_io__RawIOBase_read__doc__,
 "\n");
 
 #define _IO__RAWIOBASE_READ_METHODDEF    \
-    {"read", _PyCFunction_CAST(_io__RawIOBase_read), METH_FASTCALL, _io__RawIOBase_read__doc__},
+    {"read", _PyCFunction_CAST(_io__RawIOBase_read), METH_FASTCALL|METH_C_STACK_FRUGAL, _io__RawIOBase_read__doc__},
 
 static PyObject *
 _io__RawIOBase_read_impl(PyObject *self, Py_ssize_t n);
@@ -433,7 +433,7 @@ PyDoc_STRVAR(_io__RawIOBase_readall__doc__,
 "Read until EOF, using multiple read() call.");
 
 #define _IO__RAWIOBASE_READALL_METHODDEF    \
-    {"readall", (PyCFunction)_io__RawIOBase_readall, METH_NOARGS, _io__RawIOBase_readall__doc__},
+    {"readall", (PyCFunction)_io__RawIOBase_readall, METH_NOARGS|METH_C_STACK_FRUGAL, _io__RawIOBase_readall__doc__},
 
 static PyObject *
 _io__RawIOBase_readall_impl(PyObject *self);
@@ -443,4 +443,4 @@ _io__RawIOBase_readall(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return _io__RawIOBase_readall_impl(self);
 }
-/*[clinic end generated code: output=9359e74d95534bef input=a9049054013a1b77]*/
+/*[clinic end generated code: output=f16d147ddfbebebe input=a9049054013a1b77]*/

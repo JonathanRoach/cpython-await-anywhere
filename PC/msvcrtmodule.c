@@ -85,6 +85,7 @@ module msvcrt
 #include "clinic/msvcrtmodule.c.h"
 
 /*[clinic input]
+@c_stack_frugal
 msvcrt.heapmin
 
 Minimize the malloc() heap.
@@ -95,7 +96,7 @@ to the operating system. On failure, this raises OSError.
 
 static PyObject *
 msvcrt_heapmin_impl(PyObject *module)
-/*[clinic end generated code: output=1ba00f344782dc19 input=82e1771d21bde2d8]*/
+/*[clinic end generated code: output=1ba00f344782dc19 input=d4681c7ed0639871]*/
 {
     if (_heapmin() != 0)
         return PyErr_SetFromErrno(PyExc_OSError);
@@ -103,6 +104,7 @@ msvcrt_heapmin_impl(PyObject *module)
     Py_RETURN_NONE;
 }
 /*[clinic input]
+@c_stack_frugal
 msvcrt.locking
 
     fd: int
@@ -122,7 +124,7 @@ individually.
 
 static PyObject *
 msvcrt_locking_impl(PyObject *module, int fd, int mode, long nbytes)
-/*[clinic end generated code: output=a4a90deca9785a03 input=e97bd15fc4a04fef]*/
+/*[clinic end generated code: output=a4a90deca9785a03 input=683be25f6d9ee64d]*/
 {
     int err;
 
@@ -142,6 +144,7 @@ msvcrt_locking_impl(PyObject *module, int fd, int mode, long nbytes)
 }
 
 /*[clinic input]
+@c_stack_frugal
 msvcrt.setmode -> long
 
     fd: int
@@ -158,7 +161,7 @@ Return value is the previous mode.
 
 static long
 msvcrt_setmode_impl(PyObject *module, int fd, int flags)
-/*[clinic end generated code: output=24a9be5ea07ccb9b input=76e7c01f6b137f75]*/
+/*[clinic end generated code: output=24a9be5ea07ccb9b input=7e02a6383e50b53f]*/
 {
     _Py_BEGIN_SUPPRESS_IPH
     flags = _setmode(fd, flags);
@@ -170,6 +173,7 @@ msvcrt_setmode_impl(PyObject *module, int fd, int flags)
 }
 
 /*[clinic input]
+@c_stack_frugal
 msvcrt.open_osfhandle -> long
 
     handle: HANDLE
@@ -185,7 +189,7 @@ to os.fdopen() to create a file object.
 
 static long
 msvcrt_open_osfhandle_impl(PyObject *module, void *handle, int flags)
-/*[clinic end generated code: output=b2fb97c4b515e4e6 input=d5db190a307cf4bb]*/
+/*[clinic end generated code: output=b2fb97c4b515e4e6 input=2b6fde4dda86ea68]*/
 {
     if (PySys_Audit("msvcrt.open_osfhandle", "Ki", handle, flags) < 0) {
         return -1;
@@ -195,6 +199,7 @@ msvcrt_open_osfhandle_impl(PyObject *module, void *handle, int flags)
 }
 
 /*[clinic input]
+@c_stack_frugal
 msvcrt.get_osfhandle -> HANDLE
 
     fd: int
@@ -207,7 +212,7 @@ Raises OSError if fd is not recognized.
 
 static void *
 msvcrt_get_osfhandle_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=aca01dfe24637374 input=5fcfde9b17136aa2]*/
+/*[clinic end generated code: output=aca01dfe24637374 input=fbb684261101b12e]*/
 {
     if (PySys_Audit("msvcrt.get_osfhandle", "(i)", fd) < 0) {
         return NULL;
@@ -218,6 +223,7 @@ msvcrt_get_osfhandle_impl(PyObject *module, int fd)
 
 /* Console I/O */
 /*[clinic input]
+@c_stack_frugal
 msvcrt.kbhit -> long
 
 Returns a nonzero value if a keypress is waiting to be read. Otherwise, return 0.
@@ -225,12 +231,13 @@ Returns a nonzero value if a keypress is waiting to be read. Otherwise, return 0
 
 static long
 msvcrt_kbhit_impl(PyObject *module)
-/*[clinic end generated code: output=940dfce6587c1890 input=d0f4cb3289ff51e2]*/
+/*[clinic end generated code: output=940dfce6587c1890 input=60627018db0c2ff8]*/
 {
     return _kbhit();
 }
 
 /*[clinic input]
+@c_stack_frugal
 msvcrt.getch -> byte_char
 
 Read a keypress and return the resulting character as a byte string.
@@ -244,7 +251,7 @@ cannot be read with this function.
 
 static int
 msvcrt_getch_impl(PyObject *module)
-/*[clinic end generated code: output=a4e51f0565064a7d input=37a40cf0ed0d1153]*/
+/*[clinic end generated code: output=a4e51f0565064a7d input=ce03d18da1da378d]*/
 {
     int ch;
 
@@ -257,6 +264,7 @@ msvcrt_getch_impl(PyObject *module)
 #ifdef MS_WINDOWS_DESKTOP
 
 /*[clinic input]
+@c_stack_frugal
 msvcrt.getwch -> wchar_t
 
 Wide char variant of getch(), returning a Unicode value.
@@ -264,7 +272,7 @@ Wide char variant of getch(), returning a Unicode value.
 
 static wchar_t
 msvcrt_getwch_impl(PyObject *module)
-/*[clinic end generated code: output=be9937494e22f007 input=27b3dec8ad823d7c]*/
+/*[clinic end generated code: output=be9937494e22f007 input=3a0642aad84bb103]*/
 {
     wchar_t ch;
 
@@ -277,6 +285,7 @@ msvcrt_getwch_impl(PyObject *module)
 #endif /* MS_WINDOWS_DESKTOP */
 
 /*[clinic input]
+@c_stack_frugal
 msvcrt.getche -> byte_char
 
 Similar to getch(), but the keypress will be echoed if possible.
@@ -284,7 +293,7 @@ Similar to getch(), but the keypress will be echoed if possible.
 
 static int
 msvcrt_getche_impl(PyObject *module)
-/*[clinic end generated code: output=d8f7db4fd2990401 input=43311ade9ed4a9c0]*/
+/*[clinic end generated code: output=d8f7db4fd2990401 input=6250e15a9dd53cd1]*/
 {
     int ch;
 
@@ -297,6 +306,7 @@ msvcrt_getche_impl(PyObject *module)
 #ifdef MS_WINDOWS_DESKTOP
 
 /*[clinic input]
+@c_stack_frugal
 msvcrt.getwche -> wchar_t
 
 Wide char variant of getche(), returning a Unicode value.
@@ -304,7 +314,7 @@ Wide char variant of getche(), returning a Unicode value.
 
 static wchar_t
 msvcrt_getwche_impl(PyObject *module)
-/*[clinic end generated code: output=d0dae5ba3829d596 input=49337d59d1a591f8]*/
+/*[clinic end generated code: output=d0dae5ba3829d596 input=b38ead5ccc0bf742]*/
 {
     wchar_t ch;
 
@@ -317,6 +327,7 @@ msvcrt_getwche_impl(PyObject *module)
 #endif /* MS_WINDOWS_DESKTOP */
 
 /*[clinic input]
+@c_stack_frugal
 msvcrt.putch
 
     char: char
@@ -327,7 +338,7 @@ Print the byte string char to the console without buffering.
 
 static PyObject *
 msvcrt_putch_impl(PyObject *module, char char_value)
-/*[clinic end generated code: output=92ec9b81012d8f60 input=ec078dd10cb054d6]*/
+/*[clinic end generated code: output=92ec9b81012d8f60 input=7dedbac2155c9148]*/
 {
     _Py_BEGIN_SUPPRESS_IPH
     _putch(char_value);
@@ -338,6 +349,7 @@ msvcrt_putch_impl(PyObject *module, char char_value)
 #ifdef MS_WINDOWS_DESKTOP
 
 /*[clinic input]
+@c_stack_frugal
 msvcrt.putwch
 
     unicode_char: int(accept={str})
@@ -348,7 +360,7 @@ Wide char variant of putch(), accepting a Unicode value.
 
 static PyObject *
 msvcrt_putwch_impl(PyObject *module, int unicode_char)
-/*[clinic end generated code: output=a3bd1a8951d28eee input=996ccd0bbcbac4c3]*/
+/*[clinic end generated code: output=a3bd1a8951d28eee input=e35822b2abf3f0ed]*/
 {
     _Py_BEGIN_SUPPRESS_IPH
     _putwch(unicode_char);
@@ -360,6 +372,7 @@ msvcrt_putwch_impl(PyObject *module, int unicode_char)
 #endif /* MS_WINDOWS_DESKTOP */
 
 /*[clinic input]
+@c_stack_frugal
 msvcrt.ungetch
 
     char: char
@@ -374,7 +387,7 @@ getch() or getche().
 
 static PyObject *
 msvcrt_ungetch_impl(PyObject *module, char char_value)
-/*[clinic end generated code: output=c6942a0efa119000 input=22f07ee9001bbf0f]*/
+/*[clinic end generated code: output=c6942a0efa119000 input=a0fefcc48a5bc5e3]*/
 {
     int res;
 
@@ -390,6 +403,7 @@ msvcrt_ungetch_impl(PyObject *module, char char_value)
 #ifdef MS_WINDOWS_DESKTOP
 
 /*[clinic input]
+@c_stack_frugal
 msvcrt.ungetwch
 
     unicode_char: int(accept={str})
@@ -400,7 +414,7 @@ Wide char variant of ungetch(), accepting a Unicode value.
 
 static PyObject *
 msvcrt_ungetwch_impl(PyObject *module, int unicode_char)
-/*[clinic end generated code: output=e63af05438b8ba3d input=83ec0492be04d564]*/
+/*[clinic end generated code: output=e63af05438b8ba3d input=ef5fdbdf6795cfb8]*/
 {
     int res;
 
@@ -417,6 +431,7 @@ msvcrt_ungetwch_impl(PyObject *module, int unicode_char)
 
 #ifdef _DEBUG
 /*[clinic input]
+@c_stack_frugal
 msvcrt.CrtSetReportFile -> HANDLE
 
     type: int
@@ -430,7 +445,7 @@ Only available on Debug builds.
 
 static void *
 msvcrt_CrtSetReportFile_impl(PyObject *module, int type, void *file)
-/*[clinic end generated code: output=9393e8c77088bbe9 input=290809b5f19e65b9]*/
+/*[clinic end generated code: output=9393e8c77088bbe9 input=04c67eb1ac88a901]*/
 {
     HANDLE res;
 
@@ -442,6 +457,7 @@ msvcrt_CrtSetReportFile_impl(PyObject *module, int type, void *file)
 }
 
 /*[clinic input]
+@c_stack_frugal
 msvcrt.CrtSetReportMode -> long
 
     type: int
@@ -455,7 +471,7 @@ Only available on Debug builds.
 
 static long
 msvcrt_CrtSetReportMode_impl(PyObject *module, int type, int mode)
-/*[clinic end generated code: output=b2863761523de317 input=9319d29b4319426b]*/
+/*[clinic end generated code: output=b2863761523de317 input=930a7c5e06759bc9]*/
 {
     int res;
 
@@ -468,6 +484,7 @@ msvcrt_CrtSetReportMode_impl(PyObject *module, int type, int mode)
 }
 
 /*[clinic input]
+@c_stack_frugal
 msvcrt.set_error_mode -> long
 
     mode: int
@@ -480,7 +497,7 @@ Only available on Debug builds.
 
 static long
 msvcrt_set_error_mode_impl(PyObject *module, int mode)
-/*[clinic end generated code: output=ac4a09040d8ac4e3 input=046fca59c0f20872]*/
+/*[clinic end generated code: output=ac4a09040d8ac4e3 input=63b687341f4ad903]*/
 {
     long res;
 
@@ -495,6 +512,7 @@ msvcrt_set_error_mode_impl(PyObject *module, int mode)
 #if defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_APP) || defined(MS_WINDOWS_SYSTEM)
 
 /*[clinic input]
+@c_stack_frugal
 msvcrt.GetErrorMode
 
 Wrapper around GetErrorMode.
@@ -502,7 +520,7 @@ Wrapper around GetErrorMode.
 
 static PyObject *
 msvcrt_GetErrorMode_impl(PyObject *module)
-/*[clinic end generated code: output=3103fc6145913591 input=5a7fb083b6dd71fd]*/
+/*[clinic end generated code: output=3103fc6145913591 input=701e8b6cea03d220]*/
 {
     unsigned int res;
 
@@ -516,6 +534,7 @@ msvcrt_GetErrorMode_impl(PyObject *module)
 #endif /* MS_WINDOWS_APP || MS_WINDOWS_SYSTEM */
 
 /*[clinic input]
+@c_stack_frugal
 msvcrt.SetErrorMode
 
     mode: unsigned_int(bitwise=True)
@@ -526,7 +545,7 @@ Wrapper around SetErrorMode.
 
 static PyObject *
 msvcrt_SetErrorMode_impl(PyObject *module, unsigned int mode)
-/*[clinic end generated code: output=01d529293f00da8f input=d8b167258d32d907]*/
+/*[clinic end generated code: output=01d529293f00da8f input=39c4891a304f31eb]*/
 {
     unsigned int res;
 
@@ -538,8 +557,9 @@ msvcrt_SetErrorMode_impl(PyObject *module, unsigned int mode)
 }
 
 /*[clinic input]
+@c_stack_frugal
 [clinic start generated code]*/
-/*[clinic end generated code: output=da39a3ee5e6b4b0d input=da39a3ee5e6b4b0d]*/
+/*[clinic end generated code: output=da39a3ee5e6b4b0d input=7bc1257f987ac0a8]*/
 
 /* List of functions exported by this module */
 static struct PyMethodDef msvcrt_functions[] = {

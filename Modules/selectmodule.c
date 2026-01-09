@@ -241,6 +241,7 @@ set2list(fd_set *set, pylist fd2obj[FD_SETSIZE + 1])
 #endif /* FD_SETSIZE > 1024 */
 
 /*[clinic input]
+@c_stack_frugal
 select.select
 
     rlist: object
@@ -276,7 +277,7 @@ descriptors can be used.
 static PyObject *
 select_select_impl(PyObject *module, PyObject *rlist, PyObject *wlist,
                    PyObject *xlist, PyObject *timeout_obj)
-/*[clinic end generated code: output=2b3cfa824f7ae4cf input=1199d5e101abca4a]*/
+/*[clinic end generated code: output=2b3cfa824f7ae4cf input=ebaf4f316fe73524]*/
 {
 #ifdef SELECT_USES_HEAP
     pylist *rfd2obj, *wfd2obj, *efd2obj;
@@ -474,6 +475,7 @@ update_ufd_array(pollObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 select.poll.register
 
@@ -488,7 +490,7 @@ Register a file descriptor with the polling object.
 
 static PyObject *
 select_poll_register_impl(pollObject *self, int fd, unsigned short eventmask)
-/*[clinic end generated code: output=0dc7173c800a4a65 input=c475e029ce6c2830]*/
+/*[clinic end generated code: output=0dc7173c800a4a65 input=4945a1f8031af12a]*/
 {
     PyObject *key, *value;
     int err;
@@ -516,6 +518,7 @@ select_poll_register_impl(pollObject *self, int fd, unsigned short eventmask)
 
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 select.poll.modify
 
@@ -531,7 +534,7 @@ Modify an already registered file descriptor.
 
 static PyObject *
 select_poll_modify_impl(pollObject *self, int fd, unsigned short eventmask)
-/*[clinic end generated code: output=1a7b88bf079eff17 input=38c9db5346711872]*/
+/*[clinic end generated code: output=1a7b88bf079eff17 input=6c827cb1be2d3115]*/
 {
     PyObject *key, *value;
     int err;
@@ -569,6 +572,7 @@ select_poll_modify_impl(pollObject *self, int fd, unsigned short eventmask)
 
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 select.poll.unregister
 
@@ -580,7 +584,7 @@ Remove a file descriptor being tracked by the polling object.
 
 static PyObject *
 select_poll_unregister_impl(pollObject *self, int fd)
-/*[clinic end generated code: output=8c9f42e75e7d291b input=ae6315d7f5243704]*/
+/*[clinic end generated code: output=8c9f42e75e7d291b input=8f89d1bfa29ef712]*/
 {
     PyObject *key;
 
@@ -603,6 +607,7 @@ select_poll_unregister_impl(pollObject *self, int fd)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 select.poll.poll
 
@@ -619,7 +624,7 @@ report, as a list of (fd, event) 2-tuples.
 
 static PyObject *
 select_poll_poll_impl(pollObject *self, PyObject *timeout_obj)
-/*[clinic end generated code: output=876e837d193ed7e4 input=54310631457efdec]*/
+/*[clinic end generated code: output=876e837d193ed7e4 input=0a138fcdcf02b391]*/
 {
     PyObject *result_list = NULL;
     int poll_result, i, j;
@@ -866,6 +871,7 @@ internal_devpoll_register(devpollObject *self, int fd,
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 select.devpoll.register
 
@@ -882,12 +888,13 @@ Register a file descriptor with the polling object.
 static PyObject *
 select_devpoll_register_impl(devpollObject *self, int fd,
                              unsigned short eventmask)
-/*[clinic end generated code: output=6e07fe8b74abba0c input=8d48bd2653a61c42]*/
+/*[clinic end generated code: output=6e07fe8b74abba0c input=5a1d68cffc526278]*/
 {
     return internal_devpoll_register(self, fd, eventmask, 0);
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 select.devpoll.modify
 
@@ -904,12 +911,13 @@ Modify a possible already registered file descriptor.
 static PyObject *
 select_devpoll_modify_impl(devpollObject *self, int fd,
                            unsigned short eventmask)
-/*[clinic end generated code: output=bc2e6d23aaff98b4 input=773b37e9abca2460]*/
+/*[clinic end generated code: output=bc2e6d23aaff98b4 input=6e25cfd1784fc91a]*/
 {
     return internal_devpoll_register(self, fd, eventmask, 1);
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 select.devpoll.unregister
 
@@ -921,7 +929,7 @@ Remove a file descriptor being tracked by the polling object.
 
 static PyObject *
 select_devpoll_unregister_impl(devpollObject *self, int fd)
-/*[clinic end generated code: output=95519ffa0c7d43fe input=6052d368368d4d05]*/
+/*[clinic end generated code: output=95519ffa0c7d43fe input=88297d0eadcb6731]*/
 {
     if (self->fd_devpoll < 0)
         return devpoll_err_closed();
@@ -938,6 +946,7 @@ select_devpoll_unregister_impl(devpollObject *self, int fd)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 select.devpoll.poll
     timeout as timeout_obj: object = None
@@ -953,7 +962,7 @@ report, as a list of (fd, event) 2-tuples.
 
 static PyObject *
 select_devpoll_poll_impl(devpollObject *self, PyObject *timeout_obj)
-/*[clinic end generated code: output=2654e5457cca0b3c input=fe7a3f6dcbc118c5]*/
+/*[clinic end generated code: output=2654e5457cca0b3c input=3a02358bdab5ca01]*/
 {
     struct dvpoll dvp;
     PyObject *result_list = NULL;
@@ -1072,6 +1081,7 @@ devpoll_internal_close(devpollObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 select.devpoll.close
 
@@ -1082,7 +1092,7 @@ Further operations on the devpoll object will raise an exception.
 
 static PyObject *
 select_devpoll_close_impl(devpollObject *self)
-/*[clinic end generated code: output=26b355bd6429f21b input=408fde21a377ccfb]*/
+/*[clinic end generated code: output=26b355bd6429f21b input=d1402f7d149eed77]*/
 {
     errno = devpoll_internal_close(self);
     if (errno < 0) {
@@ -1103,6 +1113,7 @@ devpoll_get_closed(PyObject *op, void *Py_UNUSED(closure))
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 select.devpoll.fileno
 
@@ -1111,7 +1122,7 @@ Return the file descriptor.
 
 static PyObject *
 select_devpoll_fileno_impl(devpollObject *self)
-/*[clinic end generated code: output=26920929f8d292f4 input=8c9db2efa1ade538]*/
+/*[clinic end generated code: output=26920929f8d292f4 input=7c380b438ebbc605]*/
 {
     if (self->fd_devpoll < 0)
         return devpoll_err_closed();
@@ -1199,6 +1210,7 @@ static PyType_Spec devpoll_Type_spec = {
 
 
 /*[clinic input]
+@c_stack_frugal
 select.poll
 
 Returns a polling object.
@@ -1209,7 +1221,7 @@ polling them for I/O events.
 
 static PyObject *
 select_poll_impl(PyObject *module)
-/*[clinic end generated code: output=16a665a4e1d228c5 input=3f877909d5696bbf]*/
+/*[clinic end generated code: output=16a665a4e1d228c5 input=a9ac1696315cdd6d]*/
 {
     return (PyObject *)newPollObject(module);
 }
@@ -1217,6 +1229,7 @@ select_poll_impl(PyObject *module)
 #ifdef HAVE_SYS_DEVPOLL_H
 
 /*[clinic input]
+@c_stack_frugal
 select.devpoll
 
 Returns a polling object.
@@ -1227,7 +1240,7 @@ polling them for I/O events.
 
 static PyObject *
 select_devpoll_impl(PyObject *module)
-/*[clinic end generated code: output=ea9213cc87fd9581 input=53a1af94564f00a3]*/
+/*[clinic end generated code: output=ea9213cc87fd9581 input=ad0f8db3c490f8a4]*/
 {
     return (PyObject *)newDevPollObject(module);
 }
@@ -1348,6 +1361,7 @@ newPyEpoll_Object(PyTypeObject *type, int sizehint, SOCKET fd)
 
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 select.epoll.__new__
 
@@ -1365,7 +1379,7 @@ Returns an epolling object.
 
 static PyObject *
 select_epoll_impl(PyTypeObject *type, int sizehint, int flags)
-/*[clinic end generated code: output=c87404e705013bb5 input=303e3295e7975e43]*/
+/*[clinic end generated code: output=c87404e705013bb5 input=831799e1c9e9d34b]*/
 {
     if (sizehint == -1) {
         sizehint = FD_SETSIZE - 1;
@@ -1398,6 +1412,7 @@ pyepoll_dealloc(PyObject *op)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 select.epoll.close
 
@@ -1408,7 +1423,7 @@ Further operations on the epoll object will raise an exception.
 
 static PyObject *
 select_epoll_close_impl(pyEpoll_Object *self)
-/*[clinic end generated code: output=ee2144c446a1a435 input=f626a769192e1dbe]*/
+/*[clinic end generated code: output=ee2144c446a1a435 input=9f24a202c236dba6]*/
 {
     errno = pyepoll_internal_close(self);
     if (errno < 0) {
@@ -1430,6 +1445,7 @@ pyepoll_get_closed(PyObject *op, void *Py_UNUSED(closure))
 }
 
 /*[clinic input]
+@c_stack_frugal
 select.epoll.fileno
 
 Return the epoll control file descriptor.
@@ -1437,7 +1453,7 @@ Return the epoll control file descriptor.
 
 static PyObject *
 select_epoll_fileno_impl(pyEpoll_Object *self)
-/*[clinic end generated code: output=e171375fdc619ba3 input=c11091a6aee60b5c]*/
+/*[clinic end generated code: output=e171375fdc619ba3 input=02343ffad0bb9d1c]*/
 {
     if (self->epfd < 0)
         return pyepoll_err_closed();
@@ -1446,6 +1462,7 @@ select_epoll_fileno_impl(pyEpoll_Object *self)
 
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 select.epoll.fromfd
 
@@ -1457,7 +1474,7 @@ Create an epoll object from a given control fd.
 
 static PyObject *
 select_epoll_fromfd_impl(PyTypeObject *type, int fd)
-/*[clinic end generated code: output=c15de2a083524e8e input=faecefdb55e3046e]*/
+/*[clinic end generated code: output=c15de2a083524e8e input=ef9d34d733ca4714]*/
 {
     SOCKET s_fd = (SOCKET)fd;
     return newPyEpoll_Object(type, FD_SETSIZE - 1, s_fd);
@@ -1503,6 +1520,7 @@ pyepoll_internal_ctl(int epfd, int op, int fd, unsigned int events)
 }
 
 /*[clinic input]
+@c_stack_frugal
 select.epoll.register
 
     fd: fildes
@@ -1518,12 +1536,13 @@ The epoll interface supports all file descriptors that support poll.
 static PyObject *
 select_epoll_register_impl(pyEpoll_Object *self, int fd,
                            unsigned int eventmask)
-/*[clinic end generated code: output=318e5e6386520599 input=a5071b71edfe3578]*/
+/*[clinic end generated code: output=318e5e6386520599 input=a4914353154da81e]*/
 {
     return pyepoll_internal_ctl(self->epfd, EPOLL_CTL_ADD, fd, eventmask);
 }
 
 /*[clinic input]
+@c_stack_frugal
 select.epoll.modify
 
     fd: fildes
@@ -1537,12 +1556,13 @@ Modify event mask for a registered file descriptor.
 static PyObject *
 select_epoll_modify_impl(pyEpoll_Object *self, int fd,
                          unsigned int eventmask)
-/*[clinic end generated code: output=7e3447307cff6f65 input=88a83dac53a8c3da]*/
+/*[clinic end generated code: output=7e3447307cff6f65 input=0470fdecfb4e54ae]*/
 {
     return pyepoll_internal_ctl(self->epfd, EPOLL_CTL_MOD, fd, eventmask);
 }
 
 /*[clinic input]
+@c_stack_frugal
 select.epoll.unregister
 
     fd: fildes
@@ -1553,12 +1573,13 @@ Remove a registered file descriptor from the epoll object.
 
 static PyObject *
 select_epoll_unregister_impl(pyEpoll_Object *self, int fd)
-/*[clinic end generated code: output=07c5dbd612a512d4 input=3093f68d3644743d]*/
+/*[clinic end generated code: output=07c5dbd612a512d4 input=16f33748beae3bd0]*/
 {
     return pyepoll_internal_ctl(self->epfd, EPOLL_CTL_DEL, fd, 0);
 }
 
 /*[clinic input]
+@c_stack_frugal
 select.epoll.poll
 
     timeout as timeout_obj: object = None
@@ -1576,7 +1597,7 @@ as a list of (fd, events) 2-tuples.
 static PyObject *
 select_epoll_poll_impl(pyEpoll_Object *self, PyObject *timeout_obj,
                        int maxevents)
-/*[clinic end generated code: output=e02d121a20246c6c input=33d34a5ea430fd5b]*/
+/*[clinic end generated code: output=e02d121a20246c6c input=29dba5cca8209758]*/
 {
     int nfds, i;
     PyObject *elist = NULL, *etuple = NULL;
@@ -1685,13 +1706,14 @@ select_epoll_poll_impl(pyEpoll_Object *self, PyObject *timeout_obj,
 
 
 /*[clinic input]
+@c_stack_frugal
 select.epoll.__enter__
 
 [clinic start generated code]*/
 
 static PyObject *
 select_epoll___enter___impl(pyEpoll_Object *self)
-/*[clinic end generated code: output=ab45d433504db2a0 input=3c22568587efeadb]*/
+/*[clinic end generated code: output=ab45d433504db2a0 input=4e7cc0d87cf11d1c]*/
 {
     if (self->epfd < 0)
         return pyepoll_err_closed();
@@ -1700,6 +1722,7 @@ select_epoll___enter___impl(pyEpoll_Object *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 select.epoll.__exit__
 
     exc_type:  object = None
@@ -1712,7 +1735,7 @@ select.epoll.__exit__
 static PyObject *
 select_epoll___exit___impl(pyEpoll_Object *self, PyObject *exc_type,
                            PyObject *exc_value, PyObject *exc_tb)
-/*[clinic end generated code: output=c480f38ce361748e input=7ae81a5a4c1a98d8]*/
+/*[clinic end generated code: output=c480f38ce361748e input=5fe66c479d171466]*/
 {
     _selectstate *state = _selectstate_by_type(Py_TYPE(self));
     return PyObject_CallMethodObjArgs((PyObject *)self, state->close, NULL);
@@ -2179,6 +2202,7 @@ newKqueue_Object(PyTypeObject *type, SOCKET fd)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 select.kqueue.__new__
 
@@ -2199,7 +2223,7 @@ To stop listening:
 
 static PyObject *
 select_kqueue_impl(PyTypeObject *type)
-/*[clinic end generated code: output=e0ff89f154d56236 input=cf625e49218366e8]*/
+/*[clinic end generated code: output=e0ff89f154d56236 input=64b5ebc7fdeb0628]*/
 {
     return newKqueue_Object(type, -1);
 }
@@ -2214,6 +2238,7 @@ kqueue_queue_finalize(PyObject *op)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 select.kqueue.close
 
@@ -2224,7 +2249,7 @@ Further operations on the kqueue object will raise an exception.
 
 static PyObject *
 select_kqueue_close_impl(kqueue_queue_Object *self)
-/*[clinic end generated code: output=d1c7df0b407a4bc1 input=6d763c858b17b690]*/
+/*[clinic end generated code: output=d1c7df0b407a4bc1 input=74ee141e3f0b28b0]*/
 {
     errno = kqueue_queue_internal_close(self);
     if (errno < 0) {
@@ -2245,6 +2270,7 @@ kqueue_queue_get_closed(PyObject *op, void *Py_UNUSED(closure))
 }
 
 /*[clinic input]
+@c_stack_frugal
 select.kqueue.fileno
 
 Return the kqueue control file descriptor.
@@ -2252,7 +2278,7 @@ Return the kqueue control file descriptor.
 
 static PyObject *
 select_kqueue_fileno_impl(kqueue_queue_Object *self)
-/*[clinic end generated code: output=716f46112a4f6e5c input=41911c539ca2b0ca]*/
+/*[clinic end generated code: output=716f46112a4f6e5c input=0b4a25a21d637794]*/
 {
     if (self->kqfd < 0)
         return kqueue_queue_err_closed();
@@ -2260,6 +2286,7 @@ select_kqueue_fileno_impl(kqueue_queue_Object *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 select.kqueue.fromfd
 
@@ -2271,7 +2298,7 @@ Create a kqueue object from a given control fd.
 
 static PyObject *
 select_kqueue_fromfd_impl(PyTypeObject *type, int fd)
-/*[clinic end generated code: output=d02c3c7dc538a653 input=f6172a48ca4ecdd0]*/
+/*[clinic end generated code: output=d02c3c7dc538a653 input=19a9fea06bc9b490]*/
 {
     SOCKET s_fd = (SOCKET)fd;
 
@@ -2279,6 +2306,7 @@ select_kqueue_fromfd_impl(PyTypeObject *type, int fd)
 }
 
 /*[clinic input]
+@c_stack_frugal
 select.kqueue.control
 
     changelist: object
@@ -2297,7 +2325,7 @@ Calls the kernel kevent function.
 static PyObject *
 select_kqueue_control_impl(kqueue_queue_Object *self, PyObject *changelist,
                            int maxevents, PyObject *otimeout)
-/*[clinic end generated code: output=81324ff5130db7ae input=59c4e30811209c47]*/
+/*[clinic end generated code: output=81324ff5130db7ae input=521ef43fab896c0d]*/
 {
     int gotevents = 0;
     int nchanges = 0;

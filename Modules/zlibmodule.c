@@ -322,6 +322,7 @@ arrange_input_buffer(z_stream *zst, Py_ssize_t *remains)
 }
 
 /*[clinic input]
+@c_stack_frugal
 zlib.compress
 
     data: Py_buffer
@@ -337,7 +338,7 @@ Returns a bytes object containing compressed data.
 
 static PyObject *
 zlib_compress_impl(PyObject *module, Py_buffer *data, int level, int wbits)
-/*[clinic end generated code: output=46bd152fadd66df2 input=c4d06ee5782a7e3f]*/
+/*[clinic end generated code: output=46bd152fadd66df2 input=91b59aa9d0d77721]*/
 {
     PyObject *return_value;
     int flush;
@@ -420,6 +421,7 @@ zlib_compress_impl(PyObject *module, Py_buffer *data, int level, int wbits)
 }
 
 /*[clinic input]
+@c_stack_frugal
 zlib.decompress
 
     data: Py_buffer
@@ -436,7 +438,7 @@ Returns a bytes object containing the uncompressed data.
 static PyObject *
 zlib_decompress_impl(PyObject *module, Py_buffer *data, int wbits,
                      Py_ssize_t bufsize)
-/*[clinic end generated code: output=77c7e35111dc8c42 input=a9ac17beff1f893f]*/
+/*[clinic end generated code: output=77c7e35111dc8c42 input=87a68aa8ed179abb]*/
 {
     PyObject *return_value;
     Byte *ibuf;
@@ -544,6 +546,7 @@ zlib_decompress_impl(PyObject *module, Py_buffer *data, int wbits,
 }
 
 /*[clinic input]
+@c_stack_frugal
 zlib.compressobj
 
     level: int(c_default="Z_DEFAULT_COMPRESSION") = Z_DEFAULT_COMPRESSION
@@ -574,7 +577,7 @@ Return a compressor object.
 static PyObject *
 zlib_compressobj_impl(PyObject *module, int level, int method, int wbits,
                       int memLevel, int strategy, Py_buffer *zdict)
-/*[clinic end generated code: output=8b5bed9c8fc3814d input=2fa3d026f90ab8d5]*/
+/*[clinic end generated code: output=8b5bed9c8fc3814d input=340ca7b01a1d38f6]*/
 {
     zlibstate *state = get_zlib_state(module);
     if (zdict->buf != NULL && (size_t)zdict->len > UINT_MAX) {
@@ -654,6 +657,7 @@ set_inflate_zdict(zlibstate *state, compobject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 zlib.decompressobj
 
     wbits: int(c_default="MAX_WBITS") = MAX_WBITS
@@ -667,7 +671,7 @@ Return a decompressor object.
 
 static PyObject *
 zlib_decompressobj_impl(PyObject *module, int wbits, PyObject *zdict)
-/*[clinic end generated code: output=3069b99994f36906 input=d3832b8511fc977b]*/
+/*[clinic end generated code: output=3069b99994f36906 input=607e8a8693d71355]*/
 {
     zlibstate *state = get_zlib_state(module);
 
@@ -746,6 +750,7 @@ Decomp_dealloc(PyObject *op)
 }
 
 /*[clinic input]
+@c_stack_frugal
 zlib.Compress.compress
 
     cls: defining_class
@@ -763,7 +768,7 @@ Call the flush() method to clear these buffers.
 static PyObject *
 zlib_Compress_compress_impl(compobject *self, PyTypeObject *cls,
                             Py_buffer *data)
-/*[clinic end generated code: output=6731b3f0ff357ca6 input=04d00f65ab01d260]*/
+/*[clinic end generated code: output=6731b3f0ff357ca6 input=0ef09fe651cc9383]*/
 {
     PyObject *return_value;
     int err;
@@ -862,6 +867,7 @@ save_unconsumed_input(compobject *self, Py_buffer *data, int err)
 }
 
 /*[clinic input]
+@c_stack_frugal
 zlib.Decompress.decompress
 
     cls: defining_class
@@ -883,7 +889,7 @@ Call the flush() method to clear these buffers.
 static PyObject *
 zlib_Decompress_decompress_impl(compobject *self, PyTypeObject *cls,
                                 Py_buffer *data, Py_ssize_t max_length)
-/*[clinic end generated code: output=b024a93c2c922d57 input=bfb37b3864cfb606]*/
+/*[clinic end generated code: output=b024a93c2c922d57 input=825ac21489b0b78d]*/
 {
     int err = Z_OK;
     Py_ssize_t ibuflen;
@@ -979,6 +985,7 @@ zlib_Decompress_decompress_impl(compobject *self, PyTypeObject *cls,
 }
 
 /*[clinic input]
+@c_stack_frugal
 zlib.Compress.flush
 
     cls: defining_class
@@ -994,7 +1001,7 @@ Return a bytes object containing any remaining compressed data.
 
 static PyObject *
 zlib_Compress_flush_impl(compobject *self, PyTypeObject *cls, int mode)
-/*[clinic end generated code: output=c7efd13efd62add2 input=286146e29442eb6c]*/
+/*[clinic end generated code: output=c7efd13efd62add2 input=27e71bd94686b316]*/
 {
     int err;
     PyObject *return_value;
@@ -1070,6 +1077,7 @@ success:
 #ifdef HAVE_ZLIB_COPY
 
 /*[clinic input]
+@c_stack_frugal
 zlib.Compress.copy
 
     cls: defining_class
@@ -1079,7 +1087,7 @@ Return a copy of the compression object.
 
 static PyObject *
 zlib_Compress_copy_impl(compobject *self, PyTypeObject *cls)
-/*[clinic end generated code: output=c4d2cfb4b0d7350b input=235497e482d40986]*/
+/*[clinic end generated code: output=c4d2cfb4b0d7350b input=86f6119a4cce3584]*/
 {
     zlibstate *state = PyType_GetModuleState(cls);
 
@@ -1123,6 +1131,7 @@ error:
 }
 
 /*[clinic input]
+@c_stack_frugal
 zlib.Compress.__copy__
 
     cls: defining_class
@@ -1131,12 +1140,13 @@ zlib.Compress.__copy__
 
 static PyObject *
 zlib_Compress___copy___impl(compobject *self, PyTypeObject *cls)
-/*[clinic end generated code: output=074613db332cb668 input=5c0188367ab0fe64]*/
+/*[clinic end generated code: output=074613db332cb668 input=856de025e6cd9af4]*/
 {
     return zlib_Compress_copy_impl(self, cls);
 }
 
 /*[clinic input]
+@c_stack_frugal
 zlib.Compress.__deepcopy__
 
     cls: defining_class
@@ -1148,12 +1158,13 @@ zlib.Compress.__deepcopy__
 static PyObject *
 zlib_Compress___deepcopy___impl(compobject *self, PyTypeObject *cls,
                                 PyObject *memo)
-/*[clinic end generated code: output=24b3aed785f54033 input=c90347319a514430]*/
+/*[clinic end generated code: output=24b3aed785f54033 input=a06b03b74f110ce1]*/
 {
     return zlib_Compress_copy_impl(self, cls);
 }
 
 /*[clinic input]
+@c_stack_frugal
 zlib.Decompress.copy
 
     cls: defining_class
@@ -1163,7 +1174,7 @@ Return a copy of the decompression object.
 
 static PyObject *
 zlib_Decompress_copy_impl(compobject *self, PyTypeObject *cls)
-/*[clinic end generated code: output=a7ddc016e1d0a781 input=20ef3aa208282ff2]*/
+/*[clinic end generated code: output=a7ddc016e1d0a781 input=4c93cb811df18e21]*/
 {
     zlibstate *state = PyType_GetModuleState(cls);
 
@@ -1208,6 +1219,7 @@ error:
 }
 
 /*[clinic input]
+@c_stack_frugal
 zlib.Decompress.__copy__
 
     cls: defining_class
@@ -1216,12 +1228,13 @@ zlib.Decompress.__copy__
 
 static PyObject *
 zlib_Decompress___copy___impl(compobject *self, PyTypeObject *cls)
-/*[clinic end generated code: output=cf1e6473744f53fa input=cc3143067b622bdf]*/
+/*[clinic end generated code: output=cf1e6473744f53fa input=667276a325344f5e]*/
 {
     return zlib_Decompress_copy_impl(self, cls);
 }
 
 /*[clinic input]
+@c_stack_frugal
 zlib.Decompress.__deepcopy__
 
     cls: defining_class
@@ -1233,7 +1246,7 @@ zlib.Decompress.__deepcopy__
 static PyObject *
 zlib_Decompress___deepcopy___impl(compobject *self, PyTypeObject *cls,
                                   PyObject *memo)
-/*[clinic end generated code: output=34f7b719a0c0d51b input=fc13b9c58622544e]*/
+/*[clinic end generated code: output=34f7b719a0c0d51b input=8025fbee5e945c2f]*/
 {
     return zlib_Decompress_copy_impl(self, cls);
 }
@@ -1241,6 +1254,7 @@ zlib_Decompress___deepcopy___impl(compobject *self, PyTypeObject *cls,
 #endif
 
 /*[clinic input]
+@c_stack_frugal
 zlib.Decompress.flush
 
     cls: defining_class
@@ -1254,7 +1268,7 @@ Return a bytes object containing any remaining decompressed data.
 static PyObject *
 zlib_Decompress_flush_impl(compobject *self, PyTypeObject *cls,
                            Py_ssize_t length)
-/*[clinic end generated code: output=4532fc280bd0f8f2 input=42f1f4b75230e2cd]*/
+/*[clinic end generated code: output=4532fc280bd0f8f2 input=29bcebc9fb8e9554]*/
 {
     int err, flush;
     Py_buffer data;
@@ -1668,6 +1682,7 @@ error:
 }
 
 /*[clinic input]
+@c_stack_frugal
 zlib.ZlibDecompressor.decompress
 
     data: Py_buffer
@@ -1692,7 +1707,7 @@ the unused_data attribute.
 static PyObject *
 zlib_ZlibDecompressor_decompress_impl(ZlibDecompressor *self,
                                       Py_buffer *data, Py_ssize_t max_length)
-/*[clinic end generated code: output=990d32787b775f85 input=0b29d99715250b96]*/
+/*[clinic end generated code: output=990d32787b775f85 input=d12a99ce105ac537]*/
 
 {
     PyObject *result = NULL;
@@ -1848,6 +1863,7 @@ static PyMemberDef ZlibDecompressor_members[] = {
 
 
 /*[clinic input]
+@c_stack_frugal
 zlib.adler32
 
     data: Py_buffer
@@ -1862,7 +1878,7 @@ The returned checksum is an integer.
 
 static PyObject *
 zlib_adler32_impl(PyObject *module, Py_buffer *data, unsigned int value)
-/*[clinic end generated code: output=422106f5ca8c92c0 input=6ff4557872160e88]*/
+/*[clinic end generated code: output=422106f5ca8c92c0 input=367662f4f647329f]*/
 {
     /* Releasing the GIL for very small buffers is inefficient
        and may lower performance */
@@ -1887,6 +1903,7 @@ zlib_adler32_impl(PyObject *module, Py_buffer *data, unsigned int value)
 }
 
 /*[clinic input]
+@c_stack_frugal
 zlib.adler32_combine -> unsigned_int
 
     adler1: unsigned_int(bitwise=True)
@@ -1909,7 +1926,7 @@ return the Adler-32 checksum of A and B concatenated.
 static unsigned int
 zlib_adler32_combine_impl(PyObject *module, unsigned int adler1,
                           unsigned int adler2, PyObject *len2)
-/*[clinic end generated code: output=61842cefb16afb1b input=51bb045c95130c6f]*/
+/*[clinic end generated code: output=61842cefb16afb1b input=dbe8c773a2d210ae]*/
 {
 #if defined(Z_WANT64)
     z_off64_t len = convert_to_z_off_t(len2);
@@ -1925,6 +1942,7 @@ zlib_adler32_combine_impl(PyObject *module, unsigned int adler1,
 
 
 /*[clinic input]
+@c_stack_frugal
 zlib.crc32 -> unsigned_int
 
     data: Py_buffer
@@ -1939,7 +1957,7 @@ The returned checksum is an integer.
 
 static unsigned int
 zlib_crc32_impl(PyObject *module, Py_buffer *data, unsigned int value)
-/*[clinic end generated code: output=b217562e4fe6d6a6 input=1229cb2fb5ea948a]*/
+/*[clinic end generated code: output=b217562e4fe6d6a6 input=9f2ae6a365292fd5]*/
 {
     /* Releasing the GIL for very small buffers is inefficient
        and may lower performance */
@@ -1972,6 +1990,7 @@ zlib_crc32_impl(PyObject *module, Py_buffer *data, unsigned int value)
 }
 
 /*[clinic input]
+@c_stack_frugal
 zlib.crc32_combine -> unsigned_int
 
     crc1: unsigned_int(bitwise=True)
@@ -1994,7 +2013,7 @@ return the CRC-32 checksum of A and B concatenated.
 static unsigned int
 zlib_crc32_combine_impl(PyObject *module, unsigned int crc1,
                         unsigned int crc2, PyObject *len2)
-/*[clinic end generated code: output=c4def907c602e6eb input=9c8a065d9040dc66]*/
+/*[clinic end generated code: output=c4def907c602e6eb input=dd9c71b17ce855ac]*/
 {
 #if defined(Z_WANT64)
     z_off64_t len = convert_to_z_off_t(len2);

@@ -11,7 +11,7 @@ PyDoc_STRVAR(blob_close__doc__,
 "Close the blob.");
 
 #define BLOB_CLOSE_METHODDEF    \
-    {"close", (PyCFunction)blob_close, METH_NOARGS, blob_close__doc__},
+    {"close", (PyCFunction)blob_close, METH_NOARGS|METH_C_STACK_FRUGAL, blob_close__doc__},
 
 static PyObject *
 blob_close_impl(pysqlite_Blob *self);
@@ -36,7 +36,7 @@ PyDoc_STRVAR(blob_read__doc__,
 "end of the blob.");
 
 #define BLOB_READ_METHODDEF    \
-    {"read", _PyCFunction_CAST(blob_read), METH_FASTCALL, blob_read__doc__},
+    {"read", _PyCFunction_CAST(blob_read), METH_FASTCALL|METH_C_STACK_FRUGAL, blob_read__doc__},
 
 static PyObject *
 blob_read_impl(pysqlite_Blob *self, int length);
@@ -74,7 +74,7 @@ PyDoc_STRVAR(blob_write__doc__,
 "blob will result in an exception being raised.");
 
 #define BLOB_WRITE_METHODDEF    \
-    {"write", (PyCFunction)blob_write, METH_O, blob_write__doc__},
+    {"write", (PyCFunction)blob_write, METH_O|METH_C_STACK_FRUGAL, blob_write__doc__},
 
 static PyObject *
 blob_write_impl(pysqlite_Blob *self, Py_buffer *data);
@@ -110,7 +110,7 @@ PyDoc_STRVAR(blob_seek__doc__,
 "and os.SEEK_END (seek relative to the blob\'s end).");
 
 #define BLOB_SEEK_METHODDEF    \
-    {"seek", _PyCFunction_CAST(blob_seek), METH_FASTCALL, blob_seek__doc__},
+    {"seek", _PyCFunction_CAST(blob_seek), METH_FASTCALL|METH_C_STACK_FRUGAL, blob_seek__doc__},
 
 static PyObject *
 blob_seek_impl(pysqlite_Blob *self, int offset, int origin);
@@ -150,7 +150,7 @@ PyDoc_STRVAR(blob_tell__doc__,
 "Return the current access position for the blob.");
 
 #define BLOB_TELL_METHODDEF    \
-    {"tell", (PyCFunction)blob_tell, METH_NOARGS, blob_tell__doc__},
+    {"tell", (PyCFunction)blob_tell, METH_NOARGS|METH_C_STACK_FRUGAL, blob_tell__doc__},
 
 static PyObject *
 blob_tell_impl(pysqlite_Blob *self);
@@ -168,7 +168,7 @@ PyDoc_STRVAR(blob_enter__doc__,
 "Blob context manager enter.");
 
 #define BLOB_ENTER_METHODDEF    \
-    {"__enter__", (PyCFunction)blob_enter, METH_NOARGS, blob_enter__doc__},
+    {"__enter__", (PyCFunction)blob_enter, METH_NOARGS|METH_C_STACK_FRUGAL, blob_enter__doc__},
 
 static PyObject *
 blob_enter_impl(pysqlite_Blob *self);
@@ -186,7 +186,7 @@ PyDoc_STRVAR(blob_exit__doc__,
 "Blob context manager exit.");
 
 #define BLOB_EXIT_METHODDEF    \
-    {"__exit__", _PyCFunction_CAST(blob_exit), METH_FASTCALL, blob_exit__doc__},
+    {"__exit__", _PyCFunction_CAST(blob_exit), METH_FASTCALL|METH_C_STACK_FRUGAL, blob_exit__doc__},
 
 static PyObject *
 blob_exit_impl(pysqlite_Blob *self, PyObject *type, PyObject *val,
@@ -211,4 +211,4 @@ blob_exit(PyObject *self, PyObject *const *args, Py_ssize_t nargs)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=f03f4ba622b67ae0 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=40023788df14a600 input=a9049054013a1b77]*/

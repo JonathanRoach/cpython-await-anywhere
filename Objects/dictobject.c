@@ -3628,6 +3628,7 @@ PyDict_Items(PyObject *dict)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 dict.fromkeys
     iterable: object
@@ -3639,7 +3640,7 @@ Create a new dictionary with keys from iterable and values set to value.
 
 static PyObject *
 dict_fromkeys_impl(PyTypeObject *type, PyObject *iterable, PyObject *value)
-/*[clinic end generated code: output=8fb98e4b10384999 input=382ba4855d0f74c3]*/
+/*[clinic end generated code: output=8fb98e4b10384999 input=90d65aea14aeb3e2]*/
 {
     return _PyDict_FromKeys((PyObject *)type, iterable, value);
 }
@@ -4024,6 +4025,7 @@ _PyDict_MergeEx(PyObject *a, PyObject *b, int override)
 }
 
 /*[clinic input]
+@c_stack_frugal
 dict.copy
 
 Return a shallow copy of the dict.
@@ -4031,7 +4033,7 @@ Return a shallow copy of the dict.
 
 static PyObject *
 dict_copy_impl(PyDictObject *self)
-/*[clinic end generated code: output=ffb782cf970a5c39 input=73935f042b639de4]*/
+/*[clinic end generated code: output=ffb782cf970a5c39 input=a9b4232ca3c2582b]*/
 {
     return PyDict_Copy((PyObject *)self);
 }
@@ -4263,6 +4265,7 @@ dict_richcompare(PyObject *v, PyObject *w, int op)
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 @coexist
 dict.__contains__
@@ -4275,7 +4278,7 @@ True if the dictionary has the specified key, else False.
 
 static PyObject *
 dict___contains___impl(PyDictObject *self, PyObject *key)
-/*[clinic end generated code: output=1b314e6da7687dae input=fe1cb42ad831e820]*/
+/*[clinic end generated code: output=1b314e6da7687dae input=e3a7fd7b8fda516b]*/
 {
     int contains = PyDict_Contains((PyObject *)self, key);
     if (contains < 0) {
@@ -4288,6 +4291,7 @@ dict___contains___impl(PyDictObject *self, PyObject *key)
 }
 
 /*[clinic input]
+@c_stack_frugal
 dict.get
 
     key: object
@@ -4299,7 +4303,7 @@ Return the value for key if key is in the dictionary, else default.
 
 static PyObject *
 dict_get_impl(PyDictObject *self, PyObject *key, PyObject *default_value)
-/*[clinic end generated code: output=bba707729dee05bf input=279ddb5790b6b107]*/
+/*[clinic end generated code: output=bba707729dee05bf input=3554b2fbcd9eb613]*/
 {
     PyObject *val = NULL;
     Py_hash_t hash;
@@ -4458,6 +4462,7 @@ PyDict_SetDefault(PyObject *d, PyObject *key, PyObject *defaultobj)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 dict.setdefault
 
@@ -4473,7 +4478,7 @@ Return the value for key if key is in the dictionary, else default.
 static PyObject *
 dict_setdefault_impl(PyDictObject *self, PyObject *key,
                      PyObject *default_value)
-/*[clinic end generated code: output=f8c1101ebf69e220 input=9237af9a0a224302]*/
+/*[clinic end generated code: output=f8c1101ebf69e220 input=79baff97b4423768]*/
 {
     PyObject *val;
     dict_setdefault_ref_lock_held((PyObject *)self, key, default_value, &val, 1);
@@ -4482,6 +4487,7 @@ dict_setdefault_impl(PyDictObject *self, PyObject *key,
 
 
 /*[clinic input]
+@c_stack_frugal
 dict.clear
 
 Remove all items from the dict.
@@ -4489,13 +4495,14 @@ Remove all items from the dict.
 
 static PyObject *
 dict_clear_impl(PyDictObject *self)
-/*[clinic end generated code: output=5139a830df00830a input=0bf729baba97a4c2]*/
+/*[clinic end generated code: output=5139a830df00830a input=7348887b9f222149]*/
 {
     PyDict_Clear((PyObject *)self);
     Py_RETURN_NONE;
 }
 
 /*[clinic input]
+@c_stack_frugal
 dict.pop
 
     key: object
@@ -4510,12 +4517,13 @@ raise a KeyError.
 
 static PyObject *
 dict_pop_impl(PyDictObject *self, PyObject *key, PyObject *default_value)
-/*[clinic end generated code: output=3abb47b89f24c21c input=e221baa01044c44c]*/
+/*[clinic end generated code: output=3abb47b89f24c21c input=6b2af875cebd2852]*/
 {
     return dict_pop_default((PyObject*)self, key, default_value);
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 dict.popitem
 
@@ -4527,7 +4535,7 @@ Raises KeyError if the dict is empty.
 
 static PyObject *
 dict_popitem_impl(PyDictObject *self)
-/*[clinic end generated code: output=e65fcb04420d230d input=ef28b4da5f0f762e]*/
+/*[clinic end generated code: output=e65fcb04420d230d input=d8522649c436f379]*/
 {
     Py_ssize_t i, j;
     PyObject *res;
@@ -4692,6 +4700,7 @@ _PyDict_KeysSize(PyDictKeysObject *keys)
 }
 
 /*[clinic input]
+@c_stack_frugal
 dict.__sizeof__
 
 Return the size of the dict in memory, in bytes.
@@ -4699,7 +4708,7 @@ Return the size of the dict in memory, in bytes.
 
 static PyObject *
 dict___sizeof___impl(PyDictObject *self)
-/*[clinic end generated code: output=44279379b3824bda input=4fec4ddfc44a4d1a]*/
+/*[clinic end generated code: output=44279379b3824bda input=8fbdbe92ea226758]*/
 {
     return PyLong_FromSsize_t(_PyDict_SizeOf(self));
 }
@@ -5839,6 +5848,7 @@ PyTypeObject PyDictRevIterKey_Type = {
 
 
 /*[clinic input]
+@c_stack_frugal
 dict.__reversed__
 
 Return a reverse iterator over the dict keys.
@@ -5846,7 +5856,7 @@ Return a reverse iterator over the dict keys.
 
 static PyObject *
 dict___reversed___impl(PyDictObject *self)
-/*[clinic end generated code: output=e674483336d1ed51 input=23210ef3477d8c4d]*/
+/*[clinic end generated code: output=e674483336d1ed51 input=247c491851f3cfac]*/
 {
     assert (PyDict_Check(self));
     return dictiter_new(self, &PyDictRevIterKey_Type);
@@ -6494,6 +6504,7 @@ PyTypeObject PyDictKeys_Type = {
 };
 
 /*[clinic input]
+@c_stack_frugal
 dict.keys
 
 Return a set-like object providing a view on the dict's keys.
@@ -6501,7 +6512,7 @@ Return a set-like object providing a view on the dict's keys.
 
 static PyObject *
 dict_keys_impl(PyDictObject *self)
-/*[clinic end generated code: output=aac2830c62990358 input=42f48a7a771212a7]*/
+/*[clinic end generated code: output=aac2830c62990358 input=c866a6192ce452bd]*/
 {
     return _PyDictView_New((PyObject *)self, &PyDictKeys_Type);
 }
@@ -6606,6 +6617,7 @@ PyTypeObject PyDictItems_Type = {
 };
 
 /*[clinic input]
+@c_stack_frugal
 dict.items
 
 Return a set-like object providing a view on the dict's items.
@@ -6613,7 +6625,7 @@ Return a set-like object providing a view on the dict's items.
 
 static PyObject *
 dict_items_impl(PyDictObject *self)
-/*[clinic end generated code: output=88c7db7150c7909a input=87c822872eb71f5a]*/
+/*[clinic end generated code: output=88c7db7150c7909a input=a69de2b92bca8f96]*/
 {
     return _PyDictView_New((PyObject *)self, &PyDictItems_Type);
 }
@@ -6696,6 +6708,7 @@ PyTypeObject PyDictValues_Type = {
 };
 
 /*[clinic input]
+@c_stack_frugal
 dict.values
 
 Return an object providing a view on the dict's values.
@@ -6703,7 +6716,7 @@ Return an object providing a view on the dict's values.
 
 static PyObject *
 dict_values_impl(PyDictObject *self)
-/*[clinic end generated code: output=ce9f2e9e8a959dd4 input=b46944f85493b230]*/
+/*[clinic end generated code: output=ce9f2e9e8a959dd4 input=de08c14d6112803b]*/
 {
     return _PyDictView_New((PyObject *)self, &PyDictValues_Type);
 }

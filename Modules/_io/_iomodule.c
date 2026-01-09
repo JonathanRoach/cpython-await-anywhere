@@ -454,6 +454,7 @@ _io_open_impl(PyObject *module, PyObject *file, const char *mode,
 
 
 /*[clinic input]
+@c_stack_frugal
 _io.text_encoding
     encoding: object
     stacklevel: int = 2
@@ -474,7 +475,7 @@ However, please consider using encoding="utf-8" for new APIs.
 
 static PyObject *
 _io_text_encoding_impl(PyObject *module, PyObject *encoding, int stacklevel)
-/*[clinic end generated code: output=91b2cfea6934cc0c input=4999aa8b3d90f3d4]*/
+/*[clinic end generated code: output=91b2cfea6934cc0c input=e05aa95c0292cd51]*/
 {
     if (encoding == NULL || encoding == Py_None) {
         PyInterpreterState *interp = _PyInterpreterState_GET();
@@ -498,6 +499,7 @@ _io_text_encoding_impl(PyObject *module, PyObject *encoding, int stacklevel)
 
 
 /*[clinic input]
+@c_stack_frugal
 _io.open_code
 
     path : unicode
@@ -511,7 +513,7 @@ with calling open(path, 'rb').
 
 static PyObject *
 _io_open_code_impl(PyObject *module, PyObject *path)
-/*[clinic end generated code: output=2fe4ecbd6f3d6844 input=f5c18e23f4b2ed9f]*/
+/*[clinic end generated code: output=2fe4ecbd6f3d6844 input=8e7c42fc830e470c]*/
 {
     return PyFile_OpenCodeObject(path);
 }

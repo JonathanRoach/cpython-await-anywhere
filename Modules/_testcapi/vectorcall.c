@@ -33,6 +33,7 @@ fastcall_args(PyObject *args, PyObject ***stack, Py_ssize_t *nargs)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.pyobject_fastcalldict
     func: object
     func_args: object
@@ -43,7 +44,7 @@ _testcapi.pyobject_fastcalldict
 static PyObject *
 _testcapi_pyobject_fastcalldict_impl(PyObject *module, PyObject *func,
                                      PyObject *func_args, PyObject *kwargs)
-/*[clinic end generated code: output=35902ece94de4418 input=b9c0196ca7d5f9e4]*/
+/*[clinic end generated code: output=35902ece94de4418 input=4f0438e695233c44]*/
 {
     PyObject **stack;
     Py_ssize_t nargs;
@@ -64,6 +65,7 @@ _testcapi_pyobject_fastcalldict_impl(PyObject *module, PyObject *func,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.pyobject_vectorcall
     func: object
     func_args: object
@@ -74,7 +76,7 @@ _testcapi.pyobject_vectorcall
 static PyObject *
 _testcapi_pyobject_vectorcall_impl(PyObject *module, PyObject *func,
                                    PyObject *func_args, PyObject *kwnames)
-/*[clinic end generated code: output=ff77245bc6afe0d8 input=a0668dfef625764c]*/
+/*[clinic end generated code: output=ff77245bc6afe0d8 input=333459547353491c]*/
 {
     PyObject **stack;
     Py_ssize_t nargs, nkw;
@@ -120,6 +122,7 @@ function_setvectorcall(PyObject *self, PyObject *func)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.pyvectorcall_call
     func: object
     argstuple: object
@@ -130,7 +133,7 @@ _testcapi.pyvectorcall_call
 static PyObject *
 _testcapi_pyvectorcall_call_impl(PyObject *module, PyObject *func,
                                  PyObject *argstuple, PyObject *kwargs)
-/*[clinic end generated code: output=809046fe78511306 input=4376ee7cabd698ce]*/
+/*[clinic end generated code: output=809046fe78511306 input=97243fabe4636dc9]*/
 {
     if (!PyTuple_Check(argstuple)) {
         PyErr_SetString(PyExc_TypeError, "args must be a tuple");
@@ -163,6 +166,7 @@ class _testcapi.VectorCallClass "PyObject *" "&PyType_Type"
 /*[clinic end generated code: output=da39a3ee5e6b4b0d input=95c63c1a47f9a995]*/
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.VectorCallClass.set_vectorcall
 
     type: object(subclass_of="&PyType_Type", type="PyTypeObject *")
@@ -174,7 +178,7 @@ Set self's vectorcall function for `type` to one that returns "vectorcall"
 static PyObject *
 _testcapi_VectorCallClass_set_vectorcall_impl(PyObject *self,
                                               PyTypeObject *type)
-/*[clinic end generated code: output=b37f0466f15da903 input=840de66182c7d71a]*/
+/*[clinic end generated code: output=b37f0466f15da903 input=9e034727df94342a]*/
 {
     if (!PyObject_TypeCheck(self, type)) {
         return PyErr_Format(
@@ -211,6 +215,7 @@ PyType_Slot VectorCallClass_slots[] = {
 };
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.make_vectorcall_class
 
     base: object(subclass_of="&PyType_Type", type="PyTypeObject *") = NULL
@@ -224,7 +229,7 @@ function that returns "vectorcall" will be installed.
 
 static PyObject *
 _testcapi_make_vectorcall_class_impl(PyObject *module, PyTypeObject *base)
-/*[clinic end generated code: output=16dcfc3062ddf968 input=f72e01ccf52de2b4]*/
+/*[clinic end generated code: output=16dcfc3062ddf968 input=2d69ea2a89994b5b]*/
 {
     if (!base) {
         base = (PyTypeObject *)&PyBaseObject_Type;
@@ -243,6 +248,7 @@ _testcapi_make_vectorcall_class_impl(PyObject *module, PyTypeObject *base)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.has_vectorcall_flag -> bool
 
     type: object(subclass_of="&PyType_Type", type="PyTypeObject *")
@@ -253,7 +259,7 @@ Return true iff Py_TPFLAGS_HAVE_VECTORCALL is set on the class.
 
 static int
 _testcapi_has_vectorcall_flag_impl(PyObject *module, PyTypeObject *type)
-/*[clinic end generated code: output=3ae8d1374388c671 input=8eee492ac548749e]*/
+/*[clinic end generated code: output=3ae8d1374388c671 input=deae1dcd7731be19]*/
 {
     return PyType_HasFeature(type, Py_TPFLAGS_HAVE_VECTORCALL);
 }

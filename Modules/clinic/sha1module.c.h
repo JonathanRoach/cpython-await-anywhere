@@ -15,7 +15,7 @@ PyDoc_STRVAR(SHA1Type_copy__doc__,
 "Return a copy of the hash object.");
 
 #define SHA1TYPE_COPY_METHODDEF    \
-    {"copy", _PyCFunction_CAST(SHA1Type_copy), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, SHA1Type_copy__doc__},
+    {"copy", _PyCFunction_CAST(SHA1Type_copy), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, SHA1Type_copy__doc__},
 
 static PyObject *
 SHA1Type_copy_impl(SHA1object *self, PyTypeObject *cls);
@@ -37,7 +37,7 @@ PyDoc_STRVAR(SHA1Type_digest__doc__,
 "Return the digest value as a bytes object.");
 
 #define SHA1TYPE_DIGEST_METHODDEF    \
-    {"digest", (PyCFunction)SHA1Type_digest, METH_NOARGS, SHA1Type_digest__doc__},
+    {"digest", (PyCFunction)SHA1Type_digest, METH_NOARGS|METH_C_STACK_FRUGAL, SHA1Type_digest__doc__},
 
 static PyObject *
 SHA1Type_digest_impl(SHA1object *self);
@@ -55,7 +55,7 @@ PyDoc_STRVAR(SHA1Type_hexdigest__doc__,
 "Return the digest value as a string of hexadecimal digits.");
 
 #define SHA1TYPE_HEXDIGEST_METHODDEF    \
-    {"hexdigest", (PyCFunction)SHA1Type_hexdigest, METH_NOARGS, SHA1Type_hexdigest__doc__},
+    {"hexdigest", (PyCFunction)SHA1Type_hexdigest, METH_NOARGS|METH_C_STACK_FRUGAL, SHA1Type_hexdigest__doc__},
 
 static PyObject *
 SHA1Type_hexdigest_impl(SHA1object *self);
@@ -73,7 +73,7 @@ PyDoc_STRVAR(SHA1Type_update__doc__,
 "Update this hash object\'s state with the provided string.");
 
 #define SHA1TYPE_UPDATE_METHODDEF    \
-    {"update", (PyCFunction)SHA1Type_update, METH_O, SHA1Type_update__doc__},
+    {"update", (PyCFunction)SHA1Type_update, METH_O|METH_C_STACK_FRUGAL, SHA1Type_update__doc__},
 
 static PyObject *
 SHA1Type_update_impl(SHA1object *self, PyObject *obj);
@@ -95,7 +95,7 @@ PyDoc_STRVAR(_sha1_sha1__doc__,
 "Return a new SHA1 hash object; optionally initialized with a string.");
 
 #define _SHA1_SHA1_METHODDEF    \
-    {"sha1", _PyCFunction_CAST(_sha1_sha1), METH_FASTCALL|METH_KEYWORDS, _sha1_sha1__doc__},
+    {"sha1", _PyCFunction_CAST(_sha1_sha1), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sha1_sha1__doc__},
 
 static PyObject *
 _sha1_sha1_impl(PyObject *module, PyObject *data, int usedforsecurity,
@@ -172,4 +172,4 @@ skip_optional_kwonly:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=fd5a917404b68c4f input=a9049054013a1b77]*/
+/*[clinic end generated code: output=cd76cbe01994dd30 input=a9049054013a1b77]*/

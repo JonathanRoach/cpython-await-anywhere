@@ -107,6 +107,7 @@ typedef struct {
 #define batchedobject_CAST(op)  ((batchedobject *)(op))
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 itertools.batched.__new__ as batched_new
     iterable: object
@@ -136,7 +137,7 @@ than n.
 static PyObject *
 batched_new_impl(PyTypeObject *type, PyObject *iterable, Py_ssize_t n,
                  int strict)
-/*[clinic end generated code: output=c6de11b061529d3e input=7814b47e222f5467]*/
+/*[clinic end generated code: output=c6de11b061529d3e input=7ffd3bc19560e7b6]*/
 {
     PyObject *it;
     batchedobject *bo;
@@ -282,6 +283,7 @@ typedef struct {
 #define pairwiseobject_CAST(op) ((pairwiseobject *)(op))
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 itertools.pairwise.__new__ as pairwise_new
     iterable: object
@@ -294,7 +296,7 @@ Return an iterator of overlapping pairs taken from the input iterator.
 
 static PyObject *
 pairwise_new_impl(PyTypeObject *type, PyObject *iterable)
-/*[clinic end generated code: output=9f0267062d384456 input=6e7c3cddb431a8d6]*/
+/*[clinic end generated code: output=9f0267062d384456 input=b36ef55cbb1366cb]*/
 {
     PyObject *it;
     pairwiseobject *po;
@@ -441,6 +443,7 @@ typedef struct {
 static PyObject *_grouper_create(groupbyobject *, PyObject *);
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 itertools.groupby.__new__
 
@@ -456,7 +459,7 @@ make an iterator that returns consecutive keys and groups from the iterable
 
 static PyObject *
 itertools_groupby_impl(PyTypeObject *type, PyObject *it, PyObject *keyfunc)
-/*[clinic end generated code: output=cbb1ae3a90fd4141 input=6b3d123e87ff65a1]*/
+/*[clinic end generated code: output=cbb1ae3a90fd4141 input=b228e344a8155f70]*/
 {
     groupbyobject *gbo;
 
@@ -599,6 +602,7 @@ typedef struct {
 #define _grouperobject_CAST(op) ((_grouperobject *)(op))
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 itertools._grouper.__new__
 
@@ -610,7 +614,7 @@ itertools._grouper.__new__
 static PyObject *
 itertools__grouper_impl(PyTypeObject *type, PyObject *parent,
                         PyObject *tgtkey)
-/*[clinic end generated code: output=462efb1cdebb5914 input=afe05eb477118f12]*/
+/*[clinic end generated code: output=462efb1cdebb5914 input=7b4a60bb384c0044]*/
 {
     return _grouper_create(groupbyobject_CAST(parent), tgtkey);
 }
@@ -838,6 +842,7 @@ teedataobject_dealloc(PyObject *op)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 itertools.teedataobject.__new__
     iterable as it: object
@@ -850,7 +855,7 @@ Data container common to multiple tee objects.
 static PyObject *
 itertools_teedataobject_impl(PyTypeObject *type, PyObject *it,
                              PyObject *values, PyObject *next)
-/*[clinic end generated code: output=3343ceb07e08df5e input=be60f2fabd2b72ba]*/
+/*[clinic end generated code: output=3343ceb07e08df5e input=5714377080627ec3]*/
 {
     teedataobject *tdo;
     Py_ssize_t i, len;
@@ -999,6 +1004,7 @@ done:
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 itertools._tee.__new__
     iterable: object
@@ -1008,7 +1014,7 @@ Iterator wrapped to make it copyable.
 
 static PyObject *
 itertools__tee_impl(PyTypeObject *type, PyObject *iterable)
-/*[clinic end generated code: output=b02d3fd26c810c3f input=adc0779d2afe37a2]*/
+/*[clinic end generated code: output=b02d3fd26c810c3f input=019afa1eb017f7bd]*/
 {
     itertools_state *state = get_module_state_by_cls(type);
     return tee_fromiterable(state, iterable);
@@ -1067,6 +1073,7 @@ static PyType_Spec tee_spec = {
 };
 
 /*[clinic input]
+@c_stack_frugal
 itertools.tee
     iterable: object
     n: Py_ssize_t = 2
@@ -1076,7 +1083,7 @@ Returns a tuple of n independent iterators.
 
 static PyObject *
 itertools_tee_impl(PyObject *module, PyObject *iterable, Py_ssize_t n)
-/*[clinic end generated code: output=1c64519cd859c2f0 input=c99a1472c425d66d]*/
+/*[clinic end generated code: output=1c64519cd859c2f0 input=9d90e4dbab3d69b5]*/
 {
     Py_ssize_t i;
     PyObject *it, *to, *result;
@@ -1129,6 +1136,7 @@ typedef struct {
 #define cycleobject_CAST(op)    ((cycleobject *)(op))
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 itertools.cycle.__new__
     iterable: object
@@ -1138,7 +1146,7 @@ Return elements from the iterable until it is exhausted. Then repeat the sequenc
 
 static PyObject *
 itertools_cycle_impl(PyTypeObject *type, PyObject *iterable)
-/*[clinic end generated code: output=f60e5ec17a45b35c input=9d1d84bcf66e908b]*/
+/*[clinic end generated code: output=f60e5ec17a45b35c input=58e875974d4a88be]*/
 {
     PyObject *it;
     PyObject *saved;
@@ -1262,6 +1270,7 @@ typedef struct {
 #define dropwhileobject_CAST(op)    ((dropwhileobject *)(op))
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 itertools.dropwhile.__new__
     predicate as func: object
@@ -1274,7 +1283,7 @@ Afterwards, return every element until the iterable is exhausted.
 
 static PyObject *
 itertools_dropwhile_impl(PyTypeObject *type, PyObject *func, PyObject *seq)
-/*[clinic end generated code: output=92f9d0d89af149e4 input=d39737147c9f0a26]*/
+/*[clinic end generated code: output=92f9d0d89af149e4 input=4a70842a4506da8b]*/
 {
     PyObject *it;
     dropwhileobject *lz;
@@ -1386,6 +1395,7 @@ typedef struct {
 #define takewhileobject_CAST(op)    ((takewhileobject *)(op))
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 itertools.takewhile.__new__
     predicate as func: object
@@ -1396,7 +1406,7 @@ Return successive entries from an iterable as long as the predicate evaluates to
 
 static PyObject *
 itertools_takewhile_impl(PyTypeObject *type, PyObject *func, PyObject *seq)
-/*[clinic end generated code: output=bb179ea7864e2ef6 input=ba5255f7519aa119]*/
+/*[clinic end generated code: output=bb179ea7864e2ef6 input=fb7368cef2c5ff9d]*/
 {
     PyObject *it;
     takewhileobject *lz;
@@ -1695,6 +1705,7 @@ typedef struct {
 #define starmapobject_CAST(op)  ((starmapobject *)(op))
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 itertools.starmap.__new__
     function as func: object
@@ -1705,7 +1716,7 @@ Return an iterator whose values are returned from the function evaluated with an
 
 static PyObject *
 itertools_starmap_impl(PyTypeObject *type, PyObject *func, PyObject *seq)
-/*[clinic end generated code: output=79eeb81d452c6e8d input=844766df6a0d4dad]*/
+/*[clinic end generated code: output=79eeb81d452c6e8d input=f31d6289bb1ba4bb]*/
 {
     PyObject *it;
     starmapobject *lz;
@@ -1838,6 +1849,7 @@ chain_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 itertools.chain.from_iterable
     iterable as arg: object
@@ -1847,7 +1859,7 @@ Alternative chain() constructor taking a single iterable argument that evaluates
 
 static PyObject *
 itertools_chain_from_iterable_impl(PyTypeObject *type, PyObject *arg)
-/*[clinic end generated code: output=3d7ea7d46b9e43f5 input=72c39e3a2ca3be85]*/
+/*[clinic end generated code: output=3d7ea7d46b9e43f5 input=84c4383f37c0eaf4]*/
 {
     PyObject *source;
 
@@ -2228,6 +2240,7 @@ typedef struct {
 #define combinationsobject_CAST(op) ((combinationsobject *)(op))
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 itertools.combinations.__new__
     iterable: object
@@ -2240,7 +2253,7 @@ combinations(range(4), 3) --> (0,1,2), (0,1,3), (0,2,3), (1,2,3)
 static PyObject *
 itertools_combinations_impl(PyTypeObject *type, PyObject *iterable,
                             Py_ssize_t r)
-/*[clinic end generated code: output=87a689b39c40039c input=06bede09e3da20f8]*/
+/*[clinic end generated code: output=87a689b39c40039c input=e4a44d3fdbc9d792]*/
 {
     combinationsobject *co;
     Py_ssize_t n;
@@ -2471,6 +2484,7 @@ typedef struct {
 #define cwrobject_CAST(op)  ((cwrobject *)(op))
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 itertools.combinations_with_replacement.__new__
     iterable: object
@@ -2484,7 +2498,7 @@ static PyObject *
 itertools_combinations_with_replacement_impl(PyTypeObject *type,
                                              PyObject *iterable,
                                              Py_ssize_t r)
-/*[clinic end generated code: output=48b26856d4e659ca input=1dc58e82a0878fdc]*/
+/*[clinic end generated code: output=48b26856d4e659ca input=98e62b223b89562c]*/
 {
     cwrobject *co;
     Py_ssize_t n;
@@ -2710,6 +2724,7 @@ typedef struct {
 #define permutationsobject_CAST(op) ((permutationsobject *)(op))
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 itertools.permutations.__new__
     iterable: object
@@ -2722,7 +2737,7 @@ permutations(range(3), 2) --> (0,1), (0,2), (1,0), (1,2), (2,0), (2,1)
 static PyObject *
 itertools_permutations_impl(PyTypeObject *type, PyObject *iterable,
                             PyObject *robj)
-/*[clinic end generated code: output=296a72fa76d620ea input=57d0170a4ac0ec7a]*/
+/*[clinic end generated code: output=296a72fa76d620ea input=3b2d4fe2c44e76d3]*/
 {
     permutationsobject *po;
     Py_ssize_t n;
@@ -2953,6 +2968,7 @@ typedef struct {
 #define accumulateobject_CAST(op)   ((accumulateobject *)(op))
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 itertools.accumulate.__new__
     iterable: object
@@ -2965,7 +2981,7 @@ Return series of accumulated sums (or other binary function results).
 static PyObject *
 itertools_accumulate_impl(PyTypeObject *type, PyObject *iterable,
                           PyObject *binop, PyObject *initial)
-/*[clinic end generated code: output=66da2650627128f8 input=c4ce20ac59bf7ffd]*/
+/*[clinic end generated code: output=66da2650627128f8 input=f39cbce58f757860]*/
 {
     PyObject *it;
     accumulateobject *lz;
@@ -3090,6 +3106,7 @@ typedef struct {
 #define compressobject_CAST(op) ((compressobject *)(op))
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 itertools.compress.__new__
     data as seq1: object
@@ -3102,7 +3119,7 @@ choose the data elements.
 
 static PyObject *
 itertools_compress_impl(PyTypeObject *type, PyObject *seq1, PyObject *seq2)
-/*[clinic end generated code: output=7e67157212ed09e0 input=79596d7cd20c77e5]*/
+/*[clinic end generated code: output=7e67157212ed09e0 input=f7aaeddac9ead534]*/
 {
     PyObject *data=NULL, *selectors=NULL;
     compressobject *lz;
@@ -3219,6 +3236,7 @@ typedef struct {
 #define filterfalseobject_CAST(op)  ((filterfalseobject *)(op))
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 itertools.filterfalse.__new__
     function as func: object
@@ -3231,7 +3249,7 @@ If function is None, return the items that are false.
 
 static PyObject *
 itertools_filterfalse_impl(PyTypeObject *type, PyObject *func, PyObject *seq)
-/*[clinic end generated code: output=55f87eab9fc0484e input=2d684a2c66f99cde]*/
+/*[clinic end generated code: output=55f87eab9fc0484e input=d897a08d5b10adb8]*/
 {
     PyObject *it;
     filterfalseobject *lz;
@@ -3360,6 +3378,7 @@ slow_mode:  when cnt == PY_SSIZE_T_MAX, step is not int(1), or cnt is a float.
 */
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 itertools.count.__new__
     start as long_cnt: object(c_default="NULL") = 0
@@ -3377,7 +3396,7 @@ Equivalent to:
 static PyObject *
 itertools_count_impl(PyTypeObject *type, PyObject *long_cnt,
                      PyObject *long_step)
-/*[clinic end generated code: output=09a9250aebd00b1c input=d7a85eec18bfcd94]*/
+/*[clinic end generated code: output=09a9250aebd00b1c input=59917712c6658913]*/
 {
     countobject *lz;
     int fast_mode;

@@ -57,12 +57,13 @@ raise_test_long_error(const char* msg)
 #include "testcapi_long.h"
 
 /*[clinic input]
+@c_stack_frugal
 _testlimitedcapi.test_long_api
 [clinic start generated code]*/
 
 static PyObject *
 _testlimitedcapi_test_long_api_impl(PyObject *module)
-/*[clinic end generated code: output=06a2c02366d1853a input=9012b3d6a483df63]*/
+/*[clinic end generated code: output=06a2c02366d1853a input=84ce1d4c3aade119]*/
 {
     return TESTNAME(raise_test_long_error);
 }
@@ -93,12 +94,13 @@ raise_test_longlong_error(const char* msg)
 #include "testcapi_long.h"
 
 /*[clinic input]
+@c_stack_frugal
 _testlimitedcapi.test_longlong_api
 [clinic start generated code]*/
 
 static PyObject *
 _testlimitedcapi_test_longlong_api_impl(PyObject *module)
-/*[clinic end generated code: output=8faa10e1c35214bf input=2b582a9d25bd68e7]*/
+/*[clinic end generated code: output=8faa10e1c35214bf input=570d2b77c1e767cf]*/
 {
     return TESTNAME(raise_test_longlong_error);
 }
@@ -112,6 +114,7 @@ _testlimitedcapi_test_longlong_api_impl(PyObject *module)
 
 
 /*[clinic input]
+@c_stack_frugal
 _testlimitedcapi.test_long_and_overflow
 
 Test the PyLong_AsLongAndOverflow API.
@@ -122,7 +125,7 @@ This test will concentrate on proper handling of overflow.
 
 static PyObject *
 _testlimitedcapi_test_long_and_overflow_impl(PyObject *module)
-/*[clinic end generated code: output=fdfd3c1eeabb6d14 input=e3a18791de6519fe]*/
+/*[clinic end generated code: output=fdfd3c1eeabb6d14 input=830202ace7ba7e93]*/
 {
     PyObject *num, *one, *temp;
     long value;
@@ -280,6 +283,7 @@ _testlimitedcapi_test_long_and_overflow_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testlimitedcapi.test_long_long_and_overflow
 
 Test the PyLong_AsLongLongAndOverflow API.
@@ -290,7 +294,7 @@ This test will concentrate on proper handling of overflow.
 
 static PyObject *
 _testlimitedcapi_test_long_long_and_overflow_impl(PyObject *module)
-/*[clinic end generated code: output=3d2721a49c09a307 input=741c593b606cc6b3]*/
+/*[clinic end generated code: output=3d2721a49c09a307 input=c9d932b93aa018d3]*/
 {
     PyObject *num, *one, *temp;
     long long value;
@@ -447,6 +451,7 @@ _testlimitedcapi_test_long_long_and_overflow_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testlimitedcapi.test_long_as_size_t
 
 Test the PyLong_As{Size,Ssize}_t API.
@@ -457,7 +462,7 @@ It should be extended to test overflow handling.
 
 static PyObject *
 _testlimitedcapi_test_long_as_size_t_impl(PyObject *module)
-/*[clinic end generated code: output=297a9f14a42f55af input=8923d8f2038c46f4]*/
+/*[clinic end generated code: output=297a9f14a42f55af input=5a7dae7914702cb5]*/
 {
     size_t out_u;
     Py_ssize_t out_s;
@@ -489,12 +494,13 @@ _testlimitedcapi_test_long_as_size_t_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testlimitedcapi.test_long_as_unsigned_long_long_mask
 [clinic start generated code]*/
 
 static PyObject *
 _testlimitedcapi_test_long_as_unsigned_long_long_mask_impl(PyObject *module)
-/*[clinic end generated code: output=90be09ffeec8ecab input=17c660bd58becad5]*/
+/*[clinic end generated code: output=90be09ffeec8ecab input=9234f983a0e68078]*/
 {
     unsigned long long res = PyLong_AsUnsignedLongLongMask(NULL);
 
@@ -513,12 +519,13 @@ _testlimitedcapi_test_long_as_unsigned_long_long_mask_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testlimitedcapi.test_long_as_double
 [clinic start generated code]*/
 
 static PyObject *
 _testlimitedcapi_test_long_as_double_impl(PyObject *module)
-/*[clinic end generated code: output=0e688c2acf224f88 input=e7b5712385064a48]*/
+/*[clinic end generated code: output=0e688c2acf224f88 input=9978f29496692c22]*/
 {
     double out;
 
@@ -589,6 +596,7 @@ pylong_fromvoidptr(PyObject *module, PyObject *arg)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testlimitedcapi.PyLong_AsInt
     arg: object
     /
@@ -596,7 +604,7 @@ _testlimitedcapi.PyLong_AsInt
 
 static PyObject *
 _testlimitedcapi_PyLong_AsInt(PyObject *module, PyObject *arg)
-/*[clinic end generated code: output=d91db4c1287f85fa input=32c66be86f3265a1]*/
+/*[clinic end generated code: output=d91db4c1287f85fa input=541226f40c711a25]*/
 {
     NULLABLE(arg);
     assert(!PyErr_Occurred());

@@ -20,6 +20,7 @@ module _typing
 /* helper function to make typing.NewType.__call__ method faster */
 
 /*[clinic input]
+@c_stack_frugal
 _typing._idfunc -> object
 
     x: object
@@ -29,7 +30,7 @@ _typing._idfunc -> object
 
 static PyObject *
 _typing__idfunc(PyObject *module, PyObject *x)
-/*[clinic end generated code: output=63c38be4a6ec5f2c input=49f17284b43de451]*/
+/*[clinic end generated code: output=63c38be4a6ec5f2c input=d650834b8a91a721]*/
 {
     return Py_NewRef(x);
 }

@@ -2280,6 +2280,7 @@ type_set_type_params(PyObject *tp, PyObject *value, void *Py_UNUSED(closure))
 
 
 /*[clinic input]
+@c_stack_frugal
 type.__instancecheck__ -> bool
 
     instance: object
@@ -2290,12 +2291,13 @@ Check if an object is an instance.
 
 static int
 type___instancecheck___impl(PyTypeObject *self, PyObject *instance)
-/*[clinic end generated code: output=08b6bf5f591c3618 input=cdbfeaee82c01a0f]*/
+/*[clinic end generated code: output=08b6bf5f591c3618 input=a733b08cf2ca604c]*/
 {
     return _PyObject_RealIsInstance(instance, (PyObject *)self);
 }
 
 /*[clinic input]
+@c_stack_frugal
 type.__subclasscheck__ -> bool
 
     subclass: object
@@ -2306,7 +2308,7 @@ Check if a class is a subclass.
 
 static int
 type___subclasscheck___impl(PyTypeObject *self, PyObject *subclass)
-/*[clinic end generated code: output=97a4e51694500941 input=071b2ca9e03355f4]*/
+/*[clinic end generated code: output=97a4e51694500941 input=af63a4afafebb176]*/
 {
     return _PyObject_RealIsSubclass(subclass, (PyObject *)self);
 }
@@ -3465,6 +3467,7 @@ mro_implementation(PyTypeObject *type)
 }
 
 /*[clinic input]
+@c_stack_frugal
 type.mro
 
 Return a type's method resolution order.
@@ -3472,7 +3475,7 @@ Return a type's method resolution order.
 
 static PyObject *
 type_mro_impl(PyTypeObject *self)
-/*[clinic end generated code: output=bffc4a39b5b57027 input=28414f4e156db28d]*/
+/*[clinic end generated code: output=bffc4a39b5b57027 input=3a060c4ae3a19408]*/
 {
     PyObject *seq;
     seq = mro_implementation(self);
@@ -6676,6 +6679,7 @@ type_dealloc(PyObject *self)
 
 
 /*[clinic input]
+@c_stack_frugal
 type.__subclasses__
 
 Return a list of immediate subclasses.
@@ -6683,7 +6687,7 @@ Return a list of immediate subclasses.
 
 static PyObject *
 type___subclasses___impl(PyTypeObject *self)
-/*[clinic end generated code: output=eb5eb54485942819 input=5af66132436f9a7b]*/
+/*[clinic end generated code: output=eb5eb54485942819 input=4e86afe87b51ccab]*/
 {
     return _PyType_GetSubclasses(self);
 }
@@ -6762,6 +6766,7 @@ merge_class_dict(PyObject *dict, PyObject *aclass)
    metaclass would probably be more confusing than helpful.
 */
 /*[clinic input]
+@c_stack_frugal
 type.__dir__
 
 Specialized __dir__ implementation for types.
@@ -6769,7 +6774,7 @@ Specialized __dir__ implementation for types.
 
 static PyObject *
 type___dir___impl(PyTypeObject *self)
-/*[clinic end generated code: output=69d02fe92c0f15fa input=7733befbec645968]*/
+/*[clinic end generated code: output=69d02fe92c0f15fa input=113e8ca262a1f2e4]*/
 {
     PyObject *result = NULL;
     PyObject *dict = PyDict_New();
@@ -6782,6 +6787,7 @@ type___dir___impl(PyTypeObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 type.__sizeof__
 
 Return memory consumption of the type object.
@@ -6789,7 +6795,7 @@ Return memory consumption of the type object.
 
 static PyObject *
 type___sizeof___impl(PyTypeObject *self)
-/*[clinic end generated code: output=766f4f16cd3b1854 input=99398f24b9cf45d6]*/
+/*[clinic end generated code: output=766f4f16cd3b1854 input=1beb3c97d64c47ef]*/
 {
     size_t size;
     if (self->tp_flags & Py_TPFLAGS_HEAPTYPE) {
@@ -7680,6 +7686,7 @@ _PyObject_GetState(PyObject *obj)
 }
 
 /*[clinic input]
+@c_stack_frugal
 object.__getstate__
 
 Helper for pickle.
@@ -7687,7 +7694,7 @@ Helper for pickle.
 
 static PyObject *
 object___getstate___impl(PyObject *self)
-/*[clinic end generated code: output=5a2500dcb6217e9e input=692314d8fbe194ee]*/
+/*[clinic end generated code: output=5a2500dcb6217e9e input=4dc719c841a65c65]*/
 {
     return object_getstate_default(self, 0);
 }
@@ -7955,6 +7962,7 @@ _common_reduce(PyObject *self, int proto)
 }
 
 /*[clinic input]
+@c_stack_frugal
 object.__reduce__
 
 Helper for pickle.
@@ -7962,12 +7970,13 @@ Helper for pickle.
 
 static PyObject *
 object___reduce___impl(PyObject *self)
-/*[clinic end generated code: output=d4ca691f891c6e2f input=11562e663947e18b]*/
+/*[clinic end generated code: output=d4ca691f891c6e2f input=766082ac19b99f25]*/
 {
     return _common_reduce(self, 0);
 }
 
 /*[clinic input]
+@c_stack_frugal
 object.__reduce_ex__
 
   protocol: int
@@ -7978,7 +7987,7 @@ Helper for pickle.
 
 static PyObject *
 object___reduce_ex___impl(PyObject *self, int protocol)
-/*[clinic end generated code: output=2e157766f6b50094 input=f326b43fb8a4c5ff]*/
+/*[clinic end generated code: output=2e157766f6b50094 input=ec232bebc1dbca78]*/
 {
     PyObject *reduce;
     if (PyObject_GetOptionalAttr(self, &_Py_ID(__reduce__), &reduce) < 0) {
@@ -8037,6 +8046,7 @@ PyDoc_STRVAR(object_init_subclass_doc,
 "overridden to extend subclasses.\n");
 
 /*[clinic input]
+@c_stack_frugal
 object.__format__
 
   format_spec: unicode
@@ -8049,7 +8059,7 @@ Return str(self) if format_spec is empty. Raise TypeError otherwise.
 
 static PyObject *
 object___format___impl(PyObject *self, PyObject *format_spec)
-/*[clinic end generated code: output=34897efb543a974b input=b94d8feb006689ea]*/
+/*[clinic end generated code: output=34897efb543a974b input=079f33bc6bdaf90a]*/
 {
     /* Issue 7994: If we're converting to a string, we
        should reject format specifications */
@@ -8063,6 +8073,7 @@ object___format___impl(PyObject *self, PyObject *format_spec)
 }
 
 /*[clinic input]
+@c_stack_frugal
 object.__sizeof__
 
 Size of object in memory, in bytes.
@@ -8070,7 +8081,7 @@ Size of object in memory, in bytes.
 
 static PyObject *
 object___sizeof___impl(PyObject *self)
-/*[clinic end generated code: output=73edab332f97d550 input=1200ff3dfe485306]*/
+/*[clinic end generated code: output=73edab332f97d550 input=a054237d4e88a42e]*/
 {
     Py_ssize_t res, isize;
 
@@ -8090,6 +8101,7 @@ object___sizeof___impl(PyObject *self)
    and recursively up the __class__.__bases__ chain.
 */
 /*[clinic input]
+@c_stack_frugal
 object.__dir__
 
 Default dir() implementation.
@@ -8097,7 +8109,7 @@ Default dir() implementation.
 
 static PyObject *
 object___dir___impl(PyObject *self)
-/*[clinic end generated code: output=66dd48ea62f26c90 input=0a89305bec669b10]*/
+/*[clinic end generated code: output=66dd48ea62f26c90 input=f8d5c6c7dc1c9f5c]*/
 {
     PyObject *result = NULL;
     PyObject *dict = NULL;

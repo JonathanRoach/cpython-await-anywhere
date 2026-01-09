@@ -11,7 +11,7 @@ PyDoc_STRVAR(_heapq_heappush__doc__,
 "Push item onto heap, maintaining the heap invariant.");
 
 #define _HEAPQ_HEAPPUSH_METHODDEF    \
-    {"heappush", _PyCFunction_CAST(_heapq_heappush), METH_FASTCALL, _heapq_heappush__doc__},
+    {"heappush", _PyCFunction_CAST(_heapq_heappush), METH_FASTCALL|METH_C_STACK_FRUGAL, _heapq_heappush__doc__},
 
 static PyObject *
 _heapq_heappush_impl(PyObject *module, PyObject *heap, PyObject *item);
@@ -45,7 +45,7 @@ PyDoc_STRVAR(_heapq_heappop__doc__,
 "Pop the smallest item off the heap, maintaining the heap invariant.");
 
 #define _HEAPQ_HEAPPOP_METHODDEF    \
-    {"heappop", (PyCFunction)_heapq_heappop, METH_O, _heapq_heappop__doc__},
+    {"heappop", (PyCFunction)_heapq_heappop, METH_O|METH_C_STACK_FRUGAL, _heapq_heappop__doc__},
 
 static PyObject *
 _heapq_heappop_impl(PyObject *module, PyObject *heap);
@@ -82,7 +82,7 @@ PyDoc_STRVAR(_heapq_heapreplace__doc__,
 "        item = heapreplace(heap, item)");
 
 #define _HEAPQ_HEAPREPLACE_METHODDEF    \
-    {"heapreplace", _PyCFunction_CAST(_heapq_heapreplace), METH_FASTCALL, _heapq_heapreplace__doc__},
+    {"heapreplace", _PyCFunction_CAST(_heapq_heapreplace), METH_FASTCALL|METH_C_STACK_FRUGAL, _heapq_heapreplace__doc__},
 
 static PyObject *
 _heapq_heapreplace_impl(PyObject *module, PyObject *heap, PyObject *item);
@@ -119,7 +119,7 @@ PyDoc_STRVAR(_heapq_heappushpop__doc__,
 "a separate call to heappop().");
 
 #define _HEAPQ_HEAPPUSHPOP_METHODDEF    \
-    {"heappushpop", _PyCFunction_CAST(_heapq_heappushpop), METH_FASTCALL, _heapq_heappushpop__doc__},
+    {"heappushpop", _PyCFunction_CAST(_heapq_heappushpop), METH_FASTCALL|METH_C_STACK_FRUGAL, _heapq_heappushpop__doc__},
 
 static PyObject *
 _heapq_heappushpop_impl(PyObject *module, PyObject *heap, PyObject *item);
@@ -153,7 +153,7 @@ PyDoc_STRVAR(_heapq_heapify__doc__,
 "Transform list into a heap, in-place, in O(len(heap)) time.");
 
 #define _HEAPQ_HEAPIFY_METHODDEF    \
-    {"heapify", (PyCFunction)_heapq_heapify, METH_O, _heapq_heapify__doc__},
+    {"heapify", (PyCFunction)_heapq_heapify, METH_O|METH_C_STACK_FRUGAL, _heapq_heapify__doc__},
 
 static PyObject *
 _heapq_heapify_impl(PyObject *module, PyObject *heap);
@@ -182,7 +182,7 @@ PyDoc_STRVAR(_heapq_heappush_max__doc__,
 "Push item onto max heap, maintaining the heap invariant.");
 
 #define _HEAPQ_HEAPPUSH_MAX_METHODDEF    \
-    {"heappush_max", _PyCFunction_CAST(_heapq_heappush_max), METH_FASTCALL, _heapq_heappush_max__doc__},
+    {"heappush_max", _PyCFunction_CAST(_heapq_heappush_max), METH_FASTCALL|METH_C_STACK_FRUGAL, _heapq_heappush_max__doc__},
 
 static PyObject *
 _heapq_heappush_max_impl(PyObject *module, PyObject *heap, PyObject *item);
@@ -216,7 +216,7 @@ PyDoc_STRVAR(_heapq_heappop_max__doc__,
 "Maxheap variant of heappop.");
 
 #define _HEAPQ_HEAPPOP_MAX_METHODDEF    \
-    {"heappop_max", (PyCFunction)_heapq_heappop_max, METH_O, _heapq_heappop_max__doc__},
+    {"heappop_max", (PyCFunction)_heapq_heappop_max, METH_O|METH_C_STACK_FRUGAL, _heapq_heappop_max__doc__},
 
 static PyObject *
 _heapq_heappop_max_impl(PyObject *module, PyObject *heap);
@@ -245,7 +245,7 @@ PyDoc_STRVAR(_heapq_heapreplace_max__doc__,
 "Maxheap variant of heapreplace.");
 
 #define _HEAPQ_HEAPREPLACE_MAX_METHODDEF    \
-    {"heapreplace_max", _PyCFunction_CAST(_heapq_heapreplace_max), METH_FASTCALL, _heapq_heapreplace_max__doc__},
+    {"heapreplace_max", _PyCFunction_CAST(_heapq_heapreplace_max), METH_FASTCALL|METH_C_STACK_FRUGAL, _heapq_heapreplace_max__doc__},
 
 static PyObject *
 _heapq_heapreplace_max_impl(PyObject *module, PyObject *heap, PyObject *item);
@@ -279,7 +279,7 @@ PyDoc_STRVAR(_heapq_heapify_max__doc__,
 "Maxheap variant of heapify.");
 
 #define _HEAPQ_HEAPIFY_MAX_METHODDEF    \
-    {"heapify_max", (PyCFunction)_heapq_heapify_max, METH_O, _heapq_heapify_max__doc__},
+    {"heapify_max", (PyCFunction)_heapq_heapify_max, METH_O|METH_C_STACK_FRUGAL, _heapq_heapify_max__doc__},
 
 static PyObject *
 _heapq_heapify_max_impl(PyObject *module, PyObject *heap);
@@ -311,7 +311,7 @@ PyDoc_STRVAR(_heapq_heappushpop_max__doc__,
 "a separate call to heappop_max().");
 
 #define _HEAPQ_HEAPPUSHPOP_MAX_METHODDEF    \
-    {"heappushpop_max", _PyCFunction_CAST(_heapq_heappushpop_max), METH_FASTCALL, _heapq_heappushpop_max__doc__},
+    {"heappushpop_max", _PyCFunction_CAST(_heapq_heappushpop_max), METH_FASTCALL|METH_C_STACK_FRUGAL, _heapq_heappushpop_max__doc__},
 
 static PyObject *
 _heapq_heappushpop_max_impl(PyObject *module, PyObject *heap, PyObject *item);
@@ -337,4 +337,4 @@ _heapq_heappushpop_max(PyObject *module, PyObject *const *args, Py_ssize_t nargs
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=f55d8595ce150c76 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=df53198edcc8086b input=a9049054013a1b77]*/

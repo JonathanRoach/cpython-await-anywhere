@@ -212,13 +212,14 @@ BaseException_repr(PyObject *op)
 /* Pickling support */
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 BaseException.__reduce__
 [clinic start generated code]*/
 
 static PyObject *
 BaseException___reduce___impl(PyBaseExceptionObject *self)
-/*[clinic end generated code: output=af87c1247ef98748 input=283be5a10d9c964f]*/
+/*[clinic end generated code: output=af87c1247ef98748 input=817c27bb59ba9f2a]*/
 {
     if (self->args && self->dict)
         return PyTuple_Pack(3, Py_TYPE(self), self->args, self->dict);
@@ -233,6 +234,7 @@ BaseException___reduce___impl(PyBaseExceptionObject *self)
  */
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 BaseException.__setstate__
     state: object
@@ -241,7 +243,7 @@ BaseException.__setstate__
 
 static PyObject *
 BaseException___setstate___impl(PyBaseExceptionObject *self, PyObject *state)
-/*[clinic end generated code: output=f3834889950453ab input=5524b61cfe9b9856]*/
+/*[clinic end generated code: output=f3834889950453ab input=e468416b6c6a3a8f]*/
 {
     PyObject *d_key, *d_value;
     Py_ssize_t i = 0;
@@ -267,6 +269,7 @@ BaseException___setstate___impl(PyBaseExceptionObject *self, PyObject *state)
 
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 BaseException.with_traceback
     tb: object
@@ -277,7 +280,7 @@ Set self.__traceback__ to tb and return self.
 
 static PyObject *
 BaseException_with_traceback_impl(PyBaseExceptionObject *self, PyObject *tb)
-/*[clinic end generated code: output=81e92f2387927f10 input=b5fb64d834717e36]*/
+/*[clinic end generated code: output=81e92f2387927f10 input=5c3514086772206b]*/
 {
     if (BaseException___traceback___set_impl(self, tb) < 0){
         return NULL;
@@ -286,6 +289,7 @@ BaseException_with_traceback_impl(PyBaseExceptionObject *self, PyObject *tb)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 BaseException.add_note
     note: object(subclass_of="&PyUnicode_Type")
@@ -296,7 +300,7 @@ Add a note to the exception
 
 static PyObject *
 BaseException_add_note_impl(PyBaseExceptionObject *self, PyObject *note)
-/*[clinic end generated code: output=fb7cbcba611c187b input=e60a6b6e9596acaf]*/
+/*[clinic end generated code: output=fb7cbcba611c187b input=f94fe069b578c9c3]*/
 {
     PyObject *notes;
     if (PyObject_GetOptionalAttr((PyObject *)self, &_Py_ID(__notes__), &notes) < 0) {
@@ -334,6 +338,7 @@ static PyMethodDef BaseException_methods[] = {
 };
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @getter
 BaseException.args
@@ -341,7 +346,7 @@ BaseException.args
 
 static PyObject *
 BaseException_args_get_impl(PyBaseExceptionObject *self)
-/*[clinic end generated code: output=e02e34e35cf4d677 input=64282386e4d7822d]*/
+/*[clinic end generated code: output=e02e34e35cf4d677 input=6ea986745f1dbac9]*/
 {
     if (self->args == NULL) {
         Py_RETURN_NONE;
@@ -350,6 +355,7 @@ BaseException_args_get_impl(PyBaseExceptionObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @setter
 BaseException.args
@@ -357,7 +363,7 @@ BaseException.args
 
 static int
 BaseException_args_set_impl(PyBaseExceptionObject *self, PyObject *value)
-/*[clinic end generated code: output=331137e11d8f9e80 input=2400047ea5970a84]*/
+/*[clinic end generated code: output=331137e11d8f9e80 input=84af0e5f24af88d3]*/
 {
     PyObject *seq;
     if (value == NULL) {
@@ -372,6 +378,7 @@ BaseException_args_set_impl(PyBaseExceptionObject *self, PyObject *value)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @getter
 BaseException.__traceback__
@@ -379,7 +386,7 @@ BaseException.__traceback__
 
 static PyObject *
 BaseException___traceback___get_impl(PyBaseExceptionObject *self)
-/*[clinic end generated code: output=17cf874a52339398 input=a2277f0de62170cf]*/
+/*[clinic end generated code: output=17cf874a52339398 input=8e44b75b6be95906]*/
 {
     if (self->traceback == NULL) {
         Py_RETURN_NONE;
@@ -389,6 +396,7 @@ BaseException___traceback___get_impl(PyBaseExceptionObject *self)
 
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @setter
 BaseException.__traceback__
@@ -397,7 +405,7 @@ BaseException.__traceback__
 static int
 BaseException___traceback___set_impl(PyBaseExceptionObject *self,
                                      PyObject *value)
-/*[clinic end generated code: output=a82c86d9f29f48f0 input=12676035676badad]*/
+/*[clinic end generated code: output=a82c86d9f29f48f0 input=eb53c32c2bc40d41]*/
 {
     if (value == NULL) {
         PyErr_SetString(PyExc_TypeError, "__traceback__ may not be deleted");
@@ -418,6 +426,7 @@ BaseException___traceback___set_impl(PyBaseExceptionObject *self,
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @getter
 BaseException.__context__
@@ -425,7 +434,7 @@ BaseException.__context__
 
 static PyObject *
 BaseException___context___get_impl(PyBaseExceptionObject *self)
-/*[clinic end generated code: output=6ec5d296ce8d1c93 input=b2d22687937e66ab]*/
+/*[clinic end generated code: output=6ec5d296ce8d1c93 input=620b7c6fee7b813c]*/
 {
     if (self->context == NULL) {
         Py_RETURN_NONE;
@@ -434,6 +443,7 @@ BaseException___context___get_impl(PyBaseExceptionObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @setter
 BaseException.__context__
@@ -442,7 +452,7 @@ BaseException.__context__
 static int
 BaseException___context___set_impl(PyBaseExceptionObject *self,
                                    PyObject *value)
-/*[clinic end generated code: output=b4cb52dcca1da3bd input=c0971adf47fa1858]*/
+/*[clinic end generated code: output=b4cb52dcca1da3bd input=77f6b5a4eac04b07]*/
 {
     if (value == NULL) {
         PyErr_SetString(PyExc_TypeError, "__context__ may not be deleted");
@@ -461,6 +471,7 @@ BaseException___context___set_impl(PyBaseExceptionObject *self,
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @getter
 BaseException.__cause__
@@ -468,7 +479,7 @@ BaseException.__cause__
 
 static PyObject *
 BaseException___cause___get_impl(PyBaseExceptionObject *self)
-/*[clinic end generated code: output=987f6c4d8a0bdbab input=40e0eac427b6e602]*/
+/*[clinic end generated code: output=987f6c4d8a0bdbab input=56e95551356104c8]*/
 {
     if (self->cause == NULL) {
         Py_RETURN_NONE;
@@ -477,6 +488,7 @@ BaseException___cause___get_impl(PyBaseExceptionObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @setter
 BaseException.__cause__
@@ -485,7 +497,7 @@ BaseException.__cause__
 static int
 BaseException___cause___set_impl(PyBaseExceptionObject *self,
                                  PyObject *value)
-/*[clinic end generated code: output=6161315398aaf541 input=e1b403c0bde3f62a]*/
+/*[clinic end generated code: output=6161315398aaf541 input=499af812f7bb6ac0]*/
 {
     if (value == NULL) {
         PyErr_SetString(PyExc_TypeError, "__cause__ may not be deleted");
@@ -1065,6 +1077,7 @@ BaseExceptionGroup_str(PyObject *op)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 BaseExceptionGroup.derive
     excs: object
@@ -1074,7 +1087,7 @@ BaseExceptionGroup.derive
 static PyObject *
 BaseExceptionGroup_derive_impl(PyBaseExceptionGroupObject *self,
                                PyObject *excs)
-/*[clinic end generated code: output=4307564218dfbf06 input=f72009d38e98cec1]*/
+/*[clinic end generated code: output=4307564218dfbf06 input=6eaf11416c09c970]*/
 {
     PyObject *init_args = PyTuple_Pack(2, self->msg, excs);
     if (!init_args) {
@@ -1371,6 +1384,7 @@ done:
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 BaseExceptionGroup.split
     matcher_value: object
@@ -1380,7 +1394,7 @@ BaseExceptionGroup.split
 static PyObject *
 BaseExceptionGroup_split_impl(PyBaseExceptionGroupObject *self,
                               PyObject *matcher_value)
-/*[clinic end generated code: output=d74db579da4df6e2 input=0c5cfbfed57e0052]*/
+/*[clinic end generated code: output=d74db579da4df6e2 input=28047f23435da27b]*/
 {
     _exceptiongroup_split_matcher_type matcher_type;
     if (get_matcher_type(matcher_value, &matcher_type) < 0) {
@@ -1406,6 +1420,7 @@ BaseExceptionGroup_split_impl(PyBaseExceptionGroupObject *self,
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 BaseExceptionGroup.subgroup
     matcher_value: object
@@ -1415,7 +1430,7 @@ BaseExceptionGroup.subgroup
 static PyObject *
 BaseExceptionGroup_subgroup_impl(PyBaseExceptionGroupObject *self,
                                  PyObject *matcher_value)
-/*[clinic end generated code: output=07dbec8f77d4dd8e input=988ffdd755a151ce]*/
+/*[clinic end generated code: output=07dbec8f77d4dd8e input=4445dc0d3ee5437c]*/
 {
     _exceptiongroup_split_matcher_type matcher_type;
     if (get_matcher_type(matcher_value, &matcher_type) < 0) {

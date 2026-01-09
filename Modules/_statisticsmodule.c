@@ -24,6 +24,7 @@ module _statistics
  */
 
 /*[clinic input]
+@c_stack_frugal
 _statistics._normal_dist_inv_cdf -> double
    p: double
    mu: double
@@ -34,7 +35,7 @@ _statistics._normal_dist_inv_cdf -> double
 static double
 _statistics__normal_dist_inv_cdf_impl(PyObject *module, double p, double mu,
                                       double sigma)
-/*[clinic end generated code: output=02fd19ddaab36602 input=24715a74be15296a]*/
+/*[clinic end generated code: output=02fd19ddaab36602 input=52105892f419c1cf]*/
 {
     double q, num, den, r, x;
     if (p <= 0.0 || p >= 1.0) {

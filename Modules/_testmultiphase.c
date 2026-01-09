@@ -135,6 +135,7 @@ static PyModuleDef def_nonmodule;
 static PyModuleDef def_nonmodule_with_methods;
 
 /*[clinic input]
+@c_stack_frugal
 _testmultiphase.StateAccessType.get_defining_module
 
     cls: defining_class
@@ -148,7 +149,7 @@ module.
 static PyObject *
 _testmultiphase_StateAccessType_get_defining_module_impl(StateAccessTypeObject *self,
                                                          PyTypeObject *cls)
-/*[clinic end generated code: output=ba2a14284a5d0921 input=d2c7245c8a9d06f8]*/
+/*[clinic end generated code: output=ba2a14284a5d0921 input=8db33f96c92fb733]*/
 {
     PyObject *retval;
     retval = PyType_GetModule(cls);
@@ -160,6 +161,7 @@ _testmultiphase_StateAccessType_get_defining_module_impl(StateAccessTypeObject *
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testmultiphase.StateAccessType.getmodulebydef_bad_def
 
     cls: defining_class
@@ -170,7 +172,7 @@ Test that result of PyType_GetModuleByDef with a bad def is NULL.
 static PyObject *
 _testmultiphase_StateAccessType_getmodulebydef_bad_def_impl(StateAccessTypeObject *self,
                                                             PyTypeObject *cls)
-/*[clinic end generated code: output=64509074dfcdbd31 input=edaff09aa4788204]*/
+/*[clinic end generated code: output=64509074dfcdbd31 input=f1dcf56667e07b77]*/
 {
     PyType_GetModuleByDef(Py_TYPE(self), &def_nonmodule);  // should raise
     assert(PyErr_Occurred());
@@ -178,6 +180,7 @@ _testmultiphase_StateAccessType_getmodulebydef_bad_def_impl(StateAccessTypeObjec
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testmultiphase.StateAccessType.increment_count_clinic
 
     cls: defining_class
@@ -197,7 +200,7 @@ static PyObject *
 _testmultiphase_StateAccessType_increment_count_clinic_impl(StateAccessTypeObject *self,
                                                             PyTypeObject *cls,
                                                             int n, int twice)
-/*[clinic end generated code: output=3b34f86bc5473204 input=551d482e1fe0b8f5]*/
+/*[clinic end generated code: output=3b34f86bc5473204 input=3fdfa7c73b46483b]*/
 {
     meth_state *m_state = PyType_GetModuleState(cls);
     if (twice) {
@@ -255,6 +258,7 @@ _StateAccessType_increment_count_noclinic(PyObject *self,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testmultiphase.StateAccessType.get_count
 
     cls: defining_class
@@ -265,7 +269,7 @@ Return the value of the module-state counter.
 static PyObject *
 _testmultiphase_StateAccessType_get_count_impl(StateAccessTypeObject *self,
                                                PyTypeObject *cls)
-/*[clinic end generated code: output=64600f95b499a319 input=d5d181f12384849f]*/
+/*[clinic end generated code: output=64600f95b499a319 input=0b7a29946a507943]*/
 {
     meth_state *m_state = PyType_GetModuleState(cls);
     return PyLong_FromLong(m_state->counter);

@@ -11,6 +11,7 @@ module _tracemalloc
 
 
 /*[clinic input]
+@c_stack_frugal
 _tracemalloc.is_tracing
 
 Return True if the tracemalloc module is tracing Python memory allocations.
@@ -18,13 +19,14 @@ Return True if the tracemalloc module is tracing Python memory allocations.
 
 static PyObject *
 _tracemalloc_is_tracing_impl(PyObject *module)
-/*[clinic end generated code: output=2d763b42601cd3ef input=af104b0a00192f63]*/
+/*[clinic end generated code: output=2d763b42601cd3ef input=14f642f9e5fe3719]*/
 {
     return PyBool_FromLong(_PyTraceMalloc_IsTracing());
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 _tracemalloc.clear_traces
 
 Clear traces of memory blocks allocated by Python.
@@ -32,7 +34,7 @@ Clear traces of memory blocks allocated by Python.
 
 static PyObject *
 _tracemalloc_clear_traces_impl(PyObject *module)
-/*[clinic end generated code: output=a86080ee41b84197 input=0dab5b6c785183a5]*/
+/*[clinic end generated code: output=a86080ee41b84197 input=4e65c37b2e4d8d15]*/
 {
     _PyTraceMalloc_ClearTraces();
     Py_RETURN_NONE;
@@ -40,6 +42,7 @@ _tracemalloc_clear_traces_impl(PyObject *module)
 
 
 /*[clinic input]
+@c_stack_frugal
 _tracemalloc._get_traces
 
 Get traces of all memory blocks allocated by Python.
@@ -52,7 +55,7 @@ Return an empty list if the tracemalloc module is disabled.
 
 static PyObject *
 _tracemalloc__get_traces_impl(PyObject *module)
-/*[clinic end generated code: output=e9929876ced4b5cc input=6c7d2230b24255aa]*/
+/*[clinic end generated code: output=e9929876ced4b5cc input=406520d6796003ea]*/
 {
     return _PyTraceMalloc_GetTraces();
 }
@@ -60,6 +63,7 @@ _tracemalloc__get_traces_impl(PyObject *module)
 
 
 /*[clinic input]
+@c_stack_frugal
 _tracemalloc._get_object_traceback
 
     obj: object
@@ -74,13 +78,14 @@ trace the allocation of the object.
 
 static PyObject *
 _tracemalloc__get_object_traceback(PyObject *module, PyObject *obj)
-/*[clinic end generated code: output=41ee0553a658b0aa input=29495f1b21c53212]*/
+/*[clinic end generated code: output=41ee0553a658b0aa input=f81da2b33539e32a]*/
 {
     return _PyTraceMalloc_GetObjectTraceback(obj);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 _tracemalloc.start
 
     nframe: int = 1
@@ -94,7 +99,7 @@ trace to nframe.
 
 static PyObject *
 _tracemalloc_start_impl(PyObject *module, int nframe)
-/*[clinic end generated code: output=caae05c23c159d3c input=40d849b5b29d1933]*/
+/*[clinic end generated code: output=caae05c23c159d3c input=0283194c33ed0f52]*/
 {
     if (_PyTraceMalloc_Start(nframe) < 0) {
         return NULL;
@@ -104,6 +109,7 @@ _tracemalloc_start_impl(PyObject *module, int nframe)
 
 
 /*[clinic input]
+@c_stack_frugal
 _tracemalloc.stop
 
 Stop tracing Python memory allocations.
@@ -113,7 +119,7 @@ Also clear traces of memory blocks allocated by Python.
 
 static PyObject *
 _tracemalloc_stop_impl(PyObject *module)
-/*[clinic end generated code: output=c3c42ae03e3955cd input=7478f075e51dae18]*/
+/*[clinic end generated code: output=c3c42ae03e3955cd input=03e639c1dcbcbe72]*/
 {
     _PyTraceMalloc_Stop();
     Py_RETURN_NONE;
@@ -121,6 +127,7 @@ _tracemalloc_stop_impl(PyObject *module)
 
 
 /*[clinic input]
+@c_stack_frugal
 _tracemalloc.get_traceback_limit
 
 Get the maximum number of frames stored in the traceback of a trace.
@@ -131,12 +138,13 @@ the most recent frame: the limit is 1.
 
 static PyObject *
 _tracemalloc_get_traceback_limit_impl(PyObject *module)
-/*[clinic end generated code: output=d556d9306ba95567 input=da3cd977fc68ae3b]*/
+/*[clinic end generated code: output=d556d9306ba95567 input=f06f5945ce84e243]*/
 {
     return PyLong_FromLong(_PyTraceMalloc_GetTracebackLimit());
 }
 
 /*[clinic input]
+@c_stack_frugal
 _tracemalloc.get_tracemalloc_memory
 
 Get the memory usage in bytes of the tracemalloc module.
@@ -146,13 +154,14 @@ This memory is used internally to trace memory allocations.
 
 static PyObject *
 _tracemalloc_get_tracemalloc_memory_impl(PyObject *module)
-/*[clinic end generated code: output=e3f14e280a55f5aa input=5d919c0f4d5132ad]*/
+/*[clinic end generated code: output=e3f14e280a55f5aa input=620aba24238667a9]*/
 {
     return PyLong_FromSize_t(_PyTraceMalloc_GetMemory());
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 _tracemalloc.get_traced_memory
 
 Get the current size and peak size of memory blocks traced by tracemalloc.
@@ -162,12 +171,13 @@ Returns a tuple: (current: int, peak: int).
 
 static PyObject *
 _tracemalloc_get_traced_memory_impl(PyObject *module)
-/*[clinic end generated code: output=5b167189adb9e782 input=61ddb5478400ff66]*/
+/*[clinic end generated code: output=5b167189adb9e782 input=1df49e52f8204ac0]*/
 {
     return _PyTraceMalloc_GetTracedMemory();
 }
 
 /*[clinic input]
+@c_stack_frugal
 _tracemalloc.reset_peak
 
 Set the peak size of memory blocks traced by tracemalloc to the current size.
@@ -178,7 +188,7 @@ Do nothing if the tracemalloc module is not tracing memory allocations.
 
 static PyObject *
 _tracemalloc_reset_peak_impl(PyObject *module)
-/*[clinic end generated code: output=140c2870f691dbb2 input=18afd0635066e9ce]*/
+/*[clinic end generated code: output=140c2870f691dbb2 input=187605589532a5d0]*/
 {
     _PyTraceMalloc_ResetPeak();
     Py_RETURN_NONE;

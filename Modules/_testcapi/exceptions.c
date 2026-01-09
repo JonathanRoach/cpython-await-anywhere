@@ -13,6 +13,7 @@ module _testcapi
 /*[clinic end generated code: output=da39a3ee5e6b4b0d input=6361033e795369fc]*/
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.err_set_raised
     exception as exc: object
     /
@@ -20,7 +21,7 @@ _testcapi.err_set_raised
 
 static PyObject *
 _testcapi_err_set_raised(PyObject *module, PyObject *exc)
-/*[clinic end generated code: output=0a0c7743961fcae5 input=c5f7331864a94df9]*/
+/*[clinic end generated code: output=0a0c7743961fcae5 input=29d7e74c4eac7a2a]*/
 {
     Py_INCREF(exc);
     PyErr_SetRaisedException(exc);
@@ -55,6 +56,7 @@ err_restore(PyObject *self, PyObject *args) {
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.exception_print
     exception as exc: object
     legacy: bool = False
@@ -65,7 +67,7 @@ To test the format of exceptions as printed out.
 
 static PyObject *
 _testcapi_exception_print_impl(PyObject *module, PyObject *exc, int legacy)
-/*[clinic end generated code: output=3f04fe0c18412ae0 input=c76f42cb94136dbf]*/
+/*[clinic end generated code: output=3f04fe0c18412ae0 input=e6f61615ca662568]*/
 {
     if (legacy) {
         PyObject *tb = NULL;
@@ -82,6 +84,7 @@ _testcapi_exception_print_impl(PyObject *module, PyObject *exc, int legacy)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.make_exception_with_doc
     name: str
     doc: str = NULL
@@ -95,12 +98,13 @@ static PyObject *
 _testcapi_make_exception_with_doc_impl(PyObject *module, const char *name,
                                        const char *doc, PyObject *base,
                                        PyObject *dict)
-/*[clinic end generated code: output=439f0d963c1ce2c4 input=23a73013f8a8795a]*/
+/*[clinic end generated code: output=439f0d963c1ce2c4 input=5d0a40e12e9aa8c4]*/
 {
     return PyErr_NewExceptionWithDoc(name, doc, base, dict);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.exc_set_object
     exception as exc: object
     obj: object
@@ -109,20 +113,21 @@ _testcapi.exc_set_object
 
 static PyObject *
 _testcapi_exc_set_object_impl(PyObject *module, PyObject *exc, PyObject *obj)
-/*[clinic end generated code: output=34c8c7c83e5c8463 input=fc530aafb1b0a360]*/
+/*[clinic end generated code: output=34c8c7c83e5c8463 input=2c100094dbc07695]*/
 {
     PyErr_SetObject(exc, obj);
     return NULL;
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.exc_set_object_fetch = _testcapi.exc_set_object
 [clinic start generated code]*/
 
 static PyObject *
 _testcapi_exc_set_object_fetch_impl(PyObject *module, PyObject *exc,
                                     PyObject *obj)
-/*[clinic end generated code: output=7a5ff5f6d3cf687f input=77ec686f1f95fa38]*/
+/*[clinic end generated code: output=7a5ff5f6d3cf687f input=431f2ff271b79b35]*/
 {
     PyObject *type = UNINITIALIZED_PTR;
     PyObject *value = UNINITIALIZED_PTR;
@@ -139,6 +144,7 @@ _testcapi_exc_set_object_fetch_impl(PyObject *module, PyObject *exc,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.err_setstring
     exc: object
     value: str(zeroes=True, accept={robuffer, str, NoneType})
@@ -148,7 +154,7 @@ _testcapi.err_setstring
 static PyObject *
 _testcapi_err_setstring_impl(PyObject *module, PyObject *exc,
                              const char *value, Py_ssize_t value_length)
-/*[clinic end generated code: output=fba8705e5703dd3f input=e8a95fad66d9004b]*/
+/*[clinic end generated code: output=fba8705e5703dd3f input=32c031d083ecb440]*/
 {
     NULLABLE(exc);
     PyErr_SetString(exc, value);
@@ -156,6 +162,7 @@ _testcapi_err_setstring_impl(PyObject *module, PyObject *exc,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.err_setfromerrnowithfilename
     error: int
     exc: object
@@ -167,7 +174,7 @@ static PyObject *
 _testcapi_err_setfromerrnowithfilename_impl(PyObject *module, int error,
                                             PyObject *exc, const char *value,
                                             Py_ssize_t value_length)
-/*[clinic end generated code: output=d02df5749a01850e input=ff7c384234bf097f]*/
+/*[clinic end generated code: output=d02df5749a01850e input=7330e711c63f86c8]*/
 {
     NULLABLE(exc);
     errno = error;
@@ -176,6 +183,7 @@ _testcapi_err_setfromerrnowithfilename_impl(PyObject *module, int error,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.raise_exception
     exception as exc: object
     num_args: int
@@ -184,7 +192,7 @@ _testcapi.raise_exception
 
 static PyObject *
 _testcapi_raise_exception_impl(PyObject *module, PyObject *exc, int num_args)
-/*[clinic end generated code: output=eb0a9c5d69e0542d input=83d6262c3829d088]*/
+/*[clinic end generated code: output=eb0a9c5d69e0542d input=51328e30fcecf7f9]*/
 {
     PyObject *exc_args = PyTuple_New(num_args);
     if (exc_args == NULL) {
@@ -204,17 +212,19 @@ _testcapi_raise_exception_impl(PyObject *module, PyObject *exc, int num_args)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.raise_memoryerror
 [clinic start generated code]*/
 
 static PyObject *
 _testcapi_raise_memoryerror_impl(PyObject *module)
-/*[clinic end generated code: output=dd057803fb0131e6 input=6ca521bd07fb73cb]*/
+/*[clinic end generated code: output=dd057803fb0131e6 input=151f1c944752621a]*/
 {
     return PyErr_NoMemory();
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.fatal_error
     message: str(accept={robuffer})
     release_gil: bool = False
@@ -224,7 +234,7 @@ _testcapi.fatal_error
 static PyObject *
 _testcapi_fatal_error_impl(PyObject *module, const char *message,
                            int release_gil)
-/*[clinic end generated code: output=9c3237116e6a03e8 input=1be357a2ccb04c8c]*/
+/*[clinic end generated code: output=9c3237116e6a03e8 input=a27d684b56ac32e2]*/
 {
     if (release_gil) {
         Py_BEGIN_ALLOW_THREADS
@@ -239,6 +249,7 @@ _testcapi_fatal_error_impl(PyObject *module, const char *message,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.set_exc_info
     new_type: object
     new_value: object
@@ -249,7 +260,7 @@ _testcapi.set_exc_info
 static PyObject *
 _testcapi_set_exc_info_impl(PyObject *module, PyObject *new_type,
                             PyObject *new_value, PyObject *new_tb)
-/*[clinic end generated code: output=b55fa35dec31300e input=ea9f19e0f55fe5b3]*/
+/*[clinic end generated code: output=b55fa35dec31300e input=5b38181051191ed3]*/
 {
     PyObject *type = UNINITIALIZED_PTR, *value = UNINITIALIZED_PTR, *tb = UNINITIALIZED_PTR;
     PyErr_GetExcInfo(&type, &value, &tb);
@@ -270,6 +281,7 @@ _testcapi_set_exc_info_impl(PyObject *module, PyObject *new_type,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.set_exception
     new_exc: object
     /
@@ -277,7 +289,7 @@ _testcapi.set_exception
 
 static PyObject *
 _testcapi_set_exception(PyObject *module, PyObject *new_exc)
-/*[clinic end generated code: output=8b969b35d029e96d input=c89d4ca966c69738]*/
+/*[clinic end generated code: output=8b969b35d029e96d input=be64ac35f3cf12a7]*/
 {
     PyObject *exc = PyErr_GetHandledException();
     assert(PyExceptionInstance_Check(exc) || exc == NULL);
@@ -286,6 +298,7 @@ _testcapi_set_exception(PyObject *module, PyObject *new_exc)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.traceback_print
     traceback: object
     file: object
@@ -296,7 +309,7 @@ To test the format of tracebacks as printed out.
 static PyObject *
 _testcapi_traceback_print_impl(PyObject *module, PyObject *traceback,
                                PyObject *file)
-/*[clinic end generated code: output=17074ecf9d95cf30 input=9423f2857b008ca8]*/
+/*[clinic end generated code: output=17074ecf9d95cf30 input=304341dcaa00aee3]*/
 {
     if (PyTraceBack_Print(traceback, file) < 0) {
         return NULL;
@@ -345,6 +358,7 @@ err_formatunraisable(PyObject *Py_UNUSED(module), PyObject *args)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.unstable_exc_prep_reraise_star
     orig: object
     excs: object
@@ -355,7 +369,7 @@ To test PyUnstable_Exc_PrepReraiseStar.
 static PyObject *
 _testcapi_unstable_exc_prep_reraise_star_impl(PyObject *module,
                                               PyObject *orig, PyObject *excs)
-/*[clinic end generated code: output=850cf008e0563c77 input=27fbcda2203eb301]*/
+/*[clinic end generated code: output=850cf008e0563c77 input=acc421df4f342ea4]*/
 {
     return PyUnstable_Exc_PrepReraiseStar(orig, excs);
 }

@@ -200,6 +200,7 @@ disable_bracketed_paste(void)
 /* Exported function to send one line to readline's init file parser */
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 readline.parse_and_bind
 
@@ -211,7 +212,7 @@ Execute the init line provided in the string argument.
 
 static PyObject *
 readline_parse_and_bind_impl(PyObject *module, PyObject *string)
-/*[clinic end generated code: output=828d9b6630d434f5 input=cefdc0f9f62f9fcc]*/
+/*[clinic end generated code: output=828d9b6630d434f5 input=aca51870d517e1fb]*/
 {
     char *copy;
     PyObject *encoded = encode(string);
@@ -235,6 +236,7 @@ readline_parse_and_bind_impl(PyObject *module, PyObject *string)
 /* Exported function to parse a readline init file */
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 readline.read_init_file
 
@@ -248,7 +250,7 @@ The default filename is the last filename used.
 
 static PyObject *
 readline_read_init_file_impl(PyObject *module, PyObject *filename_obj)
-/*[clinic end generated code: output=8e059b676142831e input=62b767adfab6cc15]*/
+/*[clinic end generated code: output=8e059b676142831e input=0fc41af9f8ec99ca]*/
 {
     PyObject *filename_bytes;
     if (filename_obj != Py_None) {
@@ -278,6 +280,7 @@ readline_read_init_file_impl(PyObject *module, PyObject *filename_obj)
 /* Exported function to load a readline history file */
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 readline.read_history_file
 
@@ -291,7 +294,7 @@ The default filename is ~/.history.
 
 static PyObject *
 readline_read_history_file_impl(PyObject *module, PyObject *filename_obj)
-/*[clinic end generated code: output=66a951836fb54fbb input=5d86fd7813172a67]*/
+/*[clinic end generated code: output=66a951836fb54fbb input=1a3d870b711f8167]*/
 {
     PyObject *filename_bytes;
     if (filename_obj != Py_None) {
@@ -320,6 +323,7 @@ static int _history_length = -1; /* do not truncate history by default */
 /* Exported function to save a readline history file */
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 readline.write_history_file
 
@@ -333,7 +337,7 @@ The default filename is ~/.history.
 
 static PyObject *
 readline_write_history_file_impl(PyObject *module, PyObject *filename_obj)
-/*[clinic end generated code: output=fbcad13d8ef59ae6 input=34aaada95120cfaa]*/
+/*[clinic end generated code: output=fbcad13d8ef59ae6 input=4cb7fbc1d1545663]*/
 {
     PyObject *filename_bytes;
     const char *filename;
@@ -369,6 +373,7 @@ readline_write_history_file_impl(PyObject *module, PyObject *filename_obj)
 /* Exported function to save part of a readline history file */
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 readline.append_history_file
 
@@ -384,7 +389,7 @@ The default filename is ~/.history.
 static PyObject *
 readline_append_history_file_impl(PyObject *module, int nelements,
                                   PyObject *filename_obj)
-/*[clinic end generated code: output=5df06fc9da56e4e4 input=78a6061a8d3a0275]*/
+/*[clinic end generated code: output=5df06fc9da56e4e4 input=062ec315e5cdcf38]*/
 {
     if (nelements < 0)
     {
@@ -428,6 +433,7 @@ readline_append_history_file_impl(PyObject *module, int nelements,
 /* Set history length */
 
 /*[clinic input]
+@c_stack_frugal
 readline.set_history_length
 
     length: int
@@ -440,7 +446,7 @@ A negative length is used to inhibit history truncation.
 
 static PyObject *
 readline_set_history_length_impl(PyObject *module, int length)
-/*[clinic end generated code: output=e161a53e45987dc7 input=b8901bf16488b760]*/
+/*[clinic end generated code: output=e161a53e45987dc7 input=a55c2eb40d7f8e10]*/
 {
     FT_ATOMIC_STORE_INT_RELAXED(_history_length, length);
     Py_RETURN_NONE;
@@ -449,6 +455,7 @@ readline_set_history_length_impl(PyObject *module, int length)
 /* Get history length */
 
 /*[clinic input]
+@c_stack_frugal
 readline.get_history_length
 
 Return the maximum number of lines that will be written to the history file.
@@ -456,7 +463,7 @@ Return the maximum number of lines that will be written to the history file.
 
 static PyObject *
 readline_get_history_length_impl(PyObject *module)
-/*[clinic end generated code: output=83a2eeae35b6d2b9 input=5dce2eeba4327817]*/
+/*[clinic end generated code: output=83a2eeae35b6d2b9 input=a78bdb1d6c8c4956]*/
 {
     int history_length = FT_ATOMIC_LOAD_INT_RELAXED(_history_length);
     return PyLong_FromLong(history_length);
@@ -483,6 +490,7 @@ set_hook(const char *funcname, PyObject **hook_var, PyObject *function)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 readline.set_completion_display_matches_hook
 
@@ -499,7 +507,7 @@ once each time matches need to be displayed.
 static PyObject *
 readline_set_completion_display_matches_hook_impl(PyObject *module,
                                                   PyObject *function)
-/*[clinic end generated code: output=516e5cb8db75a328 input=ea4191e4a07d28d3]*/
+/*[clinic end generated code: output=516e5cb8db75a328 input=12237e06be7bd22d]*/
 {
     readlinestate *state = get_readline_state(module);
     PyObject *result = set_hook("completion_display_matches_hook",
@@ -521,6 +529,7 @@ readline_set_completion_display_matches_hook_impl(PyObject *module,
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 readline.set_startup_hook
 
@@ -535,7 +544,7 @@ before readline prints the first prompt.
 
 static PyObject *
 readline_set_startup_hook_impl(PyObject *module, PyObject *function)
-/*[clinic end generated code: output=02cd0e0c4fa082ad input=11fce34992f1125e]*/
+/*[clinic end generated code: output=02cd0e0c4fa082ad input=08627c45c177faea]*/
 {
     readlinestate *state = get_readline_state(module);
     return set_hook("startup_hook", &state->startup_hook,
@@ -547,6 +556,7 @@ readline_set_startup_hook_impl(PyObject *module, PyObject *function)
 /* Set pre-input hook */
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 readline.set_pre_input_hook
 
@@ -562,7 +572,7 @@ characters.
 
 static PyObject *
 readline_set_pre_input_hook_impl(PyObject *module, PyObject *function)
-/*[clinic end generated code: output=fe1a96505096f464 input=96d3d5ff4a0c7c28]*/
+/*[clinic end generated code: output=fe1a96505096f464 input=54572ce016b45576]*/
 {
     readlinestate *state = get_readline_state(module);
     return set_hook("pre_input_hook", &state->pre_input_hook,
@@ -574,6 +584,7 @@ readline_set_pre_input_hook_impl(PyObject *module, PyObject *function)
 /* Get the completion type for the scope of the tab-completion */
 
 /*[clinic input]
+@c_stack_frugal
 readline.get_completion_type
 
 Get the type of completion being attempted.
@@ -581,7 +592,7 @@ Get the type of completion being attempted.
 
 static PyObject *
 readline_get_completion_type_impl(PyObject *module)
-/*[clinic end generated code: output=5c54d58a04997c07 input=04b92bc7a82dac91]*/
+/*[clinic end generated code: output=5c54d58a04997c07 input=80bfba3329b843a8]*/
 {
   return PyLong_FromLong(rl_completion_type);
 }
@@ -589,6 +600,7 @@ readline_get_completion_type_impl(PyObject *module)
 /* Get the beginning index for the scope of the tab-completion */
 
 /*[clinic input]
+@c_stack_frugal
 readline.get_begidx
 
 Get the beginning index of the completion scope.
@@ -596,7 +608,7 @@ Get the beginning index of the completion scope.
 
 static PyObject *
 readline_get_begidx_impl(PyObject *module)
-/*[clinic end generated code: output=362616ee8ed1b2b1 input=e083b81c8eb4bac3]*/
+/*[clinic end generated code: output=362616ee8ed1b2b1 input=ae3cf54e9184a944]*/
 {
     readlinestate *state = get_readline_state(module);
     return Py_NewRef(state->begidx);
@@ -605,6 +617,7 @@ readline_get_begidx_impl(PyObject *module)
 /* Get the ending index for the scope of the tab-completion */
 
 /*[clinic input]
+@c_stack_frugal
 readline.get_endidx
 
 Get the ending index of the completion scope.
@@ -612,7 +625,7 @@ Get the ending index of the completion scope.
 
 static PyObject *
 readline_get_endidx_impl(PyObject *module)
-/*[clinic end generated code: output=7f763350b12d7517 input=d4c7e34a625fd770]*/
+/*[clinic end generated code: output=7f763350b12d7517 input=829c76e29eb48b2d]*/
 {
     readlinestate *state = get_readline_state(module);
     return Py_NewRef(state->endidx);
@@ -621,6 +634,7 @@ readline_get_endidx_impl(PyObject *module)
 /* Set the tab-completion word-delimiters that readline uses */
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 readline.set_completer_delims
 
@@ -632,7 +646,7 @@ Set the word delimiters for completion.
 
 static PyObject *
 readline_set_completer_delims_impl(PyObject *module, PyObject *string)
-/*[clinic end generated code: output=017e48e9704a2f64 input=6c87bb1cbed7fcf1]*/
+/*[clinic end generated code: output=017e48e9704a2f64 input=287958dc93a73c7b]*/
 {
     char *break_chars;
     PyObject *encoded = encode(string);
@@ -694,6 +708,7 @@ _py_free_history_entry_lock_held(HIST_ENTRY *entry)
 #endif
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 readline.remove_history_item
 
@@ -705,7 +720,7 @@ Remove history item given by its zero-based position.
 
 static PyObject *
 readline_remove_history_item_impl(PyObject *module, int entry_number)
-/*[clinic end generated code: output=ab114f029208c7e8 input=847d7cc7e7c25852]*/
+/*[clinic end generated code: output=ab114f029208c7e8 input=f571fdda09f5aac5]*/
 {
     HIST_ENTRY *entry;
 
@@ -727,6 +742,7 @@ readline_remove_history_item_impl(PyObject *module, int entry_number)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 readline.replace_history_item
 
@@ -742,7 +758,7 @@ pos is zero-based.
 static PyObject *
 readline_replace_history_item_impl(PyObject *module, int entry_number,
                                    PyObject *line)
-/*[clinic end generated code: output=f8cec2770ca125eb input=b44c8dcdc2dd87fe]*/
+/*[clinic end generated code: output=f8cec2770ca125eb input=4df4e8e55ee68564]*/
 {
     PyObject *encoded;
     HIST_ENTRY *old_entry;
@@ -774,6 +790,7 @@ readline_replace_history_item_impl(PyObject *module, int entry_number,
 /* Add a line to the history buffer */
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 readline.add_history
 
@@ -785,7 +802,7 @@ Add an item to the history buffer.
 
 static PyObject *
 readline_add_history_impl(PyObject *module, PyObject *string)
-/*[clinic end generated code: output=89047062042ac344 input=faa7053b8612513b]*/
+/*[clinic end generated code: output=89047062042ac344 input=f2934a0f874925ee]*/
 {
     PyObject *encoded = encode(string);
     if (encoded == NULL) {
@@ -801,6 +818,7 @@ static int should_auto_add_history = 1;
 /* Enable or disable automatic history */
 
 /*[clinic input]
+@c_stack_frugal
 readline.set_auto_history
 
     enabled as _should_auto_add_history: bool
@@ -812,7 +830,7 @@ Enables or disables automatic history.
 static PyObject *
 readline_set_auto_history_impl(PyObject *module,
                                int _should_auto_add_history)
-/*[clinic end generated code: output=619c6968246fd82b input=3d413073a1a03355]*/
+/*[clinic end generated code: output=619c6968246fd82b input=becf00fe2d2c3025]*/
 {
     should_auto_add_history = _should_auto_add_history;
     Py_RETURN_NONE;
@@ -822,6 +840,7 @@ readline_set_auto_history_impl(PyObject *module,
 /* Get the tab-completion word-delimiters that readline uses */
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 readline.get_completer_delims
 
@@ -830,7 +849,7 @@ Get the word delimiters for completion.
 
 static PyObject *
 readline_get_completer_delims_impl(PyObject *module)
-/*[clinic end generated code: output=6b060280fa68ef43 input=80583cdf8176bcdd]*/
+/*[clinic end generated code: output=6b060280fa68ef43 input=03d8001f793ee24a]*/
 {
     return decode(rl_completer_word_break_characters);
 }
@@ -838,6 +857,7 @@ readline_get_completer_delims_impl(PyObject *module)
 /* Set the completer function */
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 readline.set_completer
 
@@ -853,13 +873,14 @@ It should return the next possible completion starting with 'text'.
 
 static PyObject *
 readline_set_completer_impl(PyObject *module, PyObject *function)
-/*[clinic end generated code: output=171a2a60f81d3204 input=97f539d8d0bfcb95]*/
+/*[clinic end generated code: output=171a2a60f81d3204 input=10424832fcc2b686]*/
 {
     readlinestate *state = get_readline_state(module);
     return set_hook("completer", &state->completer, function);
 }
 
 /*[clinic input]
+@c_stack_frugal
 readline.get_completer
 
 Get the current completer function.
@@ -867,7 +888,7 @@ Get the current completer function.
 
 static PyObject *
 readline_get_completer_impl(PyObject *module)
-/*[clinic end generated code: output=6e6bbd8226d14475 input=6457522e56d70d13]*/
+/*[clinic end generated code: output=6e6bbd8226d14475 input=fd93fff7514a288d]*/
 {
     readlinestate *state = get_readline_state(module);
     if (state->completer == NULL) {
@@ -898,6 +919,7 @@ _py_get_history_length_lock_held(void)
 /* Exported function to get any element of history */
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 readline.get_history_item
 
@@ -909,7 +931,7 @@ Return the current contents of history item at one-based index.
 
 static PyObject *
 readline_get_history_item_impl(PyObject *module, int idx)
-/*[clinic end generated code: output=83d3e53ea5f34b3d input=2835b50c7bde705f]*/
+/*[clinic end generated code: output=83d3e53ea5f34b3d input=513185f883f28c62]*/
 {
     HIST_ENTRY *hist_ent;
 
@@ -942,6 +964,7 @@ readline_get_history_item_impl(PyObject *module, int idx)
 /* Exported function to get current length of history */
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 readline.get_current_history_length
 
@@ -950,7 +973,7 @@ Return the current (not the maximum) length of history.
 
 static PyObject *
 readline_get_current_history_length_impl(PyObject *module)
-/*[clinic end generated code: output=436b294f12ba1e3f input=22e9fd0abbc2fd8d]*/
+/*[clinic end generated code: output=436b294f12ba1e3f input=b2050099868f930d]*/
 {
     return PyLong_FromLong((long)_py_get_history_length_lock_held());
 }
@@ -958,6 +981,7 @@ readline_get_current_history_length_impl(PyObject *module)
 /* Exported function to read the current line buffer */
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 readline.get_line_buffer
 
@@ -966,7 +990,7 @@ Return the current contents of the line buffer.
 
 static PyObject *
 readline_get_line_buffer_impl(PyObject *module)
-/*[clinic end generated code: output=d22f9025ecad80e4 input=8e02e0fe081feece]*/
+/*[clinic end generated code: output=d22f9025ecad80e4 input=244a05e3ad0cab41]*/
 {
     return decode(rl_line_buffer);
 }
@@ -976,6 +1000,7 @@ readline_get_line_buffer_impl(PyObject *module)
 /* Exported function to clear the current history */
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 readline.clear_history
 
@@ -984,7 +1009,7 @@ Clear the current readline history.
 
 static PyObject *
 readline_clear_history_impl(PyObject *module)
-/*[clinic end generated code: output=1f2dbb0dfa5d5ebb input=b2c6b11551593053]*/
+/*[clinic end generated code: output=1f2dbb0dfa5d5ebb input=e7ed8f271f1ed0ed]*/
 {
     clear_history();
     Py_RETURN_NONE;
@@ -995,6 +1020,7 @@ readline_clear_history_impl(PyObject *module)
 /* Exported function to insert text into the line buffer */
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 readline.insert_text
 
@@ -1006,7 +1032,7 @@ Insert text into the line buffer at the cursor position.
 
 static PyObject *
 readline_insert_text_impl(PyObject *module, PyObject *string)
-/*[clinic end generated code: output=4bf4e176f68750e0 input=2f401f4316df33c2]*/
+/*[clinic end generated code: output=4bf4e176f68750e0 input=6e4e419b6aaa7317]*/
 {
     PyObject *encoded = encode(string);
     if (encoded == NULL) {
@@ -1020,6 +1046,7 @@ readline_insert_text_impl(PyObject *module, PyObject *string)
 /* Redisplay the line buffer */
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 readline.redisplay
 
@@ -1028,7 +1055,7 @@ Change what's displayed on the screen to reflect contents of the line buffer.
 
 static PyObject *
 readline_redisplay_impl(PyObject *module)
-/*[clinic end generated code: output=a8b9725827c3c34b input=5895fd014615ff58]*/
+/*[clinic end generated code: output=a8b9725827c3c34b input=16462fb6ee7e861d]*/
 {
     rl_redisplay();
     Py_RETURN_NONE;

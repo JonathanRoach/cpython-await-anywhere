@@ -17,7 +17,7 @@ PyDoc_STRVAR(_imp_lock_held__doc__,
 "On platforms without threads, return False.");
 
 #define _IMP_LOCK_HELD_METHODDEF    \
-    {"lock_held", (PyCFunction)_imp_lock_held, METH_NOARGS, _imp_lock_held__doc__},
+    {"lock_held", (PyCFunction)_imp_lock_held, METH_NOARGS|METH_C_STACK_FRUGAL, _imp_lock_held__doc__},
 
 static PyObject *
 _imp_lock_held_impl(PyObject *module);
@@ -38,7 +38,7 @@ PyDoc_STRVAR(_imp_acquire_lock__doc__,
 "modules. On platforms without threads, this function does nothing.");
 
 #define _IMP_ACQUIRE_LOCK_METHODDEF    \
-    {"acquire_lock", (PyCFunction)_imp_acquire_lock, METH_NOARGS, _imp_acquire_lock__doc__},
+    {"acquire_lock", (PyCFunction)_imp_acquire_lock, METH_NOARGS|METH_C_STACK_FRUGAL, _imp_acquire_lock__doc__},
 
 static PyObject *
 _imp_acquire_lock_impl(PyObject *module);
@@ -58,7 +58,7 @@ PyDoc_STRVAR(_imp_release_lock__doc__,
 "On platforms without threads, this function does nothing.");
 
 #define _IMP_RELEASE_LOCK_METHODDEF    \
-    {"release_lock", (PyCFunction)_imp_release_lock, METH_NOARGS, _imp_release_lock__doc__},
+    {"release_lock", (PyCFunction)_imp_release_lock, METH_NOARGS|METH_C_STACK_FRUGAL, _imp_release_lock__doc__},
 
 static PyObject *
 _imp_release_lock_impl(PyObject *module);
@@ -81,7 +81,7 @@ PyDoc_STRVAR(_imp__fix_co_filename__doc__,
 "    File path to use.");
 
 #define _IMP__FIX_CO_FILENAME_METHODDEF    \
-    {"_fix_co_filename", _PyCFunction_CAST(_imp__fix_co_filename), METH_FASTCALL, _imp__fix_co_filename__doc__},
+    {"_fix_co_filename", _PyCFunction_CAST(_imp__fix_co_filename), METH_FASTCALL|METH_C_STACK_FRUGAL, _imp__fix_co_filename__doc__},
 
 static PyObject *
 _imp__fix_co_filename_impl(PyObject *module, PyCodeObject *code,
@@ -120,7 +120,7 @@ PyDoc_STRVAR(_imp_create_builtin__doc__,
 "Create an extension module.");
 
 #define _IMP_CREATE_BUILTIN_METHODDEF    \
-    {"create_builtin", (PyCFunction)_imp_create_builtin, METH_O, _imp_create_builtin__doc__},
+    {"create_builtin", (PyCFunction)_imp_create_builtin, METH_O|METH_C_STACK_FRUGAL, _imp_create_builtin__doc__},
 
 PyDoc_STRVAR(_imp_extension_suffixes__doc__,
 "extension_suffixes($module, /)\n"
@@ -129,7 +129,7 @@ PyDoc_STRVAR(_imp_extension_suffixes__doc__,
 "Returns the list of file suffixes used to identify extension modules.");
 
 #define _IMP_EXTENSION_SUFFIXES_METHODDEF    \
-    {"extension_suffixes", (PyCFunction)_imp_extension_suffixes, METH_NOARGS, _imp_extension_suffixes__doc__},
+    {"extension_suffixes", (PyCFunction)_imp_extension_suffixes, METH_NOARGS|METH_C_STACK_FRUGAL, _imp_extension_suffixes__doc__},
 
 static PyObject *
 _imp_extension_suffixes_impl(PyObject *module);
@@ -147,7 +147,7 @@ PyDoc_STRVAR(_imp_init_frozen__doc__,
 "Initializes a frozen module.");
 
 #define _IMP_INIT_FROZEN_METHODDEF    \
-    {"init_frozen", (PyCFunction)_imp_init_frozen, METH_O, _imp_init_frozen__doc__},
+    {"init_frozen", (PyCFunction)_imp_init_frozen, METH_O|METH_C_STACK_FRUGAL, _imp_init_frozen__doc__},
 
 static PyObject *
 _imp_init_frozen_impl(PyObject *module, PyObject *name);
@@ -184,7 +184,7 @@ PyDoc_STRVAR(_imp_find_frozen__doc__,
 "                the module\'s current name)");
 
 #define _IMP_FIND_FROZEN_METHODDEF    \
-    {"find_frozen", _PyCFunction_CAST(_imp_find_frozen), METH_FASTCALL|METH_KEYWORDS, _imp_find_frozen__doc__},
+    {"find_frozen", _PyCFunction_CAST(_imp_find_frozen), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _imp_find_frozen__doc__},
 
 static PyObject *
 _imp_find_frozen_impl(PyObject *module, PyObject *name, int withdata);
@@ -256,7 +256,7 @@ PyDoc_STRVAR(_imp_get_frozen_object__doc__,
 "Create a code object for a frozen module.");
 
 #define _IMP_GET_FROZEN_OBJECT_METHODDEF    \
-    {"get_frozen_object", _PyCFunction_CAST(_imp_get_frozen_object), METH_FASTCALL, _imp_get_frozen_object__doc__},
+    {"get_frozen_object", _PyCFunction_CAST(_imp_get_frozen_object), METH_FASTCALL|METH_C_STACK_FRUGAL, _imp_get_frozen_object__doc__},
 
 static PyObject *
 _imp_get_frozen_object_impl(PyObject *module, PyObject *name,
@@ -295,7 +295,7 @@ PyDoc_STRVAR(_imp_is_frozen_package__doc__,
 "Returns True if the module name is of a frozen package.");
 
 #define _IMP_IS_FROZEN_PACKAGE_METHODDEF    \
-    {"is_frozen_package", (PyCFunction)_imp_is_frozen_package, METH_O, _imp_is_frozen_package__doc__},
+    {"is_frozen_package", (PyCFunction)_imp_is_frozen_package, METH_O|METH_C_STACK_FRUGAL, _imp_is_frozen_package__doc__},
 
 static PyObject *
 _imp_is_frozen_package_impl(PyObject *module, PyObject *name);
@@ -324,7 +324,7 @@ PyDoc_STRVAR(_imp_is_builtin__doc__,
 "Returns True if the module name corresponds to a built-in module.");
 
 #define _IMP_IS_BUILTIN_METHODDEF    \
-    {"is_builtin", (PyCFunction)_imp_is_builtin, METH_O, _imp_is_builtin__doc__},
+    {"is_builtin", (PyCFunction)_imp_is_builtin, METH_O|METH_C_STACK_FRUGAL, _imp_is_builtin__doc__},
 
 static PyObject *
 _imp_is_builtin_impl(PyObject *module, PyObject *name);
@@ -353,7 +353,7 @@ PyDoc_STRVAR(_imp_is_frozen__doc__,
 "Returns True if the module name corresponds to a frozen module.");
 
 #define _IMP_IS_FROZEN_METHODDEF    \
-    {"is_frozen", (PyCFunction)_imp_is_frozen, METH_O, _imp_is_frozen__doc__},
+    {"is_frozen", (PyCFunction)_imp_is_frozen, METH_O|METH_C_STACK_FRUGAL, _imp_is_frozen__doc__},
 
 static PyObject *
 _imp_is_frozen_impl(PyObject *module, PyObject *name);
@@ -382,7 +382,7 @@ PyDoc_STRVAR(_imp__frozen_module_names__doc__,
 "Returns the list of available frozen modules.");
 
 #define _IMP__FROZEN_MODULE_NAMES_METHODDEF    \
-    {"_frozen_module_names", (PyCFunction)_imp__frozen_module_names, METH_NOARGS, _imp__frozen_module_names__doc__},
+    {"_frozen_module_names", (PyCFunction)_imp__frozen_module_names, METH_NOARGS|METH_C_STACK_FRUGAL, _imp__frozen_module_names__doc__},
 
 static PyObject *
 _imp__frozen_module_names_impl(PyObject *module);
@@ -403,7 +403,7 @@ PyDoc_STRVAR(_imp__override_frozen_modules_for_tests__doc__,
 "See frozen_modules() in Lib/test/support/import_helper.py.");
 
 #define _IMP__OVERRIDE_FROZEN_MODULES_FOR_TESTS_METHODDEF    \
-    {"_override_frozen_modules_for_tests", (PyCFunction)_imp__override_frozen_modules_for_tests, METH_O, _imp__override_frozen_modules_for_tests__doc__},
+    {"_override_frozen_modules_for_tests", (PyCFunction)_imp__override_frozen_modules_for_tests, METH_O|METH_C_STACK_FRUGAL, _imp__override_frozen_modules_for_tests__doc__},
 
 static PyObject *
 _imp__override_frozen_modules_for_tests_impl(PyObject *module, int override);
@@ -433,7 +433,7 @@ PyDoc_STRVAR(_imp__override_multi_interp_extensions_check__doc__,
 "(-1: \"never\", 1: \"always\", 0: no override)");
 
 #define _IMP__OVERRIDE_MULTI_INTERP_EXTENSIONS_CHECK_METHODDEF    \
-    {"_override_multi_interp_extensions_check", (PyCFunction)_imp__override_multi_interp_extensions_check, METH_O, _imp__override_multi_interp_extensions_check__doc__},
+    {"_override_multi_interp_extensions_check", (PyCFunction)_imp__override_multi_interp_extensions_check, METH_O|METH_C_STACK_FRUGAL, _imp__override_multi_interp_extensions_check__doc__},
 
 static PyObject *
 _imp__override_multi_interp_extensions_check_impl(PyObject *module,
@@ -464,7 +464,7 @@ PyDoc_STRVAR(_imp_create_dynamic__doc__,
 "Create an extension module.");
 
 #define _IMP_CREATE_DYNAMIC_METHODDEF    \
-    {"create_dynamic", _PyCFunction_CAST(_imp_create_dynamic), METH_FASTCALL, _imp_create_dynamic__doc__},
+    {"create_dynamic", _PyCFunction_CAST(_imp_create_dynamic), METH_FASTCALL|METH_C_STACK_FRUGAL, _imp_create_dynamic__doc__},
 
 static PyObject *
 _imp_create_dynamic_impl(PyObject *module, PyObject *spec, PyObject *file);
@@ -502,7 +502,7 @@ PyDoc_STRVAR(_imp_exec_dynamic__doc__,
 "Initialize an extension module.");
 
 #define _IMP_EXEC_DYNAMIC_METHODDEF    \
-    {"exec_dynamic", (PyCFunction)_imp_exec_dynamic, METH_O, _imp_exec_dynamic__doc__},
+    {"exec_dynamic", (PyCFunction)_imp_exec_dynamic, METH_O|METH_C_STACK_FRUGAL, _imp_exec_dynamic__doc__},
 
 static int
 _imp_exec_dynamic_impl(PyObject *module, PyObject *mod);
@@ -532,7 +532,7 @@ PyDoc_STRVAR(_imp_exec_builtin__doc__,
 "Initialize a built-in module.");
 
 #define _IMP_EXEC_BUILTIN_METHODDEF    \
-    {"exec_builtin", (PyCFunction)_imp_exec_builtin, METH_O, _imp_exec_builtin__doc__},
+    {"exec_builtin", (PyCFunction)_imp_exec_builtin, METH_O|METH_C_STACK_FRUGAL, _imp_exec_builtin__doc__},
 
 static int
 _imp_exec_builtin_impl(PyObject *module, PyObject *mod);
@@ -559,7 +559,7 @@ PyDoc_STRVAR(_imp_source_hash__doc__,
 "\n");
 
 #define _IMP_SOURCE_HASH_METHODDEF    \
-    {"source_hash", _PyCFunction_CAST(_imp_source_hash), METH_FASTCALL|METH_KEYWORDS, _imp_source_hash__doc__},
+    {"source_hash", _PyCFunction_CAST(_imp_source_hash), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _imp_source_hash__doc__},
 
 static PyObject *
 _imp_source_hash_impl(PyObject *module, long key, Py_buffer *source);
@@ -629,4 +629,4 @@ exit:
 #ifndef _IMP_EXEC_DYNAMIC_METHODDEF
     #define _IMP_EXEC_DYNAMIC_METHODDEF
 #endif /* !defined(_IMP_EXEC_DYNAMIC_METHODDEF) */
-/*[clinic end generated code: output=24f597d6b0f3feed input=a9049054013a1b77]*/
+/*[clinic end generated code: output=a9b208c379aec35c input=a9049054013a1b77]*/

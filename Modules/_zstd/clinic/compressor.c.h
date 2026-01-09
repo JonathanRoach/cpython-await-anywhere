@@ -110,7 +110,7 @@ PyDoc_STRVAR(_zstd_ZstdCompressor_compress__doc__,
 "the compression process.");
 
 #define _ZSTD_ZSTDCOMPRESSOR_COMPRESS_METHODDEF    \
-    {"compress", _PyCFunction_CAST(_zstd_ZstdCompressor_compress), METH_FASTCALL|METH_KEYWORDS, _zstd_ZstdCompressor_compress__doc__},
+    {"compress", _PyCFunction_CAST(_zstd_ZstdCompressor_compress), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _zstd_ZstdCompressor_compress__doc__},
 
 static PyObject *
 _zstd_ZstdCompressor_compress_impl(ZstdCompressor *self, Py_buffer *data,
@@ -194,7 +194,7 @@ PyDoc_STRVAR(_zstd_ZstdCompressor_flush__doc__,
 "be used after this method is called.");
 
 #define _ZSTD_ZSTDCOMPRESSOR_FLUSH_METHODDEF    \
-    {"flush", _PyCFunction_CAST(_zstd_ZstdCompressor_flush), METH_FASTCALL|METH_KEYWORDS, _zstd_ZstdCompressor_flush__doc__},
+    {"flush", _PyCFunction_CAST(_zstd_ZstdCompressor_flush), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _zstd_ZstdCompressor_flush__doc__},
 
 static PyObject *
 _zstd_ZstdCompressor_flush_impl(ZstdCompressor *self, int mode);
@@ -252,4 +252,4 @@ skip_optional_pos:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=ee2d1dc298de790c input=a9049054013a1b77]*/
+/*[clinic end generated code: output=33f653ece73544d8 input=a9049054013a1b77]*/

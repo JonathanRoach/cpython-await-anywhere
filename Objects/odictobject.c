@@ -934,6 +934,7 @@ static PyNumberMethods odict_as_number = {
 /* fromkeys() */
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 OrderedDict.fromkeys
 
@@ -945,7 +946,7 @@ Create a new ordered dictionary with keys from iterable and values set to value.
 
 static PyObject *
 OrderedDict_fromkeys_impl(PyTypeObject *type, PyObject *seq, PyObject *value)
-/*[clinic end generated code: output=c10390d452d78d6d input=1a0476c229c597b3]*/
+/*[clinic end generated code: output=c10390d452d78d6d input=4f9af6dfc0532f62]*/
 {
     return _PyDict_FromKeys((PyObject *)type, seq, value);
 }
@@ -1011,6 +1012,7 @@ Done:
 
 
 /*[clinic input]
+@c_stack_frugal
 OrderedDict.setdefault
 
     key: object
@@ -1024,7 +1026,7 @@ Return the value for key if key is in the dictionary, else default.
 static PyObject *
 OrderedDict_setdefault_impl(PyODictObject *self, PyObject *key,
                             PyObject *default_value)
-/*[clinic end generated code: output=97537cb7c28464b6 input=38e098381c1efbc6]*/
+/*[clinic end generated code: output=97537cb7c28464b6 input=9b1480a44cf777a4]*/
 {
     PyObject *result = NULL;
 
@@ -1100,6 +1102,7 @@ done:
 
 /* Skips __missing__() calls. */
 /*[clinic input]
+@c_stack_frugal
 OrderedDict.pop
 
     key: object
@@ -1114,7 +1117,7 @@ raise a KeyError.
 static PyObject *
 OrderedDict_pop_impl(PyODictObject *self, PyObject *key,
                      PyObject *default_value)
-/*[clinic end generated code: output=7a6447d104e7494b input=7efe36601007dff7]*/
+/*[clinic end generated code: output=7a6447d104e7494b input=94471ea63e0a5c88]*/
 {
     Py_hash_t hash = PyObject_Hash(key);
     if (hash == -1)
@@ -1126,6 +1129,7 @@ OrderedDict_pop_impl(PyODictObject *self, PyObject *key,
 /* popitem() */
 
 /*[clinic input]
+@c_stack_frugal
 OrderedDict.popitem
 
     last: bool = True
@@ -1137,7 +1141,7 @@ Pairs are returned in LIFO order if last is true or FIFO order if false.
 
 static PyObject *
 OrderedDict_popitem_impl(PyODictObject *self, int last)
-/*[clinic end generated code: output=98e7d986690d49eb input=d992ac5ee8305e1a]*/
+/*[clinic end generated code: output=98e7d986690d49eb input=f522ef97fb8c1645]*/
 {
     PyObject *key, *value, *item = NULL;
     _ODictNode *node;
@@ -1285,6 +1289,7 @@ odict_reversed(PyObject *op, PyObject *Py_UNUSED(ignored))
 /* move_to_end() */
 
 /*[clinic input]
+@c_stack_frugal
 OrderedDict.move_to_end
 
     key: object
@@ -1297,7 +1302,7 @@ Raise KeyError if the element does not exist.
 
 static PyObject *
 OrderedDict_move_to_end_impl(PyODictObject *self, PyObject *key, int last)
-/*[clinic end generated code: output=fafa4c5cc9b92f20 input=d6ceff7132a2fcd7]*/
+/*[clinic end generated code: output=fafa4c5cc9b92f20 input=e210ea71e2f2a894]*/
 {
     _ODictNode *node;
 

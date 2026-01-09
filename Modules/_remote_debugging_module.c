@@ -2383,6 +2383,7 @@ class _remote_debugging.RemoteUnwinder "RemoteUnwinderObject *" "&RemoteUnwinder
 /*[clinic end generated code: output=da39a3ee5e6b4b0d input=55f164d8803318be]*/
 
 /*[clinic input]
+@c_stack_frugal
 _remote_debugging.RemoteUnwinder.__init__
     pid: int
     *
@@ -2411,7 +2412,7 @@ static int
 _remote_debugging_RemoteUnwinder___init___impl(RemoteUnwinderObject *self,
                                                int pid, int all_threads,
                                                int debug)
-/*[clinic end generated code: output=3982f2a7eba49334 input=48a762566b828e91]*/
+/*[clinic end generated code: output=3982f2a7eba49334 input=7eff508ad1fe2521]*/
 {
     self->debug = debug;
     if (_Py_RemoteDebug_InitProcHandle(&self->handle, pid) < 0) {
@@ -2489,6 +2490,7 @@ _remote_debugging_RemoteUnwinder___init___impl(RemoteUnwinderObject *self,
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _remote_debugging.RemoteUnwinder.get_stack_trace
 
@@ -2522,7 +2524,7 @@ Raises:
 
 static PyObject *
 _remote_debugging_RemoteUnwinder_get_stack_trace_impl(RemoteUnwinderObject *self)
-/*[clinic end generated code: output=666192b90c69d567 input=331dbe370578badf]*/
+/*[clinic end generated code: output=666192b90c69d567 input=7343537f5dc89f2f]*/
 {
     PyObject* result = NULL;
     // Read interpreter state into opaque buffer
@@ -2598,6 +2600,7 @@ exit:
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _remote_debugging.RemoteUnwinder.get_all_awaited_by
 
@@ -2643,7 +2646,7 @@ Example output:
 
 static PyObject *
 _remote_debugging_RemoteUnwinder_get_all_awaited_by_impl(RemoteUnwinderObject *self)
-/*[clinic end generated code: output=6a49cd345e8aec53 input=a452c652bb00701a]*/
+/*[clinic end generated code: output=6a49cd345e8aec53 input=cc004d093b57beff]*/
 {
     if (!self->async_debug_offsets_available) {
         PyErr_SetString(PyExc_RuntimeError, "AsyncioDebug section not available");
@@ -2727,6 +2730,7 @@ result_err:
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _remote_debugging.RemoteUnwinder.get_async_stack_trace
 
@@ -2755,7 +2759,7 @@ Raises:
 
 static PyObject *
 _remote_debugging_RemoteUnwinder_get_async_stack_trace_impl(RemoteUnwinderObject *self)
-/*[clinic end generated code: output=6433d52b55e87bbe input=11b7150c59d4c60f]*/
+/*[clinic end generated code: output=6433d52b55e87bbe input=3a6e551333ef6a0a]*/
 {
     if (!self->async_debug_offsets_available) {
         PyErr_SetString(PyExc_RuntimeError, "AsyncioDebug section not available");

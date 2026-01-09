@@ -216,6 +216,7 @@ class clockid_t_converter(CConverter):
 
 
 /*[clinic input]
+@c_stack_frugal
 time.clock_gettime
 
     clk_id: clockid_t
@@ -226,7 +227,7 @@ Return the time of the specified clock clk_id as a float.
 
 static PyObject *
 time_clock_gettime_impl(PyObject *module, clockid_t clk_id)
-/*[clinic end generated code: output=832b9ebc03328020 input=7e89fcc42ca15e5d]*/
+/*[clinic end generated code: output=832b9ebc03328020 input=96685bcae85ca134]*/
 {
     struct timespec tp;
     int ret = clock_gettime(clk_id, &tp);
@@ -238,6 +239,7 @@ time_clock_gettime_impl(PyObject *module, clockid_t clk_id)
 }
 
 /*[clinic input]
+@c_stack_frugal
 time.clock_gettime_ns
 
     clk_id: clockid_t
@@ -248,7 +250,7 @@ Return the time of the specified clock clk_id as nanoseconds (int).
 
 static PyObject *
 time_clock_gettime_ns_impl(PyObject *module, clockid_t clk_id)
-/*[clinic end generated code: output=4a045c3a36e60044 input=aabc248db8c8e3e5]*/
+/*[clinic end generated code: output=4a045c3a36e60044 input=dddd746de7c47fca]*/
 {
     struct timespec ts;
     int ret = clock_gettime(clk_id, &ts);

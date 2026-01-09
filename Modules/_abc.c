@@ -257,6 +257,7 @@ _add_to_weak_set(_abc_data *impl, PyObject **pset, PyObject *obj)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _abc._reset_registry
 
     self: object
@@ -269,7 +270,7 @@ Should be only used by refleak.py
 
 static PyObject *
 _abc__reset_registry(PyObject *module, PyObject *self)
-/*[clinic end generated code: output=92d591a43566cc10 input=12a0b7eb339ac35c]*/
+/*[clinic end generated code: output=92d591a43566cc10 input=3019137e01725495]*/
 {
     _abc_data *impl = _get_impl(module, self);
     if (impl == NULL) {
@@ -288,6 +289,7 @@ _abc__reset_registry(PyObject *module, PyObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _abc._reset_caches
 
     self: object
@@ -300,7 +302,7 @@ Should be only used by refleak.py
 
 static PyObject *
 _abc__reset_caches(PyObject *module, PyObject *self)
-/*[clinic end generated code: output=f296f0d5c513f80c input=c0ac616fd8acfb6f]*/
+/*[clinic end generated code: output=f296f0d5c513f80c input=27c991f56027b0e0]*/
 {
     _abc_data *impl = _get_impl(module, self);
     if (impl == NULL) {
@@ -325,6 +327,7 @@ _abc__reset_caches(PyObject *module, PyObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _abc._get_dump
 
     self: object
@@ -339,7 +342,7 @@ instead use ABC._dump_registry() for a nice repr.
 
 static PyObject *
 _abc__get_dump(PyObject *module, PyObject *self)
-/*[clinic end generated code: output=9d9569a8e2c1c443 input=2c5deb1bfe9e3c79]*/
+/*[clinic end generated code: output=9d9569a8e2c1c443 input=44f49eb0d20ad604]*/
 {
     _abc_data *impl = _get_impl(module, self);
     if (impl == NULL) {
@@ -484,6 +487,7 @@ error:
 #define COLLECTION_FLAGS (Py_TPFLAGS_SEQUENCE | Py_TPFLAGS_MAPPING)
 
 /*[clinic input]
+@c_stack_frugal
 _abc._abc_init
 
     self: object
@@ -494,7 +498,7 @@ Internal ABC helper for class set-up. Should be never used outside abc module.
 
 static PyObject *
 _abc__abc_init(PyObject *module, PyObject *self)
-/*[clinic end generated code: output=594757375714cda1 input=8d7fe470ff77f029]*/
+/*[clinic end generated code: output=594757375714cda1 input=9664d7b74fedd2d1]*/
 {
     _abcmodule_state *state = get_abc_state(module);
     PyObject *data;
@@ -543,6 +547,7 @@ _abc__abc_init(PyObject *module, PyObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _abc._abc_register
 
     self: object
@@ -554,7 +559,7 @@ Internal ABC helper for subclasss registration. Should be never used outside abc
 
 static PyObject *
 _abc__abc_register_impl(PyObject *module, PyObject *self, PyObject *subclass)
-/*[clinic end generated code: output=7851e7668c963524 input=ca589f8c3080e67f]*/
+/*[clinic end generated code: output=7851e7668c963524 input=da11dc75811c20ad]*/
 {
     if (!PyType_Check(subclass)) {
         PyErr_SetString(PyExc_TypeError, "Can only register classes");
@@ -606,6 +611,7 @@ _abc__abc_register_impl(PyObject *module, PyObject *self, PyObject *subclass)
 
 
 /*[clinic input]
+@c_stack_frugal
 _abc._abc_instancecheck
 
     self: object
@@ -618,7 +624,7 @@ Internal ABC helper for instance checks. Should be never used outside abc module
 static PyObject *
 _abc__abc_instancecheck_impl(PyObject *module, PyObject *self,
                              PyObject *instance)
-/*[clinic end generated code: output=b8b5148f63b6b56f input=a4f4525679261084]*/
+/*[clinic end generated code: output=b8b5148f63b6b56f input=56812db0a9cf4457]*/
 {
     PyObject *subtype, *result = NULL, *subclass = NULL;
     _abc_data *impl = _get_impl(module, self);
@@ -692,6 +698,7 @@ static int subclasscheck_check_registry(_abc_data *impl, PyObject *subclass,
                                         PyObject **result);
 
 /*[clinic input]
+@c_stack_frugal
 _abc._abc_subclasscheck
 
     self: object
@@ -704,7 +711,7 @@ Internal ABC helper for subclasss checks. Should be never used outside abc modul
 static PyObject *
 _abc__abc_subclasscheck_impl(PyObject *module, PyObject *self,
                              PyObject *subclass)
-/*[clinic end generated code: output=b56c9e4a530e3894 input=1d947243409d10b8]*/
+/*[clinic end generated code: output=b56c9e4a530e3894 input=411006f8adb516bf]*/
 {
     if (!PyType_Check(subclass)) {
         PyErr_SetString(PyExc_TypeError, "issubclass() arg 1 must be a class");
@@ -907,6 +914,7 @@ subclasscheck_check_registry(_abc_data *impl, PyObject *subclass,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _abc.get_cache_token
 
 Returns the current ABC cache token.
@@ -918,7 +926,7 @@ with every call to register() on any ABC.
 
 static PyObject *
 _abc_get_cache_token_impl(PyObject *module)
-/*[clinic end generated code: output=c7d87841e033dacc input=70413d1c423ad9f9]*/
+/*[clinic end generated code: output=c7d87841e033dacc input=d05bb5cdd3d38659]*/
 {
     _abcmodule_state *state = get_abc_state(module);
     return PyLong_FromUnsignedLongLong(get_invalidation_counter(state));

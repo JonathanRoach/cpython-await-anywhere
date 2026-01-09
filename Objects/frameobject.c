@@ -954,6 +954,7 @@ static PyMemberDef frame_memberlist[] = {
 };
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @getter
 frame.f_locals as frame_locals
@@ -963,7 +964,7 @@ Return the mapping used by the frame to look up local variables.
 
 static PyObject *
 frame_locals_get_impl(PyFrameObject *self)
-/*[clinic end generated code: output=b4ace8bb4cae71f4 input=7bd444d0dc8ddf44]*/
+/*[clinic end generated code: output=b4ace8bb4cae71f4 input=85c8b4788b594bed]*/
 {
     assert(!_PyFrame_IsIncomplete(self->f_frame));
 
@@ -1006,6 +1007,7 @@ PyFrame_GetLineNumber(PyFrameObject *f)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @getter
 frame.f_lineno as frame_lineno
@@ -1015,7 +1017,7 @@ Return the current line number in the frame.
 
 static PyObject *
 frame_lineno_get_impl(PyFrameObject *self)
-/*[clinic end generated code: output=70f35de5ac7ad630 input=87b9ec648b742936]*/
+/*[clinic end generated code: output=70f35de5ac7ad630 input=9170a74b087b3b6e]*/
 {
     int lineno = PyFrame_GetLineNumber(self);
     if (lineno < 0) {
@@ -1025,6 +1027,7 @@ frame_lineno_get_impl(PyFrameObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @getter
 frame.f_lasti as frame_lasti
@@ -1034,7 +1037,7 @@ Return the index of the last attempted instruction in the frame.
 
 static PyObject *
 frame_lasti_get_impl(PyFrameObject *self)
-/*[clinic end generated code: output=03275b4f0327d1a2 input=0225ed49cb1fbeeb]*/
+/*[clinic end generated code: output=03275b4f0327d1a2 input=92abe2f4f77c18ce]*/
 {
     int lasti = _PyInterpreterFrame_LASTI(self->f_frame);
     if (lasti < 0) {
@@ -1044,6 +1047,7 @@ frame_lasti_get_impl(PyFrameObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @getter
 frame.f_globals as frame_globals
@@ -1053,7 +1057,7 @@ Return the global variables in the frame.
 
 static PyObject *
 frame_globals_get_impl(PyFrameObject *self)
-/*[clinic end generated code: output=7758788c32885528 input=7fff7241357d314d]*/
+/*[clinic end generated code: output=7758788c32885528 input=8ab8abfdd87a5c26]*/
 {
     PyObject *globals = self->f_frame->f_globals;
     if (globals == NULL) {
@@ -1063,6 +1067,7 @@ frame_globals_get_impl(PyFrameObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @getter
 frame.f_builtins as frame_builtins
@@ -1072,7 +1077,7 @@ Return the built-in variables in the frame.
 
 static PyObject *
 frame_builtins_get_impl(PyFrameObject *self)
-/*[clinic end generated code: output=45362faa6d42c702 input=27c696d6ffcad2c7]*/
+/*[clinic end generated code: output=45362faa6d42c702 input=2dfdc36fcbf33557]*/
 {
     PyObject *builtins = self->f_frame->f_builtins;
     if (builtins == NULL) {
@@ -1082,6 +1087,7 @@ frame_builtins_get_impl(PyFrameObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @getter
 frame.f_code as frame_code
 
@@ -1090,7 +1096,7 @@ Return the code object being executed in this frame.
 
 static PyObject *
 frame_code_get_impl(PyFrameObject *self)
-/*[clinic end generated code: output=a5ed6207395a8cef input=e127e7098c124816]*/
+/*[clinic end generated code: output=a5ed6207395a8cef input=94baa44529be9544]*/
 {
     if (PySys_Audit("object.__getattr__", "Os", self, "f_code") < 0) {
         return NULL;
@@ -1099,6 +1105,7 @@ frame_code_get_impl(PyFrameObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @getter
 frame.f_back as frame_back
@@ -1106,7 +1113,7 @@ frame.f_back as frame_back
 
 static PyObject *
 frame_back_get_impl(PyFrameObject *self)
-/*[clinic end generated code: output=3a84c22a55a63c79 input=9e528570d0e1f44a]*/
+/*[clinic end generated code: output=3a84c22a55a63c79 input=8d9ba652be2094ca]*/
 {
     PyObject *res = (PyObject *)PyFrame_GetBack(self);
     if (res == NULL) {
@@ -1116,6 +1123,7 @@ frame_back_get_impl(PyFrameObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @getter
 frame.f_trace_opcodes as frame_trace_opcodes
@@ -1125,12 +1133,13 @@ Return True if opcode tracing is enabled, False otherwise.
 
 static PyObject *
 frame_trace_opcodes_get_impl(PyFrameObject *self)
-/*[clinic end generated code: output=53ff41d09cc32e87 input=4eb91dc88e04677a]*/
+/*[clinic end generated code: output=53ff41d09cc32e87 input=52f2ce490c4dee5d]*/
 {
     return self->f_trace_opcodes ? Py_True : Py_False;
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @setter
 frame.f_trace_opcodes as frame_trace_opcodes
@@ -1138,7 +1147,7 @@ frame.f_trace_opcodes as frame_trace_opcodes
 
 static int
 frame_trace_opcodes_set_impl(PyFrameObject *self, PyObject *value)
-/*[clinic end generated code: output=92619da2bfccd449 input=7e286eea3c0333ff]*/
+/*[clinic end generated code: output=92619da2bfccd449 input=e316b9c4b128bc20]*/
 {
     if (!PyBool_Check(value)) {
         PyErr_SetString(PyExc_TypeError,
@@ -1635,6 +1644,7 @@ static bool frame_is_suspended(PyFrameObject *frame)
  *    that time.
  */
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @setter
 frame.f_lineno as frame_lineno
@@ -1642,7 +1652,7 @@ frame.f_lineno as frame_lineno
 
 static int
 frame_lineno_set_impl(PyFrameObject *self, PyObject *value)
-/*[clinic end generated code: output=e64c86ff6be64292 input=36ed3c896b27fb91]*/
+/*[clinic end generated code: output=e64c86ff6be64292 input=330b76c05cd8a233]*/
 {
     PyCodeObject *code = _PyFrame_GetCode(self->f_frame);
     if (value == NULL) {
@@ -1837,6 +1847,7 @@ frame_lineno_set_impl(PyFrameObject *self, PyObject *value)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @getter
 frame.f_trace as frame_trace
@@ -1846,7 +1857,7 @@ Return the trace function for this frame, or None if no trace function is set.
 
 static PyObject *
 frame_trace_get_impl(PyFrameObject *self)
-/*[clinic end generated code: output=5475cbfce07826cd input=f382612525829773]*/
+/*[clinic end generated code: output=5475cbfce07826cd input=f23edd9597a0619b]*/
 {
     PyObject* trace = self->f_trace;
     if (trace == NULL) {
@@ -1856,6 +1867,7 @@ frame_trace_get_impl(PyFrameObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @setter
 frame.f_trace as frame_trace
@@ -1863,7 +1875,7 @@ frame.f_trace as frame_trace
 
 static int
 frame_trace_set_impl(PyFrameObject *self, PyObject *value)
-/*[clinic end generated code: output=d6fe08335cf76ae4 input=d96a18bda085707f]*/
+/*[clinic end generated code: output=d6fe08335cf76ae4 input=17f89722099713d0]*/
 {
     if (value == Py_None) {
         value = NULL;
@@ -1878,6 +1890,7 @@ frame_trace_set_impl(PyFrameObject *self, PyObject *value)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @getter
 frame.f_generator as frame_generator
@@ -1887,7 +1900,7 @@ Return the generator or coroutine associated with this frame, or None.
 
 static PyObject *
 frame_generator_get_impl(PyFrameObject *self)
-/*[clinic end generated code: output=97aeb2392562e55b input=00a2bd008b239ab0]*/
+/*[clinic end generated code: output=97aeb2392562e55b input=b8668a4581797266]*/
 {
     if (self->f_frame->owner == FRAME_OWNED_BY_GENERATOR) {
         PyObject *gen = (PyObject *)_PyGen_GetGeneratorFromFrame(self->f_frame);
@@ -1986,6 +1999,7 @@ frame_tp_clear(PyObject *op)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 frame.clear
 
@@ -1994,7 +2008,7 @@ Clear all references held by the frame.
 
 static PyObject *
 frame_clear_impl(PyFrameObject *self)
-/*[clinic end generated code: output=864c662f16e9bfcc input=c358f9cff5f9b681]*/
+/*[clinic end generated code: output=864c662f16e9bfcc input=1c0b5f408541bbd5]*/
 {
     if (self->f_frame->owner == FRAME_OWNED_BY_GENERATOR) {
         PyGenObject *gen = _PyGen_GetGeneratorFromFrame(self->f_frame);
@@ -2025,6 +2039,7 @@ suspended:
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 frame.__sizeof__
 
@@ -2033,7 +2048,7 @@ Return the size of the frame in memory, in bytes.
 
 static PyObject *
 frame___sizeof___impl(PyFrameObject *self)
-/*[clinic end generated code: output=82948688e81078e2 input=908f90a83e73131d]*/
+/*[clinic end generated code: output=82948688e81078e2 input=04176e5c64cbeb84]*/
 {
     Py_ssize_t res;
     res = offsetof(PyFrameObject, _f_frame_data) + offsetof(_PyInterpreterFrame, localsplus);

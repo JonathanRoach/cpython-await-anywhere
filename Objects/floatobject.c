@@ -847,6 +847,7 @@ float_bool(PyObject *op)
 }
 
 /*[clinic input]
+@c_stack_frugal
 float.is_integer
 
 Return True if the float is an integer.
@@ -854,7 +855,7 @@ Return True if the float is an integer.
 
 static PyObject *
 float_is_integer_impl(PyObject *self)
-/*[clinic end generated code: output=7112acf95a4d31ea input=311810d3f777e10d]*/
+/*[clinic end generated code: output=7112acf95a4d31ea input=974d18b1d0839617]*/
 {
     double x = PyFloat_AsDouble(self);
     PyObject *o;
@@ -874,6 +875,7 @@ float_is_integer_impl(PyObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 float.__trunc__
 
 Return the Integral closest to x between 0 and x.
@@ -881,12 +883,13 @@ Return the Integral closest to x between 0 and x.
 
 static PyObject *
 float___trunc___impl(PyObject *self)
-/*[clinic end generated code: output=dd3e289dd4c6b538 input=591b9ba0d650fdff]*/
+/*[clinic end generated code: output=dd3e289dd4c6b538 input=bc6af3db292fef2a]*/
 {
     return PyLong_FromDouble(PyFloat_AS_DOUBLE(self));
 }
 
 /*[clinic input]
+@c_stack_frugal
 float.__floor__
 
 Return the floor as an Integral.
@@ -894,13 +897,14 @@ Return the floor as an Integral.
 
 static PyObject *
 float___floor___impl(PyObject *self)
-/*[clinic end generated code: output=e0551dbaea8c01d1 input=77bb13eb12e268df]*/
+/*[clinic end generated code: output=e0551dbaea8c01d1 input=27f9fa2b1fdc3be2]*/
 {
     double x = PyFloat_AS_DOUBLE(self);
     return PyLong_FromDouble(floor(x));
 }
 
 /*[clinic input]
+@c_stack_frugal
 float.__ceil__
 
 Return the ceiling as an Integral.
@@ -908,7 +912,7 @@ Return the ceiling as an Integral.
 
 static PyObject *
 float___ceil___impl(PyObject *self)
-/*[clinic end generated code: output=a2fd8858f73736f9 input=79e41ae94aa0a516]*/
+/*[clinic end generated code: output=a2fd8858f73736f9 input=aef8434eb9ad76c1]*/
 {
     double x = PyFloat_AS_DOUBLE(self);
     return PyLong_FromDouble(ceil(x));
@@ -1031,6 +1035,7 @@ double_round(double x, int ndigits) {
 /* round a Python float v to the closest multiple of 10**-ndigits */
 
 /*[clinic input]
+@c_stack_frugal
 float.__round__
 
     ndigits as o_ndigits: object = None
@@ -1043,7 +1048,7 @@ When an argument is passed, work like built-in round(x, ndigits).
 
 static PyObject *
 float___round___impl(PyObject *self, PyObject *o_ndigits)
-/*[clinic end generated code: output=374c36aaa0f13980 input=fc0fe25924fbc9ed]*/
+/*[clinic end generated code: output=374c36aaa0f13980 input=f6b201bb10d11690]*/
 {
     double x, rounded;
     Py_ssize_t ndigits;
@@ -1098,6 +1103,7 @@ float_float(PyObject *v)
 }
 
 /*[clinic input]
+@c_stack_frugal
 float.conjugate
 
 Return self, the complex conjugate of any float.
@@ -1105,7 +1111,7 @@ Return self, the complex conjugate of any float.
 
 static PyObject *
 float_conjugate_impl(PyObject *self)
-/*[clinic end generated code: output=8ca292c2479194af input=82ba6f37a9ff91dd]*/
+/*[clinic end generated code: output=8ca292c2479194af input=0bf0c0eddaeb8f20]*/
 {
     return float_float(self);
 }
@@ -1161,6 +1167,7 @@ hex_from_char(unsigned char c) {
 #define TOHEX_NBITS DBL_MANT_DIG + 3 - (DBL_MANT_DIG+2)%4
 
 /*[clinic input]
+@c_stack_frugal
 float.hex
 
 Return a hexadecimal representation of a floating-point number.
@@ -1173,7 +1180,7 @@ Return a hexadecimal representation of a floating-point number.
 
 static PyObject *
 float_hex_impl(PyObject *self)
-/*[clinic end generated code: output=0ebc9836e4d302d4 input=bec1271a33d47e67]*/
+/*[clinic end generated code: output=0ebc9836e4d302d4 input=081521d7be4675ab]*/
 {
     double x, m;
     int e, shift, i, si, esign;
@@ -1228,6 +1235,7 @@ float_hex_impl(PyObject *self)
 /* Convert a hexadecimal string to a float. */
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 float.fromhex
 
@@ -1244,7 +1252,7 @@ Create a floating-point number from a hexadecimal string.
 
 static PyObject *
 float_fromhex_impl(PyTypeObject *type, PyObject *string)
-/*[clinic end generated code: output=c54b4923552e5af5 input=0407bebd354bca89]*/
+/*[clinic end generated code: output=c54b4923552e5af5 input=65296c2f4d9bfddd]*/
 {
     PyObject *result;
     double x;
@@ -1484,6 +1492,7 @@ float_fromhex_impl(PyTypeObject *type, PyObject *string)
 }
 
 /*[clinic input]
+@c_stack_frugal
 float.as_integer_ratio
 
 Return a pair of integers, whose ratio is exactly equal to the original float.
@@ -1501,7 +1510,7 @@ OverflowError on infinities and a ValueError on NaNs.
 
 static PyObject *
 float_as_integer_ratio_impl(PyObject *self)
-/*[clinic end generated code: output=65f25f0d8d30a712 input=d5ba7765655d75bd]*/
+/*[clinic end generated code: output=65f25f0d8d30a712 input=0a13232cb495a126]*/
 {
     double self_double;
     double float_part;
@@ -1574,6 +1583,7 @@ static PyObject *
 float_subtype_new(PyTypeObject *type, PyObject *x);
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 float.__new__ as float_new
     x: object(c_default="NULL") = 0
@@ -1584,7 +1594,7 @@ Convert a string or number to a floating-point number, if possible.
 
 static PyObject *
 float_new_impl(PyTypeObject *type, PyObject *x)
-/*[clinic end generated code: output=ccf1e8dc460ba6ba input=55909f888aa0c8a6]*/
+/*[clinic end generated code: output=ccf1e8dc460ba6ba input=bfe929cba349f25f]*/
 {
     if (type != &PyFloat_Type) {
         if (x == NULL) {
@@ -1647,6 +1657,7 @@ float_vectorcall(PyObject *type, PyObject *const *args,
 
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 float.from_number
 
@@ -1658,7 +1669,7 @@ Convert real number to a floating-point number.
 
 static PyObject *
 float_from_number_impl(PyTypeObject *type, PyObject *number)
-/*[clinic end generated code: output=dda7e4466ab7068d input=1f8424d9bc11866a]*/
+/*[clinic end generated code: output=dda7e4466ab7068d input=de7019b856a35c88]*/
 {
     if (PyFloat_CheckExact(number) && type == &PyFloat_Type) {
         Py_INCREF(number);
@@ -1677,12 +1688,13 @@ float_from_number_impl(PyTypeObject *type, PyObject *number)
 
 
 /*[clinic input]
+@c_stack_frugal
 float.__getnewargs__
 [clinic start generated code]*/
 
 static PyObject *
 float___getnewargs___impl(PyObject *self)
-/*[clinic end generated code: output=873258c9d206b088 input=002279d1d77891e6]*/
+/*[clinic end generated code: output=873258c9d206b088 input=0cb794f3217dd40e]*/
 {
     return Py_BuildValue("(d)", ((PyFloatObject *)self)->ob_fval);
 }
@@ -1698,6 +1710,7 @@ typedef enum _py_float_format_type float_format_type;
 
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 float.__getformat__
 
@@ -1716,7 +1729,7 @@ C type named by typestr.
 
 static PyObject *
 float___getformat___impl(PyTypeObject *type, const char *typestr)
-/*[clinic end generated code: output=2bfb987228cc9628 input=90d5e246409a246e]*/
+/*[clinic end generated code: output=2bfb987228cc9628 input=4116fc8210df8be9]*/
 {
     float_format_type r;
 
@@ -1761,6 +1774,7 @@ float_getimag(PyObject *Py_UNUSED(v), void *Py_UNUSED(closure))
 }
 
 /*[clinic input]
+@c_stack_frugal
 float.__format__
 
   format_spec: unicode
@@ -1771,7 +1785,7 @@ Formats the float according to format_spec.
 
 static PyObject *
 float___format___impl(PyObject *self, PyObject *format_spec)
-/*[clinic end generated code: output=b260e52a47eade56 input=2ece1052211fd0e6]*/
+/*[clinic end generated code: output=b260e52a47eade56 input=396e47ebbafc3433]*/
 {
     _PyUnicodeWriter writer;
     int ret;

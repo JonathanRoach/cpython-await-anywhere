@@ -14,6 +14,7 @@ module _weakref
 #include "clinic/_weakref.c.h"
 
 /*[clinic input]
+@c_stack_frugal
 _weakref.getweakrefcount -> Py_ssize_t
 
   object: object
@@ -24,7 +25,7 @@ Return the number of weak references to 'object'.
 
 static Py_ssize_t
 _weakref_getweakrefcount_impl(PyObject *module, PyObject *object)
-/*[clinic end generated code: output=301806d59558ff3e input=7d4d04fcaccf64d5]*/
+/*[clinic end generated code: output=301806d59558ff3e input=1e7c3b57093ce8a6]*/
 {
     return _PyWeakref_GetWeakrefCount(object);
 }
@@ -41,6 +42,7 @@ is_dead_weakref(PyObject *value, void *unused)
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _weakref._remove_dead_weakref -> object
 
@@ -54,7 +56,7 @@ Atomically remove key from dict if it points to a dead weakref.
 static PyObject *
 _weakref__remove_dead_weakref_impl(PyObject *module, PyObject *dct,
                                    PyObject *key)
-/*[clinic end generated code: output=d9ff53061fcb875c input=19fc91f257f96a1d]*/
+/*[clinic end generated code: output=d9ff53061fcb875c input=e2b7a47564a4dfe2]*/
 {
     if (_PyDict_DelItemIf(dct, key, is_dead_weakref, NULL) < 0) {
         return NULL;
@@ -64,6 +66,7 @@ _weakref__remove_dead_weakref_impl(PyObject *module, PyObject *dct,
 
 
 /*[clinic input]
+@c_stack_frugal
 _weakref.getweakrefs
     object: object
     /
@@ -73,7 +76,7 @@ Return a list of all weak reference objects pointing to 'object'.
 
 static PyObject *
 _weakref_getweakrefs(PyObject *module, PyObject *object)
-/*[clinic end generated code: output=25c7731d8e011824 input=00c6d0e5d3206693]*/
+/*[clinic end generated code: output=25c7731d8e011824 input=0650c4606a954844]*/
 {
     if (!_PyType_SUPPORTS_WEAKREFS(Py_TYPE(object))) {
         return PyList_New(0);
@@ -110,6 +113,7 @@ _weakref_getweakrefs(PyObject *module, PyObject *object)
 
 
 /*[clinic input]
+@c_stack_frugal
 
 _weakref.proxy
     object: object
@@ -124,7 +128,7 @@ proxy when 'object' is about to be finalized.
 
 static PyObject *
 _weakref_proxy_impl(PyObject *module, PyObject *object, PyObject *callback)
-/*[clinic end generated code: output=d68fa4ad9ea40519 input=4808adf22fd137e7]*/
+/*[clinic end generated code: output=d68fa4ad9ea40519 input=0ba034285b7c796c]*/
 {
     return PyWeakref_NewProxy(object, callback);
 }

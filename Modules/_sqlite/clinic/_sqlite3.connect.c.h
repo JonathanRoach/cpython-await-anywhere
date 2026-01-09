@@ -21,5 +21,5 @@ PyDoc_STRVAR(pysqlite_connect__doc__,
 "resides in RAM instead of on disk.");
 
 #define PYSQLITE_CONNECT_METHODDEF    \
-    {"connect", _PyCFunction_CAST(pysqlite_connect), METH_FASTCALL|METH_KEYWORDS, pysqlite_connect__doc__},
-/*[clinic end generated code: output=3d83139ba65e0bb5 input=a9049054013a1b77]*/
+    {"connect", _PyCFunction_CAST(pysqlite_connect), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pysqlite_connect__doc__},
+/*[clinic end generated code: output=3c6a114eb0211a3c input=a9049054013a1b77]*/

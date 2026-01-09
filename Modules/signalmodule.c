@@ -219,6 +219,7 @@ itimer_retval(struct itimerval *iv)
 #endif
 
 /*[clinic input]
+@c_stack_frugal
 signal.default_int_handler
     signalnum: int
     frame: object
@@ -232,7 +233,7 @@ It raises KeyboardInterrupt.
 static PyObject *
 signal_default_int_handler_impl(PyObject *module, int signalnum,
                                 PyObject *frame)
-/*[clinic end generated code: output=bb11c2eb115ace4e input=efcd4a56a207acfd]*/
+/*[clinic end generated code: output=bb11c2eb115ace4e input=17318b57454b02d7]*/
 {
     PyErr_SetNone(PyExc_KeyboardInterrupt);
     return NULL;
@@ -383,6 +384,7 @@ signal_handler(int sig_num)
 #ifdef HAVE_ALARM
 
 /*[clinic input]
+@c_stack_frugal
 signal.alarm -> long
 
     seconds: int
@@ -393,7 +395,7 @@ Arrange for SIGALRM to arrive after the given number of seconds.
 
 static long
 signal_alarm_impl(PyObject *module, int seconds)
-/*[clinic end generated code: output=144232290814c298 input=0d5e97e0e6f39e86]*/
+/*[clinic end generated code: output=144232290814c298 input=21229c2af05218d0]*/
 {
     /* alarm() returns the number of seconds remaining */
     return (long)alarm(seconds);
@@ -404,6 +406,7 @@ signal_alarm_impl(PyObject *module, int seconds)
 #ifdef HAVE_PAUSE
 
 /*[clinic input]
+@c_stack_frugal
 signal.pause
 
 Wait until a signal arrives.
@@ -411,7 +414,7 @@ Wait until a signal arrives.
 
 static PyObject *
 signal_pause_impl(PyObject *module)
-/*[clinic end generated code: output=391656788b3c3929 input=f03de0f875752062]*/
+/*[clinic end generated code: output=391656788b3c3929 input=03c3f612ff6d1d41]*/
 {
     Py_BEGIN_ALLOW_THREADS
     (void)pause();
@@ -428,6 +431,7 @@ signal_pause_impl(PyObject *module)
 #endif
 
 /*[clinic input]
+@c_stack_frugal
 signal.raise_signal
 
     signalnum: int
@@ -438,7 +442,7 @@ Send a signal to the executing process.
 
 static PyObject *
 signal_raise_signal_impl(PyObject *module, int signalnum)
-/*[clinic end generated code: output=e2b014220aa6111d input=e90c0f9a42358de6]*/
+/*[clinic end generated code: output=e2b014220aa6111d input=9750bd46a9426d9e]*/
 {
     int err;
     Py_BEGIN_ALLOW_THREADS
@@ -461,6 +465,7 @@ signal_raise_signal_impl(PyObject *module, int signalnum)
 }
 
 /*[clinic input]
+@c_stack_frugal
 signal.delay_signal
 
     amount:   int
@@ -478,7 +483,7 @@ you might use this.
 
 static PyObject *
 signal_delay_signal_impl(PyObject *module, int amount)
-/*[clinic end generated code: output=07f228cb781d0e36 input=4c760c8711b6088b]*/
+/*[clinic end generated code: output=07f228cb781d0e36 input=3368610f5c6c5483]*/
 {
     PyThreadState *tstate = _PyThreadState_GET();
 
@@ -502,6 +507,7 @@ signal_delay_signal_impl(PyObject *module, int amount)
 }
 
 /*[clinic input]
+@c_stack_frugal
 signal.signal
 
     signalnum: int
@@ -520,7 +526,7 @@ the first is the signal number, the second is the interrupted stack frame.
 
 static PyObject *
 signal_signal_impl(PyObject *module, int signalnum, PyObject *handler)
-/*[clinic end generated code: output=b44cfda43780f3a1 input=deee84af5fa0432c]*/
+/*[clinic end generated code: output=b44cfda43780f3a1 input=e9b02f040d966239]*/
 {
     _signal_module_state *modstate = get_signal_state(module);
     PyObject *old_handler;
@@ -592,6 +598,7 @@ signal_signal_impl(PyObject *module, int signalnum, PyObject *handler)
 
 
 /*[clinic input]
+@c_stack_frugal
 signal.getsignal
 
     signalnum: int
@@ -608,7 +615,7 @@ The return value can be:
 
 static PyObject *
 signal_getsignal_impl(PyObject *module, int signalnum)
-/*[clinic end generated code: output=35b3e0e796fd555e input=ac23a00f19dfa509]*/
+/*[clinic end generated code: output=35b3e0e796fd555e input=9fa93176b0646c4e]*/
 {
     PyObject *old_handler;
     if (signalnum < 1 || signalnum >= Py_NSIG) {
@@ -627,6 +634,7 @@ signal_getsignal_impl(PyObject *module, int signalnum)
 
 
 /*[clinic input]
+@c_stack_frugal
 signal.strsignal
 
     signalnum: int
@@ -641,7 +649,7 @@ description. Raises :exc:`ValueError` if *signalnum* is invalid.
 
 static PyObject *
 signal_strsignal_impl(PyObject *module, int signalnum)
-/*[clinic end generated code: output=44e12e1e3b666261 input=238b335847778bc0]*/
+/*[clinic end generated code: output=44e12e1e3b666261 input=f71c028569ad1919]*/
 {
     const char *res;
 
@@ -707,6 +715,7 @@ signal_strsignal_impl(PyObject *module, int signalnum)
 #ifdef HAVE_SIGINTERRUPT
 
 /*[clinic input]
+@c_stack_frugal
 signal.siginterrupt
 
     signalnum: int
@@ -721,7 +730,7 @@ signal sig, else system calls will be interrupted.
 
 static PyObject *
 signal_siginterrupt_impl(PyObject *module, int signalnum, int flag)
-/*[clinic end generated code: output=063816243d85dd19 input=4160acacca3e2099]*/
+/*[clinic end generated code: output=063816243d85dd19 input=cf33a3483a7ff819]*/
 {
     if (signalnum < 1 || signalnum >= Py_NSIG) {
         PyErr_SetString(PyExc_ValueError,
@@ -751,6 +760,7 @@ signal_siginterrupt_impl(PyObject *module, int signalnum, int flag)
 
 
 /*[clinic input]
+@c_stack_frugal
 signal.set_wakeup_fd
 
     fd as fdobj: object
@@ -769,7 +779,7 @@ The fd must be non-blocking.
 static PyObject *
 signal_set_wakeup_fd_impl(PyObject *module, PyObject *fdobj,
                           int warn_on_full_buffer)
-/*[clinic end generated code: output=2280d72dd2a54c4f input=5b545946a28b8339]*/
+/*[clinic end generated code: output=2280d72dd2a54c4f input=84d5a4be2e5c4618]*/
 {
     struct _Py_stat_struct status;
 #ifdef MS_WINDOWS
@@ -889,6 +899,7 @@ PySignal_SetWakeupFd(int fd)
 
 #ifdef HAVE_SETITIMER
 /*[clinic input]
+@c_stack_frugal
 signal.setitimer
 
     which:    int
@@ -907,7 +918,7 @@ Returns old values as a tuple: (delay, interval).
 static PyObject *
 signal_setitimer_impl(PyObject *module, int which, PyObject *seconds,
                       PyObject *interval)
-/*[clinic end generated code: output=65f9dcbddc35527b input=de43daf194e6f66f]*/
+/*[clinic end generated code: output=65f9dcbddc35527b input=f1daeb9d24959989]*/
 {
     _signal_module_state *modstate = get_signal_state(module);
 
@@ -933,6 +944,7 @@ signal_setitimer_impl(PyObject *module, int which, PyObject *seconds,
 
 #ifdef HAVE_GETITIMER
 /*[clinic input]
+@c_stack_frugal
 signal.getitimer
 
     which:    int
@@ -943,7 +955,7 @@ Returns current value of given itimer.
 
 static PyObject *
 signal_getitimer_impl(PyObject *module, int which)
-/*[clinic end generated code: output=9e053175d517db40 input=f7d21d38f3490627]*/
+/*[clinic end generated code: output=9e053175d517db40 input=57c8e0a34f68f24f]*/
 {
     _signal_module_state *modstate = get_signal_state(module);
 
@@ -998,6 +1010,7 @@ sigset_to_set(sigset_t mask)
 #ifdef PYPTHREAD_SIGMASK
 
 /*[clinic input]
+@c_stack_frugal
 signal.pthread_sigmask
 
     how:  int
@@ -1009,7 +1022,7 @@ Fetch and/or change the signal mask of the calling thread.
 
 static PyObject *
 signal_pthread_sigmask_impl(PyObject *module, int how, sigset_t mask)
-/*[clinic end generated code: output=0562c0fb192981a8 input=85bcebda442fa77f]*/
+/*[clinic end generated code: output=0562c0fb192981a8 input=91551580933ce240]*/
 {
     sigset_t previous;
     int err;
@@ -1034,6 +1047,7 @@ signal_pthread_sigmask_impl(PyObject *module, int how, sigset_t mask)
 #ifdef HAVE_SIGPENDING
 
 /*[clinic input]
+@c_stack_frugal
 signal.sigpending
 
 Examine pending signals.
@@ -1044,7 +1058,7 @@ the calling thread.
 
 static PyObject *
 signal_sigpending_impl(PyObject *module)
-/*[clinic end generated code: output=53375ffe89325022 input=e0036c016f874e29]*/
+/*[clinic end generated code: output=53375ffe89325022 input=03e558bf94095770]*/
 {
     int err;
     sigset_t mask;
@@ -1060,6 +1074,7 @@ signal_sigpending_impl(PyObject *module)
 #ifdef HAVE_SIGWAIT
 
 /*[clinic input]
+@c_stack_frugal
 signal.sigwait
 
     sigset: sigset_t
@@ -1074,7 +1089,7 @@ and returns the signal number.
 
 static PyObject *
 signal_sigwait_impl(PyObject *module, sigset_t sigset)
-/*[clinic end generated code: output=f43770699d682f96 input=a6fbd47b1086d119]*/
+/*[clinic end generated code: output=f43770699d682f96 input=9a02e7a1cb034d14]*/
 {
     int err, signum;
 
@@ -1095,6 +1110,7 @@ signal_sigwait_impl(PyObject *module, sigset_t sigset)
 #if (defined(HAVE_SIGFILLSET) && defined(HAVE_SIGSET_T)) || defined(MS_WINDOWS)
 
 /*[clinic input]
+@c_stack_frugal
 signal.valid_signals
 
 Return a set of valid signal numbers on this platform.
@@ -1105,7 +1121,7 @@ functions like `pthread_sigmask`.
 
 static PyObject *
 signal_valid_signals_impl(PyObject *module)
-/*[clinic end generated code: output=1609cffbcfcf1314 input=86a3717ff25288f2]*/
+/*[clinic end generated code: output=1609cffbcfcf1314 input=342a8ecf416368a2]*/
 {
 #ifdef MS_WINDOWS
 #ifdef SIGBREAK
@@ -1199,6 +1215,7 @@ fill_siginfo(_signal_module_state *state, siginfo_t *si)
 #ifdef HAVE_SIGWAITINFO
 
 /*[clinic input]
+@c_stack_frugal
 signal.sigwaitinfo
 
     sigset: sigset_t
@@ -1211,7 +1228,7 @@ Returns a struct_siginfo containing information about the signal.
 
 static PyObject *
 signal_sigwaitinfo_impl(PyObject *module, sigset_t sigset)
-/*[clinic end generated code: output=1eb2f1fa236fdbca input=3d1a7e1f27fc664c]*/
+/*[clinic end generated code: output=1eb2f1fa236fdbca input=8b9647d069ea450e]*/
 {
     siginfo_t si;
     int err;
@@ -1235,6 +1252,7 @@ signal_sigwaitinfo_impl(PyObject *module, sigset_t sigset)
 #ifdef HAVE_SIGTIMEDWAIT
 
 /*[clinic input]
+@c_stack_frugal
 signal.sigtimedwait
 
     sigset: sigset_t
@@ -1249,7 +1267,7 @@ The timeout is specified in seconds, with floating-point numbers allowed.
 static PyObject *
 signal_sigtimedwait_impl(PyObject *module, sigset_t sigset,
                          PyObject *timeout_obj)
-/*[clinic end generated code: output=59c8971e8ae18a64 input=955773219c1596cd]*/
+/*[clinic end generated code: output=59c8971e8ae18a64 input=6f92da212f147e54]*/
 {
     PyTime_t timeout;
     if (_PyTime_FromSecondsObject(&timeout,
@@ -1306,6 +1324,7 @@ signal_sigtimedwait_impl(PyObject *module, sigset_t sigset,
 #if defined(HAVE_PTHREAD_KILL)
 
 /*[clinic input]
+@c_stack_frugal
 signal.pthread_kill
 
     thread_id:  unsigned_long(bitwise=True)
@@ -1318,7 +1337,7 @@ Send a signal to a thread.
 static PyObject *
 signal_pthread_kill_impl(PyObject *module, unsigned long thread_id,
                          int signalnum)
-/*[clinic end generated code: output=7629919b791bc27f input=1d901f2c7bb544ff]*/
+/*[clinic end generated code: output=7629919b791bc27f input=2ea4f7873ba401e7]*/
 {
     int err;
 
@@ -1347,6 +1366,7 @@ signal_pthread_kill_impl(PyObject *module, unsigned long thread_id,
 #if defined(__linux__) && defined(__NR_pidfd_send_signal) && \
     !(defined(__ANDROID__) && __ANDROID_API__ < 31)
 /*[clinic input]
+@c_stack_frugal
 signal.pidfd_send_signal
 
     pidfd: int
@@ -1361,7 +1381,7 @@ Send a signal to a process referred to by a pid file descriptor.
 static PyObject *
 signal_pidfd_send_signal_impl(PyObject *module, int pidfd, int signalnum,
                               PyObject *siginfo, int flags)
-/*[clinic end generated code: output=2d59f04a75d9cbdf input=2a6543a1f4ac2000]*/
+/*[clinic end generated code: output=2d59f04a75d9cbdf input=81c1b18066e73877]*/
 
 {
     if (siginfo != Py_None) {

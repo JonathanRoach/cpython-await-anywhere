@@ -42,6 +42,7 @@ LimitedVectorCallClass_new(PyTypeObject *tp, PyObject *a, PyObject *kw)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testlimitedcapi.call_vectorcall
 
     callable: object
@@ -50,7 +51,7 @@ _testlimitedcapi.call_vectorcall
 
 static PyObject *
 _testlimitedcapi_call_vectorcall(PyObject *module, PyObject *callable)
-/*[clinic end generated code: output=9cbb7832263a8eef input=0743636c12dccb28]*/
+/*[clinic end generated code: output=9cbb7832263a8eef input=3232ef8497e3c3d6]*/
 {
     PyObject *args[3] = { NULL, NULL, NULL };
     PyObject *kwname = NULL, *kwnames = NULL, *result = NULL;
@@ -95,6 +96,7 @@ leave:
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testlimitedcapi.call_vectorcall_method
 
     callable: object
@@ -103,7 +105,7 @@ _testlimitedcapi.call_vectorcall_method
 
 static PyObject *
 _testlimitedcapi_call_vectorcall_method(PyObject *module, PyObject *callable)
-/*[clinic end generated code: output=4558323a46cc09eb input=a736f7dbf15f1be5]*/
+/*[clinic end generated code: output=4558323a46cc09eb input=61c5f9480e4762a4]*/
 {
     PyObject *args[3] = { NULL, NULL, NULL };
     PyObject *name = NULL, *kwname = NULL,

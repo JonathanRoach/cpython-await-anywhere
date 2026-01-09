@@ -21,7 +21,7 @@ PyDoc_STRVAR(_bz2_BZ2Compressor_compress__doc__,
 "flush() method to finish the compression process.");
 
 #define _BZ2_BZ2COMPRESSOR_COMPRESS_METHODDEF    \
-    {"compress", (PyCFunction)_bz2_BZ2Compressor_compress, METH_O, _bz2_BZ2Compressor_compress__doc__},
+    {"compress", (PyCFunction)_bz2_BZ2Compressor_compress, METH_O|METH_C_STACK_FRUGAL, _bz2_BZ2Compressor_compress__doc__},
 
 static PyObject *
 _bz2_BZ2Compressor_compress_impl(BZ2Compressor *self, Py_buffer *data);
@@ -57,7 +57,7 @@ PyDoc_STRVAR(_bz2_BZ2Compressor_flush__doc__,
 "The compressor object may not be used after this method is called.");
 
 #define _BZ2_BZ2COMPRESSOR_FLUSH_METHODDEF    \
-    {"flush", (PyCFunction)_bz2_BZ2Compressor_flush, METH_NOARGS, _bz2_BZ2Compressor_flush__doc__},
+    {"flush", (PyCFunction)_bz2_BZ2Compressor_flush, METH_NOARGS|METH_C_STACK_FRUGAL, _bz2_BZ2Compressor_flush__doc__},
 
 static PyObject *
 _bz2_BZ2Compressor_flush_impl(BZ2Compressor *self);
@@ -130,7 +130,7 @@ PyDoc_STRVAR(_bz2_BZ2Decompressor_decompress__doc__,
 "the unused_data attribute.");
 
 #define _BZ2_BZ2DECOMPRESSOR_DECOMPRESS_METHODDEF    \
-    {"decompress", _PyCFunction_CAST(_bz2_BZ2Decompressor_decompress), METH_FASTCALL|METH_KEYWORDS, _bz2_BZ2Decompressor_decompress__doc__},
+    {"decompress", _PyCFunction_CAST(_bz2_BZ2Decompressor_decompress), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _bz2_BZ2Decompressor_decompress__doc__},
 
 static PyObject *
 _bz2_BZ2Decompressor_decompress_impl(BZ2Decompressor *self, Py_buffer *data,
@@ -237,4 +237,4 @@ _bz2_BZ2Decompressor(PyTypeObject *type, PyObject *args, PyObject *kwargs)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=552ac6d4c5a101b7 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=663a745ca340b856 input=a9049054013a1b77]*/

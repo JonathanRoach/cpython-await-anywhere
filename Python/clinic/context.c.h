@@ -14,7 +14,7 @@ PyDoc_STRVAR(_contextvars_Context_get__doc__,
 "return None.");
 
 #define _CONTEXTVARS_CONTEXT_GET_METHODDEF    \
-    {"get", _PyCFunction_CAST(_contextvars_Context_get), METH_FASTCALL, _contextvars_Context_get__doc__},
+    {"get", _PyCFunction_CAST(_contextvars_Context_get), METH_FASTCALL|METH_C_STACK_FRUGAL, _contextvars_Context_get__doc__},
 
 static PyObject *
 _contextvars_Context_get_impl(PyContext *self, PyObject *key,
@@ -51,7 +51,7 @@ PyDoc_STRVAR(_contextvars_Context_items__doc__,
 "The result is returned as a list of 2-tuples (variable, value).");
 
 #define _CONTEXTVARS_CONTEXT_ITEMS_METHODDEF    \
-    {"items", (PyCFunction)_contextvars_Context_items, METH_NOARGS, _contextvars_Context_items__doc__},
+    {"items", (PyCFunction)_contextvars_Context_items, METH_NOARGS|METH_C_STACK_FRUGAL, _contextvars_Context_items__doc__},
 
 static PyObject *
 _contextvars_Context_items_impl(PyContext *self);
@@ -69,7 +69,7 @@ PyDoc_STRVAR(_contextvars_Context_keys__doc__,
 "Return a list of all variables in the context object.");
 
 #define _CONTEXTVARS_CONTEXT_KEYS_METHODDEF    \
-    {"keys", (PyCFunction)_contextvars_Context_keys, METH_NOARGS, _contextvars_Context_keys__doc__},
+    {"keys", (PyCFunction)_contextvars_Context_keys, METH_NOARGS|METH_C_STACK_FRUGAL, _contextvars_Context_keys__doc__},
 
 static PyObject *
 _contextvars_Context_keys_impl(PyContext *self);
@@ -87,7 +87,7 @@ PyDoc_STRVAR(_contextvars_Context_values__doc__,
 "Return a list of all variables\' values in the context object.");
 
 #define _CONTEXTVARS_CONTEXT_VALUES_METHODDEF    \
-    {"values", (PyCFunction)_contextvars_Context_values, METH_NOARGS, _contextvars_Context_values__doc__},
+    {"values", (PyCFunction)_contextvars_Context_values, METH_NOARGS|METH_C_STACK_FRUGAL, _contextvars_Context_values__doc__},
 
 static PyObject *
 _contextvars_Context_values_impl(PyContext *self);
@@ -105,7 +105,7 @@ PyDoc_STRVAR(_contextvars_Context_copy__doc__,
 "Return a shallow copy of the context object.");
 
 #define _CONTEXTVARS_CONTEXT_COPY_METHODDEF    \
-    {"copy", (PyCFunction)_contextvars_Context_copy, METH_NOARGS, _contextvars_Context_copy__doc__},
+    {"copy", (PyCFunction)_contextvars_Context_copy, METH_NOARGS|METH_C_STACK_FRUGAL, _contextvars_Context_copy__doc__},
 
 static PyObject *
 _contextvars_Context_copy_impl(PyContext *self);
@@ -129,7 +129,7 @@ PyDoc_STRVAR(_contextvars_ContextVar_get__doc__,
 " * raise a LookupError.");
 
 #define _CONTEXTVARS_CONTEXTVAR_GET_METHODDEF    \
-    {"get", _PyCFunction_CAST(_contextvars_ContextVar_get), METH_FASTCALL, _contextvars_ContextVar_get__doc__},
+    {"get", _PyCFunction_CAST(_contextvars_ContextVar_get), METH_FASTCALL|METH_C_STACK_FRUGAL, _contextvars_ContextVar_get__doc__},
 
 static PyObject *
 _contextvars_ContextVar_get_impl(PyContextVar *self, PyObject *default_value);
@@ -166,7 +166,7 @@ PyDoc_STRVAR(_contextvars_ContextVar_set__doc__,
 "value via the `ContextVar.reset()` method.");
 
 #define _CONTEXTVARS_CONTEXTVAR_SET_METHODDEF    \
-    {"set", (PyCFunction)_contextvars_ContextVar_set, METH_O, _contextvars_ContextVar_set__doc__},
+    {"set", (PyCFunction)_contextvars_ContextVar_set, METH_O|METH_C_STACK_FRUGAL, _contextvars_ContextVar_set__doc__},
 
 static PyObject *
 _contextvars_ContextVar_set_impl(PyContextVar *self, PyObject *value);
@@ -191,7 +191,7 @@ PyDoc_STRVAR(_contextvars_ContextVar_reset__doc__,
 "created the token was used.");
 
 #define _CONTEXTVARS_CONTEXTVAR_RESET_METHODDEF    \
-    {"reset", (PyCFunction)_contextvars_ContextVar_reset, METH_O, _contextvars_ContextVar_reset__doc__},
+    {"reset", (PyCFunction)_contextvars_ContextVar_reset, METH_O|METH_C_STACK_FRUGAL, _contextvars_ContextVar_reset__doc__},
 
 static PyObject *
 _contextvars_ContextVar_reset_impl(PyContextVar *self, PyObject *token);
@@ -213,7 +213,7 @@ PyDoc_STRVAR(token_enter__doc__,
 "Enter into Token context manager.");
 
 #define TOKEN_ENTER_METHODDEF    \
-    {"__enter__", (PyCFunction)token_enter, METH_NOARGS, token_enter__doc__},
+    {"__enter__", (PyCFunction)token_enter, METH_NOARGS|METH_C_STACK_FRUGAL, token_enter__doc__},
 
 static PyObject *
 token_enter_impl(PyContextToken *self);
@@ -231,7 +231,7 @@ PyDoc_STRVAR(token_exit__doc__,
 "Exit from Token context manager, restore the linked ContextVar.");
 
 #define TOKEN_EXIT_METHODDEF    \
-    {"__exit__", _PyCFunction_CAST(token_exit), METH_FASTCALL, token_exit__doc__},
+    {"__exit__", _PyCFunction_CAST(token_exit), METH_FASTCALL|METH_C_STACK_FRUGAL, token_exit__doc__},
 
 static PyObject *
 token_exit_impl(PyContextToken *self, PyObject *type, PyObject *val,
@@ -256,4 +256,4 @@ token_exit(PyObject *self, PyObject *const *args, Py_ssize_t nargs)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=3a04b2fddf24c3e9 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=e22a50cc88ceb352 input=a9049054013a1b77]*/

@@ -137,7 +137,7 @@ PyDoc_STRVAR(_remote_debugging_RemoteUnwinder_get_stack_trace__doc__,
 "    UnicodeDecodeError: If there is an error decoding strings from the target process");
 
 #define _REMOTE_DEBUGGING_REMOTEUNWINDER_GET_STACK_TRACE_METHODDEF    \
-    {"get_stack_trace", (PyCFunction)_remote_debugging_RemoteUnwinder_get_stack_trace, METH_NOARGS, _remote_debugging_RemoteUnwinder_get_stack_trace__doc__},
+    {"get_stack_trace", (PyCFunction)_remote_debugging_RemoteUnwinder_get_stack_trace, METH_NOARGS|METH_C_STACK_FRUGAL, _remote_debugging_RemoteUnwinder_get_stack_trace__doc__},
 
 static PyObject *
 _remote_debugging_RemoteUnwinder_get_stack_trace_impl(RemoteUnwinderObject *self);
@@ -194,7 +194,7 @@ PyDoc_STRVAR(_remote_debugging_RemoteUnwinder_get_all_awaited_by__doc__,
 "]");
 
 #define _REMOTE_DEBUGGING_REMOTEUNWINDER_GET_ALL_AWAITED_BY_METHODDEF    \
-    {"get_all_awaited_by", (PyCFunction)_remote_debugging_RemoteUnwinder_get_all_awaited_by, METH_NOARGS, _remote_debugging_RemoteUnwinder_get_all_awaited_by__doc__},
+    {"get_all_awaited_by", (PyCFunction)_remote_debugging_RemoteUnwinder_get_all_awaited_by, METH_NOARGS|METH_C_STACK_FRUGAL, _remote_debugging_RemoteUnwinder_get_all_awaited_by__doc__},
 
 static PyObject *
 _remote_debugging_RemoteUnwinder_get_all_awaited_by_impl(RemoteUnwinderObject *self);
@@ -237,7 +237,7 @@ PyDoc_STRVAR(_remote_debugging_RemoteUnwinder_get_async_stack_trace__doc__,
 "    UnicodeDecodeError: If there is an error decoding strings from the target process");
 
 #define _REMOTE_DEBUGGING_REMOTEUNWINDER_GET_ASYNC_STACK_TRACE_METHODDEF    \
-    {"get_async_stack_trace", (PyCFunction)_remote_debugging_RemoteUnwinder_get_async_stack_trace, METH_NOARGS, _remote_debugging_RemoteUnwinder_get_async_stack_trace__doc__},
+    {"get_async_stack_trace", (PyCFunction)_remote_debugging_RemoteUnwinder_get_async_stack_trace, METH_NOARGS|METH_C_STACK_FRUGAL, _remote_debugging_RemoteUnwinder_get_async_stack_trace__doc__},
 
 static PyObject *
 _remote_debugging_RemoteUnwinder_get_async_stack_trace_impl(RemoteUnwinderObject *self);
@@ -253,4 +253,4 @@ _remote_debugging_RemoteUnwinder_get_async_stack_trace(PyObject *self, PyObject 
 
     return return_value;
 }
-/*[clinic end generated code: output=774ec34aa653402d input=a9049054013a1b77]*/
+/*[clinic end generated code: output=5b70354ef1cb1ac6 input=a9049054013a1b77]*/

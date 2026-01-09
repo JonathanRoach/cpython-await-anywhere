@@ -78,7 +78,7 @@ PyDoc_STRVAR(int___getnewargs____doc__,
 "\n");
 
 #define INT___GETNEWARGS___METHODDEF    \
-    {"__getnewargs__", (PyCFunction)int___getnewargs__, METH_NOARGS, int___getnewargs____doc__},
+    {"__getnewargs__", (PyCFunction)int___getnewargs__, METH_NOARGS|METH_C_STACK_FRUGAL, int___getnewargs____doc__},
 
 static PyObject *
 int___getnewargs___impl(PyObject *self);
@@ -96,7 +96,7 @@ PyDoc_STRVAR(int___format____doc__,
 "Convert to a string according to format_spec.");
 
 #define INT___FORMAT___METHODDEF    \
-    {"__format__", (PyCFunction)int___format__, METH_O, int___format____doc__},
+    {"__format__", (PyCFunction)int___format__, METH_O|METH_C_STACK_FRUGAL, int___format____doc__},
 
 static PyObject *
 int___format___impl(PyObject *self, PyObject *format_spec);
@@ -127,7 +127,7 @@ PyDoc_STRVAR(int___round____doc__,
 "Rounding with an ndigits argument also returns an integer.");
 
 #define INT___ROUND___METHODDEF    \
-    {"__round__", _PyCFunction_CAST(int___round__), METH_FASTCALL, int___round____doc__},
+    {"__round__", _PyCFunction_CAST(int___round__), METH_FASTCALL|METH_C_STACK_FRUGAL, int___round____doc__},
 
 static PyObject *
 int___round___impl(PyObject *self, PyObject *o_ndigits);
@@ -159,7 +159,7 @@ PyDoc_STRVAR(int___sizeof____doc__,
 "Returns size in memory, in bytes.");
 
 #define INT___SIZEOF___METHODDEF    \
-    {"__sizeof__", (PyCFunction)int___sizeof__, METH_NOARGS, int___sizeof____doc__},
+    {"__sizeof__", (PyCFunction)int___sizeof__, METH_NOARGS|METH_C_STACK_FRUGAL, int___sizeof____doc__},
 
 static Py_ssize_t
 int___sizeof___impl(PyObject *self);
@@ -192,7 +192,7 @@ PyDoc_STRVAR(int_bit_length__doc__,
 "6");
 
 #define INT_BIT_LENGTH_METHODDEF    \
-    {"bit_length", (PyCFunction)int_bit_length, METH_NOARGS, int_bit_length__doc__},
+    {"bit_length", (PyCFunction)int_bit_length, METH_NOARGS|METH_C_STACK_FRUGAL, int_bit_length__doc__},
 
 static PyObject *
 int_bit_length_impl(PyObject *self);
@@ -217,7 +217,7 @@ PyDoc_STRVAR(int_bit_count__doc__,
 "3");
 
 #define INT_BIT_COUNT_METHODDEF    \
-    {"bit_count", (PyCFunction)int_bit_count, METH_NOARGS, int_bit_count__doc__},
+    {"bit_count", (PyCFunction)int_bit_count, METH_NOARGS|METH_C_STACK_FRUGAL, int_bit_count__doc__},
 
 static PyObject *
 int_bit_count_impl(PyObject *self);
@@ -244,7 +244,7 @@ PyDoc_STRVAR(int_as_integer_ratio__doc__,
 "(0, 1)");
 
 #define INT_AS_INTEGER_RATIO_METHODDEF    \
-    {"as_integer_ratio", (PyCFunction)int_as_integer_ratio, METH_NOARGS, int_as_integer_ratio__doc__},
+    {"as_integer_ratio", (PyCFunction)int_as_integer_ratio, METH_NOARGS|METH_C_STACK_FRUGAL, int_as_integer_ratio__doc__},
 
 static PyObject *
 int_as_integer_ratio_impl(PyObject *self);
@@ -277,7 +277,7 @@ PyDoc_STRVAR(int_to_bytes__doc__,
 "    is raised.");
 
 #define INT_TO_BYTES_METHODDEF    \
-    {"to_bytes", _PyCFunction_CAST(int_to_bytes), METH_FASTCALL|METH_KEYWORDS, int_to_bytes__doc__},
+    {"to_bytes", _PyCFunction_CAST(int_to_bytes), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, int_to_bytes__doc__},
 
 static PyObject *
 int_to_bytes_impl(PyObject *self, Py_ssize_t length, PyObject *byteorder,
@@ -391,7 +391,7 @@ PyDoc_STRVAR(int_from_bytes__doc__,
 "    Indicates whether two\'s complement is used to represent the integer.");
 
 #define INT_FROM_BYTES_METHODDEF    \
-    {"from_bytes", _PyCFunction_CAST(int_from_bytes), METH_FASTCALL|METH_KEYWORDS|METH_CLASS, int_from_bytes__doc__},
+    {"from_bytes", _PyCFunction_CAST(int_from_bytes), METH_FASTCALL|METH_KEYWORDS|METH_CLASS|METH_C_STACK_FRUGAL, int_from_bytes__doc__},
 
 static PyObject *
 int_from_bytes_impl(PyTypeObject *type, PyObject *bytes_obj,
@@ -475,7 +475,7 @@ PyDoc_STRVAR(int_is_integer__doc__,
 "Returns True. Exists for duck type compatibility with float.is_integer.");
 
 #define INT_IS_INTEGER_METHODDEF    \
-    {"is_integer", (PyCFunction)int_is_integer, METH_NOARGS, int_is_integer__doc__},
+    {"is_integer", (PyCFunction)int_is_integer, METH_NOARGS|METH_C_STACK_FRUGAL, int_is_integer__doc__},
 
 static PyObject *
 int_is_integer_impl(PyObject *self);
@@ -485,4 +485,4 @@ int_is_integer(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return int_is_integer_impl(self);
 }
-/*[clinic end generated code: output=d23f8ce5bdf08a30 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=7649ae04caa35c49 input=a9049054013a1b77]*/

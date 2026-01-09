@@ -79,6 +79,7 @@ get_termios_state(PyObject *module)
 static struct PyModuleDef termiosmodule;
 
 /*[clinic input]
+@c_stack_frugal
 termios.tcgetattr
 
     fd: fildes
@@ -96,7 +97,7 @@ done using the symbolic constants defined in this module.
 
 static PyObject *
 termios_tcgetattr_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=2b3da39db870e629 input=54dad9779ebe74b1]*/
+/*[clinic end generated code: output=2b3da39db870e629 input=4294719dd0a0f9ae]*/
 {
     termiosmodulestate *state = PyModule_GetState(module);
     struct termios mode;
@@ -179,6 +180,7 @@ termios_tcgetattr_impl(PyObject *module, int fd)
 }
 
 /*[clinic input]
+@c_stack_frugal
 termios.tcsetattr
 
     fd: fildes
@@ -198,7 +200,7 @@ queued output and discarding all queued input.
 
 static PyObject *
 termios_tcsetattr_impl(PyObject *module, int fd, int when, PyObject *term)
-/*[clinic end generated code: output=bcd2b0a7b98a4bf5 input=5dafabdd5a08f018]*/
+/*[clinic end generated code: output=bcd2b0a7b98a4bf5 input=5ec46523dfce6054]*/
 {
     if (!PyList_Check(term) || PyList_Size(term) != 7) {
         PyErr_SetString(PyExc_TypeError,
@@ -281,6 +283,7 @@ termios_tcsetattr_impl(PyObject *module, int fd, int when, PyObject *term)
 }
 
 /*[clinic input]
+@c_stack_frugal
 termios.tcsendbreak
 
     fd: fildes
@@ -295,7 +298,7 @@ has a system dependent meaning.
 
 static PyObject *
 termios_tcsendbreak_impl(PyObject *module, int fd, int duration)
-/*[clinic end generated code: output=5945f589b5d3ac66 input=dc2f32417691f8ed]*/
+/*[clinic end generated code: output=5945f589b5d3ac66 input=512a18ce1b96463b]*/
 {
     termiosmodulestate *state = PyModule_GetState(module);
     int r;
@@ -312,6 +315,7 @@ termios_tcsendbreak_impl(PyObject *module, int fd, int duration)
 }
 
 /*[clinic input]
+@c_stack_frugal
 termios.tcdrain
 
     fd: fildes
@@ -322,7 +326,7 @@ Wait until all output written to file descriptor fd has been transmitted.
 
 static PyObject *
 termios_tcdrain_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=5fd86944c6255955 input=c99241b140b32447]*/
+/*[clinic end generated code: output=5fd86944c6255955 input=1a8d82240c20ce43]*/
 {
     termiosmodulestate *state = PyModule_GetState(module);
     int r;
@@ -339,6 +343,7 @@ termios_tcdrain_impl(PyObject *module, int fd)
 }
 
 /*[clinic input]
+@c_stack_frugal
 termios.tcflush
 
     fd: fildes
@@ -354,7 +359,7 @@ both queues.
 
 static PyObject *
 termios_tcflush_impl(PyObject *module, int fd, int queue)
-/*[clinic end generated code: output=2424f80312ec2f21 input=0f7d08122ddc07b5]*/
+/*[clinic end generated code: output=2424f80312ec2f21 input=2c9019c2207adf3a]*/
 {
     termiosmodulestate *state = PyModule_GetState(module);
     int r;
@@ -371,6 +376,7 @@ termios_tcflush_impl(PyObject *module, int fd, int queue)
 }
 
 /*[clinic input]
+@c_stack_frugal
 termios.tcflow
 
     fd: fildes
@@ -386,7 +392,7 @@ or termios.TCION to restart input.
 
 static PyObject *
 termios_tcflow_impl(PyObject *module, int fd, int action)
-/*[clinic end generated code: output=afd10928e6ea66eb input=c6aff0640b6efd9c]*/
+/*[clinic end generated code: output=afd10928e6ea66eb input=759fe5fb0dadf9de]*/
 {
     termiosmodulestate *state = PyModule_GetState(module);
     int r;
@@ -403,6 +409,7 @@ termios_tcflow_impl(PyObject *module, int fd, int action)
 }
 
 /*[clinic input]
+@c_stack_frugal
 termios.tcgetwinsize
 
     fd: fildes
@@ -415,7 +422,7 @@ Returns a tuple (ws_row, ws_col).
 
 static PyObject *
 termios_tcgetwinsize_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=31825977d5325fb6 input=5706c379d7fd984d]*/
+/*[clinic end generated code: output=31825977d5325fb6 input=c7160955478c1d6b]*/
 {
 #if defined(TIOCGWINSZ)
     termiosmodulestate *state = PyModule_GetState(module);
@@ -474,6 +481,7 @@ termios_tcgetwinsize_impl(PyObject *module, int fd)
 }
 
 /*[clinic input]
+@c_stack_frugal
 termios.tcsetwinsize
 
     fd: fildes
@@ -488,7 +496,7 @@ is a two-item tuple (ws_row, ws_col) like the one returned by tcgetwinsize().
 
 static PyObject *
 termios_tcsetwinsize_impl(PyObject *module, int fd, PyObject *winsz)
-/*[clinic end generated code: output=2ac3c9bb6eda83e1 input=4a06424465b24aee]*/
+/*[clinic end generated code: output=2ac3c9bb6eda83e1 input=ad4f7a6776eba9f8]*/
 {
     if (!PySequence_Check(winsz) || PySequence_Size(winsz) != 2) {
         PyErr_SetString(PyExc_TypeError,

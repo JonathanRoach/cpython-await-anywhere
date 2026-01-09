@@ -30,7 +30,7 @@ PyDoc_STRVAR(builtin___import____doc__,
 "is the number of parent directories to search relative to the current module.");
 
 #define BUILTIN___IMPORT___METHODDEF    \
-    {"__import__", _PyCFunction_CAST(builtin___import__), METH_FASTCALL|METH_KEYWORDS, builtin___import____doc__},
+    {"__import__", _PyCFunction_CAST(builtin___import__), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, builtin___import____doc__},
 
 static PyObject *
 builtin___import___impl(PyObject *module, PyObject *name, PyObject *globals,
@@ -120,7 +120,7 @@ PyDoc_STRVAR(builtin_abs__doc__,
 "Return the absolute value of the argument.");
 
 #define BUILTIN_ABS_METHODDEF    \
-    {"abs", (PyCFunction)builtin_abs, METH_O, builtin_abs__doc__},
+    {"abs", (PyCFunction)builtin_abs, METH_O|METH_C_STACK_FRUGAL, builtin_abs__doc__},
 
 PyDoc_STRVAR(builtin_all__doc__,
 "all($module, iterable, /)\n"
@@ -131,7 +131,7 @@ PyDoc_STRVAR(builtin_all__doc__,
 "If the iterable is empty, return True.");
 
 #define BUILTIN_ALL_METHODDEF    \
-    {"all", (PyCFunction)builtin_all, METH_O, builtin_all__doc__},
+    {"all", (PyCFunction)builtin_all, METH_O|METH_C_STACK_FRUGAL, builtin_all__doc__},
 
 PyDoc_STRVAR(builtin_any__doc__,
 "any($module, iterable, /)\n"
@@ -142,7 +142,7 @@ PyDoc_STRVAR(builtin_any__doc__,
 "If the iterable is empty, return False.");
 
 #define BUILTIN_ANY_METHODDEF    \
-    {"any", (PyCFunction)builtin_any, METH_O, builtin_any__doc__},
+    {"any", (PyCFunction)builtin_any, METH_O|METH_C_STACK_FRUGAL, builtin_any__doc__},
 
 PyDoc_STRVAR(builtin_ascii__doc__,
 "ascii($module, obj, /)\n"
@@ -156,7 +156,7 @@ PyDoc_STRVAR(builtin_ascii__doc__,
 "to that returned by repr() in Python 2.");
 
 #define BUILTIN_ASCII_METHODDEF    \
-    {"ascii", (PyCFunction)builtin_ascii, METH_O, builtin_ascii__doc__},
+    {"ascii", (PyCFunction)builtin_ascii, METH_O|METH_C_STACK_FRUGAL, builtin_ascii__doc__},
 
 PyDoc_STRVAR(builtin_bin__doc__,
 "bin($module, number, /)\n"
@@ -168,7 +168,7 @@ PyDoc_STRVAR(builtin_bin__doc__,
 "   \'0b1010101010101010101010\'");
 
 #define BUILTIN_BIN_METHODDEF    \
-    {"bin", (PyCFunction)builtin_bin, METH_O, builtin_bin__doc__},
+    {"bin", (PyCFunction)builtin_bin, METH_O|METH_C_STACK_FRUGAL, builtin_bin__doc__},
 
 PyDoc_STRVAR(builtin_callable__doc__,
 "callable($module, obj, /)\n"
@@ -180,7 +180,7 @@ PyDoc_STRVAR(builtin_callable__doc__,
 "__call__() method.");
 
 #define BUILTIN_CALLABLE_METHODDEF    \
-    {"callable", (PyCFunction)builtin_callable, METH_O, builtin_callable__doc__},
+    {"callable", (PyCFunction)builtin_callable, METH_O|METH_C_STACK_FRUGAL, builtin_callable__doc__},
 
 PyDoc_STRVAR(builtin_format__doc__,
 "format($module, value, format_spec=\'\', /)\n"
@@ -196,7 +196,7 @@ PyDoc_STRVAR(builtin_format__doc__,
 "See also help(\'SPECIALMETHODS\').");
 
 #define BUILTIN_FORMAT_METHODDEF    \
-    {"format", _PyCFunction_CAST(builtin_format), METH_FASTCALL, builtin_format__doc__},
+    {"format", _PyCFunction_CAST(builtin_format), METH_FASTCALL|METH_C_STACK_FRUGAL, builtin_format__doc__},
 
 static PyObject *
 builtin_format_impl(PyObject *module, PyObject *value, PyObject *format_spec);
@@ -234,7 +234,7 @@ PyDoc_STRVAR(builtin_chr__doc__,
 "Return a Unicode string of one character with ordinal i; 0 <= i <= 0x10ffff.");
 
 #define BUILTIN_CHR_METHODDEF    \
-    {"chr", (PyCFunction)builtin_chr, METH_O, builtin_chr__doc__},
+    {"chr", (PyCFunction)builtin_chr, METH_O|METH_C_STACK_FRUGAL, builtin_chr__doc__},
 
 PyDoc_STRVAR(builtin_compile__doc__,
 "compile($module, /, source, filename, mode, flags=0,\n"
@@ -255,7 +255,7 @@ PyDoc_STRVAR(builtin_compile__doc__,
 "in addition to any features explicitly specified.");
 
 #define BUILTIN_COMPILE_METHODDEF    \
-    {"compile", _PyCFunction_CAST(builtin_compile), METH_FASTCALL|METH_KEYWORDS, builtin_compile__doc__},
+    {"compile", _PyCFunction_CAST(builtin_compile), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, builtin_compile__doc__},
 
 static PyObject *
 builtin_compile_impl(PyObject *module, PyObject *source, PyObject *filename,
@@ -377,7 +377,7 @@ PyDoc_STRVAR(builtin_divmod__doc__,
 "Return the tuple (x//y, x%y).  Invariant: div*y + mod == x.");
 
 #define BUILTIN_DIVMOD_METHODDEF    \
-    {"divmod", _PyCFunction_CAST(builtin_divmod), METH_FASTCALL, builtin_divmod__doc__},
+    {"divmod", _PyCFunction_CAST(builtin_divmod), METH_FASTCALL|METH_C_STACK_FRUGAL, builtin_divmod__doc__},
 
 static PyObject *
 builtin_divmod_impl(PyObject *module, PyObject *x, PyObject *y);
@@ -413,7 +413,7 @@ PyDoc_STRVAR(builtin_eval__doc__,
 "If only globals is given, locals defaults to it.");
 
 #define BUILTIN_EVAL_METHODDEF    \
-    {"eval", _PyCFunction_CAST(builtin_eval), METH_FASTCALL|METH_KEYWORDS, builtin_eval__doc__},
+    {"eval", _PyCFunction_CAST(builtin_eval), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, builtin_eval__doc__},
 
 static PyObject *
 builtin_eval_impl(PyObject *module, PyObject *source, PyObject *globals,
@@ -494,7 +494,7 @@ PyDoc_STRVAR(builtin_exec__doc__,
 "when source is a code object requiring exactly that many cellvars.");
 
 #define BUILTIN_EXEC_METHODDEF    \
-    {"exec", _PyCFunction_CAST(builtin_exec), METH_FASTCALL|METH_KEYWORDS, builtin_exec__doc__},
+    {"exec", _PyCFunction_CAST(builtin_exec), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, builtin_exec__doc__},
 
 static PyObject *
 builtin_exec_impl(PyObject *module, PyObject *source, PyObject *globals,
@@ -581,7 +581,7 @@ PyDoc_STRVAR(builtin_globals__doc__,
 "global scope and vice-versa.");
 
 #define BUILTIN_GLOBALS_METHODDEF    \
-    {"globals", (PyCFunction)builtin_globals, METH_NOARGS, builtin_globals__doc__},
+    {"globals", (PyCFunction)builtin_globals, METH_NOARGS|METH_C_STACK_FRUGAL, builtin_globals__doc__},
 
 static PyObject *
 builtin_globals_impl(PyObject *module);
@@ -601,7 +601,7 @@ PyDoc_STRVAR(builtin_hasattr__doc__,
 "This is done by calling getattr(obj, name) and catching AttributeError.");
 
 #define BUILTIN_HASATTR_METHODDEF    \
-    {"hasattr", _PyCFunction_CAST(builtin_hasattr), METH_FASTCALL, builtin_hasattr__doc__},
+    {"hasattr", _PyCFunction_CAST(builtin_hasattr), METH_FASTCALL|METH_C_STACK_FRUGAL, builtin_hasattr__doc__},
 
 static PyObject *
 builtin_hasattr_impl(PyObject *module, PyObject *obj, PyObject *name);
@@ -634,7 +634,7 @@ PyDoc_STRVAR(builtin_id__doc__,
 "(CPython uses the object\'s memory address.)");
 
 #define BUILTIN_ID_METHODDEF    \
-    {"id", (PyCFunction)builtin_id, METH_O, builtin_id__doc__},
+    {"id", (PyCFunction)builtin_id, METH_O|METH_C_STACK_FRUGAL, builtin_id__doc__},
 
 static PyObject *
 builtin_id_impl(PyModuleDef *self, PyObject *v);
@@ -658,7 +658,7 @@ PyDoc_STRVAR(builtin_setattr__doc__,
 "setattr(x, \'y\', v) is equivalent to ``x.y = v``");
 
 #define BUILTIN_SETATTR_METHODDEF    \
-    {"setattr", _PyCFunction_CAST(builtin_setattr), METH_FASTCALL, builtin_setattr__doc__},
+    {"setattr", _PyCFunction_CAST(builtin_setattr), METH_FASTCALL|METH_C_STACK_FRUGAL, builtin_setattr__doc__},
 
 static PyObject *
 builtin_setattr_impl(PyObject *module, PyObject *obj, PyObject *name,
@@ -693,7 +693,7 @@ PyDoc_STRVAR(builtin_delattr__doc__,
 "delattr(x, \'y\') is equivalent to ``del x.y``");
 
 #define BUILTIN_DELATTR_METHODDEF    \
-    {"delattr", _PyCFunction_CAST(builtin_delattr), METH_FASTCALL, builtin_delattr__doc__},
+    {"delattr", _PyCFunction_CAST(builtin_delattr), METH_FASTCALL|METH_C_STACK_FRUGAL, builtin_delattr__doc__},
 
 static PyObject *
 builtin_delattr_impl(PyObject *module, PyObject *obj, PyObject *name);
@@ -726,7 +726,7 @@ PyDoc_STRVAR(builtin_hash__doc__,
 "reverse is not necessarily true.");
 
 #define BUILTIN_HASH_METHODDEF    \
-    {"hash", (PyCFunction)builtin_hash, METH_O, builtin_hash__doc__},
+    {"hash", (PyCFunction)builtin_hash, METH_O|METH_C_STACK_FRUGAL, builtin_hash__doc__},
 
 PyDoc_STRVAR(builtin_hex__doc__,
 "hex($module, number, /)\n"
@@ -738,7 +738,7 @@ PyDoc_STRVAR(builtin_hex__doc__,
 "   \'0xc0ffee\'");
 
 #define BUILTIN_HEX_METHODDEF    \
-    {"hex", (PyCFunction)builtin_hex, METH_O, builtin_hex__doc__},
+    {"hex", (PyCFunction)builtin_hex, METH_O|METH_C_STACK_FRUGAL, builtin_hex__doc__},
 
 PyDoc_STRVAR(builtin_aiter__doc__,
 "aiter($module, async_iterable, /)\n"
@@ -747,7 +747,7 @@ PyDoc_STRVAR(builtin_aiter__doc__,
 "Return an AsyncIterator for an AsyncIterable object.");
 
 #define BUILTIN_AITER_METHODDEF    \
-    {"aiter", (PyCFunction)builtin_aiter, METH_O, builtin_aiter__doc__},
+    {"aiter", (PyCFunction)builtin_aiter, METH_O|METH_C_STACK_FRUGAL, builtin_aiter__doc__},
 
 PyDoc_STRVAR(builtin_anext__doc__,
 "anext($module, aiterator, default=<unrepresentable>, /)\n"
@@ -759,7 +759,7 @@ PyDoc_STRVAR(builtin_anext__doc__,
 "it is returned instead of raising StopAsyncIteration.");
 
 #define BUILTIN_ANEXT_METHODDEF    \
-    {"anext", _PyCFunction_CAST(builtin_anext), METH_FASTCALL, builtin_anext__doc__},
+    {"anext", _PyCFunction_CAST(builtin_anext), METH_FASTCALL|METH_C_STACK_FRUGAL, builtin_anext__doc__},
 
 static PyObject *
 builtin_anext_impl(PyObject *module, PyObject *aiterator,
@@ -794,7 +794,7 @@ PyDoc_STRVAR(builtin_len__doc__,
 "Return the number of items in a container.");
 
 #define BUILTIN_LEN_METHODDEF    \
-    {"len", (PyCFunction)builtin_len, METH_O, builtin_len__doc__},
+    {"len", (PyCFunction)builtin_len, METH_O|METH_C_STACK_FRUGAL, builtin_len__doc__},
 
 PyDoc_STRVAR(builtin_locals__doc__,
 "locals($module, /)\n"
@@ -807,7 +807,7 @@ PyDoc_STRVAR(builtin_locals__doc__,
 "covered by any backwards compatibility guarantees.");
 
 #define BUILTIN_LOCALS_METHODDEF    \
-    {"locals", (PyCFunction)builtin_locals, METH_NOARGS, builtin_locals__doc__},
+    {"locals", (PyCFunction)builtin_locals, METH_NOARGS|METH_C_STACK_FRUGAL, builtin_locals__doc__},
 
 static PyObject *
 builtin_locals_impl(PyObject *module);
@@ -828,7 +828,7 @@ PyDoc_STRVAR(builtin_oct__doc__,
 "   \'0o1234567\'");
 
 #define BUILTIN_OCT_METHODDEF    \
-    {"oct", (PyCFunction)builtin_oct, METH_O, builtin_oct__doc__},
+    {"oct", (PyCFunction)builtin_oct, METH_O|METH_C_STACK_FRUGAL, builtin_oct__doc__},
 
 PyDoc_STRVAR(builtin_ord__doc__,
 "ord($module, c, /)\n"
@@ -837,7 +837,7 @@ PyDoc_STRVAR(builtin_ord__doc__,
 "Return the Unicode code point for a one-character string.");
 
 #define BUILTIN_ORD_METHODDEF    \
-    {"ord", (PyCFunction)builtin_ord, METH_O, builtin_ord__doc__},
+    {"ord", (PyCFunction)builtin_ord, METH_O|METH_C_STACK_FRUGAL, builtin_ord__doc__},
 
 PyDoc_STRVAR(builtin_pow__doc__,
 "pow($module, /, base, exp, mod=None)\n"
@@ -849,7 +849,7 @@ PyDoc_STRVAR(builtin_pow__doc__,
 "invoked using the three argument form.");
 
 #define BUILTIN_POW_METHODDEF    \
-    {"pow", _PyCFunction_CAST(builtin_pow), METH_FASTCALL|METH_KEYWORDS, builtin_pow__doc__},
+    {"pow", _PyCFunction_CAST(builtin_pow), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, builtin_pow__doc__},
 
 static PyObject *
 builtin_pow_impl(PyObject *module, PyObject *base, PyObject *exp,
@@ -926,7 +926,7 @@ PyDoc_STRVAR(builtin_print__doc__,
 "    whether to forcibly flush the stream.");
 
 #define BUILTIN_PRINT_METHODDEF    \
-    {"print", _PyCFunction_CAST(builtin_print), METH_FASTCALL|METH_KEYWORDS, builtin_print__doc__},
+    {"print", _PyCFunction_CAST(builtin_print), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, builtin_print__doc__},
 
 static PyObject *
 builtin_print_impl(PyObject *module, PyObject * const *args,
@@ -1026,7 +1026,7 @@ PyDoc_STRVAR(builtin_input__doc__,
 "On *nix systems, readline is used if available.");
 
 #define BUILTIN_INPUT_METHODDEF    \
-    {"input", _PyCFunction_CAST(builtin_input), METH_FASTCALL, builtin_input__doc__},
+    {"input", _PyCFunction_CAST(builtin_input), METH_FASTCALL|METH_C_STACK_FRUGAL, builtin_input__doc__},
 
 static PyObject *
 builtin_input_impl(PyObject *module, PyObject *prompt);
@@ -1060,7 +1060,7 @@ PyDoc_STRVAR(builtin_repr__doc__,
 "For many object types, including most builtins, eval(repr(obj)) == obj.");
 
 #define BUILTIN_REPR_METHODDEF    \
-    {"repr", (PyCFunction)builtin_repr, METH_O, builtin_repr__doc__},
+    {"repr", (PyCFunction)builtin_repr, METH_O|METH_C_STACK_FRUGAL, builtin_repr__doc__},
 
 PyDoc_STRVAR(builtin_round__doc__,
 "round($module, /, number, ndigits=None)\n"
@@ -1072,7 +1072,7 @@ PyDoc_STRVAR(builtin_round__doc__,
 "the return value has the same type as the number.  ndigits may be negative.");
 
 #define BUILTIN_ROUND_METHODDEF    \
-    {"round", _PyCFunction_CAST(builtin_round), METH_FASTCALL|METH_KEYWORDS, builtin_round__doc__},
+    {"round", _PyCFunction_CAST(builtin_round), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, builtin_round__doc__},
 
 static PyObject *
 builtin_round_impl(PyObject *module, PyObject *number, PyObject *ndigits);
@@ -1141,7 +1141,7 @@ PyDoc_STRVAR(builtin_sum__doc__,
 "reject non-numeric types.");
 
 #define BUILTIN_SUM_METHODDEF    \
-    {"sum", _PyCFunction_CAST(builtin_sum), METH_FASTCALL|METH_KEYWORDS, builtin_sum__doc__},
+    {"sum", _PyCFunction_CAST(builtin_sum), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, builtin_sum__doc__},
 
 static PyObject *
 builtin_sum_impl(PyObject *module, PyObject *iterable, PyObject *start);
@@ -1210,7 +1210,7 @@ PyDoc_STRVAR(builtin_isinstance__doc__,
 "or ...`` etc.");
 
 #define BUILTIN_ISINSTANCE_METHODDEF    \
-    {"isinstance", _PyCFunction_CAST(builtin_isinstance), METH_FASTCALL, builtin_isinstance__doc__},
+    {"isinstance", _PyCFunction_CAST(builtin_isinstance), METH_FASTCALL|METH_C_STACK_FRUGAL, builtin_isinstance__doc__},
 
 static PyObject *
 builtin_isinstance_impl(PyObject *module, PyObject *obj,
@@ -1245,7 +1245,7 @@ PyDoc_STRVAR(builtin_issubclass__doc__,
 "or ...``.");
 
 #define BUILTIN_ISSUBCLASS_METHODDEF    \
-    {"issubclass", _PyCFunction_CAST(builtin_issubclass), METH_FASTCALL, builtin_issubclass__doc__},
+    {"issubclass", _PyCFunction_CAST(builtin_issubclass), METH_FASTCALL|METH_C_STACK_FRUGAL, builtin_issubclass__doc__},
 
 static PyObject *
 builtin_issubclass_impl(PyObject *module, PyObject *cls,
@@ -1268,4 +1268,4 @@ builtin_issubclass(PyObject *module, PyObject *const *args, Py_ssize_t nargs)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=e7a5d0851d7f2cfb input=a9049054013a1b77]*/
+/*[clinic end generated code: output=258f3b619549aa37 input=a9049054013a1b77]*/

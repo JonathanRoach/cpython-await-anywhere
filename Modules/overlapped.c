@@ -217,6 +217,7 @@ initialize_function_pointers(void)
  */
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.CreateIoCompletionPort
 
     handle as FileHandle: HANDLE
@@ -233,7 +234,7 @@ _overlapped_CreateIoCompletionPort_impl(PyObject *module, HANDLE FileHandle,
                                         HANDLE ExistingCompletionPort,
                                         ULONG_PTR CompletionKey,
                                         DWORD NumberOfConcurrentThreads)
-/*[clinic end generated code: output=24ede2b0f05e5433 input=847bae4d0efe1976]*/
+/*[clinic end generated code: output=24ede2b0f05e5433 input=872fc76f44f3cd41]*/
 {
     HANDLE ret;
 
@@ -248,6 +249,7 @@ _overlapped_CreateIoCompletionPort_impl(PyObject *module, HANDLE FileHandle,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.GetQueuedCompletionStatus
 
     port as CompletionPort: HANDLE
@@ -263,7 +265,7 @@ static PyObject *
 _overlapped_GetQueuedCompletionStatus_impl(PyObject *module,
                                            HANDLE CompletionPort,
                                            DWORD Milliseconds)
-/*[clinic end generated code: output=68314171628dddb7 input=94a042d14c4f6410]*/
+/*[clinic end generated code: output=68314171628dddb7 input=98df82046ed587bf]*/
 {
     DWORD NumberOfBytes = 0;
     ULONG_PTR CompletionKey = 0;
@@ -288,6 +290,7 @@ _overlapped_GetQueuedCompletionStatus_impl(PyObject *module,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.PostQueuedCompletionStatus
 
     port as CompletionPort: HANDLE
@@ -305,7 +308,7 @@ _overlapped_PostQueuedCompletionStatus_impl(PyObject *module,
                                             DWORD NumberOfBytes,
                                             ULONG_PTR CompletionKey,
                                             OVERLAPPED *Overlapped)
-/*[clinic end generated code: output=93e73f2933a43e9e input=e936202d87937aca]*/
+/*[clinic end generated code: output=93e73f2933a43e9e input=c88d0b0c21b29c54]*/
 {
     BOOL ret;
 
@@ -340,6 +343,7 @@ PostToQueueCallback(PVOID lpParameter, BOOLEAN TimerOrWaitFired)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.RegisterWaitWithQueue
 
     Object: HANDLE
@@ -356,7 +360,7 @@ _overlapped_RegisterWaitWithQueue_impl(PyObject *module, HANDLE Object,
                                        HANDLE CompletionPort,
                                        OVERLAPPED *Overlapped,
                                        DWORD Milliseconds)
-/*[clinic end generated code: output=c2ace732e447fe45 input=2dd4efee44abe8ee]*/
+/*[clinic end generated code: output=c2ace732e447fe45 input=36b81aa5c4fd8d90]*/
 {
     HANDLE NewWaitObject;
     struct PostCallbackData data = {CompletionPort, Overlapped}, *pdata;
@@ -383,6 +387,7 @@ _overlapped_RegisterWaitWithQueue_impl(PyObject *module, HANDLE Object,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.UnregisterWait
 
     WaitHandle: HANDLE
@@ -393,7 +398,7 @@ Unregister wait handle.
 
 static PyObject *
 _overlapped_UnregisterWait_impl(PyObject *module, HANDLE WaitHandle)
-/*[clinic end generated code: output=ec90cd955a9a617d input=a56709544cb2df0f]*/
+/*[clinic end generated code: output=ec90cd955a9a617d input=b867b3d1b705c2b9]*/
 {
     BOOL ret;
 
@@ -407,6 +412,7 @@ _overlapped_UnregisterWait_impl(PyObject *module, HANDLE WaitHandle)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.UnregisterWaitEx
 
     WaitHandle: HANDLE
@@ -419,7 +425,7 @@ Unregister wait handle.
 static PyObject *
 _overlapped_UnregisterWaitEx_impl(PyObject *module, HANDLE WaitHandle,
                                   HANDLE Event)
-/*[clinic end generated code: output=2e3d84c1d5f65b92 input=953cddc1de50fab9]*/
+/*[clinic end generated code: output=2e3d84c1d5f65b92 input=b22828f6b1041082]*/
 {
     BOOL ret;
 
@@ -437,6 +443,7 @@ _overlapped_UnregisterWaitEx_impl(PyObject *module, HANDLE WaitHandle,
  */
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.CreateEvent
 
     EventAttributes: object
@@ -454,7 +461,7 @@ static PyObject *
 _overlapped_CreateEvent_impl(PyObject *module, PyObject *EventAttributes,
                              BOOL ManualReset, BOOL InitialState,
                              const wchar_t *Name)
-/*[clinic end generated code: output=b17ddc5fd506972d input=dbc36ae14375ba24]*/
+/*[clinic end generated code: output=b17ddc5fd506972d input=91f20edc0c19511c]*/
 {
     HANDLE Event;
 
@@ -473,6 +480,7 @@ _overlapped_CreateEvent_impl(PyObject *module, PyObject *EventAttributes,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.SetEvent
 
     Handle: HANDLE
@@ -483,7 +491,7 @@ Set event.
 
 static PyObject *
 _overlapped_SetEvent_impl(PyObject *module, HANDLE Handle)
-/*[clinic end generated code: output=5b8d974216b0e569 input=d8b0d26eb7391e80]*/
+/*[clinic end generated code: output=5b8d974216b0e569 input=371c0fbaeb95f693]*/
 {
     BOOL ret;
 
@@ -497,6 +505,7 @@ _overlapped_SetEvent_impl(PyObject *module, HANDLE Handle)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.ResetEvent
 
     Handle: HANDLE
@@ -507,7 +516,7 @@ Reset event.
 
 static PyObject *
 _overlapped_ResetEvent_impl(PyObject *module, HANDLE Handle)
-/*[clinic end generated code: output=066537a8405cddb2 input=d4e089c9ba84ff2f]*/
+/*[clinic end generated code: output=066537a8405cddb2 input=478b4b1f0574c8cf]*/
 {
     BOOL ret;
 
@@ -525,6 +534,7 @@ _overlapped_ResetEvent_impl(PyObject *module, HANDLE Handle)
  */
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.BindLocal
 
     handle as Socket: HANDLE
@@ -538,7 +548,7 @@ family should be AF_INET or AF_INET6.
 
 static PyObject *
 _overlapped_BindLocal_impl(PyObject *module, HANDLE Socket, int Family)
-/*[clinic end generated code: output=edb93862697aed9c input=a0e7b5c2f541170c]*/
+/*[clinic end generated code: output=edb93862697aed9c input=a1eb7d79ead406da]*/
 {
     BOOL ret;
 
@@ -573,6 +583,7 @@ _overlapped_BindLocal_impl(PyObject *module, HANDLE Socket, int Family)
  */
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.FormatMessage
 
     error_code as code: DWORD
@@ -583,7 +594,7 @@ Return error message for an error code.
 
 static PyObject *
 _overlapped_FormatMessage_impl(PyObject *module, DWORD code)
-/*[clinic end generated code: output=02c964ff22407c6b input=644bb5b80326179e]*/
+/*[clinic end generated code: output=02c964ff22407c6b input=eec5f6edb3ea818a]*/
 {
     DWORD n;
     WCHAR *lpMsgBuf;
@@ -628,6 +639,7 @@ mark_as_completed(OVERLAPPED *ov)
  */
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 _overlapped.Overlapped.__new__
 
@@ -638,7 +650,7 @@ OVERLAPPED structure wrapper.
 
 static PyObject *
 _overlapped_Overlapped_impl(PyTypeObject *type, HANDLE event)
-/*[clinic end generated code: output=6da60504a18eb421 input=26b8a7429e629e95]*/
+/*[clinic end generated code: output=6da60504a18eb421 input=15c4b11642f3c412]*/
 {
     OverlappedObject *self;
 
@@ -849,6 +861,7 @@ unparse_address(LPSOCKADDR Address, DWORD Length)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.Overlapped.cancel
 
 Cancel overlapped operation.
@@ -856,7 +869,7 @@ Cancel overlapped operation.
 
 static PyObject *
 _overlapped_Overlapped_cancel_impl(OverlappedObject *self)
-/*[clinic end generated code: output=54ad7aeece89901c input=80eb67c7b57dbcf1]*/
+/*[clinic end generated code: output=54ad7aeece89901c input=e5675cad8a7b5878]*/
 {
     BOOL ret = TRUE;
 
@@ -877,6 +890,7 @@ _overlapped_Overlapped_cancel_impl(OverlappedObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.Overlapped.getresult
 
     wait: BOOL(c_default='FALSE') = False
@@ -890,7 +904,7 @@ is false and the operation is still pending then an error is raised.
 
 static PyObject *
 _overlapped_Overlapped_getresult_impl(OverlappedObject *self, BOOL wait)
-/*[clinic end generated code: output=8c9bd04d08994f6c input=aa5b03e9897ca074]*/
+/*[clinic end generated code: output=8c9bd04d08994f6c input=d13402ee238fb17a]*/
 {
     DWORD transferred = 0;
     BOOL ret;
@@ -1034,6 +1048,7 @@ do_ReadFile(OverlappedObject *self, HANDLE handle,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.Overlapped.ReadFile
 
     handle: HANDLE
@@ -1046,7 +1061,7 @@ Start overlapped read.
 static PyObject *
 _overlapped_Overlapped_ReadFile_impl(OverlappedObject *self, HANDLE handle,
                                      DWORD size)
-/*[clinic end generated code: output=4c8557e16941e4ae input=98c495baa0342425]*/
+/*[clinic end generated code: output=4c8557e16941e4ae input=aed9f442404c9293]*/
 {
     PyObject *buf;
 
@@ -1070,6 +1085,7 @@ _overlapped_Overlapped_ReadFile_impl(OverlappedObject *self, HANDLE handle,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.Overlapped.ReadFileInto
 
     handle: HANDLE
@@ -1082,7 +1098,7 @@ Start overlapped receive.
 static PyObject *
 _overlapped_Overlapped_ReadFileInto_impl(OverlappedObject *self,
                                          HANDLE handle, Py_buffer *bufobj)
-/*[clinic end generated code: output=8754744506023071 input=4f037ba09939e32d]*/
+/*[clinic end generated code: output=8754744506023071 input=99dcf66cb87d4f29]*/
 {
     if (self->type != TYPE_NONE) {
         PyErr_SetString(PyExc_ValueError, "operation already attempted");
@@ -1138,6 +1154,7 @@ do_WSARecv(OverlappedObject *self, HANDLE handle,
 
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.Overlapped.WSARecv
 
     handle: HANDLE
@@ -1151,7 +1168,7 @@ Start overlapped receive.
 static PyObject *
 _overlapped_Overlapped_WSARecv_impl(OverlappedObject *self, HANDLE handle,
                                     DWORD size, DWORD flags)
-/*[clinic end generated code: output=3a5e9c61ff040906 input=8c04e506cc3d741a]*/
+/*[clinic end generated code: output=3a5e9c61ff040906 input=64f05719107c7294]*/
 {
     PyObject *buf;
 
@@ -1175,6 +1192,7 @@ _overlapped_Overlapped_WSARecv_impl(OverlappedObject *self, HANDLE handle,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.Overlapped.WSARecvInto
 
     handle: HANDLE
@@ -1189,7 +1207,7 @@ static PyObject *
 _overlapped_Overlapped_WSARecvInto_impl(OverlappedObject *self,
                                         HANDLE handle, Py_buffer *bufobj,
                                         DWORD flags)
-/*[clinic end generated code: output=59ae7688786cf86b input=73e7fa00db633edd]*/
+/*[clinic end generated code: output=59ae7688786cf86b input=d901e0248e141be3]*/
 {
     if (self->type != TYPE_NONE) {
         PyErr_SetString(PyExc_ValueError, "operation already attempted");
@@ -1212,6 +1230,7 @@ _overlapped_Overlapped_WSARecvInto_impl(OverlappedObject *self,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.Overlapped.WriteFile
 
     handle: HANDLE
@@ -1224,7 +1243,7 @@ Start overlapped write.
 static PyObject *
 _overlapped_Overlapped_WriteFile_impl(OverlappedObject *self, HANDLE handle,
                                       Py_buffer *bufobj)
-/*[clinic end generated code: output=fa5d5880a1bf04b1 input=ac54424c362abfc1]*/
+/*[clinic end generated code: output=fa5d5880a1bf04b1 input=9742c91929e38e16]*/
 {
     DWORD written;
     BOOL ret;
@@ -1264,6 +1283,7 @@ _overlapped_Overlapped_WriteFile_impl(OverlappedObject *self, HANDLE handle,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.Overlapped.WSASend
 
     handle: HANDLE
@@ -1277,7 +1297,7 @@ Start overlapped send.
 static PyObject *
 _overlapped_Overlapped_WSASend_impl(OverlappedObject *self, HANDLE handle,
                                     Py_buffer *bufobj, DWORD flags)
-/*[clinic end generated code: output=3baaa6e1f7fe229e input=c4167420ba2f93d8]*/
+/*[clinic end generated code: output=3baaa6e1f7fe229e input=4898dd1b31721782]*/
 {
     DWORD written;
     WSABUF wsabuf;
@@ -1319,6 +1339,7 @@ _overlapped_Overlapped_WSASend_impl(OverlappedObject *self, HANDLE handle,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.Overlapped.AcceptEx
 
     listen_handle as ListenSocket: HANDLE
@@ -1332,7 +1353,7 @@ static PyObject *
 _overlapped_Overlapped_AcceptEx_impl(OverlappedObject *self,
                                      HANDLE ListenSocket,
                                      HANDLE AcceptSocket)
-/*[clinic end generated code: output=9a7381d4232af889 input=b83473224fc3a1c5]*/
+/*[clinic end generated code: output=9a7381d4232af889 input=2f40ec022dbe3a31]*/
 {
     DWORD BytesReceived;
     DWORD size;
@@ -1434,6 +1455,7 @@ parse_address(PyObject *obj, SOCKADDR *Address, int Length)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.Overlapped.ConnectEx
 
     client_handle as ConnectSocket: HANDLE
@@ -1449,7 +1471,7 @@ static PyObject *
 _overlapped_Overlapped_ConnectEx_impl(OverlappedObject *self,
                                       HANDLE ConnectSocket,
                                       PyObject *AddressObj)
-/*[clinic end generated code: output=5aebbbdb4f022833 input=d6bbd2d84b156fc1]*/
+/*[clinic end generated code: output=5aebbbdb4f022833 input=c1a07b1f7f21dc27]*/
 {
     char AddressBuf[sizeof(struct sockaddr_in6)];
     SOCKADDR *Address = (SOCKADDR*)AddressBuf;
@@ -1487,6 +1509,7 @@ _overlapped_Overlapped_ConnectEx_impl(OverlappedObject *self,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.Overlapped.DisconnectEx
 
     handle as Socket: HANDLE
@@ -1498,7 +1521,7 @@ _overlapped.Overlapped.DisconnectEx
 static PyObject *
 _overlapped_Overlapped_DisconnectEx_impl(OverlappedObject *self,
                                          HANDLE Socket, DWORD flags)
-/*[clinic end generated code: output=8d64ddb8c93c2126 input=680845cdcdf820eb]*/
+/*[clinic end generated code: output=8d64ddb8c93c2126 input=750b4f5450334a20]*/
 {
     BOOL ret;
     DWORD err;
@@ -1527,6 +1550,7 @@ _overlapped_Overlapped_DisconnectEx_impl(OverlappedObject *self,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.Overlapped.TransmitFile
 
     socket as Socket: HANDLE
@@ -1547,7 +1571,7 @@ _overlapped_Overlapped_TransmitFile_impl(OverlappedObject *self,
                                          DWORD offset, DWORD offset_high,
                                          DWORD count_to_write,
                                          DWORD count_per_send, DWORD flags)
-/*[clinic end generated code: output=03f3ca5512e678fd input=7e6f97b391f60e8c]*/
+/*[clinic end generated code: output=03f3ca5512e678fd input=adee1daba90f0481]*/
 {
     BOOL ret;
     DWORD err;
@@ -1579,6 +1603,7 @@ _overlapped_Overlapped_TransmitFile_impl(OverlappedObject *self,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.Overlapped.ConnectNamedPipe
 
     handle as Pipe: HANDLE
@@ -1590,7 +1615,7 @@ Start overlapped wait for a client to connect.
 static PyObject *
 _overlapped_Overlapped_ConnectNamedPipe_impl(OverlappedObject *self,
                                              HANDLE Pipe)
-/*[clinic end generated code: output=3e69adfe55818abe input=8b0d4cef8a72f7bc]*/
+/*[clinic end generated code: output=3e69adfe55818abe input=fa8654e771e6f1c4]*/
 {
     BOOL ret;
     DWORD err;
@@ -1622,6 +1647,7 @@ _overlapped_Overlapped_ConnectNamedPipe_impl(OverlappedObject *self,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.Overlapped.ConnectPipe
 
     addr as Address: Py_UNICODE
@@ -1633,7 +1659,7 @@ Connect to the pipe for asynchronous I/O (overlapped).
 static PyObject *
 _overlapped_Overlapped_ConnectPipe_impl(OverlappedObject *self,
                                         const wchar_t *Address)
-/*[clinic end generated code: output=67cbd8e4d3a57855 input=167c06a274efcefc]*/
+/*[clinic end generated code: output=67cbd8e4d3a57855 input=59ee08f882cf8da7]*/
 {
     HANDLE PipeHandle;
 
@@ -1702,6 +1728,7 @@ Overlapped_traverse(PyObject *op, visitproc visit, void *arg)
  */
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.WSAConnect
 
     client_handle as ConnectSocket: HANDLE
@@ -1714,7 +1741,7 @@ Bind a remote address to a connectionless (UDP) socket.
 static PyObject *
 _overlapped_WSAConnect_impl(PyObject *module, HANDLE ConnectSocket,
                             PyObject *AddressObj)
-/*[clinic end generated code: output=ea0b4391e94dad63 input=7cf65313d49c015a]*/
+/*[clinic end generated code: output=ea0b4391e94dad63 input=800e9afb802ae479]*/
 {
     char AddressBuf[sizeof(struct sockaddr_in6)];
     SOCKADDR *Address = (SOCKADDR*)AddressBuf;
@@ -1743,6 +1770,7 @@ _overlapped_WSAConnect_impl(PyObject *module, HANDLE ConnectSocket,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.Overlapped.WSASendTo
 
     handle: HANDLE
@@ -1758,7 +1786,7 @@ static PyObject *
 _overlapped_Overlapped_WSASendTo_impl(OverlappedObject *self, HANDLE handle,
                                       Py_buffer *bufobj, DWORD flags,
                                       PyObject *AddressObj)
-/*[clinic end generated code: output=3cdedc4cfaeb70cd input=31f44cd4ab92fc33]*/
+/*[clinic end generated code: output=3cdedc4cfaeb70cd input=6d8ae1cb835185c7]*/
 {
     char AddressBuf[sizeof(struct sockaddr_in6)];
     SOCKADDR *Address = (SOCKADDR*)AddressBuf;
@@ -1812,6 +1840,7 @@ _overlapped_Overlapped_WSASendTo_impl(OverlappedObject *self, HANDLE handle,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.Overlapped.WSARecvFrom
 
     handle: HANDLE
@@ -1826,7 +1855,7 @@ static PyObject *
 _overlapped_Overlapped_WSARecvFrom_impl(OverlappedObject *self,
                                         HANDLE handle, DWORD size,
                                         DWORD flags)
-/*[clinic end generated code: output=13832a2025b86860 input=1b2663fa130e0286]*/
+/*[clinic end generated code: output=13832a2025b86860 input=07e38144eb2b7606]*/
 {
     PyObject *buf;
     DWORD nread;
@@ -1880,6 +1909,7 @@ _overlapped_Overlapped_WSARecvFrom_impl(OverlappedObject *self,
 
 
 /*[clinic input]
+@c_stack_frugal
 _overlapped.Overlapped.WSARecvFromInto
 
     handle: HANDLE
@@ -1895,7 +1925,7 @@ static PyObject *
 _overlapped_Overlapped_WSARecvFromInto_impl(OverlappedObject *self,
                                             HANDLE handle, Py_buffer *bufobj,
                                             DWORD size, DWORD flags)
-/*[clinic end generated code: output=30c7ea171a691757 input=4be4b08d03531e76]*/
+/*[clinic end generated code: output=30c7ea171a691757 input=d3ee33bf8192de9d]*/
 {
     DWORD nread;
     WSABUF wsabuf;

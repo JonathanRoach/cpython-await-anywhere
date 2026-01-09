@@ -926,6 +926,7 @@ keyobject_richcompare(PyObject *self, PyObject *other, int op)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _functools.cmp_to_key
 
     mycmp: object
@@ -936,7 +937,7 @@ Convert a cmp= function into a key= function.
 
 static PyObject *
 _functools_cmp_to_key_impl(PyObject *module, PyObject *mycmp)
-/*[clinic end generated code: output=71eaad0f4fc81f33 input=d1b76f231c0dfeb3]*/
+/*[clinic end generated code: output=71eaad0f4fc81f33 input=97fa92f4ea19104a]*/
 {
     keyobject *object;
     _functools_state *state;
@@ -954,6 +955,7 @@ _functools_cmp_to_key_impl(PyObject *module, PyObject *mycmp)
 /* reduce (used to be a builtin) ********************************************/
 
 /*[clinic input]
+@c_stack_frugal
 _functools.reduce
 
     function as func: object
@@ -974,7 +976,7 @@ calculates ((((1 + 2) + 3) + 4) + 5).
 static PyObject *
 _functools_reduce_impl(PyObject *module, PyObject *func, PyObject *seq,
                        PyObject *result)
-/*[clinic end generated code: output=30d898fe1267c79d input=1511e9a8c38581ac]*/
+/*[clinic end generated code: output=30d898fe1267c79d input=12567829f6adbe7e]*/
 {
     PyObject *args, *it;
 
@@ -1649,6 +1651,7 @@ lru_cache_descr_get(PyObject *self, PyObject *obj, PyObject *type)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _functools._lru_cache_wrapper.cache_info
 
@@ -1657,7 +1660,7 @@ Report cache statistics
 
 static PyObject *
 _functools__lru_cache_wrapper_cache_info_impl(PyObject *self)
-/*[clinic end generated code: output=cc796a0b06dbd717 input=00e1acb31aa21ecc]*/
+/*[clinic end generated code: output=cc796a0b06dbd717 input=42c07f02b0b039f5]*/
 {
     lru_cache_object *_self = (lru_cache_object *) self;
     if (_self->maxsize == -1) {
@@ -1675,6 +1678,7 @@ _functools__lru_cache_wrapper_cache_info_impl(PyObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _functools._lru_cache_wrapper.cache_clear
 
@@ -1683,7 +1687,7 @@ Clear the cache and cache statistics
 
 static PyObject *
 _functools__lru_cache_wrapper_cache_clear_impl(PyObject *self)
-/*[clinic end generated code: output=58423b35efc3e381 input=dfa33acbecf8b4b2]*/
+/*[clinic end generated code: output=58423b35efc3e381 input=d937f830c3055977]*/
 {
     lru_cache_object *_self = (lru_cache_object *) self;
     lru_list_elem *list = lru_cache_unlink_list(_self);

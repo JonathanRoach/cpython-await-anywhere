@@ -13,7 +13,7 @@ PyDoc_STRVAR(_ctypes_sizeof__doc__,
 "Return the size in bytes of a C instance.");
 
 #define _CTYPES_SIZEOF_METHODDEF    \
-    {"sizeof", (PyCFunction)_ctypes_sizeof, METH_O, _ctypes_sizeof__doc__},
+    {"sizeof", (PyCFunction)_ctypes_sizeof, METH_O|METH_C_STACK_FRUGAL, _ctypes_sizeof__doc__},
 
 PyDoc_STRVAR(_ctypes_byref__doc__,
 "byref($module, obj, offset=0, /)\n"
@@ -22,7 +22,7 @@ PyDoc_STRVAR(_ctypes_byref__doc__,
 "Return a pointer lookalike to a C instance, only usable as function argument.");
 
 #define _CTYPES_BYREF_METHODDEF    \
-    {"byref", _PyCFunction_CAST(_ctypes_byref), METH_FASTCALL, _ctypes_byref__doc__},
+    {"byref", _PyCFunction_CAST(_ctypes_byref), METH_FASTCALL|METH_C_STACK_FRUGAL, _ctypes_byref__doc__},
 
 static PyObject *
 _ctypes_byref_impl(PyObject *module, PyObject *obj, Py_ssize_t offset);
@@ -73,7 +73,7 @@ PyDoc_STRVAR(_ctypes_addressof__doc__,
 "Return the address of the C instance internal buffer");
 
 #define _CTYPES_ADDRESSOF_METHODDEF    \
-    {"addressof", (PyCFunction)_ctypes_addressof, METH_O, _ctypes_addressof__doc__},
+    {"addressof", (PyCFunction)_ctypes_addressof, METH_O|METH_C_STACK_FRUGAL, _ctypes_addressof__doc__},
 
 static PyObject *
 _ctypes_addressof_impl(PyObject *module, PyObject *obj);
@@ -103,7 +103,7 @@ PyDoc_STRVAR(_ctypes_resize__doc__,
 "\n");
 
 #define _CTYPES_RESIZE_METHODDEF    \
-    {"resize", _PyCFunction_CAST(_ctypes_resize), METH_FASTCALL, _ctypes_resize__doc__},
+    {"resize", _PyCFunction_CAST(_ctypes_resize), METH_FASTCALL|METH_C_STACK_FRUGAL, _ctypes_resize__doc__},
 
 static PyObject *
 _ctypes_resize_impl(PyObject *module, CDataObject *obj, Py_ssize_t size);
@@ -142,4 +142,4 @@ _ctypes_resize(PyObject *module, PyObject *const *args, Py_ssize_t nargs)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=23c74aced603977d input=a9049054013a1b77]*/
+/*[clinic end generated code: output=ff196b02daeaa531 input=a9049054013a1b77]*/

@@ -153,6 +153,7 @@ class structseq "PyStructSequence *" "NULL"
 #include "clinic/structseq.c.h"
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 structseq.__new__ as structseq_new
     sequence as arg: object
@@ -161,7 +162,7 @@ structseq.__new__ as structseq_new
 
 static PyObject *
 structseq_new_impl(PyTypeObject *type, PyObject *arg, PyObject *dict)
-/*[clinic end generated code: output=baa082e788b171da input=90532511101aa3fb]*/
+/*[clinic end generated code: output=baa082e788b171da input=9ccb916d2bd06ece]*/
 {
     PyStructSequence *res = NULL;
     Py_ssize_t len, min_len, max_len, i, n_unnamed_fields;

@@ -1571,6 +1571,7 @@ csv_writer(PyObject *module, PyObject *args, PyObject *keyword_args)
  */
 
 /*[clinic input]
+@c_stack_frugal
 _csv.list_dialects
 
 Return a list of all known dialect names.
@@ -1580,7 +1581,7 @@ Return a list of all known dialect names.
 
 static PyObject *
 _csv_list_dialects_impl(PyObject *module)
-/*[clinic end generated code: output=a5b92b215b006a6d input=8953943eb17d98ab]*/
+/*[clinic end generated code: output=a5b92b215b006a6d input=ece08c51d057aaca]*/
 {
     return PyDict_Keys(get_csv_state(module)->dialects);
 }
@@ -1612,6 +1613,7 @@ csv_register_dialect(PyObject *module, PyObject *args, PyObject *kwargs)
 
 
 /*[clinic input]
+@c_stack_frugal
 _csv.unregister_dialect
 
     name: object
@@ -1623,7 +1625,7 @@ Delete the name/dialect mapping associated with a string name.
 
 static PyObject *
 _csv_unregister_dialect_impl(PyObject *module, PyObject *name)
-/*[clinic end generated code: output=0813ebca6c058df4 input=6b5c1557bf60c7e7]*/
+/*[clinic end generated code: output=0813ebca6c058df4 input=dd7c1b3a3ae10c66]*/
 {
     _csvstate *module_state = get_csv_state(module);
     int rc = PyDict_Pop(module_state->dialects, name, NULL);
@@ -1638,6 +1640,7 @@ _csv_unregister_dialect_impl(PyObject *module, PyObject *name)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _csv.get_dialect
 
     name: object
@@ -1649,12 +1652,13 @@ Return the dialect instance associated with name.
 
 static PyObject *
 _csv_get_dialect_impl(PyObject *module, PyObject *name)
-/*[clinic end generated code: output=aa988cd573bebebb input=edf9ddab32e448fb]*/
+/*[clinic end generated code: output=aa988cd573bebebb input=dd329382b67a3926]*/
 {
     return get_dialect_from_registry(name, get_csv_state(module));
 }
 
 /*[clinic input]
+@c_stack_frugal
 _csv.field_size_limit
 
     new_limit: object = NULL
@@ -1669,7 +1673,7 @@ the old limit is returned
 
 static PyObject *
 _csv_field_size_limit_impl(PyObject *module, PyObject *new_limit)
-/*[clinic end generated code: output=f2799ecd908e250b input=cec70e9226406435]*/
+/*[clinic end generated code: output=f2799ecd908e250b input=a457580c28609887]*/
 {
     _csvstate *module_state = get_csv_state(module);
     Py_ssize_t old_limit = FT_ATOMIC_LOAD_SSIZE_RELAXED(module_state->field_limit);

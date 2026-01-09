@@ -232,6 +232,7 @@ _PyInstructionSequence_New(void)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 InstructionSequenceType.__new__ as inst_seq_new
 
@@ -240,12 +241,13 @@ Create a new InstructionSequence object.
 
 static PyObject *
 inst_seq_new_impl(PyTypeObject *type)
-/*[clinic end generated code: output=98881de92c8876f6 input=b393150146849c74]*/
+/*[clinic end generated code: output=98881de92c8876f6 input=d8bfa0fd5845295e]*/
 {
     return (PyObject*)inst_seq_create();
 }
 
 /*[clinic input]
+@c_stack_frugal
 InstructionSequenceType.use_label
 
   label: int
@@ -256,7 +258,7 @@ Place label at current location.
 static PyObject *
 InstructionSequenceType_use_label_impl(_PyInstructionSequence *self,
                                        int label)
-/*[clinic end generated code: output=4c06bbacb2854755 input=da55f49bb91841f3]*/
+/*[clinic end generated code: output=4c06bbacb2854755 input=f3a2c9a254375670]*/
 
 {
     if (_PyInstructionSequence_UseLabel(self, label) < 0) {
@@ -266,6 +268,7 @@ InstructionSequenceType_use_label_impl(_PyInstructionSequence *self,
 }
 
 /*[clinic input]
+@c_stack_frugal
 InstructionSequenceType.addop
 
   opcode: int
@@ -282,7 +285,7 @@ static PyObject *
 InstructionSequenceType_addop_impl(_PyInstructionSequence *self, int opcode,
                                    int oparg, int lineno, int col_offset,
                                    int end_lineno, int end_col_offset)
-/*[clinic end generated code: output=af0cc22c048dfbf3 input=012762ac88198713]*/
+/*[clinic end generated code: output=af0cc22c048dfbf3 input=ea4d327286432ce7]*/
 {
     _Py_SourceLocation loc = {lineno, col_offset, end_lineno, end_col_offset};
     if (_PyInstructionSequence_Addop(self, opcode, oparg, loc) < 0) {
@@ -292,6 +295,7 @@ InstructionSequenceType_addop_impl(_PyInstructionSequence *self, int opcode,
 }
 
 /*[clinic input]
+@c_stack_frugal
 InstructionSequenceType.new_label -> int
 
 Return a new label.
@@ -299,13 +303,14 @@ Return a new label.
 
 static int
 InstructionSequenceType_new_label_impl(_PyInstructionSequence *self)
-/*[clinic end generated code: output=dcb0589e4f5bf4bd input=c66040b9897bc327]*/
+/*[clinic end generated code: output=dcb0589e4f5bf4bd input=5f7cd499172363ca]*/
 {
     _PyJumpTargetLabel lbl = _PyInstructionSequence_NewLabel(self);
     return lbl.id;
 }
 
 /*[clinic input]
+@c_stack_frugal
 InstructionSequenceType.add_nested
 
   nested: object
@@ -316,7 +321,7 @@ Add a nested sequence.
 static PyObject *
 InstructionSequenceType_add_nested_impl(_PyInstructionSequence *self,
                                         PyObject *nested)
-/*[clinic end generated code: output=14540fad459f7971 input=f2c482568b3b3c0f]*/
+/*[clinic end generated code: output=14540fad459f7971 input=5fece6adf421fc77]*/
 {
     if (!_PyInstructionSequence_Check(nested)) {
         PyErr_Format(PyExc_TypeError,
@@ -331,6 +336,7 @@ InstructionSequenceType_add_nested_impl(_PyInstructionSequence *self,
 }
 
 /*[clinic input]
+@c_stack_frugal
 InstructionSequenceType.get_nested
 
 Add a nested sequence.
@@ -338,7 +344,7 @@ Add a nested sequence.
 
 static PyObject *
 InstructionSequenceType_get_nested_impl(_PyInstructionSequence *self)
-/*[clinic end generated code: output=f415112c292630cb input=e429e474c57b95b4]*/
+/*[clinic end generated code: output=f415112c292630cb input=b96d729f5748f28f]*/
 {
     if (self->s_nested == NULL) {
         return PyList_New(0);
@@ -347,6 +353,7 @@ InstructionSequenceType_get_nested_impl(_PyInstructionSequence *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 InstructionSequenceType.get_instructions
 
 Return the instructions as a list of tuples or labels.
@@ -354,7 +361,7 @@ Return the instructions as a list of tuples or labels.
 
 static PyObject *
 InstructionSequenceType_get_instructions_impl(_PyInstructionSequence *self)
-/*[clinic end generated code: output=23f4f3f894c301b3 input=fbadb5dadb611291]*/
+/*[clinic end generated code: output=23f4f3f894c301b3 input=3b6b95df2d7509c8]*/
 {
     if (_PyInstructionSequence_ApplyLabelMap(self) < 0) {
         return NULL;

@@ -126,6 +126,7 @@ error:
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testconsole.read_output
     file: object
 
@@ -134,7 +135,7 @@ Reads a str from the console as written to stdout.
 
 static PyObject *
 _testconsole_read_output_impl(PyObject *module, PyObject *file)
-/*[clinic end generated code: output=876310d81a73e6d2 input=b3521f64b1b558e3]*/
+/*[clinic end generated code: output=876310d81a73e6d2 input=87c12038c03df3c0]*/
 {
     Py_RETURN_NONE;
 }

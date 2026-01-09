@@ -93,6 +93,7 @@ static struct PyModuleDef resourcemodule;
 
 #ifdef HAVE_GETRUSAGE
 /*[clinic input]
+@c_stack_frugal
 resource.getrusage
 
     who: int
@@ -102,7 +103,7 @@ resource.getrusage
 
 static PyObject *
 resource_getrusage_impl(PyObject *module, int who)
-/*[clinic end generated code: output=8fad2880ba6a9843 input=5c857bcc5b9ccb1b]*/
+/*[clinic end generated code: output=8fad2880ba6a9843 input=87ef0688880a6c40]*/
 {
     struct rusage ru;
     PyObject *result;
@@ -205,6 +206,7 @@ rlimit2py(struct rlimit rl)
 }
 
 /*[clinic input]
+@c_stack_frugal
 resource.getrlimit
 
     resource: int
@@ -214,7 +216,7 @@ resource.getrlimit
 
 static PyObject *
 resource_getrlimit_impl(PyObject *module, int resource)
-/*[clinic end generated code: output=98327b25061ffe39 input=a697cb0004cb3c36]*/
+/*[clinic end generated code: output=98327b25061ffe39 input=4b8449fe6d0654f0]*/
 {
     struct rlimit rl;
 
@@ -232,6 +234,7 @@ resource_getrlimit_impl(PyObject *module, int resource)
 }
 
 /*[clinic input]
+@c_stack_frugal
 resource.setrlimit
 
     resource: int
@@ -242,7 +245,7 @@ resource.setrlimit
 
 static PyObject *
 resource_setrlimit_impl(PyObject *module, int resource, PyObject *limits)
-/*[clinic end generated code: output=4e82ec3f34d013d1 input=6235a6ce23b4ca75]*/
+/*[clinic end generated code: output=4e82ec3f34d013d1 input=bb07984e5bfef695]*/
 {
     struct rlimit rl;
 
@@ -277,6 +280,7 @@ resource_setrlimit_impl(PyObject *module, int resource, PyObject *limits)
 
 #ifdef HAVE_PRLIMIT
 /*[clinic input]
+@c_stack_frugal
 resource.prlimit
 
     pid: pid_t
@@ -289,7 +293,7 @@ resource.prlimit
 static PyObject *
 resource_prlimit_impl(PyObject *module, pid_t pid, int resource,
                       PyObject *limits)
-/*[clinic end generated code: output=6ebc49ff8c3a816e input=54bb69c9585e33bf]*/
+/*[clinic end generated code: output=6ebc49ff8c3a816e input=ea6881a9ccf9e873]*/
 {
     struct rlimit old_limit, new_limit;
     int retval;
@@ -329,12 +333,13 @@ resource_prlimit_impl(PyObject *module, pid_t pid, int resource,
 #endif /* HAVE_PRLIMIT */
 
 /*[clinic input]
+@c_stack_frugal
 resource.getpagesize -> int
 [clinic start generated code]*/
 
 static int
 resource_getpagesize_impl(PyObject *module)
-/*[clinic end generated code: output=9ba93eb0f3d6c3a9 input=546545e8c1f42085]*/
+/*[clinic end generated code: output=9ba93eb0f3d6c3a9 input=5d5c87e241168fb6]*/
 {
     long pagesize = 0;
 #if defined(HAVE_GETPAGESIZE)

@@ -607,10 +607,11 @@ extern char *ctermid_r(char *);
 #endif
 
 /*[clinic input]
+@c_stack_frugal
 # one of the few times we lie about this name!
 module os
 [clinic start generated code]*/
-/*[clinic end generated code: output=da39a3ee5e6b4b0d input=94a0f0f978acae17]*/
+/*[clinic end generated code: output=da39a3ee5e6b4b0d input=412ff93331aad1d4]*/
 
 PyDoc_STRVAR(posix__doc__,
 "This module provides access to operating system functionality that is\n\
@@ -3198,6 +3199,7 @@ class confname_converter(CConverter):
 /*[python end generated code: output=da39a3ee5e6b4b0d input=8189d5ae78244626]*/
 
 /*[clinic input]
+@c_stack_frugal
 
 os.stat
 
@@ -3230,13 +3232,14 @@ It's an error to use dir_fd or follow_symlinks when specifying path as
 
 static PyObject *
 os_stat_impl(PyObject *module, path_t *path, int dir_fd, int follow_symlinks)
-/*[clinic end generated code: output=7d4976e6f18a59c5 input=01d362ebcc06996b]*/
+/*[clinic end generated code: output=7d4976e6f18a59c5 input=f594b80a60685290]*/
 {
     return posix_do_stat(module, "stat", path, dir_fd, follow_symlinks);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 os.lstat
 
     path : path_t
@@ -3253,7 +3256,7 @@ Equivalent to stat(path, follow_symlinks=False).
 
 static PyObject *
 os_lstat_impl(PyObject *module, path_t *path, int dir_fd)
-/*[clinic end generated code: output=ef82a5d35ce8ab37 input=0b7474765927b925]*/
+/*[clinic end generated code: output=ef82a5d35ce8ab37 input=149f46ec9b382646]*/
 {
     int follow_symlinks = 0;
     return posix_do_stat(module, "lstat", path, dir_fd, follow_symlinks);
@@ -3261,6 +3264,7 @@ os_lstat_impl(PyObject *module, path_t *path, int dir_fd)
 
 
 /*[clinic input]
+@c_stack_frugal
 os.access -> bool
 
     path: path_t
@@ -3302,7 +3306,7 @@ Note that most operations will use the effective uid/gid, therefore this
 static int
 os_access_impl(PyObject *module, path_t *path, int mode, int dir_fd,
                int effective_ids, int follow_symlinks)
-/*[clinic end generated code: output=cf84158bc90b1a77 input=3ffe4e650ee3bf20]*/
+/*[clinic end generated code: output=cf84158bc90b1a77 input=ec9b23ef6d54303b]*/
 {
     int return_value;
 
@@ -3406,6 +3410,7 @@ os_access_impl(PyObject *module, path_t *path, int mode, int dir_fd,
 
 #ifdef HAVE_TTYNAME_R
 /*[clinic input]
+@c_stack_frugal
 os.ttyname
 
     fd: int
@@ -3418,7 +3423,7 @@ Return the name of the terminal device connected to 'fd'.
 
 static PyObject *
 os_ttyname_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=c424d2e9d1cd636a input=9ff5a58b08115c55]*/
+/*[clinic end generated code: output=c424d2e9d1cd636a input=1d61a08daf3c8c09]*/
 {
 
     long size = sysconf(_SC_TTY_NAME_MAX);
@@ -3443,6 +3448,7 @@ os_ttyname_impl(PyObject *module, int fd)
 
 #ifdef HAVE_CTERMID
 /*[clinic input]
+@c_stack_frugal
 os.ctermid
 
 Return the name of the controlling terminal for this process.
@@ -3450,7 +3456,7 @@ Return the name of the controlling terminal for this process.
 
 static PyObject *
 os_ctermid_impl(PyObject *module)
-/*[clinic end generated code: output=02f017e6c9e620db input=3b87fdd52556382d]*/
+/*[clinic end generated code: output=02f017e6c9e620db input=c12c043748a6f66e]*/
 {
     char *ret;
     char buffer[L_ctermid];
@@ -3468,6 +3474,7 @@ os_ctermid_impl(PyObject *module)
 
 
 /*[clinic input]
+@c_stack_frugal
 os.chdir
 
     path: path_t(allow_fd='PATH_HAVE_FCHDIR')
@@ -3481,7 +3488,7 @@ On some platforms, path may also be specified as an open file descriptor.
 
 static PyObject *
 os_chdir_impl(PyObject *module, path_t *path)
-/*[clinic end generated code: output=3be6400eee26eaae input=1a4a15b4d12cb15d]*/
+/*[clinic end generated code: output=3be6400eee26eaae input=4a2f5f88179df9b9]*/
 {
     int result;
 
@@ -3513,6 +3520,7 @@ os_chdir_impl(PyObject *module, path_t *path)
 
 #ifdef HAVE_FCHDIR
 /*[clinic input]
+@c_stack_frugal
 os.fchdir
 
     fd: fildes
@@ -3526,7 +3534,7 @@ Equivalent to os.chdir(fd).
 
 static PyObject *
 os_fchdir_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=42e064ec4dc00ab0 input=18e816479a2fa985]*/
+/*[clinic end generated code: output=42e064ec4dc00ab0 input=c3fdf429c6710939]*/
 {
     if (PySys_Audit("os.chdir", "(i)", fd) < 0) {
         return NULL;
@@ -3591,6 +3599,7 @@ win32_fchmod(int fd, int mode)
 #endif /* MS_WINDOWS */
 
 /*[clinic input]
+@c_stack_frugal
 os.chmod
 
     path: path_t(allow_fd='PATH_HAVE_FCHMOD')
@@ -3629,7 +3638,7 @@ dir_fd and follow_symlinks may not be implemented on your platform.
 static PyObject *
 os_chmod_impl(PyObject *module, path_t *path, int mode, int dir_fd,
               int follow_symlinks)
-/*[clinic end generated code: output=5cf6a94915cc7bff input=fcf115d174b9f3d8]*/
+/*[clinic end generated code: output=5cf6a94915cc7bff input=abbc940a8c3ac6ae]*/
 {
     int result;
 
@@ -3758,6 +3767,7 @@ os_chmod_impl(PyObject *module, path_t *path, int mode, int dir_fd,
 
 #if defined(HAVE_FCHMOD) || defined(MS_WINDOWS)
 /*[clinic input]
+@c_stack_frugal
 os.fchmod
 
     fd: int
@@ -3775,7 +3785,7 @@ Equivalent to os.chmod(fd, mode).
 
 static PyObject *
 os_fchmod_impl(PyObject *module, int fd, int mode)
-/*[clinic end generated code: output=afd9bc05b4e426b3 input=b5594618bbbc22df]*/
+/*[clinic end generated code: output=afd9bc05b4e426b3 input=22e6b7cb769f841f]*/
 {
     int res;
 
@@ -3809,6 +3819,7 @@ os_fchmod_impl(PyObject *module, int fd, int mode)
 
 #if defined(HAVE_LCHMOD) || defined(MS_WINDOWS)
 /*[clinic input]
+@c_stack_frugal
 os.lchmod
 
     path: path_t
@@ -3822,7 +3833,7 @@ Equivalent to chmod(path, mode, follow_symlinks=False)."
 
 static PyObject *
 os_lchmod_impl(PyObject *module, path_t *path, int mode)
-/*[clinic end generated code: output=082344022b51a1d5 input=90c5663c7465d24f]*/
+/*[clinic end generated code: output=082344022b51a1d5 input=447cdcb5c9578ad1]*/
 {
     int res;
     if (PySys_Audit("os.chmod", "Oii", path->object, mode, -1) < 0) {
@@ -3852,6 +3863,7 @@ os_lchmod_impl(PyObject *module, path_t *path, int mode)
 
 #ifdef HAVE_CHFLAGS
 /*[clinic input]
+@c_stack_frugal
 os.chflags
 
     path: path_t
@@ -3871,7 +3883,7 @@ unavailable, using it will raise a NotImplementedError.
 static PyObject *
 os_chflags_impl(PyObject *module, path_t *path, unsigned long flags,
                 int follow_symlinks)
-/*[clinic end generated code: output=85571c6737661ce9 input=0327e29feb876236]*/
+/*[clinic end generated code: output=85571c6737661ce9 input=f113c42d26edd5f7]*/
 {
     int result;
 
@@ -3903,6 +3915,7 @@ os_chflags_impl(PyObject *module, path_t *path, unsigned long flags,
 
 #ifdef HAVE_LCHFLAGS
 /*[clinic input]
+@c_stack_frugal
 os.lchflags
 
     path: path_t
@@ -3916,7 +3929,7 @@ Equivalent to chflags(path, flags, follow_symlinks=False).
 
 static PyObject *
 os_lchflags_impl(PyObject *module, path_t *path, unsigned long flags)
-/*[clinic end generated code: output=30ae958695c07316 input=f9f82ea8b585ca9d]*/
+/*[clinic end generated code: output=30ae958695c07316 input=9c2a73f6d0d2e32a]*/
 {
     int res;
     if (PySys_Audit("os.chflags", "Ok", path->object, flags) < 0) {
@@ -3935,6 +3948,7 @@ os_lchflags_impl(PyObject *module, path_t *path, unsigned long flags)
 
 #ifdef HAVE_CHROOT
 /*[clinic input]
+@c_stack_frugal
 os.chroot
     path: path_t
 
@@ -3944,7 +3958,7 @@ Change root directory to path.
 
 static PyObject *
 os_chroot_impl(PyObject *module, path_t *path)
-/*[clinic end generated code: output=de80befc763a4475 input=14822965652c3dc3]*/
+/*[clinic end generated code: output=de80befc763a4475 input=6d13f8aebd876ef3]*/
 {
     int res;
     Py_BEGIN_ALLOW_THREADS
@@ -3959,6 +3973,7 @@ os_chroot_impl(PyObject *module, path_t *path)
 
 #ifdef HAVE_FSYNC
 /*[clinic input]
+@c_stack_frugal
 os.fsync
 
     fd: fildes
@@ -3968,7 +3983,7 @@ Force write of fd to disk.
 
 static PyObject *
 os_fsync_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=4a10d773f52b3584 input=21c3645c056967f2]*/
+/*[clinic end generated code: output=4a10d773f52b3584 input=0cec20b4acb75c7b]*/
 {
     return posix_fildes_fd(fd, fsync);
 }
@@ -3977,6 +3992,7 @@ os_fsync_impl(PyObject *module, int fd)
 
 #ifdef HAVE_SYNC
 /*[clinic input]
+@c_stack_frugal
 os.sync
 
 Force write of everything to disk.
@@ -3984,7 +4000,7 @@ Force write of everything to disk.
 
 static PyObject *
 os_sync_impl(PyObject *module)
-/*[clinic end generated code: output=2796b1f0818cd71c input=84749fe5e9b404ff]*/
+/*[clinic end generated code: output=2796b1f0818cd71c input=46ca0e8cde9b1499]*/
 {
     Py_BEGIN_ALLOW_THREADS
     sync();
@@ -4000,6 +4016,7 @@ extern int fdatasync(int); /* On HP-UX, in libc but not in unistd.h */
 #endif
 
 /*[clinic input]
+@c_stack_frugal
 os.fdatasync
 
     fd: fildes
@@ -4009,7 +4026,7 @@ Force write of fd to disk without forcing update of metadata.
 
 static PyObject *
 os_fdatasync_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=b4b9698b5d7e26dd input=bc74791ee54dd291]*/
+/*[clinic end generated code: output=b4b9698b5d7e26dd input=2e078e1ad901c0d9]*/
 {
     return posix_fildes_fd(fd, fdatasync);
 }
@@ -4018,6 +4035,7 @@ os_fdatasync_impl(PyObject *module, int fd)
 
 #ifdef HAVE_CHOWN
 /*[clinic input]
+@c_stack_frugal
 os.chown
 
     path : path_t(allow_fd='PATH_HAVE_FCHOWN')
@@ -4059,7 +4077,7 @@ dir_fd and follow_symlinks may not be implemented on your platform.
 static PyObject *
 os_chown_impl(PyObject *module, path_t *path, uid_t uid, gid_t gid,
               int dir_fd, int follow_symlinks)
-/*[clinic end generated code: output=4beadab0db5f70cd input=b08c5ec67996a97d]*/
+/*[clinic end generated code: output=4beadab0db5f70cd input=f66e671cd4f32f49]*/
 {
     int result;
 
@@ -4124,6 +4142,7 @@ os_chown_impl(PyObject *module, path_t *path, uid_t uid, gid_t gid,
 
 #ifdef HAVE_FCHOWN
 /*[clinic input]
+@c_stack_frugal
 os.fchown
 
     fd: int
@@ -4138,7 +4157,7 @@ Equivalent to os.chown(fd, uid, gid).
 
 static PyObject *
 os_fchown_impl(PyObject *module, int fd, uid_t uid, gid_t gid)
-/*[clinic end generated code: output=97d21cbd5a4350a6 input=3af544ba1b13a0d7]*/
+/*[clinic end generated code: output=97d21cbd5a4350a6 input=3c8fdf4509f8a65a]*/
 {
     int res;
     int async_err = 0;
@@ -4162,6 +4181,7 @@ os_fchown_impl(PyObject *module, int fd, uid_t uid, gid_t gid)
 
 #ifdef HAVE_LCHOWN
 /*[clinic input]
+@c_stack_frugal
 os.lchown
 
     path : path_t
@@ -4176,7 +4196,7 @@ Equivalent to os.chown(path, uid, gid, follow_symlinks=False).
 
 static PyObject *
 os_lchown_impl(PyObject *module, path_t *path, uid_t uid, gid_t gid)
-/*[clinic end generated code: output=25eaf6af412fdf2f input=b1c6014d563a7161]*/
+/*[clinic end generated code: output=25eaf6af412fdf2f input=99a3c70395382757]*/
 {
     int res;
     if (PySys_Audit("os.chown", "OIIi", path->object, uid, gid, -1) < 0) {
@@ -4309,6 +4329,7 @@ posix_getcwd(int use_bytes)
 
 
 /*[clinic input]
+@c_stack_frugal
 os.getcwd
 
 Return a unicode string representing the current working directory.
@@ -4316,13 +4337,14 @@ Return a unicode string representing the current working directory.
 
 static PyObject *
 os_getcwd_impl(PyObject *module)
-/*[clinic end generated code: output=21badfae2ea99ddc input=f069211bb70e3d39]*/
+/*[clinic end generated code: output=21badfae2ea99ddc input=fedfed9359ec9954]*/
 {
     return posix_getcwd(0);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 os.getcwdb
 
 Return a bytes string representing the current working directory.
@@ -4330,7 +4352,7 @@ Return a bytes string representing the current working directory.
 
 static PyObject *
 os_getcwdb_impl(PyObject *module)
-/*[clinic end generated code: output=3dd47909480e4824 input=f6f6a378dad3d9cb]*/
+/*[clinic end generated code: output=3dd47909480e4824 input=af5c75a818a44e31]*/
 {
     return posix_getcwd(1);
 }
@@ -4342,6 +4364,7 @@ os_getcwdb_impl(PyObject *module)
 
 #ifdef HAVE_LINK
 /*[clinic input]
+@c_stack_frugal
 
 os.link
 
@@ -4368,7 +4391,7 @@ src_dir_fd, dst_dir_fd, and follow_symlinks may not be implemented on your
 static PyObject *
 os_link_impl(PyObject *module, path_t *src, path_t *dst, int src_dir_fd,
              int dst_dir_fd, int follow_symlinks)
-/*[clinic end generated code: output=7f00f6007fd5269a input=1d5e602d115fed7b]*/
+/*[clinic end generated code: output=7f00f6007fd5269a input=837e80717b0fcdbc]*/
 {
 #ifdef MS_WINDOWS
     BOOL result = FALSE;
@@ -4662,6 +4685,7 @@ exit:
 
 
 /*[clinic input]
+@c_stack_frugal
 os.listdir
 
     path : path_t(nullable=True, allow_fd='PATH_HAVE_FDOPENDIR') = None
@@ -4684,7 +4708,7 @@ entries '.' and '..' even if they are present in the directory.
 
 static PyObject *
 os_listdir_impl(PyObject *module, path_t *path)
-/*[clinic end generated code: output=293045673fcd1a75 input=e3f58030f538295d]*/
+/*[clinic end generated code: output=293045673fcd1a75 input=375cda267bc8e094]*/
 {
     if (PySys_Audit("os.listdir", "O",
                     path->object ? path->object : Py_None) < 0) {
@@ -4701,6 +4725,7 @@ os_listdir_impl(PyObject *module, path_t *path)
 #if defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM)
 
 /*[clinic input]
+@c_stack_frugal
 os.listdrives
 
 Return a list containing the names of drives in the system.
@@ -4711,7 +4736,7 @@ A drive name typically looks like 'C:\\'.
 
 static PyObject *
 os_listdrives_impl(PyObject *module)
-/*[clinic end generated code: output=aaece9dacdf682b5 input=1af9ccc9e583798e]*/
+/*[clinic end generated code: output=aaece9dacdf682b5 input=a5d7086096daebd5]*/
 {
     /* Number of possible drives is limited, so 256 should always be enough.
        On the day when it is not, listmounts() will have to be used. */
@@ -4752,6 +4777,7 @@ os_listdrives_impl(PyObject *module)
 #if defined(MS_WINDOWS_APP) || defined(MS_WINDOWS_SYSTEM)
 
 /*[clinic input]
+@c_stack_frugal
 os.listvolumes
 
 Return a list containing the volumes in the system.
@@ -4762,7 +4788,7 @@ Volumes are typically represented as a GUID path.
 
 static PyObject *
 os_listvolumes_impl(PyObject *module)
-/*[clinic end generated code: output=534e10ea2bf9d386 input=f6e4e70371f11e99]*/
+/*[clinic end generated code: output=534e10ea2bf9d386 input=4e00722fd0566408]*/
 {
     PyObject *result = PyList_New(0);
     HANDLE find = INVALID_HANDLE_VALUE;
@@ -4817,6 +4843,7 @@ os_listvolumes_impl(PyObject *module)
 #if defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM)
 
 /*[clinic input]
+@c_stack_frugal
 os.listmounts
 
     volume: path_t
@@ -4829,7 +4856,7 @@ Return a list containing mount points for a particular volume.
 
 static PyObject *
 os_listmounts_impl(PyObject *module, path_t *volume)
-/*[clinic end generated code: output=06da49679de4512e input=a8a27178e3f67845]*/
+/*[clinic end generated code: output=06da49679de4512e input=e3b92897f8036e17]*/
 {
     wchar_t default_buffer[MAX_PATH + 1];
     DWORD buflen = Py_ARRAY_LENGTH(default_buffer);
@@ -4900,6 +4927,7 @@ exit:
 #ifdef MS_WINDOWS
 
 /*[clinic input]
+@c_stack_frugal
 os._path_isdevdrive
 
     path: path_t
@@ -4910,7 +4938,7 @@ Determines whether the specified path is on a Windows Dev Drive.
 
 static PyObject *
 os__path_isdevdrive_impl(PyObject *module, path_t *path)
-/*[clinic end generated code: output=1f437ea6677433a2 input=ee83e4996a48e23d]*/
+/*[clinic end generated code: output=1f437ea6677433a2 input=c57b7efb19611341]*/
 {
 #ifndef PERSISTENT_VOLUME_STATE_DEV_VOLUME
     /* This flag will be documented at
@@ -5032,6 +5060,7 @@ _PyOS_getfullpathname(const wchar_t *path, wchar_t **abspath_p)
 
 /* A helper function for abspath on win32 */
 /*[clinic input]
+@c_stack_frugal
 os._getfullpathname
 
     path: path_t
@@ -5041,7 +5070,7 @@ os._getfullpathname
 
 static PyObject *
 os__getfullpathname_impl(PyObject *module, path_t *path)
-/*[clinic end generated code: output=bb8679d56845bc9b input=332ed537c29d0a3e]*/
+/*[clinic end generated code: output=bb8679d56845bc9b input=c44d53c0e35a3e58]*/
 {
     wchar_t *abspath;
 
@@ -5065,6 +5094,7 @@ os__getfullpathname_impl(PyObject *module, path_t *path)
 
 
 /*[clinic input]
+@c_stack_frugal
 os._getfinalpathname
 
     path: path_t
@@ -5075,7 +5105,7 @@ A helper function for samepath on windows.
 
 static PyObject *
 os__getfinalpathname_impl(PyObject *module, path_t *path)
-/*[clinic end generated code: output=621a3c79bc29ebfa input=2b6b6c7cbad5fb84]*/
+/*[clinic end generated code: output=621a3c79bc29ebfa input=88ef9056d23c1c35]*/
 {
     HANDLE hFile;
     wchar_t buf[MAXPATHLEN], *target_path = buf;
@@ -5143,6 +5173,7 @@ cleanup:
 }
 
 /*[clinic input]
+@c_stack_frugal
 os._findfirstfile
     path: path_t
     /
@@ -5151,7 +5182,7 @@ A function to get the real file name without accessing the file in Windows.
 
 static PyObject *
 os__findfirstfile_impl(PyObject *module, path_t *path)
-/*[clinic end generated code: output=106dd3f0779c83dd input=0734dff70f60e1a8]*/
+/*[clinic end generated code: output=106dd3f0779c83dd input=98152fa6c7fdb1a6]*/
 {
     PyObject *result;
     HANDLE hFindFile;
@@ -5175,6 +5206,7 @@ os__findfirstfile_impl(PyObject *module, path_t *path)
 
 
 /*[clinic input]
+@c_stack_frugal
 os._getvolumepathname
 
     path: path_t
@@ -5184,7 +5216,7 @@ A helper function for ismount on Win32.
 
 static PyObject *
 os__getvolumepathname_impl(PyObject *module, path_t *path)
-/*[clinic end generated code: output=804c63fd13a1330b input=722b40565fa21552]*/
+/*[clinic end generated code: output=804c63fd13a1330b input=a720fe05aecb6d51]*/
 {
     PyObject *result;
     wchar_t *mountpath=NULL;
@@ -5223,6 +5255,7 @@ exit:
 
 
 /*[clinic input]
+@c_stack_frugal
 os._path_splitroot
 
     path: path_t
@@ -5232,7 +5265,7 @@ Removes everything after the root on Win32.
 
 static PyObject *
 os__path_splitroot_impl(PyObject *module, path_t *path)
-/*[clinic end generated code: output=ab7f1a88b654581c input=dc93b1d3984cffb6]*/
+/*[clinic end generated code: output=ab7f1a88b654581c input=2be1e67c72dc0311]*/
 {
     wchar_t *buffer;
     wchar_t *end;
@@ -5498,6 +5531,7 @@ _testFileType(path_t *path, int testedType)
 
 
 /*[clinic input]
+@c_stack_frugal
 os._path_exists -> bool
 
     path: path_t(allow_fd=True, suppress_value_error=True)
@@ -5508,13 +5542,14 @@ Test whether a path exists.  Returns False for broken symbolic links.
 
 static int
 os__path_exists_impl(PyObject *module, path_t *path)
-/*[clinic end generated code: output=8da13acf666e16ba input=142beabfc66783eb]*/
+/*[clinic end generated code: output=8da13acf666e16ba input=d02ef9ca474b82bf]*/
 {
     return _testFileExists(path, TRUE);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 os._path_lexists -> bool
 
     path: path_t(allow_fd=True, suppress_value_error=True)
@@ -5525,13 +5560,14 @@ Test whether a path exists.  Returns True for broken symbolic links.
 
 static int
 os__path_lexists_impl(PyObject *module, path_t *path)
-/*[clinic end generated code: output=e7240ed5fc45bff3 input=208205112a3cc1ed]*/
+/*[clinic end generated code: output=e7240ed5fc45bff3 input=37edd3c4cc88a24b]*/
 {
     return _testFileExists(path, FALSE);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 os._path_isdir -> bool
 
     s as path: path_t(allow_fd=True, suppress_value_error=True)
@@ -5542,13 +5578,14 @@ Return true if the pathname refers to an existing directory.
 
 static int
 os__path_isdir_impl(PyObject *module, path_t *path)
-/*[clinic end generated code: output=d5786196f9e2fa7a input=132a3b5301aecf79]*/
+/*[clinic end generated code: output=d5786196f9e2fa7a input=5f45799d5cbe0e5b]*/
 {
     return _testFileType(path, PY_IFDIR);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 os._path_isfile -> bool
 
     path: path_t(allow_fd=True, suppress_value_error=True)
@@ -5559,13 +5596,14 @@ Test whether a path is a regular file
 
 static int
 os__path_isfile_impl(PyObject *module, path_t *path)
-/*[clinic end generated code: output=5c3073bc212b9863 input=4ac1fd350b30a39e]*/
+/*[clinic end generated code: output=5c3073bc212b9863 input=94b35574e53d61ab]*/
 {
     return _testFileType(path, PY_IFREG);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 os._path_islink -> bool
 
     path: path_t(allow_fd=True, suppress_value_error=True)
@@ -5576,13 +5614,14 @@ Test whether a path is a symbolic link
 
 static int
 os__path_islink_impl(PyObject *module, path_t *path)
-/*[clinic end generated code: output=30da7bda8296adcc input=7510ce05b547debb]*/
+/*[clinic end generated code: output=30da7bda8296adcc input=50cfd550e605c27d]*/
 {
     return _testFileType(path, PY_IFLNK);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 os._path_isjunction -> bool
 
     path: path_t(allow_fd=True, suppress_value_error=True)
@@ -5593,7 +5632,7 @@ Test whether a path is a junction
 
 static int
 os__path_isjunction_impl(PyObject *module, path_t *path)
-/*[clinic end generated code: output=e1d17a9dd18a9945 input=7dcb8bc4e972fcaf]*/
+/*[clinic end generated code: output=e1d17a9dd18a9945 input=bd1daeb7f0b7523b]*/
 {
     return _testFileType(path, PY_IFMNT);
 }
@@ -5609,6 +5648,7 @@ os__path_isjunction_impl(PyObject *module, path_t *path)
 
 
 /*[clinic input]
+@c_stack_frugal
 os._path_splitroot_ex
 
     p as path: path_t(make_wide=True, nonstrict=True)
@@ -5620,7 +5660,7 @@ The tail contains anything after the root.
 
 static PyObject *
 os__path_splitroot_ex_impl(PyObject *module, path_t *path)
-/*[clinic end generated code: output=4b0072b6cdf4b611 input=4556b615c7cc13f2]*/
+/*[clinic end generated code: output=4b0072b6cdf4b611 input=d3d133d1b54b65c1]*/
 {
     Py_ssize_t drvsize, rootsize;
     PyObject *drv = NULL, *root = NULL, *tail = NULL, *result = NULL;
@@ -5664,6 +5704,7 @@ exit:
 
 
 /*[clinic input]
+@c_stack_frugal
 os._path_normpath
 
     path: path_t(make_wide=True, nonstrict=True)
@@ -5673,7 +5714,7 @@ Normalize path, eliminating double slashes, etc.
 
 static PyObject *
 os__path_normpath_impl(PyObject *module, path_t *path)
-/*[clinic end generated code: output=d353e7ed9410c044 input=3d4ac23b06332dcb]*/
+/*[clinic end generated code: output=d353e7ed9410c044 input=105e4433105ef811]*/
 {
     PyObject *result;
     Py_ssize_t norm_len;
@@ -5692,6 +5733,7 @@ os__path_normpath_impl(PyObject *module, path_t *path)
 }
 
 /*[clinic input]
+@c_stack_frugal
 os.mkdir
 
     path : path_t
@@ -5717,7 +5759,7 @@ value is first masked out.
 
 static PyObject *
 os_mkdir_impl(PyObject *module, path_t *path, int mode, int dir_fd)
-/*[clinic end generated code: output=a70446903abe821f input=a61722e1576fab03]*/
+/*[clinic end generated code: output=a70446903abe821f input=66afc687d1aa07bd]*/
 {
     int result;
 #ifdef MS_WINDOWS
@@ -5813,6 +5855,7 @@ os_mkdir_impl(PyObject *module, path_t *path, int mode, int dir_fd)
 
 #ifdef HAVE_NICE
 /*[clinic input]
+@c_stack_frugal
 os.nice
 
     increment: int
@@ -5823,7 +5866,7 @@ Add increment to the priority of process and return the new priority.
 
 static PyObject *
 os_nice_impl(PyObject *module, int increment)
-/*[clinic end generated code: output=9dad8a9da8109943 input=864be2d402a21da2]*/
+/*[clinic end generated code: output=9dad8a9da8109943 input=d40b4f13ad864f9a]*/
 {
     int value;
 
@@ -5853,6 +5896,7 @@ os_nice_impl(PyObject *module, int increment)
 
 #ifdef HAVE_GETPRIORITY
 /*[clinic input]
+@c_stack_frugal
 os.getpriority
 
     which: int
@@ -5863,7 +5907,7 @@ Return program scheduling priority.
 
 static PyObject *
 os_getpriority_impl(PyObject *module, int which, int who)
-/*[clinic end generated code: output=c41b7b63c7420228 input=9be615d40e2544ef]*/
+/*[clinic end generated code: output=c41b7b63c7420228 input=d829c6653c4d64ad]*/
 {
     int retval;
 
@@ -5878,6 +5922,7 @@ os_getpriority_impl(PyObject *module, int which, int who)
 
 #ifdef HAVE_SETPRIORITY
 /*[clinic input]
+@c_stack_frugal
 os.setpriority
 
     which: int
@@ -5889,7 +5934,7 @@ Set program scheduling priority.
 
 static PyObject *
 os_setpriority_impl(PyObject *module, int which, int who, int priority)
-/*[clinic end generated code: output=3d910d95a7771eb2 input=710ccbf65b9dc513]*/
+/*[clinic end generated code: output=3d910d95a7771eb2 input=ac6364215ea44991]*/
 {
     int retval;
 
@@ -5971,6 +6016,7 @@ internal_rename(path_t *src, path_t *dst, int src_dir_fd, int dst_dir_fd, int is
 
 
 /*[clinic input]
+@c_stack_frugal
 os.rename
 
     src : path_t
@@ -5991,13 +6037,14 @@ src_dir_fd and dst_dir_fd, may not be implemented on your platform.
 static PyObject *
 os_rename_impl(PyObject *module, path_t *src, path_t *dst, int src_dir_fd,
                int dst_dir_fd)
-/*[clinic end generated code: output=59e803072cf41230 input=faa61c847912c850]*/
+/*[clinic end generated code: output=59e803072cf41230 input=1a6045efd30641d5]*/
 {
     return internal_rename(src, dst, src_dir_fd, dst_dir_fd, 0);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 os.replace = os.rename
 
 Rename a file or directory, overwriting the destination.
@@ -6012,13 +6059,14 @@ src_dir_fd and dst_dir_fd, may not be implemented on your platform.
 static PyObject *
 os_replace_impl(PyObject *module, path_t *src, path_t *dst, int src_dir_fd,
                 int dst_dir_fd)
-/*[clinic end generated code: output=1968c02e7857422b input=c003f0def43378ef]*/
+/*[clinic end generated code: output=1968c02e7857422b input=16876b1c0aa258ac]*/
 {
     return internal_rename(src, dst, src_dir_fd, dst_dir_fd, 1);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 os.rmdir
 
     path: path_t
@@ -6035,7 +6083,7 @@ dir_fd may not be implemented on your platform.
 
 static PyObject *
 os_rmdir_impl(PyObject *module, path_t *path, int dir_fd)
-/*[clinic end generated code: output=080eb54f506e8301 input=38c8b375ca34a7e2]*/
+/*[clinic end generated code: output=080eb54f506e8301 input=ca1c51ad40d6e3bd]*/
 {
     int result;
 #ifdef HAVE_UNLINKAT
@@ -6083,6 +6131,7 @@ os_rmdir_impl(PyObject *module, path_t *path, int dir_fd)
 #ifdef HAVE_SYSTEM
 #ifdef MS_WINDOWS
 /*[clinic input]
+@c_stack_frugal
 os.system -> long
 
     command: Py_UNICODE
@@ -6092,7 +6141,7 @@ Execute the command in a subshell.
 
 static long
 os_system_impl(PyObject *module, const wchar_t *command)
-/*[clinic end generated code: output=dd528cbd5943a679 input=303f5ce97df606b0]*/
+/*[clinic end generated code: output=dd528cbd5943a679 input=d51d8bae341c2d92]*/
 {
     long result;
 
@@ -6109,6 +6158,7 @@ os_system_impl(PyObject *module, const wchar_t *command)
 }
 #else /* MS_WINDOWS */
 /*[clinic input]
+@c_stack_frugal
 os.system -> long
 
     command: FSConverter
@@ -6118,7 +6168,7 @@ Execute the command in a subshell.
 
 static long
 os_system_impl(PyObject *module, PyObject *command)
-/*[clinic end generated code: output=290fc437dd4f33a0 input=86a58554ba6094af]*/
+/*[clinic end generated code: output=290fc437dd4f33a0 input=21d17e2048f5c820]*/
 {
     long result;
     const char *bytes = PyBytes_AsString(command);
@@ -6138,6 +6188,7 @@ os_system_impl(PyObject *module, PyObject *command)
 
 #ifdef HAVE_UMASK
 /*[clinic input]
+@c_stack_frugal
 os.umask
 
     mask: int
@@ -6148,7 +6199,7 @@ Set the current numeric umask and return the previous umask.
 
 static PyObject *
 os_umask_impl(PyObject *module, int mask)
-/*[clinic end generated code: output=a2e33ce3bc1a6e33 input=ab6bfd9b24d8a7e8]*/
+/*[clinic end generated code: output=a2e33ce3bc1a6e33 input=03c019d48538c8d0]*/
 {
     int i = (int)umask(mask);
     if (i < 0)
@@ -6198,6 +6249,7 @@ BOOL WINAPI Py_DeleteFileW(LPCWSTR lpFileName)
 
 
 /*[clinic input]
+@c_stack_frugal
 os.unlink
 
     path: path_t
@@ -6215,7 +6267,7 @@ dir_fd may not be implemented on your platform.
 
 static PyObject *
 os_unlink_impl(PyObject *module, path_t *path, int dir_fd)
-/*[clinic end generated code: output=621797807b9963b1 input=d7bcde2b1b2a2552]*/
+/*[clinic end generated code: output=621797807b9963b1 input=6689918e36057fd6]*/
 {
     int result;
 #ifdef HAVE_UNLINKAT
@@ -6263,6 +6315,7 @@ os_unlink_impl(PyObject *module, path_t *path, int dir_fd)
 
 
 /*[clinic input]
+@c_stack_frugal
 os.remove = os.unlink
 
 Remove a file (same as unlink()).
@@ -6275,7 +6328,7 @@ dir_fd may not be implemented on your platform.
 
 static PyObject *
 os_remove_impl(PyObject *module, path_t *path, int dir_fd)
-/*[clinic end generated code: output=a8535b28f0068883 input=e05c5ab55cd30983]*/
+/*[clinic end generated code: output=a8535b28f0068883 input=c679d2c7133242ce]*/
 {
     return os_unlink_impl(module, path, dir_fd);
 }
@@ -6307,6 +6360,7 @@ static PyStructSequence_Desc uname_result_desc = {
 
 #ifdef HAVE_UNAME
 /*[clinic input]
+@c_stack_frugal
 os.uname
 
 Return an object identifying the current operating system.
@@ -6318,7 +6372,7 @@ The object behaves like a named tuple with the following fields:
 
 static PyObject *
 os_uname_impl(PyObject *module)
-/*[clinic end generated code: output=e6a49cf1a1508a19 input=e68bd246db3043ed]*/
+/*[clinic end generated code: output=e6a49cf1a1508a19 input=e1658c84b21054a8]*/
 {
     struct utsname u;
     int res;
@@ -6588,6 +6642,7 @@ exit:
 
 
 /*[clinic input]
+@c_stack_frugal
 os.utime
 
     path: path_t(allow_fd='PATH_UTIME_HAVE_FD')
@@ -6628,7 +6683,7 @@ dir_fd and follow_symlinks may not be available on your platform.
 static PyObject *
 os_utime_impl(PyObject *module, path_t *path, PyObject *times, PyObject *ns,
               int dir_fd, int follow_symlinks)
-/*[clinic end generated code: output=cfcac69d027b82cf input=2fbd62a2f228f8f4]*/
+/*[clinic end generated code: output=cfcac69d027b82cf input=38343ea0bbf878d1]*/
 {
 #ifdef MS_WINDOWS
     HANDLE hFile;
@@ -6785,6 +6840,7 @@ os_utime_impl(PyObject *module, path_t *path, PyObject *times, PyObject *ns,
 
 
 /*[clinic input]
+@c_stack_frugal
 os._exit
 
     status: int
@@ -6794,7 +6850,7 @@ Exit to the system with specified status, without normal exit processing.
 
 static PyObject *
 os__exit_impl(PyObject *module, int status)
-/*[clinic end generated code: output=116e52d9c2260d54 input=5e6d57556b0c4a62]*/
+/*[clinic end generated code: output=116e52d9c2260d54 input=fee89991580f3383]*/
 {
     _exit(status);
     return NULL; /* Make gcc -Wall happy */
@@ -6978,6 +7034,7 @@ fail:
 
 #ifdef HAVE_EXECV
 /*[clinic input]
+@c_stack_frugal
 os.execv
 
     path: path_t
@@ -6991,7 +7048,7 @@ Execute an executable path with arguments, replacing current process.
 
 static PyObject *
 os_execv_impl(PyObject *module, path_t *path, PyObject *argv)
-/*[clinic end generated code: output=3b52fec34cd0dafd input=9bac31efae07dac7]*/
+/*[clinic end generated code: output=3b52fec34cd0dafd input=2eeda9e1ff424b57]*/
 {
     EXECV_CHAR **argvlist;
     Py_ssize_t argc;
@@ -7050,6 +7107,7 @@ os_execv_impl(PyObject *module, path_t *path, PyObject *argv)
 
 
 /*[clinic input]
+@c_stack_frugal
 os.execve
 
     path: path_t(allow_fd='PATH_HAVE_FEXECVE')
@@ -7064,7 +7122,7 @@ Execute an executable path with arguments, replacing current process.
 
 static PyObject *
 os_execve_impl(PyObject *module, path_t *path, PyObject *argv, PyObject *env)
-/*[clinic end generated code: output=ff9fa8e4da8bde58 input=626804fa092606d9]*/
+/*[clinic end generated code: output=ff9fa8e4da8bde58 input=1a31753ba2eb120f]*/
 {
     EXECV_CHAR **argvlist = NULL;
     EXECV_CHAR **envlist;
@@ -7569,6 +7627,7 @@ exit:
 
 
 /*[clinic input]
+@c_stack_frugal
 
 os.posix_spawn
     path: path_t
@@ -7603,7 +7662,7 @@ os_posix_spawn_impl(PyObject *module, path_t *path, PyObject *argv,
                     PyObject *setpgroup, int resetids, int setsid,
                     PyObject *setsigmask, PyObject *setsigdef,
                     PyObject *scheduler)
-/*[clinic end generated code: output=14a1098c566bc675 input=808aed1090d84e33]*/
+/*[clinic end generated code: output=14a1098c566bc675 input=22da7ae511895bff]*/
 {
     return py_posix_spawn(0, module, path, argv, env, file_actions,
                           setpgroup, resetids, setsid, setsigmask, setsigdef,
@@ -7615,6 +7674,7 @@ os_posix_spawn_impl(PyObject *module, path_t *path, PyObject *argv,
 
 #ifdef HAVE_POSIX_SPAWNP
 /*[clinic input]
+@c_stack_frugal
 
 os.posix_spawnp
     path: path_t
@@ -7649,7 +7709,7 @@ os_posix_spawnp_impl(PyObject *module, path_t *path, PyObject *argv,
                      PyObject *setpgroup, int resetids, int setsid,
                      PyObject *setsigmask, PyObject *setsigdef,
                      PyObject *scheduler)
-/*[clinic end generated code: output=7b9aaefe3031238d input=9e89e616116752a1]*/
+/*[clinic end generated code: output=7b9aaefe3031238d input=3a3bc22b89d3f77d]*/
 {
     return py_posix_spawn(1, module, path, argv, env, file_actions,
                           setpgroup, resetids, setsid, setsigmask, setsigdef,
@@ -7693,6 +7753,7 @@ _rtp_spawn(int mode, const char *rtpFileName, const char *argv[],
 
 #if defined(HAVE_SPAWNV) || defined(HAVE_WSPAWNV) || defined(HAVE_RTPSPAWN)
 /*[clinic input]
+@c_stack_frugal
 os.spawnv
 
     mode: int
@@ -7708,7 +7769,7 @@ Execute the program specified by path in a new process.
 
 static PyObject *
 os_spawnv_impl(PyObject *module, int mode, path_t *path, PyObject *argv)
-/*[clinic end generated code: output=71cd037a9d96b816 input=43224242303291be]*/
+/*[clinic end generated code: output=71cd037a9d96b816 input=e4fa5dba5ae0b78b]*/
 {
     EXECV_CHAR **argvlist;
     int i;
@@ -7796,6 +7857,7 @@ os_spawnv_impl(PyObject *module, int mode, path_t *path, PyObject *argv)
 }
 
 /*[clinic input]
+@c_stack_frugal
 os.spawnve
 
     mode: int
@@ -7814,7 +7876,7 @@ Execute the program specified by path in a new process.
 static PyObject *
 os_spawnve_impl(PyObject *module, int mode, path_t *path, PyObject *argv,
                 PyObject *env)
-/*[clinic end generated code: output=30fe85be56fe37ad input=3e40803ee7c4c586]*/
+/*[clinic end generated code: output=30fe85be56fe37ad input=480a35a7a2293a55]*/
 {
     EXECV_CHAR **argvlist;
     EXECV_CHAR **envlist;
@@ -7936,6 +7998,7 @@ check_null_or_callable(PyObject *obj, const char* obj_name)
 }
 
 /*[clinic input]
+@c_stack_frugal
 os.register_at_fork
 
     *
@@ -7956,7 +8019,7 @@ Register callables to be called when forking a new process.
 static PyObject *
 os_register_at_fork_impl(PyObject *module, PyObject *before,
                          PyObject *after_in_child, PyObject *after_in_parent)
-/*[clinic end generated code: output=5398ac75e8e97625 input=cd1187aa85d2312e]*/
+/*[clinic end generated code: output=5398ac75e8e97625 input=0561c919b3744395]*/
 {
     PyInterpreterState *interp;
 
@@ -8092,6 +8155,7 @@ warn_about_fork_with_threads(const char* name)
 
 #ifdef HAVE_FORK1
 /*[clinic input]
+@c_stack_frugal
 os.fork1
 
 Fork a child process with a single multiplexed (i.e., not bound) thread.
@@ -8101,7 +8165,7 @@ Return 0 to child process and PID of child to parent process.
 
 static PyObject *
 os_fork1_impl(PyObject *module)
-/*[clinic end generated code: output=0de8e67ce2a310bc input=12db02167893926e]*/
+/*[clinic end generated code: output=0de8e67ce2a310bc input=4c259587e14e71ac]*/
 {
     pid_t pid;
 
@@ -8138,6 +8202,7 @@ os_fork1_impl(PyObject *module)
 
 #ifdef HAVE_FORK
 /*[clinic input]
+@c_stack_frugal
 os.fork
 
 Fork a child process.
@@ -8147,7 +8212,7 @@ Return 0 to child process and PID of child to parent process.
 
 static PyObject *
 os_fork_impl(PyObject *module)
-/*[clinic end generated code: output=3626c81f98985d49 input=13c956413110eeaa]*/
+/*[clinic end generated code: output=3626c81f98985d49 input=498aa3b5c364bcc2]*/
 {
     pid_t pid;
     PyInterpreterState *interp = _PyInterpreterState_GET();
@@ -8188,6 +8253,7 @@ os_fork_impl(PyObject *module)
 #ifdef HAVE_SCHED_H
 #ifdef HAVE_SCHED_GET_PRIORITY_MAX
 /*[clinic input]
+@c_stack_frugal
 os.sched_get_priority_max
 
     policy: int
@@ -8197,7 +8263,7 @@ Get the maximum scheduling priority for policy.
 
 static PyObject *
 os_sched_get_priority_max_impl(PyObject *module, int policy)
-/*[clinic end generated code: output=9e465c6e43130521 input=2097b7998eca6874]*/
+/*[clinic end generated code: output=9e465c6e43130521 input=914d2c8b05e5f7cc]*/
 {
     int max;
 
@@ -8209,6 +8275,7 @@ os_sched_get_priority_max_impl(PyObject *module, int policy)
 
 
 /*[clinic input]
+@c_stack_frugal
 os.sched_get_priority_min
 
     policy: int
@@ -8218,7 +8285,7 @@ Get the minimum scheduling priority for policy.
 
 static PyObject *
 os_sched_get_priority_min_impl(PyObject *module, int policy)
-/*[clinic end generated code: output=7595c1138cc47a6d input=21bc8fa0d70983bf]*/
+/*[clinic end generated code: output=7595c1138cc47a6d input=b3c984f638a7bc77]*/
 {
     int min = sched_get_priority_min(policy);
     if (min < 0)
@@ -8230,6 +8297,7 @@ os_sched_get_priority_min_impl(PyObject *module, int policy)
 
 #ifdef HAVE_SCHED_SETSCHEDULER
 /*[clinic input]
+@c_stack_frugal
 os.sched_getscheduler
     pid: pid_t
     /
@@ -8241,7 +8309,7 @@ Passing 0 for pid returns the scheduling policy for the calling process.
 
 static PyObject *
 os_sched_getscheduler_impl(PyObject *module, pid_t pid)
-/*[clinic end generated code: output=dce4c0bd3f1b34c8 input=8d99dac505485ac8]*/
+/*[clinic end generated code: output=dce4c0bd3f1b34c8 input=5f9e56166863fee4]*/
 {
     int policy;
 
@@ -8327,6 +8395,7 @@ convert_sched_param(PyObject *module, PyObject *param, struct sched_param *res)
 
 #ifdef HAVE_SCHED_SETSCHEDULER
 /*[clinic input]
+@c_stack_frugal
 os.sched_setscheduler
 
     pid: pid_t
@@ -8343,7 +8412,7 @@ param is an instance of sched_param.
 static PyObject *
 os_sched_setscheduler_impl(PyObject *module, pid_t pid, int policy,
                            PyObject *param_obj)
-/*[clinic end generated code: output=cde27faa55dc993e input=73013d731bd8fbe9]*/
+/*[clinic end generated code: output=cde27faa55dc993e input=dd0cd59cc57f72e7]*/
 {
     struct sched_param param;
     if (!convert_sched_param(module, param_obj, &param)) {
@@ -8364,6 +8433,7 @@ os_sched_setscheduler_impl(PyObject *module, pid_t pid, int policy,
 
 #ifdef HAVE_SCHED_SETPARAM
 /*[clinic input]
+@c_stack_frugal
 os.sched_getparam
     pid: pid_t
     /
@@ -8376,7 +8446,7 @@ Return value is an instance of sched_param.
 
 static PyObject *
 os_sched_getparam_impl(PyObject *module, pid_t pid)
-/*[clinic end generated code: output=b194e8708dcf2db8 input=18a1ef9c2efae296]*/
+/*[clinic end generated code: output=b194e8708dcf2db8 input=020c7ca9e28aec45]*/
 {
     struct sched_param param;
     PyObject *result;
@@ -8399,6 +8469,7 @@ os_sched_getparam_impl(PyObject *module, pid_t pid)
 
 
 /*[clinic input]
+@c_stack_frugal
 os.sched_setparam
     pid: pid_t
     param as param_obj: object
@@ -8412,7 +8483,7 @@ param should be an instance of sched_param.
 
 static PyObject *
 os_sched_setparam_impl(PyObject *module, pid_t pid, PyObject *param_obj)
-/*[clinic end generated code: output=f19fe020a53741c1 input=27b98337c8b2dcc7]*/
+/*[clinic end generated code: output=f19fe020a53741c1 input=08d84cf6a6997b49]*/
 {
     struct sched_param param;
     if (!convert_sched_param(module, param_obj, &param)) {
@@ -8428,6 +8499,7 @@ os_sched_setparam_impl(PyObject *module, pid_t pid, PyObject *param_obj)
 
 #ifdef HAVE_SCHED_RR_GET_INTERVAL
 /*[clinic input]
+@c_stack_frugal
 os.sched_rr_get_interval -> double
     pid: pid_t
     /
@@ -8439,7 +8511,7 @@ Value returned is a float.
 
 static double
 os_sched_rr_get_interval_impl(PyObject *module, pid_t pid)
-/*[clinic end generated code: output=7e2d935833ab47dc input=2a973da15cca6fae]*/
+/*[clinic end generated code: output=7e2d935833ab47dc input=ed5c84c8a7837cfd]*/
 {
     struct timespec interval;
     if (sched_rr_get_interval(pid, &interval)) {
@@ -8455,6 +8527,7 @@ os_sched_rr_get_interval_impl(PyObject *module, pid_t pid)
 
 
 /*[clinic input]
+@c_stack_frugal
 os.sched_yield
 
 Voluntarily relinquish the CPU.
@@ -8462,7 +8535,7 @@ Voluntarily relinquish the CPU.
 
 static PyObject *
 os_sched_yield_impl(PyObject *module)
-/*[clinic end generated code: output=902323500f222cac input=e54d6f98189391d4]*/
+/*[clinic end generated code: output=902323500f222cac input=c341e1feec7c9a74]*/
 {
     int result;
     Py_BEGIN_ALLOW_THREADS
@@ -8479,6 +8552,7 @@ os_sched_yield_impl(PyObject *module)
 static const int NCPUS_START = sizeof(unsigned long) * CHAR_BIT;
 
 /*[clinic input]
+@c_stack_frugal
 os.sched_setaffinity
     pid: pid_t
     mask : object
@@ -8491,7 +8565,7 @@ mask should be an iterable of integers identifying CPUs.
 
 static PyObject *
 os_sched_setaffinity_impl(PyObject *module, pid_t pid, PyObject *mask)
-/*[clinic end generated code: output=882d7dd9a229335b input=a0791a597c7085ba]*/
+/*[clinic end generated code: output=882d7dd9a229335b input=93733834a18efbd3]*/
 {
     int ncpus;
     size_t setsize;
@@ -8579,6 +8653,7 @@ error:
 
 
 /*[clinic input]
+@c_stack_frugal
 os.sched_getaffinity
     pid: pid_t
     /
@@ -8590,7 +8665,7 @@ The affinity is returned as a set of CPU identifiers.
 
 static PyObject *
 os_sched_getaffinity_impl(PyObject *module, pid_t pid)
-/*[clinic end generated code: output=f726f2c193c17a4f input=983ce7cb4a565980]*/
+/*[clinic end generated code: output=f726f2c193c17a4f input=fb5a76d3ee0b047c]*/
 {
     int ncpus = NCPUS_START;
     size_t setsize;
@@ -8655,6 +8730,7 @@ error:
 
 #ifdef HAVE_POSIX_OPENPT
 /*[clinic input]
+@c_stack_frugal
 os.posix_openpt -> int
 
     oflag: int
@@ -8669,7 +8745,7 @@ of posix_openpt() of your system.
 
 static int
 os_posix_openpt_impl(PyObject *module, int oflag)
-/*[clinic end generated code: output=ee0bc2624305fc79 input=0de33d0e29693caa]*/
+/*[clinic end generated code: output=ee0bc2624305fc79 input=f178be20c95244f0]*/
 {
     int fd;
 
@@ -8695,6 +8771,7 @@ os_posix_openpt_impl(PyObject *module, int oflag)
 
 #ifdef HAVE_GRANTPT
 /*[clinic input]
+@c_stack_frugal
 os.grantpt
 
     fd: fildes
@@ -8708,7 +8785,7 @@ Performs a grantpt() C function call.
 
 static PyObject *
 os_grantpt_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=dfd580015cf548ab input=0668e3b96760e849]*/
+/*[clinic end generated code: output=dfd580015cf548ab input=8240a77927a794dd]*/
 {
     int ret;
     int saved_errno;
@@ -8733,6 +8810,7 @@ os_grantpt_impl(PyObject *module, int fd)
 
 #ifdef HAVE_UNLOCKPT
 /*[clinic input]
+@c_stack_frugal
 os.unlockpt
 
     fd: fildes
@@ -8746,7 +8824,7 @@ Performs an unlockpt() C function call.
 
 static PyObject *
 os_unlockpt_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=e08d354dec12d30c input=de7ab1f59f69a2b4]*/
+/*[clinic end generated code: output=e08d354dec12d30c input=731e4d01a425f3fe]*/
 {
     if (unlockpt(fd) == -1)
         return posix_error();
@@ -8770,6 +8848,7 @@ py_ptsname(int fd)
 }
 
 /*[clinic input]
+@c_stack_frugal
 os.ptsname
 
     fd: fildes
@@ -8784,7 +8863,7 @@ otherwise, performs a ptsname() C function call.
 
 static PyObject *
 os_ptsname_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=ef300fadc5675872 input=1369ccc0546f3130]*/
+/*[clinic end generated code: output=ef300fadc5675872 input=a7a2e1c6f0fd0b7a]*/
 {
 #ifdef HAVE_PTSNAME_R
     int ret;
@@ -8836,6 +8915,7 @@ os_ptsname_impl(PyObject *module, int fd)
 
 #if defined(HAVE_OPENPTY) || defined(HAVE__GETPTY) || defined(HAVE_DEV_PTMX)
 /*[clinic input]
+@c_stack_frugal
 os.openpty
 
 Open a pseudo-terminal.
@@ -8846,7 +8926,7 @@ for both the master and slave ends.
 
 static PyObject *
 os_openpty_impl(PyObject *module)
-/*[clinic end generated code: output=98841ce5ec9cef3c input=f3d99fd99e762907]*/
+/*[clinic end generated code: output=98841ce5ec9cef3c input=1da6e3924b09311d]*/
 {
     int master_fd = -1, slave_fd = -1;
 #ifndef HAVE_OPENPTY
@@ -8944,6 +9024,7 @@ error:
 
 #if defined(HAVE_LOGIN_TTY) || defined(HAVE_FALLBACK_LOGIN_TTY)
 /*[clinic input]
+@c_stack_frugal
 os.login_tty
 
     fd: fildes
@@ -8958,7 +9039,7 @@ calling process; close fd.
 
 static PyObject *
 os_login_tty_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=495a79911b4cc1bc input=5f298565099903a2]*/
+/*[clinic end generated code: output=495a79911b4cc1bc input=fa6395f78485f81c]*/
 {
 #ifdef HAVE_LOGIN_TTY
     if (login_tty(fd) == -1) {
@@ -8990,6 +9071,7 @@ os_login_tty_impl(PyObject *module, int fd)
 
 #ifdef HAVE_FORKPTY
 /*[clinic input]
+@c_stack_frugal
 os.forkpty
 
 Fork a new process with a new pseudo-terminal as controlling tty.
@@ -9002,7 +9084,7 @@ To both, return fd of newly opened pseudo-terminal.
 
 static PyObject *
 os_forkpty_impl(PyObject *module)
-/*[clinic end generated code: output=60d0a5c7512e4087 input=f1f7f4bae3966010]*/
+/*[clinic end generated code: output=60d0a5c7512e4087 input=6a7fe1d8ab61f2a4]*/
 {
     int master_fd = -1;
     pid_t pid;
@@ -9041,6 +9123,7 @@ os_forkpty_impl(PyObject *module)
 
 #ifdef HAVE_GETEGID
 /*[clinic input]
+@c_stack_frugal
 os.getegid
 
 Return the current process's effective group id.
@@ -9048,7 +9131,7 @@ Return the current process's effective group id.
 
 static PyObject *
 os_getegid_impl(PyObject *module)
-/*[clinic end generated code: output=67d9be7ac68898a2 input=1596f79ad1107d5d]*/
+/*[clinic end generated code: output=67d9be7ac68898a2 input=f019166b29cf5980]*/
 {
     return _PyLong_FromGid(getegid());
 }
@@ -9057,6 +9140,7 @@ os_getegid_impl(PyObject *module)
 
 #ifdef HAVE_GETEUID
 /*[clinic input]
+@c_stack_frugal
 os.geteuid
 
 Return the current process's effective user id.
@@ -9064,7 +9148,7 @@ Return the current process's effective user id.
 
 static PyObject *
 os_geteuid_impl(PyObject *module)
-/*[clinic end generated code: output=ea1b60f0d6abb66e input=4644c662d3bd9f19]*/
+/*[clinic end generated code: output=ea1b60f0d6abb66e input=a7118d9b95491fcd]*/
 {
     return _PyLong_FromUid(geteuid());
 }
@@ -9073,6 +9157,7 @@ os_geteuid_impl(PyObject *module)
 
 #ifdef HAVE_GETGID
 /*[clinic input]
+@c_stack_frugal
 os.getgid
 
 Return the current process's group id.
@@ -9080,7 +9165,7 @@ Return the current process's group id.
 
 static PyObject *
 os_getgid_impl(PyObject *module)
-/*[clinic end generated code: output=4f28ebc9d3e5dfcf input=58796344cd87c0f6]*/
+/*[clinic end generated code: output=4f28ebc9d3e5dfcf input=d41f39f20479a628]*/
 {
     return _PyLong_FromGid(getgid());
 }
@@ -9089,6 +9174,7 @@ os_getgid_impl(PyObject *module)
 
 #if defined(HAVE_GETPID)
 /*[clinic input]
+@c_stack_frugal
 os.getpid
 
 Return the current process id.
@@ -9096,7 +9182,7 @@ Return the current process id.
 
 static PyObject *
 os_getpid_impl(PyObject *module)
-/*[clinic end generated code: output=9ea6fdac01ed2b3c input=5a9a00f0ab68aa00]*/
+/*[clinic end generated code: output=9ea6fdac01ed2b3c input=03ca2f791008abb2]*/
 {
 #if !defined(MS_WINDOWS) || defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM)
     return PyLong_FromPid(getpid());
@@ -9117,6 +9203,7 @@ os_getpid_impl(PyObject *module)
 
 #ifdef __APPLE__
 /*[clinic input]
+@c_stack_frugal
 os.getgrouplist
 
     user: str
@@ -9130,9 +9217,10 @@ Returns a list of groups to which a user belongs.
 
 static PyObject *
 os_getgrouplist_impl(PyObject *module, const char *user, int basegid)
-/*[clinic end generated code: output=6e734697b8c26de0 input=f8d870374b09a490]*/
+/*[clinic end generated code: output=6e734697b8c26de0 input=5ac744c610ec2427]*/
 #else
 /*[clinic input]
+@c_stack_frugal
 os.getgrouplist
 
     user: str
@@ -9146,7 +9234,7 @@ Returns a list of groups to which a user belongs.
 
 static PyObject *
 os_getgrouplist_impl(PyObject *module, const char *user, gid_t basegid)
-/*[clinic end generated code: output=0ebd7fb70115575b input=cc61d5c20b08958d]*/
+/*[clinic end generated code: output=0ebd7fb70115575b input=b1b054022b316d81]*/
 #endif
 {
     int i, ngroups;
@@ -9237,6 +9325,7 @@ os_getgrouplist_impl(PyObject *module, const char *user, gid_t basegid)
 
 #ifdef HAVE_GETGROUPS
 /*[clinic input]
+@c_stack_frugal
 os.getgroups
 
 Return list of supplemental group IDs for the process.
@@ -9244,7 +9333,7 @@ Return list of supplemental group IDs for the process.
 
 static PyObject *
 os_getgroups_impl(PyObject *module)
-/*[clinic end generated code: output=42b0c17758561b56 input=d3f109412e6a155c]*/
+/*[clinic end generated code: output=42b0c17758561b56 input=a20847e9e677a6ee]*/
 {
     // Call getgroups with length 0 to get the actual number of groups
     int n = getgroups(0, NULL);
@@ -9294,6 +9383,7 @@ error:
 #ifdef HAVE_INITGROUPS
 #ifdef __APPLE__
 /*[clinic input]
+@c_stack_frugal
 os.initgroups
 
     username as oname: FSConverter
@@ -9309,9 +9399,10 @@ group id.
 
 static PyObject *
 os_initgroups_impl(PyObject *module, PyObject *oname, int gid)
-/*[clinic end generated code: output=7f074d30a425fd3a input=df3d54331b0af204]*/
+/*[clinic end generated code: output=7f074d30a425fd3a input=e4048b705d5efda2]*/
 #else
 /*[clinic input]
+@c_stack_frugal
 os.initgroups
 
     username as oname: FSConverter
@@ -9327,7 +9418,7 @@ group id.
 
 static PyObject *
 os_initgroups_impl(PyObject *module, PyObject *oname, gid_t gid)
-/*[clinic end generated code: output=59341244521a9e3f input=0cb91bdc59a4c564]*/
+/*[clinic end generated code: output=59341244521a9e3f input=e99f5cbe89378578]*/
 #endif
 {
     const char *username = PyBytes_AS_STRING(oname);
@@ -9342,6 +9433,7 @@ os_initgroups_impl(PyObject *module, PyObject *oname, gid_t gid)
 
 #ifdef HAVE_GETPGID
 /*[clinic input]
+@c_stack_frugal
 os.getpgid
 
     pid: pid_t
@@ -9351,7 +9443,7 @@ Call the system call getpgid(), and return the result.
 
 static PyObject *
 os_getpgid_impl(PyObject *module, pid_t pid)
-/*[clinic end generated code: output=1db95a97be205d18 input=39d710ae3baaf1c7]*/
+/*[clinic end generated code: output=1db95a97be205d18 input=df8d489219a8042d]*/
 {
     pid_t pgid = getpgid(pid);
     if (pgid < 0)
@@ -9363,6 +9455,7 @@ os_getpgid_impl(PyObject *module, pid_t pid)
 
 #ifdef HAVE_GETPGRP
 /*[clinic input]
+@c_stack_frugal
 os.getpgrp
 
 Return the current process group id.
@@ -9370,7 +9463,7 @@ Return the current process group id.
 
 static PyObject *
 os_getpgrp_impl(PyObject *module)
-/*[clinic end generated code: output=c4fc381e51103cf3 input=6846fb2bb9a3705e]*/
+/*[clinic end generated code: output=c4fc381e51103cf3 input=6cbcc996ebcf2257]*/
 {
 #ifdef GETPGRP_HAVE_ARG
     return PyLong_FromPid(getpgrp(0));
@@ -9383,6 +9476,7 @@ os_getpgrp_impl(PyObject *module)
 
 #ifdef HAVE_SETPGRP
 /*[clinic input]
+@c_stack_frugal
 os.setpgrp
 
 Make the current process the leader of its process group.
@@ -9390,7 +9484,7 @@ Make the current process the leader of its process group.
 
 static PyObject *
 os_setpgrp_impl(PyObject *module)
-/*[clinic end generated code: output=2554735b0a60f0a0 input=1f0619fcb5731e7e]*/
+/*[clinic end generated code: output=2554735b0a60f0a0 input=6ab9f649e05e31df]*/
 {
 #ifdef SETPGRP_HAVE_ARG
     if (setpgrp(0, 0) < 0)
@@ -9519,6 +9613,7 @@ win32_getppid(void)
 
 
 /*[clinic input]
+@c_stack_frugal
 os.getppid
 
 Return the parent's process id.
@@ -9529,7 +9624,7 @@ return its id; others systems will return the id of the 'init' process (1).
 
 static PyObject *
 os_getppid_impl(PyObject *module)
-/*[clinic end generated code: output=43b2a946a8c603b4 input=e637cb87539c030e]*/
+/*[clinic end generated code: output=43b2a946a8c603b4 input=c1a1e863b1092924]*/
 {
 #ifdef MS_WINDOWS
     return win32_getppid();
@@ -9542,6 +9637,7 @@ os_getppid_impl(PyObject *module)
 
 #ifdef HAVE_GETLOGIN
 /*[clinic input]
+@c_stack_frugal
 os.getlogin
 
 Return the actual login name.
@@ -9549,7 +9645,7 @@ Return the actual login name.
 
 static PyObject *
 os_getlogin_impl(PyObject *module)
-/*[clinic end generated code: output=a32e66a7e5715dac input=2a21ab1e917163df]*/
+/*[clinic end generated code: output=a32e66a7e5715dac input=9cd2ee16ebf58683]*/
 {
     PyObject *result = NULL;
 #ifdef MS_WINDOWS
@@ -9603,6 +9699,7 @@ os_getlogin_impl(PyObject *module)
 
 #ifdef HAVE_GETUID
 /*[clinic input]
+@c_stack_frugal
 os.getuid
 
 Return the current process's user id.
@@ -9610,7 +9707,7 @@ Return the current process's user id.
 
 static PyObject *
 os_getuid_impl(PyObject *module)
-/*[clinic end generated code: output=415c0b401ebed11a input=b53c8b35f110a516]*/
+/*[clinic end generated code: output=415c0b401ebed11a input=f7d4645d9e018e31]*/
 {
     return _PyLong_FromUid(getuid());
 }
@@ -9623,6 +9720,7 @@ os_getuid_impl(PyObject *module)
 
 #ifdef HAVE_KILL
 /*[clinic input]
+@c_stack_frugal
 os.kill
 
     pid: pid_t
@@ -9634,7 +9732,7 @@ Kill a process with a signal.
 
 static PyObject *
 os_kill_impl(PyObject *module, pid_t pid, Py_ssize_t signal)
-/*[clinic end generated code: output=8e346a6701c88568 input=61a36b86ca275ab9]*/
+/*[clinic end generated code: output=8e346a6701c88568 input=e90bb620f96f23cb]*/
 {
     if (PySys_Audit("os.kill", "in", pid, signal) < 0) {
         return NULL;
@@ -9687,6 +9785,7 @@ os_kill_impl(PyObject *module, pid_t pid, Py_ssize_t signal)
 
 #ifdef HAVE_KILLPG
 /*[clinic input]
+@c_stack_frugal
 os.killpg
 
     pgid: pid_t
@@ -9698,7 +9797,7 @@ Kill a process group with a signal.
 
 static PyObject *
 os_killpg_impl(PyObject *module, pid_t pgid, int signal)
-/*[clinic end generated code: output=6dbcd2f1fdf5fdba input=38b5449eb8faec19]*/
+/*[clinic end generated code: output=6dbcd2f1fdf5fdba input=4b148d77934a485b]*/
 {
     if (PySys_Audit("os.killpg", "ii", pgid, signal) < 0) {
         return NULL;
@@ -9720,6 +9819,7 @@ os_killpg_impl(PyObject *module, pid_t pgid, int signal)
 #endif
 
 /*[clinic input]
+@c_stack_frugal
 os.plock
     op: int
     /
@@ -9729,7 +9829,7 @@ Lock program segments into memory.");
 
 static PyObject *
 os_plock_impl(PyObject *module, int op)
-/*[clinic end generated code: output=81424167033b168e input=e6e5e348e1525f60]*/
+/*[clinic end generated code: output=81424167033b168e input=22bb1db0fb7f26e0]*/
 {
     if (plock(op) == -1)
         return posix_error();
@@ -9740,6 +9840,7 @@ os_plock_impl(PyObject *module, int op)
 
 #ifdef HAVE_SETUID
 /*[clinic input]
+@c_stack_frugal
 os.setuid
 
     uid: uid_t
@@ -9750,7 +9851,7 @@ Set the current process's user id.
 
 static PyObject *
 os_setuid_impl(PyObject *module, uid_t uid)
-/*[clinic end generated code: output=a0a41fd0d1ec555f input=c921a3285aa22256]*/
+/*[clinic end generated code: output=a0a41fd0d1ec555f input=52ec17159a888a54]*/
 {
     if (setuid(uid) < 0)
         return posix_error();
@@ -9761,6 +9862,7 @@ os_setuid_impl(PyObject *module, uid_t uid)
 
 #ifdef HAVE_SETEUID
 /*[clinic input]
+@c_stack_frugal
 os.seteuid
 
     euid: uid_t
@@ -9771,7 +9873,7 @@ Set the current process's effective user id.
 
 static PyObject *
 os_seteuid_impl(PyObject *module, uid_t euid)
-/*[clinic end generated code: output=102e3ad98361519a input=ba93d927e4781aa9]*/
+/*[clinic end generated code: output=102e3ad98361519a input=12d186f2c573b675]*/
 {
     if (seteuid(euid) < 0)
         return posix_error();
@@ -9782,6 +9884,7 @@ os_seteuid_impl(PyObject *module, uid_t euid)
 
 #ifdef HAVE_SETEGID
 /*[clinic input]
+@c_stack_frugal
 os.setegid
 
     egid: gid_t
@@ -9792,7 +9895,7 @@ Set the current process's effective group id.
 
 static PyObject *
 os_setegid_impl(PyObject *module, gid_t egid)
-/*[clinic end generated code: output=4e4b825a6a10258d input=4080526d0ccd6ce3]*/
+/*[clinic end generated code: output=4e4b825a6a10258d input=d08e516a5962cec4]*/
 {
     if (setegid(egid) < 0)
         return posix_error();
@@ -9803,6 +9906,7 @@ os_setegid_impl(PyObject *module, gid_t egid)
 
 #ifdef HAVE_SETREUID
 /*[clinic input]
+@c_stack_frugal
 os.setreuid
 
     ruid: uid_t
@@ -9814,7 +9918,7 @@ Set the current process's real and effective user ids.
 
 static PyObject *
 os_setreuid_impl(PyObject *module, uid_t ruid, uid_t euid)
-/*[clinic end generated code: output=62d991210006530a input=0ca8978de663880c]*/
+/*[clinic end generated code: output=62d991210006530a input=5329ec49a6cb7101]*/
 {
     if (setreuid(ruid, euid) < 0) {
         return posix_error();
@@ -9827,6 +9931,7 @@ os_setreuid_impl(PyObject *module, uid_t ruid, uid_t euid)
 
 #ifdef HAVE_SETREGID
 /*[clinic input]
+@c_stack_frugal
 os.setregid
 
     rgid: gid_t
@@ -9838,7 +9943,7 @@ Set the current process's real and effective group ids.
 
 static PyObject *
 os_setregid_impl(PyObject *module, gid_t rgid, gid_t egid)
-/*[clinic end generated code: output=aa803835cf5342f3 input=c59499f72846db78]*/
+/*[clinic end generated code: output=aa803835cf5342f3 input=511d1eded6cef37e]*/
 {
     if (setregid(rgid, egid) < 0)
         return posix_error();
@@ -9849,6 +9954,7 @@ os_setregid_impl(PyObject *module, gid_t rgid, gid_t egid)
 
 #ifdef HAVE_SETGID
 /*[clinic input]
+@c_stack_frugal
 os.setgid
     gid: gid_t
     /
@@ -9858,7 +9964,7 @@ Set the current process's group id.
 
 static PyObject *
 os_setgid_impl(PyObject *module, gid_t gid)
-/*[clinic end generated code: output=bdccd7403f6ad8c3 input=27d30c4059045dc6]*/
+/*[clinic end generated code: output=bdccd7403f6ad8c3 input=8d60a1ec11586be2]*/
 {
     if (setgid(gid) < 0)
         return posix_error();
@@ -9869,6 +9975,7 @@ os_setgid_impl(PyObject *module, gid_t gid)
 
 #ifdef HAVE_SETGROUPS
 /*[clinic input]
+@c_stack_frugal
 os.setgroups
 
     groups: object
@@ -9879,7 +9986,7 @@ Set the groups of the current process to list.
 
 static PyObject *
 os_setgroups(PyObject *module, PyObject *groups)
-/*[clinic end generated code: output=3fcb32aad58c5ecd input=fa742ca3daf85a7e]*/
+/*[clinic end generated code: output=3fcb32aad58c5ecd input=8bd69d93650afe16]*/
 {
     if (!PySequence_Check(groups)) {
         PyErr_SetString(PyExc_TypeError, "setgroups argument must be a sequence");
@@ -9999,6 +10106,7 @@ wait_helper(PyObject *module, pid_t pid, int status, struct rusage *ru)
 
 #ifdef HAVE_WAIT3
 /*[clinic input]
+@c_stack_frugal
 os.wait3
 
     options: int
@@ -10010,7 +10118,7 @@ Returns a tuple of information about the child process:
 
 static PyObject *
 os_wait3_impl(PyObject *module, int options)
-/*[clinic end generated code: output=92c3224e6f28217a input=8ac4c56956b61710]*/
+/*[clinic end generated code: output=92c3224e6f28217a input=d58c8e1c0f5838cd]*/
 {
     pid_t pid;
     struct rusage ru;
@@ -10033,6 +10141,7 @@ os_wait3_impl(PyObject *module, int options)
 
 #ifdef HAVE_WAIT4
 /*[clinic input]
+@c_stack_frugal
 
 os.wait4
 
@@ -10047,7 +10156,7 @@ Returns a tuple of information about the child process:
 
 static PyObject *
 os_wait4_impl(PyObject *module, pid_t pid, int options)
-/*[clinic end generated code: output=66195aa507b35f70 input=d11deed0750600ba]*/
+/*[clinic end generated code: output=66195aa507b35f70 input=bb66c9d35855a528]*/
 {
     pid_t res;
     struct rusage ru;
@@ -10070,6 +10179,7 @@ os_wait4_impl(PyObject *module, pid_t pid, int options)
 
 #if defined(HAVE_WAITID)
 /*[clinic input]
+@c_stack_frugal
 os.waitid
 
     idtype: idtype_t
@@ -10089,7 +10199,7 @@ no children in a waitable state.
 
 static PyObject *
 os_waitid_impl(PyObject *module, idtype_t idtype, id_t id, int options)
-/*[clinic end generated code: output=5d2e1c0bde61f4d8 input=d8e7f76e052b7920]*/
+/*[clinic end generated code: output=5d2e1c0bde61f4d8 input=e423baed30f7c52b]*/
 {
     PyObject *result;
     int res;
@@ -10140,6 +10250,7 @@ os_waitid_impl(PyObject *module, idtype_t idtype, id_t id, int options)
 
 #if defined(HAVE_WAITPID)
 /*[clinic input]
+@c_stack_frugal
 os.waitpid
     pid: pid_t
     options: int
@@ -10155,7 +10266,7 @@ The options argument is ignored on Windows.
 
 static PyObject *
 os_waitpid_impl(PyObject *module, pid_t pid, int options)
-/*[clinic end generated code: output=5c37c06887a20270 input=0bf1666b8758fda3]*/
+/*[clinic end generated code: output=5c37c06887a20270 input=946f764bb7d4fe72]*/
 {
     pid_t res;
     int async_err = 0;
@@ -10175,6 +10286,7 @@ os_waitpid_impl(PyObject *module, pid_t pid, int options)
 #elif defined(HAVE_CWAIT)
 /* MS C has a variant of waitpid() that's usable for most purposes. */
 /*[clinic input]
+@c_stack_frugal
 os.waitpid
     pid: intptr_t
     options: int
@@ -10190,7 +10302,7 @@ The options argument is ignored on Windows.
 
 static PyObject *
 os_waitpid_impl(PyObject *module, intptr_t pid, int options)
-/*[clinic end generated code: output=be836b221271d538 input=40f2440c515410f8]*/
+/*[clinic end generated code: output=be836b221271d538 input=084fb59a29820695]*/
 {
     int status;
     intptr_t res;
@@ -10216,6 +10328,7 @@ os_waitpid_impl(PyObject *module, intptr_t pid, int options)
 
 #ifdef HAVE_WAIT
 /*[clinic input]
+@c_stack_frugal
 os.wait
 
 Wait for completion of a child process.
@@ -10226,7 +10339,7 @@ Returns a tuple of information about the child process:
 
 static PyObject *
 os_wait_impl(PyObject *module)
-/*[clinic end generated code: output=6bc419ac32fb364b input=03b0182d4a4700ce]*/
+/*[clinic end generated code: output=6bc419ac32fb364b input=be5f73be72b61a94]*/
 {
     pid_t pid;
     int async_err = 0;
@@ -10250,6 +10363,7 @@ os_wait_impl(PyObject *module)
 #if defined(__linux__) && defined(__NR_pidfd_open) && \
     !(defined(__ANDROID__) && __ANDROID_API__ < 31)
 /*[clinic input]
+@c_stack_frugal
 os.pidfd_open
   pid: pid_t
   flags: unsigned_int = 0
@@ -10262,7 +10376,7 @@ signals.
 
 static PyObject *
 os_pidfd_open_impl(PyObject *module, pid_t pid, unsigned int flags)
-/*[clinic end generated code: output=5c7252698947dc41 input=c3fd99ce947ccfef]*/
+/*[clinic end generated code: output=5c7252698947dc41 input=7bb165db16935be5]*/
 {
     int fd = syscall(__NR_pidfd_open, pid, flags);
     if (fd < 0) {
@@ -10275,6 +10389,7 @@ os_pidfd_open_impl(PyObject *module, pid_t pid, unsigned int flags)
 
 #ifdef HAVE_SETNS
 /*[clinic input]
+@c_stack_frugal
 os.setns
   fd: fildes
     A file descriptor to a namespace.
@@ -10286,7 +10401,7 @@ Move the calling thread into different namespaces.
 
 static PyObject *
 os_setns_impl(PyObject *module, int fd, int nstype)
-/*[clinic end generated code: output=5dbd055bfb66ecd0 input=42787871226bf3ee]*/
+/*[clinic end generated code: output=5dbd055bfb66ecd0 input=b0aa52e8282dcb25]*/
 {
     int res;
 
@@ -10305,6 +10420,7 @@ os_setns_impl(PyObject *module, int fd, int nstype)
 
 #ifdef HAVE_UNSHARE
 /*[clinic input]
+@c_stack_frugal
 os.unshare
   flags: int
     Namespaces to be unshared.
@@ -10314,7 +10430,7 @@ Disassociate parts of a process (or thread) execution context.
 
 static PyObject *
 os_unshare_impl(PyObject *module, int flags)
-/*[clinic end generated code: output=1b3177906dd237ee input=9e065db3232b8b1b]*/
+/*[clinic end generated code: output=1b3177906dd237ee input=d864a10c7135502f]*/
 {
     int res;
 
@@ -10333,6 +10449,7 @@ os_unshare_impl(PyObject *module, int flags)
 
 #if defined(HAVE_READLINK) || defined(MS_WINDOWS)
 /*[clinic input]
+@c_stack_frugal
 os.readlink
 
     path: path_t
@@ -10350,7 +10467,7 @@ using it will raise a NotImplementedError.
 
 static PyObject *
 os_readlink_impl(PyObject *module, path_t *path, int dir_fd)
-/*[clinic end generated code: output=d21b732a2e814030 input=113c87e0db1ecaf2]*/
+/*[clinic end generated code: output=d21b732a2e814030 input=d6042a8290fe89bb]*/
 {
 #if defined(HAVE_READLINK)
     char buffer[MAXPATHLEN+1];
@@ -10538,6 +10655,7 @@ _check_dirW(LPCWSTR src, LPCWSTR dest)
 
 
 /*[clinic input]
+@c_stack_frugal
 os.symlink
     src: path_t
     dst: path_t
@@ -10564,7 +10682,7 @@ dir_fd may not be implemented on your platform.
 static PyObject *
 os_symlink_impl(PyObject *module, path_t *src, path_t *dst,
                 int target_is_directory, int dir_fd)
-/*[clinic end generated code: output=08ca9f3f3cf960f6 input=e820ec4472547bc3]*/
+/*[clinic end generated code: output=08ca9f3f3cf960f6 input=c40eb4aa0e71678e]*/
 {
 #ifdef MS_WINDOWS
     DWORD result;
@@ -10719,6 +10837,7 @@ build_times_result(PyObject *module, double user, double system,
 
 
 /*[clinic input]
+@c_stack_frugal
 os.times
 
 Return a collection containing process timing information.
@@ -10730,7 +10849,7 @@ All fields are floating-point numbers.
 
 static PyObject *
 os_times_impl(PyObject *module)
-/*[clinic end generated code: output=35f640503557d32a input=8dbfe33a2dcc3df3]*/
+/*[clinic end generated code: output=35f640503557d32a input=c74d8dcd1f0ae946]*/
 {
 #ifdef MS_WINDOWS
     FILETIME create, exit, kernel, user;
@@ -10813,6 +10932,7 @@ build_itimerspec_ns(const struct itimerspec* curr_value)
 }
 
 /*[clinic input]
+@c_stack_frugal
 os.timerfd_create
 
     clockid: int
@@ -10838,7 +10958,7 @@ Create and return a timer file descriptor.
 
 static PyObject *
 os_timerfd_create_impl(PyObject *module, int clockid, int flags)
-/*[clinic end generated code: output=1caae80fb168004a input=64b7020c5ac0b8f4]*/
+/*[clinic end generated code: output=1caae80fb168004a input=651b75f9a90624a2]*/
 
 {
     int fd;
@@ -10853,6 +10973,7 @@ os_timerfd_create_impl(PyObject *module, int clockid, int flags)
 }
 
 /*[clinic input]
+@c_stack_frugal
 os.timerfd_settime
 
     fd: fildes
@@ -10872,7 +10993,7 @@ Alter a timer file descriptor's internal timer in seconds.
 static PyObject *
 os_timerfd_settime_impl(PyObject *module, int fd, int flags,
                         double initial_double, double interval_double)
-/*[clinic end generated code: output=df4c1bce6859224e input=81d2c0d7e936e8a7]*/
+/*[clinic end generated code: output=df4c1bce6859224e input=5639a3c9b994ab08]*/
 {
     PyTime_t initial, interval;
     if (_PyTime_FromSecondsDouble(initial_double, _PyTime_ROUND_FLOOR,
@@ -10906,6 +11027,7 @@ os_timerfd_settime_impl(PyObject *module, int fd, int flags,
 
 
 /*[clinic input]
+@c_stack_frugal
 os.timerfd_settime_ns
 
     fd: fildes
@@ -10925,7 +11047,7 @@ Alter a timer file descriptor's internal timer in nanoseconds.
 static PyObject *
 os_timerfd_settime_ns_impl(PyObject *module, int fd, int flags,
                            long long initial, long long interval)
-/*[clinic end generated code: output=6273ec7d7b4cc0b3 input=261e105d6e42f5bc]*/
+/*[clinic end generated code: output=6273ec7d7b4cc0b3 input=3c65e8c86eb22408]*/
 {
     struct itimerspec new_value;
     struct itimerspec old_value;
@@ -10948,6 +11070,7 @@ os_timerfd_settime_ns_impl(PyObject *module, int fd, int flags,
 }
 
 /*[clinic input]
+@c_stack_frugal
 os.timerfd_gettime
 
     fd: fildes
@@ -10959,7 +11082,7 @@ Return a tuple of a timer file descriptor's (interval, next expiration) in float
 
 static PyObject *
 os_timerfd_gettime_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=ec5a94a66cfe6ab4 input=8148e3430870da1c]*/
+/*[clinic end generated code: output=ec5a94a66cfe6ab4 input=e1ca2ddad69b69fc]*/
 {
     struct itimerspec curr_value;
     int result;
@@ -10974,6 +11097,7 @@ os_timerfd_gettime_impl(PyObject *module, int fd)
 
 
 /*[clinic input]
+@c_stack_frugal
 os.timerfd_gettime_ns
 
     fd: fildes
@@ -10985,7 +11109,7 @@ Return a tuple of a timer file descriptor's (interval, next expiration) in nanos
 
 static PyObject *
 os_timerfd_gettime_ns_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=580633a4465f39fe input=a825443e4c6b40ac]*/
+/*[clinic end generated code: output=580633a4465f39fe input=3c620c1d2d53313a]*/
 {
     struct itimerspec curr_value;
     int result;
@@ -11005,6 +11129,7 @@ os_timerfd_gettime_ns_impl(PyObject *module, int fd)
 
 #ifdef HAVE_GETSID
 /*[clinic input]
+@c_stack_frugal
 os.getsid
 
     pid: pid_t
@@ -11015,7 +11140,7 @@ Call the system call getsid(pid) and return the result.
 
 static PyObject *
 os_getsid_impl(PyObject *module, pid_t pid)
-/*[clinic end generated code: output=112deae56b306460 input=eeb2b923a30ce04e]*/
+/*[clinic end generated code: output=112deae56b306460 input=f69e9c2c1ef88abe]*/
 {
     int sid;
     sid = getsid(pid);
@@ -11028,6 +11153,7 @@ os_getsid_impl(PyObject *module, pid_t pid)
 
 #ifdef HAVE_SETSID
 /*[clinic input]
+@c_stack_frugal
 os.setsid
 
 Call the system call setsid().
@@ -11035,7 +11161,7 @@ Call the system call setsid().
 
 static PyObject *
 os_setsid_impl(PyObject *module)
-/*[clinic end generated code: output=e2ddedd517086d77 input=5fff45858e2f0776]*/
+/*[clinic end generated code: output=e2ddedd517086d77 input=4b7ed844c74b899a]*/
 {
     if (setsid() < 0)
         return posix_error();
@@ -11046,6 +11172,7 @@ os_setsid_impl(PyObject *module)
 
 #ifdef HAVE_SETPGID
 /*[clinic input]
+@c_stack_frugal
 os.setpgid
 
     pid: pid_t
@@ -11057,7 +11184,7 @@ Call the system call setpgid(pid, pgrp).
 
 static PyObject *
 os_setpgid_impl(PyObject *module, pid_t pid, pid_t pgrp)
-/*[clinic end generated code: output=6461160319a43d6a input=fceb395eca572e1a]*/
+/*[clinic end generated code: output=6461160319a43d6a input=9a4b0de14210a8c9]*/
 {
     if (setpgid(pid, pgrp) < 0)
         return posix_error();
@@ -11068,6 +11195,7 @@ os_setpgid_impl(PyObject *module, pid_t pid, pid_t pgrp)
 
 #ifdef HAVE_TCGETPGRP
 /*[clinic input]
+@c_stack_frugal
 os.tcgetpgrp
 
     fd: int
@@ -11078,7 +11206,7 @@ Return the process group associated with the terminal specified by fd.
 
 static PyObject *
 os_tcgetpgrp_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=f865e88be86c272b input=7f6c18eac10ada86]*/
+/*[clinic end generated code: output=f865e88be86c272b input=5f442c036e9e97ad]*/
 {
     pid_t pgid = tcgetpgrp(fd);
     if (pgid < 0)
@@ -11090,6 +11218,7 @@ os_tcgetpgrp_impl(PyObject *module, int fd)
 
 #ifdef HAVE_TCSETPGRP
 /*[clinic input]
+@c_stack_frugal
 os.tcsetpgrp
 
     fd: int
@@ -11101,7 +11230,7 @@ Set the process group associated with the terminal specified by fd.
 
 static PyObject *
 os_tcsetpgrp_impl(PyObject *module, int fd, pid_t pgid)
-/*[clinic end generated code: output=f1821a381b9daa39 input=5bdc997c6a619020]*/
+/*[clinic end generated code: output=f1821a381b9daa39 input=479fa8b5d96c193c]*/
 {
     if (tcsetpgrp(fd, pgid) < 0)
         return posix_error();
@@ -11117,6 +11246,7 @@ extern int _Py_open_cloexec_works;
 
 
 /*[clinic input]
+@c_stack_frugal
 os.open -> int
     path: path_t
     flags: int
@@ -11136,7 +11266,7 @@ dir_fd may not be implemented on your platform.
 
 static int
 os_open_impl(PyObject *module, path_t *path, int flags, int mode, int dir_fd)
-/*[clinic end generated code: output=abc7227888c8bc73 input=ad8623b29acd2934]*/
+/*[clinic end generated code: output=abc7227888c8bc73 input=b8faa9226153683b]*/
 {
     int fd;
     int async_err = 0;
@@ -11208,6 +11338,7 @@ os_open_impl(PyObject *module, path_t *path, int flags, int mode, int dir_fd)
 
 
 /*[clinic input]
+@c_stack_frugal
 os.close
 
     fd: int
@@ -11217,7 +11348,7 @@ Close a file descriptor.
 
 static PyObject *
 os_close_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=2fe4e93602822c14 input=2bc42451ca5c3223]*/
+/*[clinic end generated code: output=2fe4e93602822c14 input=2a83588dcdd788db]*/
 {
     int res;
     /* We do not want to retry upon EINTR: see http://lwn.net/Articles/576478/
@@ -11235,6 +11366,7 @@ os_close_impl(PyObject *module, int fd)
 }
 
 /*[clinic input]
+@c_stack_frugal
 os.closerange
 
     fd_low: int
@@ -11246,7 +11378,7 @@ Closes all file descriptors in [fd_low, fd_high), ignoring errors.
 
 static PyObject *
 os_closerange_impl(PyObject *module, int fd_low, int fd_high)
-/*[clinic end generated code: output=0ce5c20fcda681c2 input=5855a3d053ebd4ec]*/
+/*[clinic end generated code: output=0ce5c20fcda681c2 input=97491b0958d7fed1]*/
 {
     Py_BEGIN_ALLOW_THREADS
     _Py_closerange(fd_low, fd_high - 1);
@@ -11256,6 +11388,7 @@ os_closerange_impl(PyObject *module, int fd_low, int fd_high)
 
 
 /*[clinic input]
+@c_stack_frugal
 os.dup -> int
 
     fd: int
@@ -11266,7 +11399,7 @@ Return a duplicate of a file descriptor.
 
 static int
 os_dup_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=486f4860636b2a9f input=6f10f7ea97f7852a]*/
+/*[clinic end generated code: output=486f4860636b2a9f input=d7dc6fae345268c0]*/
 {
     return _Py_dup(fd);
 }
@@ -11275,6 +11408,7 @@ os_dup_impl(PyObject *module, int fd)
 // dup2.c provides working dup2() if and only if F_DUPFD is available.
 #if (defined(HAVE_DUP3) || defined(F_DUPFD) || defined(MS_WINDOWS))
 /*[clinic input]
+@c_stack_frugal
 os.dup2 -> int
     fd: int
     fd2: int
@@ -11285,7 +11419,7 @@ Duplicate file descriptor.
 
 static int
 os_dup2_impl(PyObject *module, int fd, int fd2, int inheritable)
-/*[clinic end generated code: output=bc059d34a73404d1 input=c3cddda8922b038d]*/
+/*[clinic end generated code: output=bc059d34a73404d1 input=62890274030295ba]*/
 {
     int res = 0;
 #if defined(HAVE_DUP3) && \
@@ -11373,6 +11507,7 @@ os_dup2_impl(PyObject *module, int fd, int fd2, int inheritable)
 
 #ifdef HAVE_LOCKF
 /*[clinic input]
+@c_stack_frugal
 os.lockf
 
     fd: int
@@ -11389,7 +11524,7 @@ Apply, test or remove a POSIX lock on an open file descriptor.
 
 static PyObject *
 os_lockf_impl(PyObject *module, int fd, int command, Py_off_t length)
-/*[clinic end generated code: output=af7051f3e7c29651 input=65da41d2106e9b79]*/
+/*[clinic end generated code: output=af7051f3e7c29651 input=b6918a7a35ea2b95]*/
 {
     int res;
 
@@ -11410,6 +11545,7 @@ os_lockf_impl(PyObject *module, int fd, int command, Py_off_t length)
 
 
 /*[clinic input]
+@c_stack_frugal
 os.lseek -> Py_off_t
 
     fd: int
@@ -11430,7 +11566,7 @@ The return value is the number of bytes relative to the beginning of the file.
 
 static Py_off_t
 os_lseek_impl(PyObject *module, int fd, Py_off_t position, int how)
-/*[clinic end generated code: output=971e1efb6b30bd2f input=f096e754c5367504]*/
+/*[clinic end generated code: output=971e1efb6b30bd2f input=6d53b14379a695b5]*/
 {
     Py_off_t result;
 
@@ -11460,6 +11596,7 @@ os_lseek_impl(PyObject *module, int fd, Py_off_t position, int how)
 
 
 /*[clinic input]
+@c_stack_frugal
 os.read
     fd: int
     length: Py_ssize_t
@@ -11470,7 +11607,7 @@ Read from a file descriptor.  Returns a bytes object.
 
 static PyObject *
 os_read_impl(PyObject *module, int fd, Py_ssize_t length)
-/*[clinic end generated code: output=dafbe9a5cddb987b input=1df2eaa27c0bf1d3]*/
+/*[clinic end generated code: output=dafbe9a5cddb987b input=9f68bab271feee23]*/
 {
     Py_ssize_t n;
     PyObject *buffer;
@@ -11499,6 +11636,7 @@ os_read_impl(PyObject *module, int fd, Py_ssize_t length)
 }
 
 /*[clinic input]
+@c_stack_frugal
 os.readinto -> Py_ssize_t
     fd: int
     buffer: Py_buffer(accept={rwbuffer})
@@ -11519,7 +11657,7 @@ negative.
 
 static Py_ssize_t
 os_readinto_impl(PyObject *module, int fd, Py_buffer *buffer)
-/*[clinic end generated code: output=8091a3513c683a80 input=d40074d0a68de575]*/
+/*[clinic end generated code: output=8091a3513c683a80 input=c09481c0eee26b88]*/
 {
     assert(buffer->len >= 0);
     Py_ssize_t result = _Py_read(fd, buffer->buf, buffer->len);
@@ -11590,6 +11728,7 @@ iov_cleanup(struct iovec *iov, Py_buffer *buf, int cnt)
 
 #ifdef HAVE_READV
 /*[clinic input]
+@c_stack_frugal
 os.readv -> Py_ssize_t
 
     fd: int
@@ -11609,7 +11748,7 @@ which may be less than the total capacity of all the buffers.
 
 static Py_ssize_t
 os_readv_impl(PyObject *module, int fd, PyObject *buffers)
-/*[clinic end generated code: output=792da062d3fcebdb input=e679eb5dbfa0357d]*/
+/*[clinic end generated code: output=792da062d3fcebdb input=2173345340bebc2a]*/
 {
     Py_ssize_t cnt, n;
     int async_err = 0;
@@ -11652,6 +11791,7 @@ os_readv_impl(PyObject *module, int fd, PyObject *buffers)
 
 #ifdef HAVE_PREAD
 /*[clinic input]
+@c_stack_frugal
 os.pread
 
     fd: int
@@ -11667,7 +11807,7 @@ the beginning of the file.  The file offset remains unchanged.
 
 static PyObject *
 os_pread_impl(PyObject *module, int fd, Py_ssize_t length, Py_off_t offset)
-/*[clinic end generated code: output=3f875c1eef82e32f input=85cb4a5589627144]*/
+/*[clinic end generated code: output=3f875c1eef82e32f input=93faefc72125d631]*/
 {
     Py_ssize_t n;
     int async_err = 0;
@@ -11704,6 +11844,7 @@ os_pread_impl(PyObject *module, int fd, Py_ssize_t length, Py_off_t offset)
 
 #if defined(HAVE_PREADV) || defined (HAVE_PREADV2)
 /*[clinic input]
+@c_stack_frugal
 os.preadv -> Py_ssize_t
 
     fd: int
@@ -11732,7 +11873,7 @@ Using non-zero flags requires Linux 4.6 or newer.
 static Py_ssize_t
 os_preadv_impl(PyObject *module, int fd, PyObject *buffers, Py_off_t offset,
                int flags)
-/*[clinic end generated code: output=26fc9c6e58e7ada5 input=4173919dc1f7ed99]*/
+/*[clinic end generated code: output=26fc9c6e58e7ada5 input=5d0df77f70a6a75a]*/
 {
     Py_ssize_t cnt, n;
     int async_err = 0;
@@ -11807,6 +11948,7 @@ os_preadv_impl(PyObject *module, int fd, PyObject *buffers, Py_off_t offset,
 
 
 /*[clinic input]
+@c_stack_frugal
 os.write -> Py_ssize_t
 
     fd: int
@@ -11818,7 +11960,7 @@ Write a bytes object to a file descriptor.
 
 static Py_ssize_t
 os_write_impl(PyObject *module, int fd, Py_buffer *data)
-/*[clinic end generated code: output=e4ef5bc904b58ef9 input=3207e28963234f3c]*/
+/*[clinic end generated code: output=e4ef5bc904b58ef9 input=75e12039557ca32e]*/
 {
     return _Py_write(fd, data->buf, data->len);
 }
@@ -11826,6 +11968,7 @@ os_write_impl(PyObject *module, int fd, Py_buffer *data)
 #ifdef HAVE_SENDFILE
 #ifdef __APPLE__
 /*[clinic input]
+@c_stack_frugal
 os.sendfile
 
     out_fd: int
@@ -11843,9 +11986,10 @@ static PyObject *
 os_sendfile_impl(PyObject *module, int out_fd, int in_fd, Py_off_t offset,
                  Py_off_t sbytes, PyObject *headers, PyObject *trailers,
                  int flags)
-/*[clinic end generated code: output=81c4bcd143f5c82b input=b0d72579d4c69afa]*/
+/*[clinic end generated code: output=81c4bcd143f5c82b input=eedcfa08565c7d6a]*/
 #elif defined(__FreeBSD__) || defined(__DragonFly__)
 /*[clinic input]
+@c_stack_frugal
 os.sendfile
 
     out_fd: int
@@ -11863,9 +12007,10 @@ static PyObject *
 os_sendfile_impl(PyObject *module, int out_fd, int in_fd, Py_off_t offset,
                  Py_ssize_t count, PyObject *headers, PyObject *trailers,
                  int flags)
-/*[clinic end generated code: output=329ea009bdd55afc input=338adb8ff84ae8cd]*/
+/*[clinic end generated code: output=329ea009bdd55afc input=4b1888067a79f18a]*/
 #else
 /*[clinic input]
+@c_stack_frugal
 os.sendfile
 
     out_fd: int
@@ -11879,7 +12024,7 @@ Copy count bytes from file descriptor in_fd to file descriptor out_fd.
 static PyObject *
 os_sendfile_impl(PyObject *module, int out_fd, int in_fd, PyObject *offobj,
                  Py_ssize_t count)
-/*[clinic end generated code: output=ae81216e40f167d8 input=76d64058c74477ba]*/
+/*[clinic end generated code: output=ae81216e40f167d8 input=af5eb1838407cc48]*/
 #endif
 {
     Py_ssize_t ret;
@@ -12059,6 +12204,7 @@ done:
 
 #if defined(__APPLE__)
 /*[clinic input]
+@c_stack_frugal
 os._fcopyfile
 
     in_fd: int
@@ -12071,7 +12217,7 @@ Efficiently copy content or metadata of 2 regular file descriptors (macOS).
 
 static PyObject *
 os__fcopyfile_impl(PyObject *module, int in_fd, int out_fd, int flags)
-/*[clinic end generated code: output=c9d1a35a992e401b input=1e34638a86948795]*/
+/*[clinic end generated code: output=c9d1a35a992e401b input=c4778739bffde253]*/
 {
     int ret;
 
@@ -12086,6 +12232,7 @@ os__fcopyfile_impl(PyObject *module, int in_fd, int out_fd, int flags)
 
 
 /*[clinic input]
+@c_stack_frugal
 os.fstat
 
     fd : int
@@ -12098,7 +12245,7 @@ Equivalent to os.stat(fd).
 
 static PyObject *
 os_fstat_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=efc038cb5f654492 input=27e0e0ebbe5600c9]*/
+/*[clinic end generated code: output=efc038cb5f654492 input=f7b6713fd8c3caa4]*/
 {
     STRUCT_STAT st;
     int res;
@@ -12122,6 +12269,7 @@ os_fstat_impl(PyObject *module, int fd)
 
 
 /*[clinic input]
+@c_stack_frugal
 os.isatty -> bool
     fd: int
     /
@@ -12134,7 +12282,7 @@ connected to the slave end of a terminal.
 
 static int
 os_isatty_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=6a48c8b4e644ca00 input=08ce94aa1eaf7b5e]*/
+/*[clinic end generated code: output=6a48c8b4e644ca00 input=37e1e8ad1840e3f0]*/
 {
     int return_value;
     Py_BEGIN_ALLOW_THREADS
@@ -12148,6 +12296,7 @@ os_isatty_impl(PyObject *module, int fd)
 
 #ifdef HAVE_PIPE
 /*[clinic input]
+@c_stack_frugal
 os.pipe
 
 Create a pipe.
@@ -12158,7 +12307,7 @@ Returns a tuple of two file descriptors:
 
 static PyObject *
 os_pipe_impl(PyObject *module)
-/*[clinic end generated code: output=ff9b76255793b440 input=02535e8c8fa6c4d4]*/
+/*[clinic end generated code: output=ff9b76255793b440 input=2d2d5593079ed439]*/
 {
     int fds[2];
 #ifdef MS_WINDOWS
@@ -12229,6 +12378,7 @@ os_pipe_impl(PyObject *module)
 
 #ifdef HAVE_PIPE2
 /*[clinic input]
+@c_stack_frugal
 os.pipe2
 
     flags: int
@@ -12245,7 +12395,7 @@ O_NONBLOCK, O_CLOEXEC.
 
 static PyObject *
 os_pipe2_impl(PyObject *module, int flags)
-/*[clinic end generated code: output=25751fb43a45540f input=f261b6e7e63c6817]*/
+/*[clinic end generated code: output=25751fb43a45540f input=c866978e09f3c48d]*/
 {
     int fds[2];
     int res;
@@ -12260,6 +12410,7 @@ os_pipe2_impl(PyObject *module, int flags)
 
 #ifdef HAVE_WRITEV
 /*[clinic input]
+@c_stack_frugal
 os.writev -> Py_ssize_t
     fd: int
     buffers: object
@@ -12273,7 +12424,7 @@ buffers must be a sequence of bytes-like objects.
 
 static Py_ssize_t
 os_writev_impl(PyObject *module, int fd, PyObject *buffers)
-/*[clinic end generated code: output=56565cfac3aac15b input=5b8d17fe4189d2fe]*/
+/*[clinic end generated code: output=56565cfac3aac15b input=30e1759bfb57bcd1]*/
 {
     Py_ssize_t cnt;
     Py_ssize_t result;
@@ -12311,6 +12462,7 @@ os_writev_impl(PyObject *module, int fd, PyObject *buffers)
 
 #ifdef HAVE_PWRITE
 /*[clinic input]
+@c_stack_frugal
 os.pwrite -> Py_ssize_t
 
     fd: int
@@ -12327,7 +12479,7 @@ current file offset.
 
 static Py_ssize_t
 os_pwrite_impl(PyObject *module, int fd, Py_buffer *buffer, Py_off_t offset)
-/*[clinic end generated code: output=c74da630758ee925 input=614acbc7e5a0339a]*/
+/*[clinic end generated code: output=c74da630758ee925 input=69bf22634a5b9f45]*/
 {
     Py_ssize_t size;
     int async_err = 0;
@@ -12348,6 +12500,7 @@ os_pwrite_impl(PyObject *module, int fd, Py_buffer *buffer, Py_off_t offset)
 
 #if defined(HAVE_PWRITEV) || defined (HAVE_PWRITEV2)
 /*[clinic input]
+@c_stack_frugal
 os.pwritev -> Py_ssize_t
 
     fd: int
@@ -12377,7 +12530,7 @@ Using non-zero flags requires Linux 4.7 or newer.
 static Py_ssize_t
 os_pwritev_impl(PyObject *module, int fd, PyObject *buffers, Py_off_t offset,
                 int flags)
-/*[clinic end generated code: output=e3dd3e9d11a6a5c7 input=35358c327e1a2a8e]*/
+/*[clinic end generated code: output=e3dd3e9d11a6a5c7 input=a912f49ded289867]*/
 {
     Py_ssize_t cnt;
     Py_ssize_t result;
@@ -12452,6 +12605,7 @@ os_pwritev_impl(PyObject *module, int fd, PyObject *buffers, Py_off_t offset,
 
 #ifdef HAVE_COPY_FILE_RANGE
 /*[clinic input]
+@c_stack_frugal
 
 os.copy_file_range
     src: int
@@ -12474,7 +12628,7 @@ respectively for offset_dst.
 static PyObject *
 os_copy_file_range_impl(PyObject *module, int src, int dst, Py_ssize_t count,
                         PyObject *offset_src, PyObject *offset_dst)
-/*[clinic end generated code: output=1a91713a1d99fc7a input=42fdce72681b25a9]*/
+/*[clinic end generated code: output=1a91713a1d99fc7a input=1d4c51e4bd11a6c0]*/
 {
     off_t offset_src_val, offset_dst_val;
     off_t *p_offset_src = NULL;
@@ -12521,6 +12675,7 @@ os_copy_file_range_impl(PyObject *module, int src, int dst, Py_ssize_t count,
 
 #if (defined(HAVE_SPLICE) && !defined(_AIX))
 /*[clinic input]
+@c_stack_frugal
 
 os.splice
     src: int
@@ -12547,7 +12702,7 @@ static PyObject *
 os_splice_impl(PyObject *module, int src, int dst, Py_ssize_t count,
                PyObject *offset_src, PyObject *offset_dst,
                unsigned int flags)
-/*[clinic end generated code: output=d0386f25a8519dc5 input=047527c66c6d2e0a]*/
+/*[clinic end generated code: output=d0386f25a8519dc5 input=a257394f5df52350]*/
 {
     off_t offset_src_val, offset_dst_val;
     off_t *p_offset_src = NULL;
@@ -12590,6 +12745,7 @@ os_splice_impl(PyObject *module, int src, int dst, Py_ssize_t count,
 
 #ifdef HAVE_MKFIFO
 /*[clinic input]
+@c_stack_frugal
 os.mkfifo
 
     path: path_t
@@ -12607,7 +12763,7 @@ dir_fd may not be implemented on your platform.
 
 static PyObject *
 os_mkfifo_impl(PyObject *module, path_t *path, int mode, int dir_fd)
-/*[clinic end generated code: output=ce41cfad0e68c940 input=73032e98a36e0e19]*/
+/*[clinic end generated code: output=ce41cfad0e68c940 input=50ebe94f3a974527]*/
 {
     int result;
     int async_err = 0;
@@ -12650,6 +12806,7 @@ os_mkfifo_impl(PyObject *module, path_t *path, int mode, int dir_fd)
 
 #if defined(HAVE_MKNOD) && defined(HAVE_MAKEDEV)
 /*[clinic input]
+@c_stack_frugal
 os.mknod
 
     path: path_t
@@ -12676,7 +12833,7 @@ dir_fd may not be implemented on your platform.
 static PyObject *
 os_mknod_impl(PyObject *module, path_t *path, int mode, dev_t device,
               int dir_fd)
-/*[clinic end generated code: output=92e55d3ca8917461 input=ee44531551a4d83b]*/
+/*[clinic end generated code: output=92e55d3ca8917461 input=0e6ab35b6a7fb3ba]*/
 {
     int result;
     int async_err = 0;
@@ -12739,6 +12896,7 @@ major_minor_check(dev_t value)
 }
 
 /*[clinic input]
+@c_stack_frugal
 os.major
 
     device: dev_t
@@ -12749,13 +12907,14 @@ Extracts a device major number from a raw device number.
 
 static PyObject *
 os_major_impl(PyObject *module, dev_t device)
-/*[clinic end generated code: output=4071ffee17647891 input=b1a0a14ec9448229]*/
+/*[clinic end generated code: output=4071ffee17647891 input=1f17d7804c39743d]*/
 {
     return major_minor_conv(major(device));
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 os.minor
 
     device: dev_t
@@ -12766,13 +12925,14 @@ Extracts a device minor number from a raw device number.
 
 static PyObject *
 os_minor_impl(PyObject *module, dev_t device)
-/*[clinic end generated code: output=306cb78e3bc5004f input=2f686e463682a9da]*/
+/*[clinic end generated code: output=306cb78e3bc5004f input=f68fc5824047f2a2]*/
 {
     return major_minor_conv(minor(device));
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 os.makedev -> dev_t
 
     major: dev_t
@@ -12784,7 +12944,7 @@ Composes a raw device number from the major and minor device numbers.
 
 static dev_t
 os_makedev_impl(PyObject *module, dev_t major, dev_t minor)
-/*[clinic end generated code: output=cad6125c51f5af80 input=2146126ec02e55c1]*/
+/*[clinic end generated code: output=cad6125c51f5af80 input=8c9979873eeef69a]*/
 {
     if (!major_minor_check(major) || !major_minor_check(minor)) {
         PyErr_SetString(PyExc_OverflowError,
@@ -12798,6 +12958,7 @@ os_makedev_impl(PyObject *module, dev_t major, dev_t minor)
 
 #if defined HAVE_FTRUNCATE || defined MS_WINDOWS
 /*[clinic input]
+@c_stack_frugal
 os.ftruncate
 
     fd: int
@@ -12809,7 +12970,7 @@ Truncate a file, specified by file descriptor, to a specific length.
 
 static PyObject *
 os_ftruncate_impl(PyObject *module, int fd, Py_off_t length)
-/*[clinic end generated code: output=fba15523721be7e4 input=63b43641e52818f2]*/
+/*[clinic end generated code: output=fba15523721be7e4 input=c675b40beef50664]*/
 {
     int result;
     int async_err = 0;
@@ -12839,6 +13000,7 @@ os_ftruncate_impl(PyObject *module, int fd, Py_off_t length)
 
 #if defined HAVE_TRUNCATE || defined MS_WINDOWS
 /*[clinic input]
+@c_stack_frugal
 os.truncate
     path: path_t(allow_fd='PATH_HAVE_FTRUNCATE')
     length: Py_off_t
@@ -12851,7 +13013,7 @@ On some platforms, path may also be specified as an open file descriptor.
 
 static PyObject *
 os_truncate_impl(PyObject *module, path_t *path, Py_off_t length)
-/*[clinic end generated code: output=43009c8df5c0a12b input=77229cf0b50a9b77]*/
+/*[clinic end generated code: output=43009c8df5c0a12b input=cb887d68acdb8606]*/
 {
     int result;
 #ifdef MS_WINDOWS
@@ -12904,6 +13066,7 @@ os_truncate_impl(PyObject *module, path_t *path, Py_off_t length)
 #if defined(HAVE_POSIX_FALLOCATE) && !defined(POSIX_FADVISE_AIX_BUG) && \
     !defined(__wasi__)
 /*[clinic input]
+@c_stack_frugal
 os.posix_fallocate
 
     fd: int
@@ -12920,7 +13083,7 @@ starting at offset bytes from the beginning and continuing for length bytes.
 static PyObject *
 os_posix_fallocate_impl(PyObject *module, int fd, Py_off_t offset,
                         Py_off_t length)
-/*[clinic end generated code: output=73f107139564aa9d input=d7a2ef0ab2ca52fb]*/
+/*[clinic end generated code: output=73f107139564aa9d input=bf771a02a5dbb861]*/
 {
     int result;
     int async_err = 0;
@@ -12945,6 +13108,7 @@ os_posix_fallocate_impl(PyObject *module, int fd, Py_off_t offset,
 
 #if defined(HAVE_POSIX_FADVISE) && !defined(POSIX_FADVISE_AIX_BUG)
 /*[clinic input]
+@c_stack_frugal
 os.posix_fadvise
 
     fd: int
@@ -12967,7 +13131,7 @@ POSIX_FADV_DONTNEED.
 static PyObject *
 os_posix_fadvise_impl(PyObject *module, int fd, Py_off_t offset,
                       Py_off_t length, int advice)
-/*[clinic end generated code: output=412ef4aa70c98642 input=0fbe554edc2f04b5]*/
+/*[clinic end generated code: output=412ef4aa70c98642 input=8e2c3c3893ccca49]*/
 {
     int result;
     int async_err = 0;
@@ -13056,6 +13220,7 @@ win32_putenv(PyObject *name, PyObject *value)
 
 #ifdef MS_WINDOWS
 /*[clinic input]
+@c_stack_frugal
 os.putenv
 
     name: unicode
@@ -13067,7 +13232,7 @@ Change or add an environment variable.
 
 static PyObject *
 os_putenv_impl(PyObject *module, PyObject *name, PyObject *value)
-/*[clinic end generated code: output=d29a567d6b2327d2 input=ba586581c2e6105f]*/
+/*[clinic end generated code: output=d29a567d6b2327d2 input=2db4fb02e0675150]*/
 {
     if (PySys_Audit("os.putenv", "OO", name, value) < 0) {
         return NULL;
@@ -13076,6 +13241,7 @@ os_putenv_impl(PyObject *module, PyObject *name, PyObject *value)
 }
 #else
 /*[clinic input]
+@c_stack_frugal
 os.putenv
 
     name: FSConverter
@@ -13087,7 +13253,7 @@ Change or add an environment variable.
 
 static PyObject *
 os_putenv_impl(PyObject *module, PyObject *name, PyObject *value)
-/*[clinic end generated code: output=d29a567d6b2327d2 input=a97bc6152f688d31]*/
+/*[clinic end generated code: output=d29a567d6b2327d2 input=4924e34beeddbf74]*/
 {
     const char *name_string = PyBytes_AS_STRING(name);
     const char *value_string = PyBytes_AS_STRING(value);
@@ -13111,6 +13277,7 @@ os_putenv_impl(PyObject *module, PyObject *name, PyObject *value)
 
 #ifdef MS_WINDOWS
 /*[clinic input]
+@c_stack_frugal
 os.unsetenv
     name: unicode
     /
@@ -13120,7 +13287,7 @@ Delete an environment variable.
 
 static PyObject *
 os_unsetenv_impl(PyObject *module, PyObject *name)
-/*[clinic end generated code: output=54c4137ab1834f02 input=4d6a1747cc526d2f]*/
+/*[clinic end generated code: output=54c4137ab1834f02 input=8cdba92607cf22ff]*/
 {
     if (PySys_Audit("os.unsetenv", "(O)", name) < 0) {
         return NULL;
@@ -13129,6 +13296,7 @@ os_unsetenv_impl(PyObject *module, PyObject *name)
 }
 #else
 /*[clinic input]
+@c_stack_frugal
 os.unsetenv
     name: FSConverter
     /
@@ -13138,7 +13306,7 @@ Delete an environment variable.
 
 static PyObject *
 os_unsetenv_impl(PyObject *module, PyObject *name)
-/*[clinic end generated code: output=54c4137ab1834f02 input=2bb5288a599c7107]*/
+/*[clinic end generated code: output=54c4137ab1834f02 input=d45473e38cdaf75c]*/
 {
     if (PySys_Audit("os.unsetenv", "(O)", name) < 0) {
         return NULL;
@@ -13158,6 +13326,7 @@ os_unsetenv_impl(PyObject *module, PyObject *name)
 
 
 /*[clinic input]
+@c_stack_frugal
 os.strerror
 
     code: int
@@ -13168,7 +13337,7 @@ Translate an error code to a message string.
 
 static PyObject *
 os_strerror_impl(PyObject *module, int code)
-/*[clinic end generated code: output=baebf09fa02a78f2 input=75a8673d97915a91]*/
+/*[clinic end generated code: output=baebf09fa02a78f2 input=8435de785dd9966b]*/
 {
     char *message = strerror(code);
     if (message == NULL) {
@@ -13183,6 +13352,7 @@ os_strerror_impl(PyObject *module, int code)
 #ifdef HAVE_SYS_WAIT_H
 #ifdef WCOREDUMP
 /*[clinic input]
+@c_stack_frugal
 os.WCOREDUMP -> bool
 
     status: int
@@ -13193,7 +13363,7 @@ Return True if the process returning status was dumped to a core file.
 
 static int
 os_WCOREDUMP_impl(PyObject *module, int status)
-/*[clinic end generated code: output=1a584b147b16bd18 input=8b05e7ab38528d04]*/
+/*[clinic end generated code: output=1a584b147b16bd18 input=62493fc876d09341]*/
 {
     WAIT_TYPE wait_status;
     WAIT_STATUS_INT(wait_status) = status;
@@ -13204,6 +13374,7 @@ os_WCOREDUMP_impl(PyObject *module, int status)
 
 #ifdef WIFCONTINUED
 /*[clinic input]
+@c_stack_frugal
 os.WIFCONTINUED -> bool
 
     status: int
@@ -13216,7 +13387,7 @@ job control stop.
 
 static int
 os_WIFCONTINUED_impl(PyObject *module, int status)
-/*[clinic end generated code: output=1e35295d844364bd input=e777e7d38eb25bd9]*/
+/*[clinic end generated code: output=1e35295d844364bd input=9b6bc710ca7951a2]*/
 {
     WAIT_TYPE wait_status;
     WAIT_STATUS_INT(wait_status) = status;
@@ -13227,6 +13398,7 @@ os_WIFCONTINUED_impl(PyObject *module, int status)
 
 #ifdef WIFSTOPPED
 /*[clinic input]
+@c_stack_frugal
 os.WIFSTOPPED -> bool
 
     status: int
@@ -13236,7 +13408,7 @@ Return True if the process returning status was stopped.
 
 static int
 os_WIFSTOPPED_impl(PyObject *module, int status)
-/*[clinic end generated code: output=fdb57122a5c9b4cb input=043cb7f1289ef904]*/
+/*[clinic end generated code: output=fdb57122a5c9b4cb input=448032baf2b918e9]*/
 {
     WAIT_TYPE wait_status;
     WAIT_STATUS_INT(wait_status) = status;
@@ -13247,6 +13419,7 @@ os_WIFSTOPPED_impl(PyObject *module, int status)
 
 #ifdef WIFSIGNALED
 /*[clinic input]
+@c_stack_frugal
 os.WIFSIGNALED -> bool
 
     status: int
@@ -13256,7 +13429,7 @@ Return True if the process returning status was terminated by a signal.
 
 static int
 os_WIFSIGNALED_impl(PyObject *module, int status)
-/*[clinic end generated code: output=d1dde4dcc819a5f5 input=d55ba7cc9ce5dc43]*/
+/*[clinic end generated code: output=d1dde4dcc819a5f5 input=326edb008bb06396]*/
 {
     WAIT_TYPE wait_status;
     WAIT_STATUS_INT(wait_status) = status;
@@ -13267,6 +13440,7 @@ os_WIFSIGNALED_impl(PyObject *module, int status)
 
 #ifdef WIFEXITED
 /*[clinic input]
+@c_stack_frugal
 os.WIFEXITED -> bool
 
     status: int
@@ -13276,7 +13450,7 @@ Return True if the process returning status exited via the exit() system call.
 
 static int
 os_WIFEXITED_impl(PyObject *module, int status)
-/*[clinic end generated code: output=01c09d6ebfeea397 input=d63775a6791586c0]*/
+/*[clinic end generated code: output=01c09d6ebfeea397 input=3f9c39b0054cdcf2]*/
 {
     WAIT_TYPE wait_status;
     WAIT_STATUS_INT(wait_status) = status;
@@ -13287,6 +13461,7 @@ os_WIFEXITED_impl(PyObject *module, int status)
 
 #ifdef WEXITSTATUS
 /*[clinic input]
+@c_stack_frugal
 os.WEXITSTATUS -> int
 
     status: int
@@ -13296,7 +13471,7 @@ Return the process return code from status.
 
 static int
 os_WEXITSTATUS_impl(PyObject *module, int status)
-/*[clinic end generated code: output=6e3efbba11f6488d input=e1fb4944e377585b]*/
+/*[clinic end generated code: output=6e3efbba11f6488d input=0288f8e6a1015578]*/
 {
     WAIT_TYPE wait_status;
     WAIT_STATUS_INT(wait_status) = status;
@@ -13307,6 +13482,7 @@ os_WEXITSTATUS_impl(PyObject *module, int status)
 
 #ifdef WTERMSIG
 /*[clinic input]
+@c_stack_frugal
 os.WTERMSIG -> int
 
     status: int
@@ -13316,7 +13492,7 @@ Return the signal that terminated the process that provided the status value.
 
 static int
 os_WTERMSIG_impl(PyObject *module, int status)
-/*[clinic end generated code: output=172f7dfc8dcfc3ad input=727fd7f84ec3f243]*/
+/*[clinic end generated code: output=172f7dfc8dcfc3ad input=7cfc40eb49bc055c]*/
 {
     WAIT_TYPE wait_status;
     WAIT_STATUS_INT(wait_status) = status;
@@ -13327,6 +13503,7 @@ os_WTERMSIG_impl(PyObject *module, int status)
 
 #ifdef WSTOPSIG
 /*[clinic input]
+@c_stack_frugal
 os.WSTOPSIG -> int
 
     status: int
@@ -13336,7 +13513,7 @@ Return the signal that stopped the process that provided the status value.
 
 static int
 os_WSTOPSIG_impl(PyObject *module, int status)
-/*[clinic end generated code: output=0ab7586396f5d82b input=46ebf1d1b293c5c1]*/
+/*[clinic end generated code: output=0ab7586396f5d82b input=2a12bcc239a157c4]*/
 {
     WAIT_TYPE wait_status;
     WAIT_STATUS_INT(wait_status) = status;
@@ -13469,6 +13646,7 @@ _pystatvfs_fromstructstatvfs(PyObject *module, struct statvfs st) {
 
 
 /*[clinic input]
+@c_stack_frugal
 os.fstatvfs
     fd: int
     /
@@ -13480,7 +13658,7 @@ Equivalent to statvfs(fd).
 
 static PyObject *
 os_fstatvfs_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=53547cf0cc55e6c5 input=d8122243ac50975e]*/
+/*[clinic end generated code: output=53547cf0cc55e6c5 input=1267e0d787d8886e]*/
 {
     int result;
     int async_err = 0;
@@ -13520,6 +13698,7 @@ os_fstatvfs_impl(PyObject *module, int fd)
 #if defined(HAVE_STATVFS) && defined(HAVE_SYS_STATVFS_H)
 #include <sys/statvfs.h>
 /*[clinic input]
+@c_stack_frugal
 os.statvfs
 
     path: path_t(allow_fd='PATH_HAVE_FSTATVFS')
@@ -13533,7 +13712,7 @@ On some platforms, path may also be specified as an open file descriptor.
 
 static PyObject *
 os_statvfs_impl(PyObject *module, path_t *path)
-/*[clinic end generated code: output=87106dd1beb8556e input=3f5c35791c669bd9]*/
+/*[clinic end generated code: output=87106dd1beb8556e input=cfcb830b81da9ef5]*/
 {
     int result;
 
@@ -13582,6 +13761,7 @@ os_statvfs_impl(PyObject *module, path_t *path)
 
 #ifdef MS_WINDOWS
 /*[clinic input]
+@c_stack_frugal
 os._getdiskusage
 
     path: path_t
@@ -13591,7 +13771,7 @@ Return disk usage statistics about the given path as a (total, free) tuple.
 
 static PyObject *
 os__getdiskusage_impl(PyObject *module, path_t *path)
-/*[clinic end generated code: output=3bd3991f5e5c5dfb input=6af8d1b7781cc042]*/
+/*[clinic end generated code: output=3bd3991f5e5c5dfb input=527f246d668c07e6]*/
 {
     BOOL retval;
     ULARGE_INTEGER _, total, free;
@@ -13776,6 +13956,7 @@ static struct constdef  posix_constants_pathconf[] = {
 
 #ifdef HAVE_FPATHCONF
 /*[clinic input]
+@c_stack_frugal
 os.fpathconf -> long
 
     fd: fildes
@@ -13789,7 +13970,7 @@ If there is no limit, return -1.
 
 static long
 os_fpathconf_impl(PyObject *module, int fd, int name)
-/*[clinic end generated code: output=d5b7042425fc3e21 input=023d44589c9ed6aa]*/
+/*[clinic end generated code: output=d5b7042425fc3e21 input=2d485bb5d2a86c22]*/
 {
     long limit;
 
@@ -13805,6 +13986,7 @@ os_fpathconf_impl(PyObject *module, int fd, int name)
 
 #ifdef HAVE_PATHCONF
 /*[clinic input]
+@c_stack_frugal
 os.pathconf -> long
     path: path_t(allow_fd='PATH_HAVE_FPATHCONF')
     name: confname(table="pathconf_names")
@@ -13818,7 +14000,7 @@ On some platforms, path may also be specified as an open file descriptor.
 
 static long
 os_pathconf_impl(PyObject *module, path_t *path, int name)
-/*[clinic end generated code: output=5bedee35b293a089 input=6f6072f57b10c787]*/
+/*[clinic end generated code: output=5bedee35b293a089 input=25ecbb294065a5b5]*/
 {
     long limit;
 
@@ -13997,6 +14179,7 @@ static struct constdef posix_constants_confstr[] = {
 
 
 /*[clinic input]
+@c_stack_frugal
 os.confstr
 
     name: confname(table="confstr_names")
@@ -14007,7 +14190,7 @@ Return a string-valued system configuration variable.
 
 static PyObject *
 os_confstr_impl(PyObject *module, int name)
-/*[clinic end generated code: output=bfb0b1b1e49b9383 input=4c6ffca2837ec959]*/
+/*[clinic end generated code: output=bfb0b1b1e49b9383 input=0b71d70654b08c36]*/
 {
     PyObject *result = NULL;
     char buffer[255];
@@ -14546,6 +14729,7 @@ static struct constdef posix_constants_sysconf[] = {
 
 
 /*[clinic input]
+@c_stack_frugal
 os.sysconf -> long
     name: confname(table="sysconf_names")
     /
@@ -14555,7 +14739,7 @@ Return an integer-valued system configuration variable.
 
 static long
 os_sysconf_impl(PyObject *module, int name)
-/*[clinic end generated code: output=3662f945fc0cc756 input=930b8f23b5d15086]*/
+/*[clinic end generated code: output=3662f945fc0cc756 input=b51350563355f9d5]*/
 {
     long value;
 
@@ -14618,6 +14802,7 @@ setup_confname_tables(PyObject *module)
 
 
 /*[clinic input]
+@c_stack_frugal
 os.abort
 
 Abort the interpreter immediately.
@@ -14628,7 +14813,7 @@ on the hosting operating system.  This function never returns.
 
 static PyObject *
 os_abort_impl(PyObject *module)
-/*[clinic end generated code: output=dcf52586dad2467c input=cf2c7d98bc504047]*/
+/*[clinic end generated code: output=dcf52586dad2467c input=5dcf540d0facbd64]*/
 {
     abort();
     /*NOTREACHED*/
@@ -14673,6 +14858,7 @@ check_ShellExecute(void)
 
 
 /*[clinic input]
+@c_stack_frugal
 os.startfile
     filepath: path_t
     operation: Py_UNICODE = NULL
@@ -14712,7 +14898,7 @@ static PyObject *
 os_startfile_impl(PyObject *module, path_t *filepath,
                   const wchar_t *operation, const wchar_t *arguments,
                   path_t *cwd, int show_cmd)
-/*[clinic end generated code: output=1c6f2f3340e31ffa input=8248997b80669622]*/
+/*[clinic end generated code: output=1c6f2f3340e31ffa input=fcec7a84fd09b99c]*/
 {
     HINSTANCE rc;
 
@@ -14748,6 +14934,7 @@ os_startfile_impl(PyObject *module, path_t *filepath,
 
 #ifdef HAVE_GETLOADAVG
 /*[clinic input]
+@c_stack_frugal
 os.getloadavg
 
 Return average recent system load information.
@@ -14759,7 +14946,7 @@ Raises OSError if the load average was unobtainable.
 
 static PyObject *
 os_getloadavg_impl(PyObject *module)
-/*[clinic end generated code: output=9ad3a11bfb4f4bd2 input=3d6d826b76d8a34e]*/
+/*[clinic end generated code: output=9ad3a11bfb4f4bd2 input=e33bbcb531d792c7]*/
 {
     double loadavg[3];
     if (getloadavg(loadavg, 3)!=3) {
@@ -14772,6 +14959,7 @@ os_getloadavg_impl(PyObject *module)
 
 
 /*[clinic input]
+@c_stack_frugal
 os.device_encoding
     fd: int
 
@@ -14783,7 +14971,7 @@ If the device is not a terminal, return None.
 
 static PyObject *
 os_device_encoding_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=e0d294bbab7e8c2b input=9e1d4a42b66df312]*/
+/*[clinic end generated code: output=e0d294bbab7e8c2b input=fe83379293071870]*/
 {
     return _Py_device_encoding(fd);
 }
@@ -14791,6 +14979,7 @@ os_device_encoding_impl(PyObject *module, int fd)
 
 #ifdef HAVE_SETRESUID
 /*[clinic input]
+@c_stack_frugal
 os.setresuid
 
     ruid: uid_t
@@ -14803,7 +14992,7 @@ Set the current process's real, effective, and saved user ids.
 
 static PyObject *
 os_setresuid_impl(PyObject *module, uid_t ruid, uid_t euid, uid_t suid)
-/*[clinic end generated code: output=834a641e15373e97 input=9e33cb79a82792f3]*/
+/*[clinic end generated code: output=834a641e15373e97 input=a64cc96428255c5f]*/
 {
     if (setresuid(ruid, euid, suid) < 0)
         return posix_error();
@@ -14814,6 +15003,7 @@ os_setresuid_impl(PyObject *module, uid_t ruid, uid_t euid, uid_t suid)
 
 #ifdef HAVE_SETRESGID
 /*[clinic input]
+@c_stack_frugal
 os.setresgid
 
     rgid: gid_t
@@ -14826,7 +15016,7 @@ Set the current process's real, effective, and saved group ids.
 
 static PyObject *
 os_setresgid_impl(PyObject *module, gid_t rgid, gid_t egid, gid_t sgid)
-/*[clinic end generated code: output=6aa402f3d2e514a9 input=33e9e0785ef426b1]*/
+/*[clinic end generated code: output=6aa402f3d2e514a9 input=73e42547de7e3920]*/
 {
     if (setresgid(rgid, egid, sgid) < 0)
         return posix_error();
@@ -14837,6 +15027,7 @@ os_setresgid_impl(PyObject *module, gid_t rgid, gid_t egid, gid_t sgid)
 
 #ifdef HAVE_GETRESUID
 /*[clinic input]
+@c_stack_frugal
 os.getresuid
 
 Return a tuple of the current process's real, effective, and saved user ids.
@@ -14844,7 +15035,7 @@ Return a tuple of the current process's real, effective, and saved user ids.
 
 static PyObject *
 os_getresuid_impl(PyObject *module)
-/*[clinic end generated code: output=8e0becff5dece5bf input=41ccfa8e1f6517ad]*/
+/*[clinic end generated code: output=8e0becff5dece5bf input=423242288a108016]*/
 {
     uid_t ruid, euid, suid;
     if (getresuid(&ruid, &euid, &suid) < 0)
@@ -14858,6 +15049,7 @@ os_getresuid_impl(PyObject *module)
 
 #ifdef HAVE_GETRESGID
 /*[clinic input]
+@c_stack_frugal
 os.getresgid
 
 Return a tuple of the current process's real, effective, and saved group ids.
@@ -14865,7 +15057,7 @@ Return a tuple of the current process's real, effective, and saved group ids.
 
 static PyObject *
 os_getresgid_impl(PyObject *module)
-/*[clinic end generated code: output=2719c4bfcf27fb9f input=517e68db9ca32df6]*/
+/*[clinic end generated code: output=2719c4bfcf27fb9f input=a2b7d2d60985f7d5]*/
 {
     gid_t rgid, egid, sgid;
     if (getresgid(&rgid, &egid, &sgid) < 0)
@@ -14879,6 +15071,7 @@ os_getresgid_impl(PyObject *module)
 
 #ifdef USE_XATTRS
 /*[clinic input]
+@c_stack_frugal
 os.getxattr
 
     path: path_t(allow_fd=True)
@@ -14898,7 +15091,7 @@ If follow_symlinks is False, and the last element of the path is a symbolic
 static PyObject *
 os_getxattr_impl(PyObject *module, path_t *path, path_t *attribute,
                  int follow_symlinks)
-/*[clinic end generated code: output=5f2f44200a43cff2 input=025789491708f7eb]*/
+/*[clinic end generated code: output=5f2f44200a43cff2 input=3c5d58e9a57a7d62]*/
 {
     Py_ssize_t i;
     PyObject *buffer = NULL;
@@ -14955,6 +15148,7 @@ os_getxattr_impl(PyObject *module, path_t *path, path_t *attribute,
 
 
 /*[clinic input]
+@c_stack_frugal
 os.setxattr
 
     path: path_t(allow_fd=True)
@@ -14976,7 +15170,7 @@ If follow_symlinks is False, and the last element of the path is a symbolic
 static PyObject *
 os_setxattr_impl(PyObject *module, path_t *path, path_t *attribute,
                  Py_buffer *value, int flags, int follow_symlinks)
-/*[clinic end generated code: output=98b83f63fdde26bb input=c17c0103009042f0]*/
+/*[clinic end generated code: output=98b83f63fdde26bb input=9eb838fd35094fdc]*/
 {
     ssize_t result;
 
@@ -15010,6 +15204,7 @@ os_setxattr_impl(PyObject *module, path_t *path, path_t *attribute,
 
 
 /*[clinic input]
+@c_stack_frugal
 os.removexattr
 
     path: path_t(allow_fd=True)
@@ -15029,7 +15224,7 @@ If follow_symlinks is False, and the last element of the path is a symbolic
 static PyObject *
 os_removexattr_impl(PyObject *module, path_t *path, path_t *attribute,
                     int follow_symlinks)
-/*[clinic end generated code: output=521a51817980cda6 input=3d9a7d36fe2f7c4e]*/
+/*[clinic end generated code: output=521a51817980cda6 input=824ffbd9ea699da4]*/
 {
     ssize_t result;
 
@@ -15058,6 +15253,7 @@ os_removexattr_impl(PyObject *module, path_t *path, path_t *attribute,
 
 
 /*[clinic input]
+@c_stack_frugal
 os.listxattr
 
     path: path_t(allow_fd=True, nullable=True) = None
@@ -15075,7 +15271,7 @@ If follow_symlinks is False, and the last element of the path is a symbolic
 
 static PyObject *
 os_listxattr_impl(PyObject *module, path_t *path, int follow_symlinks)
-/*[clinic end generated code: output=bebdb4e2ad0ce435 input=9826edf9fdb90869]*/
+/*[clinic end generated code: output=bebdb4e2ad0ce435 input=2f7ad919527a61fc]*/
 {
     Py_ssize_t i;
     PyObject *result = NULL;
@@ -15162,6 +15358,7 @@ exit:
 
 
 /*[clinic input]
+@c_stack_frugal
 os.urandom
 
     size: Py_ssize_t
@@ -15172,7 +15369,7 @@ Return a bytes object containing random bytes suitable for cryptographic use.
 
 static PyObject *
 os_urandom_impl(PyObject *module, Py_ssize_t size)
-/*[clinic end generated code: output=42c5cca9d18068e9 input=4067cdb1b6776c29]*/
+/*[clinic end generated code: output=42c5cca9d18068e9 input=a847d1924b890214]*/
 {
     PyObject *bytes;
     int result;
@@ -15194,6 +15391,7 @@ os_urandom_impl(PyObject *module, Py_ssize_t size)
 
 #ifdef HAVE_MEMFD_CREATE
 /*[clinic input]
+@c_stack_frugal
 os.memfd_create
 
     name: FSConverter
@@ -15203,7 +15401,7 @@ os.memfd_create
 
 static PyObject *
 os_memfd_create_impl(PyObject *module, PyObject *name, unsigned int flags)
-/*[clinic end generated code: output=6681ede983bdb9a6 input=a42cfc199bcd56e9]*/
+/*[clinic end generated code: output=6681ede983bdb9a6 input=c3609b89236c4bbf]*/
 {
     int fd;
     const char *bytes = PyBytes_AS_STRING(name);
@@ -15219,6 +15417,7 @@ os_memfd_create_impl(PyObject *module, PyObject *name, unsigned int flags)
 
 #if defined(HAVE_EVENTFD) && defined(EFD_CLOEXEC)
 /*[clinic input]
+@c_stack_frugal
 os.eventfd
 
     initval: unsigned_int
@@ -15229,7 +15428,7 @@ Creates and returns an event notification file descriptor.
 
 static PyObject *
 os_eventfd_impl(PyObject *module, unsigned int initval, int flags)
-/*[clinic end generated code: output=ce9c9bbd1446f2de input=66203e3c50c4028b]*/
+/*[clinic end generated code: output=ce9c9bbd1446f2de input=9d6bd251d5c07ffc]*/
 
 {
     /* initval is limited to uint32_t, internal counter is uint64_t */
@@ -15244,6 +15443,7 @@ os_eventfd_impl(PyObject *module, unsigned int initval, int flags)
 }
 
 /*[clinic input]
+@c_stack_frugal
 os.eventfd_read
 
     fd: fildes
@@ -15253,7 +15453,7 @@ Read eventfd value
 
 static PyObject *
 os_eventfd_read_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=8f2c7b59a3521fd1 input=110f8b57fa596afe]*/
+/*[clinic end generated code: output=8f2c7b59a3521fd1 input=d7eb71d0663b7ac3]*/
 {
     eventfd_t value;
     int result;
@@ -15267,6 +15467,7 @@ os_eventfd_read_impl(PyObject *module, int fd)
 }
 
 /*[clinic input]
+@c_stack_frugal
 os.eventfd_write
 
     fd: fildes
@@ -15277,7 +15478,7 @@ Write eventfd value.
 
 static PyObject *
 os_eventfd_write_impl(PyObject *module, int fd, unsigned long long value)
-/*[clinic end generated code: output=bebd9040bbf987f5 input=156de8555be5a949]*/
+/*[clinic end generated code: output=bebd9040bbf987f5 input=658cf1d53d01910f]*/
 {
     int result;
     Py_BEGIN_ALLOW_THREADS
@@ -15310,6 +15511,7 @@ static PyStructSequence_Desc TerminalSize_desc = {
 
 #if defined(TERMSIZE_USE_CONIO) || defined(TERMSIZE_USE_IOCTL)
 /*[clinic input]
+@c_stack_frugal
 os.get_terminal_size
 
     fd: int(c_default="fileno(stdout)", py_default="<unrepresentable>") = -1
@@ -15332,7 +15534,7 @@ normally be used, os.get_terminal_size is the low-level implementation.
 
 static PyObject *
 os_get_terminal_size_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=fbab93acef980508 input=ead5679b82ddb920]*/
+/*[clinic end generated code: output=fbab93acef980508 input=17854731e80810fe]*/
 {
     int columns, lines;
     PyObject *termsize;
@@ -15397,6 +15599,7 @@ os_get_terminal_size_impl(PyObject *module, int fd)
 #endif /* defined(TERMSIZE_USE_CONIO) || defined(TERMSIZE_USE_IOCTL) */
 
 /*[clinic input]
+@c_stack_frugal
 os.cpu_count
 
 Return the number of logical CPUs in the system.
@@ -15406,7 +15609,7 @@ Return None if indeterminable.
 
 static PyObject *
 os_cpu_count_impl(PyObject *module)
-/*[clinic end generated code: output=5fc29463c3936a9c input=ba2f6f8980a0e2eb]*/
+/*[clinic end generated code: output=5fc29463c3936a9c input=ef8ce2844f2c06d8]*/
 {
     const PyConfig *config = _Py_GetConfig();
     if (config->cpu_count > 0) {
@@ -15451,6 +15654,7 @@ os_cpu_count_impl(PyObject *module)
 
 
 /*[clinic input]
+@c_stack_frugal
 os.get_inheritable -> bool
 
     fd: int
@@ -15461,7 +15665,7 @@ Get the close-on-exe flag of the specified file descriptor.
 
 static int
 os_get_inheritable_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=0445e20e149aa5b8 input=89ac008dc9ab6b95]*/
+/*[clinic end generated code: output=0445e20e149aa5b8 input=6bc8805ad2f02ed1]*/
 {
     int return_value;
     _Py_BEGIN_SUPPRESS_IPH
@@ -15472,6 +15676,7 @@ os_get_inheritable_impl(PyObject *module, int fd)
 
 
 /*[clinic input]
+@c_stack_frugal
 os.set_inheritable
     fd: int
     inheritable: int
@@ -15482,7 +15687,7 @@ Set the inheritable flag of the specified file descriptor.
 
 static PyObject *
 os_set_inheritable_impl(PyObject *module, int fd, int inheritable)
-/*[clinic end generated code: output=f1b1918a2f3c38c2 input=9ceaead87a1e2402]*/
+/*[clinic end generated code: output=f1b1918a2f3c38c2 input=f633d40d307a6015]*/
 {
     int result;
 
@@ -15501,6 +15706,7 @@ os_set_inheritable_impl(PyObject *module, int fd, int inheritable)
 #endif
 
 /*[clinic input]
+@c_stack_frugal
 os.get_handle_inheritable -> bool
     handle: intptr_t
     /
@@ -15510,7 +15716,7 @@ Get the close-on-exe flag of the specified file descriptor.
 
 static int
 os_get_handle_inheritable_impl(PyObject *module, intptr_t handle)
-/*[clinic end generated code: output=36be5afca6ea84d8 input=cfe99f9c05c70ad1]*/
+/*[clinic end generated code: output=36be5afca6ea84d8 input=9d64327a6545ebcd]*/
 {
     DWORD flags;
 
@@ -15524,6 +15730,7 @@ os_get_handle_inheritable_impl(PyObject *module, intptr_t handle)
 
 
 /*[clinic input]
+@c_stack_frugal
 os.set_handle_inheritable
     handle: intptr_t
     inheritable: bool
@@ -15535,7 +15742,7 @@ Set the inheritable flag of the specified handle.
 static PyObject *
 os_set_handle_inheritable_impl(PyObject *module, intptr_t handle,
                                int inheritable)
-/*[clinic end generated code: output=021d74fe6c96baa3 input=7a7641390d8364fc]*/
+/*[clinic end generated code: output=021d74fe6c96baa3 input=88641fa676a76b18]*/
 {
     DWORD flags = inheritable ? HANDLE_FLAG_INHERIT : 0;
     if (!SetHandleInformation((HANDLE)handle, HANDLE_FLAG_INHERIT, flags)) {
@@ -15547,6 +15754,7 @@ os_set_handle_inheritable_impl(PyObject *module, intptr_t handle,
 #endif /* MS_WINDOWS */
 
 /*[clinic input]
+@c_stack_frugal
 os.get_blocking -> bool
     fd: int
     /
@@ -15558,7 +15766,7 @@ Return False if the O_NONBLOCK flag is set, True if the flag is cleared.
 
 static int
 os_get_blocking_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=336a12ad76a61482 input=f4afb59d51560179]*/
+/*[clinic end generated code: output=336a12ad76a61482 input=49e41b3790ff0dfe]*/
 {
     int blocking;
 
@@ -15569,6 +15777,7 @@ os_get_blocking_impl(PyObject *module, int fd)
 }
 
 /*[clinic input]
+@c_stack_frugal
 os.set_blocking
     fd: int
     blocking: bool
@@ -15582,7 +15791,7 @@ clear the O_NONBLOCK flag otherwise.
 
 static PyObject *
 os_set_blocking_impl(PyObject *module, int fd, int blocking)
-/*[clinic end generated code: output=384eb43aa0762a9d input=7e9dfc9b14804dd4]*/
+/*[clinic end generated code: output=384eb43aa0762a9d input=8d9d9324ee5d2340]*/
 {
     int result;
 
@@ -15642,6 +15851,7 @@ DirEntry_test_mode(PyTypeObject *defining_class, DirEntry *self,
                    int follow_symlinks, unsigned short mode_bits);
 
 /*[clinic input]
+@c_stack_frugal
 os.DirEntry.is_symlink -> bool
     defining_class: defining_class
     /
@@ -15651,7 +15861,7 @@ Return True if the entry is a symbolic link; cached per entry.
 
 static int
 os_DirEntry_is_symlink_impl(DirEntry *self, PyTypeObject *defining_class)
-/*[clinic end generated code: output=293096d589b6d47c input=e9acc5ee4d511113]*/
+/*[clinic end generated code: output=293096d589b6d47c input=595fb4c0ab3e3c48]*/
 {
 #ifdef MS_WINDOWS
     return (self->win32_lstat.st_mode & S_IFMT) == S_IFLNK;
@@ -15668,6 +15878,7 @@ os_DirEntry_is_symlink_impl(DirEntry *self, PyTypeObject *defining_class)
 }
 
 /*[clinic input]
+@c_stack_frugal
 os.DirEntry.is_junction -> bool
 
 Return True if the entry is a junction; cached per entry.
@@ -15675,7 +15886,7 @@ Return True if the entry is a junction; cached per entry.
 
 static int
 os_DirEntry_is_junction_impl(DirEntry *self)
-/*[clinic end generated code: output=97f64d5d99eeccb5 input=4fc8e701eea118a1]*/
+/*[clinic end generated code: output=97f64d5d99eeccb5 input=ad2f8644e52b85fe]*/
 {
 #ifdef MS_WINDOWS
     return self->win32_lstat.st_reparse_tag == IO_REPARSE_TAG_MOUNT_POINT;
@@ -15760,6 +15971,7 @@ DirEntry_get_lstat(PyTypeObject *defining_class, DirEntry *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 os.DirEntry.stat
     defining_class: defining_class
     /
@@ -15772,7 +15984,7 @@ Return stat_result object for the entry; cached per entry.
 static PyObject *
 os_DirEntry_stat_impl(DirEntry *self, PyTypeObject *defining_class,
                       int follow_symlinks)
-/*[clinic end generated code: output=23f803e19c3e780e input=e816273c4e67ee98]*/
+/*[clinic end generated code: output=23f803e19c3e780e input=e1d13cda88755b52]*/
 {
     if (!follow_symlinks) {
         return DirEntry_get_lstat(defining_class, self);
@@ -15876,6 +16088,7 @@ error:
 }
 
 /*[clinic input]
+@c_stack_frugal
 os.DirEntry.is_dir -> bool
     defining_class: defining_class
     /
@@ -15888,12 +16101,13 @@ Return True if the entry is a directory; cached per entry.
 static int
 os_DirEntry_is_dir_impl(DirEntry *self, PyTypeObject *defining_class,
                         int follow_symlinks)
-/*[clinic end generated code: output=0cd453b9c0987fdf input=1a4ffd6dec9920cb]*/
+/*[clinic end generated code: output=0cd453b9c0987fdf input=c59ffbf70e4d48f1]*/
 {
     return DirEntry_test_mode(defining_class, self, follow_symlinks, S_IFDIR);
 }
 
 /*[clinic input]
+@c_stack_frugal
 os.DirEntry.is_file -> bool
     defining_class: defining_class
     /
@@ -15906,12 +16120,13 @@ Return True if the entry is a file; cached per entry.
 static int
 os_DirEntry_is_file_impl(DirEntry *self, PyTypeObject *defining_class,
                          int follow_symlinks)
-/*[clinic end generated code: output=f7c277ab5ba80908 input=0a64c5a12e802e3b]*/
+/*[clinic end generated code: output=f7c277ab5ba80908 input=552e3dc33653017c]*/
 {
     return DirEntry_test_mode(defining_class, self, follow_symlinks, S_IFREG);
 }
 
 /*[clinic input]
+@c_stack_frugal
 os.DirEntry.inode
 
 Return inode of the entry; cached per entry.
@@ -15919,7 +16134,7 @@ Return inode of the entry; cached per entry.
 
 static PyObject *
 os_DirEntry_inode_impl(DirEntry *self)
-/*[clinic end generated code: output=156bb3a72162440e input=3ee7b872ae8649f0]*/
+/*[clinic end generated code: output=156bb3a72162440e input=44b58f92c938868f]*/
 {
 #ifdef MS_WINDOWS
     if (!self->got_file_index) {
@@ -15961,6 +16176,7 @@ DirEntry_repr(PyObject *op)
 }
 
 /*[clinic input]
+@c_stack_frugal
 os.DirEntry.__fspath__
 
 Returns the path for the entry.
@@ -15968,7 +16184,7 @@ Returns the path for the entry.
 
 static PyObject *
 os_DirEntry___fspath___impl(DirEntry *self)
-/*[clinic end generated code: output=6dd7f7ef752e6f4f input=3c49d0cf38df4fac]*/
+/*[clinic end generated code: output=6dd7f7ef752e6f4f input=b34d99d1eee88277]*/
 {
     return Py_NewRef(self->path);
 }
@@ -16458,6 +16674,7 @@ static PyType_Spec ScandirIteratorType_spec = {
 };
 
 /*[clinic input]
+@c_stack_frugal
 os.scandir
 
     path : path_t(nullable=True, allow_fd='PATH_HAVE_FDOPENDIR') = None
@@ -16473,7 +16690,7 @@ If path is None, uses the path='.'.
 
 static PyObject *
 os_scandir_impl(PyObject *module, path_t *path)
-/*[clinic end generated code: output=6eb2668b675ca89e input=6bdd312708fc3bb0]*/
+/*[clinic end generated code: output=6eb2668b675ca89e input=6347b87ea1fbe350]*/
 {
     ScandirIterator *iterator;
 #ifdef MS_WINDOWS
@@ -16620,6 +16837,7 @@ PyOS_FSPath(PyObject *path)
 }
 
 /*[clinic input]
+@c_stack_frugal
 os.fspath
 
     path: object
@@ -16633,13 +16851,14 @@ types raise a TypeError.
 
 static PyObject *
 os_fspath_impl(PyObject *module, PyObject *path)
-/*[clinic end generated code: output=c3c3b78ecff2914f input=e357165f7b22490f]*/
+/*[clinic end generated code: output=c3c3b78ecff2914f input=8f99f95bd865bb90]*/
 {
     return PyOS_FSPath(path);
 }
 
 #ifdef HAVE_GETRANDOM_SYSCALL
 /*[clinic input]
+@c_stack_frugal
 os.getrandom
 
     size: Py_ssize_t
@@ -16650,7 +16869,7 @@ Obtain a series of random bytes.
 
 static PyObject *
 os_getrandom_impl(PyObject *module, Py_ssize_t size, int flags)
-/*[clinic end generated code: output=b3a618196a61409c input=59bafac39c594947]*/
+/*[clinic end generated code: output=b3a618196a61409c input=f09afc2d2a23d49a]*/
 {
     PyObject *bytes;
     Py_ssize_t n;
@@ -16706,6 +16925,7 @@ error:
  */
 
 /*[clinic input]
+@c_stack_frugal
 os._add_dll_directory
 
     path: path_t
@@ -16722,7 +16942,7 @@ to remove this directory from the search path.
 
 static PyObject *
 os__add_dll_directory_impl(PyObject *module, path_t *path)
-/*[clinic end generated code: output=80b025daebb5d683 input=1de3e6c13a5808c8]*/
+/*[clinic end generated code: output=80b025daebb5d683 input=da8dfebd24392159]*/
 {
     DLL_DIRECTORY_COOKIE cookie = 0;
     DWORD err = 0;
@@ -16746,6 +16966,7 @@ os__add_dll_directory_impl(PyObject *module, path_t *path)
 }
 
 /*[clinic input]
+@c_stack_frugal
 os._remove_dll_directory
 
     cookie: object
@@ -16759,7 +16980,7 @@ yourself.
 
 static PyObject *
 os__remove_dll_directory_impl(PyObject *module, PyObject *cookie)
-/*[clinic end generated code: output=594350433ae535bc input=c1d16a7e7d9dc5dc]*/
+/*[clinic end generated code: output=594350433ae535bc input=bb9973bf5b515ff8]*/
 {
     DLL_DIRECTORY_COOKIE cookieValue;
     DWORD err = 0;
@@ -16802,6 +17023,7 @@ os__remove_dll_directory_impl(PyObject *module, PyObject *cookie)
    risking that used os attributes were set to None by finalize_modules(). */
 #if defined(WIFEXITED) || defined(MS_WINDOWS)
 /*[clinic input]
+@c_stack_frugal
 os.waitstatus_to_exitcode
 
     status as status_obj: object
@@ -16823,7 +17045,7 @@ This function must not be called if WIFSTOPPED(status) is true.
 
 static PyObject *
 os_waitstatus_to_exitcode_impl(PyObject *module, PyObject *status_obj)
-/*[clinic end generated code: output=db50b1b0ba3c7153 input=7fe2d7fdaea3db42]*/
+/*[clinic end generated code: output=db50b1b0ba3c7153 input=1273adc75d4d20dd]*/
 {
 #ifndef MS_WINDOWS
     int status = PyLong_AsInt(status_obj);
@@ -16888,6 +17110,7 @@ os_waitstatus_to_exitcode_impl(PyObject *module, PyObject *status_obj)
 
 #if defined(MS_WINDOWS)
 /*[clinic input]
+@c_stack_frugal
 os._supports_virtual_terminal
 
 Checks if virtual terminal is supported in windows
@@ -16895,7 +17118,7 @@ Checks if virtual terminal is supported in windows
 
 static PyObject *
 os__supports_virtual_terminal_impl(PyObject *module)
-/*[clinic end generated code: output=bd0556a6d9d99fe6 input=0752c98e5d321542]*/
+/*[clinic end generated code: output=bd0556a6d9d99fe6 input=51e307fdc4e4f148]*/
 {
 #ifdef HAVE_WINDOWS_CONSOLE_IO
     DWORD mode = 0;
@@ -16911,6 +17134,7 @@ os__supports_virtual_terminal_impl(PyObject *module)
 #endif
 
 /*[clinic input]
+@c_stack_frugal
 os._inputhook
 
 Calls PyOS_CallInputHook droppong the GIL first
@@ -16918,7 +17142,7 @@ Calls PyOS_CallInputHook droppong the GIL first
 
 static PyObject *
 os__inputhook_impl(PyObject *module)
-/*[clinic end generated code: output=525aca4ef3c6149f input=fc531701930d064f]*/
+/*[clinic end generated code: output=525aca4ef3c6149f input=8e0bc2162f424b56]*/
 {
      int result = 0;
      if (PyOS_InputHook) {
@@ -16930,6 +17154,7 @@ os__inputhook_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 os._is_inputhook_installed
 
 Checks if PyOS_CallInputHook is set
@@ -16937,12 +17162,13 @@ Checks if PyOS_CallInputHook is set
 
 static PyObject *
 os__is_inputhook_installed_impl(PyObject *module)
-/*[clinic end generated code: output=3b3eab4f672c689a input=ff177c9938dd76d8]*/
+/*[clinic end generated code: output=3b3eab4f672c689a input=b79c223e01973b90]*/
 {
     return PyBool_FromLong(PyOS_InputHook != NULL);
 }
 
 /*[clinic input]
+@c_stack_frugal
 os._create_environ
 
 Create the environment dictionary.
@@ -16950,7 +17176,7 @@ Create the environment dictionary.
 
 static PyObject *
 os__create_environ_impl(PyObject *module)
-/*[clinic end generated code: output=19d9039ab14f8ad4 input=a4c05686b34635e8]*/
+/*[clinic end generated code: output=19d9039ab14f8ad4 input=7267ce39564160df]*/
 {
     return convertenviron();
 }
@@ -16958,6 +17184,7 @@ os__create_environ_impl(PyObject *module)
 
 #ifdef __EMSCRIPTEN__
 /*[clinic input]
+@c_stack_frugal
 os._emscripten_debugger
 
 Create a breakpoint for the JavaScript debugger. Emscripten only.
@@ -16965,7 +17192,7 @@ Create a breakpoint for the JavaScript debugger. Emscripten only.
 
 static PyObject *
 os__emscripten_debugger_impl(PyObject *module)
-/*[clinic end generated code: output=ad47dc3bf0661343 input=d814b1877fb6083a]*/
+/*[clinic end generated code: output=ad47dc3bf0661343 input=26b4aa7a00401526]*/
 {
     emscripten_debugger();
     Py_RETURN_NONE;

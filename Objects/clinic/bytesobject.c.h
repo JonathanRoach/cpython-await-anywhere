@@ -16,7 +16,7 @@ PyDoc_STRVAR(bytes___bytes____doc__,
 "Convert this value to exact type bytes.");
 
 #define BYTES___BYTES___METHODDEF    \
-    {"__bytes__", (PyCFunction)bytes___bytes__, METH_NOARGS, bytes___bytes____doc__},
+    {"__bytes__", (PyCFunction)bytes___bytes__, METH_NOARGS|METH_C_STACK_FRUGAL, bytes___bytes____doc__},
 
 static PyObject *
 bytes___bytes___impl(PyBytesObject *self);
@@ -42,7 +42,7 @@ PyDoc_STRVAR(bytes_split__doc__,
 "    -1 (the default value) means no limit.");
 
 #define BYTES_SPLIT_METHODDEF    \
-    {"split", _PyCFunction_CAST(bytes_split), METH_FASTCALL|METH_KEYWORDS, bytes_split__doc__},
+    {"split", _PyCFunction_CAST(bytes_split), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, bytes_split__doc__},
 
 static PyObject *
 bytes_split_impl(PyBytesObject *self, PyObject *sep, Py_ssize_t maxsplit);
@@ -130,7 +130,7 @@ PyDoc_STRVAR(bytes_partition__doc__,
 "object and two empty bytes objects.");
 
 #define BYTES_PARTITION_METHODDEF    \
-    {"partition", (PyCFunction)bytes_partition, METH_O, bytes_partition__doc__},
+    {"partition", (PyCFunction)bytes_partition, METH_O|METH_C_STACK_FRUGAL, bytes_partition__doc__},
 
 static PyObject *
 bytes_partition_impl(PyBytesObject *self, Py_buffer *sep);
@@ -169,7 +169,7 @@ PyDoc_STRVAR(bytes_rpartition__doc__,
 "objects and the original bytes object.");
 
 #define BYTES_RPARTITION_METHODDEF    \
-    {"rpartition", (PyCFunction)bytes_rpartition, METH_O, bytes_rpartition__doc__},
+    {"rpartition", (PyCFunction)bytes_rpartition, METH_O|METH_C_STACK_FRUGAL, bytes_rpartition__doc__},
 
 static PyObject *
 bytes_rpartition_impl(PyBytesObject *self, Py_buffer *sep);
@@ -211,7 +211,7 @@ PyDoc_STRVAR(bytes_rsplit__doc__,
 "Splitting is done starting at the end of the bytes and working to the front.");
 
 #define BYTES_RSPLIT_METHODDEF    \
-    {"rsplit", _PyCFunction_CAST(bytes_rsplit), METH_FASTCALL|METH_KEYWORDS, bytes_rsplit__doc__},
+    {"rsplit", _PyCFunction_CAST(bytes_rsplit), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, bytes_rsplit__doc__},
 
 static PyObject *
 bytes_rsplit_impl(PyBytesObject *self, PyObject *sep, Py_ssize_t maxsplit);
@@ -298,7 +298,7 @@ PyDoc_STRVAR(bytes_join__doc__,
 "Example: b\'.\'.join([b\'ab\', b\'pq\', b\'rs\']) -> b\'ab.pq.rs\'.");
 
 #define BYTES_JOIN_METHODDEF    \
-    {"join", (PyCFunction)bytes_join, METH_O, bytes_join__doc__},
+    {"join", (PyCFunction)bytes_join, METH_O|METH_C_STACK_FRUGAL, bytes_join__doc__},
 
 static PyObject *
 bytes_join_impl(PyBytesObject *self, PyObject *iterable_of_bytes);
@@ -327,7 +327,7 @@ PyDoc_STRVAR(bytes_find__doc__,
 "Return -1 on failure.");
 
 #define BYTES_FIND_METHODDEF    \
-    {"find", _PyCFunction_CAST(bytes_find), METH_FASTCALL, bytes_find__doc__},
+    {"find", _PyCFunction_CAST(bytes_find), METH_FASTCALL|METH_C_STACK_FRUGAL, bytes_find__doc__},
 
 static PyObject *
 bytes_find_impl(PyBytesObject *self, PyObject *sub, Py_ssize_t start,
@@ -378,7 +378,7 @@ PyDoc_STRVAR(bytes_index__doc__,
 "Raise ValueError if the subsection is not found.");
 
 #define BYTES_INDEX_METHODDEF    \
-    {"index", _PyCFunction_CAST(bytes_index), METH_FASTCALL, bytes_index__doc__},
+    {"index", _PyCFunction_CAST(bytes_index), METH_FASTCALL|METH_C_STACK_FRUGAL, bytes_index__doc__},
 
 static PyObject *
 bytes_index_impl(PyBytesObject *self, PyObject *sub, Py_ssize_t start,
@@ -429,7 +429,7 @@ PyDoc_STRVAR(bytes_rfind__doc__,
 "Return -1 on failure.");
 
 #define BYTES_RFIND_METHODDEF    \
-    {"rfind", _PyCFunction_CAST(bytes_rfind), METH_FASTCALL, bytes_rfind__doc__},
+    {"rfind", _PyCFunction_CAST(bytes_rfind), METH_FASTCALL|METH_C_STACK_FRUGAL, bytes_rfind__doc__},
 
 static PyObject *
 bytes_rfind_impl(PyBytesObject *self, PyObject *sub, Py_ssize_t start,
@@ -480,7 +480,7 @@ PyDoc_STRVAR(bytes_rindex__doc__,
 "Raise ValueError if the subsection is not found.");
 
 #define BYTES_RINDEX_METHODDEF    \
-    {"rindex", _PyCFunction_CAST(bytes_rindex), METH_FASTCALL, bytes_rindex__doc__},
+    {"rindex", _PyCFunction_CAST(bytes_rindex), METH_FASTCALL|METH_C_STACK_FRUGAL, bytes_rindex__doc__},
 
 static PyObject *
 bytes_rindex_impl(PyBytesObject *self, PyObject *sub, Py_ssize_t start,
@@ -526,7 +526,7 @@ PyDoc_STRVAR(bytes_strip__doc__,
 "If the argument is omitted or None, strip leading and trailing ASCII whitespace.");
 
 #define BYTES_STRIP_METHODDEF    \
-    {"strip", _PyCFunction_CAST(bytes_strip), METH_FASTCALL, bytes_strip__doc__},
+    {"strip", _PyCFunction_CAST(bytes_strip), METH_FASTCALL|METH_C_STACK_FRUGAL, bytes_strip__doc__},
 
 static PyObject *
 bytes_strip_impl(PyBytesObject *self, PyObject *bytes);
@@ -560,7 +560,7 @@ PyDoc_STRVAR(bytes_lstrip__doc__,
 "If the argument is omitted or None, strip leading  ASCII whitespace.");
 
 #define BYTES_LSTRIP_METHODDEF    \
-    {"lstrip", _PyCFunction_CAST(bytes_lstrip), METH_FASTCALL, bytes_lstrip__doc__},
+    {"lstrip", _PyCFunction_CAST(bytes_lstrip), METH_FASTCALL|METH_C_STACK_FRUGAL, bytes_lstrip__doc__},
 
 static PyObject *
 bytes_lstrip_impl(PyBytesObject *self, PyObject *bytes);
@@ -594,7 +594,7 @@ PyDoc_STRVAR(bytes_rstrip__doc__,
 "If the argument is omitted or None, strip trailing ASCII whitespace.");
 
 #define BYTES_RSTRIP_METHODDEF    \
-    {"rstrip", _PyCFunction_CAST(bytes_rstrip), METH_FASTCALL, bytes_rstrip__doc__},
+    {"rstrip", _PyCFunction_CAST(bytes_rstrip), METH_FASTCALL|METH_C_STACK_FRUGAL, bytes_rstrip__doc__},
 
 static PyObject *
 bytes_rstrip_impl(PyBytesObject *self, PyObject *bytes);
@@ -631,7 +631,7 @@ PyDoc_STRVAR(bytes_count__doc__,
 "    Optional stop position. Default: end of the bytes.");
 
 #define BYTES_COUNT_METHODDEF    \
-    {"count", _PyCFunction_CAST(bytes_count), METH_FASTCALL, bytes_count__doc__},
+    {"count", _PyCFunction_CAST(bytes_count), METH_FASTCALL|METH_C_STACK_FRUGAL, bytes_count__doc__},
 
 static PyObject *
 bytes_count_impl(PyBytesObject *self, PyObject *sub, Py_ssize_t start,
@@ -681,7 +681,7 @@ PyDoc_STRVAR(bytes_translate__doc__,
 "The remaining characters are mapped through the given translation table.");
 
 #define BYTES_TRANSLATE_METHODDEF    \
-    {"translate", _PyCFunction_CAST(bytes_translate), METH_FASTCALL|METH_KEYWORDS, bytes_translate__doc__},
+    {"translate", _PyCFunction_CAST(bytes_translate), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, bytes_translate__doc__},
 
 static PyObject *
 bytes_translate_impl(PyBytesObject *self, PyObject *table,
@@ -752,7 +752,7 @@ PyDoc_STRVAR(bytes_maketrans__doc__,
 "The bytes objects frm and to must be of the same length.");
 
 #define BYTES_MAKETRANS_METHODDEF    \
-    {"maketrans", _PyCFunction_CAST(bytes_maketrans), METH_FASTCALL|METH_STATIC, bytes_maketrans__doc__},
+    {"maketrans", _PyCFunction_CAST(bytes_maketrans), METH_FASTCALL|METH_STATIC|METH_C_STACK_FRUGAL, bytes_maketrans__doc__},
 
 static PyObject *
 bytes_maketrans_impl(Py_buffer *frm, Py_buffer *to);
@@ -802,7 +802,7 @@ PyDoc_STRVAR(bytes_replace__doc__,
 "replaced.");
 
 #define BYTES_REPLACE_METHODDEF    \
-    {"replace", _PyCFunction_CAST(bytes_replace), METH_FASTCALL, bytes_replace__doc__},
+    {"replace", _PyCFunction_CAST(bytes_replace), METH_FASTCALL|METH_C_STACK_FRUGAL, bytes_replace__doc__},
 
 static PyObject *
 bytes_replace_impl(PyBytesObject *self, Py_buffer *old, Py_buffer *new,
@@ -866,7 +866,7 @@ PyDoc_STRVAR(bytes_removeprefix__doc__,
 "Otherwise, return a copy of the original bytes.");
 
 #define BYTES_REMOVEPREFIX_METHODDEF    \
-    {"removeprefix", (PyCFunction)bytes_removeprefix, METH_O, bytes_removeprefix__doc__},
+    {"removeprefix", (PyCFunction)bytes_removeprefix, METH_O|METH_C_STACK_FRUGAL, bytes_removeprefix__doc__},
 
 static PyObject *
 bytes_removeprefix_impl(PyBytesObject *self, Py_buffer *prefix);
@@ -902,7 +902,7 @@ PyDoc_STRVAR(bytes_removesuffix__doc__,
 "bytes.");
 
 #define BYTES_REMOVESUFFIX_METHODDEF    \
-    {"removesuffix", (PyCFunction)bytes_removesuffix, METH_O, bytes_removesuffix__doc__},
+    {"removesuffix", (PyCFunction)bytes_removesuffix, METH_O|METH_C_STACK_FRUGAL, bytes_removesuffix__doc__},
 
 static PyObject *
 bytes_removesuffix_impl(PyBytesObject *self, Py_buffer *suffix);
@@ -941,7 +941,7 @@ PyDoc_STRVAR(bytes_startswith__doc__,
 "    Optional stop position. Default: end of the bytes.");
 
 #define BYTES_STARTSWITH_METHODDEF    \
-    {"startswith", _PyCFunction_CAST(bytes_startswith), METH_FASTCALL, bytes_startswith__doc__},
+    {"startswith", _PyCFunction_CAST(bytes_startswith), METH_FASTCALL|METH_C_STACK_FRUGAL, bytes_startswith__doc__},
 
 static PyObject *
 bytes_startswith_impl(PyBytesObject *self, PyObject *subobj,
@@ -992,7 +992,7 @@ PyDoc_STRVAR(bytes_endswith__doc__,
 "    Optional stop position. Default: end of the bytes.");
 
 #define BYTES_ENDSWITH_METHODDEF    \
-    {"endswith", _PyCFunction_CAST(bytes_endswith), METH_FASTCALL, bytes_endswith__doc__},
+    {"endswith", _PyCFunction_CAST(bytes_endswith), METH_FASTCALL|METH_C_STACK_FRUGAL, bytes_endswith__doc__},
 
 static PyObject *
 bytes_endswith_impl(PyBytesObject *self, PyObject *subobj, Py_ssize_t start,
@@ -1045,7 +1045,7 @@ PyDoc_STRVAR(bytes_decode__doc__,
 "    can handle UnicodeDecodeErrors.");
 
 #define BYTES_DECODE_METHODDEF    \
-    {"decode", _PyCFunction_CAST(bytes_decode), METH_FASTCALL|METH_KEYWORDS, bytes_decode__doc__},
+    {"decode", _PyCFunction_CAST(bytes_decode), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, bytes_decode__doc__},
 
 static PyObject *
 bytes_decode_impl(PyBytesObject *self, const char *encoding,
@@ -1143,7 +1143,7 @@ PyDoc_STRVAR(bytes_splitlines__doc__,
 "true.");
 
 #define BYTES_SPLITLINES_METHODDEF    \
-    {"splitlines", _PyCFunction_CAST(bytes_splitlines), METH_FASTCALL|METH_KEYWORDS, bytes_splitlines__doc__},
+    {"splitlines", _PyCFunction_CAST(bytes_splitlines), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, bytes_splitlines__doc__},
 
 static PyObject *
 bytes_splitlines_impl(PyBytesObject *self, int keepends);
@@ -1212,7 +1212,7 @@ PyDoc_STRVAR(bytes_fromhex__doc__,
 "Example: bytes.fromhex(\'B9 01EF\') -> b\'\\\\xb9\\\\x01\\\\xef\'.");
 
 #define BYTES_FROMHEX_METHODDEF    \
-    {"fromhex", (PyCFunction)bytes_fromhex, METH_O|METH_CLASS, bytes_fromhex__doc__},
+    {"fromhex", (PyCFunction)bytes_fromhex, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, bytes_fromhex__doc__},
 
 static PyObject *
 bytes_fromhex_impl(PyTypeObject *type, PyObject *string);
@@ -1251,7 +1251,7 @@ PyDoc_STRVAR(bytes_hex__doc__,
 "\'b901:ef\'");
 
 #define BYTES_HEX_METHODDEF    \
-    {"hex", _PyCFunction_CAST(bytes_hex), METH_FASTCALL|METH_KEYWORDS, bytes_hex__doc__},
+    {"hex", _PyCFunction_CAST(bytes_hex), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, bytes_hex__doc__},
 
 static PyObject *
 bytes_hex_impl(PyBytesObject *self, PyObject *sep, int bytes_per_sep);
@@ -1411,4 +1411,4 @@ skip_optional_pos:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=08b9507244f73638 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=6a7fd3fb77b2deb7 input=a9049054013a1b77]*/

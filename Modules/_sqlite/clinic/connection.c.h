@@ -152,7 +152,7 @@ PyDoc_STRVAR(pysqlite_connection_cursor__doc__,
 "Return a cursor for the connection.");
 
 #define PYSQLITE_CONNECTION_CURSOR_METHODDEF    \
-    {"cursor", _PyCFunction_CAST(pysqlite_connection_cursor), METH_FASTCALL|METH_KEYWORDS, pysqlite_connection_cursor__doc__},
+    {"cursor", _PyCFunction_CAST(pysqlite_connection_cursor), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pysqlite_connection_cursor__doc__},
 
 static PyObject *
 pysqlite_connection_cursor_impl(pysqlite_Connection *self, PyObject *factory);
@@ -226,7 +226,7 @@ PyDoc_STRVAR(blobopen__doc__,
 "    Database name.");
 
 #define BLOBOPEN_METHODDEF    \
-    {"blobopen", _PyCFunction_CAST(blobopen), METH_FASTCALL|METH_KEYWORDS, blobopen__doc__},
+    {"blobopen", _PyCFunction_CAST(blobopen), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, blobopen__doc__},
 
 static PyObject *
 blobopen_impl(pysqlite_Connection *self, const char *table, const char *col,
@@ -346,7 +346,7 @@ PyDoc_STRVAR(pysqlite_connection_close__doc__,
 "Any pending transaction is not committed implicitly.");
 
 #define PYSQLITE_CONNECTION_CLOSE_METHODDEF    \
-    {"close", (PyCFunction)pysqlite_connection_close, METH_NOARGS, pysqlite_connection_close__doc__},
+    {"close", (PyCFunction)pysqlite_connection_close, METH_NOARGS|METH_C_STACK_FRUGAL, pysqlite_connection_close__doc__},
 
 static PyObject *
 pysqlite_connection_close_impl(pysqlite_Connection *self);
@@ -366,7 +366,7 @@ PyDoc_STRVAR(pysqlite_connection_commit__doc__,
 "If there is no open transaction, this method is a no-op.");
 
 #define PYSQLITE_CONNECTION_COMMIT_METHODDEF    \
-    {"commit", (PyCFunction)pysqlite_connection_commit, METH_NOARGS, pysqlite_connection_commit__doc__},
+    {"commit", (PyCFunction)pysqlite_connection_commit, METH_NOARGS|METH_C_STACK_FRUGAL, pysqlite_connection_commit__doc__},
 
 static PyObject *
 pysqlite_connection_commit_impl(pysqlite_Connection *self);
@@ -386,7 +386,7 @@ PyDoc_STRVAR(pysqlite_connection_rollback__doc__,
 "If there is no open transaction, this method is a no-op.");
 
 #define PYSQLITE_CONNECTION_ROLLBACK_METHODDEF    \
-    {"rollback", (PyCFunction)pysqlite_connection_rollback, METH_NOARGS, pysqlite_connection_rollback__doc__},
+    {"rollback", (PyCFunction)pysqlite_connection_rollback, METH_NOARGS|METH_C_STACK_FRUGAL, pysqlite_connection_rollback__doc__},
 
 static PyObject *
 pysqlite_connection_rollback_impl(pysqlite_Connection *self);
@@ -404,7 +404,7 @@ PyDoc_STRVAR(pysqlite_connection_create_function__doc__,
 "Creates a new function.");
 
 #define PYSQLITE_CONNECTION_CREATE_FUNCTION_METHODDEF    \
-    {"create_function", _PyCFunction_CAST(pysqlite_connection_create_function), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, pysqlite_connection_create_function__doc__},
+    {"create_function", _PyCFunction_CAST(pysqlite_connection_create_function), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pysqlite_connection_create_function__doc__},
 
 static PyObject *
 pysqlite_connection_create_function_impl(pysqlite_Connection *self,
@@ -505,7 +505,7 @@ PyDoc_STRVAR(create_window_function__doc__,
 "    Set to None to clear the window function.");
 
 #define CREATE_WINDOW_FUNCTION_METHODDEF    \
-    {"create_window_function", _PyCFunction_CAST(create_window_function), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, create_window_function__doc__},
+    {"create_window_function", _PyCFunction_CAST(create_window_function), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, create_window_function__doc__},
 
 static PyObject *
 create_window_function_impl(pysqlite_Connection *self, PyTypeObject *cls,
@@ -572,7 +572,7 @@ PyDoc_STRVAR(pysqlite_connection_create_aggregate__doc__,
 "Creates a new aggregate.");
 
 #define PYSQLITE_CONNECTION_CREATE_AGGREGATE_METHODDEF    \
-    {"create_aggregate", _PyCFunction_CAST(pysqlite_connection_create_aggregate), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, pysqlite_connection_create_aggregate__doc__},
+    {"create_aggregate", _PyCFunction_CAST(pysqlite_connection_create_aggregate), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pysqlite_connection_create_aggregate__doc__},
 
 static PyObject *
 pysqlite_connection_create_aggregate_impl(pysqlite_Connection *self,
@@ -638,7 +638,7 @@ PyDoc_STRVAR(pysqlite_connection_set_authorizer__doc__,
 "Set authorizer callback.");
 
 #define PYSQLITE_CONNECTION_SET_AUTHORIZER_METHODDEF    \
-    {"set_authorizer", _PyCFunction_CAST(pysqlite_connection_set_authorizer), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, pysqlite_connection_set_authorizer__doc__},
+    {"set_authorizer", _PyCFunction_CAST(pysqlite_connection_set_authorizer), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pysqlite_connection_set_authorizer__doc__},
 
 static PyObject *
 pysqlite_connection_set_authorizer_impl(pysqlite_Connection *self,
@@ -694,7 +694,7 @@ PyDoc_STRVAR(pysqlite_connection_set_progress_handler__doc__,
 "If \'progress_handler\' is None or \'n\' is 0, the progress handler is disabled.");
 
 #define PYSQLITE_CONNECTION_SET_PROGRESS_HANDLER_METHODDEF    \
-    {"set_progress_handler", _PyCFunction_CAST(pysqlite_connection_set_progress_handler), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, pysqlite_connection_set_progress_handler__doc__},
+    {"set_progress_handler", _PyCFunction_CAST(pysqlite_connection_set_progress_handler), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pysqlite_connection_set_progress_handler__doc__},
 
 static PyObject *
 pysqlite_connection_set_progress_handler_impl(pysqlite_Connection *self,
@@ -759,7 +759,7 @@ PyDoc_STRVAR(pysqlite_connection_set_trace_callback__doc__,
 "Set a trace callback called for each SQL statement (passed as unicode).");
 
 #define PYSQLITE_CONNECTION_SET_TRACE_CALLBACK_METHODDEF    \
-    {"set_trace_callback", _PyCFunction_CAST(pysqlite_connection_set_trace_callback), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, pysqlite_connection_set_trace_callback__doc__},
+    {"set_trace_callback", _PyCFunction_CAST(pysqlite_connection_set_trace_callback), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pysqlite_connection_set_trace_callback__doc__},
 
 static PyObject *
 pysqlite_connection_set_trace_callback_impl(pysqlite_Connection *self,
@@ -807,7 +807,7 @@ PyDoc_STRVAR(pysqlite_connection_enable_load_extension__doc__,
 "Enable dynamic loading of SQLite extension modules.");
 
 #define PYSQLITE_CONNECTION_ENABLE_LOAD_EXTENSION_METHODDEF    \
-    {"enable_load_extension", (PyCFunction)pysqlite_connection_enable_load_extension, METH_O, pysqlite_connection_enable_load_extension__doc__},
+    {"enable_load_extension", (PyCFunction)pysqlite_connection_enable_load_extension, METH_O|METH_C_STACK_FRUGAL, pysqlite_connection_enable_load_extension__doc__},
 
 static PyObject *
 pysqlite_connection_enable_load_extension_impl(pysqlite_Connection *self,
@@ -840,7 +840,7 @@ PyDoc_STRVAR(pysqlite_connection_load_extension__doc__,
 "Load SQLite extension module.");
 
 #define PYSQLITE_CONNECTION_LOAD_EXTENSION_METHODDEF    \
-    {"load_extension", _PyCFunction_CAST(pysqlite_connection_load_extension), METH_FASTCALL|METH_KEYWORDS, pysqlite_connection_load_extension__doc__},
+    {"load_extension", _PyCFunction_CAST(pysqlite_connection_load_extension), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pysqlite_connection_load_extension__doc__},
 
 static PyObject *
 pysqlite_connection_load_extension_impl(pysqlite_Connection *self,
@@ -938,7 +938,7 @@ PyDoc_STRVAR(pysqlite_connection_execute__doc__,
 "Executes an SQL statement.");
 
 #define PYSQLITE_CONNECTION_EXECUTE_METHODDEF    \
-    {"execute", _PyCFunction_CAST(pysqlite_connection_execute), METH_FASTCALL, pysqlite_connection_execute__doc__},
+    {"execute", _PyCFunction_CAST(pysqlite_connection_execute), METH_FASTCALL|METH_C_STACK_FRUGAL, pysqlite_connection_execute__doc__},
 
 static PyObject *
 pysqlite_connection_execute_impl(pysqlite_Connection *self, PyObject *sql,
@@ -977,7 +977,7 @@ PyDoc_STRVAR(pysqlite_connection_executemany__doc__,
 "Repeatedly executes an SQL statement.");
 
 #define PYSQLITE_CONNECTION_EXECUTEMANY_METHODDEF    \
-    {"executemany", _PyCFunction_CAST(pysqlite_connection_executemany), METH_FASTCALL, pysqlite_connection_executemany__doc__},
+    {"executemany", _PyCFunction_CAST(pysqlite_connection_executemany), METH_FASTCALL|METH_C_STACK_FRUGAL, pysqlite_connection_executemany__doc__},
 
 static PyObject *
 pysqlite_connection_executemany_impl(pysqlite_Connection *self,
@@ -1012,7 +1012,7 @@ PyDoc_STRVAR(pysqlite_connection_executescript__doc__,
 "Executes multiple SQL statements at once.");
 
 #define PYSQLITE_CONNECTION_EXECUTESCRIPT_METHODDEF    \
-    {"executescript", (PyCFunction)pysqlite_connection_executescript, METH_O, pysqlite_connection_executescript__doc__},
+    {"executescript", (PyCFunction)pysqlite_connection_executescript, METH_O|METH_C_STACK_FRUGAL, pysqlite_connection_executescript__doc__},
 
 static PyObject *
 pysqlite_connection_executescript_impl(pysqlite_Connection *self,
@@ -1035,7 +1035,7 @@ PyDoc_STRVAR(pysqlite_connection_interrupt__doc__,
 "Abort any pending database operation.");
 
 #define PYSQLITE_CONNECTION_INTERRUPT_METHODDEF    \
-    {"interrupt", (PyCFunction)pysqlite_connection_interrupt, METH_NOARGS, pysqlite_connection_interrupt__doc__},
+    {"interrupt", (PyCFunction)pysqlite_connection_interrupt, METH_NOARGS|METH_C_STACK_FRUGAL, pysqlite_connection_interrupt__doc__},
 
 static PyObject *
 pysqlite_connection_interrupt_impl(pysqlite_Connection *self);
@@ -1056,7 +1056,7 @@ PyDoc_STRVAR(pysqlite_connection_iterdump__doc__,
 "    An optional LIKE pattern for database objects to dump");
 
 #define PYSQLITE_CONNECTION_ITERDUMP_METHODDEF    \
-    {"iterdump", _PyCFunction_CAST(pysqlite_connection_iterdump), METH_FASTCALL|METH_KEYWORDS, pysqlite_connection_iterdump__doc__},
+    {"iterdump", _PyCFunction_CAST(pysqlite_connection_iterdump), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pysqlite_connection_iterdump__doc__},
 
 static PyObject *
 pysqlite_connection_iterdump_impl(pysqlite_Connection *self,
@@ -1121,7 +1121,7 @@ PyDoc_STRVAR(pysqlite_connection_backup__doc__,
 "Makes a backup of the database.");
 
 #define PYSQLITE_CONNECTION_BACKUP_METHODDEF    \
-    {"backup", _PyCFunction_CAST(pysqlite_connection_backup), METH_FASTCALL|METH_KEYWORDS, pysqlite_connection_backup__doc__},
+    {"backup", _PyCFunction_CAST(pysqlite_connection_backup), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pysqlite_connection_backup__doc__},
 
 static PyObject *
 pysqlite_connection_backup_impl(pysqlite_Connection *self,
@@ -1238,7 +1238,7 @@ PyDoc_STRVAR(pysqlite_connection_create_collation__doc__,
 "Creates a collation function.");
 
 #define PYSQLITE_CONNECTION_CREATE_COLLATION_METHODDEF    \
-    {"create_collation", _PyCFunction_CAST(pysqlite_connection_create_collation), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, pysqlite_connection_create_collation__doc__},
+    {"create_collation", _PyCFunction_CAST(pysqlite_connection_create_collation), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pysqlite_connection_create_collation__doc__},
 
 static PyObject *
 pysqlite_connection_create_collation_impl(pysqlite_Connection *self,
@@ -1309,7 +1309,7 @@ PyDoc_STRVAR(serialize__doc__,
 "were backed up to disk.");
 
 #define SERIALIZE_METHODDEF    \
-    {"serialize", _PyCFunction_CAST(serialize), METH_FASTCALL|METH_KEYWORDS, serialize__doc__},
+    {"serialize", _PyCFunction_CAST(serialize), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, serialize__doc__},
 
 static PyObject *
 serialize_impl(pysqlite_Connection *self, const char *name);
@@ -1400,7 +1400,7 @@ PyDoc_STRVAR(deserialize__doc__,
 "currently in a read transaction or is involved in a backup operation.");
 
 #define DESERIALIZE_METHODDEF    \
-    {"deserialize", _PyCFunction_CAST(deserialize), METH_FASTCALL|METH_KEYWORDS, deserialize__doc__},
+    {"deserialize", _PyCFunction_CAST(deserialize), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, deserialize__doc__},
 
 static PyObject *
 deserialize_impl(pysqlite_Connection *self, Py_buffer *data,
@@ -1501,7 +1501,7 @@ PyDoc_STRVAR(pysqlite_connection_enter__doc__,
 "Returns itself as a convenience to the caller.");
 
 #define PYSQLITE_CONNECTION_ENTER_METHODDEF    \
-    {"__enter__", (PyCFunction)pysqlite_connection_enter, METH_NOARGS, pysqlite_connection_enter__doc__},
+    {"__enter__", (PyCFunction)pysqlite_connection_enter, METH_NOARGS|METH_C_STACK_FRUGAL, pysqlite_connection_enter__doc__},
 
 static PyObject *
 pysqlite_connection_enter_impl(pysqlite_Connection *self);
@@ -1521,7 +1521,7 @@ PyDoc_STRVAR(pysqlite_connection_exit__doc__,
 "If there was any exception, a rollback takes place; otherwise we commit.");
 
 #define PYSQLITE_CONNECTION_EXIT_METHODDEF    \
-    {"__exit__", _PyCFunction_CAST(pysqlite_connection_exit), METH_FASTCALL, pysqlite_connection_exit__doc__},
+    {"__exit__", _PyCFunction_CAST(pysqlite_connection_exit), METH_FASTCALL|METH_C_STACK_FRUGAL, pysqlite_connection_exit__doc__},
 
 static PyObject *
 pysqlite_connection_exit_impl(pysqlite_Connection *self, PyObject *exc_type,
@@ -1564,7 +1564,7 @@ PyDoc_STRVAR(setlimit__doc__,
 "the prior value of the limit is returned.");
 
 #define SETLIMIT_METHODDEF    \
-    {"setlimit", _PyCFunction_CAST(setlimit), METH_FASTCALL, setlimit__doc__},
+    {"setlimit", _PyCFunction_CAST(setlimit), METH_FASTCALL|METH_C_STACK_FRUGAL, setlimit__doc__},
 
 static PyObject *
 setlimit_impl(pysqlite_Connection *self, int category, int limit);
@@ -1603,7 +1603,7 @@ PyDoc_STRVAR(getlimit__doc__,
 "    The limit category to be queried.");
 
 #define GETLIMIT_METHODDEF    \
-    {"getlimit", (PyCFunction)getlimit, METH_O, getlimit__doc__},
+    {"getlimit", (PyCFunction)getlimit, METH_O|METH_C_STACK_FRUGAL, getlimit__doc__},
 
 static PyObject *
 getlimit_impl(pysqlite_Connection *self, int category);
@@ -1634,7 +1634,7 @@ PyDoc_STRVAR(setconfig__doc__,
 "    The configuration verb; one of the sqlite3.SQLITE_DBCONFIG codes.");
 
 #define SETCONFIG_METHODDEF    \
-    {"setconfig", _PyCFunction_CAST(setconfig), METH_FASTCALL, setconfig__doc__},
+    {"setconfig", _PyCFunction_CAST(setconfig), METH_FASTCALL|METH_C_STACK_FRUGAL, setconfig__doc__},
 
 static PyObject *
 setconfig_impl(pysqlite_Connection *self, int op, int enable);
@@ -1677,7 +1677,7 @@ PyDoc_STRVAR(getconfig__doc__,
 "    The configuration verb; one of the sqlite3.SQLITE_DBCONFIG codes.");
 
 #define GETCONFIG_METHODDEF    \
-    {"getconfig", (PyCFunction)getconfig, METH_O, getconfig__doc__},
+    {"getconfig", (PyCFunction)getconfig, METH_O|METH_C_STACK_FRUGAL, getconfig__doc__},
 
 static int
 getconfig_impl(pysqlite_Connection *self, int op);
@@ -1722,4 +1722,4 @@ exit:
 #ifndef DESERIALIZE_METHODDEF
     #define DESERIALIZE_METHODDEF
 #endif /* !defined(DESERIALIZE_METHODDEF) */
-/*[clinic end generated code: output=6cb96e557133d553 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=c34f5f7eefe49908 input=a9049054013a1b77]*/

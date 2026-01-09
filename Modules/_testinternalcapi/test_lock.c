@@ -243,6 +243,7 @@ thread_benchmark_locks(void *arg)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testinternalcapi.benchmark_locks
 
     num_threads: Py_ssize_t
@@ -259,7 +260,7 @@ _testinternalcapi_benchmark_locks_impl(PyObject *module,
                                        int use_pymutex,
                                        int critical_section_length,
                                        int time_ms)
-/*[clinic end generated code: output=381df8d7e9a74f18 input=f3aeaf688738c121]*/
+/*[clinic end generated code: output=381df8d7e9a74f18 input=185a53ec382e018a]*/
 {
     // Run from Tools/lockbench/lockbench.py
     // Based on the WebKit lock benchmarks:

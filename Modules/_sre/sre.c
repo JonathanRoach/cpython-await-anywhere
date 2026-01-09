@@ -410,17 +410,19 @@ class _sre.SRE_Scanner "ScannerObject *" "get_sre_module_state_by_class(tp)->Sca
 /*[clinic end generated code: output=da39a3ee5e6b4b0d input=fe2966e32b66a231]*/
 
 /*[clinic input]
+@c_stack_frugal
 _sre.getcodesize -> int
 [clinic start generated code]*/
 
 static int
 _sre_getcodesize_impl(PyObject *module)
-/*[clinic end generated code: output=e0db7ce34a6dd7b1 input=bd6f6ecf4916bb2b]*/
+/*[clinic end generated code: output=e0db7ce34a6dd7b1 input=6c906cdeaa7e5856]*/
 {
     return sizeof(SRE_CODE);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sre.ascii_iscased -> bool
 
     character: int
@@ -430,13 +432,14 @@ _sre.ascii_iscased -> bool
 
 static int
 _sre_ascii_iscased_impl(PyObject *module, int character)
-/*[clinic end generated code: output=4f454b630fbd19a2 input=9f0bd952812c7ed3]*/
+/*[clinic end generated code: output=4f454b630fbd19a2 input=5e82474db315c599]*/
 {
     unsigned int ch = (unsigned int)character;
     return ch < 128 && Py_ISALPHA(ch);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sre.unicode_iscased -> bool
 
     character: int
@@ -446,13 +449,14 @@ _sre.unicode_iscased -> bool
 
 static int
 _sre_unicode_iscased_impl(PyObject *module, int character)
-/*[clinic end generated code: output=9c5ddee0dc2bc258 input=51e42c3b8dddb78e]*/
+/*[clinic end generated code: output=9c5ddee0dc2bc258 input=0f0d50e54f0c1f10]*/
 {
     unsigned int ch = (unsigned int)character;
     return ch != sre_lower_unicode(ch) || ch != sre_upper_unicode(ch);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sre.ascii_tolower -> int
 
     character: int
@@ -462,12 +466,13 @@ _sre.ascii_tolower -> int
 
 static int
 _sre_ascii_tolower_impl(PyObject *module, int character)
-/*[clinic end generated code: output=228294ed6ff2a612 input=272c609b5b61f136]*/
+/*[clinic end generated code: output=228294ed6ff2a612 input=8b67f0b3856982f0]*/
 {
     return sre_lower_ascii(character);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sre.unicode_tolower -> int
 
     character: int
@@ -477,7 +482,7 @@ _sre.unicode_tolower -> int
 
 static int
 _sre_unicode_tolower_impl(PyObject *module, int character)
-/*[clinic end generated code: output=6422272d7d7fee65 input=91d708c5f3c2045a]*/
+/*[clinic end generated code: output=6422272d7d7fee65 input=d4c6784bcb3650a1]*/
 {
     return sre_lower_unicode(character);
 }
@@ -768,6 +773,7 @@ sre_search(SRE_STATE* state, SRE_CODE* pattern)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sre.SRE_Pattern.match
 
     cls: defining_class
@@ -783,7 +789,7 @@ static PyObject *
 _sre_SRE_Pattern_match_impl(PatternObject *self, PyTypeObject *cls,
                             PyObject *string, Py_ssize_t pos,
                             Py_ssize_t endpos)
-/*[clinic end generated code: output=ec6208ea58a0cca0 input=4bdb9c3e564d13ac]*/
+/*[clinic end generated code: output=ec6208ea58a0cca0 input=11fe6844fa49c545]*/
 {
     _sremodulestate *module_state = get_sre_module_state_by_class(cls);
     SRE_STATE state;
@@ -812,6 +818,7 @@ _sre_SRE_Pattern_match_impl(PatternObject *self, PyTypeObject *cls,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sre.SRE_Pattern.fullmatch
 
     cls: defining_class
@@ -827,7 +834,7 @@ static PyObject *
 _sre_SRE_Pattern_fullmatch_impl(PatternObject *self, PyTypeObject *cls,
                                 PyObject *string, Py_ssize_t pos,
                                 Py_ssize_t endpos)
-/*[clinic end generated code: output=625b75b027ef94da input=50981172ab0fcfdd]*/
+/*[clinic end generated code: output=625b75b027ef94da input=32e7301c483e4d44]*/
 {
     _sremodulestate *module_state = get_sre_module_state_by_class(cls);
     SRE_STATE state;
@@ -857,6 +864,7 @@ _sre_SRE_Pattern_fullmatch_impl(PatternObject *self, PyTypeObject *cls,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sre.SRE_Pattern.search
 
     cls: defining_class
@@ -874,7 +882,7 @@ static PyObject *
 _sre_SRE_Pattern_search_impl(PatternObject *self, PyTypeObject *cls,
                              PyObject *string, Py_ssize_t pos,
                              Py_ssize_t endpos)
-/*[clinic end generated code: output=bd7f2d9d583e1463 input=afa9afb66a74a4b3]*/
+/*[clinic end generated code: output=bd7f2d9d583e1463 input=bed6de9f70284f8a]*/
 {
     _sremodulestate *module_state = get_sre_module_state_by_class(cls);
     SRE_STATE state;
@@ -902,6 +910,7 @@ _sre_SRE_Pattern_search_impl(PatternObject *self, PyTypeObject *cls,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sre.SRE_Pattern.findall
 
     string: object
@@ -914,7 +923,7 @@ Return a list of all non-overlapping matches of pattern in string.
 static PyObject *
 _sre_SRE_Pattern_findall_impl(PatternObject *self, PyObject *string,
                               Py_ssize_t pos, Py_ssize_t endpos)
-/*[clinic end generated code: output=f4966baceea60aca input=5b6a4ee799741563]*/
+/*[clinic end generated code: output=f4966baceea60aca input=414875e397bd2e0b]*/
 {
     SRE_STATE state;
     PyObject* list;
@@ -999,6 +1008,7 @@ error:
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sre.SRE_Pattern.finditer
 
     cls: defining_class
@@ -1016,7 +1026,7 @@ static PyObject *
 _sre_SRE_Pattern_finditer_impl(PatternObject *self, PyTypeObject *cls,
                                PyObject *string, Py_ssize_t pos,
                                Py_ssize_t endpos)
-/*[clinic end generated code: output=1791dbf3618ade56 input=812e332a4848cbaf]*/
+/*[clinic end generated code: output=1791dbf3618ade56 input=cbc80cf9ea10d4f8]*/
 {
     _sremodulestate *module_state = get_sre_module_state_by_class(cls);
     PyObject* scanner;
@@ -1039,6 +1049,7 @@ _sre_SRE_Pattern_finditer_impl(PatternObject *self, PyTypeObject *cls,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sre.SRE_Pattern.scanner
 
     cls: defining_class
@@ -1053,7 +1064,7 @@ static PyObject *
 _sre_SRE_Pattern_scanner_impl(PatternObject *self, PyTypeObject *cls,
                               PyObject *string, Py_ssize_t pos,
                               Py_ssize_t endpos)
-/*[clinic end generated code: output=f70cd506112f1bd9 input=2e487e5151bcee4c]*/
+/*[clinic end generated code: output=f70cd506112f1bd9 input=70c5e8812de5a454]*/
 {
     _sremodulestate *module_state = get_sre_module_state_by_class(cls);
 
@@ -1061,6 +1072,7 @@ _sre_SRE_Pattern_scanner_impl(PatternObject *self, PyTypeObject *cls,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sre.SRE_Pattern.split
 
     string: object
@@ -1072,7 +1084,7 @@ Split string by the occurrences of pattern.
 static PyObject *
 _sre_SRE_Pattern_split_impl(PatternObject *self, PyObject *string,
                             Py_ssize_t maxsplit)
-/*[clinic end generated code: output=7ac66f381c45e0be input=1eeeb10dafc9947a]*/
+/*[clinic end generated code: output=7ac66f381c45e0be input=afce512b9a2a402e]*/
 {
     SRE_STATE state;
     PyObject* list;
@@ -1418,6 +1430,7 @@ error:
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sre.SRE_Pattern.sub
 
     cls: defining_class
@@ -1432,7 +1445,7 @@ Return the string obtained by replacing the leftmost non-overlapping occurrences
 static PyObject *
 _sre_SRE_Pattern_sub_impl(PatternObject *self, PyTypeObject *cls,
                           PyObject *repl, PyObject *string, Py_ssize_t count)
-/*[clinic end generated code: output=4be141ab04bca60d input=d8d1d4ac2311a07c]*/
+/*[clinic end generated code: output=4be141ab04bca60d input=0ec74bd3d9ad7edf]*/
 {
     _sremodulestate *module_state = get_sre_module_state_by_class(cls);
 
@@ -1440,6 +1453,7 @@ _sre_SRE_Pattern_sub_impl(PatternObject *self, PyTypeObject *cls,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sre.SRE_Pattern.subn
 
     cls: defining_class
@@ -1455,7 +1469,7 @@ static PyObject *
 _sre_SRE_Pattern_subn_impl(PatternObject *self, PyTypeObject *cls,
                            PyObject *repl, PyObject *string,
                            Py_ssize_t count)
-/*[clinic end generated code: output=da02fd85258b1e1f input=8b78a65b8302e58d]*/
+/*[clinic end generated code: output=da02fd85258b1e1f input=0358e45094236890]*/
 {
     _sremodulestate *module_state = get_sre_module_state_by_class(cls);
 
@@ -1463,18 +1477,20 @@ _sre_SRE_Pattern_subn_impl(PatternObject *self, PyTypeObject *cls,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sre.SRE_Pattern.__copy__
 
 [clinic start generated code]*/
 
 static PyObject *
 _sre_SRE_Pattern___copy___impl(PatternObject *self)
-/*[clinic end generated code: output=85dedc2db1bd8694 input=a730a59d863bc9f5]*/
+/*[clinic end generated code: output=85dedc2db1bd8694 input=e45bbdbdc039d099]*/
 {
     return Py_NewRef(self);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sre.SRE_Pattern.__deepcopy__
 
     memo: object
@@ -1484,13 +1500,14 @@ _sre.SRE_Pattern.__deepcopy__
 
 static PyObject *
 _sre_SRE_Pattern___deepcopy___impl(PatternObject *self, PyObject *memo)
-/*[clinic end generated code: output=75efe69bd12c5d7d input=a465b1602f997bed]*/
+/*[clinic end generated code: output=75efe69bd12c5d7d input=66b6b644f9d27b7b]*/
 {
     return Py_NewRef(self);
 }
 
 #ifdef Py_DEBUG
 /*[clinic input]
+@c_stack_frugal
 _sre.SRE_Pattern._fail_after
 
     count: int
@@ -1503,7 +1520,7 @@ For debugging.
 static PyObject *
 _sre_SRE_Pattern__fail_after_impl(PatternObject *self, int count,
                                   PyObject *exception)
-/*[clinic end generated code: output=9a6bf12135ac50c2 input=ef80a45c66c5499d]*/
+/*[clinic end generated code: output=9a6bf12135ac50c2 input=cfe0e1d1c7f62633]*/
 {
     self->fail_after_count = count;
     Py_INCREF(exception);
@@ -1608,6 +1625,7 @@ pattern_groupindex(PyObject *op, void *Py_UNUSED(ignored))
 static int _validate(PatternObject *self); /* Forward */
 
 /*[clinic input]
+@c_stack_frugal
 _sre.compile
 
     pattern: object
@@ -1623,7 +1641,7 @@ static PyObject *
 _sre_compile_impl(PyObject *module, PyObject *pattern, int flags,
                   PyObject *code, Py_ssize_t groups, PyObject *groupindex,
                   PyObject *indexgroup)
-/*[clinic end generated code: output=ef9c2b3693776404 input=0a68476dbbe5db30]*/
+/*[clinic end generated code: output=ef9c2b3693776404 input=a65e692273abf89b]*/
 {
     /* "compile" pattern descriptor to pattern object */
 
@@ -1706,6 +1724,7 @@ _sre_compile_impl(PyObject *module, PyObject *pattern, int flags,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sre.template
 
     pattern: object
@@ -1719,7 +1738,7 @@ _sre.template
 
 static PyObject *
 _sre_template_impl(PyObject *module, PyObject *pattern, PyObject *template)
-/*[clinic end generated code: output=d51290e596ebca86 input=af55380b27f02942]*/
+/*[clinic end generated code: output=d51290e596ebca86 input=386ad9001c3d73fb]*/
 {
     /* template is a list containing interleaved literal strings (str or bytes)
      * and group indices (int), as returned by _parser.parse_template:
@@ -2374,6 +2393,7 @@ match_getslice(MatchObject* self, PyObject* index, PyObject* def)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sre.SRE_Match.expand
 
     template: object
@@ -2383,7 +2403,7 @@ Return the string obtained by doing backslash substitution on the string templat
 
 static PyObject *
 _sre_SRE_Match_expand_impl(MatchObject *self, PyObject *template)
-/*[clinic end generated code: output=931b58ccc323c3a1 input=4bfdb22c2f8b146a]*/
+/*[clinic end generated code: output=931b58ccc323c3a1 input=60880669d6178a56]*/
 {
     _sremodulestate *module_state = get_sre_module_state_by_class(Py_TYPE(self));
     PyObject *filter = compile_template(module_state, self->pattern, template);
@@ -2439,6 +2459,7 @@ match_getitem(PyObject *op, PyObject* name)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sre.SRE_Match.groups
 
     default: object = None
@@ -2449,7 +2470,7 @@ Return a tuple containing all the subgroups of the match, from 1.
 
 static PyObject *
 _sre_SRE_Match_groups_impl(MatchObject *self, PyObject *default_value)
-/*[clinic end generated code: output=daf8e2641537238a input=bb069ef55dabca91]*/
+/*[clinic end generated code: output=daf8e2641537238a input=e1994b757a1dded8]*/
 {
     PyObject* result;
     Py_ssize_t index;
@@ -2472,6 +2493,7 @@ _sre_SRE_Match_groups_impl(MatchObject *self, PyObject *default_value)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sre.SRE_Match.groupdict
 
     default: object = None
@@ -2482,7 +2504,7 @@ Return a dictionary containing all the named subgroups of the match, keyed by th
 
 static PyObject *
 _sre_SRE_Match_groupdict_impl(MatchObject *self, PyObject *default_value)
-/*[clinic end generated code: output=29917c9073e41757 input=0ded7960b23780aa]*/
+/*[clinic end generated code: output=29917c9073e41757 input=5f1cc1fb9059aa41]*/
 {
     PyObject *result;
     PyObject *key;
@@ -2519,6 +2541,7 @@ exit:;
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sre.SRE_Match.start -> Py_ssize_t
 
     group: object(c_default="NULL") = 0
@@ -2529,7 +2552,7 @@ Return index of the start of the substring matched by group.
 
 static Py_ssize_t
 _sre_SRE_Match_start_impl(MatchObject *self, PyObject *group)
-/*[clinic end generated code: output=3f6e7f9df2fb5201 input=ced8e4ed4b33ee6c]*/
+/*[clinic end generated code: output=3f6e7f9df2fb5201 input=19a1f5d608251acd]*/
 {
     Py_ssize_t index = match_getindex(self, group);
 
@@ -2542,6 +2565,7 @@ _sre_SRE_Match_start_impl(MatchObject *self, PyObject *group)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sre.SRE_Match.end -> Py_ssize_t
 
     group: object(c_default="NULL") = 0
@@ -2552,7 +2576,7 @@ Return index of the end of the substring matched by group.
 
 static Py_ssize_t
 _sre_SRE_Match_end_impl(MatchObject *self, PyObject *group)
-/*[clinic end generated code: output=f4240b09911f7692 input=1b799560c7f3d7e6]*/
+/*[clinic end generated code: output=f4240b09911f7692 input=080625a440a9f0b2]*/
 {
     Py_ssize_t index = match_getindex(self, group);
 
@@ -2592,6 +2616,7 @@ _pair(Py_ssize_t i1, Py_ssize_t i2)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sre.SRE_Match.span
 
     group: object(c_default="NULL") = 0
@@ -2602,7 +2627,7 @@ For match object m, return the 2-tuple (m.start(group), m.end(group)).
 
 static PyObject *
 _sre_SRE_Match_span_impl(MatchObject *self, PyObject *group)
-/*[clinic end generated code: output=f02ae40594d14fe6 input=8fa6014e982d71d4]*/
+/*[clinic end generated code: output=f02ae40594d14fe6 input=2b91767ebd8e002d]*/
 {
     Py_ssize_t index = match_getindex(self, group);
 
@@ -2640,18 +2665,20 @@ match_regs(MatchObject* self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sre.SRE_Match.__copy__
 
 [clinic start generated code]*/
 
 static PyObject *
 _sre_SRE_Match___copy___impl(MatchObject *self)
-/*[clinic end generated code: output=a779c5fc8b5b4eb4 input=3bb4d30b6baddb5b]*/
+/*[clinic end generated code: output=a779c5fc8b5b4eb4 input=96baf81a9d667b86]*/
 {
     return Py_NewRef(self);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sre.SRE_Match.__deepcopy__
 
     memo: object
@@ -2661,7 +2688,7 @@ _sre.SRE_Match.__deepcopy__
 
 static PyObject *
 _sre_SRE_Match___deepcopy___impl(MatchObject *self, PyObject *memo)
-/*[clinic end generated code: output=2b657578eb03f4a3 input=779d12a31c2c325e]*/
+/*[clinic end generated code: output=2b657578eb03f4a3 input=bb4f9eae5c5dd119]*/
 {
     return Py_NewRef(self);
 }
@@ -2854,6 +2881,7 @@ scanner_end(ScannerObject* self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sre.SRE_Scanner.match
 
     cls: defining_class
@@ -2863,7 +2891,7 @@ _sre.SRE_Scanner.match
 
 static PyObject *
 _sre_SRE_Scanner_match_impl(ScannerObject *self, PyTypeObject *cls)
-/*[clinic end generated code: output=6e22c149dc0f0325 input=b5146e1f30278cb7]*/
+/*[clinic end generated code: output=6e22c149dc0f0325 input=8711d185975cac29]*/
 {
     _sremodulestate *module_state = get_sre_module_state_by_class(cls);
     SRE_STATE* state = &self->state;
@@ -2904,6 +2932,7 @@ _sre_SRE_Scanner_match_impl(ScannerObject *self, PyTypeObject *cls)
 
 
 /*[clinic input]
+@c_stack_frugal
 _sre.SRE_Scanner.search
 
     cls: defining_class
@@ -2913,7 +2942,7 @@ _sre.SRE_Scanner.search
 
 static PyObject *
 _sre_SRE_Scanner_search_impl(ScannerObject *self, PyTypeObject *cls)
-/*[clinic end generated code: output=23e8fc78013f9161 input=056c2d37171d0bf2]*/
+/*[clinic end generated code: output=23e8fc78013f9161 input=fc9ecf464ff6a0c1]*/
 {
     _sremodulestate *module_state = get_sre_module_state_by_class(cls);
     SRE_STATE* state = &self->state;

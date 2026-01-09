@@ -619,6 +619,7 @@ context_tp_contains(PyObject *op, PyObject *key)
 
 
 /*[clinic input]
+@c_stack_frugal
 _contextvars.Context.get
     key: object
     default: object = None
@@ -633,7 +634,7 @@ return None.
 static PyObject *
 _contextvars_Context_get_impl(PyContext *self, PyObject *key,
                               PyObject *default_value)
-/*[clinic end generated code: output=0c54aa7664268189 input=c8eeb81505023995]*/
+/*[clinic end generated code: output=0c54aa7664268189 input=39d4dbc4716c6bd2]*/
 {
     if (context_check_key_type(key)) {
         return NULL;
@@ -652,6 +653,7 @@ _contextvars_Context_get_impl(PyContext *self, PyObject *key,
 
 
 /*[clinic input]
+@c_stack_frugal
 _contextvars.Context.items
 
 Return all variables and their values in the context object.
@@ -661,13 +663,14 @@ The result is returned as a list of 2-tuples (variable, value).
 
 static PyObject *
 _contextvars_Context_items_impl(PyContext *self)
-/*[clinic end generated code: output=fa1655c8a08502af input=00db64ae379f9f42]*/
+/*[clinic end generated code: output=fa1655c8a08502af input=a08da5b779512abb]*/
 {
     return _PyHamt_NewIterItems(self->ctx_vars);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 _contextvars.Context.keys
 
 Return a list of all variables in the context object.
@@ -675,13 +678,14 @@ Return a list of all variables in the context object.
 
 static PyObject *
 _contextvars_Context_keys_impl(PyContext *self)
-/*[clinic end generated code: output=177227c6b63ec0e2 input=114b53aebca3449c]*/
+/*[clinic end generated code: output=177227c6b63ec0e2 input=b5d4b8dbd6594c7f]*/
 {
     return _PyHamt_NewIterKeys(self->ctx_vars);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 _contextvars.Context.values
 
 Return a list of all variables' values in the context object.
@@ -689,13 +693,14 @@ Return a list of all variables' values in the context object.
 
 static PyObject *
 _contextvars_Context_values_impl(PyContext *self)
-/*[clinic end generated code: output=d286dabfc8db6dde input=ce8075d04a6ea526]*/
+/*[clinic end generated code: output=d286dabfc8db6dde input=1b40aae3d49d31b3]*/
 {
     return _PyHamt_NewIterValues(self->ctx_vars);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 _contextvars.Context.copy
 
 Return a shallow copy of the context object.
@@ -703,7 +708,7 @@ Return a shallow copy of the context object.
 
 static PyObject *
 _contextvars_Context_copy_impl(PyContext *self)
-/*[clinic end generated code: output=30ba8896c4707a15 input=ebafdbdd9c72d592]*/
+/*[clinic end generated code: output=30ba8896c4707a15 input=c9886ddd517b8f39]*/
 {
     return (PyObject *)context_new_from_vars(self->ctx_vars);
 }
@@ -1007,6 +1012,7 @@ error:
 
 
 /*[clinic input]
+@c_stack_frugal
 _contextvars.ContextVar.get
     default: object = NULL
     /
@@ -1022,7 +1028,7 @@ If there is no value for the variable in the current context, the method will:
 
 static PyObject *
 _contextvars_ContextVar_get_impl(PyContextVar *self, PyObject *default_value)
-/*[clinic end generated code: output=0746bd0aa2ced7bf input=30aa2ab9e433e401]*/
+/*[clinic end generated code: output=0746bd0aa2ced7bf input=928f096d45faa78b]*/
 {
     if (!PyContextVar_CheckExact(self)) {
         PyErr_SetString(
@@ -1044,6 +1050,7 @@ _contextvars_ContextVar_get_impl(PyContextVar *self, PyObject *default_value)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _contextvars.ContextVar.set
     value: object
     /
@@ -1058,12 +1065,13 @@ value via the `ContextVar.reset()` method.
 
 static PyObject *
 _contextvars_ContextVar_set_impl(PyContextVar *self, PyObject *value)
-/*[clinic end generated code: output=1b562d35cc79c806 input=c0a6887154227453]*/
+/*[clinic end generated code: output=1b562d35cc79c806 input=c4a99d8baf3bbdad]*/
 {
     return PyContextVar_Set((PyObject *)self, value);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _contextvars.ContextVar.reset
     token: object
     /
@@ -1076,7 +1084,7 @@ created the token was used.
 
 static PyObject *
 _contextvars_ContextVar_reset_impl(PyContextVar *self, PyObject *token)
-/*[clinic end generated code: output=3205d2bdff568521 input=ebe2881e5af4ffda]*/
+/*[clinic end generated code: output=3205d2bdff568521 input=8033a3cde7831b47]*/
 {
     if (!PyContextToken_CheckExact(token)) {
         PyErr_Format(PyExc_TypeError,
@@ -1231,6 +1239,7 @@ static PyGetSetDef PyContextTokenType_getsetlist[] = {
 };
 
 /*[clinic input]
+@c_stack_frugal
 _contextvars.Token.__enter__ as token_enter
 
 Enter into Token context manager.
@@ -1238,12 +1247,13 @@ Enter into Token context manager.
 
 static PyObject *
 token_enter_impl(PyContextToken *self)
-/*[clinic end generated code: output=9af4d2054e93fb75 input=41a3d6c4195fd47a]*/
+/*[clinic end generated code: output=9af4d2054e93fb75 input=5442bfad4aef7d3d]*/
 {
     return Py_NewRef(self);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _contextvars.Token.__exit__ as token_exit
 
     type: object
@@ -1257,7 +1267,7 @@ Exit from Token context manager, restore the linked ContextVar.
 static PyObject *
 token_exit_impl(PyContextToken *self, PyObject *type, PyObject *val,
                 PyObject *tb)
-/*[clinic end generated code: output=3e6a1c95d3da703a input=7f117445f0ccd92e]*/
+/*[clinic end generated code: output=3e6a1c95d3da703a input=ddbbfd1e96ac2635]*/
 {
     int ret = PyContextVar_Reset((PyObject *)self->tok_var, (PyObject *)self);
     if (ret < 0) {

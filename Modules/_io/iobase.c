@@ -92,6 +92,7 @@ iobase_unsupported(_PyIO_State *state, const char *message)
 /* Positioning */
 
 /*[clinic input]
+@c_stack_frugal
 _io._IOBase.seek
     cls: defining_class
     offset: int(unused=True)
@@ -115,13 +116,14 @@ Return the new absolute position.
 static PyObject *
 _io__IOBase_seek_impl(PyObject *self, PyTypeObject *cls,
                       int Py_UNUSED(offset), int Py_UNUSED(whence))
-/*[clinic end generated code: output=8bd74ea6538ded53 input=74211232b363363e]*/
+/*[clinic end generated code: output=8bd74ea6538ded53 input=b3175ceb6eeccc36]*/
 {
     _PyIO_State *state = get_io_state_by_cls(cls);
     return iobase_unsupported(state, "seek");
 }
 
 /*[clinic input]
+@c_stack_frugal
 _io._IOBase.tell
 
 Return current stream position.
@@ -129,12 +131,13 @@ Return current stream position.
 
 static PyObject *
 _io__IOBase_tell_impl(PyObject *self)
-/*[clinic end generated code: output=89a1c0807935abe2 input=04e615fec128801f]*/
+/*[clinic end generated code: output=89a1c0807935abe2 input=93a53204df5c7b0b]*/
 {
     return _PyObject_CallMethod(self, &_Py_ID(seek), "ii", 0, 1);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _io._IOBase.truncate
     cls: defining_class
     size: object(unused=True) = None
@@ -149,7 +152,7 @@ as reported by tell(). Return the new size.
 static PyObject *
 _io__IOBase_truncate_impl(PyObject *self, PyTypeObject *cls,
                           PyObject *Py_UNUSED(size))
-/*[clinic end generated code: output=2013179bff1fe8ef input=660ac20936612c27]*/
+/*[clinic end generated code: output=2013179bff1fe8ef input=faf5c375ea58a8d1]*/
 {
     _PyIO_State *state = get_io_state_by_cls(cls);
     return iobase_unsupported(state, "truncate");
@@ -158,6 +161,7 @@ _io__IOBase_truncate_impl(PyObject *self, PyTypeObject *cls,
 /* Flush and close methods */
 
 /*[clinic input]
+@c_stack_frugal
 _io._IOBase.flush
 
 Flush write buffers, if applicable.
@@ -167,7 +171,7 @@ This is not implemented for read-only and non-blocking streams.
 
 static PyObject *
 _io__IOBase_flush_impl(PyObject *self)
-/*[clinic end generated code: output=7cef4b4d54656a3b input=773be121abe270aa]*/
+/*[clinic end generated code: output=7cef4b4d54656a3b input=6b684a84080ea6f2]*/
 {
     /* XXX Should this return the number of bytes written??? */
     int closed = iobase_is_closed(self);
@@ -256,6 +260,7 @@ _PyIOBase_cannot_pickle(PyObject *self, PyObject *args)
    whatever behaviour a non-trivial derived class will implement. */
 
 /*[clinic input]
+@c_stack_frugal
 _io._IOBase.close
 
 Flush and close the IO object.
@@ -265,7 +270,7 @@ This method has no effect if the file is already closed.
 
 static PyObject *
 _io__IOBase_close_impl(PyObject *self)
-/*[clinic end generated code: output=63c6a6f57d783d6d input=f4494d5c31dbc6b7]*/
+/*[clinic end generated code: output=63c6a6f57d783d6d input=0f0b39bf717c4f6b]*/
 {
     int rc1, rc2, closed = iobase_is_closed(self);
 
@@ -393,6 +398,7 @@ iobase_dealloc(PyObject *op)
 /* Inquiry methods */
 
 /*[clinic input]
+@c_stack_frugal
 _io._IOBase.seekable
 
 Return whether object supports random access.
@@ -403,7 +409,7 @@ This method may need to do a test seek().
 
 static PyObject *
 _io__IOBase_seekable_impl(PyObject *self)
-/*[clinic end generated code: output=4c24c67f5f32a43d input=b976622f7fdf3063]*/
+/*[clinic end generated code: output=4c24c67f5f32a43d input=515538d765c03e26]*/
 {
     Py_RETURN_FALSE;
 }
@@ -426,6 +432,7 @@ _PyIOBase_check_seekable(_PyIO_State *state, PyObject *self, PyObject *args)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _io._IOBase.readable
 
 Return whether object was opened for reading.
@@ -435,7 +442,7 @@ If False, read() will raise OSError.
 
 static PyObject *
 _io__IOBase_readable_impl(PyObject *self)
-/*[clinic end generated code: output=e48089250686388b input=285b3b866a0ec35f]*/
+/*[clinic end generated code: output=e48089250686388b input=c98f5b8ad8c77687]*/
 {
     Py_RETURN_FALSE;
 }
@@ -459,6 +466,7 @@ _PyIOBase_check_readable(_PyIO_State *state, PyObject *self, PyObject *args)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _io._IOBase.writable
 
 Return whether object was opened for writing.
@@ -468,7 +476,7 @@ If False, write() will raise OSError.
 
 static PyObject *
 _io__IOBase_writable_impl(PyObject *self)
-/*[clinic end generated code: output=406001d0985be14f input=9dcac18a013a05b5]*/
+/*[clinic end generated code: output=406001d0985be14f input=2f722fe09391b856]*/
 {
     Py_RETURN_FALSE;
 }
@@ -513,6 +521,7 @@ iobase_exit(PyObject *self, PyObject *args)
 /* XXX Should these be present even if unimplemented? */
 
 /*[clinic input]
+@c_stack_frugal
 _io._IOBase.fileno
     cls: defining_class
     /
@@ -524,13 +533,14 @@ Raise OSError if the IO object does not use a file descriptor.
 
 static PyObject *
 _io__IOBase_fileno_impl(PyObject *self, PyTypeObject *cls)
-/*[clinic end generated code: output=7caaa32a6f4ada3d input=1927c8bea5c85099]*/
+/*[clinic end generated code: output=7caaa32a6f4ada3d input=13bbfc823e71b5d8]*/
 {
     _PyIO_State *state = get_io_state_by_cls(cls);
     return iobase_unsupported(state, "fileno");
 }
 
 /*[clinic input]
+@c_stack_frugal
 _io._IOBase.isatty
 
 Return whether this is an 'interactive' stream.
@@ -540,7 +550,7 @@ Return False if it can't be determined.
 
 static PyObject *
 _io__IOBase_isatty_impl(PyObject *self)
-/*[clinic end generated code: output=60cab77cede41cdd input=9ef76530d368458b]*/
+/*[clinic end generated code: output=60cab77cede41cdd input=0a8a8b99b200d98e]*/
 {
     if (iobase_check_closed(self))
         return NULL;
@@ -550,6 +560,7 @@ _io__IOBase_isatty_impl(PyObject *self)
 /* Readline(s) and writelines */
 
 /*[clinic input]
+@c_stack_frugal
 _io._IOBase.readline
     size as limit: Py_ssize_t(accept={int, NoneType}) = -1
     /
@@ -565,7 +576,7 @@ terminator(s) recognized.
 
 static PyObject *
 _io__IOBase_readline_impl(PyObject *self, Py_ssize_t limit)
-/*[clinic end generated code: output=4479f79b58187840 input=d0c596794e877bff]*/
+/*[clinic end generated code: output=4479f79b58187840 input=50e5d9b1627337c1]*/
 {
     /* For backwards compatibility, a (slowish) readline(). */
 
@@ -700,6 +711,7 @@ iobase_iternext(PyObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _io._IOBase.readlines
     hint: Py_ssize_t(accept={int, NoneType}) = -1
     /
@@ -713,7 +725,7 @@ lines so far exceeds hint.
 
 static PyObject *
 _io__IOBase_readlines_impl(PyObject *self, Py_ssize_t hint)
-/*[clinic end generated code: output=2f50421677fa3dea input=9400c786ea9dc416]*/
+/*[clinic end generated code: output=2f50421677fa3dea input=e3169e5ad56b92a7]*/
 {
     Py_ssize_t length = 0;
     PyObject *result, *it = NULL;
@@ -775,6 +787,7 @@ _io__IOBase_readlines_impl(PyObject *self, Py_ssize_t hint)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _io._IOBase.writelines
     lines: object
     /
@@ -787,7 +800,7 @@ lines provided to have a line separator at the end.
 
 static PyObject *
 _io__IOBase_writelines(PyObject *self, PyObject *lines)
-/*[clinic end generated code: output=976eb0a9b60a6628 input=cac3fc8864183359]*/
+/*[clinic end generated code: output=976eb0a9b60a6628 input=498714b404dc7b63]*/
 {
     PyObject *iter, *res;
 
@@ -911,6 +924,7 @@ PyDoc_STRVAR(rawiobase_doc,
 */
 
 /*[clinic input]
+@c_stack_frugal
 _io._RawIOBase.read
     size as n: Py_ssize_t = -1
     /
@@ -918,7 +932,7 @@ _io._RawIOBase.read
 
 static PyObject *
 _io__RawIOBase_read_impl(PyObject *self, Py_ssize_t n)
-/*[clinic end generated code: output=6cdeb731e3c9f13c input=b6d0dcf6417d1374]*/
+/*[clinic end generated code: output=6cdeb731e3c9f13c input=bfd093d4dc42f712]*/
 {
     PyObject *b, *res;
 
@@ -952,6 +966,7 @@ _io__RawIOBase_read_impl(PyObject *self, Py_ssize_t n)
 
 
 /*[clinic input]
+@c_stack_frugal
 _io._RawIOBase.readall
 
 Read until EOF, using multiple read() call.
@@ -959,7 +974,7 @@ Read until EOF, using multiple read() call.
 
 static PyObject *
 _io__RawIOBase_readall_impl(PyObject *self)
-/*[clinic end generated code: output=1987b9ce929425a0 input=688874141213622a]*/
+/*[clinic end generated code: output=1987b9ce929425a0 input=6adca5841ba6d810]*/
 {
     int r;
     PyObject *chunks = PyList_New(0);

@@ -704,6 +704,7 @@ element_dealloc(PyObject *op)
 /* -------------------------------------------------------------------- */
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.Element.append
 
     cls: defining_class
@@ -715,7 +716,7 @@ _elementtree.Element.append
 static PyObject *
 _elementtree_Element_append_impl(ElementObject *self, PyTypeObject *cls,
                                  PyObject *subelement)
-/*[clinic end generated code: output=d00923711ea317fc input=8baf92679f9717b8]*/
+/*[clinic end generated code: output=d00923711ea317fc input=ebd8f7d3fa2677ca]*/
 {
     elementtreestate *st = get_elementtree_state_by_cls(cls);
     if (element_add_subelement(st, self, subelement) < 0)
@@ -725,13 +726,14 @@ _elementtree_Element_append_impl(ElementObject *self, PyTypeObject *cls,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.Element.clear
 
 [clinic start generated code]*/
 
 static PyObject *
 _elementtree_Element_clear_impl(ElementObject *self)
-/*[clinic end generated code: output=8bcd7a51f94cfff6 input=3c719ff94bf45dd6]*/
+/*[clinic end generated code: output=8bcd7a51f94cfff6 input=3aac08fcdd9ddabf]*/
 {
     clear_extra(self);
 
@@ -742,6 +744,7 @@ _elementtree_Element_clear_impl(ElementObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.Element.__copy__
 
     cls: defining_class
@@ -751,7 +754,7 @@ _elementtree.Element.__copy__
 
 static PyObject *
 _elementtree_Element___copy___impl(ElementObject *self, PyTypeObject *cls)
-/*[clinic end generated code: output=da22894421ff2b36 input=91edb92d9f441213]*/
+/*[clinic end generated code: output=da22894421ff2b36 input=3b639b78df840afa]*/
 {
     Py_ssize_t i;
     ElementObject* element;
@@ -790,6 +793,7 @@ _elementtree_Element___copy___impl(ElementObject *self, PyTypeObject *cls)
 LOCAL(PyObject *) deepcopy(elementtreestate *, PyObject *, PyObject *);
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.Element.__deepcopy__
 
     memo: object(subclass_of="&PyDict_Type")
@@ -799,7 +803,7 @@ _elementtree.Element.__deepcopy__
 
 static PyObject *
 _elementtree_Element___deepcopy___impl(ElementObject *self, PyObject *memo)
-/*[clinic end generated code: output=eefc3df50465b642 input=a2d40348c0aade10]*/
+/*[clinic end generated code: output=eefc3df50465b642 input=bf0ed0f8b4996a96]*/
 {
     Py_ssize_t i;
     ElementObject* element;
@@ -956,13 +960,14 @@ deepcopy(elementtreestate *st, PyObject *object, PyObject *memo)
 
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.Element.__sizeof__ -> size_t
 
 [clinic start generated code]*/
 
 static size_t
 _elementtree_Element___sizeof___impl(ElementObject *self)
-/*[clinic end generated code: output=baae4e7ae9fe04ec input=54e298c501f3e0d0]*/
+/*[clinic end generated code: output=baae4e7ae9fe04ec input=4856c5e5a1a3f0a2]*/
 {
     size_t result = _PyObject_SIZE(Py_TYPE(self));
     if (self->extra) {
@@ -988,13 +993,14 @@ _elementtree_Element___sizeof___impl(ElementObject *self)
  * pickles.  See issue #16076.
  */
 /*[clinic input]
+@c_stack_frugal
 _elementtree.Element.__getstate__
 
 [clinic start generated code]*/
 
 static PyObject *
 _elementtree_Element___getstate___impl(ElementObject *self)
-/*[clinic end generated code: output=37279aeeb6bb5b04 input=f0d16d7ec2f7adc1]*/
+/*[clinic end generated code: output=37279aeeb6bb5b04 input=dfd68c3fe9a9988f]*/
 {
     Py_ssize_t i;
     PyObject *children, *attrib;
@@ -1145,6 +1151,7 @@ element_setstate_from_Python(elementtreestate *st, ElementObject *self,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.Element.__setstate__
 
     cls: defining_class
@@ -1156,7 +1163,7 @@ _elementtree.Element.__setstate__
 static PyObject *
 _elementtree_Element___setstate___impl(ElementObject *self,
                                        PyTypeObject *cls, PyObject *state)
-/*[clinic end generated code: output=598bfb5730f71509 input=13830488d35d51f7]*/
+/*[clinic end generated code: output=598bfb5730f71509 input=96371e170c01b762]*/
 {
     if (!PyDict_CheckExact(state)) {
         PyErr_Format(PyExc_TypeError,
@@ -1226,6 +1233,7 @@ checkpath(PyObject* tag)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.Element.extend
 
     cls: defining_class
@@ -1237,7 +1245,7 @@ _elementtree.Element.extend
 static PyObject *
 _elementtree_Element_extend_impl(ElementObject *self, PyTypeObject *cls,
                                  PyObject *elements)
-/*[clinic end generated code: output=3e86d37fac542216 input=6479b1b5379d09ae]*/
+/*[clinic end generated code: output=3e86d37fac542216 input=73cc404fdc92e859]*/
 {
     PyObject* seq;
     Py_ssize_t i;
@@ -1264,6 +1272,7 @@ _elementtree_Element_extend_impl(ElementObject *self, PyTypeObject *cls,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.Element.find
 
     cls: defining_class
@@ -1276,7 +1285,7 @@ _elementtree.Element.find
 static PyObject *
 _elementtree_Element_find_impl(ElementObject *self, PyTypeObject *cls,
                                PyObject *path, PyObject *namespaces)
-/*[clinic end generated code: output=18f77d393c9fef1b input=94df8a83f956acc6]*/
+/*[clinic end generated code: output=18f77d393c9fef1b input=635764a4dad1f3db]*/
 {
     elementtreestate *st = get_elementtree_state_by_cls(cls);
 
@@ -1306,6 +1315,7 @@ _elementtree_Element_find_impl(ElementObject *self, PyTypeObject *cls,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.Element.findtext
 
     cls: defining_class
@@ -1320,7 +1330,7 @@ static PyObject *
 _elementtree_Element_findtext_impl(ElementObject *self, PyTypeObject *cls,
                                    PyObject *path, PyObject *default_value,
                                    PyObject *namespaces)
-/*[clinic end generated code: output=6af7a2d96aac32cb input=32f252099f62a3d2]*/
+/*[clinic end generated code: output=6af7a2d96aac32cb input=443d489334630777]*/
 {
     elementtreestate *st = get_elementtree_state_by_cls(cls);
 
@@ -1356,6 +1366,7 @@ _elementtree_Element_findtext_impl(ElementObject *self, PyTypeObject *cls,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.Element.findall
 
     cls: defining_class
@@ -1368,7 +1379,7 @@ _elementtree.Element.findall
 static PyObject *
 _elementtree_Element_findall_impl(ElementObject *self, PyTypeObject *cls,
                                   PyObject *path, PyObject *namespaces)
-/*[clinic end generated code: output=65e39a1208f3b59e input=7aa0db45673fc9a5]*/
+/*[clinic end generated code: output=65e39a1208f3b59e input=727d121441cd4670]*/
 {
     elementtreestate *st = get_elementtree_state_by_cls(cls);
 
@@ -1402,6 +1413,7 @@ _elementtree_Element_findall_impl(ElementObject *self, PyTypeObject *cls,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.Element.iterfind
 
     cls: defining_class
@@ -1414,7 +1426,7 @@ _elementtree.Element.iterfind
 static PyObject *
 _elementtree_Element_iterfind_impl(ElementObject *self, PyTypeObject *cls,
                                    PyObject *path, PyObject *namespaces)
-/*[clinic end generated code: output=be5c3f697a14e676 input=88766875a5c9a88b]*/
+/*[clinic end generated code: output=be5c3f697a14e676 input=12b121bed0f29bd2]*/
 {
     PyObject* tag = path;
     elementtreestate *st = get_elementtree_state_by_cls(cls);
@@ -1424,6 +1436,7 @@ _elementtree_Element_iterfind_impl(ElementObject *self, PyTypeObject *cls,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.Element.get
 
     key: object
@@ -1434,7 +1447,7 @@ _elementtree.Element.get
 static PyObject *
 _elementtree_Element_get_impl(ElementObject *self, PyObject *key,
                               PyObject *default_value)
-/*[clinic end generated code: output=523c614142595d75 input=ee153bbf8cdb246e]*/
+/*[clinic end generated code: output=523c614142595d75 input=e3c8b88c4ef9fa10]*/
 {
     if (self->extra && self->extra->attrib) {
         PyObject *attrib = Py_NewRef(self->extra->attrib);
@@ -1454,6 +1467,7 @@ create_elementiter(elementtreestate *st, ElementObject *self, PyObject *tag,
 
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.Element.iter
 
     cls: defining_class
@@ -1465,7 +1479,7 @@ _elementtree.Element.iter
 static PyObject *
 _elementtree_Element_iter_impl(ElementObject *self, PyTypeObject *cls,
                                PyObject *tag)
-/*[clinic end generated code: output=bff29dc5d4566c68 input=f6944c48d3f84c58]*/
+/*[clinic end generated code: output=bff29dc5d4566c68 input=e6967595742a5219]*/
 {
     if (PyUnicode_Check(tag)) {
         if (PyUnicode_GET_LENGTH(tag) == 1 && PyUnicode_READ_CHAR(tag, 0) == '*')
@@ -1482,6 +1496,7 @@ _elementtree_Element_iter_impl(ElementObject *self, PyTypeObject *cls,
 
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.Element.itertext
 
     cls: defining_class
@@ -1491,7 +1506,7 @@ _elementtree.Element.itertext
 
 static PyObject *
 _elementtree_Element_itertext_impl(ElementObject *self, PyTypeObject *cls)
-/*[clinic end generated code: output=fdeb2a3bca0ae063 input=a1ef1f0fc872a586]*/
+/*[clinic end generated code: output=fdeb2a3bca0ae063 input=68878981c70cf471]*/
 {
     elementtreestate *st = get_elementtree_state_by_cls(cls);
     return create_elementiter(st, self, Py_None, 1);
@@ -1532,6 +1547,7 @@ element_bool(PyObject *op)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.Element.insert
 
     index: Py_ssize_t
@@ -1543,7 +1559,7 @@ _elementtree.Element.insert
 static PyObject *
 _elementtree_Element_insert_impl(ElementObject *self, Py_ssize_t index,
                                  PyObject *subelement)
-/*[clinic end generated code: output=990adfef4d424c0b input=9530f4905aa401ca]*/
+/*[clinic end generated code: output=990adfef4d424c0b input=5bb0c69f2db1ae6d]*/
 {
     Py_ssize_t i;
 
@@ -1574,13 +1590,14 @@ _elementtree_Element_insert_impl(ElementObject *self, Py_ssize_t index,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.Element.items
 
 [clinic start generated code]*/
 
 static PyObject *
 _elementtree_Element_items_impl(ElementObject *self)
-/*[clinic end generated code: output=6db2c778ce3f5a4d input=adbe09aaea474447]*/
+/*[clinic end generated code: output=6db2c778ce3f5a4d input=6008db5ef72012c5]*/
 {
     if (!self->extra || !self->extra->attrib)
         return PyList_New(0);
@@ -1589,13 +1606,14 @@ _elementtree_Element_items_impl(ElementObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.Element.keys
 
 [clinic start generated code]*/
 
 static PyObject *
 _elementtree_Element_keys_impl(ElementObject *self)
-/*[clinic end generated code: output=bc5bfabbf20eeb3c input=f02caf5b496b5b0b]*/
+/*[clinic end generated code: output=bc5bfabbf20eeb3c input=3915344a40e39e44]*/
 {
     if (!self->extra || !self->extra->attrib)
         return PyList_New(0);
@@ -1614,6 +1632,7 @@ element_length(PyObject *op)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.Element.makeelement
 
     cls: defining_class
@@ -1626,7 +1645,7 @@ _elementtree.Element.makeelement
 static PyObject *
 _elementtree_Element_makeelement_impl(ElementObject *self, PyTypeObject *cls,
                                       PyObject *tag, PyObject *attrib)
-/*[clinic end generated code: output=d50bb17a47077d47 input=589829dab92f26e8]*/
+/*[clinic end generated code: output=d50bb17a47077d47 input=13b9c7b7fff2061f]*/
 {
     PyObject* elem;
 
@@ -1643,6 +1662,7 @@ _elementtree_Element_makeelement_impl(ElementObject *self, PyTypeObject *cls,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.Element.remove
 
     subelement: object(subclass_of='clinic_state()->Element_Type')
@@ -1652,7 +1672,7 @@ _elementtree.Element.remove
 
 static PyObject *
 _elementtree_Element_remove_impl(ElementObject *self, PyObject *subelement)
-/*[clinic end generated code: output=38fe6c07d6d87d1f input=6133e1d05597d5ee]*/
+/*[clinic end generated code: output=38fe6c07d6d87d1f input=1e20adbbdfab164c]*/
 {
     Py_ssize_t i;
     // When iterating over the list of children, we need to check that the
@@ -1725,6 +1745,7 @@ element_repr(PyObject *op)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.Element.set
 
     key: object
@@ -1736,7 +1757,7 @@ _elementtree.Element.set
 static PyObject *
 _elementtree_Element_set_impl(ElementObject *self, PyObject *key,
                               PyObject *value)
-/*[clinic end generated code: output=fb938806be3c5656 input=1efe90f7d82b3fe9]*/
+/*[clinic end generated code: output=fb938806be3c5656 input=beb1da0d6dae560c]*/
 {
     PyObject* attrib;
 
@@ -2434,6 +2455,7 @@ treebuilder_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.TreeBuilder.__init__
 
     element_factory: object = None
@@ -2451,7 +2473,7 @@ _elementtree_TreeBuilder___init___impl(TreeBuilderObject *self,
                                        PyObject *comment_factory,
                                        PyObject *pi_factory,
                                        int insert_comments, int insert_pis)
-/*[clinic end generated code: output=8571d4dcadfdf952 input=ae98a94df20b5cc3]*/
+/*[clinic end generated code: output=8571d4dcadfdf952 input=0620dfb696d9f5e6]*/
 {
     if (element_factory != Py_None) {
         Py_XSETREF(self->element_factory, Py_NewRef(element_factory));
@@ -2547,6 +2569,7 @@ treebuilder_dealloc(PyObject *self)
 /* helpers for handling of arbitrary element-like objects */
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree._set_factories
 
     comment_factory: object
@@ -2561,7 +2584,7 @@ For internal use only.
 static PyObject *
 _elementtree__set_factories_impl(PyObject *module, PyObject *comment_factory,
                                  PyObject *pi_factory)
-/*[clinic end generated code: output=813b408adee26535 input=99d17627aea7fb3b]*/
+/*[clinic end generated code: output=813b408adee26535 input=d45e069bfab87dde]*/
 {
     elementtreestate *st = get_elementtree_state(module);
     PyObject *old;
@@ -2967,6 +2990,7 @@ treebuilder_handle_end_ns(TreeBuilderObject* self, PyObject* prefix)
 /* methods (in alphabetical order) */
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.TreeBuilder.data
 
     data: object
@@ -2976,12 +3000,13 @@ _elementtree.TreeBuilder.data
 
 static PyObject *
 _elementtree_TreeBuilder_data_impl(TreeBuilderObject *self, PyObject *data)
-/*[clinic end generated code: output=dfa02b68f732b8c0 input=a0540c532b284d29]*/
+/*[clinic end generated code: output=dfa02b68f732b8c0 input=c96a382151d04853]*/
 {
     return treebuilder_handle_data(self, data);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.TreeBuilder.end
 
     tag: object
@@ -2991,12 +3016,13 @@ _elementtree.TreeBuilder.end
 
 static PyObject *
 _elementtree_TreeBuilder_end_impl(TreeBuilderObject *self, PyObject *tag)
-/*[clinic end generated code: output=84cb6ca9008ec740 input=22dc3674236f5745]*/
+/*[clinic end generated code: output=84cb6ca9008ec740 input=68e6dfebc2eb4b0f]*/
 {
     return treebuilder_handle_end(self, tag);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.TreeBuilder.comment
 
     text: object
@@ -3007,12 +3033,13 @@ _elementtree.TreeBuilder.comment
 static PyObject *
 _elementtree_TreeBuilder_comment_impl(TreeBuilderObject *self,
                                       PyObject *text)
-/*[clinic end generated code: output=a555ef39027c3823 input=47e7ebc48ed01dfa]*/
+/*[clinic end generated code: output=a555ef39027c3823 input=35dda837f0f05a20]*/
 {
     return treebuilder_handle_comment(self, text);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.TreeBuilder.pi
 
     target: object
@@ -3024,7 +3051,7 @@ _elementtree.TreeBuilder.pi
 static PyObject *
 _elementtree_TreeBuilder_pi_impl(TreeBuilderObject *self, PyObject *target,
                                  PyObject *text)
-/*[clinic end generated code: output=21eb95ec9d04d1d9 input=349342bd79c35570]*/
+/*[clinic end generated code: output=21eb95ec9d04d1d9 input=b3323b31001ed0b7]*/
 {
     return treebuilder_handle_pi(self, target, text);
 }
@@ -3045,18 +3072,20 @@ treebuilder_done(TreeBuilderObject* self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.TreeBuilder.close
 
 [clinic start generated code]*/
 
 static PyObject *
 _elementtree_TreeBuilder_close_impl(TreeBuilderObject *self)
-/*[clinic end generated code: output=b441fee3202f61ee input=f7c9c65dc718de14]*/
+/*[clinic end generated code: output=b441fee3202f61ee input=d7df9e44cf180ad6]*/
 {
     return treebuilder_done(self);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.TreeBuilder.start
 
     tag: object
@@ -3068,7 +3097,7 @@ _elementtree.TreeBuilder.start
 static PyObject *
 _elementtree_TreeBuilder_start_impl(TreeBuilderObject *self, PyObject *tag,
                                     PyObject *attrs)
-/*[clinic end generated code: output=e7e9dc2861349411 input=7288e9e38e63b2b6]*/
+/*[clinic end generated code: output=e7e9dc2861349411 input=8774e4b2c8a4071e]*/
 {
     return treebuilder_handle_start(self, tag, attrs);
 }
@@ -3678,6 +3707,7 @@ ignore_attribute_error(PyObject *value)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.XMLParser.__init__
 
     *
@@ -3689,7 +3719,7 @@ _elementtree.XMLParser.__init__
 static int
 _elementtree_XMLParser___init___impl(XMLParserObject *self, PyObject *target,
                                      const char *encoding)
-/*[clinic end generated code: output=3ae45ec6cdf344e4 input=7e716dd6e4f3e439]*/
+/*[clinic end generated code: output=3ae45ec6cdf344e4 input=90e7074aaab14779]*/
 {
     self->entity = PyDict_New();
     if (!self->entity)
@@ -3905,13 +3935,14 @@ expat_parse(elementtreestate *st, XMLParserObject *self, const char *data,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.XMLParser.close
 
 [clinic start generated code]*/
 
 static PyObject *
 _elementtree_XMLParser_close_impl(XMLParserObject *self)
-/*[clinic end generated code: output=d68d375dd23bc7fb input=ca7909ca78c3abfe]*/
+/*[clinic end generated code: output=d68d375dd23bc7fb input=358b102245f6e541]*/
 {
     /* end feeding data to parser */
 
@@ -3939,13 +3970,14 @@ _elementtree_XMLParser_close_impl(XMLParserObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.XMLParser.flush
 
 [clinic start generated code]*/
 
 static PyObject *
 _elementtree_XMLParser_flush_impl(XMLParserObject *self)
-/*[clinic end generated code: output=42fdb8795ca24509 input=effbecdb28715949]*/
+/*[clinic end generated code: output=42fdb8795ca24509 input=ac07022196898a89]*/
 {
     if (!_check_xmlparser(self)) {
         return NULL;
@@ -3973,6 +4005,7 @@ _elementtree_XMLParser_flush_impl(XMLParserObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.XMLParser.feed
 
     data: object
@@ -3982,7 +4015,7 @@ _elementtree.XMLParser.feed
 
 static PyObject *
 _elementtree_XMLParser_feed_impl(XMLParserObject *self, PyObject *data)
-/*[clinic end generated code: output=503e6fbf1adf17ab input=fe231b6b8de3ce1f]*/
+/*[clinic end generated code: output=503e6fbf1adf17ab input=9fa076602983942d]*/
 {
     /* feed data to parser */
 
@@ -4021,6 +4054,7 @@ _elementtree_XMLParser_feed_impl(XMLParserObject *self, PyObject *data)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.XMLParser._parse_whole
 
     file: object
@@ -4031,7 +4065,7 @@ _elementtree.XMLParser._parse_whole
 static PyObject *
 _elementtree_XMLParser__parse_whole_impl(XMLParserObject *self,
                                          PyObject *file)
-/*[clinic end generated code: output=60718a4e63d237d2 input=19ecc893b6f3e752]*/
+/*[clinic end generated code: output=60718a4e63d237d2 input=4f96e4a4cbd9ee4b]*/
 {
     /* (internal) parse the whole input, until end of stream */
     PyObject* reader;
@@ -4111,6 +4145,7 @@ _elementtree_XMLParser__parse_whole_impl(XMLParserObject *self,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _elementtree.XMLParser._setevents
 
     events_queue: object
@@ -4123,7 +4158,7 @@ static PyObject *
 _elementtree_XMLParser__setevents_impl(XMLParserObject *self,
                                        PyObject *events_queue,
                                        PyObject *events_to_report)
-/*[clinic end generated code: output=1440092922b13ed1 input=abf90830a1c3b0fc]*/
+/*[clinic end generated code: output=1440092922b13ed1 input=3ecb89298734777a]*/
 {
     /* activate element event reporting */
     Py_ssize_t i;

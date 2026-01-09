@@ -129,12 +129,13 @@ PyMethod_New(PyObject *func, PyObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 method.__reduce__
 [clinic start generated code]*/
 
 static PyObject *
 method___reduce___impl(PyMethodObject *self)
-/*[clinic end generated code: output=6c04506d0fa6fdcb input=143a0bf5e96de6e8]*/
+/*[clinic end generated code: output=6c04506d0fa6fdcb input=86d7836566aa5e1a]*/
 {
     PyObject *funcself = PyMethod_GET_SELF(self);
     PyObject *func = PyMethod_GET_FUNCTION(self);
@@ -213,6 +214,7 @@ method_getattro(PyObject *obj, PyObject *name)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 method.__new__ as method_new
     function: object
@@ -224,7 +226,7 @@ Create a bound instance method object.
 
 static PyObject *
 method_new_impl(PyTypeObject *type, PyObject *function, PyObject *instance)
-/*[clinic end generated code: output=d33ef4ebf702e1f7 input=4e32facc3c3108ae]*/
+/*[clinic end generated code: output=d33ef4ebf702e1f7 input=30ef1cd896d1f1c6]*/
 {
     if (!PyCallable_Check(function)) {
         PyErr_SetString(PyExc_TypeError,
@@ -524,6 +526,7 @@ instancemethod_repr(PyObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 instancemethod.__new__ as instancemethod_new
     function: object
@@ -534,7 +537,7 @@ Bind a function to a class.
 
 static PyObject *
 instancemethod_new_impl(PyTypeObject *type, PyObject *function)
-/*[clinic end generated code: output=5e0397b2bdb750be input=cfc54e8b973664a8]*/
+/*[clinic end generated code: output=5e0397b2bdb750be input=fae055945109901f]*/
 {
     if (!PyCallable_Check(function)) {
         PyErr_SetString(PyExc_TypeError,

@@ -680,6 +680,7 @@ set_eval_frame_record(PyObject *self, PyObject *list)
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _testinternalcapi.compiler_cleandoc -> object
 
@@ -690,12 +691,13 @@ C implementation of inspect.cleandoc().
 
 static PyObject *
 _testinternalcapi_compiler_cleandoc_impl(PyObject *module, PyObject *doc)
-/*[clinic end generated code: output=2dd203a80feff5bc input=2de03fab931d9cdc]*/
+/*[clinic end generated code: output=2dd203a80feff5bc input=6b2b3794634f4da6]*/
 {
     return _PyCompile_CleanDoc(doc);
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _testinternalcapi.new_instruction_sequence -> object
 
@@ -704,12 +706,13 @@ Return a new, empty InstructionSequence.
 
 static PyObject *
 _testinternalcapi_new_instruction_sequence_impl(PyObject *module)
-/*[clinic end generated code: output=ea4243fddb9057fd input=1dec2591b173be83]*/
+/*[clinic end generated code: output=ea4243fddb9057fd input=6f34ff1b79fb9cd7]*/
 {
     return _PyInstructionSequence_New();
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _testinternalcapi.compiler_codegen -> object
 
@@ -725,7 +728,7 @@ static PyObject *
 _testinternalcapi_compiler_codegen_impl(PyObject *module, PyObject *ast,
                                         PyObject *filename, int optimize,
                                         int compile_mode)
-/*[clinic end generated code: output=40a68f6e13951cc8 input=a0e00784f1517cd7]*/
+/*[clinic end generated code: output=40a68f6e13951cc8 input=bb3bf67af6cb1393]*/
 {
     PyCompilerFlags *flags = NULL;
     return _PyCompile_CodeGen(ast, filename, flags, optimize, compile_mode);
@@ -733,6 +736,7 @@ _testinternalcapi_compiler_codegen_impl(PyObject *module, PyObject *ast,
 
 
 /*[clinic input]
+@c_stack_frugal
 
 _testinternalcapi.optimize_cfg -> object
 
@@ -746,7 +750,7 @@ Apply compiler optimizations to an instruction list.
 static PyObject *
 _testinternalcapi_optimize_cfg_impl(PyObject *module, PyObject *instructions,
                                     PyObject *consts, int nlocals)
-/*[clinic end generated code: output=57c53c3a3dfd1df0 input=6a96d1926d58d7e5]*/
+/*[clinic end generated code: output=57c53c3a3dfd1df0 input=e7308c1ac1effbd2]*/
 {
     return _PyCompile_OptimizeCfg(instructions, consts, nlocals);
 }
@@ -761,6 +765,7 @@ get_nonnegative_int_from_dict(PyObject *dict, const char *key) {
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _testinternalcapi.assemble_code_object -> object
 
@@ -776,7 +781,7 @@ _testinternalcapi_assemble_code_object_impl(PyObject *module,
                                             PyObject *filename,
                                             PyObject *instructions,
                                             PyObject *metadata)
-/*[clinic end generated code: output=38003dc16a930f48 input=e713ad77f08fb3a8]*/
+/*[clinic end generated code: output=38003dc16a930f48 input=9ca871328545959e]*/
 
 {
     assert(PyDict_Check(metadata));
@@ -2076,12 +2081,13 @@ raiseTestError(const char* test_name, const char* msg)
 
 
 /*[clinic input]
+@c_stack_frugal
 _testinternalcapi.test_long_numbits
 [clinic start generated code]*/
 
 static PyObject *
 _testinternalcapi_test_long_numbits_impl(PyObject *module)
-/*[clinic end generated code: output=745d62d120359434 input=f14ca6f638e44dad]*/
+/*[clinic end generated code: output=745d62d120359434 input=9b95b3098ca5f6c4]*/
 {
     struct triple {
         long input;
@@ -2274,6 +2280,7 @@ type_assign_specific_version_unsafe(PyObject *self, PyObject *args)
 }
 
 /*[clinic input]
+@c_stack_frugal
 gh_119213_getargs
 
     spam: object = None
@@ -2283,7 +2290,7 @@ Test _PyArg_Parser.kwtuple
 
 static PyObject *
 gh_119213_getargs_impl(PyObject *module, PyObject *spam)
-/*[clinic end generated code: output=d8d9c95d5b446802 input=65ef47511da80fc2]*/
+/*[clinic end generated code: output=d8d9c95d5b446802 input=6d78fabd92dea248]*/
 {
     // It must never have been called in the main interprer
     assert(!_Py_IsMainInterpreter(PyInterpreterState_Get()));
@@ -2291,12 +2298,13 @@ gh_119213_getargs_impl(PyObject *module, PyObject *spam)
 }
 
 /*[clinic input]
+@c_stack_frugal
 get_next_dict_keys_version
 [clinic start generated code]*/
 
 static PyObject *
 get_next_dict_keys_version_impl(PyObject *module)
-/*[clinic end generated code: output=e5405a509cf9d423 input=bd1cee7c6b9d3a3c]*/
+/*[clinic end generated code: output=e5405a509cf9d423 input=71d160375cc9c6fd]*/
 {
     PyInterpreterState *interp = _PyInterpreterState_GET();
     uint32_t keys_version = interp->dict_state.next_keys_version;

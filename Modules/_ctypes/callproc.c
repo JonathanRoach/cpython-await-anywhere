@@ -1785,6 +1785,7 @@ call_cdeclfunction(PyObject *self, PyObject *args)
  */
 
 /*[clinic input]
+@c_stack_frugal
 _ctypes.sizeof
     obj: object
     /
@@ -1794,7 +1795,7 @@ Return the size in bytes of a C instance.
 
 static PyObject *
 _ctypes_sizeof(PyObject *module, PyObject *obj)
-/*[clinic end generated code: output=ed38a3f364d7bd3e input=321fd0f65cb2d623]*/
+/*[clinic end generated code: output=ed38a3f364d7bd3e input=7cddc3c2ad363213]*/
 {
     ctypes_state *st = get_module_state(module);
 
@@ -1841,6 +1842,7 @@ align_func(PyObject *self, PyObject *obj)
 
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section obj
 _ctypes.byref
     obj: object(subclass_of="clinic_state()->PyCData_Type")
@@ -1852,7 +1854,7 @@ Return a pointer lookalike to a C instance, only usable as function argument.
 
 static PyObject *
 _ctypes_byref_impl(PyObject *module, PyObject *obj, Py_ssize_t offset)
-/*[clinic end generated code: output=60dec5ed520c71de input=6ec02d95d15fbd56]*/
+/*[clinic end generated code: output=60dec5ed520c71de input=052e4f66c2ba1819]*/
 {
     ctypes_state *st = get_module_state(module);
 
@@ -1868,6 +1870,7 @@ _ctypes_byref_impl(PyObject *module, PyObject *obj, Py_ssize_t offset)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section obj
 _ctypes.addressof
     obj: object(subclass_of="clinic_state()->PyCData_Type")
@@ -1878,7 +1881,7 @@ Return the address of the C instance internal buffer
 
 static PyObject *
 _ctypes_addressof_impl(PyObject *module, PyObject *obj)
-/*[clinic end generated code: output=30d8e80c4bab70c7 input=d83937d105d3a442]*/
+/*[clinic end generated code: output=30d8e80c4bab70c7 input=c242f48330d73c6a]*/
 {
     if (PySys_Audit("ctypes.addressof", "(O)", obj) < 0) {
         return NULL;
@@ -1924,6 +1927,7 @@ My_Py_DECREF(PyObject *self, PyObject *arg)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section obj
 _ctypes.resize
     obj: object(subclass_of="clinic_state()->PyCData_Type", type="CDataObject *")
@@ -1934,7 +1938,7 @@ _ctypes.resize
 
 static PyObject *
 _ctypes_resize_impl(PyObject *module, CDataObject *obj, Py_ssize_t size)
-/*[clinic end generated code: output=11c89c7dbdbcd53f input=bf5a6aaea8514261]*/
+/*[clinic end generated code: output=11c89c7dbdbcd53f input=f73280a965574d38]*/
 {
     ctypes_state *st = get_module_state(module);
     StgInfo *info;

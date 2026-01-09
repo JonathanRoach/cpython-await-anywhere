@@ -15,7 +15,7 @@ PyDoc_STRVAR(math_gcd__doc__,
 "Greatest Common Divisor.");
 
 #define MATH_GCD_METHODDEF    \
-    {"gcd", _PyCFunction_CAST(math_gcd), METH_FASTCALL, math_gcd__doc__},
+    {"gcd", _PyCFunction_CAST(math_gcd), METH_FASTCALL|METH_C_STACK_FRUGAL, math_gcd__doc__},
 
 static PyObject *
 math_gcd_impl(PyObject *module, PyObject * const *args,
@@ -42,7 +42,7 @@ PyDoc_STRVAR(math_lcm__doc__,
 "Least Common Multiple.");
 
 #define MATH_LCM_METHODDEF    \
-    {"lcm", _PyCFunction_CAST(math_lcm), METH_FASTCALL, math_lcm__doc__},
+    {"lcm", _PyCFunction_CAST(math_lcm), METH_FASTCALL|METH_C_STACK_FRUGAL, math_lcm__doc__},
 
 static PyObject *
 math_lcm_impl(PyObject *module, PyObject * const *args,
@@ -71,7 +71,7 @@ PyDoc_STRVAR(math_ceil__doc__,
 "This is the smallest integer >= x.");
 
 #define MATH_CEIL_METHODDEF    \
-    {"ceil", (PyCFunction)math_ceil, METH_O, math_ceil__doc__},
+    {"ceil", (PyCFunction)math_ceil, METH_O|METH_C_STACK_FRUGAL, math_ceil__doc__},
 
 PyDoc_STRVAR(math_floor__doc__,
 "floor($module, x, /)\n"
@@ -82,7 +82,7 @@ PyDoc_STRVAR(math_floor__doc__,
 "This is the largest integer <= x.");
 
 #define MATH_FLOOR_METHODDEF    \
-    {"floor", (PyCFunction)math_floor, METH_O, math_floor__doc__},
+    {"floor", (PyCFunction)math_floor, METH_O|METH_C_STACK_FRUGAL, math_floor__doc__},
 
 PyDoc_STRVAR(math_fsum__doc__,
 "fsum($module, seq, /)\n"
@@ -93,7 +93,7 @@ PyDoc_STRVAR(math_fsum__doc__,
 "Assumes IEEE-754 floating-point arithmetic.");
 
 #define MATH_FSUM_METHODDEF    \
-    {"fsum", (PyCFunction)math_fsum, METH_O, math_fsum__doc__},
+    {"fsum", (PyCFunction)math_fsum, METH_O|METH_C_STACK_FRUGAL, math_fsum__doc__},
 
 PyDoc_STRVAR(math_isqrt__doc__,
 "isqrt($module, n, /)\n"
@@ -102,7 +102,7 @@ PyDoc_STRVAR(math_isqrt__doc__,
 "Return the integer part of the square root of the input.");
 
 #define MATH_ISQRT_METHODDEF    \
-    {"isqrt", (PyCFunction)math_isqrt, METH_O, math_isqrt__doc__},
+    {"isqrt", (PyCFunction)math_isqrt, METH_O|METH_C_STACK_FRUGAL, math_isqrt__doc__},
 
 PyDoc_STRVAR(math_factorial__doc__,
 "factorial($module, n, /)\n"
@@ -111,7 +111,7 @@ PyDoc_STRVAR(math_factorial__doc__,
 "Find n!.");
 
 #define MATH_FACTORIAL_METHODDEF    \
-    {"factorial", (PyCFunction)math_factorial, METH_O, math_factorial__doc__},
+    {"factorial", (PyCFunction)math_factorial, METH_O|METH_C_STACK_FRUGAL, math_factorial__doc__},
 
 PyDoc_STRVAR(math_trunc__doc__,
 "trunc($module, x, /)\n"
@@ -122,7 +122,7 @@ PyDoc_STRVAR(math_trunc__doc__,
 "Uses the __trunc__ magic method.");
 
 #define MATH_TRUNC_METHODDEF    \
-    {"trunc", (PyCFunction)math_trunc, METH_O, math_trunc__doc__},
+    {"trunc", (PyCFunction)math_trunc, METH_O|METH_C_STACK_FRUGAL, math_trunc__doc__},
 
 PyDoc_STRVAR(math_frexp__doc__,
 "frexp($module, x, /)\n"
@@ -134,7 +134,7 @@ PyDoc_STRVAR(math_frexp__doc__,
 "If x is 0, m and e are both 0.  Else 0.5 <= abs(m) < 1.0.");
 
 #define MATH_FREXP_METHODDEF    \
-    {"frexp", (PyCFunction)math_frexp, METH_O, math_frexp__doc__},
+    {"frexp", (PyCFunction)math_frexp, METH_O|METH_C_STACK_FRUGAL, math_frexp__doc__},
 
 static PyObject *
 math_frexp_impl(PyObject *module, double x);
@@ -170,7 +170,7 @@ PyDoc_STRVAR(math_ldexp__doc__,
 "This is essentially the inverse of frexp().");
 
 #define MATH_LDEXP_METHODDEF    \
-    {"ldexp", _PyCFunction_CAST(math_ldexp), METH_FASTCALL, math_ldexp__doc__},
+    {"ldexp", _PyCFunction_CAST(math_ldexp), METH_FASTCALL|METH_C_STACK_FRUGAL, math_ldexp__doc__},
 
 static PyObject *
 math_ldexp_impl(PyObject *module, double x, PyObject *i);
@@ -211,7 +211,7 @@ PyDoc_STRVAR(math_modf__doc__,
 "Both results carry the sign of x and are floats.");
 
 #define MATH_MODF_METHODDEF    \
-    {"modf", (PyCFunction)math_modf, METH_O, math_modf__doc__},
+    {"modf", (PyCFunction)math_modf, METH_O|METH_C_STACK_FRUGAL, math_modf__doc__},
 
 static PyObject *
 math_modf_impl(PyObject *module, double x);
@@ -245,7 +245,7 @@ PyDoc_STRVAR(math_log2__doc__,
 "Return the base 2 logarithm of x.");
 
 #define MATH_LOG2_METHODDEF    \
-    {"log2", (PyCFunction)math_log2, METH_O, math_log2__doc__},
+    {"log2", (PyCFunction)math_log2, METH_O|METH_C_STACK_FRUGAL, math_log2__doc__},
 
 PyDoc_STRVAR(math_log10__doc__,
 "log10($module, x, /)\n"
@@ -254,7 +254,7 @@ PyDoc_STRVAR(math_log10__doc__,
 "Return the base 10 logarithm of x.");
 
 #define MATH_LOG10_METHODDEF    \
-    {"log10", (PyCFunction)math_log10, METH_O, math_log10__doc__},
+    {"log10", (PyCFunction)math_log10, METH_O|METH_C_STACK_FRUGAL, math_log10__doc__},
 
 PyDoc_STRVAR(math_fma__doc__,
 "fma($module, x, y, z, /)\n"
@@ -265,7 +265,7 @@ PyDoc_STRVAR(math_fma__doc__,
 "Compute (x * y) + z with a single round.");
 
 #define MATH_FMA_METHODDEF    \
-    {"fma", _PyCFunction_CAST(math_fma), METH_FASTCALL, math_fma__doc__},
+    {"fma", _PyCFunction_CAST(math_fma), METH_FASTCALL|METH_C_STACK_FRUGAL, math_fma__doc__},
 
 static PyObject *
 math_fma_impl(PyObject *module, double x, double y, double z);
@@ -326,7 +326,7 @@ PyDoc_STRVAR(math_fmod__doc__,
 "x % y may differ.");
 
 #define MATH_FMOD_METHODDEF    \
-    {"fmod", _PyCFunction_CAST(math_fmod), METH_FASTCALL, math_fmod__doc__},
+    {"fmod", _PyCFunction_CAST(math_fmod), METH_FASTCALL|METH_C_STACK_FRUGAL, math_fmod__doc__},
 
 static PyObject *
 math_fmod_impl(PyObject *module, double x, double y);
@@ -380,7 +380,7 @@ PyDoc_STRVAR(math_dist__doc__,
 "    sqrt(sum((px - qx) ** 2.0 for px, qx in zip(p, q)))");
 
 #define MATH_DIST_METHODDEF    \
-    {"dist", _PyCFunction_CAST(math_dist), METH_FASTCALL, math_dist__doc__},
+    {"dist", _PyCFunction_CAST(math_dist), METH_FASTCALL|METH_C_STACK_FRUGAL, math_dist__doc__},
 
 static PyObject *
 math_dist_impl(PyObject *module, PyObject *p, PyObject *q);
@@ -421,7 +421,7 @@ PyDoc_STRVAR(math_hypot__doc__,
 "    5.0");
 
 #define MATH_HYPOT_METHODDEF    \
-    {"hypot", _PyCFunction_CAST(math_hypot), METH_FASTCALL, math_hypot__doc__},
+    {"hypot", _PyCFunction_CAST(math_hypot), METH_FASTCALL|METH_C_STACK_FRUGAL, math_hypot__doc__},
 
 static PyObject *
 math_hypot_impl(PyObject *module, PyObject * const *args,
@@ -455,7 +455,7 @@ PyDoc_STRVAR(math_sumprod__doc__,
 "and sums are computed with extended precision.");
 
 #define MATH_SUMPROD_METHODDEF    \
-    {"sumprod", _PyCFunction_CAST(math_sumprod), METH_FASTCALL, math_sumprod__doc__},
+    {"sumprod", _PyCFunction_CAST(math_sumprod), METH_FASTCALL|METH_C_STACK_FRUGAL, math_sumprod__doc__},
 
 static PyObject *
 math_sumprod_impl(PyObject *module, PyObject *p, PyObject *q);
@@ -485,7 +485,7 @@ PyDoc_STRVAR(math_pow__doc__,
 "Return x**y (x to the power of y).");
 
 #define MATH_POW_METHODDEF    \
-    {"pow", _PyCFunction_CAST(math_pow), METH_FASTCALL, math_pow__doc__},
+    {"pow", _PyCFunction_CAST(math_pow), METH_FASTCALL|METH_C_STACK_FRUGAL, math_pow__doc__},
 
 static PyObject *
 math_pow_impl(PyObject *module, double x, double y);
@@ -533,7 +533,7 @@ PyDoc_STRVAR(math_degrees__doc__,
 "Convert angle x from radians to degrees.");
 
 #define MATH_DEGREES_METHODDEF    \
-    {"degrees", (PyCFunction)math_degrees, METH_O, math_degrees__doc__},
+    {"degrees", (PyCFunction)math_degrees, METH_O|METH_C_STACK_FRUGAL, math_degrees__doc__},
 
 static PyObject *
 math_degrees_impl(PyObject *module, double x);
@@ -567,7 +567,7 @@ PyDoc_STRVAR(math_radians__doc__,
 "Convert angle x from degrees to radians.");
 
 #define MATH_RADIANS_METHODDEF    \
-    {"radians", (PyCFunction)math_radians, METH_O, math_radians__doc__},
+    {"radians", (PyCFunction)math_radians, METH_O|METH_C_STACK_FRUGAL, math_radians__doc__},
 
 static PyObject *
 math_radians_impl(PyObject *module, double x);
@@ -601,7 +601,7 @@ PyDoc_STRVAR(math_isfinite__doc__,
 "Return True if x is neither an infinity nor a NaN, and False otherwise.");
 
 #define MATH_ISFINITE_METHODDEF    \
-    {"isfinite", (PyCFunction)math_isfinite, METH_O, math_isfinite__doc__},
+    {"isfinite", (PyCFunction)math_isfinite, METH_O|METH_C_STACK_FRUGAL, math_isfinite__doc__},
 
 static PyObject *
 math_isfinite_impl(PyObject *module, double x);
@@ -635,7 +635,7 @@ PyDoc_STRVAR(math_isnormal__doc__,
 "Return True if x is normal, and False otherwise.");
 
 #define MATH_ISNORMAL_METHODDEF    \
-    {"isnormal", (PyCFunction)math_isnormal, METH_O, math_isnormal__doc__},
+    {"isnormal", (PyCFunction)math_isnormal, METH_O|METH_C_STACK_FRUGAL, math_isnormal__doc__},
 
 static PyObject *
 math_isnormal_impl(PyObject *module, double x);
@@ -669,7 +669,7 @@ PyDoc_STRVAR(math_issubnormal__doc__,
 "Return True if x is subnormal, and False otherwise.");
 
 #define MATH_ISSUBNORMAL_METHODDEF    \
-    {"issubnormal", (PyCFunction)math_issubnormal, METH_O, math_issubnormal__doc__},
+    {"issubnormal", (PyCFunction)math_issubnormal, METH_O|METH_C_STACK_FRUGAL, math_issubnormal__doc__},
 
 static PyObject *
 math_issubnormal_impl(PyObject *module, double x);
@@ -703,7 +703,7 @@ PyDoc_STRVAR(math_isnan__doc__,
 "Return True if x is a NaN (not a number), and False otherwise.");
 
 #define MATH_ISNAN_METHODDEF    \
-    {"isnan", (PyCFunction)math_isnan, METH_O, math_isnan__doc__},
+    {"isnan", (PyCFunction)math_isnan, METH_O|METH_C_STACK_FRUGAL, math_isnan__doc__},
 
 static PyObject *
 math_isnan_impl(PyObject *module, double x);
@@ -737,7 +737,7 @@ PyDoc_STRVAR(math_isinf__doc__,
 "Return True if x is a positive or negative infinity, and False otherwise.");
 
 #define MATH_ISINF_METHODDEF    \
-    {"isinf", (PyCFunction)math_isinf, METH_O, math_isinf__doc__},
+    {"isinf", (PyCFunction)math_isinf, METH_O|METH_C_STACK_FRUGAL, math_isinf__doc__},
 
 static PyObject *
 math_isinf_impl(PyObject *module, double x);
@@ -787,7 +787,7 @@ PyDoc_STRVAR(math_isclose__doc__,
 "only close to themselves.");
 
 #define MATH_ISCLOSE_METHODDEF    \
-    {"isclose", _PyCFunction_CAST(math_isclose), METH_FASTCALL|METH_KEYWORDS, math_isclose__doc__},
+    {"isclose", _PyCFunction_CAST(math_isclose), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, math_isclose__doc__},
 
 static int
 math_isclose_impl(PyObject *module, double a, double b, double rel_tol,
@@ -909,7 +909,7 @@ PyDoc_STRVAR(math_prod__doc__,
 "non-numeric types.");
 
 #define MATH_PROD_METHODDEF    \
-    {"prod", _PyCFunction_CAST(math_prod), METH_FASTCALL|METH_KEYWORDS, math_prod__doc__},
+    {"prod", _PyCFunction_CAST(math_prod), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, math_prod__doc__},
 
 static PyObject *
 math_prod_impl(PyObject *module, PyObject *iterable, PyObject *start);
@@ -983,7 +983,7 @@ PyDoc_STRVAR(math_perm__doc__,
 "Raises ValueError if either of the arguments are negative.");
 
 #define MATH_PERM_METHODDEF    \
-    {"perm", _PyCFunction_CAST(math_perm), METH_FASTCALL, math_perm__doc__},
+    {"perm", _PyCFunction_CAST(math_perm), METH_FASTCALL|METH_C_STACK_FRUGAL, math_perm__doc__},
 
 static PyObject *
 math_perm_impl(PyObject *module, PyObject *n, PyObject *k);
@@ -1027,7 +1027,7 @@ PyDoc_STRVAR(math_comb__doc__,
 "Raises ValueError if either of the arguments are negative.");
 
 #define MATH_COMB_METHODDEF    \
-    {"comb", _PyCFunction_CAST(math_comb), METH_FASTCALL, math_comb__doc__},
+    {"comb", _PyCFunction_CAST(math_comb), METH_FASTCALL|METH_C_STACK_FRUGAL, math_comb__doc__},
 
 static PyObject *
 math_comb_impl(PyObject *module, PyObject *n, PyObject *k);
@@ -1062,7 +1062,7 @@ PyDoc_STRVAR(math_nextafter__doc__,
 "Raises ValueError if steps is negative.");
 
 #define MATH_NEXTAFTER_METHODDEF    \
-    {"nextafter", _PyCFunction_CAST(math_nextafter), METH_FASTCALL|METH_KEYWORDS, math_nextafter__doc__},
+    {"nextafter", _PyCFunction_CAST(math_nextafter), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, math_nextafter__doc__},
 
 static PyObject *
 math_nextafter_impl(PyObject *module, double x, double y, PyObject *steps);
@@ -1147,7 +1147,7 @@ PyDoc_STRVAR(math_ulp__doc__,
 "Return the value of the least significant bit of the float x.");
 
 #define MATH_ULP_METHODDEF    \
-    {"ulp", (PyCFunction)math_ulp, METH_O, math_ulp__doc__},
+    {"ulp", (PyCFunction)math_ulp, METH_O|METH_C_STACK_FRUGAL, math_ulp__doc__},
 
 static double
 math_ulp_impl(PyObject *module, double x);
@@ -1178,4 +1178,4 @@ math_ulp(PyObject *module, PyObject *arg)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=44bba3a0a052a364 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=eb5eed0ff75039d1 input=a9049054013a1b77]*/

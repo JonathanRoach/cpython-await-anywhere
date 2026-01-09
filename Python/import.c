@@ -4240,6 +4240,7 @@ PyImport_ImportModuleAttrString(const char *modname, const char *attrname)
 /**************/
 
 /*[clinic input]
+@c_stack_frugal
 _imp.lock_held
 
 Return True if the import lock is currently held, else False.
@@ -4249,13 +4250,14 @@ On platforms without threads, return False.
 
 static PyObject *
 _imp_lock_held_impl(PyObject *module)
-/*[clinic end generated code: output=8b89384b5e1963fc input=9b088f9b217d9bdf]*/
+/*[clinic end generated code: output=8b89384b5e1963fc input=b30c9e89b6ec45cf]*/
 {
     PyInterpreterState *interp = _PyInterpreterState_GET();
     return PyBool_FromLong(PyMutex_IsLocked(&IMPORT_LOCK(interp).mutex));
 }
 
 /*[clinic input]
+@c_stack_frugal
 _imp.acquire_lock
 
 Acquires the interpreter's import lock for the current thread.
@@ -4266,7 +4268,7 @@ modules. On platforms without threads, this function does nothing.
 
 static PyObject *
 _imp_acquire_lock_impl(PyObject *module)
-/*[clinic end generated code: output=1aff58cb0ee1b026 input=4a2d4381866d5fdc]*/
+/*[clinic end generated code: output=1aff58cb0ee1b026 input=3777a7a20cbdc115]*/
 {
     PyInterpreterState *interp = _PyInterpreterState_GET();
     _PyImport_AcquireLock(interp);
@@ -4274,6 +4276,7 @@ _imp_acquire_lock_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _imp.release_lock
 
 Release the interpreter's import lock.
@@ -4283,7 +4286,7 @@ On platforms without threads, this function does nothing.
 
 static PyObject *
 _imp_release_lock_impl(PyObject *module)
-/*[clinic end generated code: output=7faab6d0be178b0a input=934fb11516dd778b]*/
+/*[clinic end generated code: output=7faab6d0be178b0a input=6b2026ece18d3b6d]*/
 {
     PyInterpreterState *interp = _PyInterpreterState_GET();
     if (!_PyRecursiveMutex_IsLockedByCurrentThread(&IMPORT_LOCK(interp))) {
@@ -4297,6 +4300,7 @@ _imp_release_lock_impl(PyObject *module)
 
 
 /*[clinic input]
+@c_stack_frugal
 _imp._fix_co_filename
 
     code: object(type="PyCodeObject *", subclass_of="&PyCode_Type")
@@ -4312,7 +4316,7 @@ Changes code.co_filename to specify the passed-in file path.
 static PyObject *
 _imp__fix_co_filename_impl(PyObject *module, PyCodeObject *code,
                            PyObject *path)
-/*[clinic end generated code: output=1d002f100235587d input=895ba50e78b82f05]*/
+/*[clinic end generated code: output=1d002f100235587d input=90ca4aa6c4e53016]*/
 
 {
     update_compiled_module(code, path);
@@ -4322,6 +4326,7 @@ _imp__fix_co_filename_impl(PyObject *module, PyCodeObject *code,
 
 
 /*[clinic input]
+@c_stack_frugal
 _imp.create_builtin
 
     spec: object
@@ -4332,7 +4337,7 @@ Create an extension module.
 
 static PyObject *
 _imp_create_builtin(PyObject *module, PyObject *spec)
-/*[clinic end generated code: output=ace7ff22271e6f39 input=37f966f890384e47]*/
+/*[clinic end generated code: output=ace7ff22271e6f39 input=2a5ddbe89cd37c93]*/
 {
     PyThreadState *tstate = _PyThreadState_GET();
 
@@ -4356,6 +4361,7 @@ _imp_create_builtin(PyObject *module, PyObject *spec)
 
 
 /*[clinic input]
+@c_stack_frugal
 _imp.extension_suffixes
 
 Returns the list of file suffixes used to identify extension modules.
@@ -4363,7 +4369,7 @@ Returns the list of file suffixes used to identify extension modules.
 
 static PyObject *
 _imp_extension_suffixes_impl(PyObject *module)
-/*[clinic end generated code: output=0bf346e25a8f0cd3 input=ecdeeecfcb6f839e]*/
+/*[clinic end generated code: output=0bf346e25a8f0cd3 input=40541180e62b3cba]*/
 {
     PyObject *list;
 
@@ -4393,6 +4399,7 @@ _imp_extension_suffixes_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _imp.init_frozen
 
     name: unicode
@@ -4403,7 +4410,7 @@ Initializes a frozen module.
 
 static PyObject *
 _imp_init_frozen_impl(PyObject *module, PyObject *name)
-/*[clinic end generated code: output=fc0511ed869fd69c input=13019adfc04f3fb3]*/
+/*[clinic end generated code: output=fc0511ed869fd69c input=b036d28945a5dc3a]*/
 {
     PyThreadState *tstate = _PyThreadState_GET();
     int ret;
@@ -4418,6 +4425,7 @@ _imp_init_frozen_impl(PyObject *module, PyObject *name)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _imp.find_frozen
 
     name: unicode
@@ -4438,7 +4446,7 @@ The returned info (a 2-tuple):
 
 static PyObject *
 _imp_find_frozen_impl(PyObject *module, PyObject *name, int withdata)
-/*[clinic end generated code: output=8c1c3c7f925397a5 input=22a8847c201542fd]*/
+/*[clinic end generated code: output=8c1c3c7f925397a5 input=7811d68e3c6589d6]*/
 {
     struct frozen_info info;
     frozen_status status = find_frozen(name, &info);
@@ -4479,6 +4487,7 @@ _imp_find_frozen_impl(PyObject *module, PyObject *name, int withdata)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _imp.get_frozen_object
 
     name: unicode
@@ -4491,7 +4500,7 @@ Create a code object for a frozen module.
 static PyObject *
 _imp_get_frozen_object_impl(PyObject *module, PyObject *name,
                             PyObject *dataobj)
-/*[clinic end generated code: output=54368a673a35e745 input=034bdb88f6460b7b]*/
+/*[clinic end generated code: output=54368a673a35e745 input=1c1d677ee554ef2b]*/
 {
     struct frozen_info info = {0};
     Py_buffer buf = {0};
@@ -4532,6 +4541,7 @@ _imp_get_frozen_object_impl(PyObject *module, PyObject *name,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _imp.is_frozen_package
 
     name: unicode
@@ -4542,7 +4552,7 @@ Returns True if the module name is of a frozen package.
 
 static PyObject *
 _imp_is_frozen_package_impl(PyObject *module, PyObject *name)
-/*[clinic end generated code: output=e70cbdb45784a1c9 input=81b6cdecd080fbb8]*/
+/*[clinic end generated code: output=e70cbdb45784a1c9 input=3351261fb66c74b9]*/
 {
     struct frozen_info info;
     frozen_status status = find_frozen(name, &info);
@@ -4554,6 +4564,7 @@ _imp_is_frozen_package_impl(PyObject *module, PyObject *name)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _imp.is_builtin
 
     name: unicode
@@ -4564,12 +4575,13 @@ Returns True if the module name corresponds to a built-in module.
 
 static PyObject *
 _imp_is_builtin_impl(PyObject *module, PyObject *name)
-/*[clinic end generated code: output=3bfd1162e2d3be82 input=86befdac021dd1c7]*/
+/*[clinic end generated code: output=3bfd1162e2d3be82 input=b8054fec78d0137c]*/
 {
     return PyLong_FromLong(is_builtin(name));
 }
 
 /*[clinic input]
+@c_stack_frugal
 _imp.is_frozen
 
     name: unicode
@@ -4580,7 +4592,7 @@ Returns True if the module name corresponds to a frozen module.
 
 static PyObject *
 _imp_is_frozen_impl(PyObject *module, PyObject *name)
-/*[clinic end generated code: output=01f408f5ec0f2577 input=7301dbca1897d66b]*/
+/*[clinic end generated code: output=01f408f5ec0f2577 input=b1a92a8d878a107b]*/
 {
     struct frozen_info info;
     frozen_status status = find_frozen(name, &info);
@@ -4591,6 +4603,7 @@ _imp_is_frozen_impl(PyObject *module, PyObject *name)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _imp._frozen_module_names
 
 Returns the list of available frozen modules.
@@ -4598,12 +4611,13 @@ Returns the list of available frozen modules.
 
 static PyObject *
 _imp__frozen_module_names_impl(PyObject *module)
-/*[clinic end generated code: output=80609ef6256310a8 input=76237fbfa94460d2]*/
+/*[clinic end generated code: output=80609ef6256310a8 input=3eed0e07ab1bb71a]*/
 {
     return list_frozen_module_names();
 }
 
 /*[clinic input]
+@c_stack_frugal
 _imp._override_frozen_modules_for_tests
 
     override: int
@@ -4617,7 +4631,7 @@ See frozen_modules() in Lib/test/support/import_helper.py.
 
 static PyObject *
 _imp__override_frozen_modules_for_tests_impl(PyObject *module, int override)
-/*[clinic end generated code: output=36d5cb1594160811 input=8f1f95a3ef21aec3]*/
+/*[clinic end generated code: output=36d5cb1594160811 input=193333fb78d8ad56]*/
 {
     PyInterpreterState *interp = _PyInterpreterState_GET();
     OVERRIDE_FROZEN_MODULES(interp) = override;
@@ -4625,6 +4639,7 @@ _imp__override_frozen_modules_for_tests_impl(PyObject *module, int override)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _imp._override_multi_interp_extensions_check
 
     override: int
@@ -4638,7 +4653,7 @@ _imp._override_multi_interp_extensions_check
 static PyObject *
 _imp__override_multi_interp_extensions_check_impl(PyObject *module,
                                                   int override)
-/*[clinic end generated code: output=3ff043af52bbf280 input=e086a2ea181f92ae]*/
+/*[clinic end generated code: output=3ff043af52bbf280 input=092edf6799f7ad89]*/
 {
     PyInterpreterState *interp = _PyInterpreterState_GET();
     if (_Py_IsMainInterpreter(interp)) {
@@ -4662,6 +4677,7 @@ _imp__override_multi_interp_extensions_check_impl(PyObject *module,
 #ifdef HAVE_DYNAMIC_LOADING
 
 /*[clinic input]
+@c_stack_frugal
 _imp.create_dynamic
 
     spec: object
@@ -4673,7 +4689,7 @@ Create an extension module.
 
 static PyObject *
 _imp_create_dynamic_impl(PyObject *module, PyObject *spec, PyObject *file)
-/*[clinic end generated code: output=83249b827a4fde77 input=c31b954f4cf4e09d]*/
+/*[clinic end generated code: output=83249b827a4fde77 input=0610e62a0485d87c]*/
 {
     PyObject *mod = NULL;
     PyThreadState *tstate = _PyThreadState_GET();
@@ -4761,6 +4777,7 @@ finally:
 }
 
 /*[clinic input]
+@c_stack_frugal
 _imp.exec_dynamic -> int
 
     mod: object
@@ -4771,7 +4788,7 @@ Initialize an extension module.
 
 static int
 _imp_exec_dynamic_impl(PyObject *module, PyObject *mod)
-/*[clinic end generated code: output=f5720ac7b465877d input=9fdbfcb250280d3a]*/
+/*[clinic end generated code: output=f5720ac7b465877d input=03e1b4e613ec8579]*/
 {
     return exec_builtin_or_dynamic(mod);
 }
@@ -4780,6 +4797,7 @@ _imp_exec_dynamic_impl(PyObject *module, PyObject *mod)
 #endif /* HAVE_DYNAMIC_LOADING */
 
 /*[clinic input]
+@c_stack_frugal
 _imp.exec_builtin -> int
 
     mod: object
@@ -4790,12 +4808,13 @@ Initialize a built-in module.
 
 static int
 _imp_exec_builtin_impl(PyObject *module, PyObject *mod)
-/*[clinic end generated code: output=0262447b240c038e input=7beed5a2f12a60ca]*/
+/*[clinic end generated code: output=0262447b240c038e input=99b32c606441af55]*/
 {
     return exec_builtin_or_dynamic(mod);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _imp.source_hash
 
     key: long
@@ -4804,7 +4823,7 @@ _imp.source_hash
 
 static PyObject *
 _imp_source_hash_impl(PyObject *module, long key, Py_buffer *source)
-/*[clinic end generated code: output=edb292448cf399ea input=9aaad1e590089789]*/
+/*[clinic end generated code: output=edb292448cf399ea input=d40dae84fa7c51b5]*/
 {
     union {
         uint64_t x;

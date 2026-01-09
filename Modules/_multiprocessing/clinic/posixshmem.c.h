@@ -11,7 +11,7 @@ PyDoc_STRVAR(_posixshmem_shm_open__doc__,
 "Open a shared memory object.  Returns a file descriptor (integer).");
 
 #define _POSIXSHMEM_SHM_OPEN_METHODDEF    \
-    {"shm_open", (PyCFunction)(void(*)(void))_posixshmem_shm_open, METH_VARARGS|METH_KEYWORDS, _posixshmem_shm_open__doc__},
+    {"shm_open", (PyCFunction)(void(*)(void))_posixshmem_shm_open, METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, _posixshmem_shm_open__doc__},
 
 static int
 _posixshmem_shm_open_impl(PyObject *module, PyObject *path, int flags,
@@ -55,7 +55,7 @@ PyDoc_STRVAR(_posixshmem_shm_unlink__doc__,
 "region.");
 
 #define _POSIXSHMEM_SHM_UNLINK_METHODDEF    \
-    {"shm_unlink", (PyCFunction)_posixshmem_shm_unlink, METH_O, _posixshmem_shm_unlink__doc__},
+    {"shm_unlink", (PyCFunction)_posixshmem_shm_unlink, METH_O|METH_C_STACK_FRUGAL, _posixshmem_shm_unlink__doc__},
 
 static PyObject *
 _posixshmem_shm_unlink_impl(PyObject *module, PyObject *path);
@@ -86,4 +86,4 @@ exit:
 #ifndef _POSIXSHMEM_SHM_UNLINK_METHODDEF
     #define _POSIXSHMEM_SHM_UNLINK_METHODDEF
 #endif /* !defined(_POSIXSHMEM_SHM_UNLINK_METHODDEF) */
-/*[clinic end generated code: output=74588a5abba6e36c input=a9049054013a1b77]*/
+/*[clinic end generated code: output=3def0109b0976ef2 input=a9049054013a1b77]*/

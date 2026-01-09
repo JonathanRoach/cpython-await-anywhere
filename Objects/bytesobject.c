@@ -1727,13 +1727,14 @@ static PyBufferProcs bytes_as_buffer = {
 
 
 /*[clinic input]
+@c_stack_frugal
 bytes.__bytes__
 Convert this value to exact type bytes.
 [clinic start generated code]*/
 
 static PyObject *
 bytes___bytes___impl(PyBytesObject *self)
-/*[clinic end generated code: output=63a306a9bc0caac5 input=34ec5ddba98bd6bb]*/
+/*[clinic end generated code: output=63a306a9bc0caac5 input=256f140c0bacba87]*/
 {
     if (PyBytes_CheckExact(self)) {
         return Py_NewRef(self);
@@ -1749,6 +1750,7 @@ bytes___bytes___impl(PyBytesObject *self)
 #define BOTHSTRIP 2
 
 /*[clinic input]
+@c_stack_frugal
 bytes.split
 
     sep: object = None
@@ -1764,7 +1766,7 @@ Return a list of the sections in the bytes, using sep as the delimiter.
 
 static PyObject *
 bytes_split_impl(PyBytesObject *self, PyObject *sep, Py_ssize_t maxsplit)
-/*[clinic end generated code: output=52126b5844c1d8ef input=8b809b39074abbfa]*/
+/*[clinic end generated code: output=52126b5844c1d8ef input=6fae1b8db2ea3a43]*/
 {
     Py_ssize_t len = PyBytes_GET_SIZE(self), n;
     const char *s = PyBytes_AS_STRING(self), *sub;
@@ -1786,6 +1788,7 @@ bytes_split_impl(PyBytesObject *self, PyObject *sep, Py_ssize_t maxsplit)
 }
 
 /*[clinic input]
+@c_stack_frugal
 bytes.partition
 
     sep: Py_buffer
@@ -1803,7 +1806,7 @@ object and two empty bytes objects.
 
 static PyObject *
 bytes_partition_impl(PyBytesObject *self, Py_buffer *sep)
-/*[clinic end generated code: output=f532b392a17ff695 input=61cca95519406099]*/
+/*[clinic end generated code: output=f532b392a17ff695 input=fdefd6a1eb9f6a51]*/
 {
     return stringlib_partition(
         (PyObject*) self,
@@ -1813,6 +1816,7 @@ bytes_partition_impl(PyBytesObject *self, Py_buffer *sep)
 }
 
 /*[clinic input]
+@c_stack_frugal
 bytes.rpartition
 
     sep: Py_buffer
@@ -1830,7 +1834,7 @@ objects and the original bytes object.
 
 static PyObject *
 bytes_rpartition_impl(PyBytesObject *self, Py_buffer *sep)
-/*[clinic end generated code: output=191b114cbb028e50 input=d78db010c8cfdbe1]*/
+/*[clinic end generated code: output=191b114cbb028e50 input=350e1b065fe0e83e]*/
 {
     return stringlib_rpartition(
         (PyObject*) self,
@@ -1840,6 +1844,7 @@ bytes_rpartition_impl(PyBytesObject *self, Py_buffer *sep)
 }
 
 /*[clinic input]
+@c_stack_frugal
 bytes.rsplit = bytes.split
 
 Return a list of the sections in the bytes, using sep as the delimiter.
@@ -1849,7 +1854,7 @@ Splitting is done starting at the end of the bytes and working to the front.
 
 static PyObject *
 bytes_rsplit_impl(PyBytesObject *self, PyObject *sep, Py_ssize_t maxsplit)
-/*[clinic end generated code: output=ba698d9ea01e1c8f input=0f86c9f28f7d7b7b]*/
+/*[clinic end generated code: output=ba698d9ea01e1c8f input=589176b37de5fd56]*/
 {
     Py_ssize_t len = PyBytes_GET_SIZE(self), n;
     const char *s = PyBytes_AS_STRING(self), *sub;
@@ -1872,6 +1877,7 @@ bytes_rsplit_impl(PyBytesObject *self, PyObject *sep, Py_ssize_t maxsplit)
 
 
 /*[clinic input]
+@c_stack_frugal
 bytes.join
 
     iterable_of_bytes: object
@@ -1888,7 +1894,7 @@ Example: b'.'.join([b'ab', b'pq', b'rs']) -> b'ab.pq.rs'.
 
 static PyObject *
 bytes_join_impl(PyBytesObject *self, PyObject *iterable_of_bytes)
-/*[clinic end generated code: output=0687abb94d7d438e input=7fe377b95bd549d2]*/
+/*[clinic end generated code: output=0687abb94d7d438e input=56624d4c674b5b09]*/
 {
     return stringlib_bytes_join((PyObject*)self, iterable_of_bytes);
 }
@@ -1910,6 +1916,7 @@ PyBytes_Join(PyObject *sep, PyObject *iterable)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @text_signature "($self, sub[, start[, end]], /)"
 bytes.find
 
@@ -1928,13 +1935,14 @@ Return -1 on failure.
 static PyObject *
 bytes_find_impl(PyBytesObject *self, PyObject *sub, Py_ssize_t start,
                 Py_ssize_t end)
-/*[clinic end generated code: output=d5961a1c77b472a1 input=3171e62a8ae7f240]*/
+/*[clinic end generated code: output=d5961a1c77b472a1 input=9fc45a169ff4d27d]*/
 {
     return _Py_bytes_find(PyBytes_AS_STRING(self), PyBytes_GET_SIZE(self),
                           sub, start, end);
 }
 
 /*[clinic input]
+@c_stack_frugal
 bytes.index = bytes.find
 
 Return the lowest index in B where subsection 'sub' is found, such that 'sub' is contained within B[start,end].
@@ -1945,13 +1953,14 @@ Raise ValueError if the subsection is not found.
 static PyObject *
 bytes_index_impl(PyBytesObject *self, PyObject *sub, Py_ssize_t start,
                  Py_ssize_t end)
-/*[clinic end generated code: output=0da25cc74683ba42 input=aa34ad71ba0bafe3]*/
+/*[clinic end generated code: output=0da25cc74683ba42 input=c16367634c9b33e0]*/
 {
     return _Py_bytes_index(PyBytes_AS_STRING(self), PyBytes_GET_SIZE(self),
                            sub, start, end);
 }
 
 /*[clinic input]
+@c_stack_frugal
 bytes.rfind = bytes.find
 
 Return the highest index in B where subsection 'sub' is found, such that 'sub' is contained within B[start,end].
@@ -1962,13 +1971,14 @@ Return -1 on failure.
 static PyObject *
 bytes_rfind_impl(PyBytesObject *self, PyObject *sub, Py_ssize_t start,
                  Py_ssize_t end)
-/*[clinic end generated code: output=51b60fa4ad011c09 input=864c3e7f3010b33c]*/
+/*[clinic end generated code: output=51b60fa4ad011c09 input=d0e66669314629c0]*/
 {
     return _Py_bytes_rfind(PyBytes_AS_STRING(self), PyBytes_GET_SIZE(self),
                            sub, start, end);
 }
 
 /*[clinic input]
+@c_stack_frugal
 bytes.rindex = bytes.find
 
 Return the highest index in B where subsection 'sub' is found, such that 'sub' is contained within B[start,end].
@@ -1979,7 +1989,7 @@ Raise ValueError if the subsection is not found.
 static PyObject *
 bytes_rindex_impl(PyBytesObject *self, PyObject *sub, Py_ssize_t start,
                   Py_ssize_t end)
-/*[clinic end generated code: output=42bf674e0a0aabf6 input=21051fc5cfeacf2c]*/
+/*[clinic end generated code: output=42bf674e0a0aabf6 input=831b74b510d1e490]*/
 {
     return _Py_bytes_rindex(PyBytes_AS_STRING(self), PyBytes_GET_SIZE(self),
                             sub, start, end);
@@ -2065,6 +2075,7 @@ do_argstrip(PyBytesObject *self, int striptype, PyObject *bytes)
 }
 
 /*[clinic input]
+@c_stack_frugal
 bytes.strip
 
     bytes: object = None
@@ -2077,12 +2088,13 @@ If the argument is omitted or None, strip leading and trailing ASCII whitespace.
 
 static PyObject *
 bytes_strip_impl(PyBytesObject *self, PyObject *bytes)
-/*[clinic end generated code: output=c7c228d3bd104a1b input=8a354640e4e0b3ef]*/
+/*[clinic end generated code: output=c7c228d3bd104a1b input=3e73da9d8f15b53f]*/
 {
     return do_argstrip(self, BOTHSTRIP, bytes);
 }
 
 /*[clinic input]
+@c_stack_frugal
 bytes.lstrip
 
     bytes: object = None
@@ -2095,12 +2107,13 @@ If the argument is omitted or None, strip leading  ASCII whitespace.
 
 static PyObject *
 bytes_lstrip_impl(PyBytesObject *self, PyObject *bytes)
-/*[clinic end generated code: output=28602e586f524e82 input=9baff4398c3f6857]*/
+/*[clinic end generated code: output=28602e586f524e82 input=92bf2e60668b73cf]*/
 {
     return do_argstrip(self, LEFTSTRIP, bytes);
 }
 
 /*[clinic input]
+@c_stack_frugal
 bytes.rstrip
 
     bytes: object = None
@@ -2113,13 +2126,14 @@ If the argument is omitted or None, strip trailing ASCII whitespace.
 
 static PyObject *
 bytes_rstrip_impl(PyBytesObject *self, PyObject *bytes)
-/*[clinic end generated code: output=547e3815c95447da input=b78af445c727e32b]*/
+/*[clinic end generated code: output=547e3815c95447da input=f8cc4101d7aeac25]*/
 {
     return do_argstrip(self, RIGHTSTRIP, bytes);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 bytes.count = bytes.find
 
 Return the number of non-overlapping occurrences of subsection 'sub' in bytes B[start:end].
@@ -2128,7 +2142,7 @@ Return the number of non-overlapping occurrences of subsection 'sub' in bytes B[
 static PyObject *
 bytes_count_impl(PyBytesObject *self, PyObject *sub, Py_ssize_t start,
                  Py_ssize_t end)
-/*[clinic end generated code: output=9848140b9be17d0f input=b6e4a5ed515e1e59]*/
+/*[clinic end generated code: output=9848140b9be17d0f input=67f485ee2c772034]*/
 {
     return _Py_bytes_count(PyBytes_AS_STRING(self), PyBytes_GET_SIZE(self),
                            sub, start, end);
@@ -2136,6 +2150,7 @@ bytes_count_impl(PyBytesObject *self, PyObject *sub, Py_ssize_t start,
 
 
 /*[clinic input]
+@c_stack_frugal
 bytes.translate
 
     table: object
@@ -2152,7 +2167,7 @@ The remaining characters are mapped through the given translation table.
 static PyObject *
 bytes_translate_impl(PyBytesObject *self, PyObject *table,
                      PyObject *deletechars)
-/*[clinic end generated code: output=43be3437f1956211 input=0ecdf159f654233c]*/
+/*[clinic end generated code: output=43be3437f1956211 input=552368d30875387c]*/
 {
     const char *input;
     char *output;
@@ -2264,6 +2279,7 @@ bytes_translate_impl(PyBytesObject *self, PyObject *table,
 
 
 /*[clinic input]
+@c_stack_frugal
 
 @staticmethod
 bytes.maketrans
@@ -2282,13 +2298,14 @@ The bytes objects frm and to must be of the same length.
 
 static PyObject *
 bytes_maketrans_impl(Py_buffer *frm, Py_buffer *to)
-/*[clinic end generated code: output=a36f6399d4b77f6f input=a3bd00d430a0979f]*/
+/*[clinic end generated code: output=a36f6399d4b77f6f input=f106886669365f67]*/
 {
     return _Py_bytes_maketrans(frm, to);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 bytes.replace
 
     old: Py_buffer
@@ -2307,7 +2324,7 @@ replaced.
 static PyObject *
 bytes_replace_impl(PyBytesObject *self, Py_buffer *old, Py_buffer *new,
                    Py_ssize_t count)
-/*[clinic end generated code: output=994fa588b6b9c104 input=b2fbbf0bf04de8e5]*/
+/*[clinic end generated code: output=994fa588b6b9c104 input=b531f3555ec9f507]*/
 {
     return stringlib_replace((PyObject *)self,
                              (const char *)old->buf, old->len,
@@ -2317,6 +2334,7 @@ bytes_replace_impl(PyBytesObject *self, Py_buffer *old, Py_buffer *new,
 /** End DALKE **/
 
 /*[clinic input]
+@c_stack_frugal
 bytes.removeprefix as bytes_removeprefix
 
     prefix: Py_buffer
@@ -2330,7 +2348,7 @@ Otherwise, return a copy of the original bytes.
 
 static PyObject *
 bytes_removeprefix_impl(PyBytesObject *self, Py_buffer *prefix)
-/*[clinic end generated code: output=f006865331a06ab6 input=0c93bac817a8502c]*/
+/*[clinic end generated code: output=f006865331a06ab6 input=20ce13daf357e095]*/
 {
     const char *self_start = PyBytes_AS_STRING(self);
     Py_ssize_t self_len = PyBytes_GET_SIZE(self);
@@ -2353,6 +2371,7 @@ bytes_removeprefix_impl(PyBytesObject *self, Py_buffer *prefix)
 }
 
 /*[clinic input]
+@c_stack_frugal
 bytes.removesuffix as bytes_removesuffix
 
     suffix: Py_buffer
@@ -2367,7 +2386,7 @@ bytes.
 
 static PyObject *
 bytes_removesuffix_impl(PyBytesObject *self, Py_buffer *suffix)
-/*[clinic end generated code: output=d887d308e3242eeb input=9f4e1da8c637bbf1]*/
+/*[clinic end generated code: output=d887d308e3242eeb input=07ebac19b70d11e7]*/
 {
     const char *self_start = PyBytes_AS_STRING(self);
     Py_ssize_t self_len = PyBytes_GET_SIZE(self);
@@ -2391,6 +2410,7 @@ bytes_removesuffix_impl(PyBytesObject *self, Py_buffer *suffix)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @text_signature "($self, prefix[, start[, end]], /)"
 bytes.startswith
 
@@ -2408,13 +2428,14 @@ Return True if the bytes starts with the specified prefix, False otherwise.
 static PyObject *
 bytes_startswith_impl(PyBytesObject *self, PyObject *subobj,
                       Py_ssize_t start, Py_ssize_t end)
-/*[clinic end generated code: output=b1e8da1cbd528e8c input=8a4165df8adfa6c9]*/
+/*[clinic end generated code: output=b1e8da1cbd528e8c input=4e11cc22524b2668]*/
 {
     return _Py_bytes_startswith(PyBytes_AS_STRING(self), PyBytes_GET_SIZE(self),
                                 subobj, start, end);
 }
 
 /*[clinic input]
+@c_stack_frugal
 @text_signature "($self, suffix[, start[, end]], /)"
 bytes.endswith
 
@@ -2432,7 +2453,7 @@ Return True if the bytes ends with the specified suffix, False otherwise.
 static PyObject *
 bytes_endswith_impl(PyBytesObject *self, PyObject *subobj, Py_ssize_t start,
                     Py_ssize_t end)
-/*[clinic end generated code: output=038b633111f3629d input=b5c3407a2a5c9aac]*/
+/*[clinic end generated code: output=038b633111f3629d input=511082b9e45fa490]*/
 {
     return _Py_bytes_endswith(PyBytes_AS_STRING(self), PyBytes_GET_SIZE(self),
                               subobj, start, end);
@@ -2440,6 +2461,7 @@ bytes_endswith_impl(PyBytesObject *self, PyObject *subobj, Py_ssize_t start,
 
 
 /*[clinic input]
+@c_stack_frugal
 bytes.decode
 
     encoding: str(c_default="NULL") = 'utf-8'
@@ -2457,13 +2479,14 @@ Decode the bytes using the codec registered for encoding.
 static PyObject *
 bytes_decode_impl(PyBytesObject *self, const char *encoding,
                   const char *errors)
-/*[clinic end generated code: output=5649a53dde27b314 input=958174769d2a40ca]*/
+/*[clinic end generated code: output=5649a53dde27b314 input=ba9ad60d03ae8376]*/
 {
     return PyUnicode_FromEncodedObject((PyObject*)self, encoding, errors);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 bytes.splitlines
 
     keepends: bool = False
@@ -2476,7 +2499,7 @@ true.
 
 static PyObject *
 bytes_splitlines_impl(PyBytesObject *self, int keepends)
-/*[clinic end generated code: output=3484149a5d880ffb input=5d7b898af2fe55c0]*/
+/*[clinic end generated code: output=3484149a5d880ffb input=fd4972b07b47d0ed]*/
 {
     return stringlib_splitlines(
         (PyObject*) self, PyBytes_AS_STRING(self),
@@ -2485,6 +2508,7 @@ bytes_splitlines_impl(PyBytesObject *self, int keepends)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 bytes.fromhex
 
@@ -2499,7 +2523,7 @@ Example: bytes.fromhex('B9 01EF') -> b'\\xb9\\x01\\xef'.
 
 static PyObject *
 bytes_fromhex_impl(PyTypeObject *type, PyObject *string)
-/*[clinic end generated code: output=0973acc63661bb2e input=f37d98ed51088a21]*/
+/*[clinic end generated code: output=0973acc63661bb2e input=e8b5e87a9ac51731]*/
 {
     PyObject *result = _PyBytes_FromHex(string, 0);
     if (type != &PyBytes_Type && result != NULL) {
@@ -2620,6 +2644,7 @@ _PyBytes_FromHex(PyObject *string, int use_bytearray)
 }
 
 /*[clinic input]
+@c_stack_frugal
 bytes.hex
 
     sep: object = NULL
@@ -2644,7 +2669,7 @@ Example:
 
 static PyObject *
 bytes_hex_impl(PyBytesObject *self, PyObject *sep, int bytes_per_sep)
-/*[clinic end generated code: output=1f134da504064139 input=1a21282b1f1ae595]*/
+/*[clinic end generated code: output=1f134da504064139 input=deb2beb100fff733]*/
 {
     const char *argbuf = PyBytes_AS_STRING(self);
     Py_ssize_t arglen = PyBytes_GET_SIZE(self);
@@ -2739,6 +2764,7 @@ static PyObject *
 bytes_subtype_new(PyTypeObject *, PyObject *);
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 bytes.__new__ as bytes_new
 
@@ -2751,7 +2777,7 @@ bytes.__new__ as bytes_new
 static PyObject *
 bytes_new_impl(PyTypeObject *type, PyObject *x, const char *encoding,
                const char *errors)
-/*[clinic end generated code: output=1e0c471be311a425 input=f0a966d19b7262b4]*/
+/*[clinic end generated code: output=1e0c471be311a425 input=872c6c6c012cc681]*/
 {
     PyObject *bytes;
     PyObject *func;

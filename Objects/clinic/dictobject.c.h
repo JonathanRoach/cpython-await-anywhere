@@ -12,7 +12,7 @@ PyDoc_STRVAR(dict_fromkeys__doc__,
 "Create a new dictionary with keys from iterable and values set to value.");
 
 #define DICT_FROMKEYS_METHODDEF    \
-    {"fromkeys", _PyCFunction_CAST(dict_fromkeys), METH_FASTCALL|METH_CLASS, dict_fromkeys__doc__},
+    {"fromkeys", _PyCFunction_CAST(dict_fromkeys), METH_FASTCALL|METH_CLASS|METH_C_STACK_FRUGAL, dict_fromkeys__doc__},
 
 static PyObject *
 dict_fromkeys_impl(PyTypeObject *type, PyObject *iterable, PyObject *value);
@@ -46,7 +46,7 @@ PyDoc_STRVAR(dict_copy__doc__,
 "Return a shallow copy of the dict.");
 
 #define DICT_COPY_METHODDEF    \
-    {"copy", (PyCFunction)dict_copy, METH_NOARGS, dict_copy__doc__},
+    {"copy", (PyCFunction)dict_copy, METH_NOARGS|METH_C_STACK_FRUGAL, dict_copy__doc__},
 
 static PyObject *
 dict_copy_impl(PyDictObject *self);
@@ -64,7 +64,7 @@ PyDoc_STRVAR(dict___contains____doc__,
 "True if the dictionary has the specified key, else False.");
 
 #define DICT___CONTAINS___METHODDEF    \
-    {"__contains__", (PyCFunction)dict___contains__, METH_O|METH_COEXIST, dict___contains____doc__},
+    {"__contains__", (PyCFunction)dict___contains__, METH_O|METH_COEXIST|METH_C_STACK_FRUGAL, dict___contains____doc__},
 
 static PyObject *
 dict___contains___impl(PyDictObject *self, PyObject *key);
@@ -86,7 +86,7 @@ PyDoc_STRVAR(dict_get__doc__,
 "Return the value for key if key is in the dictionary, else default.");
 
 #define DICT_GET_METHODDEF    \
-    {"get", _PyCFunction_CAST(dict_get), METH_FASTCALL, dict_get__doc__},
+    {"get", _PyCFunction_CAST(dict_get), METH_FASTCALL|METH_C_STACK_FRUGAL, dict_get__doc__},
 
 static PyObject *
 dict_get_impl(PyDictObject *self, PyObject *key, PyObject *default_value);
@@ -122,7 +122,7 @@ PyDoc_STRVAR(dict_setdefault__doc__,
 "Return the value for key if key is in the dictionary, else default.");
 
 #define DICT_SETDEFAULT_METHODDEF    \
-    {"setdefault", _PyCFunction_CAST(dict_setdefault), METH_FASTCALL, dict_setdefault__doc__},
+    {"setdefault", _PyCFunction_CAST(dict_setdefault), METH_FASTCALL|METH_C_STACK_FRUGAL, dict_setdefault__doc__},
 
 static PyObject *
 dict_setdefault_impl(PyDictObject *self, PyObject *key,
@@ -159,7 +159,7 @@ PyDoc_STRVAR(dict_clear__doc__,
 "Remove all items from the dict.");
 
 #define DICT_CLEAR_METHODDEF    \
-    {"clear", (PyCFunction)dict_clear, METH_NOARGS, dict_clear__doc__},
+    {"clear", (PyCFunction)dict_clear, METH_NOARGS|METH_C_STACK_FRUGAL, dict_clear__doc__},
 
 static PyObject *
 dict_clear_impl(PyDictObject *self);
@@ -180,7 +180,7 @@ PyDoc_STRVAR(dict_pop__doc__,
 "raise a KeyError.");
 
 #define DICT_POP_METHODDEF    \
-    {"pop", _PyCFunction_CAST(dict_pop), METH_FASTCALL, dict_pop__doc__},
+    {"pop", _PyCFunction_CAST(dict_pop), METH_FASTCALL|METH_C_STACK_FRUGAL, dict_pop__doc__},
 
 static PyObject *
 dict_pop_impl(PyDictObject *self, PyObject *key, PyObject *default_value);
@@ -217,7 +217,7 @@ PyDoc_STRVAR(dict_popitem__doc__,
 "Raises KeyError if the dict is empty.");
 
 #define DICT_POPITEM_METHODDEF    \
-    {"popitem", (PyCFunction)dict_popitem, METH_NOARGS, dict_popitem__doc__},
+    {"popitem", (PyCFunction)dict_popitem, METH_NOARGS|METH_C_STACK_FRUGAL, dict_popitem__doc__},
 
 static PyObject *
 dict_popitem_impl(PyDictObject *self);
@@ -241,7 +241,7 @@ PyDoc_STRVAR(dict___sizeof____doc__,
 "Return the size of the dict in memory, in bytes.");
 
 #define DICT___SIZEOF___METHODDEF    \
-    {"__sizeof__", (PyCFunction)dict___sizeof__, METH_NOARGS, dict___sizeof____doc__},
+    {"__sizeof__", (PyCFunction)dict___sizeof__, METH_NOARGS|METH_C_STACK_FRUGAL, dict___sizeof____doc__},
 
 static PyObject *
 dict___sizeof___impl(PyDictObject *self);
@@ -259,7 +259,7 @@ PyDoc_STRVAR(dict___reversed____doc__,
 "Return a reverse iterator over the dict keys.");
 
 #define DICT___REVERSED___METHODDEF    \
-    {"__reversed__", (PyCFunction)dict___reversed__, METH_NOARGS, dict___reversed____doc__},
+    {"__reversed__", (PyCFunction)dict___reversed__, METH_NOARGS|METH_C_STACK_FRUGAL, dict___reversed____doc__},
 
 static PyObject *
 dict___reversed___impl(PyDictObject *self);
@@ -277,7 +277,7 @@ PyDoc_STRVAR(dict_keys__doc__,
 "Return a set-like object providing a view on the dict\'s keys.");
 
 #define DICT_KEYS_METHODDEF    \
-    {"keys", (PyCFunction)dict_keys, METH_NOARGS, dict_keys__doc__},
+    {"keys", (PyCFunction)dict_keys, METH_NOARGS|METH_C_STACK_FRUGAL, dict_keys__doc__},
 
 static PyObject *
 dict_keys_impl(PyDictObject *self);
@@ -295,7 +295,7 @@ PyDoc_STRVAR(dict_items__doc__,
 "Return a set-like object providing a view on the dict\'s items.");
 
 #define DICT_ITEMS_METHODDEF    \
-    {"items", (PyCFunction)dict_items, METH_NOARGS, dict_items__doc__},
+    {"items", (PyCFunction)dict_items, METH_NOARGS|METH_C_STACK_FRUGAL, dict_items__doc__},
 
 static PyObject *
 dict_items_impl(PyDictObject *self);
@@ -313,7 +313,7 @@ PyDoc_STRVAR(dict_values__doc__,
 "Return an object providing a view on the dict\'s values.");
 
 #define DICT_VALUES_METHODDEF    \
-    {"values", (PyCFunction)dict_values, METH_NOARGS, dict_values__doc__},
+    {"values", (PyCFunction)dict_values, METH_NOARGS|METH_C_STACK_FRUGAL, dict_values__doc__},
 
 static PyObject *
 dict_values_impl(PyDictObject *self);
@@ -323,4 +323,4 @@ dict_values(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return dict_values_impl((PyDictObject *)self);
 }
-/*[clinic end generated code: output=9007b74432217017 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=b8903e036faaabd9 input=a9049054013a1b77]*/

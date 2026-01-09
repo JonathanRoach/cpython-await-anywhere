@@ -93,7 +93,7 @@ PyDoc_STRVAR(_asyncio_Future_result__doc__,
 "the future is done and has an exception set, this exception is raised.");
 
 #define _ASYNCIO_FUTURE_RESULT_METHODDEF    \
-    {"result", (PyCFunction)_asyncio_Future_result, METH_NOARGS, _asyncio_Future_result__doc__},
+    {"result", (PyCFunction)_asyncio_Future_result, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Future_result__doc__},
 
 static PyObject *
 _asyncio_Future_result_impl(FutureObj *self);
@@ -122,7 +122,7 @@ PyDoc_STRVAR(_asyncio_Future_exception__doc__,
 "InvalidStateError.");
 
 #define _ASYNCIO_FUTURE_EXCEPTION_METHODDEF    \
-    {"exception", _PyCFunction_CAST(_asyncio_Future_exception), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _asyncio_Future_exception__doc__},
+    {"exception", _PyCFunction_CAST(_asyncio_Future_exception), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Future_exception__doc__},
 
 static PyObject *
 _asyncio_Future_exception_impl(FutureObj *self, PyTypeObject *cls);
@@ -154,7 +154,7 @@ PyDoc_STRVAR(_asyncio_Future_set_result__doc__,
 "InvalidStateError.");
 
 #define _ASYNCIO_FUTURE_SET_RESULT_METHODDEF    \
-    {"set_result", _PyCFunction_CAST(_asyncio_Future_set_result), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _asyncio_Future_set_result__doc__},
+    {"set_result", _PyCFunction_CAST(_asyncio_Future_set_result), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Future_set_result__doc__},
 
 static PyObject *
 _asyncio_Future_set_result_impl(FutureObj *self, PyTypeObject *cls,
@@ -204,7 +204,7 @@ PyDoc_STRVAR(_asyncio_Future_set_exception__doc__,
 "InvalidStateError.");
 
 #define _ASYNCIO_FUTURE_SET_EXCEPTION_METHODDEF    \
-    {"set_exception", _PyCFunction_CAST(_asyncio_Future_set_exception), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _asyncio_Future_set_exception__doc__},
+    {"set_exception", _PyCFunction_CAST(_asyncio_Future_set_exception), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Future_set_exception__doc__},
 
 static PyObject *
 _asyncio_Future_set_exception_impl(FutureObj *self, PyTypeObject *cls,
@@ -255,7 +255,7 @@ PyDoc_STRVAR(_asyncio_Future_add_done_callback__doc__,
 "scheduled with call_soon.");
 
 #define _ASYNCIO_FUTURE_ADD_DONE_CALLBACK_METHODDEF    \
-    {"add_done_callback", _PyCFunction_CAST(_asyncio_Future_add_done_callback), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _asyncio_Future_add_done_callback__doc__},
+    {"add_done_callback", _PyCFunction_CAST(_asyncio_Future_add_done_callback), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Future_add_done_callback__doc__},
 
 static PyObject *
 _asyncio_Future_add_done_callback_impl(FutureObj *self, PyTypeObject *cls,
@@ -325,7 +325,7 @@ PyDoc_STRVAR(_asyncio_Future_remove_done_callback__doc__,
 "Returns the number of callbacks removed.");
 
 #define _ASYNCIO_FUTURE_REMOVE_DONE_CALLBACK_METHODDEF    \
-    {"remove_done_callback", _PyCFunction_CAST(_asyncio_Future_remove_done_callback), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _asyncio_Future_remove_done_callback__doc__},
+    {"remove_done_callback", _PyCFunction_CAST(_asyncio_Future_remove_done_callback), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Future_remove_done_callback__doc__},
 
 static PyObject *
 _asyncio_Future_remove_done_callback_impl(FutureObj *self, PyTypeObject *cls,
@@ -376,7 +376,7 @@ PyDoc_STRVAR(_asyncio_Future_cancel__doc__,
 "return True.");
 
 #define _ASYNCIO_FUTURE_CANCEL_METHODDEF    \
-    {"cancel", _PyCFunction_CAST(_asyncio_Future_cancel), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _asyncio_Future_cancel__doc__},
+    {"cancel", _PyCFunction_CAST(_asyncio_Future_cancel), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Future_cancel__doc__},
 
 static PyObject *
 _asyncio_Future_cancel_impl(FutureObj *self, PyTypeObject *cls,
@@ -442,7 +442,7 @@ PyDoc_STRVAR(_asyncio_Future_cancelled__doc__,
 "Return True if the future was cancelled.");
 
 #define _ASYNCIO_FUTURE_CANCELLED_METHODDEF    \
-    {"cancelled", (PyCFunction)_asyncio_Future_cancelled, METH_NOARGS, _asyncio_Future_cancelled__doc__},
+    {"cancelled", (PyCFunction)_asyncio_Future_cancelled, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Future_cancelled__doc__},
 
 static PyObject *
 _asyncio_Future_cancelled_impl(FutureObj *self);
@@ -469,7 +469,7 @@ PyDoc_STRVAR(_asyncio_Future_done__doc__,
 "future was cancelled.");
 
 #define _ASYNCIO_FUTURE_DONE_METHODDEF    \
-    {"done", (PyCFunction)_asyncio_Future_done, METH_NOARGS, _asyncio_Future_done__doc__},
+    {"done", (PyCFunction)_asyncio_Future_done, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Future_done__doc__},
 
 static PyObject *
 _asyncio_Future_done_impl(FutureObj *self);
@@ -493,7 +493,7 @@ PyDoc_STRVAR(_asyncio_Future_get_loop__doc__,
 "Return the event loop the Future is bound to.");
 
 #define _ASYNCIO_FUTURE_GET_LOOP_METHODDEF    \
-    {"get_loop", _PyCFunction_CAST(_asyncio_Future_get_loop), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _asyncio_Future_get_loop__doc__},
+    {"get_loop", _PyCFunction_CAST(_asyncio_Future_get_loop), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Future_get_loop__doc__},
 
 static PyObject *
 _asyncio_Future_get_loop_impl(FutureObj *self, PyTypeObject *cls);
@@ -851,7 +851,7 @@ PyDoc_STRVAR(_asyncio_Future__make_cancelled_error__doc__,
 "it erases the context exception value.");
 
 #define _ASYNCIO_FUTURE__MAKE_CANCELLED_ERROR_METHODDEF    \
-    {"_make_cancelled_error", (PyCFunction)_asyncio_Future__make_cancelled_error, METH_NOARGS, _asyncio_Future__make_cancelled_error__doc__},
+    {"_make_cancelled_error", (PyCFunction)_asyncio_Future__make_cancelled_error, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Future__make_cancelled_error__doc__},
 
 static PyObject *
 _asyncio_Future__make_cancelled_error_impl(FutureObj *self);
@@ -1093,7 +1093,7 @@ PyDoc_STRVAR(_asyncio_Task__make_cancelled_error__doc__,
 "it erases the context exception value.");
 
 #define _ASYNCIO_TASK__MAKE_CANCELLED_ERROR_METHODDEF    \
-    {"_make_cancelled_error", (PyCFunction)_asyncio_Task__make_cancelled_error, METH_NOARGS, _asyncio_Task__make_cancelled_error__doc__},
+    {"_make_cancelled_error", (PyCFunction)_asyncio_Task__make_cancelled_error, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Task__make_cancelled_error__doc__},
 
 static PyObject *
 _asyncio_Task__make_cancelled_error_impl(TaskObj *self);
@@ -1136,7 +1136,7 @@ PyDoc_STRVAR(_asyncio_Task_cancel__doc__,
 "This also increases the task\'s count of cancellation requests.");
 
 #define _ASYNCIO_TASK_CANCEL_METHODDEF    \
-    {"cancel", _PyCFunction_CAST(_asyncio_Task_cancel), METH_FASTCALL|METH_KEYWORDS, _asyncio_Task_cancel__doc__},
+    {"cancel", _PyCFunction_CAST(_asyncio_Task_cancel), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Task_cancel__doc__},
 
 static PyObject *
 _asyncio_Task_cancel_impl(TaskObj *self, PyObject *msg);
@@ -1204,7 +1204,7 @@ PyDoc_STRVAR(_asyncio_Task_cancelling__doc__,
 "and may be decremented using .uncancel().");
 
 #define _ASYNCIO_TASK_CANCELLING_METHODDEF    \
-    {"cancelling", (PyCFunction)_asyncio_Task_cancelling, METH_NOARGS, _asyncio_Task_cancelling__doc__},
+    {"cancelling", (PyCFunction)_asyncio_Task_cancelling, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Task_cancelling__doc__},
 
 static PyObject *
 _asyncio_Task_cancelling_impl(TaskObj *self);
@@ -1233,7 +1233,7 @@ PyDoc_STRVAR(_asyncio_Task_uncancel__doc__,
 "Returns the remaining number of cancellation requests.");
 
 #define _ASYNCIO_TASK_UNCANCEL_METHODDEF    \
-    {"uncancel", (PyCFunction)_asyncio_Task_uncancel, METH_NOARGS, _asyncio_Task_uncancel__doc__},
+    {"uncancel", (PyCFunction)_asyncio_Task_uncancel, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Task_uncancel__doc__},
 
 static PyObject *
 _asyncio_Task_uncancel_impl(TaskObj *self);
@@ -1275,7 +1275,7 @@ PyDoc_STRVAR(_asyncio_Task_get_stack__doc__,
 "returned for a suspended coroutine.");
 
 #define _ASYNCIO_TASK_GET_STACK_METHODDEF    \
-    {"get_stack", _PyCFunction_CAST(_asyncio_Task_get_stack), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _asyncio_Task_get_stack__doc__},
+    {"get_stack", _PyCFunction_CAST(_asyncio_Task_get_stack), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Task_get_stack__doc__},
 
 static PyObject *
 _asyncio_Task_get_stack_impl(TaskObj *self, PyTypeObject *cls,
@@ -1345,7 +1345,7 @@ PyDoc_STRVAR(_asyncio_Task_print_stack__doc__,
 "to sys.stderr.");
 
 #define _ASYNCIO_TASK_PRINT_STACK_METHODDEF    \
-    {"print_stack", _PyCFunction_CAST(_asyncio_Task_print_stack), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _asyncio_Task_print_stack__doc__},
+    {"print_stack", _PyCFunction_CAST(_asyncio_Task_print_stack), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Task_print_stack__doc__},
 
 static PyObject *
 _asyncio_Task_print_stack_impl(TaskObj *self, PyTypeObject *cls,
@@ -1415,7 +1415,7 @@ PyDoc_STRVAR(_asyncio_Task_set_result__doc__,
 "\n");
 
 #define _ASYNCIO_TASK_SET_RESULT_METHODDEF    \
-    {"set_result", (PyCFunction)_asyncio_Task_set_result, METH_O, _asyncio_Task_set_result__doc__},
+    {"set_result", (PyCFunction)_asyncio_Task_set_result, METH_O|METH_C_STACK_FRUGAL, _asyncio_Task_set_result__doc__},
 
 static PyObject *
 _asyncio_Task_set_result_impl(TaskObj *self, PyObject *result);
@@ -1436,7 +1436,7 @@ PyDoc_STRVAR(_asyncio_Task_set_exception__doc__,
 "\n");
 
 #define _ASYNCIO_TASK_SET_EXCEPTION_METHODDEF    \
-    {"set_exception", (PyCFunction)_asyncio_Task_set_exception, METH_O, _asyncio_Task_set_exception__doc__},
+    {"set_exception", (PyCFunction)_asyncio_Task_set_exception, METH_O|METH_C_STACK_FRUGAL, _asyncio_Task_set_exception__doc__},
 
 static PyObject *
 _asyncio_Task_set_exception_impl(TaskObj *self, PyObject *exception);
@@ -1457,7 +1457,7 @@ PyDoc_STRVAR(_asyncio_Task_get_coro__doc__,
 "\n");
 
 #define _ASYNCIO_TASK_GET_CORO_METHODDEF    \
-    {"get_coro", (PyCFunction)_asyncio_Task_get_coro, METH_NOARGS, _asyncio_Task_get_coro__doc__},
+    {"get_coro", (PyCFunction)_asyncio_Task_get_coro, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Task_get_coro__doc__},
 
 static PyObject *
 _asyncio_Task_get_coro_impl(TaskObj *self);
@@ -1480,7 +1480,7 @@ PyDoc_STRVAR(_asyncio_Task_get_context__doc__,
 "\n");
 
 #define _ASYNCIO_TASK_GET_CONTEXT_METHODDEF    \
-    {"get_context", (PyCFunction)_asyncio_Task_get_context, METH_NOARGS, _asyncio_Task_get_context__doc__},
+    {"get_context", (PyCFunction)_asyncio_Task_get_context, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Task_get_context__doc__},
 
 static PyObject *
 _asyncio_Task_get_context_impl(TaskObj *self);
@@ -1497,7 +1497,7 @@ PyDoc_STRVAR(_asyncio_Task_get_name__doc__,
 "\n");
 
 #define _ASYNCIO_TASK_GET_NAME_METHODDEF    \
-    {"get_name", (PyCFunction)_asyncio_Task_get_name, METH_NOARGS, _asyncio_Task_get_name__doc__},
+    {"get_name", (PyCFunction)_asyncio_Task_get_name, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Task_get_name__doc__},
 
 static PyObject *
 _asyncio_Task_get_name_impl(TaskObj *self);
@@ -1520,7 +1520,7 @@ PyDoc_STRVAR(_asyncio_Task_set_name__doc__,
 "\n");
 
 #define _ASYNCIO_TASK_SET_NAME_METHODDEF    \
-    {"set_name", (PyCFunction)_asyncio_Task_set_name, METH_O, _asyncio_Task_set_name__doc__},
+    {"set_name", (PyCFunction)_asyncio_Task_set_name, METH_O|METH_C_STACK_FRUGAL, _asyncio_Task_set_name__doc__},
 
 static PyObject *
 _asyncio_Task_set_name_impl(TaskObj *self, PyObject *value);
@@ -1547,7 +1547,7 @@ PyDoc_STRVAR(_asyncio__get_running_loop__doc__,
 "This function is thread-specific.");
 
 #define _ASYNCIO__GET_RUNNING_LOOP_METHODDEF    \
-    {"_get_running_loop", (PyCFunction)_asyncio__get_running_loop, METH_NOARGS, _asyncio__get_running_loop__doc__},
+    {"_get_running_loop", (PyCFunction)_asyncio__get_running_loop, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio__get_running_loop__doc__},
 
 static PyObject *
 _asyncio__get_running_loop_impl(PyObject *module);
@@ -1568,7 +1568,7 @@ PyDoc_STRVAR(_asyncio__set_running_loop__doc__,
 "This function is thread-specific.");
 
 #define _ASYNCIO__SET_RUNNING_LOOP_METHODDEF    \
-    {"_set_running_loop", (PyCFunction)_asyncio__set_running_loop, METH_O, _asyncio__set_running_loop__doc__},
+    {"_set_running_loop", (PyCFunction)_asyncio__set_running_loop, METH_O|METH_C_STACK_FRUGAL, _asyncio__set_running_loop__doc__},
 
 PyDoc_STRVAR(_asyncio_get_event_loop__doc__,
 "get_event_loop($module, /)\n"
@@ -1584,7 +1584,7 @@ PyDoc_STRVAR(_asyncio_get_event_loop__doc__,
 "the result of `get_event_loop_policy().get_event_loop()` call.");
 
 #define _ASYNCIO_GET_EVENT_LOOP_METHODDEF    \
-    {"get_event_loop", (PyCFunction)_asyncio_get_event_loop, METH_NOARGS, _asyncio_get_event_loop__doc__},
+    {"get_event_loop", (PyCFunction)_asyncio_get_event_loop, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_get_event_loop__doc__},
 
 static PyObject *
 _asyncio_get_event_loop_impl(PyObject *module);
@@ -1604,7 +1604,7 @@ PyDoc_STRVAR(_asyncio_get_running_loop__doc__,
 "This function is thread-specific.");
 
 #define _ASYNCIO_GET_RUNNING_LOOP_METHODDEF    \
-    {"get_running_loop", (PyCFunction)_asyncio_get_running_loop, METH_NOARGS, _asyncio_get_running_loop__doc__},
+    {"get_running_loop", (PyCFunction)_asyncio_get_running_loop, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_get_running_loop__doc__},
 
 static PyObject *
 _asyncio_get_running_loop_impl(PyObject *module);
@@ -1624,7 +1624,7 @@ PyDoc_STRVAR(_asyncio__register_task__doc__,
 "Returns None.");
 
 #define _ASYNCIO__REGISTER_TASK_METHODDEF    \
-    {"_register_task", _PyCFunction_CAST(_asyncio__register_task), METH_FASTCALL|METH_KEYWORDS, _asyncio__register_task__doc__},
+    {"_register_task", _PyCFunction_CAST(_asyncio__register_task), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio__register_task__doc__},
 
 static PyObject *
 _asyncio__register_task_impl(PyObject *module, PyObject *task);
@@ -1684,7 +1684,7 @@ PyDoc_STRVAR(_asyncio__register_eager_task__doc__,
 "Returns None.");
 
 #define _ASYNCIO__REGISTER_EAGER_TASK_METHODDEF    \
-    {"_register_eager_task", _PyCFunction_CAST(_asyncio__register_eager_task), METH_FASTCALL|METH_KEYWORDS, _asyncio__register_eager_task__doc__},
+    {"_register_eager_task", _PyCFunction_CAST(_asyncio__register_eager_task), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio__register_eager_task__doc__},
 
 static PyObject *
 _asyncio__register_eager_task_impl(PyObject *module, PyObject *task);
@@ -1744,7 +1744,7 @@ PyDoc_STRVAR(_asyncio__unregister_task__doc__,
 "Returns None.");
 
 #define _ASYNCIO__UNREGISTER_TASK_METHODDEF    \
-    {"_unregister_task", _PyCFunction_CAST(_asyncio__unregister_task), METH_FASTCALL|METH_KEYWORDS, _asyncio__unregister_task__doc__},
+    {"_unregister_task", _PyCFunction_CAST(_asyncio__unregister_task), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio__unregister_task__doc__},
 
 static PyObject *
 _asyncio__unregister_task_impl(PyObject *module, PyObject *task);
@@ -1804,7 +1804,7 @@ PyDoc_STRVAR(_asyncio__unregister_eager_task__doc__,
 "Returns None.");
 
 #define _ASYNCIO__UNREGISTER_EAGER_TASK_METHODDEF    \
-    {"_unregister_eager_task", _PyCFunction_CAST(_asyncio__unregister_eager_task), METH_FASTCALL|METH_KEYWORDS, _asyncio__unregister_eager_task__doc__},
+    {"_unregister_eager_task", _PyCFunction_CAST(_asyncio__unregister_eager_task), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio__unregister_eager_task__doc__},
 
 static PyObject *
 _asyncio__unregister_eager_task_impl(PyObject *module, PyObject *task);
@@ -1866,7 +1866,7 @@ PyDoc_STRVAR(_asyncio__enter_task__doc__,
 "Returns None.");
 
 #define _ASYNCIO__ENTER_TASK_METHODDEF    \
-    {"_enter_task", _PyCFunction_CAST(_asyncio__enter_task), METH_FASTCALL|METH_KEYWORDS, _asyncio__enter_task__doc__},
+    {"_enter_task", _PyCFunction_CAST(_asyncio__enter_task), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio__enter_task__doc__},
 
 static PyObject *
 _asyncio__enter_task_impl(PyObject *module, PyObject *loop, PyObject *task);
@@ -1930,7 +1930,7 @@ PyDoc_STRVAR(_asyncio__leave_task__doc__,
 "Returns None.");
 
 #define _ASYNCIO__LEAVE_TASK_METHODDEF    \
-    {"_leave_task", _PyCFunction_CAST(_asyncio__leave_task), METH_FASTCALL|METH_KEYWORDS, _asyncio__leave_task__doc__},
+    {"_leave_task", _PyCFunction_CAST(_asyncio__leave_task), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio__leave_task__doc__},
 
 static PyObject *
 _asyncio__leave_task_impl(PyObject *module, PyObject *loop, PyObject *task);
@@ -1992,7 +1992,7 @@ PyDoc_STRVAR(_asyncio__swap_current_task__doc__,
 "This is intended for use during eager coroutine execution.");
 
 #define _ASYNCIO__SWAP_CURRENT_TASK_METHODDEF    \
-    {"_swap_current_task", _PyCFunction_CAST(_asyncio__swap_current_task), METH_FASTCALL|METH_KEYWORDS, _asyncio__swap_current_task__doc__},
+    {"_swap_current_task", _PyCFunction_CAST(_asyncio__swap_current_task), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio__swap_current_task__doc__},
 
 static PyObject *
 _asyncio__swap_current_task_impl(PyObject *module, PyObject *loop,
@@ -2053,7 +2053,7 @@ PyDoc_STRVAR(_asyncio_current_task__doc__,
 "Return a currently executed task.");
 
 #define _ASYNCIO_CURRENT_TASK_METHODDEF    \
-    {"current_task", _PyCFunction_CAST(_asyncio_current_task), METH_FASTCALL|METH_KEYWORDS, _asyncio_current_task__doc__},
+    {"current_task", _PyCFunction_CAST(_asyncio_current_task), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_current_task__doc__},
 
 static PyObject *
 _asyncio_current_task_impl(PyObject *module, PyObject *loop);
@@ -2116,7 +2116,7 @@ PyDoc_STRVAR(_asyncio_all_tasks__doc__,
 "Return a set of all tasks for the loop.");
 
 #define _ASYNCIO_ALL_TASKS_METHODDEF    \
-    {"all_tasks", _PyCFunction_CAST(_asyncio_all_tasks), METH_FASTCALL|METH_KEYWORDS, _asyncio_all_tasks__doc__},
+    {"all_tasks", _PyCFunction_CAST(_asyncio_all_tasks), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_all_tasks__doc__},
 
 static PyObject *
 _asyncio_all_tasks_impl(PyObject *module, PyObject *loop);
@@ -2179,7 +2179,7 @@ PyDoc_STRVAR(_asyncio_future_add_to_awaited_by__doc__,
 "Record that `fut` is awaited on by `waiter`.");
 
 #define _ASYNCIO_FUTURE_ADD_TO_AWAITED_BY_METHODDEF    \
-    {"future_add_to_awaited_by", _PyCFunction_CAST(_asyncio_future_add_to_awaited_by), METH_FASTCALL, _asyncio_future_add_to_awaited_by__doc__},
+    {"future_add_to_awaited_by", _PyCFunction_CAST(_asyncio_future_add_to_awaited_by), METH_FASTCALL|METH_C_STACK_FRUGAL, _asyncio_future_add_to_awaited_by__doc__},
 
 static PyObject *
 _asyncio_future_add_to_awaited_by_impl(PyObject *module, PyObject *fut,
@@ -2209,7 +2209,7 @@ PyDoc_STRVAR(_asyncio_future_discard_from_awaited_by__doc__,
 "\n");
 
 #define _ASYNCIO_FUTURE_DISCARD_FROM_AWAITED_BY_METHODDEF    \
-    {"future_discard_from_awaited_by", _PyCFunction_CAST(_asyncio_future_discard_from_awaited_by), METH_FASTCALL, _asyncio_future_discard_from_awaited_by__doc__},
+    {"future_discard_from_awaited_by", _PyCFunction_CAST(_asyncio_future_discard_from_awaited_by), METH_FASTCALL|METH_C_STACK_FRUGAL, _asyncio_future_discard_from_awaited_by__doc__},
 
 static PyObject *
 _asyncio_future_discard_from_awaited_by_impl(PyObject *module, PyObject *fut,
@@ -2232,4 +2232,4 @@ _asyncio_future_discard_from_awaited_by(PyObject *module, PyObject *const *args,
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=b69948ed810591d9 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=a4961b4074cdd571 input=a9049054013a1b77]*/

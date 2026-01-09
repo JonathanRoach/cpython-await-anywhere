@@ -891,6 +891,7 @@ array_slice(arrayobject *a, Py_ssize_t ilow, Py_ssize_t ihigh)
 }
 
 /*[clinic input]
+@c_stack_frugal
 array.array.clear
 
 Remove all items from the array.
@@ -898,7 +899,7 @@ Remove all items from the array.
 
 static PyObject *
 array_array_clear_impl(arrayobject *self)
-/*[clinic end generated code: output=5efe0417062210a9 input=5dffa30e94e717a4]*/
+/*[clinic end generated code: output=5efe0417062210a9 input=e7f40a1dc16330bc]*/
 {
     if (array_resize(self, 0) == -1) {
         return NULL;
@@ -907,6 +908,7 @@ array_array_clear_impl(arrayobject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 array.array.__copy__
 
 Return a copy of the array.
@@ -914,12 +916,13 @@ Return a copy of the array.
 
 static PyObject *
 array_array___copy___impl(arrayobject *self)
-/*[clinic end generated code: output=dec7c3f925d9619e input=ad1ee5b086965f09]*/
+/*[clinic end generated code: output=dec7c3f925d9619e input=f32447866d5fc50f]*/
 {
     return array_slice(self, 0, Py_SIZE(self));
 }
 
 /*[clinic input]
+@c_stack_frugal
 array.array.__deepcopy__
 
     unused: object
@@ -930,7 +933,7 @@ Return a copy of the array.
 
 static PyObject *
 array_array___deepcopy___impl(arrayobject *self, PyObject *unused)
-/*[clinic end generated code: output=703b4c412feaaf31 input=2405ecb4933748c4]*/
+/*[clinic end generated code: output=703b4c412feaaf31 input=76a11f4d0daf17f0]*/
 {
     return array_array___copy___impl(self);
 }
@@ -1165,6 +1168,7 @@ ins(arrayobject *self, Py_ssize_t where, PyObject *v)
 }
 
 /*[clinic input]
+@c_stack_frugal
 array.array.count
 
     v: object
@@ -1175,7 +1179,7 @@ Return number of occurrences of v in the array.
 
 static PyObject *
 array_array_count_impl(arrayobject *self, PyObject *v)
-/*[clinic end generated code: output=93ead26a2affb739 input=d9bce9d65e39d1f5]*/
+/*[clinic end generated code: output=93ead26a2affb739 input=959cd4afc28bd685]*/
 {
     Py_ssize_t count = 0;
     Py_ssize_t i;
@@ -1199,6 +1203,7 @@ array_array_count_impl(arrayobject *self, PyObject *v)
 
 
 /*[clinic input]
+@c_stack_frugal
 array.array.index
 
     v: object
@@ -1214,7 +1219,7 @@ Raise ValueError if the value is not present.
 static PyObject *
 array_array_index_impl(arrayobject *self, PyObject *v, Py_ssize_t start,
                        Py_ssize_t stop)
-/*[clinic end generated code: output=c45e777880c99f52 input=089dff7baa7e5a7e]*/
+/*[clinic end generated code: output=c45e777880c99f52 input=5fd7a1300dc407d3]*/
 {
     if (start < 0) {
         start += Py_SIZE(self);
@@ -1263,6 +1268,7 @@ array_contains(PyObject *self, PyObject *v)
 }
 
 /*[clinic input]
+@c_stack_frugal
 array.array.remove
 
     v: object
@@ -1273,7 +1279,7 @@ Remove the first occurrence of v in the array.
 
 static PyObject *
 array_array_remove_impl(arrayobject *self, PyObject *v)
-/*[clinic end generated code: output=f2a24e288ecb2a35 input=0b1e5aed25590027]*/
+/*[clinic end generated code: output=f2a24e288ecb2a35 input=28126116a4d492f0]*/
 {
     Py_ssize_t i;
 
@@ -1299,6 +1305,7 @@ array_array_remove_impl(arrayobject *self, PyObject *v)
 }
 
 /*[clinic input]
+@c_stack_frugal
 array.array.pop
 
     i: Py_ssize_t = -1
@@ -1311,7 +1318,7 @@ i defaults to -1.
 
 static PyObject *
 array_array_pop_impl(arrayobject *self, Py_ssize_t i)
-/*[clinic end generated code: output=bc1f0c54fe5308e4 input=8e5feb4c1a11cd44]*/
+/*[clinic end generated code: output=bc1f0c54fe5308e4 input=eb29a2cccd1f8a33]*/
 {
     PyObject *v;
 
@@ -1337,6 +1344,7 @@ array_array_pop_impl(arrayobject *self, Py_ssize_t i)
 }
 
 /*[clinic input]
+@c_stack_frugal
 array.array.extend
 
     cls: defining_class
@@ -1348,7 +1356,7 @@ Append items to the end of the array.
 
 static PyObject *
 array_array_extend_impl(arrayobject *self, PyTypeObject *cls, PyObject *bb)
-/*[clinic end generated code: output=e65eb7588f0bc266 input=8eb6817ec4d2cb62]*/
+/*[clinic end generated code: output=e65eb7588f0bc266 input=58f937b81e2f281a]*/
 {
     array_state *state = get_array_state_by_class(cls);
 
@@ -1358,6 +1366,7 @@ array_array_extend_impl(arrayobject *self, PyTypeObject *cls, PyObject *bb)
 }
 
 /*[clinic input]
+@c_stack_frugal
 array.array.insert
 
     i: Py_ssize_t
@@ -1369,12 +1378,13 @@ Insert a new item v into the array before position i.
 
 static PyObject *
 array_array_insert_impl(arrayobject *self, Py_ssize_t i, PyObject *v)
-/*[clinic end generated code: output=5a3648e278348564 input=5577d1b4383e9313]*/
+/*[clinic end generated code: output=5a3648e278348564 input=5bedbb7951cad7c3]*/
 {
     return ins(self, i, v);
 }
 
 /*[clinic input]
+@c_stack_frugal
 array.array.buffer_info
 
 Return a tuple (address, length) giving the current memory address and the length in items of the buffer used to hold array's contents.
@@ -1385,7 +1395,7 @@ the buffer length in bytes.
 
 static PyObject *
 array_array_buffer_info_impl(arrayobject *self)
-/*[clinic end generated code: output=9b2a4ec3ae7e98e7 input=a58bae5c6e1ac6a6]*/
+/*[clinic end generated code: output=9b2a4ec3ae7e98e7 input=2fed65cb3c0031b9]*/
 {
     PyObject *retval = NULL, *v;
 
@@ -1411,6 +1421,7 @@ array_array_buffer_info_impl(arrayobject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 array.array.append
 
     v: object
@@ -1421,12 +1432,13 @@ Append new value v to the end of the array.
 
 static PyObject *
 array_array_append_impl(arrayobject *self, PyObject *v)
-/*[clinic end generated code: output=2f1e8cbad70c2a8b input=0b98d9d78e78f0fa]*/
+/*[clinic end generated code: output=2f1e8cbad70c2a8b input=e1e7c3ffafb4a506]*/
 {
     return ins(self, Py_SIZE(self), v);
 }
 
 /*[clinic input]
+@c_stack_frugal
 array.array.byteswap
 
 Byteswap all items of the array.
@@ -1437,7 +1449,7 @@ raised.
 
 static PyObject *
 array_array_byteswap_impl(arrayobject *self)
-/*[clinic end generated code: output=5f8236cbdf0d90b5 input=6a85591b950a0186]*/
+/*[clinic end generated code: output=5f8236cbdf0d90b5 input=94ed2effdcbe3e51]*/
 {
     char *p;
     Py_ssize_t i;
@@ -1487,6 +1499,7 @@ array_array_byteswap_impl(arrayobject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 array.array.reverse
 
 Reverse the order of the items in the array.
@@ -1494,7 +1507,7 @@ Reverse the order of the items in the array.
 
 static PyObject *
 array_array_reverse_impl(arrayobject *self)
-/*[clinic end generated code: output=c04868b36f6f4089 input=cd904f01b27d966a]*/
+/*[clinic end generated code: output=c04868b36f6f4089 input=786823aad3ee7b9b]*/
 {
     Py_ssize_t itemsize = self->ob_descr->itemsize;
     char *p, *q;
@@ -1520,6 +1533,7 @@ array_array_reverse_impl(arrayobject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 array.array.fromfile
 
     cls: defining_class
@@ -1533,7 +1547,7 @@ Read n objects from the file object f and append them to the end of the array.
 static PyObject *
 array_array_fromfile_impl(arrayobject *self, PyTypeObject *cls, PyObject *f,
                           Py_ssize_t n)
-/*[clinic end generated code: output=83a667080b345ebc input=3822e907c1c11f1a]*/
+/*[clinic end generated code: output=83a667080b345ebc input=cfbc42b1a873b79b]*/
 {
     PyObject *b, *res;
     Py_ssize_t itemsize = self->ob_descr->itemsize;
@@ -1584,6 +1598,7 @@ array_array_fromfile_impl(arrayobject *self, PyTypeObject *cls, PyObject *f,
 }
 
 /*[clinic input]
+@c_stack_frugal
 array.array.tofile
 
     cls: defining_class
@@ -1595,7 +1610,7 @@ Write all items (as machine values) to the file object f.
 
 static PyObject *
 array_array_tofile_impl(arrayobject *self, PyTypeObject *cls, PyObject *f)
-/*[clinic end generated code: output=4560c628d9c18bc2 input=5a24da7a7b407b52]*/
+/*[clinic end generated code: output=4560c628d9c18bc2 input=ffba9c01e2d94d3d]*/
 {
     Py_ssize_t nbytes = Py_SIZE(self) * self->ob_descr->itemsize;
     /* Write 64K blocks at a time */
@@ -1633,6 +1648,7 @@ array_array_tofile_impl(arrayobject *self, PyTypeObject *cls, PyObject *f)
 }
 
 /*[clinic input]
+@c_stack_frugal
 array.array.fromlist
 
     list: object
@@ -1643,7 +1659,7 @@ Append items to array from list.
 
 static PyObject *
 array_array_fromlist_impl(arrayobject *self, PyObject *list)
-/*[clinic end generated code: output=6c23733a68dd68df input=be2605a96c49680f]*/
+/*[clinic end generated code: output=6c23733a68dd68df input=45dd411ef0110cd5]*/
 {
     Py_ssize_t n;
 
@@ -1676,6 +1692,7 @@ array_array_fromlist_impl(arrayobject *self, PyObject *list)
 }
 
 /*[clinic input]
+@c_stack_frugal
 array.array.tolist
 
 Convert array to an ordinary list with the same items.
@@ -1683,7 +1700,7 @@ Convert array to an ordinary list with the same items.
 
 static PyObject *
 array_array_tolist_impl(arrayobject *self)
-/*[clinic end generated code: output=00b60cc9eab8ef89 input=a8d7784a94f86b53]*/
+/*[clinic end generated code: output=00b60cc9eab8ef89 input=7ec21a79f5ed068b]*/
 {
     PyObject *list = PyList_New(Py_SIZE(self));
     Py_ssize_t i;
@@ -1740,6 +1757,7 @@ frombytes(arrayobject *self, Py_buffer *buffer)
 }
 
 /*[clinic input]
+@c_stack_frugal
 array.array.frombytes
 
     buffer: Py_buffer
@@ -1750,12 +1768,13 @@ Appends items from the string, interpreting it as an array of machine values, as
 
 static PyObject *
 array_array_frombytes_impl(arrayobject *self, Py_buffer *buffer)
-/*[clinic end generated code: output=d9842c8f7510a516 input=378db226dfac949e]*/
+/*[clinic end generated code: output=d9842c8f7510a516 input=8c6ffc82c5c8e40a]*/
 {
     return frombytes(self, buffer);
 }
 
 /*[clinic input]
+@c_stack_frugal
 array.array.tobytes
 
 Convert the array to an array of machine values and return the bytes representation.
@@ -1763,7 +1782,7 @@ Convert the array to an array of machine values and return the bytes representat
 
 static PyObject *
 array_array_tobytes_impl(arrayobject *self)
-/*[clinic end generated code: output=87318e4edcdc2bb6 input=90ee495f96de34f5]*/
+/*[clinic end generated code: output=87318e4edcdc2bb6 input=411d98375086f8a3]*/
 {
     if (Py_SIZE(self) <= PY_SSIZE_T_MAX / self->ob_descr->itemsize) {
         return PyBytes_FromStringAndSize(self->ob_item,
@@ -1774,6 +1793,7 @@ array_array_tobytes_impl(arrayobject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 array.array.fromunicode
 
     ustr: unicode
@@ -1788,7 +1808,7 @@ some other type.
 
 static PyObject *
 array_array_fromunicode_impl(arrayobject *self, PyObject *ustr)
-/*[clinic end generated code: output=24359f5e001a7f2b input=025db1fdade7a4ce]*/
+/*[clinic end generated code: output=24359f5e001a7f2b input=88c1e29a6e82c150]*/
 {
     int typecode = self->ob_descr->typecode;
     if (typecode != 'u' && typecode != 'w') {
@@ -1836,6 +1856,7 @@ array_array_fromunicode_impl(arrayobject *self, PyObject *ustr)
 }
 
 /*[clinic input]
+@c_stack_frugal
 array.array.tounicode
 
 Extends this array with data from the unicode string ustr.
@@ -1847,7 +1868,7 @@ unicode string from an array of some other type.
 
 static PyObject *
 array_array_tounicode_impl(arrayobject *self)
-/*[clinic end generated code: output=08e442378336e1ef input=127242eebe70b66d]*/
+/*[clinic end generated code: output=08e442378336e1ef input=d52cb758eaccbefe]*/
 {
     int typecode = self->ob_descr->typecode;
     if (typecode != 'u' && typecode != 'w') {
@@ -1866,6 +1887,7 @@ array_array_tounicode_impl(arrayobject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 array.array.__sizeof__
 
 Size of the array in memory, in bytes.
@@ -1873,7 +1895,7 @@ Size of the array in memory, in bytes.
 
 static PyObject *
 array_array___sizeof___impl(arrayobject *self)
-/*[clinic end generated code: output=d8e1c61ebbe3eaed input=805586565bf2b3c6]*/
+/*[clinic end generated code: output=d8e1c61ebbe3eaed input=66d8b42974cfb264]*/
 {
     size_t res = _PyObject_SIZE(Py_TYPE(self));
     res += (size_t)self->allocated * (size_t)self->ob_descr->itemsize;
@@ -2061,6 +2083,7 @@ make_array(PyTypeObject *arraytype, char typecode, PyObject *items)
  * provides a portable way to rebuild an array from its memory representation.
  */
 /*[clinic input]
+@c_stack_frugal
 array._array_reconstructor
 
     arraytype: object(type="PyTypeObject *")
@@ -2077,7 +2100,7 @@ array__array_reconstructor_impl(PyObject *module, PyTypeObject *arraytype,
                                 int typecode,
                                 enum machine_format_code mformat_code,
                                 PyObject *items)
-/*[clinic end generated code: output=e05263141ba28365 input=2464dc8f4c7736b5]*/
+/*[clinic end generated code: output=e05263141ba28365 input=51d0cd8ee96a4105]*/
 {
     array_state *state = get_array_state(module);
     PyObject *converted_items;
@@ -2271,6 +2294,7 @@ array__array_reconstructor_impl(PyObject *module, PyTypeObject *arraytype,
 }
 
 /*[clinic input]
+@c_stack_frugal
 array.array.__reduce_ex__
 
     cls: defining_class
@@ -2283,7 +2307,7 @@ Return state information for pickling.
 static PyObject *
 array_array___reduce_ex___impl(arrayobject *self, PyTypeObject *cls,
                                PyObject *value)
-/*[clinic end generated code: output=4958ee5d79452ad5 input=19968cf0f91d3eea]*/
+/*[clinic end generated code: output=4958ee5d79452ad5 input=5e7b704c8470d24f]*/
 {
     PyObject *dict;
     PyObject *result;
@@ -3070,6 +3094,7 @@ arrayiter_traverse(PyObject *op, visitproc visit, void *arg)
 }
 
 /*[clinic input]
+@c_stack_frugal
 array.arrayiterator.__reduce__
 
     cls: defining_class
@@ -3080,7 +3105,7 @@ Return state information for pickling.
 
 static PyObject *
 array_arrayiterator___reduce___impl(arrayiterobject *self, PyTypeObject *cls)
-/*[clinic end generated code: output=4b032417a2c8f5e6 input=ac64e65a87ad452e]*/
+/*[clinic end generated code: output=4b032417a2c8f5e6 input=633f96352c1ce5c3]*/
 {
 
     array_state *state = get_array_state_by_class(cls);
@@ -3093,6 +3118,7 @@ array_arrayiterator___reduce___impl(arrayiterobject *self, PyTypeObject *cls)
 }
 
 /*[clinic input]
+@c_stack_frugal
 array.arrayiterator.__setstate__
 
     state: object
@@ -3103,7 +3129,7 @@ Set state information for unpickling.
 
 static PyObject *
 array_arrayiterator___setstate___impl(arrayiterobject *self, PyObject *state)
-/*[clinic end generated code: output=d7837ae4ac1fd8b9 input=f47d5ceda19e787b]*/
+/*[clinic end generated code: output=d7837ae4ac1fd8b9 input=ace42fba0786d095]*/
 {
     Py_ssize_t index = PyLong_AsSsize_t(state);
     if (index == -1 && PyErr_Occurred())

@@ -160,7 +160,7 @@ PyDoc_STRVAR(code_replace__doc__,
 "Return a copy of the code object with new values for the specified fields.");
 
 #define CODE_REPLACE_METHODDEF    \
-    {"replace", _PyCFunction_CAST(code_replace), METH_FASTCALL|METH_KEYWORDS, code_replace__doc__},
+    {"replace", _PyCFunction_CAST(code_replace), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, code_replace__doc__},
 
 static PyObject *
 code_replace_impl(PyCodeObject *self, int co_argcount,
@@ -417,7 +417,7 @@ PyDoc_STRVAR(code__varname_from_oparg__doc__,
 "WARNING: this method is for internal use only and may change or go away.");
 
 #define CODE__VARNAME_FROM_OPARG_METHODDEF    \
-    {"_varname_from_oparg", _PyCFunction_CAST(code__varname_from_oparg), METH_FASTCALL|METH_KEYWORDS, code__varname_from_oparg__doc__},
+    {"_varname_from_oparg", _PyCFunction_CAST(code__varname_from_oparg), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, code__varname_from_oparg__doc__},
 
 static PyObject *
 code__varname_from_oparg_impl(PyCodeObject *self, int oparg);
@@ -470,4 +470,4 @@ code__varname_from_oparg(PyObject *self, PyObject *const *args, Py_ssize_t nargs
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=c5c6e40fc357defe input=a9049054013a1b77]*/
+/*[clinic end generated code: output=a0d445af04e0275e input=a9049054013a1b77]*/

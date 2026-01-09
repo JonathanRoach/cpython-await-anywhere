@@ -1113,6 +1113,7 @@ list_ass_item(PyObject *aa, Py_ssize_t i, PyObject *v)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 list.insert
 
@@ -1125,7 +1126,7 @@ Insert object before index.
 
 static PyObject *
 list_insert_impl(PyListObject *self, Py_ssize_t index, PyObject *object)
-/*[clinic end generated code: output=7f35e32f60c8cb78 input=b1987ca998a4ae2d]*/
+/*[clinic end generated code: output=7f35e32f60c8cb78 input=1b42a4975dbfbc90]*/
 {
     if (ins1(self, index, object) == 0) {
         Py_RETURN_NONE;
@@ -1134,6 +1135,7 @@ list_insert_impl(PyListObject *self, Py_ssize_t index, PyObject *object)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 list.clear as py_list_clear
 
@@ -1142,13 +1144,14 @@ Remove all items from list.
 
 static PyObject *
 py_list_clear_impl(PyListObject *self)
-/*[clinic end generated code: output=83726743807e3518 input=e285b7f09051a9ba]*/
+/*[clinic end generated code: output=83726743807e3518 input=9f0bbb93b35d245f]*/
 {
     list_clear(self);
     Py_RETURN_NONE;
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 list.copy
 
@@ -1157,12 +1160,13 @@ Return a shallow copy of the list.
 
 static PyObject *
 list_copy_impl(PyListObject *self)
-/*[clinic end generated code: output=ec6b72d6209d418e input=81c54b0c7bb4f73d]*/
+/*[clinic end generated code: output=ec6b72d6209d418e input=0320877631bc0894]*/
 {
     return list_slice_lock_held(self, 0, Py_SIZE(self));
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 list.append
 
@@ -1174,7 +1178,7 @@ Append object to the end of the list.
 
 static PyObject *
 list_append_impl(PyListObject *self, PyObject *object)
-/*[clinic end generated code: output=78423561d92ed405 input=122b0853de54004f]*/
+/*[clinic end generated code: output=78423561d92ed405 input=7a6d82a0e90c11dd]*/
 {
     if (_PyList_AppendTakeRef(self, Py_NewRef(object)) < 0) {
         return NULL;
@@ -1455,6 +1459,7 @@ _list_extend(PyListObject *self, PyObject *iterable)
 }
 
 /*[clinic input]
+@c_stack_frugal
 list.extend as list_extend
 
      iterable: object
@@ -1465,7 +1470,7 @@ Extend list by appending elements from the iterable.
 
 static PyObject *
 list_extend_impl(PyListObject *self, PyObject *iterable)
-/*[clinic end generated code: output=b0eba9e0b186d5ce input=979da7597a515791]*/
+/*[clinic end generated code: output=b0eba9e0b186d5ce input=3c60be95e36c7898]*/
 {
     if (_list_extend(self, iterable) < 0) {
         return NULL;
@@ -1515,6 +1520,7 @@ list_inplace_concat(PyObject *_self, PyObject *other)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 list.pop
 
@@ -1528,7 +1534,7 @@ Raises IndexError if list is empty or index is out of range.
 
 static PyObject *
 list_pop_impl(PyListObject *self, Py_ssize_t index)
-/*[clinic end generated code: output=6bd69dcb3f17eca8 input=c269141068ae4b8f]*/
+/*[clinic end generated code: output=6bd69dcb3f17eca8 input=88a57afb277bc57b]*/
 {
     PyObject *v;
     int status;
@@ -2877,6 +2883,7 @@ unsafe_tuple_compare(PyObject *v, PyObject *w, MergeState *ms)
  * duplicated).
  */
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 list.sort
 
@@ -2897,7 +2904,7 @@ The reverse flag can be set to sort in descending order.
 
 static PyObject *
 list_sort_impl(PyListObject *self, PyObject *keyfunc, int reverse)
-/*[clinic end generated code: output=57b9f9c5e23fbe42 input=667bf25d0e3a3676]*/
+/*[clinic end generated code: output=57b9f9c5e23fbe42 input=00f3a534880a34aa]*/
 {
     MergeState ms;
     Py_ssize_t nremaining;
@@ -3179,6 +3186,7 @@ PyList_Sort(PyObject *v)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 list.reverse
 
@@ -3187,7 +3195,7 @@ Reverse *IN PLACE*.
 
 static PyObject *
 list_reverse_impl(PyListObject *self)
-/*[clinic end generated code: output=482544fc451abea9 input=04ac8e0c6a66e4d9]*/
+/*[clinic end generated code: output=482544fc451abea9 input=d468dc8d726c1b29]*/
 {
     if (Py_SIZE(self) > 1)
         reverse_slice(self->ob_item, self->ob_item + Py_SIZE(self));
@@ -3266,6 +3274,7 @@ _PyList_FromStackRefStealOnSuccess(const _PyStackRef *src, Py_ssize_t n)
 }
 
 /*[clinic input]
+@c_stack_frugal
 list.index
 
     value: object
@@ -3281,7 +3290,7 @@ Raises ValueError if the value is not present.
 static PyObject *
 list_index_impl(PyListObject *self, PyObject *value, Py_ssize_t start,
                 Py_ssize_t stop)
-/*[clinic end generated code: output=ec51b88787e4e481 input=40ec5826303a0eb1]*/
+/*[clinic end generated code: output=ec51b88787e4e481 input=a1c80293817a445e]*/
 {
     if (start < 0) {
         start += Py_SIZE(self);
@@ -3311,6 +3320,7 @@ list_index_impl(PyListObject *self, PyObject *value, Py_ssize_t start,
 }
 
 /*[clinic input]
+@c_stack_frugal
 list.count
 
      value: object
@@ -3321,7 +3331,7 @@ Return number of occurrences of value.
 
 static PyObject *
 list_count_impl(PyListObject *self, PyObject *value)
-/*[clinic end generated code: output=eff66f14aef2df86 input=3bdc3a5e6f749565]*/
+/*[clinic end generated code: output=eff66f14aef2df86 input=50734d59d1ad0a59]*/
 {
     Py_ssize_t count = 0;
     for (Py_ssize_t i = 0; ; i++) {
@@ -3346,6 +3356,7 @@ list_count_impl(PyListObject *self, PyObject *value)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 list.remove
 
@@ -3359,7 +3370,7 @@ Raises ValueError if the value is not present.
 
 static PyObject *
 list_remove_impl(PyListObject *self, PyObject *value)
-/*[clinic end generated code: output=b9b76a6633b18778 input=26c813dbb95aa93b]*/
+/*[clinic end generated code: output=b9b76a6633b18778 input=1ec690f8099cbeb6]*/
 {
     Py_ssize_t i;
 
@@ -3465,6 +3476,7 @@ list_richcompare(PyObject *v, PyObject *w, int op)
 }
 
 /*[clinic input]
+@c_stack_frugal
 list.__init__
 
     iterable: object(c_default="NULL") = ()
@@ -3478,7 +3490,7 @@ The argument must be an iterable if specified.
 
 static int
 list___init___impl(PyListObject *self, PyObject *iterable)
-/*[clinic end generated code: output=0f3c21379d01de48 input=b3f3fe7206af8f6b]*/
+/*[clinic end generated code: output=0f3c21379d01de48 input=99c4319773c03a11]*/
 {
     /* Verify list invariants established by PyType_GenericAlloc() */
     assert(0 <= Py_SIZE(self));
@@ -3527,6 +3539,7 @@ list_vectorcall(PyObject *type, PyObject * const*args,
 
 
 /*[clinic input]
+@c_stack_frugal
 list.__sizeof__
 
 Return the size of the list in memory, in bytes.
@@ -3534,7 +3547,7 @@ Return the size of the list in memory, in bytes.
 
 static PyObject *
 list___sizeof___impl(PyListObject *self)
-/*[clinic end generated code: output=3417541f95f9a53e input=b8030a5d5ce8a187]*/
+/*[clinic end generated code: output=3417541f95f9a53e input=6b1e7c5c06afa237]*/
 {
     size_t res = _PyObject_SIZE(Py_TYPE(self));
     Py_ssize_t allocated = FT_ATOMIC_LOAD_SSIZE_RELAXED(self->allocated);
@@ -4124,6 +4137,7 @@ PyTypeObject PyListRevIter_Type = {
 };
 
 /*[clinic input]
+@c_stack_frugal
 list.__reversed__
 
 Return a reverse iterator over the list.
@@ -4131,7 +4145,7 @@ Return a reverse iterator over the list.
 
 static PyObject *
 list___reversed___impl(PyListObject *self)
-/*[clinic end generated code: output=b166f073208c888c input=eadb6e17f8a6a280]*/
+/*[clinic end generated code: output=b166f073208c888c input=0c3b33cf3f8ad1ed]*/
 {
     listreviterobject *it;
 

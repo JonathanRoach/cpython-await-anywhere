@@ -275,6 +275,7 @@ _zstd_load_c_dict(ZstdCompressor *self, PyObject *dict)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 _zstd.ZstdCompressor.__new__ as _zstd_ZstdCompressor_new
     level: object = None
@@ -293,7 +294,7 @@ function instead.
 static PyObject *
 _zstd_ZstdCompressor_new_impl(PyTypeObject *type, PyObject *level,
                               PyObject *options, PyObject *zstd_dict)
-/*[clinic end generated code: output=cdef61eafecac3d7 input=92de0211ae20ffdc]*/
+/*[clinic end generated code: output=cdef61eafecac3d7 input=339851252bc81460]*/
 {
     ZstdCompressor* self = PyObject_GC_New(ZstdCompressor, type);
     if (self == NULL) {
@@ -537,6 +538,7 @@ error:
 }
 
 /*[clinic input]
+@c_stack_frugal
 _zstd.ZstdCompressor.compress
 
     data: Py_buffer
@@ -554,7 +556,7 @@ the compression process.
 static PyObject *
 _zstd_ZstdCompressor_compress_impl(ZstdCompressor *self, Py_buffer *data,
                                    int mode)
-/*[clinic end generated code: output=ed7982d1cf7b4f98 input=ac2c21d180f579ea]*/
+/*[clinic end generated code: output=ed7982d1cf7b4f98 input=cff4cc90f7f4425c]*/
 {
     PyObject *ret;
 
@@ -596,6 +598,7 @@ _zstd_ZstdCompressor_compress_impl(ZstdCompressor *self, Py_buffer *data,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _zstd.ZstdCompressor.flush
 
     mode: int(c_default="ZSTD_e_end") = ZstdCompressor.FLUSH_FRAME
@@ -611,7 +614,7 @@ be used after this method is called.
 
 static PyObject *
 _zstd_ZstdCompressor_flush_impl(ZstdCompressor *self, int mode)
-/*[clinic end generated code: output=b7cf2c8d64dcf2e3 input=0ab19627f323cdbc]*/
+/*[clinic end generated code: output=b7cf2c8d64dcf2e3 input=03e29f47a3fa9c08]*/
 {
     PyObject *ret;
 

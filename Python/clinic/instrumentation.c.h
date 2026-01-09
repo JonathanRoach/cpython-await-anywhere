@@ -10,7 +10,7 @@ PyDoc_STRVAR(monitoring_use_tool_id__doc__,
 "\n");
 
 #define MONITORING_USE_TOOL_ID_METHODDEF    \
-    {"use_tool_id", _PyCFunction_CAST(monitoring_use_tool_id), METH_FASTCALL, monitoring_use_tool_id__doc__},
+    {"use_tool_id", _PyCFunction_CAST(monitoring_use_tool_id), METH_FASTCALL|METH_C_STACK_FRUGAL, monitoring_use_tool_id__doc__},
 
 static PyObject *
 monitoring_use_tool_id_impl(PyObject *module, int tool_id, PyObject *name);
@@ -42,7 +42,7 @@ PyDoc_STRVAR(monitoring_clear_tool_id__doc__,
 "\n");
 
 #define MONITORING_CLEAR_TOOL_ID_METHODDEF    \
-    {"clear_tool_id", (PyCFunction)monitoring_clear_tool_id, METH_O, monitoring_clear_tool_id__doc__},
+    {"clear_tool_id", (PyCFunction)monitoring_clear_tool_id, METH_O|METH_C_STACK_FRUGAL, monitoring_clear_tool_id__doc__},
 
 static PyObject *
 monitoring_clear_tool_id_impl(PyObject *module, int tool_id);
@@ -69,7 +69,7 @@ PyDoc_STRVAR(monitoring_free_tool_id__doc__,
 "\n");
 
 #define MONITORING_FREE_TOOL_ID_METHODDEF    \
-    {"free_tool_id", (PyCFunction)monitoring_free_tool_id, METH_O, monitoring_free_tool_id__doc__},
+    {"free_tool_id", (PyCFunction)monitoring_free_tool_id, METH_O|METH_C_STACK_FRUGAL, monitoring_free_tool_id__doc__},
 
 static PyObject *
 monitoring_free_tool_id_impl(PyObject *module, int tool_id);
@@ -96,7 +96,7 @@ PyDoc_STRVAR(monitoring_get_tool__doc__,
 "\n");
 
 #define MONITORING_GET_TOOL_METHODDEF    \
-    {"get_tool", (PyCFunction)monitoring_get_tool, METH_O, monitoring_get_tool__doc__},
+    {"get_tool", (PyCFunction)monitoring_get_tool, METH_O|METH_C_STACK_FRUGAL, monitoring_get_tool__doc__},
 
 static PyObject *
 monitoring_get_tool_impl(PyObject *module, int tool_id);
@@ -123,7 +123,7 @@ PyDoc_STRVAR(monitoring_register_callback__doc__,
 "\n");
 
 #define MONITORING_REGISTER_CALLBACK_METHODDEF    \
-    {"register_callback", _PyCFunction_CAST(monitoring_register_callback), METH_FASTCALL, monitoring_register_callback__doc__},
+    {"register_callback", _PyCFunction_CAST(monitoring_register_callback), METH_FASTCALL|METH_C_STACK_FRUGAL, monitoring_register_callback__doc__},
 
 static PyObject *
 monitoring_register_callback_impl(PyObject *module, int tool_id, int event,
@@ -161,7 +161,7 @@ PyDoc_STRVAR(monitoring_get_events__doc__,
 "\n");
 
 #define MONITORING_GET_EVENTS_METHODDEF    \
-    {"get_events", (PyCFunction)monitoring_get_events, METH_O, monitoring_get_events__doc__},
+    {"get_events", (PyCFunction)monitoring_get_events, METH_O|METH_C_STACK_FRUGAL, monitoring_get_events__doc__},
 
 static int
 monitoring_get_events_impl(PyObject *module, int tool_id);
@@ -193,7 +193,7 @@ PyDoc_STRVAR(monitoring_set_events__doc__,
 "\n");
 
 #define MONITORING_SET_EVENTS_METHODDEF    \
-    {"set_events", _PyCFunction_CAST(monitoring_set_events), METH_FASTCALL, monitoring_set_events__doc__},
+    {"set_events", _PyCFunction_CAST(monitoring_set_events), METH_FASTCALL|METH_C_STACK_FRUGAL, monitoring_set_events__doc__},
 
 static PyObject *
 monitoring_set_events_impl(PyObject *module, int tool_id, int event_set);
@@ -228,7 +228,7 @@ PyDoc_STRVAR(monitoring_get_local_events__doc__,
 "\n");
 
 #define MONITORING_GET_LOCAL_EVENTS_METHODDEF    \
-    {"get_local_events", _PyCFunction_CAST(monitoring_get_local_events), METH_FASTCALL, monitoring_get_local_events__doc__},
+    {"get_local_events", _PyCFunction_CAST(monitoring_get_local_events), METH_FASTCALL|METH_C_STACK_FRUGAL, monitoring_get_local_events__doc__},
 
 static int
 monitoring_get_local_events_impl(PyObject *module, int tool_id,
@@ -266,7 +266,7 @@ PyDoc_STRVAR(monitoring_set_local_events__doc__,
 "\n");
 
 #define MONITORING_SET_LOCAL_EVENTS_METHODDEF    \
-    {"set_local_events", _PyCFunction_CAST(monitoring_set_local_events), METH_FASTCALL, monitoring_set_local_events__doc__},
+    {"set_local_events", _PyCFunction_CAST(monitoring_set_local_events), METH_FASTCALL|METH_C_STACK_FRUGAL, monitoring_set_local_events__doc__},
 
 static PyObject *
 monitoring_set_local_events_impl(PyObject *module, int tool_id,
@@ -304,7 +304,7 @@ PyDoc_STRVAR(monitoring_restart_events__doc__,
 "\n");
 
 #define MONITORING_RESTART_EVENTS_METHODDEF    \
-    {"restart_events", (PyCFunction)monitoring_restart_events, METH_NOARGS, monitoring_restart_events__doc__},
+    {"restart_events", (PyCFunction)monitoring_restart_events, METH_NOARGS|METH_C_STACK_FRUGAL, monitoring_restart_events__doc__},
 
 static PyObject *
 monitoring_restart_events_impl(PyObject *module);
@@ -321,7 +321,7 @@ PyDoc_STRVAR(monitoring__all_events__doc__,
 "\n");
 
 #define MONITORING__ALL_EVENTS_METHODDEF    \
-    {"_all_events", (PyCFunction)monitoring__all_events, METH_NOARGS, monitoring__all_events__doc__},
+    {"_all_events", (PyCFunction)monitoring__all_events, METH_NOARGS|METH_C_STACK_FRUGAL, monitoring__all_events__doc__},
 
 static PyObject *
 monitoring__all_events_impl(PyObject *module);
@@ -331,4 +331,4 @@ monitoring__all_events(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return monitoring__all_events_impl(module);
 }
-/*[clinic end generated code: output=8f81876c6aba9be8 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=72de55c3eb5cea95 input=a9049054013a1b77]*/

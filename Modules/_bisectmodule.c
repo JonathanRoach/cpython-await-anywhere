@@ -149,6 +149,7 @@ error:
 }
 
 /*[clinic input]
+@c_stack_frugal
 _bisect.bisect_right -> Py_ssize_t
 
     a: object
@@ -173,12 +174,13 @@ A custom key function can be supplied to customize the sort order.
 static Py_ssize_t
 _bisect_bisect_right_impl(PyObject *module, PyObject *a, PyObject *x,
                           Py_ssize_t lo, Py_ssize_t hi, PyObject *key)
-/*[clinic end generated code: output=3a4bc09cc7c8a73d input=43071869772dd53a]*/
+/*[clinic end generated code: output=3a4bc09cc7c8a73d input=352461a9c1a5c686]*/
 {
     return internal_bisect_right(a, x, lo, hi, key);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _bisect.insort_right
 
     a: object
@@ -201,7 +203,7 @@ A custom key function can be supplied to customize the sort order.
 static PyObject *
 _bisect_insort_right_impl(PyObject *module, PyObject *a, PyObject *x,
                           Py_ssize_t lo, Py_ssize_t hi, PyObject *key)
-/*[clinic end generated code: output=ac3bf26d07aedda2 input=f60777d2b6ddb239]*/
+/*[clinic end generated code: output=ac3bf26d07aedda2 input=04f0526da8dd6019]*/
 {
     PyObject *result, *key_x;
     Py_ssize_t index;
@@ -334,6 +336,7 @@ error:
 
 
 /*[clinic input]
+@c_stack_frugal
 _bisect.bisect_left -> Py_ssize_t
 
     a: object
@@ -358,13 +361,14 @@ A custom key function can be supplied to customize the sort order.
 static Py_ssize_t
 _bisect_bisect_left_impl(PyObject *module, PyObject *a, PyObject *x,
                          Py_ssize_t lo, Py_ssize_t hi, PyObject *key)
-/*[clinic end generated code: output=70749d6e5cae9284 input=f29c4fe7f9b797c7]*/
+/*[clinic end generated code: output=70749d6e5cae9284 input=b41219e63e33d35a]*/
 {
     return internal_bisect_left(a, x, lo, hi, key);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 _bisect.insort_left
 
     a: object
@@ -387,7 +391,7 @@ A custom key function can be supplied to customize the sort order.
 static PyObject *
 _bisect_insort_left_impl(PyObject *module, PyObject *a, PyObject *x,
                          Py_ssize_t lo, Py_ssize_t hi, PyObject *key)
-/*[clinic end generated code: output=b1d33e5e7ffff11e input=0a700a82edbd472c]*/
+/*[clinic end generated code: output=b1d33e5e7ffff11e input=d6a1370e6c248d63]*/
 {
     PyObject *result, *key_x;
     Py_ssize_t index;

@@ -49,7 +49,7 @@ PyDoc_STRVAR(_testconsole_read_output__doc__,
 "Reads a str from the console as written to stdout.");
 
 #define _TESTCONSOLE_READ_OUTPUT_METHODDEF    \
-    {"read_output", (PyCFunction)(void(*)(void))_testconsole_read_output, METH_VARARGS|METH_KEYWORDS, _testconsole_read_output__doc__},
+    {"read_output", (PyCFunction)(void(*)(void))_testconsole_read_output, METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, _testconsole_read_output__doc__},
 
 static PyObject *
 _testconsole_read_output_impl(PyObject *module, PyObject *file);
@@ -79,4 +79,4 @@ exit:
 #ifndef _TESTCONSOLE_READ_OUTPUT_METHODDEF
     #define _TESTCONSOLE_READ_OUTPUT_METHODDEF
 #endif /* !defined(_TESTCONSOLE_READ_OUTPUT_METHODDEF) */
-/*[clinic end generated code: output=d60ce07157e3741a input=a9049054013a1b77]*/
+/*[clinic end generated code: output=50325cd540c9d0d0 input=a9049054013a1b77]*/

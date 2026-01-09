@@ -5868,6 +5868,7 @@ static PyObject *
 long_subtype_new(PyTypeObject *type, PyObject *x, PyObject *obase);
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 int.__new__ as long_new
     x: object(c_default="NULL") = 0
@@ -5877,7 +5878,7 @@ int.__new__ as long_new
 
 static PyObject *
 long_new_impl(PyTypeObject *type, PyObject *x, PyObject *obase)
-/*[clinic end generated code: output=e47cfe777ab0f24c input=81c98f418af9eb6f]*/
+/*[clinic end generated code: output=e47cfe777ab0f24c input=787f1422ec51fd62]*/
 {
     Py_ssize_t base;
 
@@ -5958,12 +5959,13 @@ long_subtype_new(PyTypeObject *type, PyObject *x, PyObject *obase)
 }
 
 /*[clinic input]
+@c_stack_frugal
 int.__getnewargs__
 [clinic start generated code]*/
 
 static PyObject *
 int___getnewargs___impl(PyObject *self)
-/*[clinic end generated code: output=839a49de3f00b61b input=5904770ab1fb8c75]*/
+/*[clinic end generated code: output=839a49de3f00b61b input=d3f2ea67ce3d21b2]*/
 {
     return Py_BuildValue("(N)", _PyLong_Copy((PyLongObject *)self));
 }
@@ -5981,6 +5983,7 @@ long_get1(PyObject *Py_UNUSED(self), void *Py_UNUSED(ignored))
 }
 
 /*[clinic input]
+@c_stack_frugal
 int.__format__
 
     format_spec: unicode
@@ -5991,7 +5994,7 @@ Convert to a string according to format_spec.
 
 static PyObject *
 int___format___impl(PyObject *self, PyObject *format_spec)
-/*[clinic end generated code: output=b4929dee9ae18689 input=d5e1254a47e8d1dc]*/
+/*[clinic end generated code: output=b4929dee9ae18689 input=32cc6906d0ffa1ef]*/
 {
     _PyUnicodeWriter writer;
     int ret;
@@ -6099,6 +6102,7 @@ _PyLong_DivmodNear(PyObject *a, PyObject *b)
 }
 
 /*[clinic input]
+@c_stack_frugal
 int.__round__
 
     ndigits as o_ndigits: object = None
@@ -6111,7 +6115,7 @@ Rounding with an ndigits argument also returns an integer.
 
 static PyObject *
 int___round___impl(PyObject *self, PyObject *o_ndigits)
-/*[clinic end generated code: output=954fda6b18875998 input=30c2aec788263144]*/
+/*[clinic end generated code: output=954fda6b18875998 input=6202f7f1f0e09547]*/
 {
     /* To round an integer m to the nearest 10**n (n positive), we make use of
      * the divmod_near operation, defined by:
@@ -6171,6 +6175,7 @@ int___round___impl(PyObject *self, PyObject *o_ndigits)
 }
 
 /*[clinic input]
+@c_stack_frugal
 int.__sizeof__ -> Py_ssize_t
 
 Returns size in memory, in bytes.
@@ -6178,7 +6183,7 @@ Returns size in memory, in bytes.
 
 static Py_ssize_t
 int___sizeof___impl(PyObject *self)
-/*[clinic end generated code: output=3303f008eaa6a0a5 input=9b51620c76fc4507]*/
+/*[clinic end generated code: output=3303f008eaa6a0a5 input=7ece67ff9355cf7e]*/
 {
     /* using Py_MAX(..., 1) because we always allocate space for at least
        one digit, even though the integer zero has a digit count of 0 */
@@ -6187,6 +6192,7 @@ int___sizeof___impl(PyObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 int.bit_length
 
 Number of bits necessary to represent self in binary.
@@ -6199,7 +6205,7 @@ Number of bits necessary to represent self in binary.
 
 static PyObject *
 int_bit_length_impl(PyObject *self)
-/*[clinic end generated code: output=fc1977c9353d6a59 input=e4eb7a587e849a32]*/
+/*[clinic end generated code: output=fc1977c9353d6a59 input=5351aed96a47404c]*/
 {
     int64_t nbits = _PyLong_NumBits(self);
     assert(nbits >= 0);
@@ -6217,6 +6223,7 @@ popcount_digit(digit d)
 }
 
 /*[clinic input]
+@c_stack_frugal
 int.bit_count
 
 Number of ones in the binary representation of the absolute value of self.
@@ -6231,7 +6238,7 @@ Also known as the population count.
 
 static PyObject *
 int_bit_count_impl(PyObject *self)
-/*[clinic end generated code: output=2e571970daf1e5c3 input=7e0adef8e8ccdf2e]*/
+/*[clinic end generated code: output=2e571970daf1e5c3 input=53d93754ef777994]*/
 {
     assert(self != NULL);
     assert(PyLong_Check(self));
@@ -6248,6 +6255,7 @@ int_bit_count_impl(PyObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 int.as_integer_ratio
 
 Return a pair of integers, whose ratio is equal to the original int.
@@ -6264,7 +6272,7 @@ The ratio is in lowest terms and has a positive denominator.
 
 static PyObject *
 int_as_integer_ratio_impl(PyObject *self)
-/*[clinic end generated code: output=e60803ae1cc8621a input=384ff1766634bec2]*/
+/*[clinic end generated code: output=e60803ae1cc8621a input=8be8e6ac86e80ed3]*/
 {
     PyObject *ratio_tuple;
     PyObject *numerator = long_long(self);
@@ -6277,6 +6285,7 @@ int_as_integer_ratio_impl(PyObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 int.to_bytes
 
     length: Py_ssize_t = 1
@@ -6301,7 +6310,7 @@ Return an array of bytes representing an integer.
 static PyObject *
 int_to_bytes_impl(PyObject *self, Py_ssize_t length, PyObject *byteorder,
                   int is_signed)
-/*[clinic end generated code: output=89c801df114050a3 input=a0103d0e9ad85c2b]*/
+/*[clinic end generated code: output=89c801df114050a3 input=33109330666a0759]*/
 {
     int little_endian;
     PyObject *bytes;
@@ -6339,6 +6348,7 @@ int_to_bytes_impl(PyObject *self, Py_ssize_t length, PyObject *byteorder,
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 int.from_bytes
 
@@ -6363,7 +6373,7 @@ Return the integer represented by the given array of bytes.
 static PyObject *
 int_from_bytes_impl(PyTypeObject *type, PyObject *bytes_obj,
                     PyObject *byteorder, int is_signed)
-/*[clinic end generated code: output=efc5d68e31f9314f input=2ff527997fe7b0c5]*/
+/*[clinic end generated code: output=efc5d68e31f9314f input=5df3a75dbe813321]*/
 {
     int little_endian;
     PyObject *long_obj, *bytes;
@@ -6409,6 +6419,7 @@ long_long_getter(PyObject *self, void *Py_UNUSED(ignored))
 }
 
 /*[clinic input]
+@c_stack_frugal
 int.is_integer
 
 Returns True. Exists for duck type compatibility with float.is_integer.
@@ -6416,7 +6427,7 @@ Returns True. Exists for duck type compatibility with float.is_integer.
 
 static PyObject *
 int_is_integer_impl(PyObject *self)
-/*[clinic end generated code: output=90f8e794ce5430ef input=7e41c4d4416e05f2]*/
+/*[clinic end generated code: output=90f8e794ce5430ef input=0bf2dae68004040d]*/
 {
     Py_RETURN_TRUE;
 }

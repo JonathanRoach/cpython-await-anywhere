@@ -247,6 +247,7 @@ update_512(Hacl_Hash_SHA2_state_t_512 *state, uint8_t *buf, Py_ssize_t len)
 /* External methods for our hash objects */
 
 /*[clinic input]
+@c_stack_frugal
 SHA256Type.copy
 
     cls:defining_class
@@ -256,7 +257,7 @@ Return a copy of the hash object.
 
 static PyObject *
 SHA256Type_copy_impl(SHA256object *self, PyTypeObject *cls)
-/*[clinic end generated code: output=fabd515577805cd3 input=3137146fcb88e212]*/
+/*[clinic end generated code: output=fabd515577805cd3 input=72f5fce0584ea448]*/
 {
     int rc;
     SHA256object *newobj;
@@ -283,6 +284,7 @@ SHA256Type_copy_impl(SHA256object *self, PyTypeObject *cls)
 }
 
 /*[clinic input]
+@c_stack_frugal
 SHA512Type.copy
 
     cls: defining_class
@@ -292,7 +294,7 @@ Return a copy of the hash object.
 
 static PyObject *
 SHA512Type_copy_impl(SHA512object *self, PyTypeObject *cls)
-/*[clinic end generated code: output=66d2a8ef20de8302 input=f673a18f66527c90]*/
+/*[clinic end generated code: output=66d2a8ef20de8302 input=b9c9590b3e54f799]*/
 {
     int rc;
     SHA512object *newobj;
@@ -320,6 +322,7 @@ SHA512Type_copy_impl(SHA512object *self, PyTypeObject *cls)
 }
 
 /*[clinic input]
+@c_stack_frugal
 SHA256Type.digest
 
 Return the digest value as a bytes object.
@@ -327,7 +330,7 @@ Return the digest value as a bytes object.
 
 static PyObject *
 SHA256Type_digest_impl(SHA256object *self)
-/*[clinic end generated code: output=3a2e3997a98ee792 input=f1f4cfea5cbde35c]*/
+/*[clinic end generated code: output=3a2e3997a98ee792 input=c9fe39bee60a6866]*/
 {
     uint8_t digest[SHA256_DIGESTSIZE];
     assert(self->digestsize <= SHA256_DIGESTSIZE);
@@ -340,6 +343,7 @@ SHA256Type_digest_impl(SHA256object *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 SHA512Type.digest
 
 Return the digest value as a bytes object.
@@ -347,7 +351,7 @@ Return the digest value as a bytes object.
 
 static PyObject *
 SHA512Type_digest_impl(SHA512object *self)
-/*[clinic end generated code: output=dd8c6320070458e0 input=f6470dd359071f4b]*/
+/*[clinic end generated code: output=dd8c6320070458e0 input=e61daf1627ecf2e4]*/
 {
     uint8_t digest[SHA512_DIGESTSIZE];
     assert(self->digestsize <= SHA512_DIGESTSIZE);
@@ -360,6 +364,7 @@ SHA512Type_digest_impl(SHA512object *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 SHA256Type.hexdigest
 
 Return the digest value as a string of hexadecimal digits.
@@ -367,7 +372,7 @@ Return the digest value as a string of hexadecimal digits.
 
 static PyObject *
 SHA256Type_hexdigest_impl(SHA256object *self)
-/*[clinic end generated code: output=96cb68996a780ab3 input=0cc4c714693010d1]*/
+/*[clinic end generated code: output=96cb68996a780ab3 input=62c46affa7e805a3]*/
 {
     uint8_t digest[SHA256_DIGESTSIZE];
     assert(self->digestsize <= SHA256_DIGESTSIZE);
@@ -378,6 +383,7 @@ SHA256Type_hexdigest_impl(SHA256object *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 SHA512Type.hexdigest
 
 Return the digest value as a string of hexadecimal digits.
@@ -385,7 +391,7 @@ Return the digest value as a string of hexadecimal digits.
 
 static PyObject *
 SHA512Type_hexdigest_impl(SHA512object *self)
-/*[clinic end generated code: output=cbd6f844aba1fe7c input=498b877b25cbe0a2]*/
+/*[clinic end generated code: output=cbd6f844aba1fe7c input=0baa7850603c28de]*/
 {
     uint8_t digest[SHA512_DIGESTSIZE];
     assert(self->digestsize <= SHA512_DIGESTSIZE);
@@ -396,6 +402,7 @@ SHA512Type_hexdigest_impl(SHA512object *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 SHA256Type.update
 
     obj: object
@@ -406,7 +413,7 @@ Update this hash object's state with the provided string.
 
 static PyObject *
 SHA256Type_update_impl(SHA256object *self, PyObject *obj)
-/*[clinic end generated code: output=dc58a580cf8905a5 input=b2d449d5b30f0f5a]*/
+/*[clinic end generated code: output=dc58a580cf8905a5 input=c527e13827b18fe8]*/
 {
     Py_buffer buf;
 
@@ -430,6 +437,7 @@ SHA256Type_update_impl(SHA256object *self, PyObject *obj)
 }
 
 /*[clinic input]
+@c_stack_frugal
 SHA512Type.update
 
     obj: object
@@ -440,7 +448,7 @@ Update this hash object's state with the provided string.
 
 static PyObject *
 SHA512Type_update_impl(SHA512object *self, PyObject *obj)
-/*[clinic end generated code: output=9af211766c0b7365 input=ded2b46656566283]*/
+/*[clinic end generated code: output=9af211766c0b7365 input=82cb04f789065337]*/
 {
     Py_buffer buf;
 
@@ -592,6 +600,7 @@ static PyType_Spec sha512_type_spec = {
 /* The module-level constructors. */
 
 /*[clinic input]
+@c_stack_frugal
 _sha2.sha256
 
     data: object(c_default="NULL") = b''
@@ -605,7 +614,7 @@ Return a new SHA-256 hash object; optionally initialized with a string.
 static PyObject *
 _sha2_sha256_impl(PyObject *module, PyObject *data, int usedforsecurity,
                   PyObject *string_obj)
-/*[clinic end generated code: output=49828a7bcd418f45 input=9ce1d70e669abc14]*/
+/*[clinic end generated code: output=49828a7bcd418f45 input=81a3d87289a85397]*/
 {
     Py_buffer buf;
     PyObject *string;
@@ -655,6 +664,7 @@ _sha2_sha256_impl(PyObject *module, PyObject *data, int usedforsecurity,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sha2.sha224
 
     data: object(c_default="NULL") = b''
@@ -668,7 +678,7 @@ Return a new SHA-224 hash object; optionally initialized with a string.
 static PyObject *
 _sha2_sha224_impl(PyObject *module, PyObject *data, int usedforsecurity,
                   PyObject *string_obj)
-/*[clinic end generated code: output=2163cb03b6cf6157 input=612f7682a889bc2a]*/
+/*[clinic end generated code: output=2163cb03b6cf6157 input=706aa63c1c5c66bc]*/
 {
     Py_buffer buf;
     PyObject *string;
@@ -717,6 +727,7 @@ _sha2_sha224_impl(PyObject *module, PyObject *data, int usedforsecurity,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sha2.sha512
 
     data: object(c_default="NULL") = b''
@@ -730,7 +741,7 @@ Return a new SHA-512 hash object; optionally initialized with a string.
 static PyObject *
 _sha2_sha512_impl(PyObject *module, PyObject *data, int usedforsecurity,
                   PyObject *string_obj)
-/*[clinic end generated code: output=cc3fcfce001a4538 input=19c9f2c06d59563a]*/
+/*[clinic end generated code: output=cc3fcfce001a4538 input=8fc82f27abfc76e1]*/
 {
     SHA512object *new;
     Py_buffer buf;
@@ -780,6 +791,7 @@ _sha2_sha512_impl(PyObject *module, PyObject *data, int usedforsecurity,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sha2.sha384
 
     data: object(c_default="NULL") = b''
@@ -793,7 +805,7 @@ Return a new SHA-384 hash object; optionally initialized with a string.
 static PyObject *
 _sha2_sha384_impl(PyObject *module, PyObject *data, int usedforsecurity,
                   PyObject *string_obj)
-/*[clinic end generated code: output=b6e3db593b5a0330 input=9fd50c942ad9e0bf]*/
+/*[clinic end generated code: output=b6e3db593b5a0330 input=e9e804d6c75ce2f2]*/
 {
     SHA512object *new;
     Py_buffer buf;

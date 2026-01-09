@@ -326,13 +326,14 @@ get_warnings_filters(PyInterpreterState *interp)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _acquire_lock as warnings_acquire_lock
 
 [clinic start generated code]*/
 
 static PyObject *
 warnings_acquire_lock_impl(PyObject *module)
-/*[clinic end generated code: output=594313457d1bf8e1 input=46ec20e55acca52f]*/
+/*[clinic end generated code: output=594313457d1bf8e1 input=eb76ac8f49ea2dd6]*/
 {
     PyInterpreterState *interp = get_current_interp();
     if (interp == NULL) {
@@ -343,13 +344,14 @@ warnings_acquire_lock_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _release_lock as warnings_release_lock
 
 [clinic start generated code]*/
 
 static PyObject *
 warnings_release_lock_impl(PyObject *module)
-/*[clinic end generated code: output=d73d5a8789396750 input=ea01bb77870c5693]*/
+/*[clinic end generated code: output=d73d5a8789396750 input=0173df510ac664be]*/
 {
     PyInterpreterState *interp = get_current_interp();
     if (interp == NULL) {
@@ -1177,6 +1179,7 @@ do_warn(PyObject *message, PyObject *category, Py_ssize_t stack_level,
 }
 
 /*[clinic input]
+@c_stack_frugal
 warn as warnings_warn
 
     message: object
@@ -1200,7 +1203,7 @@ static PyObject *
 warnings_warn_impl(PyObject *module, PyObject *message, PyObject *category,
                    Py_ssize_t stacklevel, PyObject *source,
                    PyTupleObject *skip_file_prefixes)
-/*[clinic end generated code: output=a68e0f6906c65f80 input=eb37c6a18bec4ea1]*/
+/*[clinic end generated code: output=a68e0f6906c65f80 input=aa0606c8d95d0f22]*/
 {
     category = get_category(message, category);
     if (category == NULL)
@@ -1275,6 +1278,7 @@ get_source_line(PyInterpreterState *interp, PyObject *module_globals, int lineno
 }
 
 /*[clinic input]
+@c_stack_frugal
 warn_explicit as warnings_warn_explicit
 
     message: object
@@ -1294,7 +1298,7 @@ warnings_warn_explicit_impl(PyObject *module, PyObject *message,
                             PyObject *category, PyObject *filename,
                             int lineno, PyObject *mod, PyObject *registry,
                             PyObject *module_globals, PyObject *sourceobj)
-/*[clinic end generated code: output=c49c62b15a49a186 input=df6eeb8b45e712f1]*/
+/*[clinic end generated code: output=c49c62b15a49a186 input=ceeb2e0eed242f56]*/
 {
     PyObject *source_line = NULL;
     PyObject *returned;
@@ -1327,13 +1331,14 @@ warnings_warn_explicit_impl(PyObject *module, PyObject *message,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _filters_mutated_lock_held as warnings_filters_mutated_lock_held
 
 [clinic start generated code]*/
 
 static PyObject *
 warnings_filters_mutated_lock_held_impl(PyObject *module)
-/*[clinic end generated code: output=df5c84f044e856ec input=34208bf03d70e432]*/
+/*[clinic end generated code: output=df5c84f044e856ec input=a060ce5a3079f2c3]*/
 {
     PyInterpreterState *interp = get_current_interp();
     if (interp == NULL) {

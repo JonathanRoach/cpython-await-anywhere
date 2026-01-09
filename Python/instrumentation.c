@@ -2146,6 +2146,7 @@ check_valid_tool(int tool_id)
 }
 
 /*[clinic input]
+@c_stack_frugal
 monitoring.use_tool_id
 
     tool_id: int
@@ -2156,7 +2157,7 @@ monitoring.use_tool_id
 
 static PyObject *
 monitoring_use_tool_id_impl(PyObject *module, int tool_id, PyObject *name)
-/*[clinic end generated code: output=30d76dc92b7cd653 input=ebc453761c621be1]*/
+/*[clinic end generated code: output=30d76dc92b7cd653 input=ab0369be79cfaeae]*/
 {
     if (check_valid_tool(tool_id))  {
         return NULL;
@@ -2175,6 +2176,7 @@ monitoring_use_tool_id_impl(PyObject *module, int tool_id, PyObject *name)
 }
 
 /*[clinic input]
+@c_stack_frugal
 monitoring.clear_tool_id
 
     tool_id: int
@@ -2184,7 +2186,7 @@ monitoring.clear_tool_id
 
 static PyObject *
 monitoring_clear_tool_id_impl(PyObject *module, int tool_id)
-/*[clinic end generated code: output=04defc23470b1be7 input=af643d6648a66163]*/
+/*[clinic end generated code: output=04defc23470b1be7 input=2fa42102ef7e24f6]*/
 {
     if (check_valid_tool(tool_id))  {
         return NULL;
@@ -2202,6 +2204,7 @@ monitoring_clear_tool_id_impl(PyObject *module, int tool_id)
 }
 
 /*[clinic input]
+@c_stack_frugal
 monitoring.free_tool_id
 
     tool_id: int
@@ -2211,7 +2214,7 @@ monitoring.free_tool_id
 
 static PyObject *
 monitoring_free_tool_id_impl(PyObject *module, int tool_id)
-/*[clinic end generated code: output=86c2d2a1219a8591 input=a23fb6be3a8618e9]*/
+/*[clinic end generated code: output=86c2d2a1219a8591 input=283821be53e38916]*/
 {
     if (check_valid_tool(tool_id))  {
         return NULL;
@@ -2229,6 +2232,7 @@ monitoring_free_tool_id_impl(PyObject *module, int tool_id)
 }
 
 /*[clinic input]
+@c_stack_frugal
 monitoring.get_tool
 
     tool_id: int
@@ -2238,7 +2242,7 @@ monitoring.get_tool
 
 static PyObject *
 monitoring_get_tool_impl(PyObject *module, int tool_id)
-/*[clinic end generated code: output=1c05a98b404a9a16 input=eeee9bebd0bcae9d]*/
+/*[clinic end generated code: output=1c05a98b404a9a16 input=c8ef64df6c44eae5]*/
 
 /*[clinic end generated code]*/
 {
@@ -2254,6 +2258,7 @@ monitoring_get_tool_impl(PyObject *module, int tool_id)
 }
 
 /*[clinic input]
+@c_stack_frugal
 monitoring.register_callback
 
 
@@ -2267,7 +2272,7 @@ monitoring.register_callback
 static PyObject *
 monitoring_register_callback_impl(PyObject *module, int tool_id, int event,
                                   PyObject *func)
-/*[clinic end generated code: output=e64daa363004030c input=df6d70ea4cf81007]*/
+/*[clinic end generated code: output=e64daa363004030c input=501967be3c38c1c1]*/
 {
     if (check_valid_tool(tool_id))  {
         return NULL;
@@ -2295,6 +2300,7 @@ monitoring_register_callback_impl(PyObject *module, int tool_id, int event,
 }
 
 /*[clinic input]
+@c_stack_frugal
 monitoring.get_events -> int
 
     tool_id: int
@@ -2304,7 +2310,7 @@ monitoring.get_events -> int
 
 static int
 monitoring_get_events_impl(PyObject *module, int tool_id)
-/*[clinic end generated code: output=4450cc13f826c8c0 input=a64b238f76c4b2f7]*/
+/*[clinic end generated code: output=4450cc13f826c8c0 input=8754c1802dfa2248]*/
 {
     if (check_valid_tool(tool_id))  {
         return -1;
@@ -2315,6 +2321,7 @@ monitoring_get_events_impl(PyObject *module, int tool_id)
 }
 
 /*[clinic input]
+@c_stack_frugal
 monitoring.set_events
 
     tool_id: int
@@ -2325,7 +2332,7 @@ monitoring.set_events
 
 static PyObject *
 monitoring_set_events_impl(PyObject *module, int tool_id, int event_set)
-/*[clinic end generated code: output=1916c1e49cfb5bdb input=a77ba729a242142b]*/
+/*[clinic end generated code: output=1916c1e49cfb5bdb input=a7a1bee8cebd582b]*/
 {
     if (check_valid_tool(tool_id))  {
         return NULL;
@@ -2350,6 +2357,7 @@ monitoring_set_events_impl(PyObject *module, int tool_id, int event_set)
 }
 
 /*[clinic input]
+@c_stack_frugal
 monitoring.get_local_events -> int
 
     tool_id: int
@@ -2361,7 +2369,7 @@ monitoring.get_local_events -> int
 static int
 monitoring_get_local_events_impl(PyObject *module, int tool_id,
                                  PyObject *code)
-/*[clinic end generated code: output=d3e92c1c9c1de8f9 input=bb0f927530386a94]*/
+/*[clinic end generated code: output=d3e92c1c9c1de8f9 input=1823fa37e7c3ac90]*/
 {
     if (!PyCode_Check(code)) {
         PyErr_Format(
@@ -2386,6 +2394,7 @@ monitoring_get_local_events_impl(PyObject *module, int tool_id,
 }
 
 /*[clinic input]
+@c_stack_frugal
 monitoring.set_local_events
 
     tool_id: int
@@ -2398,7 +2407,7 @@ monitoring.set_local_events
 static PyObject *
 monitoring_set_local_events_impl(PyObject *module, int tool_id,
                                  PyObject *code, int event_set)
-/*[clinic end generated code: output=68cc755a65dfea99 input=5655ecd78d937a29]*/
+/*[clinic end generated code: output=68cc755a65dfea99 input=fc22eab60b12bb38]*/
 {
     if (!PyCode_Check(code)) {
         PyErr_Format(
@@ -2431,13 +2440,14 @@ monitoring_set_local_events_impl(PyObject *module, int tool_id,
 }
 
 /*[clinic input]
+@c_stack_frugal
 monitoring.restart_events
 
 [clinic start generated code]*/
 
 static PyObject *
 monitoring_restart_events_impl(PyObject *module)
-/*[clinic end generated code: output=e025dd5ba33314c4 input=add8a855063c8008]*/
+/*[clinic end generated code: output=e025dd5ba33314c4 input=9caceeba7c60c114]*/
 {
     /* We want to ensure that:
      * last restart version > instrumented version for all code objects
@@ -2478,12 +2488,13 @@ add_power2_constant(PyObject *obj, const char *name, int i)
 }
 
 /*[clinic input]
+@c_stack_frugal
 monitoring._all_events
 [clinic start generated code]*/
 
 static PyObject *
 monitoring__all_events_impl(PyObject *module)
-/*[clinic end generated code: output=6b7581e2dbb690f6 input=62ee9672c17b7f0e]*/
+/*[clinic end generated code: output=6b7581e2dbb690f6 input=182903cab9d76ff8]*/
 {
     PyInterpreterState *interp = _PyInterpreterState_GET();
     PyObject *res = PyDict_New();

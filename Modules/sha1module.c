@@ -103,6 +103,7 @@ SHA1_dealloc(PyObject *op)
 /* External methods for a hash object */
 
 /*[clinic input]
+@c_stack_frugal
 SHA1Type.copy
 
     cls: defining_class
@@ -112,7 +113,7 @@ Return a copy of the hash object.
 
 static PyObject *
 SHA1Type_copy_impl(SHA1object *self, PyTypeObject *cls)
-/*[clinic end generated code: output=b32d4461ce8bc7a7 input=6c22e66fcc34c58e]*/
+/*[clinic end generated code: output=b32d4461ce8bc7a7 input=e3464e424fb05b67]*/
 {
     SHA1State *st = _PyType_GetModuleState(cls);
 
@@ -132,6 +133,7 @@ SHA1Type_copy_impl(SHA1object *self, PyTypeObject *cls)
 }
 
 /*[clinic input]
+@c_stack_frugal
 SHA1Type.digest
 
 Return the digest value as a bytes object.
@@ -139,7 +141,7 @@ Return the digest value as a bytes object.
 
 static PyObject *
 SHA1Type_digest_impl(SHA1object *self)
-/*[clinic end generated code: output=2f05302a7aa2b5cb input=13824b35407444bd]*/
+/*[clinic end generated code: output=2f05302a7aa2b5cb input=bbc0794cc7a91a37]*/
 {
     unsigned char digest[SHA1_DIGESTSIZE];
     ENTER_HASHLIB(self);
@@ -149,6 +151,7 @@ SHA1Type_digest_impl(SHA1object *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 SHA1Type.hexdigest
 
 Return the digest value as a string of hexadecimal digits.
@@ -156,7 +159,7 @@ Return the digest value as a string of hexadecimal digits.
 
 static PyObject *
 SHA1Type_hexdigest_impl(SHA1object *self)
-/*[clinic end generated code: output=4161fd71e68c6659 input=97691055c0c74ab0]*/
+/*[clinic end generated code: output=4161fd71e68c6659 input=9b1e00abd168db46]*/
 {
     unsigned char digest[SHA1_DIGESTSIZE];
     ENTER_HASHLIB(self);
@@ -185,6 +188,7 @@ update(Hacl_Hash_SHA1_state_t *state, uint8_t *buf, Py_ssize_t len)
 }
 
 /*[clinic input]
+@c_stack_frugal
 SHA1Type.update
 
     obj: object
@@ -195,7 +199,7 @@ Update this hash object's state with the provided string.
 
 static PyObject *
 SHA1Type_update_impl(SHA1object *self, PyObject *obj)
-/*[clinic end generated code: output=cdc8e0e106dbec5f input=aad8e07812edbba3]*/
+/*[clinic end generated code: output=cdc8e0e106dbec5f input=85715d4c28b24996]*/
 {
     Py_buffer buf;
 
@@ -270,6 +274,7 @@ static PyType_Spec sha1_type_spec = {
 /* The single module-level function: new() */
 
 /*[clinic input]
+@c_stack_frugal
 _sha1.sha1
 
     data: object(c_default="NULL") = b''
@@ -283,7 +288,7 @@ Return a new SHA1 hash object; optionally initialized with a string.
 static PyObject *
 _sha1_sha1_impl(PyObject *module, PyObject *data, int usedforsecurity,
                 PyObject *string_obj)
-/*[clinic end generated code: output=0d453775924f88a7 input=807f25264e0ac656]*/
+/*[clinic end generated code: output=0d453775924f88a7 input=75bda67177012175]*/
 {
     SHA1object *new;
     Py_buffer buf;

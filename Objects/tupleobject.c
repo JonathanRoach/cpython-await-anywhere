@@ -548,6 +548,7 @@ tuple_repeat(PyObject *self, Py_ssize_t n)
 }
 
 /*[clinic input]
+@c_stack_frugal
 tuple.index
 
     value: object
@@ -563,7 +564,7 @@ Raises ValueError if the value is not present.
 static PyObject *
 tuple_index_impl(PyTupleObject *self, PyObject *value, Py_ssize_t start,
                  Py_ssize_t stop)
-/*[clinic end generated code: output=07b6f9f3cb5c33eb input=fb39e9874a21fe3f]*/
+/*[clinic end generated code: output=07b6f9f3cb5c33eb input=e2e1d5366a67f3fc]*/
 {
     Py_ssize_t i;
 
@@ -590,6 +591,7 @@ tuple_index_impl(PyTupleObject *self, PyObject *value, Py_ssize_t start,
 }
 
 /*[clinic input]
+@c_stack_frugal
 tuple.count
 
      value: object
@@ -600,7 +602,7 @@ Return number of occurrences of value.
 
 static PyObject *
 tuple_count_impl(PyTupleObject *self, PyObject *value)
-/*[clinic end generated code: output=cf02888d4bc15d7a input=531721aff65bd772]*/
+/*[clinic end generated code: output=cf02888d4bc15d7a input=6c179fb88139016b]*/
 {
     Py_ssize_t count = 0;
     Py_ssize_t i;
@@ -682,6 +684,7 @@ static PyObject *
 tuple_subtype_new(PyTypeObject *type, PyObject *iterable);
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 tuple.__new__ as tuple_new
     iterable: object(c_default="NULL") = ()
@@ -697,7 +700,7 @@ If the argument is a tuple, the return value is the same object.
 
 static PyObject *
 tuple_new_impl(PyTypeObject *type, PyObject *iterable)
-/*[clinic end generated code: output=4546d9f0d469bce7 input=86963bcde633b5a2]*/
+/*[clinic end generated code: output=4546d9f0d469bce7 input=e6f7a64d22cbf42b]*/
 {
     if (type != &PyTuple_Type)
         return tuple_subtype_new(type, iterable);
@@ -834,12 +837,13 @@ tuple_subscript(PyObject *op, PyObject* item)
 }
 
 /*[clinic input]
+@c_stack_frugal
 tuple.__getnewargs__
 [clinic start generated code]*/
 
 static PyObject *
 tuple___getnewargs___impl(PyTupleObject *self)
-/*[clinic end generated code: output=25e06e3ee56027e2 input=1aeb4b286a21639a]*/
+/*[clinic end generated code: output=25e06e3ee56027e2 input=45bdeacb3fd87866]*/
 {
     return Py_BuildValue("(N)", tuple_slice(self, 0, Py_SIZE(self)));
 }

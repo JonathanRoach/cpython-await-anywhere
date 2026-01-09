@@ -15,7 +15,7 @@ PyDoc_STRVAR(pyexpat_xmlparser_SetReparseDeferralEnabled__doc__,
 "Enable/Disable reparse deferral; enabled by default with Expat >=2.6.0.");
 
 #define PYEXPAT_XMLPARSER_SETREPARSEDEFERRALENABLED_METHODDEF    \
-    {"SetReparseDeferralEnabled", (PyCFunction)pyexpat_xmlparser_SetReparseDeferralEnabled, METH_O, pyexpat_xmlparser_SetReparseDeferralEnabled__doc__},
+    {"SetReparseDeferralEnabled", (PyCFunction)pyexpat_xmlparser_SetReparseDeferralEnabled, METH_O|METH_C_STACK_FRUGAL, pyexpat_xmlparser_SetReparseDeferralEnabled__doc__},
 
 static PyObject *
 pyexpat_xmlparser_SetReparseDeferralEnabled_impl(xmlparseobject *self,
@@ -44,7 +44,7 @@ PyDoc_STRVAR(pyexpat_xmlparser_GetReparseDeferralEnabled__doc__,
 "Retrieve reparse deferral enabled status; always returns false with Expat <2.6.0.");
 
 #define PYEXPAT_XMLPARSER_GETREPARSEDEFERRALENABLED_METHODDEF    \
-    {"GetReparseDeferralEnabled", (PyCFunction)pyexpat_xmlparser_GetReparseDeferralEnabled, METH_NOARGS, pyexpat_xmlparser_GetReparseDeferralEnabled__doc__},
+    {"GetReparseDeferralEnabled", (PyCFunction)pyexpat_xmlparser_GetReparseDeferralEnabled, METH_NOARGS|METH_C_STACK_FRUGAL, pyexpat_xmlparser_GetReparseDeferralEnabled__doc__},
 
 static PyObject *
 pyexpat_xmlparser_GetReparseDeferralEnabled_impl(xmlparseobject *self);
@@ -64,7 +64,7 @@ PyDoc_STRVAR(pyexpat_xmlparser_Parse__doc__,
 "\'isfinal\' should be true at end of input.");
 
 #define PYEXPAT_XMLPARSER_PARSE_METHODDEF    \
-    {"Parse", _PyCFunction_CAST(pyexpat_xmlparser_Parse), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, pyexpat_xmlparser_Parse__doc__},
+    {"Parse", _PyCFunction_CAST(pyexpat_xmlparser_Parse), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pyexpat_xmlparser_Parse__doc__},
 
 static PyObject *
 pyexpat_xmlparser_Parse_impl(xmlparseobject *self, PyTypeObject *cls,
@@ -118,7 +118,7 @@ PyDoc_STRVAR(pyexpat_xmlparser_ParseFile__doc__,
 "Parse XML data from file-like object.");
 
 #define PYEXPAT_XMLPARSER_PARSEFILE_METHODDEF    \
-    {"ParseFile", _PyCFunction_CAST(pyexpat_xmlparser_ParseFile), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, pyexpat_xmlparser_ParseFile__doc__},
+    {"ParseFile", _PyCFunction_CAST(pyexpat_xmlparser_ParseFile), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pyexpat_xmlparser_ParseFile__doc__},
 
 static PyObject *
 pyexpat_xmlparser_ParseFile_impl(xmlparseobject *self, PyTypeObject *cls,
@@ -163,7 +163,7 @@ PyDoc_STRVAR(pyexpat_xmlparser_SetBase__doc__,
 "Set the base URL for the parser.");
 
 #define PYEXPAT_XMLPARSER_SETBASE_METHODDEF    \
-    {"SetBase", (PyCFunction)pyexpat_xmlparser_SetBase, METH_O, pyexpat_xmlparser_SetBase__doc__},
+    {"SetBase", (PyCFunction)pyexpat_xmlparser_SetBase, METH_O|METH_C_STACK_FRUGAL, pyexpat_xmlparser_SetBase__doc__},
 
 static PyObject *
 pyexpat_xmlparser_SetBase_impl(xmlparseobject *self, const char *base);
@@ -200,7 +200,7 @@ PyDoc_STRVAR(pyexpat_xmlparser_GetBase__doc__,
 "Return base URL string for the parser.");
 
 #define PYEXPAT_XMLPARSER_GETBASE_METHODDEF    \
-    {"GetBase", (PyCFunction)pyexpat_xmlparser_GetBase, METH_NOARGS, pyexpat_xmlparser_GetBase__doc__},
+    {"GetBase", (PyCFunction)pyexpat_xmlparser_GetBase, METH_NOARGS|METH_C_STACK_FRUGAL, pyexpat_xmlparser_GetBase__doc__},
 
 static PyObject *
 pyexpat_xmlparser_GetBase_impl(xmlparseobject *self);
@@ -221,7 +221,7 @@ PyDoc_STRVAR(pyexpat_xmlparser_GetInputContext__doc__,
 "for an element with many attributes), not all of the text may be available.");
 
 #define PYEXPAT_XMLPARSER_GETINPUTCONTEXT_METHODDEF    \
-    {"GetInputContext", (PyCFunction)pyexpat_xmlparser_GetInputContext, METH_NOARGS, pyexpat_xmlparser_GetInputContext__doc__},
+    {"GetInputContext", (PyCFunction)pyexpat_xmlparser_GetInputContext, METH_NOARGS|METH_C_STACK_FRUGAL, pyexpat_xmlparser_GetInputContext__doc__},
 
 static PyObject *
 pyexpat_xmlparser_GetInputContext_impl(xmlparseobject *self);
@@ -240,7 +240,7 @@ PyDoc_STRVAR(pyexpat_xmlparser_ExternalEntityParserCreate__doc__,
 "Create a parser for parsing an external entity based on the information passed to the ExternalEntityRefHandler.");
 
 #define PYEXPAT_XMLPARSER_EXTERNALENTITYPARSERCREATE_METHODDEF    \
-    {"ExternalEntityParserCreate", _PyCFunction_CAST(pyexpat_xmlparser_ExternalEntityParserCreate), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, pyexpat_xmlparser_ExternalEntityParserCreate__doc__},
+    {"ExternalEntityParserCreate", _PyCFunction_CAST(pyexpat_xmlparser_ExternalEntityParserCreate), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pyexpat_xmlparser_ExternalEntityParserCreate__doc__},
 
 static PyObject *
 pyexpat_xmlparser_ExternalEntityParserCreate_impl(xmlparseobject *self,
@@ -327,7 +327,7 @@ PyDoc_STRVAR(pyexpat_xmlparser_SetParamEntityParsing__doc__,
 "was successful.");
 
 #define PYEXPAT_XMLPARSER_SETPARAMENTITYPARSING_METHODDEF    \
-    {"SetParamEntityParsing", (PyCFunction)pyexpat_xmlparser_SetParamEntityParsing, METH_O, pyexpat_xmlparser_SetParamEntityParsing__doc__},
+    {"SetParamEntityParsing", (PyCFunction)pyexpat_xmlparser_SetParamEntityParsing, METH_O|METH_C_STACK_FRUGAL, pyexpat_xmlparser_SetParamEntityParsing__doc__},
 
 static PyObject *
 pyexpat_xmlparser_SetParamEntityParsing_impl(xmlparseobject *self, int flag);
@@ -361,7 +361,7 @@ PyDoc_STRVAR(pyexpat_xmlparser_UseForeignDTD__doc__,
 "information to the parser. \'flag\' defaults to True if not provided.");
 
 #define PYEXPAT_XMLPARSER_USEFOREIGNDTD_METHODDEF    \
-    {"UseForeignDTD", _PyCFunction_CAST(pyexpat_xmlparser_UseForeignDTD), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, pyexpat_xmlparser_UseForeignDTD__doc__},
+    {"UseForeignDTD", _PyCFunction_CAST(pyexpat_xmlparser_UseForeignDTD), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pyexpat_xmlparser_UseForeignDTD__doc__},
 
 static PyObject *
 pyexpat_xmlparser_UseForeignDTD_impl(xmlparseobject *self, PyTypeObject *cls,
@@ -416,7 +416,7 @@ PyDoc_STRVAR(pyexpat_ParserCreate__doc__,
 "Return a new XML parser object.");
 
 #define PYEXPAT_PARSERCREATE_METHODDEF    \
-    {"ParserCreate", _PyCFunction_CAST(pyexpat_ParserCreate), METH_FASTCALL|METH_KEYWORDS, pyexpat_ParserCreate__doc__},
+    {"ParserCreate", _PyCFunction_CAST(pyexpat_ParserCreate), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pyexpat_ParserCreate__doc__},
 
 static PyObject *
 pyexpat_ParserCreate_impl(PyObject *module, const char *encoding,
@@ -528,7 +528,7 @@ PyDoc_STRVAR(pyexpat_ErrorString__doc__,
 "Returns string error for given number.");
 
 #define PYEXPAT_ERRORSTRING_METHODDEF    \
-    {"ErrorString", (PyCFunction)pyexpat_ErrorString, METH_O, pyexpat_ErrorString__doc__},
+    {"ErrorString", (PyCFunction)pyexpat_ErrorString, METH_O|METH_C_STACK_FRUGAL, pyexpat_ErrorString__doc__},
 
 static PyObject *
 pyexpat_ErrorString_impl(PyObject *module, long code);
@@ -552,4 +552,4 @@ exit:
 #ifndef PYEXPAT_XMLPARSER_USEFOREIGNDTD_METHODDEF
     #define PYEXPAT_XMLPARSER_USEFOREIGNDTD_METHODDEF
 #endif /* !defined(PYEXPAT_XMLPARSER_USEFOREIGNDTD_METHODDEF) */
-/*[clinic end generated code: output=4dbdc959c67dc2d5 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=94724709bf5b7c0f input=a9049054013a1b77]*/

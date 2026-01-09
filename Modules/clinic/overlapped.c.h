@@ -16,7 +16,7 @@ PyDoc_STRVAR(_overlapped_CreateIoCompletionPort__doc__,
 "Create a completion port or register a handle with a port.");
 
 #define _OVERLAPPED_CREATEIOCOMPLETIONPORT_METHODDEF    \
-    {"CreateIoCompletionPort", _PyCFunction_CAST(_overlapped_CreateIoCompletionPort), METH_FASTCALL, _overlapped_CreateIoCompletionPort__doc__},
+    {"CreateIoCompletionPort", _PyCFunction_CAST(_overlapped_CreateIoCompletionPort), METH_FASTCALL|METH_C_STACK_FRUGAL, _overlapped_CreateIoCompletionPort__doc__},
 
 static PyObject *
 _overlapped_CreateIoCompletionPort_impl(PyObject *module, HANDLE FileHandle,
@@ -66,7 +66,7 @@ PyDoc_STRVAR(_overlapped_GetQueuedCompletionStatus__doc__,
 "Wait for up to msecs milliseconds.");
 
 #define _OVERLAPPED_GETQUEUEDCOMPLETIONSTATUS_METHODDEF    \
-    {"GetQueuedCompletionStatus", _PyCFunction_CAST(_overlapped_GetQueuedCompletionStatus), METH_FASTCALL, _overlapped_GetQueuedCompletionStatus__doc__},
+    {"GetQueuedCompletionStatus", _PyCFunction_CAST(_overlapped_GetQueuedCompletionStatus), METH_FASTCALL|METH_C_STACK_FRUGAL, _overlapped_GetQueuedCompletionStatus__doc__},
 
 static PyObject *
 _overlapped_GetQueuedCompletionStatus_impl(PyObject *module,
@@ -103,7 +103,7 @@ PyDoc_STRVAR(_overlapped_PostQueuedCompletionStatus__doc__,
 "Post a message to completion port.");
 
 #define _OVERLAPPED_POSTQUEUEDCOMPLETIONSTATUS_METHODDEF    \
-    {"PostQueuedCompletionStatus", _PyCFunction_CAST(_overlapped_PostQueuedCompletionStatus), METH_FASTCALL, _overlapped_PostQueuedCompletionStatus__doc__},
+    {"PostQueuedCompletionStatus", _PyCFunction_CAST(_overlapped_PostQueuedCompletionStatus), METH_FASTCALL|METH_C_STACK_FRUGAL, _overlapped_PostQueuedCompletionStatus__doc__},
 
 static PyObject *
 _overlapped_PostQueuedCompletionStatus_impl(PyObject *module,
@@ -153,7 +153,7 @@ PyDoc_STRVAR(_overlapped_RegisterWaitWithQueue__doc__,
 "Register wait for Object; when complete CompletionPort is notified.");
 
 #define _OVERLAPPED_REGISTERWAITWITHQUEUE_METHODDEF    \
-    {"RegisterWaitWithQueue", _PyCFunction_CAST(_overlapped_RegisterWaitWithQueue), METH_FASTCALL, _overlapped_RegisterWaitWithQueue__doc__},
+    {"RegisterWaitWithQueue", _PyCFunction_CAST(_overlapped_RegisterWaitWithQueue), METH_FASTCALL|METH_C_STACK_FRUGAL, _overlapped_RegisterWaitWithQueue__doc__},
 
 static PyObject *
 _overlapped_RegisterWaitWithQueue_impl(PyObject *module, HANDLE Object,
@@ -201,7 +201,7 @@ PyDoc_STRVAR(_overlapped_UnregisterWait__doc__,
 "Unregister wait handle.");
 
 #define _OVERLAPPED_UNREGISTERWAIT_METHODDEF    \
-    {"UnregisterWait", (PyCFunction)_overlapped_UnregisterWait, METH_O, _overlapped_UnregisterWait__doc__},
+    {"UnregisterWait", (PyCFunction)_overlapped_UnregisterWait, METH_O|METH_C_STACK_FRUGAL, _overlapped_UnregisterWait__doc__},
 
 static PyObject *
 _overlapped_UnregisterWait_impl(PyObject *module, HANDLE WaitHandle);
@@ -229,7 +229,7 @@ PyDoc_STRVAR(_overlapped_UnregisterWaitEx__doc__,
 "Unregister wait handle.");
 
 #define _OVERLAPPED_UNREGISTERWAITEX_METHODDEF    \
-    {"UnregisterWaitEx", _PyCFunction_CAST(_overlapped_UnregisterWaitEx), METH_FASTCALL, _overlapped_UnregisterWaitEx__doc__},
+    {"UnregisterWaitEx", _PyCFunction_CAST(_overlapped_UnregisterWaitEx), METH_FASTCALL|METH_C_STACK_FRUGAL, _overlapped_UnregisterWaitEx__doc__},
 
 static PyObject *
 _overlapped_UnregisterWaitEx_impl(PyObject *module, HANDLE WaitHandle,
@@ -269,7 +269,7 @@ PyDoc_STRVAR(_overlapped_CreateEvent__doc__,
 "EventAttributes must be None.");
 
 #define _OVERLAPPED_CREATEEVENT_METHODDEF    \
-    {"CreateEvent", _PyCFunction_CAST(_overlapped_CreateEvent), METH_FASTCALL, _overlapped_CreateEvent__doc__},
+    {"CreateEvent", _PyCFunction_CAST(_overlapped_CreateEvent), METH_FASTCALL|METH_C_STACK_FRUGAL, _overlapped_CreateEvent__doc__},
 
 static PyObject *
 _overlapped_CreateEvent_impl(PyObject *module, PyObject *EventAttributes,
@@ -326,7 +326,7 @@ PyDoc_STRVAR(_overlapped_SetEvent__doc__,
 "Set event.");
 
 #define _OVERLAPPED_SETEVENT_METHODDEF    \
-    {"SetEvent", (PyCFunction)_overlapped_SetEvent, METH_O, _overlapped_SetEvent__doc__},
+    {"SetEvent", (PyCFunction)_overlapped_SetEvent, METH_O|METH_C_STACK_FRUGAL, _overlapped_SetEvent__doc__},
 
 static PyObject *
 _overlapped_SetEvent_impl(PyObject *module, HANDLE Handle);
@@ -354,7 +354,7 @@ PyDoc_STRVAR(_overlapped_ResetEvent__doc__,
 "Reset event.");
 
 #define _OVERLAPPED_RESETEVENT_METHODDEF    \
-    {"ResetEvent", (PyCFunction)_overlapped_ResetEvent, METH_O, _overlapped_ResetEvent__doc__},
+    {"ResetEvent", (PyCFunction)_overlapped_ResetEvent, METH_O|METH_C_STACK_FRUGAL, _overlapped_ResetEvent__doc__},
 
 static PyObject *
 _overlapped_ResetEvent_impl(PyObject *module, HANDLE Handle);
@@ -384,7 +384,7 @@ PyDoc_STRVAR(_overlapped_BindLocal__doc__,
 "family should be AF_INET or AF_INET6.");
 
 #define _OVERLAPPED_BINDLOCAL_METHODDEF    \
-    {"BindLocal", _PyCFunction_CAST(_overlapped_BindLocal), METH_FASTCALL, _overlapped_BindLocal__doc__},
+    {"BindLocal", _PyCFunction_CAST(_overlapped_BindLocal), METH_FASTCALL|METH_C_STACK_FRUGAL, _overlapped_BindLocal__doc__},
 
 static PyObject *
 _overlapped_BindLocal_impl(PyObject *module, HANDLE Socket, int Family);
@@ -420,7 +420,7 @@ PyDoc_STRVAR(_overlapped_FormatMessage__doc__,
 "Return error message for an error code.");
 
 #define _OVERLAPPED_FORMATMESSAGE_METHODDEF    \
-    {"FormatMessage", (PyCFunction)_overlapped_FormatMessage, METH_O, _overlapped_FormatMessage__doc__},
+    {"FormatMessage", (PyCFunction)_overlapped_FormatMessage, METH_O|METH_C_STACK_FRUGAL, _overlapped_FormatMessage__doc__},
 
 static PyObject *
 _overlapped_FormatMessage_impl(PyObject *module, DWORD code);
@@ -512,7 +512,7 @@ PyDoc_STRVAR(_overlapped_Overlapped_cancel__doc__,
 "Cancel overlapped operation.");
 
 #define _OVERLAPPED_OVERLAPPED_CANCEL_METHODDEF    \
-    {"cancel", (PyCFunction)_overlapped_Overlapped_cancel, METH_NOARGS, _overlapped_Overlapped_cancel__doc__},
+    {"cancel", (PyCFunction)_overlapped_Overlapped_cancel, METH_NOARGS|METH_C_STACK_FRUGAL, _overlapped_Overlapped_cancel__doc__},
 
 static PyObject *
 _overlapped_Overlapped_cancel_impl(OverlappedObject *self);
@@ -533,7 +533,7 @@ PyDoc_STRVAR(_overlapped_Overlapped_getresult__doc__,
 "is false and the operation is still pending then an error is raised.");
 
 #define _OVERLAPPED_OVERLAPPED_GETRESULT_METHODDEF    \
-    {"getresult", _PyCFunction_CAST(_overlapped_Overlapped_getresult), METH_FASTCALL, _overlapped_Overlapped_getresult__doc__},
+    {"getresult", _PyCFunction_CAST(_overlapped_Overlapped_getresult), METH_FASTCALL|METH_C_STACK_FRUGAL, _overlapped_Overlapped_getresult__doc__},
 
 static PyObject *
 _overlapped_Overlapped_getresult_impl(OverlappedObject *self, BOOL wait);
@@ -568,7 +568,7 @@ PyDoc_STRVAR(_overlapped_Overlapped_ReadFile__doc__,
 "Start overlapped read.");
 
 #define _OVERLAPPED_OVERLAPPED_READFILE_METHODDEF    \
-    {"ReadFile", _PyCFunction_CAST(_overlapped_Overlapped_ReadFile), METH_FASTCALL, _overlapped_Overlapped_ReadFile__doc__},
+    {"ReadFile", _PyCFunction_CAST(_overlapped_Overlapped_ReadFile), METH_FASTCALL|METH_C_STACK_FRUGAL, _overlapped_Overlapped_ReadFile__doc__},
 
 static PyObject *
 _overlapped_Overlapped_ReadFile_impl(OverlappedObject *self, HANDLE handle,
@@ -604,7 +604,7 @@ PyDoc_STRVAR(_overlapped_Overlapped_ReadFileInto__doc__,
 "Start overlapped receive.");
 
 #define _OVERLAPPED_OVERLAPPED_READFILEINTO_METHODDEF    \
-    {"ReadFileInto", _PyCFunction_CAST(_overlapped_Overlapped_ReadFileInto), METH_FASTCALL, _overlapped_Overlapped_ReadFileInto__doc__},
+    {"ReadFileInto", _PyCFunction_CAST(_overlapped_Overlapped_ReadFileInto), METH_FASTCALL|METH_C_STACK_FRUGAL, _overlapped_Overlapped_ReadFileInto__doc__},
 
 static PyObject *
 _overlapped_Overlapped_ReadFileInto_impl(OverlappedObject *self,
@@ -645,7 +645,7 @@ PyDoc_STRVAR(_overlapped_Overlapped_WSARecv__doc__,
 "Start overlapped receive.");
 
 #define _OVERLAPPED_OVERLAPPED_WSARECV_METHODDEF    \
-    {"WSARecv", _PyCFunction_CAST(_overlapped_Overlapped_WSARecv), METH_FASTCALL, _overlapped_Overlapped_WSARecv__doc__},
+    {"WSARecv", _PyCFunction_CAST(_overlapped_Overlapped_WSARecv), METH_FASTCALL|METH_C_STACK_FRUGAL, _overlapped_Overlapped_WSARecv__doc__},
 
 static PyObject *
 _overlapped_Overlapped_WSARecv_impl(OverlappedObject *self, HANDLE handle,
@@ -689,7 +689,7 @@ PyDoc_STRVAR(_overlapped_Overlapped_WSARecvInto__doc__,
 "Start overlapped receive.");
 
 #define _OVERLAPPED_OVERLAPPED_WSARECVINTO_METHODDEF    \
-    {"WSARecvInto", _PyCFunction_CAST(_overlapped_Overlapped_WSARecvInto), METH_FASTCALL, _overlapped_Overlapped_WSARecvInto__doc__},
+    {"WSARecvInto", _PyCFunction_CAST(_overlapped_Overlapped_WSARecvInto), METH_FASTCALL|METH_C_STACK_FRUGAL, _overlapped_Overlapped_WSARecvInto__doc__},
 
 static PyObject *
 _overlapped_Overlapped_WSARecvInto_impl(OverlappedObject *self,
@@ -735,7 +735,7 @@ PyDoc_STRVAR(_overlapped_Overlapped_WriteFile__doc__,
 "Start overlapped write.");
 
 #define _OVERLAPPED_OVERLAPPED_WRITEFILE_METHODDEF    \
-    {"WriteFile", _PyCFunction_CAST(_overlapped_Overlapped_WriteFile), METH_FASTCALL, _overlapped_Overlapped_WriteFile__doc__},
+    {"WriteFile", _PyCFunction_CAST(_overlapped_Overlapped_WriteFile), METH_FASTCALL|METH_C_STACK_FRUGAL, _overlapped_Overlapped_WriteFile__doc__},
 
 static PyObject *
 _overlapped_Overlapped_WriteFile_impl(OverlappedObject *self, HANDLE handle,
@@ -776,7 +776,7 @@ PyDoc_STRVAR(_overlapped_Overlapped_WSASend__doc__,
 "Start overlapped send.");
 
 #define _OVERLAPPED_OVERLAPPED_WSASEND_METHODDEF    \
-    {"WSASend", _PyCFunction_CAST(_overlapped_Overlapped_WSASend), METH_FASTCALL, _overlapped_Overlapped_WSASend__doc__},
+    {"WSASend", _PyCFunction_CAST(_overlapped_Overlapped_WSASend), METH_FASTCALL|METH_C_STACK_FRUGAL, _overlapped_Overlapped_WSASend__doc__},
 
 static PyObject *
 _overlapped_Overlapped_WSASend_impl(OverlappedObject *self, HANDLE handle,
@@ -821,7 +821,7 @@ PyDoc_STRVAR(_overlapped_Overlapped_AcceptEx__doc__,
 "Start overlapped wait for client to connect.");
 
 #define _OVERLAPPED_OVERLAPPED_ACCEPTEX_METHODDEF    \
-    {"AcceptEx", _PyCFunction_CAST(_overlapped_Overlapped_AcceptEx), METH_FASTCALL, _overlapped_Overlapped_AcceptEx__doc__},
+    {"AcceptEx", _PyCFunction_CAST(_overlapped_Overlapped_AcceptEx), METH_FASTCALL|METH_C_STACK_FRUGAL, _overlapped_Overlapped_AcceptEx__doc__},
 
 static PyObject *
 _overlapped_Overlapped_AcceptEx_impl(OverlappedObject *self,
@@ -861,7 +861,7 @@ PyDoc_STRVAR(_overlapped_Overlapped_ConnectEx__doc__,
 "client_handle should be unbound.");
 
 #define _OVERLAPPED_OVERLAPPED_CONNECTEX_METHODDEF    \
-    {"ConnectEx", _PyCFunction_CAST(_overlapped_Overlapped_ConnectEx), METH_FASTCALL, _overlapped_Overlapped_ConnectEx__doc__},
+    {"ConnectEx", _PyCFunction_CAST(_overlapped_Overlapped_ConnectEx), METH_FASTCALL|METH_C_STACK_FRUGAL, _overlapped_Overlapped_ConnectEx__doc__},
 
 static PyObject *
 _overlapped_Overlapped_ConnectEx_impl(OverlappedObject *self,
@@ -899,7 +899,7 @@ PyDoc_STRVAR(_overlapped_Overlapped_DisconnectEx__doc__,
 "\n");
 
 #define _OVERLAPPED_OVERLAPPED_DISCONNECTEX_METHODDEF    \
-    {"DisconnectEx", _PyCFunction_CAST(_overlapped_Overlapped_DisconnectEx), METH_FASTCALL, _overlapped_Overlapped_DisconnectEx__doc__},
+    {"DisconnectEx", _PyCFunction_CAST(_overlapped_Overlapped_DisconnectEx), METH_FASTCALL|METH_C_STACK_FRUGAL, _overlapped_Overlapped_DisconnectEx__doc__},
 
 static PyObject *
 _overlapped_Overlapped_DisconnectEx_impl(OverlappedObject *self,
@@ -936,7 +936,7 @@ PyDoc_STRVAR(_overlapped_Overlapped_TransmitFile__doc__,
 "Transmit file data over a connected socket.");
 
 #define _OVERLAPPED_OVERLAPPED_TRANSMITFILE_METHODDEF    \
-    {"TransmitFile", _PyCFunction_CAST(_overlapped_Overlapped_TransmitFile), METH_FASTCALL, _overlapped_Overlapped_TransmitFile__doc__},
+    {"TransmitFile", _PyCFunction_CAST(_overlapped_Overlapped_TransmitFile), METH_FASTCALL|METH_C_STACK_FRUGAL, _overlapped_Overlapped_TransmitFile__doc__},
 
 static PyObject *
 _overlapped_Overlapped_TransmitFile_impl(OverlappedObject *self,
@@ -996,7 +996,7 @@ PyDoc_STRVAR(_overlapped_Overlapped_ConnectNamedPipe__doc__,
 "Start overlapped wait for a client to connect.");
 
 #define _OVERLAPPED_OVERLAPPED_CONNECTNAMEDPIPE_METHODDEF    \
-    {"ConnectNamedPipe", (PyCFunction)_overlapped_Overlapped_ConnectNamedPipe, METH_O, _overlapped_Overlapped_ConnectNamedPipe__doc__},
+    {"ConnectNamedPipe", (PyCFunction)_overlapped_Overlapped_ConnectNamedPipe, METH_O|METH_C_STACK_FRUGAL, _overlapped_Overlapped_ConnectNamedPipe__doc__},
 
 static PyObject *
 _overlapped_Overlapped_ConnectNamedPipe_impl(OverlappedObject *self,
@@ -1025,7 +1025,7 @@ PyDoc_STRVAR(_overlapped_Overlapped_ConnectPipe__doc__,
 "Connect to the pipe for asynchronous I/O (overlapped).");
 
 #define _OVERLAPPED_OVERLAPPED_CONNECTPIPE_METHODDEF    \
-    {"ConnectPipe", (PyCFunction)_overlapped_Overlapped_ConnectPipe, METH_O, _overlapped_Overlapped_ConnectPipe__doc__},
+    {"ConnectPipe", (PyCFunction)_overlapped_Overlapped_ConnectPipe, METH_O|METH_C_STACK_FRUGAL, _overlapped_Overlapped_ConnectPipe__doc__},
 
 static PyObject *
 _overlapped_Overlapped_ConnectPipe_impl(OverlappedObject *self,
@@ -1061,7 +1061,7 @@ PyDoc_STRVAR(_overlapped_WSAConnect__doc__,
 "Bind a remote address to a connectionless (UDP) socket.");
 
 #define _OVERLAPPED_WSACONNECT_METHODDEF    \
-    {"WSAConnect", _PyCFunction_CAST(_overlapped_WSAConnect), METH_FASTCALL, _overlapped_WSAConnect__doc__},
+    {"WSAConnect", _PyCFunction_CAST(_overlapped_WSAConnect), METH_FASTCALL|METH_C_STACK_FRUGAL, _overlapped_WSAConnect__doc__},
 
 static PyObject *
 _overlapped_WSAConnect_impl(PyObject *module, HANDLE ConnectSocket,
@@ -1099,7 +1099,7 @@ PyDoc_STRVAR(_overlapped_Overlapped_WSASendTo__doc__,
 "Start overlapped sendto over a connectionless (UDP) socket.");
 
 #define _OVERLAPPED_OVERLAPPED_WSASENDTO_METHODDEF    \
-    {"WSASendTo", _PyCFunction_CAST(_overlapped_Overlapped_WSASendTo), METH_FASTCALL, _overlapped_Overlapped_WSASendTo__doc__},
+    {"WSASendTo", _PyCFunction_CAST(_overlapped_Overlapped_WSASendTo), METH_FASTCALL|METH_C_STACK_FRUGAL, _overlapped_Overlapped_WSASendTo__doc__},
 
 static PyObject *
 _overlapped_Overlapped_WSASendTo_impl(OverlappedObject *self, HANDLE handle,
@@ -1151,7 +1151,7 @@ PyDoc_STRVAR(_overlapped_Overlapped_WSARecvFrom__doc__,
 "Start overlapped receive.");
 
 #define _OVERLAPPED_OVERLAPPED_WSARECVFROM_METHODDEF    \
-    {"WSARecvFrom", _PyCFunction_CAST(_overlapped_Overlapped_WSARecvFrom), METH_FASTCALL, _overlapped_Overlapped_WSARecvFrom__doc__},
+    {"WSARecvFrom", _PyCFunction_CAST(_overlapped_Overlapped_WSARecvFrom), METH_FASTCALL|METH_C_STACK_FRUGAL, _overlapped_Overlapped_WSARecvFrom__doc__},
 
 static PyObject *
 _overlapped_Overlapped_WSARecvFrom_impl(OverlappedObject *self,
@@ -1196,7 +1196,7 @@ PyDoc_STRVAR(_overlapped_Overlapped_WSARecvFromInto__doc__,
 "Start overlapped receive.");
 
 #define _OVERLAPPED_OVERLAPPED_WSARECVFROMINTO_METHODDEF    \
-    {"WSARecvFromInto", _PyCFunction_CAST(_overlapped_Overlapped_WSARecvFromInto), METH_FASTCALL, _overlapped_Overlapped_WSARecvFromInto__doc__},
+    {"WSARecvFromInto", _PyCFunction_CAST(_overlapped_Overlapped_WSARecvFromInto), METH_FASTCALL|METH_C_STACK_FRUGAL, _overlapped_Overlapped_WSARecvFromInto__doc__},
 
 static PyObject *
 _overlapped_Overlapped_WSARecvFromInto_impl(OverlappedObject *self,
@@ -1242,4 +1242,4 @@ exit:
 
     return return_value;
 }
-/*[clinic end generated code: output=3e4cb2b55342cd96 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=e6ffa3d25077aa40 input=a9049054013a1b77]*/

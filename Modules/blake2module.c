@@ -653,6 +653,7 @@ error:
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 _blake2.blake2b.__new__ as py_blake2b_new
     data as data_obj: object(c_default="NULL") = b''
@@ -681,7 +682,7 @@ py_blake2b_new_impl(PyTypeObject *type, PyObject *data_obj, int digest_size,
                     unsigned long long node_offset, int node_depth,
                     int inner_size, int last_node, int usedforsecurity,
                     PyObject *string)
-/*[clinic end generated code: output=de64bd850606b6a0 input=78cf60a2922d2f90]*/
+/*[clinic end generated code: output=de64bd850606b6a0 input=afda395d81729894]*/
 {
     PyObject *data;
     if (_Py_hashlib_data_argument(&data, data_obj, string) < 0) {
@@ -691,6 +692,7 @@ py_blake2b_new_impl(PyTypeObject *type, PyObject *data_obj, int digest_size,
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 _blake2.blake2s.__new__ as py_blake2s_new
     data as data_obj: object(c_default="NULL") = b''
@@ -719,7 +721,7 @@ py_blake2s_new_impl(PyTypeObject *type, PyObject *data_obj, int digest_size,
                     unsigned long long node_offset, int node_depth,
                     int inner_size, int last_node, int usedforsecurity,
                     PyObject *string)
-/*[clinic end generated code: output=582a0c4295cc3a3c input=6843d6332eefd295]*/
+/*[clinic end generated code: output=582a0c4295cc3a3c input=5debd365cc8ee9ae]*/
 {
     PyObject *data;
     if (_Py_hashlib_data_argument(&data, data_obj, string) < 0) {
@@ -777,6 +779,7 @@ error:
 }
 
 /*[clinic input]
+@c_stack_frugal
 _blake2.blake2b.copy
 
 Return a copy of the hash object.
@@ -784,7 +787,7 @@ Return a copy of the hash object.
 
 static PyObject *
 _blake2_blake2b_copy_impl(Blake2Object *self)
-/*[clinic end generated code: output=622d1c56b91c50d8 input=e383c2d199fd8a2e]*/
+/*[clinic end generated code: output=622d1c56b91c50d8 input=5fe67f29029a1dc2]*/
 {
     int rc;
     Blake2Object *cpy;
@@ -804,6 +807,7 @@ _blake2_blake2b_copy_impl(Blake2Object *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _blake2.blake2b.update
 
     data: object
@@ -814,7 +818,7 @@ Update this hash object's state with the provided bytes-like object.
 
 static PyObject *
 _blake2_blake2b_update_impl(Blake2Object *self, PyObject *data)
-/*[clinic end generated code: output=99330230068e8c99 input=ffc4aa6a6a225d31]*/
+/*[clinic end generated code: output=99330230068e8c99 input=01afbb0d8f311aaa]*/
 {
     Py_buffer buf;
 
@@ -839,6 +843,7 @@ _blake2_blake2b_update_impl(Blake2Object *self, PyObject *data)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _blake2.blake2b.digest
 
 Return the digest value as a bytes object.
@@ -846,7 +851,7 @@ Return the digest value as a bytes object.
 
 static PyObject *
 _blake2_blake2b_digest_impl(Blake2Object *self)
-/*[clinic end generated code: output=31ab8ad477f4a2f7 input=7d21659e9c5fff02]*/
+/*[clinic end generated code: output=31ab8ad477f4a2f7 input=f84c58c1e8177bbb]*/
 {
     uint8_t digest[HACL_HASH_BLAKE2B_OUT_BYTES];
 
@@ -877,6 +882,7 @@ _blake2_blake2b_digest_impl(Blake2Object *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _blake2.blake2b.hexdigest
 
 Return the digest value as a string of hexadecimal digits.
@@ -884,7 +890,7 @@ Return the digest value as a string of hexadecimal digits.
 
 static PyObject *
 _blake2_blake2b_hexdigest_impl(Blake2Object *self)
-/*[clinic end generated code: output=5ef54b138db6610a input=76930f6946351f56]*/
+/*[clinic end generated code: output=5ef54b138db6610a input=648409da8ce41287]*/
 {
     uint8_t digest[HACL_HASH_BLAKE2B_OUT_BYTES];
 

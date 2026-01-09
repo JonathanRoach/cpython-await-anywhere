@@ -3285,6 +3285,7 @@ date_today(PyObject *cls, PyObject *Py_UNUSED(dummy))
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 datetime.date.fromtimestamp
 
@@ -3299,7 +3300,7 @@ as local time.
 
 static PyObject *
 datetime_date_fromtimestamp_impl(PyTypeObject *type, PyObject *timestamp)
-/*[clinic end generated code: output=59def4e32c028fb6 input=eabb3fe7f40491fe]*/
+/*[clinic end generated code: output=59def4e32c028fb6 input=dc462044f6ed5ecd]*/
 {
     return date_fromtimestamp((PyObject *) type, timestamp);
 }
@@ -3733,6 +3734,7 @@ static PyType_Spec isocal_spec = {
 };
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 datetime.IsoCalendarDate.__new__ as iso_calendar_date_new
     year: int
@@ -3743,7 +3745,7 @@ datetime.IsoCalendarDate.__new__ as iso_calendar_date_new
 static PyObject *
 iso_calendar_date_new_impl(PyTypeObject *type, int year, int week,
                            int weekday)
-/*[clinic end generated code: output=383d33d8dc7183a2 input=4f2c663c9d19c4ee]*/
+/*[clinic end generated code: output=383d33d8dc7183a2 input=1ad0cbb3499e827f]*/
 
 {
     PyDateTime_IsoCalendarDate *self;
@@ -3824,6 +3826,7 @@ date_timetuple(PyObject *self, PyObject *Py_UNUSED(dummy))
 }
 
 /*[clinic input]
+@c_stack_frugal
 datetime.date.replace
 
     year: int(c_default="GET_YEAR(self)") = unchanged
@@ -3836,7 +3839,7 @@ Return date with new specified fields.
 static PyObject *
 datetime_date_replace_impl(PyDateTime_Date *self, int year, int month,
                            int day)
-/*[clinic end generated code: output=2a9430d1e6318aeb input=0d1f02685b3e90f6]*/
+/*[clinic end generated code: output=2a9430d1e6318aeb input=fa5628f97ba13c8e]*/
 {
     return new_date_subclass_ex(year, month, day, (PyObject *)Py_TYPE(self));
 }
@@ -4991,6 +4994,7 @@ time_hash(PyObject *op)
 }
 
 /*[clinic input]
+@c_stack_frugal
 datetime.time.replace
 
     hour: int(c_default="TIME_GET_HOUR(self)") = unchanged
@@ -5008,7 +5012,7 @@ static PyObject *
 datetime_time_replace_impl(PyDateTime_Time *self, int hour, int minute,
                            int second, int microsecond, PyObject *tzinfo,
                            int fold)
-/*[clinic end generated code: output=0b89a44c299e4f80 input=abf23656e8df4e97]*/
+/*[clinic end generated code: output=0b89a44c299e4f80 input=89ac60318c093b8c]*/
 {
     return new_time_subclass_fold_ex(hour, minute, second, microsecond, tzinfo,
                                      fold, (PyObject *)Py_TYPE(self));
@@ -5560,6 +5564,7 @@ datetime_best_possible(PyObject *cls, TM_FUNC f, PyObject *tzinfo)
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 @classmethod
 datetime.datetime.now
@@ -5574,7 +5579,7 @@ If no tz is specified, uses local timezone.
 
 static PyObject *
 datetime_datetime_now_impl(PyTypeObject *type, PyObject *tz)
-/*[clinic end generated code: output=b3386e5345e2b47a input=80d09869c5267d00]*/
+/*[clinic end generated code: output=b3386e5345e2b47a input=ba856deeb1ed4912]*/
 {
     PyObject *self;
 
@@ -6516,6 +6521,7 @@ datetime_hash(PyObject *op)
 }
 
 /*[clinic input]
+@c_stack_frugal
 datetime.datetime.replace
 
     year: int(c_default="GET_YEAR(self)") = unchanged
@@ -6537,7 +6543,7 @@ datetime_datetime_replace_impl(PyDateTime_DateTime *self, int year,
                                int month, int day, int hour, int minute,
                                int second, int microsecond, PyObject *tzinfo,
                                int fold)
-/*[clinic end generated code: output=00bc96536833fddb input=fd972762d604d3e7]*/
+/*[clinic end generated code: output=00bc96536833fddb input=711039732f9a67d9]*/
 {
     return new_datetime_subclass_fold_ex(year, month, day, hour, minute,
                                          second, microsecond, tzinfo, fold,

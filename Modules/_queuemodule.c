@@ -241,6 +241,7 @@ simplequeue_traverse(PyObject *op, visitproc visit, void *arg)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 _queue.SimpleQueue.__new__ as simplequeue_new
 
@@ -249,7 +250,7 @@ Simple, unbounded, reentrant FIFO queue.
 
 static PyObject *
 simplequeue_new_impl(PyTypeObject *type)
-/*[clinic end generated code: output=ba97740608ba31cd input=a0674a1643e3e2fb]*/
+/*[clinic end generated code: output=ba97740608ba31cd input=4369ddeaf2acf13f]*/
 {
     simplequeueobject *self;
 
@@ -289,6 +290,7 @@ maybe_handoff_item(void *arg, void *park_arg, int has_more_waiters)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _queue.SimpleQueue.put
     item: object
@@ -305,7 +307,7 @@ never blocks.  They are provided for compatibility with the Queue class.
 static PyObject *
 _queue_SimpleQueue_put_impl(simplequeueobject *self, PyObject *item,
                             int block, PyObject *timeout)
-/*[clinic end generated code: output=4333136e88f90d8b input=a16dbb33363c0fa8]*/
+/*[clinic end generated code: output=4333136e88f90d8b input=46ed4b52c06c1697]*/
 {
     HandoffData data = {
         .handed_off = 0,
@@ -326,6 +328,7 @@ _queue_SimpleQueue_put_impl(simplequeueobject *self, PyObject *item,
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _queue.SimpleQueue.put_nowait
     item: object
@@ -339,7 +342,7 @@ for compatibility with the Queue class.
 
 static PyObject *
 _queue_SimpleQueue_put_nowait_impl(simplequeueobject *self, PyObject *item)
-/*[clinic end generated code: output=0990536715efb1f1 input=ce949cc2cd8a4119]*/
+/*[clinic end generated code: output=0990536715efb1f1 input=75bb43575065de17]*/
 {
     return _queue_SimpleQueue_put_impl(self, item, 0, Py_None);
 }
@@ -355,6 +358,7 @@ empty_error(PyTypeObject *cls)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _queue.SimpleQueue.get
 
@@ -378,7 +382,7 @@ in that case).
 static PyObject *
 _queue_SimpleQueue_get_impl(simplequeueobject *self, PyTypeObject *cls,
                             int block, PyObject *timeout_obj)
-/*[clinic end generated code: output=5c2cca914cd1e55b input=f7836c65e5839c51]*/
+/*[clinic end generated code: output=5c2cca914cd1e55b input=e48764b8e5ac07a6]*/
 {
     PyTime_t endtime = 0;
 
@@ -453,6 +457,7 @@ _queue_SimpleQueue_get_impl(simplequeueobject *self, PyTypeObject *cls,
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _queue.SimpleQueue.get_nowait
 
@@ -468,12 +473,13 @@ raise the Empty exception.
 static PyObject *
 _queue_SimpleQueue_get_nowait_impl(simplequeueobject *self,
                                    PyTypeObject *cls)
-/*[clinic end generated code: output=620c58e2750f8b8a input=d48be63633fefae9]*/
+/*[clinic end generated code: output=620c58e2750f8b8a input=42aac14b3a9733ef]*/
 {
     return _queue_SimpleQueue_get_impl(self, cls, 0, Py_None);
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _queue.SimpleQueue.empty -> bool
 
@@ -482,12 +488,13 @@ Return True if the queue is empty, False otherwise (not reliable!).
 
 static int
 _queue_SimpleQueue_empty_impl(simplequeueobject *self)
-/*[clinic end generated code: output=1a02a1b87c0ef838 input=96cb22df5a67d831]*/
+/*[clinic end generated code: output=1a02a1b87c0ef838 input=a4cb0134048d6789]*/
 {
     return RingBuf_IsEmpty(&self->buf);
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _queue.SimpleQueue.qsize -> Py_ssize_t
 
@@ -496,7 +503,7 @@ Return the approximate size of the queue (not reliable!).
 
 static Py_ssize_t
 _queue_SimpleQueue_qsize_impl(simplequeueobject *self)
-/*[clinic end generated code: output=f9dcd9d0a90e121e input=e218623cb8c16a79]*/
+/*[clinic end generated code: output=f9dcd9d0a90e121e input=25d47b8c2abc5fc1]*/
 {
     return RingBuf_Len(&self->buf);
 }

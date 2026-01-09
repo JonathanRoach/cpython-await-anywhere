@@ -20,7 +20,7 @@ PyDoc_STRVAR(winreg_HKEYType_Close__doc__,
 "If the handle is already closed, no error is raised.");
 
 #define WINREG_HKEYTYPE_CLOSE_METHODDEF    \
-    {"Close", (PyCFunction)winreg_HKEYType_Close, METH_NOARGS, winreg_HKEYType_Close__doc__},
+    {"Close", (PyCFunction)winreg_HKEYType_Close, METH_NOARGS|METH_C_STACK_FRUGAL, winreg_HKEYType_Close__doc__},
 
 static PyObject *
 winreg_HKEYType_Close_impl(PyHKEYObject *self);
@@ -50,7 +50,7 @@ PyDoc_STRVAR(winreg_HKEYType_Detach__doc__,
 "handle object.");
 
 #define WINREG_HKEYTYPE_DETACH_METHODDEF    \
-    {"Detach", (PyCFunction)winreg_HKEYType_Detach, METH_NOARGS, winreg_HKEYType_Detach__doc__},
+    {"Detach", (PyCFunction)winreg_HKEYType_Detach, METH_NOARGS|METH_C_STACK_FRUGAL, winreg_HKEYType_Detach__doc__},
 
 static PyObject *
 winreg_HKEYType_Detach_impl(PyHKEYObject *self);
@@ -71,7 +71,7 @@ PyDoc_STRVAR(winreg_HKEYType___enter____doc__,
 "\n");
 
 #define WINREG_HKEYTYPE___ENTER___METHODDEF    \
-    {"__enter__", (PyCFunction)winreg_HKEYType___enter__, METH_NOARGS, winreg_HKEYType___enter____doc__},
+    {"__enter__", (PyCFunction)winreg_HKEYType___enter__, METH_NOARGS|METH_C_STACK_FRUGAL, winreg_HKEYType___enter____doc__},
 
 static PyHKEYObject *
 winreg_HKEYType___enter___impl(PyHKEYObject *self);
@@ -98,7 +98,7 @@ PyDoc_STRVAR(winreg_HKEYType___exit____doc__,
 "\n");
 
 #define WINREG_HKEYTYPE___EXIT___METHODDEF    \
-    {"__exit__", _PyCFunction_CAST(winreg_HKEYType___exit__), METH_FASTCALL, winreg_HKEYType___exit____doc__},
+    {"__exit__", _PyCFunction_CAST(winreg_HKEYType___exit__), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_HKEYType___exit____doc__},
 
 static PyObject *
 winreg_HKEYType___exit___impl(PyHKEYObject *self, PyObject *exc_type,
@@ -141,7 +141,7 @@ PyDoc_STRVAR(winreg_CloseKey__doc__,
 "closed when the hkey object is destroyed by Python.");
 
 #define WINREG_CLOSEKEY_METHODDEF    \
-    {"CloseKey", (PyCFunction)winreg_CloseKey, METH_O, winreg_CloseKey__doc__},
+    {"CloseKey", (PyCFunction)winreg_CloseKey, METH_O|METH_C_STACK_FRUGAL, winreg_CloseKey__doc__},
 
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) */
 
@@ -163,7 +163,7 @@ PyDoc_STRVAR(winreg_ConnectRegistry__doc__,
 "If the function fails, an OSError exception is raised.");
 
 #define WINREG_CONNECTREGISTRY_METHODDEF    \
-    {"ConnectRegistry", _PyCFunction_CAST(winreg_ConnectRegistry), METH_FASTCALL, winreg_ConnectRegistry__doc__},
+    {"ConnectRegistry", _PyCFunction_CAST(winreg_ConnectRegistry), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_ConnectRegistry__doc__},
 
 static HKEY
 winreg_ConnectRegistry_impl(PyObject *module, const wchar_t *computer_name,
@@ -233,7 +233,7 @@ PyDoc_STRVAR(winreg_CreateKey__doc__,
 "If the function fails, an OSError exception is raised.");
 
 #define WINREG_CREATEKEY_METHODDEF    \
-    {"CreateKey", _PyCFunction_CAST(winreg_CreateKey), METH_FASTCALL, winreg_CreateKey__doc__},
+    {"CreateKey", _PyCFunction_CAST(winreg_CreateKey), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_CreateKey__doc__},
 
 static HKEY
 winreg_CreateKey_impl(PyObject *module, HKEY key, const wchar_t *sub_key);
@@ -308,7 +308,7 @@ PyDoc_STRVAR(winreg_CreateKeyEx__doc__,
 "If the function fails, an OSError exception is raised.");
 
 #define WINREG_CREATEKEYEX_METHODDEF    \
-    {"CreateKeyEx", _PyCFunction_CAST(winreg_CreateKeyEx), METH_FASTCALL|METH_KEYWORDS, winreg_CreateKeyEx__doc__},
+    {"CreateKeyEx", _PyCFunction_CAST(winreg_CreateKeyEx), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, winreg_CreateKeyEx__doc__},
 
 static HKEY
 winreg_CreateKeyEx_impl(PyObject *module, HKEY key, const wchar_t *sub_key,
@@ -427,7 +427,7 @@ PyDoc_STRVAR(winreg_DeleteKey__doc__,
 "is removed.  If the function fails, an OSError exception is raised.");
 
 #define WINREG_DELETEKEY_METHODDEF    \
-    {"DeleteKey", _PyCFunction_CAST(winreg_DeleteKey), METH_FASTCALL, winreg_DeleteKey__doc__},
+    {"DeleteKey", _PyCFunction_CAST(winreg_DeleteKey), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_DeleteKey__doc__},
 
 static PyObject *
 winreg_DeleteKey_impl(PyObject *module, HKEY key, const wchar_t *sub_key);
@@ -495,7 +495,7 @@ PyDoc_STRVAR(winreg_DeleteKeyEx__doc__,
 "On unsupported Windows versions, NotImplementedError is raised.");
 
 #define WINREG_DELETEKEYEX_METHODDEF    \
-    {"DeleteKeyEx", _PyCFunction_CAST(winreg_DeleteKeyEx), METH_FASTCALL|METH_KEYWORDS, winreg_DeleteKeyEx__doc__},
+    {"DeleteKeyEx", _PyCFunction_CAST(winreg_DeleteKeyEx), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, winreg_DeleteKeyEx__doc__},
 
 static PyObject *
 winreg_DeleteKeyEx_impl(PyObject *module, HKEY key, const wchar_t *sub_key,
@@ -597,7 +597,7 @@ PyDoc_STRVAR(winreg_DeleteValue__doc__,
 "    A string that identifies the value to remove.");
 
 #define WINREG_DELETEVALUE_METHODDEF    \
-    {"DeleteValue", _PyCFunction_CAST(winreg_DeleteValue), METH_FASTCALL, winreg_DeleteValue__doc__},
+    {"DeleteValue", _PyCFunction_CAST(winreg_DeleteValue), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_DeleteValue__doc__},
 
 static PyObject *
 winreg_DeleteValue_impl(PyObject *module, HKEY key, const wchar_t *value);
@@ -657,7 +657,7 @@ PyDoc_STRVAR(winreg_EnumKey__doc__,
 "raised, indicating no more values are available.");
 
 #define WINREG_ENUMKEY_METHODDEF    \
-    {"EnumKey", _PyCFunction_CAST(winreg_EnumKey), METH_FASTCALL, winreg_EnumKey__doc__},
+    {"EnumKey", _PyCFunction_CAST(winreg_EnumKey), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_EnumKey__doc__},
 
 static PyObject *
 winreg_EnumKey_impl(PyObject *module, HKEY key, int index);
@@ -714,7 +714,7 @@ PyDoc_STRVAR(winreg_EnumValue__doc__,
 "    An integer that identifies the type of the value data.");
 
 #define WINREG_ENUMVALUE_METHODDEF    \
-    {"EnumValue", _PyCFunction_CAST(winreg_EnumValue), METH_FASTCALL, winreg_EnumValue__doc__},
+    {"EnumValue", _PyCFunction_CAST(winreg_EnumValue), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_EnumValue__doc__},
 
 static PyObject *
 winreg_EnumValue_impl(PyObject *module, HKEY key, int index);
@@ -753,7 +753,7 @@ PyDoc_STRVAR(winreg_ExpandEnvironmentStrings__doc__,
 "Expand environment vars.");
 
 #define WINREG_EXPANDENVIRONMENTSTRINGS_METHODDEF    \
-    {"ExpandEnvironmentStrings", (PyCFunction)winreg_ExpandEnvironmentStrings, METH_O, winreg_ExpandEnvironmentStrings__doc__},
+    {"ExpandEnvironmentStrings", (PyCFunction)winreg_ExpandEnvironmentStrings, METH_O|METH_C_STACK_FRUGAL, winreg_ExpandEnvironmentStrings__doc__},
 
 static PyObject *
 winreg_ExpandEnvironmentStrings_impl(PyObject *module, const wchar_t *string);
@@ -805,7 +805,7 @@ PyDoc_STRVAR(winreg_FlushKey__doc__,
 "a FlushKey() call is required, it probably isn\'t.");
 
 #define WINREG_FLUSHKEY_METHODDEF    \
-    {"FlushKey", (PyCFunction)winreg_FlushKey, METH_O, winreg_FlushKey__doc__},
+    {"FlushKey", (PyCFunction)winreg_FlushKey, METH_O|METH_C_STACK_FRUGAL, winreg_FlushKey__doc__},
 
 static PyObject *
 winreg_FlushKey_impl(PyObject *module, HKEY key);
@@ -858,7 +858,7 @@ PyDoc_STRVAR(winreg_LoadKey__doc__,
 "tree.");
 
 #define WINREG_LOADKEY_METHODDEF    \
-    {"LoadKey", _PyCFunction_CAST(winreg_LoadKey), METH_FASTCALL, winreg_LoadKey__doc__},
+    {"LoadKey", _PyCFunction_CAST(winreg_LoadKey), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_LoadKey__doc__},
 
 static PyObject *
 winreg_LoadKey_impl(PyObject *module, HKEY key, const wchar_t *sub_key,
@@ -929,7 +929,7 @@ PyDoc_STRVAR(winreg_OpenKey__doc__,
 "If the function fails, an OSError exception is raised.");
 
 #define WINREG_OPENKEY_METHODDEF    \
-    {"OpenKey", _PyCFunction_CAST(winreg_OpenKey), METH_FASTCALL|METH_KEYWORDS, winreg_OpenKey__doc__},
+    {"OpenKey", _PyCFunction_CAST(winreg_OpenKey), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, winreg_OpenKey__doc__},
 
 static HKEY
 winreg_OpenKey_impl(PyObject *module, HKEY key, const wchar_t *sub_key,
@@ -1049,7 +1049,7 @@ PyDoc_STRVAR(winreg_OpenKeyEx__doc__,
 "If the function fails, an OSError exception is raised.");
 
 #define WINREG_OPENKEYEX_METHODDEF    \
-    {"OpenKeyEx", _PyCFunction_CAST(winreg_OpenKeyEx), METH_FASTCALL|METH_KEYWORDS, winreg_OpenKeyEx__doc__},
+    {"OpenKeyEx", _PyCFunction_CAST(winreg_OpenKeyEx), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, winreg_OpenKeyEx__doc__},
 
 static HKEY
 winreg_OpenKeyEx_impl(PyObject *module, HKEY key, const wchar_t *sub_key,
@@ -1165,7 +1165,7 @@ PyDoc_STRVAR(winreg_QueryInfoKey__doc__,
 "as 100\'s of nanoseconds since Jan 1, 1600.");
 
 #define WINREG_QUERYINFOKEY_METHODDEF    \
-    {"QueryInfoKey", (PyCFunction)winreg_QueryInfoKey, METH_O, winreg_QueryInfoKey__doc__},
+    {"QueryInfoKey", (PyCFunction)winreg_QueryInfoKey, METH_O|METH_C_STACK_FRUGAL, winreg_QueryInfoKey__doc__},
 
 static PyObject *
 winreg_QueryInfoKey_impl(PyObject *module, HKEY key);
@@ -1210,7 +1210,7 @@ PyDoc_STRVAR(winreg_QueryValue__doc__,
 "completeness.");
 
 #define WINREG_QUERYVALUE_METHODDEF    \
-    {"QueryValue", _PyCFunction_CAST(winreg_QueryValue), METH_FASTCALL, winreg_QueryValue__doc__},
+    {"QueryValue", _PyCFunction_CAST(winreg_QueryValue), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_QueryValue__doc__},
 
 static PyObject *
 winreg_QueryValue_impl(PyObject *module, HKEY key, const wchar_t *sub_key);
@@ -1271,7 +1271,7 @@ PyDoc_STRVAR(winreg_QueryValueEx__doc__,
 "The return value is a tuple of the value and the type_id.");
 
 #define WINREG_QUERYVALUEEX_METHODDEF    \
-    {"QueryValueEx", _PyCFunction_CAST(winreg_QueryValueEx), METH_FASTCALL, winreg_QueryValueEx__doc__},
+    {"QueryValueEx", _PyCFunction_CAST(winreg_QueryValueEx), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_QueryValueEx__doc__},
 
 static PyObject *
 winreg_QueryValueEx_impl(PyObject *module, HKEY key, const wchar_t *name);
@@ -1337,7 +1337,7 @@ PyDoc_STRVAR(winreg_SaveKey__doc__,
 "to the API.");
 
 #define WINREG_SAVEKEY_METHODDEF    \
-    {"SaveKey", _PyCFunction_CAST(winreg_SaveKey), METH_FASTCALL, winreg_SaveKey__doc__},
+    {"SaveKey", _PyCFunction_CAST(winreg_SaveKey), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_SaveKey__doc__},
 
 static PyObject *
 winreg_SaveKey_impl(PyObject *module, HKEY key, const wchar_t *file_name);
@@ -1403,7 +1403,7 @@ PyDoc_STRVAR(winreg_SetValue__doc__,
 "KEY_SET_VALUE access.");
 
 #define WINREG_SETVALUE_METHODDEF    \
-    {"SetValue", _PyCFunction_CAST(winreg_SetValue), METH_FASTCALL, winreg_SetValue__doc__},
+    {"SetValue", _PyCFunction_CAST(winreg_SetValue), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_SetValue__doc__},
 
 static PyObject *
 winreg_SetValue_impl(PyObject *module, HKEY key, const wchar_t *sub_key,
@@ -1502,7 +1502,7 @@ PyDoc_STRVAR(winreg_SetValueEx__doc__,
 "the configuration registry to help the registry perform efficiently.");
 
 #define WINREG_SETVALUEEX_METHODDEF    \
-    {"SetValueEx", _PyCFunction_CAST(winreg_SetValueEx), METH_FASTCALL, winreg_SetValueEx__doc__},
+    {"SetValueEx", _PyCFunction_CAST(winreg_SetValueEx), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_SetValueEx__doc__},
 
 static PyObject *
 winreg_SetValueEx_impl(PyObject *module, HKEY key, const wchar_t *value_name,
@@ -1571,7 +1571,7 @@ PyDoc_STRVAR(winreg_DisableReflectionKey__doc__,
 "of any subkeys.");
 
 #define WINREG_DISABLEREFLECTIONKEY_METHODDEF    \
-    {"DisableReflectionKey", (PyCFunction)winreg_DisableReflectionKey, METH_O, winreg_DisableReflectionKey__doc__},
+    {"DisableReflectionKey", (PyCFunction)winreg_DisableReflectionKey, METH_O|METH_C_STACK_FRUGAL, winreg_DisableReflectionKey__doc__},
 
 static PyObject *
 winreg_DisableReflectionKey_impl(PyObject *module, HKEY key);
@@ -1609,7 +1609,7 @@ PyDoc_STRVAR(winreg_EnableReflectionKey__doc__,
 "subkeys.");
 
 #define WINREG_ENABLEREFLECTIONKEY_METHODDEF    \
-    {"EnableReflectionKey", (PyCFunction)winreg_EnableReflectionKey, METH_O, winreg_EnableReflectionKey__doc__},
+    {"EnableReflectionKey", (PyCFunction)winreg_EnableReflectionKey, METH_O|METH_C_STACK_FRUGAL, winreg_EnableReflectionKey__doc__},
 
 static PyObject *
 winreg_EnableReflectionKey_impl(PyObject *module, HKEY key);
@@ -1645,7 +1645,7 @@ PyDoc_STRVAR(winreg_QueryReflectionKey__doc__,
 "Will generally raise NotImplementedError if executed on a 32bit OS.");
 
 #define WINREG_QUERYREFLECTIONKEY_METHODDEF    \
-    {"QueryReflectionKey", (PyCFunction)winreg_QueryReflectionKey, METH_O, winreg_QueryReflectionKey__doc__},
+    {"QueryReflectionKey", (PyCFunction)winreg_QueryReflectionKey, METH_O|METH_C_STACK_FRUGAL, winreg_QueryReflectionKey__doc__},
 
 static PyObject *
 winreg_QueryReflectionKey_impl(PyObject *module, HKEY key);
@@ -1774,4 +1774,4 @@ exit:
 #ifndef WINREG_QUERYREFLECTIONKEY_METHODDEF
     #define WINREG_QUERYREFLECTIONKEY_METHODDEF
 #endif /* !defined(WINREG_QUERYREFLECTIONKEY_METHODDEF) */
-/*[clinic end generated code: output=be4b6857b95558b5 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=4707576223330a66 input=a9049054013a1b77]*/

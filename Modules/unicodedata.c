@@ -114,6 +114,7 @@ new_previous_version(PyTypeObject *ucd_type,
 /* --- Module API --------------------------------------------------------- */
 
 /*[clinic input]
+@c_stack_frugal
 unicodedata.UCD.decimal
 
     self: self
@@ -131,7 +132,7 @@ ValueError is raised.
 static PyObject *
 unicodedata_UCD_decimal_impl(PyObject *self, int chr,
                              PyObject *default_value)
-/*[clinic end generated code: output=be23376e1a185231 input=933f8107993f23d0]*/
+/*[clinic end generated code: output=be23376e1a185231 input=e1e37b15a41e0a75]*/
 {
     int have_old = 0;
     long rc;
@@ -166,6 +167,7 @@ unicodedata_UCD_decimal_impl(PyObject *self, int chr,
 }
 
 /*[clinic input]
+@c_stack_frugal
 unicodedata.UCD.digit
 
     self: self
@@ -182,7 +184,7 @@ ValueError is raised.
 
 static PyObject *
 unicodedata_UCD_digit_impl(PyObject *self, int chr, PyObject *default_value)
-/*[clinic end generated code: output=96e18c950171fd2f input=e27d6e4565cd29f2]*/
+/*[clinic end generated code: output=96e18c950171fd2f input=855c12268fade002]*/
 {
     long rc;
     Py_UCS4 c = (Py_UCS4)chr;
@@ -200,6 +202,7 @@ unicodedata_UCD_digit_impl(PyObject *self, int chr, PyObject *default_value)
 }
 
 /*[clinic input]
+@c_stack_frugal
 unicodedata.UCD.numeric
 
     self: self
@@ -217,7 +220,7 @@ ValueError is raised.
 static PyObject *
 unicodedata_UCD_numeric_impl(PyObject *self, int chr,
                              PyObject *default_value)
-/*[clinic end generated code: output=53ce281fe85b10c4 input=fdf5871a5542893c]*/
+/*[clinic end generated code: output=53ce281fe85b10c4 input=e9d2b3651d59ec17]*/
 {
     int have_old = 0;
     double rc;
@@ -251,6 +254,7 @@ unicodedata_UCD_numeric_impl(PyObject *self, int chr,
 }
 
 /*[clinic input]
+@c_stack_frugal
 unicodedata.UCD.category
 
     self: self
@@ -262,7 +266,7 @@ Returns the general category assigned to the character chr as string.
 
 static PyObject *
 unicodedata_UCD_category_impl(PyObject *self, int chr)
-/*[clinic end generated code: output=8571539ee2e6783a input=27d6f3d85050bc06]*/
+/*[clinic end generated code: output=8571539ee2e6783a input=8129b9b60a05722c]*/
 {
     int index;
     Py_UCS4 c = (Py_UCS4)chr;
@@ -276,6 +280,7 @@ unicodedata_UCD_category_impl(PyObject *self, int chr)
 }
 
 /*[clinic input]
+@c_stack_frugal
 unicodedata.UCD.bidirectional
 
     self: self
@@ -289,7 +294,7 @@ If no such value is defined, an empty string is returned.
 
 static PyObject *
 unicodedata_UCD_bidirectional_impl(PyObject *self, int chr)
-/*[clinic end generated code: output=d36310ce2039bb92 input=b3d8f42cebfcf475]*/
+/*[clinic end generated code: output=d36310ce2039bb92 input=0a5e751ece30463c]*/
 {
     int index;
     Py_UCS4 c = (Py_UCS4)chr;
@@ -305,6 +310,7 @@ unicodedata_UCD_bidirectional_impl(PyObject *self, int chr)
 }
 
 /*[clinic input]
+@c_stack_frugal
 unicodedata.UCD.combining -> int
 
     self: self
@@ -318,7 +324,7 @@ Returns 0 if no combining class is defined.
 
 static int
 unicodedata_UCD_combining_impl(PyObject *self, int chr)
-/*[clinic end generated code: output=cad056d0cb6a5920 input=9f2d6b2a95d0a22a]*/
+/*[clinic end generated code: output=cad056d0cb6a5920 input=4a87245472ba8dbd]*/
 {
     int index;
     Py_UCS4 c = (Py_UCS4)chr;
@@ -332,6 +338,7 @@ unicodedata_UCD_combining_impl(PyObject *self, int chr)
 }
 
 /*[clinic input]
+@c_stack_frugal
 unicodedata.UCD.mirrored -> int
 
     self: self
@@ -346,7 +353,7 @@ character in bidirectional text, 0 otherwise.
 
 static int
 unicodedata_UCD_mirrored_impl(PyObject *self, int chr)
-/*[clinic end generated code: output=2532dbf8121b50e6 input=5dd400d351ae6f3b]*/
+/*[clinic end generated code: output=2532dbf8121b50e6 input=28af41ac9965423d]*/
 {
     int index;
     Py_UCS4 c = (Py_UCS4)chr;
@@ -362,6 +369,7 @@ unicodedata_UCD_mirrored_impl(PyObject *self, int chr)
 }
 
 /*[clinic input]
+@c_stack_frugal
 unicodedata.UCD.east_asian_width
 
     self: self
@@ -373,7 +381,7 @@ Returns the east asian width assigned to the character chr as string.
 
 static PyObject *
 unicodedata_UCD_east_asian_width_impl(PyObject *self, int chr)
-/*[clinic end generated code: output=484e8537d9ee8197 input=c4854798aab026e0]*/
+/*[clinic end generated code: output=484e8537d9ee8197 input=acc2eaed04b7855a]*/
 {
     int index;
     Py_UCS4 c = (Py_UCS4)chr;
@@ -389,6 +397,7 @@ unicodedata_UCD_east_asian_width_impl(PyObject *self, int chr)
 }
 
 /*[clinic input]
+@c_stack_frugal
 unicodedata.UCD.decomposition
 
     self: self
@@ -402,7 +411,7 @@ An empty string is returned in case no such mapping is defined.
 
 static PyObject *
 unicodedata_UCD_decomposition_impl(PyObject *self, int chr)
-/*[clinic end generated code: output=7d699f3ec7565d27 input=e4c12459ad68507b]*/
+/*[clinic end generated code: output=7d699f3ec7565d27 input=c2ed8808f579419b]*/
 {
     char decomp[256];
     int code, index, count;
@@ -847,6 +856,7 @@ is_normalized_quickcheck(PyObject *self, PyObject *input, bool nfc, bool k,
 }
 
 /*[clinic input]
+@c_stack_frugal
 unicodedata.UCD.is_normalized
 
     self: self
@@ -862,7 +872,7 @@ Valid values for form are 'NFC', 'NFKC', 'NFD', and 'NFKD'.
 static PyObject *
 unicodedata_UCD_is_normalized_impl(PyObject *self, PyObject *form,
                                    PyObject *input)
-/*[clinic end generated code: output=11e5a3694e723ca5 input=a544f14cea79e508]*/
+/*[clinic end generated code: output=11e5a3694e723ca5 input=22925eb3f725f625]*/
 {
     if (PyUnicode_GET_LENGTH(input) == 0) {
         /* special case empty input strings. */
@@ -915,6 +925,7 @@ unicodedata_UCD_is_normalized_impl(PyObject *self, PyObject *form,
 
 
 /*[clinic input]
+@c_stack_frugal
 unicodedata.UCD.normalize
 
     self: self
@@ -930,7 +941,7 @@ Valid values for form are 'NFC', 'NFKC', 'NFD', and 'NFKD'.
 static PyObject *
 unicodedata_UCD_normalize_impl(PyObject *self, PyObject *form,
                                PyObject *input)
-/*[clinic end generated code: output=05ca4385a2ad6983 input=3a5206c0ad2833fb]*/
+/*[clinic end generated code: output=05ca4385a2ad6983 input=33c8e7c0a73ecd5a]*/
 {
     if (PyUnicode_GET_LENGTH(input) == 0) {
         /* Special case empty input strings, since resizing
@@ -1488,6 +1499,7 @@ unicodedata_create_capi(void)
 /* Python bindings */
 
 /*[clinic input]
+@c_stack_frugal
 unicodedata.UCD.name
 
     self: self
@@ -1503,7 +1515,7 @@ ValueError is raised.
 
 static PyObject *
 unicodedata_UCD_name_impl(PyObject *self, int chr, PyObject *default_value)
-/*[clinic end generated code: output=6bbb37a326407707 input=3e0367f534de56d9]*/
+/*[clinic end generated code: output=6bbb37a326407707 input=cb57120c173d5ae1]*/
 {
     char name[NAME_MAXLEN+1];
     Py_UCS4 c = (Py_UCS4)chr;
@@ -1522,6 +1534,7 @@ unicodedata_UCD_name_impl(PyObject *self, int chr, PyObject *default_value)
 }
 
 /*[clinic input]
+@c_stack_frugal
 unicodedata.UCD.lookup
 
     self: self
@@ -1537,7 +1550,7 @@ corresponding character.  If not found, KeyError is raised.
 static PyObject *
 unicodedata_UCD_lookup_impl(PyObject *self, const char *name,
                             Py_ssize_t name_length)
-/*[clinic end generated code: output=7f03fc4959b242f6 input=a557be0f8607a0d6]*/
+/*[clinic end generated code: output=7f03fc4959b242f6 input=5e18e54bd9512505]*/
 {
     Py_UCS4 code;
     unsigned int index;

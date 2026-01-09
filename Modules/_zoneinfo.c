@@ -305,6 +305,7 @@ get_weak_cache(zoneinfo_state *state, PyTypeObject *type)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @classmethod
 zoneinfo.ZoneInfo.__new__
@@ -316,7 +317,7 @@ Create a new ZoneInfo instance.
 
 static PyObject *
 zoneinfo_ZoneInfo_impl(PyTypeObject *type, PyObject *key)
-/*[clinic end generated code: output=95e61dab86bb95c3 input=ef73d7a83bf8790e]*/
+/*[clinic end generated code: output=95e61dab86bb95c3 input=39a1932c5d30da7f]*/
 {
     zoneinfo_state *state = zoneinfo_get_state_by_self(type);
     PyObject *instance = zone_from_strong_cache(state, type, key);
@@ -408,6 +409,7 @@ zoneinfo_dealloc(PyObject *obj_self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 zoneinfo.ZoneInfo.from_file
 
@@ -422,7 +424,7 @@ Create a ZoneInfo file from a file object.
 static PyObject *
 zoneinfo_ZoneInfo_from_file_impl(PyTypeObject *type, PyTypeObject *cls,
                                  PyObject *file_obj, PyObject *key)
-/*[clinic end generated code: output=77887d1d56a48324 input=d26111f29eed6863]*/
+/*[clinic end generated code: output=77887d1d56a48324 input=461091a72eaac376]*/
 {
     PyObject *file_repr = NULL;
     PyZoneInfo_ZoneInfo *self = NULL;
@@ -454,6 +456,7 @@ error:
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 zoneinfo.ZoneInfo.no_cache
 
@@ -467,7 +470,7 @@ Get a new instance of ZoneInfo, bypassing the cache.
 static PyObject *
 zoneinfo_ZoneInfo_no_cache_impl(PyTypeObject *type, PyTypeObject *cls,
                                 PyObject *key)
-/*[clinic end generated code: output=b0b09b3344c171b7 input=0238f3d56b1ea3f1]*/
+/*[clinic end generated code: output=b0b09b3344c171b7 input=12c7d5d838ac7583]*/
 {
     zoneinfo_state *state = zoneinfo_get_state_by_cls(cls);
     PyObject *out = zoneinfo_new_instance(state, type, key);
@@ -479,6 +482,7 @@ zoneinfo_ZoneInfo_no_cache_impl(PyTypeObject *type, PyTypeObject *cls,
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @classmethod
 zoneinfo.ZoneInfo.clear_cache
@@ -494,7 +498,7 @@ Clear the ZoneInfo cache.
 static PyObject *
 zoneinfo_ZoneInfo_clear_cache_impl(PyTypeObject *type, PyTypeObject *cls,
                                    PyObject *only_keys)
-/*[clinic end generated code: output=114d9b7c8a22e660 input=35944715df26d24e]*/
+/*[clinic end generated code: output=114d9b7c8a22e660 input=9d4446de7d4dbcaa]*/
 {
     zoneinfo_state *state = zoneinfo_get_state_by_cls(cls);
     PyObject *weak_cache = get_weak_cache(state, type);
@@ -549,6 +553,7 @@ zoneinfo_ZoneInfo_clear_cache_impl(PyTypeObject *type, PyTypeObject *cls,
 }
 
 /*[clinic input]
+@c_stack_frugal
 zoneinfo.ZoneInfo.utcoffset
 
     cls: defining_class
@@ -561,7 +566,7 @@ Retrieve a timedelta representing the UTC offset in a zone at the given datetime
 static PyObject *
 zoneinfo_ZoneInfo_utcoffset_impl(PyObject *self, PyTypeObject *cls,
                                  PyObject *dt)
-/*[clinic end generated code: output=b71016c319ba1f91 input=2bb6c5364938f19c]*/
+/*[clinic end generated code: output=b71016c319ba1f91 input=27ca2147109ad8ed]*/
 {
     zoneinfo_state *state = zoneinfo_get_state_by_cls(cls);
     _ttinfo *tti = find_ttinfo(state, PyZoneInfo_ZoneInfo_CAST(self), dt);
@@ -572,6 +577,7 @@ zoneinfo_ZoneInfo_utcoffset_impl(PyObject *self, PyTypeObject *cls,
 }
 
 /*[clinic input]
+@c_stack_frugal
 zoneinfo.ZoneInfo.dst
 
     cls: defining_class
@@ -583,7 +589,7 @@ Retrieve a timedelta representing the amount of DST applied in a zone at the giv
 
 static PyObject *
 zoneinfo_ZoneInfo_dst_impl(PyObject *self, PyTypeObject *cls, PyObject *dt)
-/*[clinic end generated code: output=cb6168d7723a6ae6 input=2167fb80cf8645c6]*/
+/*[clinic end generated code: output=cb6168d7723a6ae6 input=d601fdd794f86112]*/
 {
     zoneinfo_state *state = zoneinfo_get_state_by_cls(cls);
     _ttinfo *tti = find_ttinfo(state, PyZoneInfo_ZoneInfo_CAST(self), dt);
@@ -594,6 +600,7 @@ zoneinfo_ZoneInfo_dst_impl(PyObject *self, PyTypeObject *cls, PyObject *dt)
 }
 
 /*[clinic input]
+@c_stack_frugal
 zoneinfo.ZoneInfo.tzname
 
     cls: defining_class
@@ -606,7 +613,7 @@ Retrieve a string containing the abbreviation for the time zone that applies in 
 static PyObject *
 zoneinfo_ZoneInfo_tzname_impl(PyObject *self, PyTypeObject *cls,
                               PyObject *dt)
-/*[clinic end generated code: output=3b6ae6c3053ea75a input=15a59a4f92ed1f1f]*/
+/*[clinic end generated code: output=3b6ae6c3053ea75a input=09b51b0ef6d64ee0]*/
 {
     zoneinfo_state *state = zoneinfo_get_state_by_cls(cls);
     _ttinfo *tti = find_ttinfo(state, PyZoneInfo_ZoneInfo_CAST(self), dt);
@@ -805,6 +812,7 @@ zoneinfo_reduce(PyObject *obj_self, PyObject *Py_UNUSED(dummy))
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 zoneinfo.ZoneInfo._unpickle
 
@@ -819,7 +827,7 @@ Private method used in unpickling.
 static PyObject *
 zoneinfo_ZoneInfo__unpickle_impl(PyTypeObject *type, PyTypeObject *cls,
                                  PyObject *key, unsigned char from_cache)
-/*[clinic end generated code: output=556712fc709deecb input=6ac8c73eed3de316]*/
+/*[clinic end generated code: output=556712fc709deecb input=b5d3a147dfd83ba9]*/
 {
     if (from_cache) {
         PyObject *rv;

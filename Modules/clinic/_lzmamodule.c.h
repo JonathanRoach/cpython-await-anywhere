@@ -21,7 +21,7 @@ PyDoc_STRVAR(_lzma_LZMACompressor_compress__doc__,
 "flush() method to finish the compression process.");
 
 #define _LZMA_LZMACOMPRESSOR_COMPRESS_METHODDEF    \
-    {"compress", (PyCFunction)_lzma_LZMACompressor_compress, METH_O, _lzma_LZMACompressor_compress__doc__},
+    {"compress", (PyCFunction)_lzma_LZMACompressor_compress, METH_O|METH_C_STACK_FRUGAL, _lzma_LZMACompressor_compress__doc__},
 
 static PyObject *
 _lzma_LZMACompressor_compress_impl(Compressor *self, Py_buffer *data);
@@ -57,7 +57,7 @@ PyDoc_STRVAR(_lzma_LZMACompressor_flush__doc__,
 "The compressor object may not be used after this method is called.");
 
 #define _LZMA_LZMACOMPRESSOR_FLUSH_METHODDEF    \
-    {"flush", (PyCFunction)_lzma_LZMACompressor_flush, METH_NOARGS, _lzma_LZMACompressor_flush__doc__},
+    {"flush", (PyCFunction)_lzma_LZMACompressor_flush, METH_NOARGS|METH_C_STACK_FRUGAL, _lzma_LZMACompressor_flush__doc__},
 
 static PyObject *
 _lzma_LZMACompressor_flush_impl(Compressor *self);
@@ -88,7 +88,7 @@ PyDoc_STRVAR(_lzma_LZMADecompressor_decompress__doc__,
 "the unused_data attribute.");
 
 #define _LZMA_LZMADECOMPRESSOR_DECOMPRESS_METHODDEF    \
-    {"decompress", _PyCFunction_CAST(_lzma_LZMADecompressor_decompress), METH_FASTCALL|METH_KEYWORDS, _lzma_LZMADecompressor_decompress__doc__},
+    {"decompress", _PyCFunction_CAST(_lzma_LZMADecompressor_decompress), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _lzma_LZMADecompressor_decompress__doc__},
 
 static PyObject *
 _lzma_LZMADecompressor_decompress_impl(Decompressor *self, Py_buffer *data,
@@ -271,7 +271,7 @@ PyDoc_STRVAR(_lzma_is_check_supported__doc__,
 "Always returns True for CHECK_NONE and CHECK_CRC32.");
 
 #define _LZMA_IS_CHECK_SUPPORTED_METHODDEF    \
-    {"is_check_supported", (PyCFunction)_lzma_is_check_supported, METH_O, _lzma_is_check_supported__doc__},
+    {"is_check_supported", (PyCFunction)_lzma_is_check_supported, METH_O|METH_C_STACK_FRUGAL, _lzma_is_check_supported__doc__},
 
 static PyObject *
 _lzma_is_check_supported_impl(PyObject *module, int check_id);
@@ -301,7 +301,7 @@ PyDoc_STRVAR(_lzma__decode_filter_properties__doc__,
 "The result does not include the filter ID itself, only the options.");
 
 #define _LZMA__DECODE_FILTER_PROPERTIES_METHODDEF    \
-    {"_decode_filter_properties", _PyCFunction_CAST(_lzma__decode_filter_properties), METH_FASTCALL, _lzma__decode_filter_properties__doc__},
+    {"_decode_filter_properties", _PyCFunction_CAST(_lzma__decode_filter_properties), METH_FASTCALL|METH_C_STACK_FRUGAL, _lzma__decode_filter_properties__doc__},
 
 static PyObject *
 _lzma__decode_filter_properties_impl(PyObject *module, lzma_vli filter_id,
@@ -333,4 +333,4 @@ exit:
 
     return return_value;
 }
-/*[clinic end generated code: output=6386084cb43d2533 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=13ec2f937d7bc437 input=a9049054013a1b77]*/

@@ -19,7 +19,7 @@ PyDoc_STRVAR(_functools_cmp_to_key__doc__,
 "    Function that compares two objects.");
 
 #define _FUNCTOOLS_CMP_TO_KEY_METHODDEF    \
-    {"cmp_to_key", _PyCFunction_CAST(_functools_cmp_to_key), METH_FASTCALL|METH_KEYWORDS, _functools_cmp_to_key__doc__},
+    {"cmp_to_key", _PyCFunction_CAST(_functools_cmp_to_key), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _functools_cmp_to_key__doc__},
 
 static PyObject *
 _functools_cmp_to_key_impl(PyObject *module, PyObject *mycmp);
@@ -84,7 +84,7 @@ PyDoc_STRVAR(_functools_reduce__doc__,
 "calculates ((((1 + 2) + 3) + 4) + 5).");
 
 #define _FUNCTOOLS_REDUCE_METHODDEF    \
-    {"reduce", _PyCFunction_CAST(_functools_reduce), METH_FASTCALL|METH_KEYWORDS, _functools_reduce__doc__},
+    {"reduce", _PyCFunction_CAST(_functools_reduce), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _functools_reduce__doc__},
 
 static PyObject *
 _functools_reduce_impl(PyObject *module, PyObject *func, PyObject *seq,
@@ -152,7 +152,7 @@ PyDoc_STRVAR(_functools__lru_cache_wrapper_cache_info__doc__,
 "Report cache statistics");
 
 #define _FUNCTOOLS__LRU_CACHE_WRAPPER_CACHE_INFO_METHODDEF    \
-    {"cache_info", (PyCFunction)_functools__lru_cache_wrapper_cache_info, METH_NOARGS, _functools__lru_cache_wrapper_cache_info__doc__},
+    {"cache_info", (PyCFunction)_functools__lru_cache_wrapper_cache_info, METH_NOARGS|METH_C_STACK_FRUGAL, _functools__lru_cache_wrapper_cache_info__doc__},
 
 static PyObject *
 _functools__lru_cache_wrapper_cache_info_impl(PyObject *self);
@@ -176,7 +176,7 @@ PyDoc_STRVAR(_functools__lru_cache_wrapper_cache_clear__doc__,
 "Clear the cache and cache statistics");
 
 #define _FUNCTOOLS__LRU_CACHE_WRAPPER_CACHE_CLEAR_METHODDEF    \
-    {"cache_clear", (PyCFunction)_functools__lru_cache_wrapper_cache_clear, METH_NOARGS, _functools__lru_cache_wrapper_cache_clear__doc__},
+    {"cache_clear", (PyCFunction)_functools__lru_cache_wrapper_cache_clear, METH_NOARGS|METH_C_STACK_FRUGAL, _functools__lru_cache_wrapper_cache_clear__doc__},
 
 static PyObject *
 _functools__lru_cache_wrapper_cache_clear_impl(PyObject *self);
@@ -192,4 +192,4 @@ _functools__lru_cache_wrapper_cache_clear(PyObject *self, PyObject *Py_UNUSED(ig
 
     return return_value;
 }
-/*[clinic end generated code: output=7f2abc718fcc35d5 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=209c0d3535ef3bc5 input=a9049054013a1b77]*/

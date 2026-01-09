@@ -15,7 +15,7 @@ PyDoc_STRVAR(warnings_acquire_lock__doc__,
 "\n");
 
 #define WARNINGS_ACQUIRE_LOCK_METHODDEF    \
-    {"_acquire_lock", (PyCFunction)warnings_acquire_lock, METH_NOARGS, warnings_acquire_lock__doc__},
+    {"_acquire_lock", (PyCFunction)warnings_acquire_lock, METH_NOARGS|METH_C_STACK_FRUGAL, warnings_acquire_lock__doc__},
 
 static PyObject *
 warnings_acquire_lock_impl(PyObject *module);
@@ -32,7 +32,7 @@ PyDoc_STRVAR(warnings_release_lock__doc__,
 "\n");
 
 #define WARNINGS_RELEASE_LOCK_METHODDEF    \
-    {"_release_lock", (PyCFunction)warnings_release_lock, METH_NOARGS, warnings_release_lock__doc__},
+    {"_release_lock", (PyCFunction)warnings_release_lock, METH_NOARGS|METH_C_STACK_FRUGAL, warnings_release_lock__doc__},
 
 static PyObject *
 warnings_release_lock_impl(PyObject *module);
@@ -64,7 +64,7 @@ PyDoc_STRVAR(warnings_warn__doc__,
 "    during stacklevel computations for stack frame attribution.");
 
 #define WARNINGS_WARN_METHODDEF    \
-    {"warn", _PyCFunction_CAST(warnings_warn), METH_FASTCALL|METH_KEYWORDS, warnings_warn__doc__},
+    {"warn", _PyCFunction_CAST(warnings_warn), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, warnings_warn__doc__},
 
 static PyObject *
 warnings_warn_impl(PyObject *module, PyObject *message, PyObject *category,
@@ -173,7 +173,7 @@ PyDoc_STRVAR(warnings_warn_explicit__doc__,
 "Issue a warning, or maybe ignore it or raise an exception.");
 
 #define WARNINGS_WARN_EXPLICIT_METHODDEF    \
-    {"warn_explicit", _PyCFunction_CAST(warnings_warn_explicit), METH_FASTCALL|METH_KEYWORDS, warnings_warn_explicit__doc__},
+    {"warn_explicit", _PyCFunction_CAST(warnings_warn_explicit), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, warnings_warn_explicit__doc__},
 
 static PyObject *
 warnings_warn_explicit_impl(PyObject *module, PyObject *message,
@@ -274,7 +274,7 @@ PyDoc_STRVAR(warnings_filters_mutated_lock_held__doc__,
 "\n");
 
 #define WARNINGS_FILTERS_MUTATED_LOCK_HELD_METHODDEF    \
-    {"_filters_mutated_lock_held", (PyCFunction)warnings_filters_mutated_lock_held, METH_NOARGS, warnings_filters_mutated_lock_held__doc__},
+    {"_filters_mutated_lock_held", (PyCFunction)warnings_filters_mutated_lock_held, METH_NOARGS|METH_C_STACK_FRUGAL, warnings_filters_mutated_lock_held__doc__},
 
 static PyObject *
 warnings_filters_mutated_lock_held_impl(PyObject *module);
@@ -284,4 +284,4 @@ warnings_filters_mutated_lock_held(PyObject *module, PyObject *Py_UNUSED(ignored
 {
     return warnings_filters_mutated_lock_held_impl(module);
 }
-/*[clinic end generated code: output=610ed5764bf40bb5 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=989c3f0d7534c855 input=a9049054013a1b77]*/

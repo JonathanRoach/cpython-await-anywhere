@@ -19,7 +19,7 @@ PyDoc_STRVAR(_io_FileIO_close__doc__,
 "called more than once without error.");
 
 #define _IO_FILEIO_CLOSE_METHODDEF    \
-    {"close", _PyCFunction_CAST(_io_FileIO_close), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _io_FileIO_close__doc__},
+    {"close", _PyCFunction_CAST(_io_FileIO_close), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io_FileIO_close__doc__},
 
 static PyObject *
 _io_FileIO_close_impl(fileio *self, PyTypeObject *cls);
@@ -147,7 +147,7 @@ PyDoc_STRVAR(_io_FileIO_fileno__doc__,
 "Return the underlying file descriptor (an integer).");
 
 #define _IO_FILEIO_FILENO_METHODDEF    \
-    {"fileno", (PyCFunction)_io_FileIO_fileno, METH_NOARGS, _io_FileIO_fileno__doc__},
+    {"fileno", (PyCFunction)_io_FileIO_fileno, METH_NOARGS|METH_C_STACK_FRUGAL, _io_FileIO_fileno__doc__},
 
 static PyObject *
 _io_FileIO_fileno_impl(fileio *self);
@@ -165,7 +165,7 @@ PyDoc_STRVAR(_io_FileIO_readable__doc__,
 "True if file was opened in a read mode.");
 
 #define _IO_FILEIO_READABLE_METHODDEF    \
-    {"readable", (PyCFunction)_io_FileIO_readable, METH_NOARGS, _io_FileIO_readable__doc__},
+    {"readable", (PyCFunction)_io_FileIO_readable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_FileIO_readable__doc__},
 
 static PyObject *
 _io_FileIO_readable_impl(fileio *self);
@@ -183,7 +183,7 @@ PyDoc_STRVAR(_io_FileIO_writable__doc__,
 "True if file was opened in a write mode.");
 
 #define _IO_FILEIO_WRITABLE_METHODDEF    \
-    {"writable", (PyCFunction)_io_FileIO_writable, METH_NOARGS, _io_FileIO_writable__doc__},
+    {"writable", (PyCFunction)_io_FileIO_writable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_FileIO_writable__doc__},
 
 static PyObject *
 _io_FileIO_writable_impl(fileio *self);
@@ -201,7 +201,7 @@ PyDoc_STRVAR(_io_FileIO_seekable__doc__,
 "True if file supports random-access.");
 
 #define _IO_FILEIO_SEEKABLE_METHODDEF    \
-    {"seekable", (PyCFunction)_io_FileIO_seekable, METH_NOARGS, _io_FileIO_seekable__doc__},
+    {"seekable", (PyCFunction)_io_FileIO_seekable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_FileIO_seekable__doc__},
 
 static PyObject *
 _io_FileIO_seekable_impl(fileio *self);
@@ -219,7 +219,7 @@ PyDoc_STRVAR(_io_FileIO_readinto__doc__,
 "Same as RawIOBase.readinto().");
 
 #define _IO_FILEIO_READINTO_METHODDEF    \
-    {"readinto", _PyCFunction_CAST(_io_FileIO_readinto), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _io_FileIO_readinto__doc__},
+    {"readinto", _PyCFunction_CAST(_io_FileIO_readinto), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io_FileIO_readinto__doc__},
 
 static PyObject *
 _io_FileIO_readinto_impl(fileio *self, PyTypeObject *cls, Py_buffer *buffer);
@@ -277,7 +277,7 @@ PyDoc_STRVAR(_io_FileIO_readall__doc__,
 "data is available (EAGAIN is returned before bytes are read) returns None.");
 
 #define _IO_FILEIO_READALL_METHODDEF    \
-    {"readall", (PyCFunction)_io_FileIO_readall, METH_NOARGS, _io_FileIO_readall__doc__},
+    {"readall", (PyCFunction)_io_FileIO_readall, METH_NOARGS|METH_C_STACK_FRUGAL, _io_FileIO_readall__doc__},
 
 static PyObject *
 _io_FileIO_readall_impl(fileio *self);
@@ -304,7 +304,7 @@ PyDoc_STRVAR(_io_FileIO_read__doc__,
 "bytes object at EOF.");
 
 #define _IO_FILEIO_READ_METHODDEF    \
-    {"read", _PyCFunction_CAST(_io_FileIO_read), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _io_FileIO_read__doc__},
+    {"read", _PyCFunction_CAST(_io_FileIO_read), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io_FileIO_read__doc__},
 
 static PyObject *
 _io_FileIO_read_impl(fileio *self, PyTypeObject *cls, Py_ssize_t size);
@@ -358,7 +358,7 @@ PyDoc_STRVAR(_io_FileIO_write__doc__,
 "returns None if the write would block.");
 
 #define _IO_FILEIO_WRITE_METHODDEF    \
-    {"write", _PyCFunction_CAST(_io_FileIO_write), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _io_FileIO_write__doc__},
+    {"write", _PyCFunction_CAST(_io_FileIO_write), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io_FileIO_write__doc__},
 
 static PyObject *
 _io_FileIO_write_impl(fileio *self, PyTypeObject *cls, Py_buffer *b);
@@ -417,7 +417,7 @@ PyDoc_STRVAR(_io_FileIO_seek__doc__,
 "Note that not all file objects are seekable.");
 
 #define _IO_FILEIO_SEEK_METHODDEF    \
-    {"seek", _PyCFunction_CAST(_io_FileIO_seek), METH_FASTCALL, _io_FileIO_seek__doc__},
+    {"seek", _PyCFunction_CAST(_io_FileIO_seek), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_FileIO_seek__doc__},
 
 static PyObject *
 _io_FileIO_seek_impl(fileio *self, PyObject *pos, int whence);
@@ -456,7 +456,7 @@ PyDoc_STRVAR(_io_FileIO_tell__doc__,
 "Can raise OSError for non seekable files.");
 
 #define _IO_FILEIO_TELL_METHODDEF    \
-    {"tell", (PyCFunction)_io_FileIO_tell, METH_NOARGS, _io_FileIO_tell__doc__},
+    {"tell", (PyCFunction)_io_FileIO_tell, METH_NOARGS|METH_C_STACK_FRUGAL, _io_FileIO_tell__doc__},
 
 static PyObject *
 _io_FileIO_tell_impl(fileio *self);
@@ -479,7 +479,7 @@ PyDoc_STRVAR(_io_FileIO_truncate__doc__,
 "The current file position is changed to the value of size.");
 
 #define _IO_FILEIO_TRUNCATE_METHODDEF    \
-    {"truncate", _PyCFunction_CAST(_io_FileIO_truncate), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _io_FileIO_truncate__doc__},
+    {"truncate", _PyCFunction_CAST(_io_FileIO_truncate), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io_FileIO_truncate__doc__},
 
 static PyObject *
 _io_FileIO_truncate_impl(fileio *self, PyTypeObject *cls, PyObject *posobj);
@@ -529,7 +529,7 @@ PyDoc_STRVAR(_io_FileIO_isatty__doc__,
 "True if the file is connected to a TTY device.");
 
 #define _IO_FILEIO_ISATTY_METHODDEF    \
-    {"isatty", (PyCFunction)_io_FileIO_isatty, METH_NOARGS, _io_FileIO_isatty__doc__},
+    {"isatty", (PyCFunction)_io_FileIO_isatty, METH_NOARGS|METH_C_STACK_FRUGAL, _io_FileIO_isatty__doc__},
 
 static PyObject *
 _io_FileIO_isatty_impl(fileio *self);
@@ -543,4 +543,4 @@ _io_FileIO_isatty(PyObject *self, PyObject *Py_UNUSED(ignored))
 #ifndef _IO_FILEIO_TRUNCATE_METHODDEF
     #define _IO_FILEIO_TRUNCATE_METHODDEF
 #endif /* !defined(_IO_FILEIO_TRUNCATE_METHODDEF) */
-/*[clinic end generated code: output=1902fac9e39358aa input=a9049054013a1b77]*/
+/*[clinic end generated code: output=9e91c001b8554164 input=a9049054013a1b77]*/

@@ -49,6 +49,7 @@ module _codecs
 /* --- Registry ----------------------------------------------------------- */
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.register
     search_function: object
     /
@@ -62,7 +63,7 @@ all lower case letters, and either return None, or a tuple of functions
 
 static PyObject *
 _codecs_register(PyObject *module, PyObject *search_function)
-/*[clinic end generated code: output=d1bf21e99db7d6d3 input=369578467955cae4]*/
+/*[clinic end generated code: output=d1bf21e99db7d6d3 input=e19e5e364c9be2f6]*/
 {
     if (PyCodec_Register(search_function))
         return NULL;
@@ -71,6 +72,7 @@ _codecs_register(PyObject *module, PyObject *search_function)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.unregister
     search_function: object
     /
@@ -82,7 +84,7 @@ If the search function is not registered, do nothing.
 
 static PyObject *
 _codecs_unregister(PyObject *module, PyObject *search_function)
-/*[clinic end generated code: output=1f0edee9cf246399 input=dd7c004c652d345e]*/
+/*[clinic end generated code: output=1f0edee9cf246399 input=3d7f95cecbffac88]*/
 {
     if (PyCodec_Unregister(search_function) < 0) {
         return NULL;
@@ -92,6 +94,7 @@ _codecs_unregister(PyObject *module, PyObject *search_function)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.lookup
     encoding: str
     /
@@ -101,12 +104,13 @@ Looks up a codec tuple in the Python codec registry and returns a CodecInfo obje
 
 static PyObject *
 _codecs_lookup_impl(PyObject *module, const char *encoding)
-/*[clinic end generated code: output=9f0afa572080c36d input=3c572c0db3febe9c]*/
+/*[clinic end generated code: output=9f0afa572080c36d input=a519d8a6b97ab913]*/
 {
     return _PyCodec_Lookup(encoding);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.encode
     obj: object
     encoding: str(c_default="NULL") = "utf-8"
@@ -124,7 +128,7 @@ codecs.register_error that can handle ValueErrors.
 static PyObject *
 _codecs_encode_impl(PyObject *module, PyObject *obj, const char *encoding,
                     const char *errors)
-/*[clinic end generated code: output=385148eb9a067c86 input=cd5b685040ff61f0]*/
+/*[clinic end generated code: output=385148eb9a067c86 input=50fba40676d642d4]*/
 {
     if (encoding == NULL)
         encoding = PyUnicode_GetDefaultEncoding();
@@ -134,6 +138,7 @@ _codecs_encode_impl(PyObject *module, PyObject *obj, const char *encoding,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.decode
     obj: object
     encoding: str(c_default="NULL") = "utf-8"
@@ -151,7 +156,7 @@ codecs.register_error that can handle ValueErrors.
 static PyObject *
 _codecs_decode_impl(PyObject *module, PyObject *obj, const char *encoding,
                     const char *errors)
-/*[clinic end generated code: output=679882417dc3a0bd input=7702c0cc2fa1add6]*/
+/*[clinic end generated code: output=679882417dc3a0bd input=c99a6b86b1f0c402]*/
 {
     if (encoding == NULL)
         encoding = PyUnicode_GetDefaultEncoding();
@@ -173,6 +178,7 @@ PyObject *codec_tuple(PyObject *decoded,
 
 /* --- String codecs ------------------------------------------------------ */
 /*[clinic input]
+@c_stack_frugal
 _codecs.escape_decode
     data: Py_buffer(accept={str, buffer})
     errors: str(accept={str, NoneType}) = None
@@ -182,7 +188,7 @@ _codecs.escape_decode
 static PyObject *
 _codecs_escape_decode_impl(PyObject *module, Py_buffer *data,
                            const char *errors)
-/*[clinic end generated code: output=505200ba8056979a input=77298a561c90bd82]*/
+/*[clinic end generated code: output=505200ba8056979a input=dafadb69a1315942]*/
 {
     PyObject *decoded = PyBytes_DecodeEscape(data->buf, data->len,
                                              errors, 0, NULL);
@@ -190,6 +196,7 @@ _codecs_escape_decode_impl(PyObject *module, Py_buffer *data,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.escape_encode
     data: object(subclass_of='&PyBytes_Type')
     errors: str(accept={str, NoneType}) = None
@@ -199,7 +206,7 @@ _codecs.escape_encode
 static PyObject *
 _codecs_escape_encode_impl(PyObject *module, PyObject *data,
                            const char *errors)
-/*[clinic end generated code: output=4af1d477834bab34 input=8f4b144799a94245]*/
+/*[clinic end generated code: output=4af1d477834bab34 input=37035b2d9deb22a4]*/
 {
     Py_ssize_t size;
     Py_ssize_t newsize;
@@ -254,6 +261,7 @@ _codecs_escape_encode_impl(PyObject *module, PyObject *data,
 
 /* --- Decoder ------------------------------------------------------------ */
 /*[clinic input]
+@c_stack_frugal
 _codecs.utf_7_decode
     data: Py_buffer
     errors: str(accept={str, NoneType}) = None
@@ -264,7 +272,7 @@ _codecs.utf_7_decode
 static PyObject *
 _codecs_utf_7_decode_impl(PyObject *module, Py_buffer *data,
                           const char *errors, int final)
-/*[clinic end generated code: output=0cd3a944a32a4089 input=dbf8c8998102dc7d]*/
+/*[clinic end generated code: output=0cd3a944a32a4089 input=9d855b852d2158c6]*/
 {
     Py_ssize_t consumed = data->len;
     PyObject *decoded = PyUnicode_DecodeUTF7Stateful(data->buf, data->len,
@@ -274,6 +282,7 @@ _codecs_utf_7_decode_impl(PyObject *module, Py_buffer *data,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.utf_8_decode
     data: Py_buffer
     errors: str(accept={str, NoneType}) = None
@@ -284,7 +293,7 @@ _codecs.utf_8_decode
 static PyObject *
 _codecs_utf_8_decode_impl(PyObject *module, Py_buffer *data,
                           const char *errors, int final)
-/*[clinic end generated code: output=10f74dec8d9bb8bf input=ca06bc8a9c970e25]*/
+/*[clinic end generated code: output=10f74dec8d9bb8bf input=7686b40a5163ebfc]*/
 {
     Py_ssize_t consumed = data->len;
     PyObject *decoded = PyUnicode_DecodeUTF8Stateful(data->buf, data->len,
@@ -294,6 +303,7 @@ _codecs_utf_8_decode_impl(PyObject *module, Py_buffer *data,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.utf_16_decode
     data: Py_buffer
     errors: str(accept={str, NoneType}) = None
@@ -304,7 +314,7 @@ _codecs.utf_16_decode
 static PyObject *
 _codecs_utf_16_decode_impl(PyObject *module, Py_buffer *data,
                            const char *errors, int final)
-/*[clinic end generated code: output=783b442abcbcc2d0 input=5b0f52071ba6cadc]*/
+/*[clinic end generated code: output=783b442abcbcc2d0 input=af959b533ce7f6c4]*/
 {
     int byteorder = 0;
     /* This is overwritten unless final is true. */
@@ -316,6 +326,7 @@ _codecs_utf_16_decode_impl(PyObject *module, Py_buffer *data,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.utf_16_le_decode
     data: Py_buffer
     errors: str(accept={str, NoneType}) = None
@@ -326,7 +337,7 @@ _codecs.utf_16_le_decode
 static PyObject *
 _codecs_utf_16_le_decode_impl(PyObject *module, Py_buffer *data,
                               const char *errors, int final)
-/*[clinic end generated code: output=899b9e6364379dcd input=115bd8c7b783d0bf]*/
+/*[clinic end generated code: output=899b9e6364379dcd input=46f0e679f32e0114]*/
 {
     int byteorder = -1;
     /* This is overwritten unless final is true. */
@@ -338,6 +349,7 @@ _codecs_utf_16_le_decode_impl(PyObject *module, Py_buffer *data,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.utf_16_be_decode
     data: Py_buffer
     errors: str(accept={str, NoneType}) = None
@@ -348,7 +360,7 @@ _codecs.utf_16_be_decode
 static PyObject *
 _codecs_utf_16_be_decode_impl(PyObject *module, Py_buffer *data,
                               const char *errors, int final)
-/*[clinic end generated code: output=49f6465ea07669c8 input=63131422b01f9cb4]*/
+/*[clinic end generated code: output=49f6465ea07669c8 input=034292772360caa1]*/
 {
     int byteorder = 1;
     /* This is overwritten unless final is true. */
@@ -367,6 +379,7 @@ _codecs_utf_16_be_decode_impl(PyObject *module, Py_buffer *data,
 
 */
 /*[clinic input]
+@c_stack_frugal
 _codecs.utf_16_ex_decode
     data: Py_buffer
     errors: str(accept={str, NoneType}) = None
@@ -378,7 +391,7 @@ _codecs.utf_16_ex_decode
 static PyObject *
 _codecs_utf_16_ex_decode_impl(PyObject *module, Py_buffer *data,
                               const char *errors, int byteorder, int final)
-/*[clinic end generated code: output=0f385f251ecc1988 input=f368a51cf384bf4c]*/
+/*[clinic end generated code: output=0f385f251ecc1988 input=b03fcf155b6d8dfd]*/
 {
     /* This is overwritten unless final is true. */
     Py_ssize_t consumed = data->len;
@@ -392,6 +405,7 @@ _codecs_utf_16_ex_decode_impl(PyObject *module, Py_buffer *data,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.utf_32_decode
     data: Py_buffer
     errors: str(accept={str, NoneType}) = None
@@ -402,7 +416,7 @@ _codecs.utf_32_decode
 static PyObject *
 _codecs_utf_32_decode_impl(PyObject *module, Py_buffer *data,
                            const char *errors, int final)
-/*[clinic end generated code: output=2fc961807f7b145f input=fcdf3658c5e9b5f3]*/
+/*[clinic end generated code: output=2fc961807f7b145f input=284f1e554a0afbae]*/
 {
     int byteorder = 0;
     /* This is overwritten unless final is true. */
@@ -414,6 +428,7 @@ _codecs_utf_32_decode_impl(PyObject *module, Py_buffer *data,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.utf_32_le_decode
     data: Py_buffer
     errors: str(accept={str, NoneType}) = None
@@ -424,7 +439,7 @@ _codecs.utf_32_le_decode
 static PyObject *
 _codecs_utf_32_le_decode_impl(PyObject *module, Py_buffer *data,
                               const char *errors, int final)
-/*[clinic end generated code: output=ec8f46b67a94f3e6 input=12220556e885f817]*/
+/*[clinic end generated code: output=ec8f46b67a94f3e6 input=ecf9fab66a8ed93c]*/
 {
     int byteorder = -1;
     /* This is overwritten unless final is true. */
@@ -436,6 +451,7 @@ _codecs_utf_32_le_decode_impl(PyObject *module, Py_buffer *data,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.utf_32_be_decode
     data: Py_buffer
     errors: str(accept={str, NoneType}) = None
@@ -446,7 +462,7 @@ _codecs.utf_32_be_decode
 static PyObject *
 _codecs_utf_32_be_decode_impl(PyObject *module, Py_buffer *data,
                               const char *errors, int final)
-/*[clinic end generated code: output=ff82bae862c92c4e input=2bc669b4781598db]*/
+/*[clinic end generated code: output=ff82bae862c92c4e input=03178b208a3842a1]*/
 {
     int byteorder = 1;
     /* This is overwritten unless final is true. */
@@ -465,6 +481,7 @@ _codecs_utf_32_be_decode_impl(PyObject *module, Py_buffer *data,
 
 */
 /*[clinic input]
+@c_stack_frugal
 _codecs.utf_32_ex_decode
     data: Py_buffer
     errors: str(accept={str, NoneType}) = None
@@ -476,7 +493,7 @@ _codecs.utf_32_ex_decode
 static PyObject *
 _codecs_utf_32_ex_decode_impl(PyObject *module, Py_buffer *data,
                               const char *errors, int byteorder, int final)
-/*[clinic end generated code: output=6bfb177dceaf4848 input=4a2323d0013620df]*/
+/*[clinic end generated code: output=6bfb177dceaf4848 input=4728f60319ee1ca6]*/
 {
     Py_ssize_t consumed = data->len;
     PyObject *decoded = PyUnicode_DecodeUTF32Stateful(data->buf, data->len,
@@ -488,6 +505,7 @@ _codecs_utf_32_ex_decode_impl(PyObject *module, Py_buffer *data,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.unicode_escape_decode
     data: Py_buffer(accept={str, buffer})
     errors: str(accept={str, NoneType}) = None
@@ -498,7 +516,7 @@ _codecs.unicode_escape_decode
 static PyObject *
 _codecs_unicode_escape_decode_impl(PyObject *module, Py_buffer *data,
                                    const char *errors, int final)
-/*[clinic end generated code: output=b284f97b12c635ee input=15019f081ffe272b]*/
+/*[clinic end generated code: output=b284f97b12c635ee input=758d9c6b835b4b59]*/
 {
     Py_ssize_t consumed = data->len;
     PyObject *decoded = _PyUnicode_DecodeUnicodeEscapeStateful(data->buf, data->len,
@@ -508,6 +526,7 @@ _codecs_unicode_escape_decode_impl(PyObject *module, Py_buffer *data,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.raw_unicode_escape_decode
     data: Py_buffer(accept={str, buffer})
     errors: str(accept={str, NoneType}) = None
@@ -518,7 +537,7 @@ _codecs.raw_unicode_escape_decode
 static PyObject *
 _codecs_raw_unicode_escape_decode_impl(PyObject *module, Py_buffer *data,
                                        const char *errors, int final)
-/*[clinic end generated code: output=11dbd96301e2879e input=b93f823aa8c343ad]*/
+/*[clinic end generated code: output=11dbd96301e2879e input=f8b1b0d2efe477a3]*/
 {
     Py_ssize_t consumed = data->len;
     PyObject *decoded = _PyUnicode_DecodeRawUnicodeEscapeStateful(data->buf, data->len,
@@ -528,6 +547,7 @@ _codecs_raw_unicode_escape_decode_impl(PyObject *module, Py_buffer *data,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.latin_1_decode
     data: Py_buffer
     errors: str(accept={str, NoneType}) = None
@@ -537,13 +557,14 @@ _codecs.latin_1_decode
 static PyObject *
 _codecs_latin_1_decode_impl(PyObject *module, Py_buffer *data,
                             const char *errors)
-/*[clinic end generated code: output=07f3dfa3f72c7d8f input=76ca58fd6dcd08c7]*/
+/*[clinic end generated code: output=07f3dfa3f72c7d8f input=305af3ff634c0e47]*/
 {
     PyObject *decoded = PyUnicode_DecodeLatin1(data->buf, data->len, errors);
     return codec_tuple(decoded, data->len);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.ascii_decode
     data: Py_buffer
     errors: str(accept={str, NoneType}) = None
@@ -553,13 +574,14 @@ _codecs.ascii_decode
 static PyObject *
 _codecs_ascii_decode_impl(PyObject *module, Py_buffer *data,
                           const char *errors)
-/*[clinic end generated code: output=2627d72058d42429 input=e428a267a04b4481]*/
+/*[clinic end generated code: output=2627d72058d42429 input=e9bb531e3de03b4f]*/
 {
     PyObject *decoded = PyUnicode_DecodeASCII(data->buf, data->len, errors);
     return codec_tuple(decoded, data->len);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.charmap_decode
     data: Py_buffer
     errors: str(accept={str, NoneType}) = None
@@ -570,7 +592,7 @@ _codecs.charmap_decode
 static PyObject *
 _codecs_charmap_decode_impl(PyObject *module, Py_buffer *data,
                             const char *errors, PyObject *mapping)
-/*[clinic end generated code: output=2c335b09778cf895 input=15b69df43458eb40]*/
+/*[clinic end generated code: output=2c335b09778cf895 input=90f7dfd56405fc55]*/
 {
     PyObject *decoded;
 
@@ -584,6 +606,7 @@ _codecs_charmap_decode_impl(PyObject *module, Py_buffer *data,
 #ifdef MS_WINDOWS
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.mbcs_decode
     data: Py_buffer
     errors: str(accept={str, NoneType}) = None
@@ -594,7 +617,7 @@ _codecs.mbcs_decode
 static PyObject *
 _codecs_mbcs_decode_impl(PyObject *module, Py_buffer *data,
                          const char *errors, int final)
-/*[clinic end generated code: output=39b65b8598938c4b input=f144ad1ed6d8f5a6]*/
+/*[clinic end generated code: output=39b65b8598938c4b input=4be12e2878b9888d]*/
 {
     Py_ssize_t consumed = data->len;
     PyObject *decoded = PyUnicode_DecodeMBCSStateful(data->buf, data->len,
@@ -603,6 +626,7 @@ _codecs_mbcs_decode_impl(PyObject *module, Py_buffer *data,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.oem_decode
     data: Py_buffer
     errors: str(accept={str, NoneType}) = None
@@ -613,7 +637,7 @@ _codecs.oem_decode
 static PyObject *
 _codecs_oem_decode_impl(PyObject *module, Py_buffer *data,
                         const char *errors, int final)
-/*[clinic end generated code: output=da1617612f3fcad8 input=629bf87376d211b4]*/
+/*[clinic end generated code: output=da1617612f3fcad8 input=cb644e385e013f0d]*/
 {
     Py_ssize_t consumed = data->len;
     PyObject *decoded = PyUnicode_DecodeCodePageStateful(CP_OEMCP,
@@ -622,6 +646,7 @@ _codecs_oem_decode_impl(PyObject *module, Py_buffer *data,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.code_page_decode
     codepage: int
     data: Py_buffer
@@ -633,7 +658,7 @@ _codecs.code_page_decode
 static PyObject *
 _codecs_code_page_decode_impl(PyObject *module, int codepage,
                               Py_buffer *data, const char *errors, int final)
-/*[clinic end generated code: output=53008ea967da3fff input=6a32589b0658c277]*/
+/*[clinic end generated code: output=53008ea967da3fff input=1603f486b06d7776]*/
 {
     Py_ssize_t consumed = data->len;
     PyObject *decoded = PyUnicode_DecodeCodePageStateful(codepage,
@@ -648,6 +673,7 @@ _codecs_code_page_decode_impl(PyObject *module, int codepage,
 /* --- Encoder ------------------------------------------------------------ */
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.readbuffer_encode
     data: Py_buffer(accept={str, buffer})
     errors: str(accept={str, NoneType}) = None
@@ -657,13 +683,14 @@ _codecs.readbuffer_encode
 static PyObject *
 _codecs_readbuffer_encode_impl(PyObject *module, Py_buffer *data,
                                const char *errors)
-/*[clinic end generated code: output=c645ea7cdb3d6e86 input=aa10cfdf252455c5]*/
+/*[clinic end generated code: output=c645ea7cdb3d6e86 input=3f8755ef2acc83ed]*/
 {
     PyObject *result = PyBytes_FromStringAndSize(data->buf, data->len);
     return codec_tuple(result, data->len);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.utf_7_encode
     str: unicode
     errors: str(accept={str, NoneType}) = None
@@ -673,13 +700,14 @@ _codecs.utf_7_encode
 static PyObject *
 _codecs_utf_7_encode_impl(PyObject *module, PyObject *str,
                           const char *errors)
-/*[clinic end generated code: output=0feda21ffc921bc8 input=2546dbbb3fa53114]*/
+/*[clinic end generated code: output=0feda21ffc921bc8 input=64a71d8eab425735]*/
 {
     return codec_tuple(_PyUnicode_EncodeUTF7(str, 0, 0, errors),
                        PyUnicode_GET_LENGTH(str));
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.utf_8_encode
     str: unicode
     errors: str(accept={str, NoneType}) = None
@@ -689,7 +717,7 @@ _codecs.utf_8_encode
 static PyObject *
 _codecs_utf_8_encode_impl(PyObject *module, PyObject *str,
                           const char *errors)
-/*[clinic end generated code: output=02bf47332b9c796c input=a3e71ae01c3f93f3]*/
+/*[clinic end generated code: output=02bf47332b9c796c input=dd4afee1ae5330dc]*/
 {
     return codec_tuple(_PyUnicode_AsUTF8String(str, errors),
                        PyUnicode_GET_LENGTH(str));
@@ -703,6 +731,7 @@ _codecs_utf_8_encode_impl(PyObject *module, PyObject *str,
 */
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.utf_16_encode
     str: unicode
     errors: str(accept={str, NoneType}) = None
@@ -713,13 +742,14 @@ _codecs.utf_16_encode
 static PyObject *
 _codecs_utf_16_encode_impl(PyObject *module, PyObject *str,
                            const char *errors, int byteorder)
-/*[clinic end generated code: output=c654e13efa2e64e4 input=68cdc2eb8338555d]*/
+/*[clinic end generated code: output=c654e13efa2e64e4 input=690687b0339213e1]*/
 {
     return codec_tuple(_PyUnicode_EncodeUTF16(str, errors, byteorder),
                        PyUnicode_GET_LENGTH(str));
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.utf_16_le_encode
     str: unicode
     errors: str(accept={str, NoneType}) = None
@@ -729,13 +759,14 @@ _codecs.utf_16_le_encode
 static PyObject *
 _codecs_utf_16_le_encode_impl(PyObject *module, PyObject *str,
                               const char *errors)
-/*[clinic end generated code: output=431b01e55f2d4995 input=83d042706eed6798]*/
+/*[clinic end generated code: output=431b01e55f2d4995 input=405565f3c4fc612f]*/
 {
     return codec_tuple(_PyUnicode_EncodeUTF16(str, errors, -1),
                        PyUnicode_GET_LENGTH(str));
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.utf_16_be_encode
     str: unicode
     errors: str(accept={str, NoneType}) = None
@@ -745,7 +776,7 @@ _codecs.utf_16_be_encode
 static PyObject *
 _codecs_utf_16_be_encode_impl(PyObject *module, PyObject *str,
                               const char *errors)
-/*[clinic end generated code: output=96886a6fd54dcae3 input=6f1e9e623b03071b]*/
+/*[clinic end generated code: output=96886a6fd54dcae3 input=96f7e92fc2383620]*/
 {
     return codec_tuple(_PyUnicode_EncodeUTF16(str, errors, +1),
                        PyUnicode_GET_LENGTH(str));
@@ -759,6 +790,7 @@ _codecs_utf_16_be_encode_impl(PyObject *module, PyObject *str,
 */
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.utf_32_encode
     str: unicode
     errors: str(accept={str, NoneType}) = None
@@ -769,13 +801,14 @@ _codecs.utf_32_encode
 static PyObject *
 _codecs_utf_32_encode_impl(PyObject *module, PyObject *str,
                            const char *errors, int byteorder)
-/*[clinic end generated code: output=5c760da0c09a8b83 input=8ec4c64d983bc52b]*/
+/*[clinic end generated code: output=5c760da0c09a8b83 input=384161fe37d73809]*/
 {
     return codec_tuple(_PyUnicode_EncodeUTF32(str, errors, byteorder),
                        PyUnicode_GET_LENGTH(str));
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.utf_32_le_encode
     str: unicode
     errors: str(accept={str, NoneType}) = None
@@ -785,13 +818,14 @@ _codecs.utf_32_le_encode
 static PyObject *
 _codecs_utf_32_le_encode_impl(PyObject *module, PyObject *str,
                               const char *errors)
-/*[clinic end generated code: output=b65cd176de8e36d6 input=f0918d41de3eb1b1]*/
+/*[clinic end generated code: output=b65cd176de8e36d6 input=c0da8141c1f524e3]*/
 {
     return codec_tuple(_PyUnicode_EncodeUTF32(str, errors, -1),
                        PyUnicode_GET_LENGTH(str));
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.utf_32_be_encode
     str: unicode
     errors: str(accept={str, NoneType}) = None
@@ -801,13 +835,14 @@ _codecs.utf_32_be_encode
 static PyObject *
 _codecs_utf_32_be_encode_impl(PyObject *module, PyObject *str,
                               const char *errors)
-/*[clinic end generated code: output=1d9e71a9358709e9 input=967a99a95748b557]*/
+/*[clinic end generated code: output=1d9e71a9358709e9 input=a44fd369735c2510]*/
 {
     return codec_tuple(_PyUnicode_EncodeUTF32(str, errors, +1),
                        PyUnicode_GET_LENGTH(str));
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.unicode_escape_encode
     str: unicode
     errors: str(accept={str, NoneType}) = None
@@ -817,13 +852,14 @@ _codecs.unicode_escape_encode
 static PyObject *
 _codecs_unicode_escape_encode_impl(PyObject *module, PyObject *str,
                                    const char *errors)
-/*[clinic end generated code: output=66271b30bc4f7a3c input=8c4de07597054e33]*/
+/*[clinic end generated code: output=66271b30bc4f7a3c input=735f2e0d659c4ffd]*/
 {
     return codec_tuple(PyUnicode_AsUnicodeEscapeString(str),
                        PyUnicode_GET_LENGTH(str));
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.raw_unicode_escape_encode
     str: unicode
     errors: str(accept={str, NoneType}) = None
@@ -833,13 +869,14 @@ _codecs.raw_unicode_escape_encode
 static PyObject *
 _codecs_raw_unicode_escape_encode_impl(PyObject *module, PyObject *str,
                                        const char *errors)
-/*[clinic end generated code: output=a66a806ed01c830a input=4aa6f280d78e4574]*/
+/*[clinic end generated code: output=a66a806ed01c830a input=d339d6ceb29e9afa]*/
 {
     return codec_tuple(PyUnicode_AsRawUnicodeEscapeString(str),
                        PyUnicode_GET_LENGTH(str));
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.latin_1_encode
     str: unicode
     errors: str(accept={str, NoneType}) = None
@@ -849,13 +886,14 @@ _codecs.latin_1_encode
 static PyObject *
 _codecs_latin_1_encode_impl(PyObject *module, PyObject *str,
                             const char *errors)
-/*[clinic end generated code: output=2c28c83a27884e08 input=ec3ef74bf85c5c5d]*/
+/*[clinic end generated code: output=2c28c83a27884e08 input=1ec918e2e9b81ab1]*/
 {
     return codec_tuple(_PyUnicode_AsLatin1String(str, errors),
                        PyUnicode_GET_LENGTH(str));
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.ascii_encode
     str: unicode
     errors: str(accept={str, NoneType}) = None
@@ -865,13 +903,14 @@ _codecs.ascii_encode
 static PyObject *
 _codecs_ascii_encode_impl(PyObject *module, PyObject *str,
                           const char *errors)
-/*[clinic end generated code: output=b5e035182d33befc input=93e6e602838bd3de]*/
+/*[clinic end generated code: output=b5e035182d33befc input=5062e46ab24e89bf]*/
 {
     return codec_tuple(_PyUnicode_AsASCIIString(str, errors),
                        PyUnicode_GET_LENGTH(str));
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.charmap_encode
     str: unicode
     errors: str(accept={str, NoneType}) = None
@@ -882,7 +921,7 @@ _codecs.charmap_encode
 static PyObject *
 _codecs_charmap_encode_impl(PyObject *module, PyObject *str,
                             const char *errors, PyObject *mapping)
-/*[clinic end generated code: output=047476f48495a9e9 input=2a98feae73dadce8]*/
+/*[clinic end generated code: output=047476f48495a9e9 input=4a6291e3992ff875]*/
 {
     if (mapping == Py_None)
         mapping = NULL;
@@ -892,6 +931,7 @@ _codecs_charmap_encode_impl(PyObject *module, PyObject *str,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.charmap_build
     map: unicode
     /
@@ -899,7 +939,7 @@ _codecs.charmap_build
 
 static PyObject *
 _codecs_charmap_build_impl(PyObject *module, PyObject *map)
-/*[clinic end generated code: output=bb073c27031db9ac input=d91a91d1717dbc6d]*/
+/*[clinic end generated code: output=bb073c27031db9ac input=71fd895712becb78]*/
 {
     return PyUnicode_BuildEncodingMap(map);
 }
@@ -907,6 +947,7 @@ _codecs_charmap_build_impl(PyObject *module, PyObject *map)
 #ifdef MS_WINDOWS
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.mbcs_encode
     str: unicode
     errors: str(accept={str, NoneType}) = None
@@ -915,13 +956,14 @@ _codecs.mbcs_encode
 
 static PyObject *
 _codecs_mbcs_encode_impl(PyObject *module, PyObject *str, const char *errors)
-/*[clinic end generated code: output=76e2e170c966c080 input=2e932fc289ea5a5b]*/
+/*[clinic end generated code: output=76e2e170c966c080 input=f4e91fbab67dbade]*/
 {
     return codec_tuple(PyUnicode_EncodeCodePage(CP_ACP, str, errors),
                        PyUnicode_GET_LENGTH(str));
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.oem_encode
     str: unicode
     errors: str(accept={str, NoneType}) = None
@@ -930,13 +972,14 @@ _codecs.oem_encode
 
 static PyObject *
 _codecs_oem_encode_impl(PyObject *module, PyObject *str, const char *errors)
-/*[clinic end generated code: output=65d5982c737de649 input=9eac86dc21eb14f2]*/
+/*[clinic end generated code: output=65d5982c737de649 input=91b70470f76eb241]*/
 {
     return codec_tuple(PyUnicode_EncodeCodePage(CP_OEMCP, str, errors),
         PyUnicode_GET_LENGTH(str));
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.code_page_encode
     code_page: int
     str: unicode
@@ -947,7 +990,7 @@ _codecs.code_page_encode
 static PyObject *
 _codecs_code_page_encode_impl(PyObject *module, int code_page, PyObject *str,
                               const char *errors)
-/*[clinic end generated code: output=45673f6085657a9e input=7d18a33bc8cd0f94]*/
+/*[clinic end generated code: output=45673f6085657a9e input=8ab28c8a7f821296]*/
 {
     return codec_tuple(PyUnicode_EncodeCodePage(code_page, str, errors),
                        PyUnicode_GET_LENGTH(str));
@@ -958,6 +1001,7 @@ _codecs_code_page_encode_impl(PyObject *module, int code_page, PyObject *str,
 /* --- Error handler registry --------------------------------------------- */
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.register_error
     errors: str
     handler: object
@@ -973,7 +1017,7 @@ error and must return a (replacement, new position) tuple.
 static PyObject *
 _codecs_register_error_impl(PyObject *module, const char *errors,
                             PyObject *handler)
-/*[clinic end generated code: output=fa2f7d1879b3067d input=5e6709203c2e33fe]*/
+/*[clinic end generated code: output=fa2f7d1879b3067d input=b48fe9f210c53d05]*/
 {
     if (PyCodec_RegisterError(errors, handler))
         return NULL;
@@ -981,6 +1025,7 @@ _codecs_register_error_impl(PyObject *module, const char *errors,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs._unregister_error -> bool
     errors: str
     /
@@ -999,12 +1044,13 @@ handling exists.
 
 static int
 _codecs__unregister_error_impl(PyObject *module, const char *errors)
-/*[clinic end generated code: output=28c22be667465503 input=a63ab9e9ce1686d4]*/
+/*[clinic end generated code: output=28c22be667465503 input=228c4a0708bf318f]*/
 {
     return _PyCodec_UnregisterError(errors);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _codecs.lookup_error
     name: str
     /
@@ -1017,7 +1063,7 @@ LookupError, if no handler exists under this name.
 
 static PyObject *
 _codecs_lookup_error_impl(PyObject *module, const char *name)
-/*[clinic end generated code: output=087f05dc0c9a98cc input=4775dd65e6235aba]*/
+/*[clinic end generated code: output=087f05dc0c9a98cc input=f98cd8dad379feea]*/
 {
     return PyCodec_LookupError(name);
 }

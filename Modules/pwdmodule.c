@@ -120,6 +120,7 @@ error:
 }
 
 /*[clinic input]
+@c_stack_frugal
 pwd.getpwuid
 
     uidobj: object
@@ -132,7 +133,7 @@ See `help(pwd)` for more on password database entries.
 
 static PyObject *
 pwd_getpwuid(PyObject *module, PyObject *uidobj)
-/*[clinic end generated code: output=c4ee1d4d429b86c4 input=ae64d507a1c6d3e8]*/
+/*[clinic end generated code: output=c4ee1d4d429b86c4 input=bb9c5014401d1c52]*/
 {
     PyObject *retval = NULL;
     uid_t uid;
@@ -205,6 +206,7 @@ pwd_getpwuid(PyObject *module, PyObject *uidobj)
 }
 
 /*[clinic input]
+@c_stack_frugal
 pwd.getpwnam
 
     name: unicode
@@ -217,7 +219,7 @@ See `help(pwd)` for more on password database entries.
 
 static PyObject *
 pwd_getpwnam_impl(PyObject *module, PyObject *name)
-/*[clinic end generated code: output=359ce1ddeb7a824f input=a6aeb5e3447fb9e0]*/
+/*[clinic end generated code: output=359ce1ddeb7a824f input=18393e76d42c490f]*/
 {
     char *buf = NULL, *buf2 = NULL, *name_chars;
     int nomem = 0;
@@ -286,6 +288,7 @@ out:
 
 #ifdef HAVE_GETPWENT
 /*[clinic input]
+@c_stack_frugal
 pwd.getpwall
 
 Return a list of all available password database entries, in arbitrary order.
@@ -295,7 +298,7 @@ See help(pwd) for more on password database entries.
 
 static PyObject *
 pwd_getpwall_impl(PyObject *module)
-/*[clinic end generated code: output=4853d2f5a0afac8a input=d7ecebfd90219b85]*/
+/*[clinic end generated code: output=4853d2f5a0afac8a input=8fa615d338225338]*/
 {
     PyObject *d;
     struct passwd *p;

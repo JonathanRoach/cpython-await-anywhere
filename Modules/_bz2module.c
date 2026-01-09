@@ -252,6 +252,7 @@ class _bz2.BZ2Decompressor "BZ2Decompressor *" "clinic_state()->bz2_decompressor
 #undef clinic_state
 
 /*[clinic input]
+@c_stack_frugal
 _bz2.BZ2Compressor.compress
 
     data: Py_buffer
@@ -267,7 +268,7 @@ flush() method to finish the compression process.
 
 static PyObject *
 _bz2_BZ2Compressor_compress_impl(BZ2Compressor *self, Py_buffer *data)
-/*[clinic end generated code: output=59365426e941fbcc input=85c963218070fc4c]*/
+/*[clinic end generated code: output=59365426e941fbcc input=080e276fcc512e0d]*/
 {
     PyObject *result = NULL;
 
@@ -281,6 +282,7 @@ _bz2_BZ2Compressor_compress_impl(BZ2Compressor *self, Py_buffer *data)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _bz2.BZ2Compressor.flush
 
 Finish the compression process.
@@ -292,7 +294,7 @@ The compressor object may not be used after this method is called.
 
 static PyObject *
 _bz2_BZ2Compressor_flush_impl(BZ2Compressor *self)
-/*[clinic end generated code: output=3ef03fc1b092a701 input=d64405d3c6f76691]*/
+/*[clinic end generated code: output=3ef03fc1b092a701 input=94b78f42dfbd9842]*/
 {
     PyObject *result = NULL;
 
@@ -326,6 +328,7 @@ BZ2_Free(void* ctx, void *ptr)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 _bz2.BZ2Compressor.__new__
 
@@ -340,7 +343,7 @@ For one-shot compression, use the compress() function instead.
 
 static PyObject *
 _bz2_BZ2Compressor_impl(PyTypeObject *type, int compresslevel)
-/*[clinic end generated code: output=83346c96beaacad7 input=d4500d2a52c8b263]*/
+/*[clinic end generated code: output=83346c96beaacad7 input=bd045a68505de71c]*/
 {
     int bzerror;
     BZ2Compressor *self;
@@ -598,6 +601,7 @@ error:
 }
 
 /*[clinic input]
+@c_stack_frugal
 _bz2.BZ2Decompressor.decompress
 
     data: Py_buffer
@@ -622,7 +626,7 @@ the unused_data attribute.
 static PyObject *
 _bz2_BZ2Decompressor_decompress_impl(BZ2Decompressor *self, Py_buffer *data,
                                      Py_ssize_t max_length)
-/*[clinic end generated code: output=23e41045deb240a3 input=52e1ffc66a8ea624]*/
+/*[clinic end generated code: output=23e41045deb240a3 input=104e61d5fed400b2]*/
 {
     PyObject *result = NULL;
 
@@ -636,6 +640,7 @@ _bz2_BZ2Decompressor_decompress_impl(BZ2Decompressor *self, Py_buffer *data,
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 _bz2.BZ2Decompressor.__new__
 
@@ -646,7 +651,7 @@ For one-shot decompression, use the decompress() function instead.
 
 static PyObject *
 _bz2_BZ2Decompressor_impl(PyTypeObject *type)
-/*[clinic end generated code: output=5150d51ccaab220e input=b87413ce51853528]*/
+/*[clinic end generated code: output=5150d51ccaab220e input=72d5af9192b63713]*/
 {
     BZ2Decompressor *self;
     int bzerror;

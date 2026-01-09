@@ -103,6 +103,7 @@ sha3_update(Hacl_Hash_SHA3_state_t *state, uint8_t *buf, Py_ssize_t len)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 _sha3.sha3_224.__new__ as py_sha3_new
 
@@ -117,7 +118,7 @@ Return a new SHA3 hash object.
 static PyObject *
 py_sha3_new_impl(PyTypeObject *type, PyObject *data_obj, int usedforsecurity,
                  PyObject *string)
-/*[clinic end generated code: output=dcec1eca20395f2a input=c106e0b4e2d67d58]*/
+/*[clinic end generated code: output=dcec1eca20395f2a input=65ea3ef5e085b166]*/
 {
     PyObject *data;
     if (_Py_hashlib_data_argument(&data, data_obj, string) < 0) {
@@ -224,6 +225,7 @@ SHA3_traverse(PyObject *self, visitproc visit, void *arg)
 
 
 /*[clinic input]
+@c_stack_frugal
 _sha3.sha3_224.copy
 
 Return a copy of the hash object.
@@ -231,7 +233,7 @@ Return a copy of the hash object.
 
 static PyObject *
 _sha3_sha3_224_copy_impl(SHA3object *self)
-/*[clinic end generated code: output=6c537411ecdcda4c input=93a44aaebea51ba8]*/
+/*[clinic end generated code: output=6c537411ecdcda4c input=a91bb65a8434219f]*/
 {
     SHA3object *newobj;
 
@@ -250,6 +252,7 @@ _sha3_sha3_224_copy_impl(SHA3object *self)
 
 
 /*[clinic input]
+@c_stack_frugal
 _sha3.sha3_224.digest
 
 Return the digest value as a bytes object.
@@ -257,7 +260,7 @@ Return the digest value as a bytes object.
 
 static PyObject *
 _sha3_sha3_224_digest_impl(SHA3object *self)
-/*[clinic end generated code: output=fd531842e20b2d5b input=5b2a659536bbd248]*/
+/*[clinic end generated code: output=fd531842e20b2d5b input=9cf91f16160df7ee]*/
 {
     unsigned char digest[SHA3_MAX_DIGESTSIZE];
     // This function errors out if the algorithm is SHAKE. Here, we know this
@@ -271,6 +274,7 @@ _sha3_sha3_224_digest_impl(SHA3object *self)
 
 
 /*[clinic input]
+@c_stack_frugal
 _sha3.sha3_224.hexdigest
 
 Return the digest value as a string of hexadecimal digits.
@@ -278,7 +282,7 @@ Return the digest value as a string of hexadecimal digits.
 
 static PyObject *
 _sha3_sha3_224_hexdigest_impl(SHA3object *self)
-/*[clinic end generated code: output=75ad03257906918d input=2d91bb6e0d114ee3]*/
+/*[clinic end generated code: output=75ad03257906918d input=442e533bdeadf290]*/
 {
     unsigned char digest[SHA3_MAX_DIGESTSIZE];
     ENTER_HASHLIB(self);
@@ -290,6 +294,7 @@ _sha3_sha3_224_hexdigest_impl(SHA3object *self)
 
 
 /*[clinic input]
+@c_stack_frugal
 _sha3.sha3_224.update
 
     data: object
@@ -300,7 +305,7 @@ Update this hash object's state with the provided bytes-like object.
 
 static PyObject *
 _sha3_sha3_224_update_impl(SHA3object *self, PyObject *data)
-/*[clinic end generated code: output=390b7abf7c9795a5 input=a887f54dcc4ae227]*/
+/*[clinic end generated code: output=390b7abf7c9795a5 input=876a5fcf8d347235]*/
 {
     Py_buffer buf;
 
@@ -507,6 +512,7 @@ _SHAKE_digest(PyObject *op, unsigned long digestlen, int hex)
 
 
 /*[clinic input]
+@c_stack_frugal
 _sha3.shake_128.digest
 
     length: unsigned_long
@@ -516,13 +522,14 @@ Return the digest value as a bytes object.
 
 static PyObject *
 _sha3_shake_128_digest_impl(SHA3object *self, unsigned long length)
-/*[clinic end generated code: output=2313605e2f87bb8f input=93d6d6ff32904f18]*/
+/*[clinic end generated code: output=2313605e2f87bb8f input=3ed1e04543306205]*/
 {
     return _SHAKE_digest((PyObject *)self, length, 0);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 _sha3.shake_128.hexdigest
 
     length: unsigned_long
@@ -532,7 +539,7 @@ Return the digest value as a string of hexadecimal digits.
 
 static PyObject *
 _sha3_shake_128_hexdigest_impl(SHA3object *self, unsigned long length)
-/*[clinic end generated code: output=bf8e2f1e490944a8 input=562d74e7060b56ab]*/
+/*[clinic end generated code: output=bf8e2f1e490944a8 input=421cce905bf3d72d]*/
 {
     return _SHAKE_digest((PyObject *)self, length, 1);
 }

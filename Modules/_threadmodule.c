@@ -945,13 +945,14 @@ lock__at_fork_reinit(PyObject *op, PyObject *Py_UNUSED(dummy))
 #endif  /* HAVE_FORK */
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 _thread.lock.__new__ as lock_new
 [clinic start generated code]*/
 
 static PyObject *
 lock_new_impl(PyTypeObject *type)
-/*[clinic end generated code: output=eab660d5a4c05c8a input=260208a4e277d250]*/
+/*[clinic end generated code: output=eab660d5a4c05c8a input=4a02074ec0664a8f]*/
 {
     lockobject *self = (lockobject *)type->tp_alloc(type, 0);
     if (self == NULL) {
@@ -1216,13 +1217,14 @@ PyDoc_STRVAR(rlock_is_owned_doc,
 For internal use by `threading.Condition`.");
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 _thread.RLock.__new__ as rlock_new
 [clinic start generated code]*/
 
 static PyObject *
 rlock_new_impl(PyTypeObject *type)
-/*[clinic end generated code: output=bb4fb1edf6818df5 input=013591361bf1ac6e]*/
+/*[clinic end generated code: output=bb4fb1edf6818df5 input=4b0233f17dc4b916]*/
 {
     rlockobject *self = (rlockobject *) type->tp_alloc(type, 0);
     if (self == NULL) {
@@ -2451,6 +2453,7 @@ of the main interpreter.");
 
 #if defined(HAVE_PTHREAD_GETNAME_NP) || defined(HAVE_PTHREAD_GET_NAME_NP) || defined(MS_WINDOWS)
 /*[clinic input]
+@c_stack_frugal
 _thread._get_name
 
 Get the name of the current thread.
@@ -2458,7 +2461,7 @@ Get the name of the current thread.
 
 static PyObject *
 _thread__get_name_impl(PyObject *module)
-/*[clinic end generated code: output=20026e7ee3da3dd7 input=35cec676833d04c8]*/
+/*[clinic end generated code: output=20026e7ee3da3dd7 input=51e2027a1f0993bf]*/
 {
 #ifndef MS_WINDOWS
     // Linux and macOS are limited to respectively 16 and 64 bytes
@@ -2501,6 +2504,7 @@ _thread__get_name_impl(PyObject *module)
 
 #if defined(HAVE_PTHREAD_SETNAME_NP) || defined(HAVE_PTHREAD_SET_NAME_NP) || defined(MS_WINDOWS)
 /*[clinic input]
+@c_stack_frugal
 _thread.set_name
 
     name as name_obj: unicode
@@ -2510,7 +2514,7 @@ Set the name of the current thread.
 
 static PyObject *
 _thread_set_name_impl(PyObject *module, PyObject *name_obj)
-/*[clinic end generated code: output=402b0c68e0c0daed input=7e7acd98261be82f]*/
+/*[clinic end generated code: output=402b0c68e0c0daed input=608aef5aee0290ab]*/
 {
 #ifndef MS_WINDOWS
 #ifdef __sun

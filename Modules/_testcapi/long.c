@@ -13,6 +13,7 @@ module _testcapi
 
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.call_long_compact_api
     arg: object
     /
@@ -20,7 +21,7 @@ _testcapi.call_long_compact_api
 
 static PyObject *
 _testcapi_call_long_compact_api(PyObject *module, PyObject *arg)
-/*[clinic end generated code: output=7e3894f611b1b2b7 input=87b87396967af14c]*/
+/*[clinic end generated code: output=7e3894f611b1b2b7 input=fb030ac0d51a7dc4]*/
 
 {
     assert(PyLong_Check(arg));

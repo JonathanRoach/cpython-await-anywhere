@@ -176,6 +176,7 @@ genrand_uint32(RandomObject *self)
  */
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _random.Random.random
 
@@ -186,7 +187,7 @@ random() -> x in the interval [0, 1).
 
 static PyObject *
 _random_Random_random_impl(RandomObject *self)
-/*[clinic end generated code: output=117ff99ee53d755c input=26492e52d26e8b7b]*/
+/*[clinic end generated code: output=117ff99ee53d755c input=80414665e343ac0b]*/
 {
     uint32_t a=genrand_uint32(self)>>5, b=genrand_uint32(self)>>6;
     return PyFloat_FromDouble((a*67108864.0+b)*(1.0/9007199254740992.0));
@@ -379,6 +380,7 @@ Done:
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _random.Random.seed
 
@@ -394,7 +396,7 @@ of the current time and the process identifier.
 
 static PyObject *
 _random_Random_seed_impl(RandomObject *self, PyObject *n)
-/*[clinic end generated code: output=0fad1e16ba883681 input=46d01d2ba938c7b1]*/
+/*[clinic end generated code: output=0fad1e16ba883681 input=fb1d2a8e2504342f]*/
 {
     if (random_seed(self, n) < 0) {
         return NULL;
@@ -403,6 +405,7 @@ _random_Random_seed_impl(RandomObject *self, PyObject *n)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _random.Random.getstate
 
@@ -413,7 +416,7 @@ getstate() -> tuple containing the current state.
 
 static PyObject *
 _random_Random_getstate_impl(RandomObject *self)
-/*[clinic end generated code: output=bf6cef0c092c7180 input=b6621f31eb639694]*/
+/*[clinic end generated code: output=bf6cef0c092c7180 input=82ea878e4d61d8b2]*/
 {
     PyObject *state;
     PyObject *element;
@@ -441,6 +444,7 @@ Fail:
 
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _random.Random.setstate
 
@@ -453,7 +457,7 @@ setstate(state) -> None.  Restores generator state.
 
 static PyObject *
 _random_Random_setstate_impl(RandomObject *self, PyObject *state)
-/*[clinic end generated code: output=babfc2c2eac6b027 input=358e898ec07469b7]*/
+/*[clinic end generated code: output=babfc2c2eac6b027 input=ecf633ffc71d66ce]*/
 {
     int i;
     unsigned long element;
@@ -493,6 +497,7 @@ _random_Random_setstate_impl(RandomObject *self, PyObject *state)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _random.Random.getrandbits
 
@@ -505,7 +510,7 @@ getrandbits(k) -> x.  Generates an int with k random bits.
 
 static PyObject *
 _random_Random_getrandbits_impl(RandomObject *self, uint64_t k)
-/*[clinic end generated code: output=c30ef8435f3433cf input=64226ac13bb4d2a3]*/
+/*[clinic end generated code: output=c30ef8435f3433cf input=51f044803f575553]*/
 {
     Py_ssize_t i, words;
     uint32_t r;

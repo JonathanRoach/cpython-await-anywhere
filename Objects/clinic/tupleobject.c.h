@@ -13,7 +13,7 @@ PyDoc_STRVAR(tuple_index__doc__,
 "Raises ValueError if the value is not present.");
 
 #define TUPLE_INDEX_METHODDEF    \
-    {"index", _PyCFunction_CAST(tuple_index), METH_FASTCALL, tuple_index__doc__},
+    {"index", _PyCFunction_CAST(tuple_index), METH_FASTCALL|METH_C_STACK_FRUGAL, tuple_index__doc__},
 
 static PyObject *
 tuple_index_impl(PyTupleObject *self, PyObject *value, Py_ssize_t start,
@@ -57,7 +57,7 @@ PyDoc_STRVAR(tuple_count__doc__,
 "Return number of occurrences of value.");
 
 #define TUPLE_COUNT_METHODDEF    \
-    {"count", (PyCFunction)tuple_count, METH_O, tuple_count__doc__},
+    {"count", (PyCFunction)tuple_count, METH_O|METH_C_STACK_FRUGAL, tuple_count__doc__},
 
 static PyObject *
 tuple_count_impl(PyTupleObject *self, PyObject *value);
@@ -117,7 +117,7 @@ PyDoc_STRVAR(tuple___getnewargs____doc__,
 "\n");
 
 #define TUPLE___GETNEWARGS___METHODDEF    \
-    {"__getnewargs__", (PyCFunction)tuple___getnewargs__, METH_NOARGS, tuple___getnewargs____doc__},
+    {"__getnewargs__", (PyCFunction)tuple___getnewargs__, METH_NOARGS|METH_C_STACK_FRUGAL, tuple___getnewargs____doc__},
 
 static PyObject *
 tuple___getnewargs___impl(PyTupleObject *self);
@@ -127,4 +127,4 @@ tuple___getnewargs__(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return tuple___getnewargs___impl((PyTupleObject *)self);
 }
-/*[clinic end generated code: output=bd11662d62d973c2 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=c876d84cd90a4e51 input=a9049054013a1b77]*/

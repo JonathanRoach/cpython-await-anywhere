@@ -574,6 +574,7 @@ _hashlib_HASH_copy_locked(HASHobject *self, EVP_MD_CTX *new_ctx_p)
 /* External methods for a hash object */
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.HASH.copy
 
 Return a copy of the hash object.
@@ -581,7 +582,7 @@ Return a copy of the hash object.
 
 static PyObject *
 _hashlib_HASH_copy_impl(HASHobject *self)
-/*[clinic end generated code: output=2545541af18d53d7 input=814b19202cd08a26]*/
+/*[clinic end generated code: output=2545541af18d53d7 input=d1094ef40c0f04a7]*/
 {
     HASHobject *newobj;
 
@@ -597,6 +598,7 @@ _hashlib_HASH_copy_impl(HASHobject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.HASH.digest
 
 Return the digest value as a bytes object.
@@ -604,7 +606,7 @@ Return the digest value as a bytes object.
 
 static PyObject *
 _hashlib_HASH_digest_impl(HASHobject *self)
-/*[clinic end generated code: output=3fc6f9671d712850 input=d8d528d6e50af0de]*/
+/*[clinic end generated code: output=3fc6f9671d712850 input=39c4310952273208]*/
 {
     unsigned char digest[EVP_MAX_MD_SIZE];
     EVP_MD_CTX *temp_ctx;
@@ -636,6 +638,7 @@ error:
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.HASH.hexdigest
 
 Return the digest value as a string of hexadecimal digits.
@@ -643,7 +646,7 @@ Return the digest value as a string of hexadecimal digits.
 
 static PyObject *
 _hashlib_HASH_hexdigest_impl(HASHobject *self)
-/*[clinic end generated code: output=1b8e60d9711e7f4d input=ae7553f78f8372d8]*/
+/*[clinic end generated code: output=1b8e60d9711e7f4d input=942145dba9fdb3ec]*/
 {
     unsigned char digest[EVP_MAX_MD_SIZE];
     EVP_MD_CTX *temp_ctx;
@@ -675,6 +678,7 @@ error:
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.HASH.update
 
     obj: object
@@ -685,7 +689,7 @@ Update this hash object's state with the provided string.
 
 static PyObject *
 _hashlib_HASH_update_impl(HASHobject *self, PyObject *obj)
-/*[clinic end generated code: output=62ad989754946b86 input=aa1ce20e3f92ceb6]*/
+/*[clinic end generated code: output=62ad989754946b86 input=6e60e1c612aa2b10]*/
 {
     int result;
     Py_buffer view;
@@ -811,6 +815,7 @@ static PyType_Spec HASHobject_type_spec = {
 #ifdef PY_OPENSSL_HAS_SHAKE
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.HASHXOF.digest
 
   length: Py_ssize_t
@@ -820,7 +825,7 @@ Return the digest value as a bytes object.
 
 static PyObject *
 _hashlib_HASHXOF_digest_impl(HASHobject *self, Py_ssize_t length)
-/*[clinic end generated code: output=dcb09335dd2fe908 input=3eb034ce03c55b21]*/
+/*[clinic end generated code: output=dcb09335dd2fe908 input=94bb4e26ed333ad7]*/
 {
     EVP_MD_CTX *temp_ctx;
     PyObject *retval = PyBytes_FromStringAndSize(NULL, length);
@@ -857,6 +862,7 @@ error:
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.HASHXOF.hexdigest
 
     length: Py_ssize_t
@@ -866,7 +872,7 @@ Return the digest value as a string of hexadecimal digits.
 
 static PyObject *
 _hashlib_HASHXOF_hexdigest_impl(HASHobject *self, Py_ssize_t length)
-/*[clinic end generated code: output=519431cafa014f39 input=0e58f7238adb7ab8]*/
+/*[clinic end generated code: output=519431cafa014f39 input=710750972d40dbb4]*/
 {
     unsigned char *digest;
     EVP_MD_CTX *temp_ctx;
@@ -1051,6 +1057,7 @@ exit:
 /* The module-level function: new() */
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.new as _hashlib_HASH_new
 
     name: str
@@ -1070,13 +1077,14 @@ The MD5 and SHA1 algorithms are always supported.
 static PyObject *
 _hashlib_HASH_new_impl(PyObject *module, const char *name, PyObject *data,
                        int usedforsecurity, PyObject *string)
-/*[clinic end generated code: output=b905aaf9840c1bbd input=c34af6c6e696d44e]*/
+/*[clinic end generated code: output=b905aaf9840c1bbd input=e8a10e1b43750c54]*/
 {
     CALL_HASHLIB_NEW(module, name, data, string, usedforsecurity);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.openssl_md5
 
     data: object(c_default="NULL") = b''
@@ -1091,13 +1099,14 @@ Returns a md5 hash object; optionally initialized with a string
 static PyObject *
 _hashlib_openssl_md5_impl(PyObject *module, PyObject *data,
                           int usedforsecurity, PyObject *string)
-/*[clinic end generated code: output=ca8cf184d90f7432 input=e7c0adbd6a867db1]*/
+/*[clinic end generated code: output=ca8cf184d90f7432 input=25365b7f85592551]*/
 {
     CALL_HASHLIB_NEW(module, Py_hash_md5, data, string, usedforsecurity);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.openssl_sha1
 
     data: object(c_default="NULL") = b''
@@ -1112,13 +1121,14 @@ Returns a sha1 hash object; optionally initialized with a string
 static PyObject *
 _hashlib_openssl_sha1_impl(PyObject *module, PyObject *data,
                            int usedforsecurity, PyObject *string)
-/*[clinic end generated code: output=1736fb7b310d64be input=f7e5bb1711e952d8]*/
+/*[clinic end generated code: output=1736fb7b310d64be input=af53e866ffb8c195]*/
 {
     CALL_HASHLIB_NEW(module, Py_hash_sha1, data, string, usedforsecurity);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.openssl_sha224
 
     data: object(c_default="NULL") = b''
@@ -1133,13 +1143,14 @@ Returns a sha224 hash object; optionally initialized with a string
 static PyObject *
 _hashlib_openssl_sha224_impl(PyObject *module, PyObject *data,
                              int usedforsecurity, PyObject *string)
-/*[clinic end generated code: output=0d6ff57be5e5c140 input=3820fff7ed3a53b8]*/
+/*[clinic end generated code: output=0d6ff57be5e5c140 input=dac0bee1b75c731c]*/
 {
     CALL_HASHLIB_NEW(module, Py_hash_sha224, data, string, usedforsecurity);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.openssl_sha256
 
     data: object(c_default="NULL") = b''
@@ -1154,13 +1165,14 @@ Returns a sha256 hash object; optionally initialized with a string
 static PyObject *
 _hashlib_openssl_sha256_impl(PyObject *module, PyObject *data,
                              int usedforsecurity, PyObject *string)
-/*[clinic end generated code: output=412ea7111555b6e7 input=9a2f115cf1f7e0eb]*/
+/*[clinic end generated code: output=412ea7111555b6e7 input=6a165c913bf754e8]*/
 {
     CALL_HASHLIB_NEW(module, Py_hash_sha256, data, string, usedforsecurity);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.openssl_sha384
 
     data: object(c_default="NULL") = b''
@@ -1175,13 +1187,14 @@ Returns a sha384 hash object; optionally initialized with a string
 static PyObject *
 _hashlib_openssl_sha384_impl(PyObject *module, PyObject *data,
                              int usedforsecurity, PyObject *string)
-/*[clinic end generated code: output=2e0dc395b59ed726 input=1ea48f6f01e77cfb]*/
+/*[clinic end generated code: output=2e0dc395b59ed726 input=bc10a58e008b9f28]*/
 {
     CALL_HASHLIB_NEW(module, Py_hash_sha384, data, string, usedforsecurity);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.openssl_sha512
 
     data: object(c_default="NULL") = b''
@@ -1196,7 +1209,7 @@ Returns a sha512 hash object; optionally initialized with a string
 static PyObject *
 _hashlib_openssl_sha512_impl(PyObject *module, PyObject *data,
                              int usedforsecurity, PyObject *string)
-/*[clinic end generated code: output=4bdd760388dbfc0f input=3cf56903e07d1f5c]*/
+/*[clinic end generated code: output=4bdd760388dbfc0f input=eec0d9c1e0d743c7]*/
 {
     CALL_HASHLIB_NEW(module, Py_hash_sha512, data, string, usedforsecurity);
 }
@@ -1205,6 +1218,7 @@ _hashlib_openssl_sha512_impl(PyObject *module, PyObject *data,
 #ifdef PY_OPENSSL_HAS_SHA3
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.openssl_sha3_224
 
     data: object(c_default="NULL") = b''
@@ -1219,12 +1233,13 @@ Returns a sha3-224 hash object; optionally initialized with a string
 static PyObject *
 _hashlib_openssl_sha3_224_impl(PyObject *module, PyObject *data,
                                int usedforsecurity, PyObject *string)
-/*[clinic end generated code: output=6d8dc2a924f3ba35 input=7f14f16a9f6a3158]*/
+/*[clinic end generated code: output=6d8dc2a924f3ba35 input=f3de7ce382630d0a]*/
 {
     CALL_HASHLIB_NEW(module, Py_hash_sha3_224, data, string, usedforsecurity);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.openssl_sha3_256
 
     data: object(c_default="NULL") = b''
@@ -1239,12 +1254,13 @@ Returns a sha3-256 hash object; optionally initialized with a string
 static PyObject *
 _hashlib_openssl_sha3_256_impl(PyObject *module, PyObject *data,
                                int usedforsecurity, PyObject *string)
-/*[clinic end generated code: output=9e520f537b3a4622 input=7987150939d5e352]*/
+/*[clinic end generated code: output=9e520f537b3a4622 input=4da9c04578bc4120]*/
 {
     CALL_HASHLIB_NEW(module, Py_hash_sha3_256, data, string, usedforsecurity);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.openssl_sha3_384
 
     data: object(c_default="NULL") = b''
@@ -1259,12 +1275,13 @@ Returns a sha3-384 hash object; optionally initialized with a string
 static PyObject *
 _hashlib_openssl_sha3_384_impl(PyObject *module, PyObject *data,
                                int usedforsecurity, PyObject *string)
-/*[clinic end generated code: output=d239ba0463fd6138 input=fc943401f67e3b81]*/
+/*[clinic end generated code: output=d239ba0463fd6138 input=8c0289da0b9c0bd3]*/
 {
     CALL_HASHLIB_NEW(module, Py_hash_sha3_384, data, string, usedforsecurity);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.openssl_sha3_512
 
     data: object(c_default="NULL") = b''
@@ -1279,7 +1296,7 @@ Returns a sha3-512 hash object; optionally initialized with a string
 static PyObject *
 _hashlib_openssl_sha3_512_impl(PyObject *module, PyObject *data,
                                int usedforsecurity, PyObject *string)
-/*[clinic end generated code: output=17662f21038c2278 input=6601ddd2c6c1516d]*/
+/*[clinic end generated code: output=17662f21038c2278 input=2ac1c60849bbe7ae]*/
 {
     CALL_HASHLIB_NEW(module, Py_hash_sha3_512, data, string, usedforsecurity);
 }
@@ -1287,6 +1304,7 @@ _hashlib_openssl_sha3_512_impl(PyObject *module, PyObject *data,
 
 #ifdef PY_OPENSSL_HAS_SHAKE
 /*[clinic input]
+@c_stack_frugal
 _hashlib.openssl_shake_128
 
     data: object(c_default="NULL") = b''
@@ -1301,12 +1319,13 @@ Returns a shake-128 variable hash object; optionally initialized with a string
 static PyObject *
 _hashlib_openssl_shake_128_impl(PyObject *module, PyObject *data,
                                 int usedforsecurity, PyObject *string)
-/*[clinic end generated code: output=4e6afed8d18980ad input=373c3f1c93d87b37]*/
+/*[clinic end generated code: output=4e6afed8d18980ad input=34ca3d3583ad91bb]*/
 {
     CALL_HASHLIB_NEW(module, Py_hash_shake_128, data, string, usedforsecurity);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.openssl_shake_256
 
     data: object(c_default="NULL") = b''
@@ -1321,7 +1340,7 @@ Returns a shake-256 variable hash object; optionally initialized with a string
 static PyObject *
 _hashlib_openssl_shake_256_impl(PyObject *module, PyObject *data,
                                 int usedforsecurity, PyObject *string)
-/*[clinic end generated code: output=62481bce4a77d16c input=101c139ea2ddfcbf]*/
+/*[clinic end generated code: output=62481bce4a77d16c input=a0e8374f384dd43a]*/
 {
     CALL_HASHLIB_NEW(module, Py_hash_shake_256, data, string, usedforsecurity);
 }
@@ -1330,6 +1349,7 @@ _hashlib_openssl_shake_256_impl(PyObject *module, PyObject *data,
 #undef CALL_HASHLIB_NEW
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.pbkdf2_hmac as pbkdf2_hmac
 
     hash_name: str
@@ -1345,7 +1365,7 @@ static PyObject *
 pbkdf2_hmac_impl(PyObject *module, const char *hash_name,
                  Py_buffer *password, Py_buffer *salt, long iterations,
                  PyObject *dklen_obj)
-/*[clinic end generated code: output=144b76005416599b input=ed3ab0d2d28b5d5c]*/
+/*[clinic end generated code: output=144b76005416599b input=03fafc0374c6235f]*/
 {
     PyObject *key_obj = NULL;
     char *key;
@@ -1429,6 +1449,7 @@ end:
 #ifdef PY_OPENSSL_HAS_SCRYPT
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.scrypt
 
     password: Py_buffer
@@ -1448,7 +1469,7 @@ static PyObject *
 _hashlib_scrypt_impl(PyObject *module, Py_buffer *password, Py_buffer *salt,
                      unsigned long n, unsigned long r, unsigned long p,
                      long maxmem, long dklen)
-/*[clinic end generated code: output=d424bc3e8c6b9654 input=0c9a84230238fd79]*/
+/*[clinic end generated code: output=d424bc3e8c6b9654 input=af97d7f53598db3e]*/
 {
     PyObject *key_obj = NULL;
     char *key;
@@ -1524,6 +1545,7 @@ _hashlib_scrypt_impl(PyObject *module, Py_buffer *password, Py_buffer *salt,
  */
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.hmac_digest as _hashlib_hmac_singleshot
 
     key: Py_buffer
@@ -1536,7 +1558,7 @@ Single-shot HMAC.
 static PyObject *
 _hashlib_hmac_singleshot_impl(PyObject *module, Py_buffer *key,
                               Py_buffer *msg, PyObject *digest)
-/*[clinic end generated code: output=82f19965d12706ac input=0a0790cc3db45c2e]*/
+/*[clinic end generated code: output=82f19965d12706ac input=68dc4b0a30cf9ae6]*/
 {
     unsigned char md[EVP_MAX_MD_SIZE] = {0};
     unsigned int md_len = 0;
@@ -1592,6 +1614,7 @@ _hashlib_hmac_get_md(HMACobject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.hmac_new
 
     key: Py_buffer
@@ -1604,7 +1627,7 @@ Return a new hmac object.
 static PyObject *
 _hashlib_hmac_new_impl(PyObject *module, Py_buffer *key, PyObject *msg_obj,
                        PyObject *digestmod)
-/*[clinic end generated code: output=c20d9e4d9ed6d219 input=5f4071dcc7f34362]*/
+/*[clinic end generated code: output=c20d9e4d9ed6d219 input=bac3db0219ff1ba1]*/
 {
     PY_EVP_MD *digest;
     HMAC_CTX *ctx = NULL;
@@ -1727,6 +1750,7 @@ _hmac_update(HMACobject *self, PyObject *obj)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.HMAC.copy
 
 Return a copy ("clone") of the HMAC object.
@@ -1734,7 +1758,7 @@ Return a copy ("clone") of the HMAC object.
 
 static PyObject *
 _hashlib_HMAC_copy_impl(HMACobject *self)
-/*[clinic end generated code: output=29aa28b452833127 input=e2fa6a05db61a4d6]*/
+/*[clinic end generated code: output=29aa28b452833127 input=7c158e66c4f762fa]*/
 {
     HMACobject *retval;
 
@@ -1792,6 +1816,7 @@ _hmac_repr(PyObject *op)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.HMAC.update
     msg: object
 
@@ -1800,7 +1825,7 @@ Update the HMAC object with msg.
 
 static PyObject *
 _hashlib_HMAC_update_impl(HMACobject *self, PyObject *msg)
-/*[clinic end generated code: output=f31f0ace8c625b00 input=1829173bb3cfd4e6]*/
+/*[clinic end generated code: output=f31f0ace8c625b00 input=1a29091da3a9a53d]*/
 {
     if (!_hmac_update(self, msg)) {
         return NULL;
@@ -1831,13 +1856,14 @@ _hmac_digest(HMACobject *self, unsigned char *buf, unsigned int len)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.HMAC.digest
 Return the digest of the bytes passed to the update() method so far.
 [clinic start generated code]*/
 
 static PyObject *
 _hashlib_HMAC_digest_impl(HMACobject *self)
-/*[clinic end generated code: output=1b1424355af7a41e input=bff07f74da318fb4]*/
+/*[clinic end generated code: output=1b1424355af7a41e input=25f642c3e1ce33f2]*/
 {
     unsigned char digest[EVP_MAX_MD_SIZE];
     unsigned int digest_size = _hashlib_hmac_digest_size(self);
@@ -1852,6 +1878,7 @@ _hashlib_HMAC_digest_impl(HMACobject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.HMAC.hexdigest
 
 Return hexadecimal digest of the bytes passed to the update() method so far.
@@ -1862,7 +1889,7 @@ environments.
 
 static PyObject *
 _hashlib_HMAC_hexdigest_impl(HMACobject *self)
-/*[clinic end generated code: output=80d825be1eaae6a7 input=5abc42702874ddcf]*/
+/*[clinic end generated code: output=80d825be1eaae6a7 input=deaabe9c9bbac22f]*/
 {
     unsigned char digest[EVP_MAX_MD_SIZE];
     unsigned int digest_size = _hashlib_hmac_digest_size(self);
@@ -2022,6 +2049,7 @@ hashlib_md_meth_names(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.get_fips_mode -> int
 
 Determine the OpenSSL FIPS mode of operation.
@@ -2036,7 +2064,7 @@ values other than 1 may have additional significance.
 
 static int
 _hashlib_get_fips_mode_impl(PyObject *module)
-/*[clinic end generated code: output=87eece1bab4d3fa9 input=2db61538c41c6fef]*/
+/*[clinic end generated code: output=87eece1bab4d3fa9 input=4c44d049d6fa17de]*/
 
 {
 #ifdef Py_HAS_OPENSSL3_SUPPORT
@@ -2085,6 +2113,7 @@ _tscmp(const unsigned char *a, const unsigned char *b,
 /* NOTE: Keep in sync with _operator.c implementation. */
 
 /*[clinic input]
+@c_stack_frugal
 _hashlib.compare_digest
 
     a: object
@@ -2106,7 +2135,7 @@ types and lengths of a and b--but not their values.
 
 static PyObject *
 _hashlib_compare_digest_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=6f1c13927480aed9 input=9c40c6e566ca12f5]*/
+/*[clinic end generated code: output=6f1c13927480aed9 input=ee4030df7bce4f93]*/
 {
     int rc;
 

@@ -11,7 +11,7 @@ PyDoc_STRVAR(_locale_setlocale__doc__,
 "Activates/queries locale processing.");
 
 #define _LOCALE_SETLOCALE_METHODDEF    \
-    {"setlocale", _PyCFunction_CAST(_locale_setlocale), METH_FASTCALL, _locale_setlocale__doc__},
+    {"setlocale", _PyCFunction_CAST(_locale_setlocale), METH_FASTCALL|METH_C_STACK_FRUGAL, _locale_setlocale__doc__},
 
 static PyObject *
 _locale_setlocale_impl(PyObject *module, int category, const char *locale);
@@ -65,7 +65,7 @@ PyDoc_STRVAR(_locale_localeconv__doc__,
 "Returns numeric and monetary locale-specific parameters.");
 
 #define _LOCALE_LOCALECONV_METHODDEF    \
-    {"localeconv", (PyCFunction)_locale_localeconv, METH_NOARGS, _locale_localeconv__doc__},
+    {"localeconv", (PyCFunction)_locale_localeconv, METH_NOARGS|METH_C_STACK_FRUGAL, _locale_localeconv__doc__},
 
 static PyObject *
 _locale_localeconv_impl(PyObject *module);
@@ -85,7 +85,7 @@ PyDoc_STRVAR(_locale_strcoll__doc__,
 "Compares two strings according to the locale.");
 
 #define _LOCALE_STRCOLL_METHODDEF    \
-    {"strcoll", _PyCFunction_CAST(_locale_strcoll), METH_FASTCALL, _locale_strcoll__doc__},
+    {"strcoll", _PyCFunction_CAST(_locale_strcoll), METH_FASTCALL|METH_C_STACK_FRUGAL, _locale_strcoll__doc__},
 
 static PyObject *
 _locale_strcoll_impl(PyObject *module, PyObject *os1, PyObject *os2);
@@ -127,7 +127,7 @@ PyDoc_STRVAR(_locale_strxfrm__doc__,
 "Return a string that can be used as a key for locale-aware comparisons.");
 
 #define _LOCALE_STRXFRM_METHODDEF    \
-    {"strxfrm", (PyCFunction)_locale_strxfrm, METH_O, _locale_strxfrm__doc__},
+    {"strxfrm", (PyCFunction)_locale_strxfrm, METH_O|METH_C_STACK_FRUGAL, _locale_strxfrm__doc__},
 
 static PyObject *
 _locale_strxfrm_impl(PyObject *module, PyObject *str);
@@ -159,7 +159,7 @@ PyDoc_STRVAR(_locale__getdefaultlocale__doc__,
 "\n");
 
 #define _LOCALE__GETDEFAULTLOCALE_METHODDEF    \
-    {"_getdefaultlocale", (PyCFunction)_locale__getdefaultlocale, METH_NOARGS, _locale__getdefaultlocale__doc__},
+    {"_getdefaultlocale", (PyCFunction)_locale__getdefaultlocale, METH_NOARGS|METH_C_STACK_FRUGAL, _locale__getdefaultlocale__doc__},
 
 static PyObject *
 _locale__getdefaultlocale_impl(PyObject *module);
@@ -181,7 +181,7 @@ PyDoc_STRVAR(_locale_nl_langinfo__doc__,
 "Return the value for the locale information associated with key.");
 
 #define _LOCALE_NL_LANGINFO_METHODDEF    \
-    {"nl_langinfo", (PyCFunction)_locale_nl_langinfo, METH_O, _locale_nl_langinfo__doc__},
+    {"nl_langinfo", (PyCFunction)_locale_nl_langinfo, METH_O|METH_C_STACK_FRUGAL, _locale_nl_langinfo__doc__},
 
 static PyObject *
 _locale_nl_langinfo_impl(PyObject *module, int item);
@@ -215,7 +215,7 @@ PyDoc_STRVAR(_locale_gettext__doc__,
 "Return translation of msg.");
 
 #define _LOCALE_GETTEXT_METHODDEF    \
-    {"gettext", (PyCFunction)_locale_gettext, METH_O, _locale_gettext__doc__},
+    {"gettext", (PyCFunction)_locale_gettext, METH_O|METH_C_STACK_FRUGAL, _locale_gettext__doc__},
 
 static PyObject *
 _locale_gettext_impl(PyObject *module, const char *in);
@@ -258,7 +258,7 @@ PyDoc_STRVAR(_locale_dgettext__doc__,
 "Return translation of msg in domain.");
 
 #define _LOCALE_DGETTEXT_METHODDEF    \
-    {"dgettext", _PyCFunction_CAST(_locale_dgettext), METH_FASTCALL, _locale_dgettext__doc__},
+    {"dgettext", _PyCFunction_CAST(_locale_dgettext), METH_FASTCALL|METH_C_STACK_FRUGAL, _locale_dgettext__doc__},
 
 static PyObject *
 _locale_dgettext_impl(PyObject *module, const char *domain, const char *in);
@@ -321,7 +321,7 @@ PyDoc_STRVAR(_locale_dcgettext__doc__,
 "Return translation of msg in domain and category.");
 
 #define _LOCALE_DCGETTEXT_METHODDEF    \
-    {"dcgettext", _PyCFunction_CAST(_locale_dcgettext), METH_FASTCALL, _locale_dcgettext__doc__},
+    {"dcgettext", _PyCFunction_CAST(_locale_dcgettext), METH_FASTCALL|METH_C_STACK_FRUGAL, _locale_dcgettext__doc__},
 
 static PyObject *
 _locale_dcgettext_impl(PyObject *module, const char *domain,
@@ -390,7 +390,7 @@ PyDoc_STRVAR(_locale_textdomain__doc__,
 "Set the C library\'s textdmain to domain, returning the new domain.");
 
 #define _LOCALE_TEXTDOMAIN_METHODDEF    \
-    {"textdomain", (PyCFunction)_locale_textdomain, METH_O, _locale_textdomain__doc__},
+    {"textdomain", (PyCFunction)_locale_textdomain, METH_O|METH_C_STACK_FRUGAL, _locale_textdomain__doc__},
 
 static PyObject *
 _locale_textdomain_impl(PyObject *module, const char *domain);
@@ -436,7 +436,7 @@ PyDoc_STRVAR(_locale_bindtextdomain__doc__,
 "Bind the C library\'s domain to dir.");
 
 #define _LOCALE_BINDTEXTDOMAIN_METHODDEF    \
-    {"bindtextdomain", _PyCFunction_CAST(_locale_bindtextdomain), METH_FASTCALL, _locale_bindtextdomain__doc__},
+    {"bindtextdomain", _PyCFunction_CAST(_locale_bindtextdomain), METH_FASTCALL|METH_C_STACK_FRUGAL, _locale_bindtextdomain__doc__},
 
 static PyObject *
 _locale_bindtextdomain_impl(PyObject *module, const char *domain,
@@ -483,7 +483,7 @@ PyDoc_STRVAR(_locale_bind_textdomain_codeset__doc__,
 "Bind the C library\'s domain to codeset.");
 
 #define _LOCALE_BIND_TEXTDOMAIN_CODESET_METHODDEF    \
-    {"bind_textdomain_codeset", _PyCFunction_CAST(_locale_bind_textdomain_codeset), METH_FASTCALL, _locale_bind_textdomain_codeset__doc__},
+    {"bind_textdomain_codeset", _PyCFunction_CAST(_locale_bind_textdomain_codeset), METH_FASTCALL|METH_C_STACK_FRUGAL, _locale_bind_textdomain_codeset__doc__},
 
 static PyObject *
 _locale_bind_textdomain_codeset_impl(PyObject *module, const char *domain,
@@ -545,7 +545,7 @@ PyDoc_STRVAR(_locale_getencoding__doc__,
 "Get the current locale encoding.");
 
 #define _LOCALE_GETENCODING_METHODDEF    \
-    {"getencoding", (PyCFunction)_locale_getencoding, METH_NOARGS, _locale_getencoding__doc__},
+    {"getencoding", (PyCFunction)_locale_getencoding, METH_NOARGS|METH_C_STACK_FRUGAL, _locale_getencoding__doc__},
 
 static PyObject *
 _locale_getencoding_impl(PyObject *module);
@@ -595,4 +595,4 @@ _locale_getencoding(PyObject *module, PyObject *Py_UNUSED(ignored))
 #ifndef _LOCALE_BIND_TEXTDOMAIN_CODESET_METHODDEF
     #define _LOCALE_BIND_TEXTDOMAIN_CODESET_METHODDEF
 #endif /* !defined(_LOCALE_BIND_TEXTDOMAIN_CODESET_METHODDEF) */
-/*[clinic end generated code: output=034a3c219466d207 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=d0371ac7f316be42 input=a9049054013a1b77]*/

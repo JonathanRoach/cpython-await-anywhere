@@ -166,6 +166,7 @@ special_type(double d)
 static Py_complex acos_special_values[7][7];
 
 /*[clinic input]
+@c_stack_frugal
 cmath.acos -> Py_complex_protected
 
     z: Py_complex_protected
@@ -176,7 +177,7 @@ Return the arc cosine of z.
 
 static Py_complex
 cmath_acos_impl(PyObject *module, Py_complex z)
-/*[clinic end generated code: output=40bd42853fd460ae input=bd6cbd78ae851927]*/
+/*[clinic end generated code: output=40bd42853fd460ae input=ad99350e88cc6a8a]*/
 {
     Py_complex s1, s2, r;
 
@@ -205,6 +206,7 @@ cmath_acos_impl(PyObject *module, Py_complex z)
 static Py_complex acosh_special_values[7][7];
 
 /*[clinic input]
+@c_stack_frugal
 cmath.acosh = cmath.acos
 
 Return the inverse hyperbolic cosine of z.
@@ -212,7 +214,7 @@ Return the inverse hyperbolic cosine of z.
 
 static Py_complex
 cmath_acosh_impl(PyObject *module, Py_complex z)
-/*[clinic end generated code: output=3e2454d4fcf404ca input=3f61bee7d703e53c]*/
+/*[clinic end generated code: output=3e2454d4fcf404ca input=b3cb51f2cc37a593]*/
 {
     Py_complex s1, s2, r;
 
@@ -237,6 +239,7 @@ cmath_acosh_impl(PyObject *module, Py_complex z)
 }
 
 /*[clinic input]
+@c_stack_frugal
 cmath.asin = cmath.acos
 
 Return the arc sine of z.
@@ -244,7 +247,7 @@ Return the arc sine of z.
 
 static Py_complex
 cmath_asin_impl(PyObject *module, Py_complex z)
-/*[clinic end generated code: output=3b264cd1b16bf4e1 input=be0bf0cfdd5239c5]*/
+/*[clinic end generated code: output=3b264cd1b16bf4e1 input=522dd9684ab96f4e]*/
 {
     /* asin(z) = -i asinh(iz) */
     Py_complex s, r;
@@ -260,6 +263,7 @@ cmath_asin_impl(PyObject *module, Py_complex z)
 static Py_complex asinh_special_values[7][7];
 
 /*[clinic input]
+@c_stack_frugal
 cmath.asinh = cmath.acos
 
 Return the inverse hyperbolic sine of z.
@@ -267,7 +271,7 @@ Return the inverse hyperbolic sine of z.
 
 static Py_complex
 cmath_asinh_impl(PyObject *module, Py_complex z)
-/*[clinic end generated code: output=733d8107841a7599 input=5c09448fcfc89a79]*/
+/*[clinic end generated code: output=733d8107841a7599 input=e3bbec5d97090749]*/
 {
     Py_complex s1, s2, r;
 
@@ -298,6 +302,7 @@ cmath_asinh_impl(PyObject *module, Py_complex z)
 
 
 /*[clinic input]
+@c_stack_frugal
 cmath.atan = cmath.acos
 
 Return the arc tangent of z.
@@ -305,7 +310,7 @@ Return the arc tangent of z.
 
 static Py_complex
 cmath_atan_impl(PyObject *module, Py_complex z)
-/*[clinic end generated code: output=b6bfc497058acba4 input=3b21ff7d5eac632a]*/
+/*[clinic end generated code: output=b6bfc497058acba4 input=b3bfed7ecec0caac]*/
 {
     /* atan(z) = -i atanh(iz) */
     Py_complex s, r;
@@ -321,6 +326,7 @@ cmath_atan_impl(PyObject *module, Py_complex z)
 static Py_complex atanh_special_values[7][7];
 
 /*[clinic input]
+@c_stack_frugal
 cmath.atanh = cmath.acos
 
 Return the inverse hyperbolic tangent of z.
@@ -328,7 +334,7 @@ Return the inverse hyperbolic tangent of z.
 
 static Py_complex
 cmath_atanh_impl(PyObject *module, Py_complex z)
-/*[clinic end generated code: output=e83355f93a989c9e input=2b3fdb82fb34487b]*/
+/*[clinic end generated code: output=e83355f93a989c9e input=0dbed93fb0d14405]*/
 {
     Py_complex r;
     double ay, h;
@@ -372,6 +378,7 @@ cmath_atanh_impl(PyObject *module, Py_complex z)
 
 
 /*[clinic input]
+@c_stack_frugal
 cmath.cos = cmath.acos
 
 Return the cosine of z.
@@ -379,7 +386,7 @@ Return the cosine of z.
 
 static Py_complex
 cmath_cos_impl(PyObject *module, Py_complex z)
-/*[clinic end generated code: output=fd64918d5b3186db input=6022e39b77127ac7]*/
+/*[clinic end generated code: output=fd64918d5b3186db input=7e666249eb901a91]*/
 {
     /* cos(z) = cosh(iz) */
     Py_complex r;
@@ -394,6 +401,7 @@ cmath_cos_impl(PyObject *module, Py_complex z)
 static Py_complex cosh_special_values[7][7];
 
 /*[clinic input]
+@c_stack_frugal
 cmath.cosh = cmath.acos
 
 Return the hyperbolic cosine of z.
@@ -401,7 +409,7 @@ Return the hyperbolic cosine of z.
 
 static Py_complex
 cmath_cosh_impl(PyObject *module, Py_complex z)
-/*[clinic end generated code: output=2e969047da601bdb input=d6b66339e9cc332b]*/
+/*[clinic end generated code: output=2e969047da601bdb input=4d31e841137abf21]*/
 {
     Py_complex r;
     double x_minus_one;
@@ -456,6 +464,7 @@ cmath_cosh_impl(PyObject *module, Py_complex z)
 static Py_complex exp_special_values[7][7];
 
 /*[clinic input]
+@c_stack_frugal
 cmath.exp = cmath.acos
 
 Return the exponential value e**z.
@@ -463,7 +472,7 @@ Return the exponential value e**z.
 
 static Py_complex
 cmath_exp_impl(PyObject *module, Py_complex z)
-/*[clinic end generated code: output=edcec61fb9dfda6c input=8b9e6cf8a92174c3]*/
+/*[clinic end generated code: output=edcec61fb9dfda6c input=2b7a4636816f6ead]*/
 {
     Py_complex r;
     double l;
@@ -585,6 +594,7 @@ c_log(Py_complex z)
 
 
 /*[clinic input]
+@c_stack_frugal
 cmath.log10 = cmath.acos
 
 Return the base-10 logarithm of z.
@@ -592,7 +602,7 @@ Return the base-10 logarithm of z.
 
 static Py_complex
 cmath_log10_impl(PyObject *module, Py_complex z)
-/*[clinic end generated code: output=2922779a7c38cbe1 input=cff5644f73c1519c]*/
+/*[clinic end generated code: output=2922779a7c38cbe1 input=212efdbfeee92437]*/
 {
     Py_complex r;
     int errno_save;
@@ -607,6 +617,7 @@ cmath_log10_impl(PyObject *module, Py_complex z)
 
 
 /*[clinic input]
+@c_stack_frugal
 cmath.sin = cmath.acos
 
 Return the sine of z.
@@ -614,7 +625,7 @@ Return the sine of z.
 
 static Py_complex
 cmath_sin_impl(PyObject *module, Py_complex z)
-/*[clinic end generated code: output=980370d2ff0bb5aa input=2d3519842a8b4b85]*/
+/*[clinic end generated code: output=980370d2ff0bb5aa input=ff14414a4b0b8725]*/
 {
     /* sin(z) = -i sin(iz) */
     Py_complex s, r;
@@ -631,6 +642,7 @@ cmath_sin_impl(PyObject *module, Py_complex z)
 static Py_complex sinh_special_values[7][7];
 
 /*[clinic input]
+@c_stack_frugal
 cmath.sinh = cmath.acos
 
 Return the hyperbolic sine of z.
@@ -638,7 +650,7 @@ Return the hyperbolic sine of z.
 
 static Py_complex
 cmath_sinh_impl(PyObject *module, Py_complex z)
-/*[clinic end generated code: output=38b0a6cce26f3536 input=d2d3fc8c1ddfd2dd]*/
+/*[clinic end generated code: output=38b0a6cce26f3536 input=1f8a86fcb1770870]*/
 {
     Py_complex r;
     double x_minus_one;
@@ -690,6 +702,7 @@ cmath_sinh_impl(PyObject *module, Py_complex z)
 static Py_complex sqrt_special_values[7][7];
 
 /*[clinic input]
+@c_stack_frugal
 cmath.sqrt = cmath.acos
 
 Return the square root of z.
@@ -697,7 +710,7 @@ Return the square root of z.
 
 static Py_complex
 cmath_sqrt_impl(PyObject *module, Py_complex z)
-/*[clinic end generated code: output=b6507b3029c339fc input=7088b166fc9a58c7]*/
+/*[clinic end generated code: output=b6507b3029c339fc input=ec7a149dd575e879]*/
 {
     /*
        Method: use symmetries to reduce to the case when x = z.real and y
@@ -765,6 +778,7 @@ cmath_sqrt_impl(PyObject *module, Py_complex z)
 
 
 /*[clinic input]
+@c_stack_frugal
 cmath.tan = cmath.acos
 
 Return the tangent of z.
@@ -772,7 +786,7 @@ Return the tangent of z.
 
 static Py_complex
 cmath_tan_impl(PyObject *module, Py_complex z)
-/*[clinic end generated code: output=7c5f13158a72eb13 input=fc167e528767888e]*/
+/*[clinic end generated code: output=7c5f13158a72eb13 input=8c6b5ca69099e9c5]*/
 {
     /* tan(z) = -i tanh(iz) */
     Py_complex s, r;
@@ -789,6 +803,7 @@ cmath_tan_impl(PyObject *module, Py_complex z)
 static Py_complex tanh_special_values[7][7];
 
 /*[clinic input]
+@c_stack_frugal
 cmath.tanh = cmath.acos
 
 Return the hyperbolic tangent of z.
@@ -796,7 +811,7 @@ Return the hyperbolic tangent of z.
 
 static Py_complex
 cmath_tanh_impl(PyObject *module, Py_complex z)
-/*[clinic end generated code: output=36d547ef7aca116c input=22f67f9dc6d29685]*/
+/*[clinic end generated code: output=36d547ef7aca116c input=3b5debf23192222b]*/
 {
     /* Formula:
 
@@ -861,6 +876,7 @@ cmath_tanh_impl(PyObject *module, Py_complex z)
 
 
 /*[clinic input]
+@c_stack_frugal
 cmath.log
 
     z as x: Py_complex
@@ -874,7 +890,7 @@ If the base is not specified, returns the natural logarithm (base e) of z.
 
 static PyObject *
 cmath_log_impl(PyObject *module, Py_complex x, PyObject *y_obj)
-/*[clinic end generated code: output=4effdb7d258e0d94 input=e1f81d4fcfd26497]*/
+/*[clinic end generated code: output=4effdb7d258e0d94 input=fce1189e425d877d]*/
 {
     Py_complex y;
 
@@ -910,6 +926,7 @@ math_error(void)
 
 
 /*[clinic input]
+@c_stack_frugal
 cmath.phase
 
     z: Py_complex
@@ -920,7 +937,7 @@ Return argument, also known as the phase angle, of a complex.
 
 static PyObject *
 cmath_phase_impl(PyObject *module, Py_complex z)
-/*[clinic end generated code: output=50725086a7bfd253 input=5cf75228ba94b69d]*/
+/*[clinic end generated code: output=50725086a7bfd253 input=c6c172f500734268]*/
 {
     double phi;
 
@@ -933,6 +950,7 @@ cmath_phase_impl(PyObject *module, Py_complex z)
 }
 
 /*[clinic input]
+@c_stack_frugal
 cmath.polar
 
     z: Py_complex
@@ -945,7 +963,7 @@ r is the distance from 0 and phi the phase angle.
 
 static PyObject *
 cmath_polar_impl(PyObject *module, Py_complex z)
-/*[clinic end generated code: output=d0a8147c41dbb654 input=26c353574fd1a861]*/
+/*[clinic end generated code: output=d0a8147c41dbb654 input=caa95c9223511d9b]*/
 {
     double r, phi;
 
@@ -972,6 +990,7 @@ cmath_polar_impl(PyObject *module, Py_complex z)
 static Py_complex rect_special_values[7][7];
 
 /*[clinic input]
+@c_stack_frugal
 cmath.rect
 
     r: double
@@ -983,7 +1002,7 @@ Convert from polar coordinates to rectangular coordinates.
 
 static PyObject *
 cmath_rect_impl(PyObject *module, double r, double phi)
-/*[clinic end generated code: output=385a0690925df2d5 input=24c5646d147efd69]*/
+/*[clinic end generated code: output=385a0690925df2d5 input=bbe4038a35ad6857]*/
 {
     Py_complex z;
     errno = 0;
@@ -1035,6 +1054,7 @@ cmath_rect_impl(PyObject *module, double r, double phi)
 }
 
 /*[clinic input]
+@c_stack_frugal
 cmath.isfinite = cmath.polar
 
 Return True if both the real and imaginary parts of z are finite, else False.
@@ -1042,12 +1062,13 @@ Return True if both the real and imaginary parts of z are finite, else False.
 
 static PyObject *
 cmath_isfinite_impl(PyObject *module, Py_complex z)
-/*[clinic end generated code: output=ac76611e2c774a36 input=848e7ee701895815]*/
+/*[clinic end generated code: output=ac76611e2c774a36 input=6620a41fa2ea3d72]*/
 {
     return PyBool_FromLong(isfinite(z.real) && isfinite(z.imag));
 }
 
 /*[clinic input]
+@c_stack_frugal
 cmath.isnan = cmath.polar
 
 Checks if the real or imaginary part of z not a number (NaN).
@@ -1055,12 +1076,13 @@ Checks if the real or imaginary part of z not a number (NaN).
 
 static PyObject *
 cmath_isnan_impl(PyObject *module, Py_complex z)
-/*[clinic end generated code: output=e7abf6e0b28beab7 input=71799f5d284c9baf]*/
+/*[clinic end generated code: output=e7abf6e0b28beab7 input=9a24c7f67230f933]*/
 {
     return PyBool_FromLong(isnan(z.real) || isnan(z.imag));
 }
 
 /*[clinic input]
+@c_stack_frugal
 cmath.isinf = cmath.polar
 
 Checks if the real or imaginary part of z is infinite.
@@ -1068,12 +1090,13 @@ Checks if the real or imaginary part of z is infinite.
 
 static PyObject *
 cmath_isinf_impl(PyObject *module, Py_complex z)
-/*[clinic end generated code: output=502a75a79c773469 input=363df155c7181329]*/
+/*[clinic end generated code: output=502a75a79c773469 input=bae9cbb70a2b5fbe]*/
 {
     return PyBool_FromLong(isinf(z.real) || isinf(z.imag));
 }
 
 /*[clinic input]
+@c_stack_frugal
 cmath.isclose -> bool
 
     a: Py_complex
@@ -1100,7 +1123,7 @@ not close to anything, even itself. inf and -inf are only close to themselves.
 static int
 cmath_isclose_impl(PyObject *module, Py_complex a, Py_complex b,
                    double rel_tol, double abs_tol)
-/*[clinic end generated code: output=8a2486cc6e0014d1 input=df9636d7de1d4ac3]*/
+/*[clinic end generated code: output=8a2486cc6e0014d1 input=27f3442ec3b57394]*/
 {
     double diff;
 

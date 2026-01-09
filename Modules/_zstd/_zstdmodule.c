@@ -253,6 +253,7 @@ sum_error:
 
 
 /*[clinic input]
+@c_stack_frugal
 _zstd.train_dict
 
     samples_bytes: PyBytesObject
@@ -269,7 +270,7 @@ Train a Zstandard dictionary on sample data.
 static PyObject *
 _zstd_train_dict_impl(PyObject *module, PyBytesObject *samples_bytes,
                       PyObject *samples_sizes, Py_ssize_t dict_size)
-/*[clinic end generated code: output=8e87fe43935e8f77 input=d20dedb21c72cb62]*/
+/*[clinic end generated code: output=8e87fe43935e8f77 input=9971ec014322b929]*/
 {
     PyObject *dst_dict_bytes = NULL;
     size_t *chunk_sizes = NULL;
@@ -328,6 +329,7 @@ success:
 }
 
 /*[clinic input]
+@c_stack_frugal
 _zstd.finalize_dict
 
     custom_dict_bytes: PyBytesObject
@@ -350,7 +352,7 @@ _zstd_finalize_dict_impl(PyObject *module, PyBytesObject *custom_dict_bytes,
                          PyBytesObject *samples_bytes,
                          PyObject *samples_sizes, Py_ssize_t dict_size,
                          int compression_level)
-/*[clinic end generated code: output=f91821ba5ae85bda input=3c7e2480aa08fb56]*/
+/*[clinic end generated code: output=f91821ba5ae85bda input=7e63c6ae90cfc8b8]*/
 {
     Py_ssize_t chunks_number;
     size_t *chunk_sizes = NULL;
@@ -421,6 +423,7 @@ success:
 
 
 /*[clinic input]
+@c_stack_frugal
 _zstd.get_param_bounds
 
     parameter: int
@@ -433,7 +436,7 @@ Get CompressionParameter/DecompressionParameter bounds.
 
 static PyObject *
 _zstd_get_param_bounds_impl(PyObject *module, int parameter, int is_compress)
-/*[clinic end generated code: output=4acf5a876f0620ca input=45742ef0a3531b65]*/
+/*[clinic end generated code: output=4acf5a876f0620ca input=e86e2b2545cede84]*/
 {
     ZSTD_bounds bound;
     if (is_compress) {
@@ -457,6 +460,7 @@ _zstd_get_param_bounds_impl(PyObject *module, int parameter, int is_compress)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _zstd.get_frame_size
 
     frame_buffer: Py_buffer
@@ -468,7 +472,7 @@ Get the size of a Zstandard frame, including the header and optional checksum.
 
 static PyObject *
 _zstd_get_frame_size_impl(PyObject *module, Py_buffer *frame_buffer)
-/*[clinic end generated code: output=a7384c2f8780f442 input=3b9f73f8c8129d38]*/
+/*[clinic end generated code: output=a7384c2f8780f442 input=3768a53691415782]*/
 {
     size_t frame_size;
 
@@ -489,6 +493,7 @@ _zstd_get_frame_size_impl(PyObject *module, Py_buffer *frame_buffer)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _zstd.get_frame_info
 
     frame_buffer: Py_buffer
@@ -499,7 +504,7 @@ Get Zstandard frame infomation from a frame header.
 
 static PyObject *
 _zstd_get_frame_info_impl(PyObject *module, Py_buffer *frame_buffer)
-/*[clinic end generated code: output=56e033cf48001929 input=94b240583ae22ca5]*/
+/*[clinic end generated code: output=56e033cf48001929 input=89a6e32e4c6fee34]*/
 {
     uint64_t decompressed_size;
     uint32_t dict_id;
@@ -531,6 +536,7 @@ _zstd_get_frame_info_impl(PyObject *module, Py_buffer *frame_buffer)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _zstd.set_parameter_types
 
     c_parameter_type: object(subclass_of='&PyType_Type')
@@ -544,7 +550,7 @@ Set CompressionParameter and DecompressionParameter types for validity check.
 static PyObject *
 _zstd_set_parameter_types_impl(PyObject *module, PyObject *c_parameter_type,
                                PyObject *d_parameter_type)
-/*[clinic end generated code: output=f3313b1294f19502 input=75d7a953580fae5f]*/
+/*[clinic end generated code: output=f3313b1294f19502 input=233ed4c7771e8ff0]*/
 {
     _zstd_state* mod_state = get_zstd_state(module);
 

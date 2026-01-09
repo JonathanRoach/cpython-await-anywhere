@@ -15,7 +15,7 @@ PyDoc_STRVAR(_testinternalcapi_compiler_cleandoc__doc__,
 "C implementation of inspect.cleandoc().");
 
 #define _TESTINTERNALCAPI_COMPILER_CLEANDOC_METHODDEF    \
-    {"compiler_cleandoc", _PyCFunction_CAST(_testinternalcapi_compiler_cleandoc), METH_FASTCALL|METH_KEYWORDS, _testinternalcapi_compiler_cleandoc__doc__},
+    {"compiler_cleandoc", _PyCFunction_CAST(_testinternalcapi_compiler_cleandoc), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _testinternalcapi_compiler_cleandoc__doc__},
 
 static PyObject *
 _testinternalcapi_compiler_cleandoc_impl(PyObject *module, PyObject *doc);
@@ -77,7 +77,7 @@ PyDoc_STRVAR(_testinternalcapi_new_instruction_sequence__doc__,
 "Return a new, empty InstructionSequence.");
 
 #define _TESTINTERNALCAPI_NEW_INSTRUCTION_SEQUENCE_METHODDEF    \
-    {"new_instruction_sequence", (PyCFunction)_testinternalcapi_new_instruction_sequence, METH_NOARGS, _testinternalcapi_new_instruction_sequence__doc__},
+    {"new_instruction_sequence", (PyCFunction)_testinternalcapi_new_instruction_sequence, METH_NOARGS|METH_C_STACK_FRUGAL, _testinternalcapi_new_instruction_sequence__doc__},
 
 static PyObject *
 _testinternalcapi_new_instruction_sequence_impl(PyObject *module);
@@ -95,7 +95,7 @@ PyDoc_STRVAR(_testinternalcapi_compiler_codegen__doc__,
 "Apply compiler code generation to an AST.");
 
 #define _TESTINTERNALCAPI_COMPILER_CODEGEN_METHODDEF    \
-    {"compiler_codegen", _PyCFunction_CAST(_testinternalcapi_compiler_codegen), METH_FASTCALL|METH_KEYWORDS, _testinternalcapi_compiler_codegen__doc__},
+    {"compiler_codegen", _PyCFunction_CAST(_testinternalcapi_compiler_codegen), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _testinternalcapi_compiler_codegen__doc__},
 
 static PyObject *
 _testinternalcapi_compiler_codegen_impl(PyObject *module, PyObject *ast,
@@ -172,7 +172,7 @@ PyDoc_STRVAR(_testinternalcapi_optimize_cfg__doc__,
 "Apply compiler optimizations to an instruction list.");
 
 #define _TESTINTERNALCAPI_OPTIMIZE_CFG_METHODDEF    \
-    {"optimize_cfg", _PyCFunction_CAST(_testinternalcapi_optimize_cfg), METH_FASTCALL|METH_KEYWORDS, _testinternalcapi_optimize_cfg__doc__},
+    {"optimize_cfg", _PyCFunction_CAST(_testinternalcapi_optimize_cfg), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _testinternalcapi_optimize_cfg__doc__},
 
 static PyObject *
 _testinternalcapi_optimize_cfg_impl(PyObject *module, PyObject *instructions,
@@ -238,7 +238,7 @@ PyDoc_STRVAR(_testinternalcapi_assemble_code_object__doc__,
 "Create a code object for the given instructions.");
 
 #define _TESTINTERNALCAPI_ASSEMBLE_CODE_OBJECT_METHODDEF    \
-    {"assemble_code_object", _PyCFunction_CAST(_testinternalcapi_assemble_code_object), METH_FASTCALL|METH_KEYWORDS, _testinternalcapi_assemble_code_object__doc__},
+    {"assemble_code_object", _PyCFunction_CAST(_testinternalcapi_assemble_code_object), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _testinternalcapi_assemble_code_object__doc__},
 
 static PyObject *
 _testinternalcapi_assemble_code_object_impl(PyObject *module,
@@ -302,7 +302,7 @@ PyDoc_STRVAR(_testinternalcapi_test_long_numbits__doc__,
 "\n");
 
 #define _TESTINTERNALCAPI_TEST_LONG_NUMBITS_METHODDEF    \
-    {"test_long_numbits", (PyCFunction)_testinternalcapi_test_long_numbits, METH_NOARGS, _testinternalcapi_test_long_numbits__doc__},
+    {"test_long_numbits", (PyCFunction)_testinternalcapi_test_long_numbits, METH_NOARGS|METH_C_STACK_FRUGAL, _testinternalcapi_test_long_numbits__doc__},
 
 static PyObject *
 _testinternalcapi_test_long_numbits_impl(PyObject *module);
@@ -320,7 +320,7 @@ PyDoc_STRVAR(gh_119213_getargs__doc__,
 "Test _PyArg_Parser.kwtuple");
 
 #define GH_119213_GETARGS_METHODDEF    \
-    {"gh_119213_getargs", _PyCFunction_CAST(gh_119213_getargs), METH_FASTCALL|METH_KEYWORDS, gh_119213_getargs__doc__},
+    {"gh_119213_getargs", _PyCFunction_CAST(gh_119213_getargs), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, gh_119213_getargs__doc__},
 
 static PyObject *
 gh_119213_getargs_impl(PyObject *module, PyObject *spam);
@@ -382,7 +382,7 @@ PyDoc_STRVAR(get_next_dict_keys_version__doc__,
 "\n");
 
 #define GET_NEXT_DICT_KEYS_VERSION_METHODDEF    \
-    {"get_next_dict_keys_version", (PyCFunction)get_next_dict_keys_version, METH_NOARGS, get_next_dict_keys_version__doc__},
+    {"get_next_dict_keys_version", (PyCFunction)get_next_dict_keys_version, METH_NOARGS|METH_C_STACK_FRUGAL, get_next_dict_keys_version__doc__},
 
 static PyObject *
 get_next_dict_keys_version_impl(PyObject *module);
@@ -392,4 +392,4 @@ get_next_dict_keys_version(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return get_next_dict_keys_version_impl(module);
 }
-/*[clinic end generated code: output=fbd8b7e0cae8bac7 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=b0c654959cdb6e37 input=a9049054013a1b77]*/

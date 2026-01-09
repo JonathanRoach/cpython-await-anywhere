@@ -8,6 +8,7 @@ module _suggestions
 /*[clinic end generated code: output=da39a3ee5e6b4b0d input=e58d81fafad5637b]*/
 
 /*[clinic input]
+@c_stack_frugal
 _suggestions._generate_suggestions
     candidates: object
     item: unicode
@@ -18,7 +19,7 @@ Returns the candidate in candidates that's closest to item
 static PyObject *
 _suggestions__generate_suggestions_impl(PyObject *module,
                                         PyObject *candidates, PyObject *item)
-/*[clinic end generated code: output=79be7b653ae5e7ca input=ba2a8dddc654e33a]*/
+/*[clinic end generated code: output=79be7b653ae5e7ca input=a1b19ec28c2b40cf]*/
 {
    // Check if dir is a list
     if (!PyList_CheckExact(candidates)) {

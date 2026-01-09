@@ -144,6 +144,7 @@ internal_close(fileio *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _io.FileIO.close
 
     cls: defining_class
@@ -157,7 +158,7 @@ called more than once without error.
 
 static PyObject *
 _io_FileIO_close_impl(fileio *self, PyTypeObject *cls)
-/*[clinic end generated code: output=c30cbe9d1f23ca58 input=70da49e63db7c64d]*/
+/*[clinic end generated code: output=c30cbe9d1f23ca58 input=150f82622241249e]*/
 {
     PyObject *res;
     int rc;
@@ -219,6 +220,7 @@ extern int _Py_open_cloexec_works;
 #endif
 
 /*[clinic input]
+@c_stack_frugal
 _io.FileIO.__init__
     file as nameobj: object
     mode: str = "r"
@@ -243,7 +245,7 @@ results in functionality similar to passing None).
 static int
 _io_FileIO___init___impl(fileio *self, PyObject *nameobj, const char *mode,
                          int closefd, PyObject *opener)
-/*[clinic end generated code: output=23413f68e6484bbd input=588aac967e0ba74b]*/
+/*[clinic end generated code: output=23413f68e6484bbd input=c99956e47bcd24fb]*/
 {
 #ifdef MS_WINDOWS
     wchar_t *widename = NULL;
@@ -595,6 +597,7 @@ err_mode(_PyIO_State *state, const char *action)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _io.FileIO.fileno
 
 Return the underlying file descriptor (an integer).
@@ -602,7 +605,7 @@ Return the underlying file descriptor (an integer).
 
 static PyObject *
 _io_FileIO_fileno_impl(fileio *self)
-/*[clinic end generated code: output=a9626ce5398ece90 input=0b9b2de67335ada3]*/
+/*[clinic end generated code: output=a9626ce5398ece90 input=85f09a0e3fab68fc]*/
 {
     if (self->fd < 0)
         return err_closed();
@@ -610,6 +613,7 @@ _io_FileIO_fileno_impl(fileio *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _io.FileIO.readable
 
 True if file was opened in a read mode.
@@ -617,7 +621,7 @@ True if file was opened in a read mode.
 
 static PyObject *
 _io_FileIO_readable_impl(fileio *self)
-/*[clinic end generated code: output=640744a6150fe9ba input=a3fdfed6eea721c5]*/
+/*[clinic end generated code: output=640744a6150fe9ba input=d96c6b0dc8a43959]*/
 {
     if (self->fd < 0)
         return err_closed();
@@ -625,6 +629,7 @@ _io_FileIO_readable_impl(fileio *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _io.FileIO.writable
 
 True if file was opened in a write mode.
@@ -632,7 +637,7 @@ True if file was opened in a write mode.
 
 static PyObject *
 _io_FileIO_writable_impl(fileio *self)
-/*[clinic end generated code: output=96cefc5446e89977 input=c204a808ca2e1748]*/
+/*[clinic end generated code: output=96cefc5446e89977 input=ae544441637bce18]*/
 {
     if (self->fd < 0)
         return err_closed();
@@ -640,6 +645,7 @@ _io_FileIO_writable_impl(fileio *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _io.FileIO.seekable
 
 True if file supports random-access.
@@ -647,7 +653,7 @@ True if file supports random-access.
 
 static PyObject *
 _io_FileIO_seekable_impl(fileio *self)
-/*[clinic end generated code: output=47909ca0a42e9287 input=c8e5554d2fd63c7f]*/
+/*[clinic end generated code: output=47909ca0a42e9287 input=40142c13524e2d65]*/
 {
     if (self->fd < 0)
         return err_closed();
@@ -666,6 +672,7 @@ _io_FileIO_seekable_impl(fileio *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _io.FileIO.readinto
     cls: defining_class
     buffer: Py_buffer(accept={rwbuffer})
@@ -676,7 +683,7 @@ Same as RawIOBase.readinto().
 
 static PyObject *
 _io_FileIO_readinto_impl(fileio *self, PyTypeObject *cls, Py_buffer *buffer)
-/*[clinic end generated code: output=97f0f3d69534db34 input=fd20323e18ce1ec8]*/
+/*[clinic end generated code: output=97f0f3d69534db34 input=049c1cca233b8812]*/
 {
     Py_ssize_t n;
     int err;
@@ -723,6 +730,7 @@ new_buffersize(fileio *self, size_t currentsize)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _io.FileIO.readall
 
 Read all data from the file, returned as bytes.
@@ -736,7 +744,7 @@ data is available (EAGAIN is returned before bytes are read) returns None.
 
 static PyObject *
 _io_FileIO_readall_impl(fileio *self)
-/*[clinic end generated code: output=faa0292b213b4022 input=1e19849857f5d0a1]*/
+/*[clinic end generated code: output=faa0292b213b4022 input=b008d70af414c36e]*/
 {
     Py_off_t pos, end;
     PyObject *result;
@@ -844,6 +852,7 @@ _io_FileIO_readall_impl(fileio *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _io.FileIO.read
     cls: defining_class
     size: Py_ssize_t(accept={int, NoneType}) = -1
@@ -863,7 +872,7 @@ bytes object at EOF.
 
 static PyObject *
 _io_FileIO_read_impl(fileio *self, PyTypeObject *cls, Py_ssize_t size)
-/*[clinic end generated code: output=bbd749c7c224143e input=cf21fddef7d38ab6]*/
+/*[clinic end generated code: output=bbd749c7c224143e input=3d825d4c0be1fd47]*/
 {
     char *ptr;
     Py_ssize_t n;
@@ -911,6 +920,7 @@ _io_FileIO_read_impl(fileio *self, PyTypeObject *cls, Py_ssize_t size)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _io.FileIO.write
     cls: defining_class
     b: Py_buffer
@@ -925,7 +935,7 @@ returns None if the write would block.
 
 static PyObject *
 _io_FileIO_write_impl(fileio *self, PyTypeObject *cls, Py_buffer *b)
-/*[clinic end generated code: output=927e25be80f3b77b input=2776314f043088f5]*/
+/*[clinic end generated code: output=927e25be80f3b77b input=8328b2b31ed83ff7]*/
 {
     Py_ssize_t n;
     int err;
@@ -1019,6 +1029,7 @@ portable_lseek(fileio *self, PyObject *posobj, int whence, bool suppress_pipe_er
 }
 
 /*[clinic input]
+@c_stack_frugal
 _io.FileIO.seek
     pos: object
     whence: int = 0
@@ -1037,7 +1048,7 @@ Note that not all file objects are seekable.
 
 static PyObject *
 _io_FileIO_seek_impl(fileio *self, PyObject *pos, int whence)
-/*[clinic end generated code: output=c976acdf054e6655 input=0439194b0774d454]*/
+/*[clinic end generated code: output=c976acdf054e6655 input=62b3cc2aad86e130]*/
 {
     if (self->fd < 0)
         return err_closed();
@@ -1046,6 +1057,7 @@ _io_FileIO_seek_impl(fileio *self, PyObject *pos, int whence)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _io.FileIO.tell
 
 Current file position.
@@ -1055,7 +1067,7 @@ Can raise OSError for non seekable files.
 
 static PyObject *
 _io_FileIO_tell_impl(fileio *self)
-/*[clinic end generated code: output=ffe2147058809d0b input=807e24ead4cec2f9]*/
+/*[clinic end generated code: output=ffe2147058809d0b input=ff863a20f910c8b3]*/
 {
     if (self->fd < 0)
         return err_closed();
@@ -1065,6 +1077,7 @@ _io_FileIO_tell_impl(fileio *self)
 
 #ifdef HAVE_FTRUNCATE
 /*[clinic input]
+@c_stack_frugal
 _io.FileIO.truncate
     cls: defining_class
     size as posobj: object = None
@@ -1078,7 +1091,7 @@ The current file position is changed to the value of size.
 
 static PyObject *
 _io_FileIO_truncate_impl(fileio *self, PyTypeObject *cls, PyObject *posobj)
-/*[clinic end generated code: output=d936732a49e8d5a2 input=c367fb45d6bb2c18]*/
+/*[clinic end generated code: output=d936732a49e8d5a2 input=de16bb5fa0110edc]*/
 {
     Py_off_t pos;
     int ret;
@@ -1205,6 +1218,7 @@ fileio_repr(PyObject *op)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _io.FileIO.isatty
 
 True if the file is connected to a TTY device.
@@ -1212,7 +1226,7 @@ True if the file is connected to a TTY device.
 
 static PyObject *
 _io_FileIO_isatty_impl(fileio *self)
-/*[clinic end generated code: output=932c39924e9a8070 input=cd94ca1f5e95e843]*/
+/*[clinic end generated code: output=932c39924e9a8070 input=5c95a54d76916d32]*/
 {
     long res;
 

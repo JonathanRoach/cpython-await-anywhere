@@ -48,6 +48,7 @@ Py_ssize_t LOW_BIT(Py_ssize_t offset);
 
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 _ctypes.CField.__new__ as PyCField_new
 
@@ -68,7 +69,7 @@ PyCField_new_impl(PyTypeObject *type, PyObject *name, PyObject *proto,
                   Py_ssize_t byte_size, Py_ssize_t byte_offset,
                   Py_ssize_t index, int _internal_use,
                   PyObject *bit_size_obj, PyObject *bit_offset_obj)
-/*[clinic end generated code: output=3f2885ee4108b6e2 input=b343436e33c0d782]*/
+/*[clinic end generated code: output=3f2885ee4108b6e2 input=b340b49a334bf33d]*/
 {
     CFieldObject* self = NULL;
 

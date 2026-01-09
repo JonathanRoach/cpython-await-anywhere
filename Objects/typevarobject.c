@@ -669,6 +669,7 @@ typevar_alloc(PyObject *name, PyObject *bound, PyObject *evaluate_bound,
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 typevar.__new__ as typevar_new
 
@@ -687,7 +688,7 @@ static PyObject *
 typevar_new_impl(PyTypeObject *type, PyObject *name, PyObject *constraints,
                  PyObject *bound, PyObject *default_value, int covariant,
                  int contravariant, int infer_variance)
-/*[clinic end generated code: output=d2b248ff074eaab6 input=1b5b62e40c92c167]*/
+/*[clinic end generated code: output=d2b248ff074eaab6 input=7ab1b1f4955ac07f]*/
 {
     if (covariant && contravariant) {
         PyErr_SetString(PyExc_ValueError,
@@ -743,6 +744,7 @@ typevar_new_impl(PyTypeObject *type, PyObject *name, PyObject *constraints,
 }
 
 /*[clinic input]
+@c_stack_frugal
 typevar.__typing_subst__ as typevar_typing_subst
 
     arg: object
@@ -752,7 +754,7 @@ typevar.__typing_subst__ as typevar_typing_subst
 
 static PyObject *
 typevar_typing_subst_impl(typevarobject *self, PyObject *arg)
-/*[clinic end generated code: output=c76ced134ed8f4e1 input=9e87b57f0fc59b92]*/
+/*[clinic end generated code: output=c76ced134ed8f4e1 input=a05b628df485d809]*/
 {
     PyObject *args[2] = {(PyObject *)self, arg};
     PyObject *result = call_typing_func_object("_typevar_subst", args, 2);
@@ -760,6 +762,7 @@ typevar_typing_subst_impl(typevarobject *self, PyObject *arg)
 }
 
 /*[clinic input]
+@c_stack_frugal
 typevar.__typing_prepare_subst__ as typevar_typing_prepare_subst
 
     alias: object
@@ -771,7 +774,7 @@ typevar.__typing_prepare_subst__ as typevar_typing_prepare_subst
 static PyObject *
 typevar_typing_prepare_subst_impl(typevarobject *self, PyObject *alias,
                                   PyObject *args)
-/*[clinic end generated code: output=82c3f4691e0ded22 input=201a750415d14ffb]*/
+/*[clinic end generated code: output=82c3f4691e0ded22 input=bcf1655dfccae89a]*/
 {
     PyObject *params = PyObject_GetAttrString(alias, "__parameters__");
     if (params == NULL) {
@@ -820,26 +823,28 @@ typevar_typing_prepare_subst_impl(typevarobject *self, PyObject *alias,
 }
 
 /*[clinic input]
+@c_stack_frugal
 typevar.__reduce__ as typevar_reduce
 
 [clinic start generated code]*/
 
 static PyObject *
 typevar_reduce_impl(typevarobject *self)
-/*[clinic end generated code: output=02e5c55d7cf8a08f input=de76bc95f04fb9ff]*/
+/*[clinic end generated code: output=02e5c55d7cf8a08f input=9aa395f75a753b7e]*/
 {
     return Py_NewRef(self->name);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 typevar.has_default as typevar_has_default
 
 [clinic start generated code]*/
 
 static PyObject *
 typevar_has_default_impl(typevarobject *self)
-/*[clinic end generated code: output=76bf0b8dc98b97dd input=31024aa030761cf6]*/
+/*[clinic end generated code: output=76bf0b8dc98b97dd input=0d80e715613cd62d]*/
 {
     if (self->evaluate_default != NULL ||
         (self->default_value != &_Py_NoDefaultStruct && self->default_value != NULL)) {
@@ -1017,6 +1022,7 @@ paramspecargs_repr(PyObject *self)
 
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 paramspecargs.__new__ as paramspecargs_new
 
@@ -1027,7 +1033,7 @@ Create a ParamSpecArgs object.
 
 static PyObject *
 paramspecargs_new_impl(PyTypeObject *type, PyObject *origin)
-/*[clinic end generated code: output=9a1463dc8942fe4e input=3596a0bb6183c208]*/
+/*[clinic end generated code: output=9a1463dc8942fe4e input=9c5666ba5de711ba]*/
 {
     return (PyObject *)paramspecattr_new(type, origin);
 }
@@ -1097,6 +1103,7 @@ paramspeckwargs_repr(PyObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 paramspeckwargs.__new__ as paramspeckwargs_new
 
@@ -1107,7 +1114,7 @@ Create a ParamSpecKwargs object.
 
 static PyObject *
 paramspeckwargs_new_impl(PyTypeObject *type, PyObject *origin)
-/*[clinic end generated code: output=277b11967ebaf4ab input=981bca9b0cf9e40a]*/
+/*[clinic end generated code: output=277b11967ebaf4ab input=11069e6a93ae929d]*/
 {
     return (PyObject *)paramspecattr_new(type, origin);
 }
@@ -1304,6 +1311,7 @@ paramspec_alloc(PyObject *name, PyObject *bound, PyObject *default_value, bool c
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 paramspec.__new__ as paramspec_new
 
@@ -1322,7 +1330,7 @@ static PyObject *
 paramspec_new_impl(PyTypeObject *type, PyObject *name, PyObject *bound,
                    PyObject *default_value, int covariant, int contravariant,
                    int infer_variance)
-/*[clinic end generated code: output=47ca9d63fa5a094d input=495e1565bc067ab9]*/
+/*[clinic end generated code: output=47ca9d63fa5a094d input=d1744e6a406c792b]*/
 {
     if (covariant && contravariant) {
         PyErr_SetString(PyExc_ValueError, "Bivariant types are not supported.");
@@ -1352,6 +1360,7 @@ paramspec_new_impl(PyTypeObject *type, PyObject *name, PyObject *bound,
 
 
 /*[clinic input]
+@c_stack_frugal
 paramspec.__typing_subst__ as paramspec_typing_subst
 
     arg: object
@@ -1361,7 +1370,7 @@ paramspec.__typing_subst__ as paramspec_typing_subst
 
 static PyObject *
 paramspec_typing_subst_impl(paramspecobject *self, PyObject *arg)
-/*[clinic end generated code: output=803e1ade3f13b57d input=2d5b5e3d4a717189]*/
+/*[clinic end generated code: output=803e1ade3f13b57d input=2fcc1c08e014f481]*/
 {
     PyObject *args[2] = {(PyObject *)self, arg};
     PyObject *result = call_typing_func_object("_paramspec_subst", args, 2);
@@ -1369,6 +1378,7 @@ paramspec_typing_subst_impl(paramspecobject *self, PyObject *arg)
 }
 
 /*[clinic input]
+@c_stack_frugal
 paramspec.__typing_prepare_subst__ as paramspec_typing_prepare_subst
 
     alias: object
@@ -1380,7 +1390,7 @@ paramspec.__typing_prepare_subst__ as paramspec_typing_prepare_subst
 static PyObject *
 paramspec_typing_prepare_subst_impl(paramspecobject *self, PyObject *alias,
                                     PyObject *args)
-/*[clinic end generated code: output=95449d630a2adb9a input=6df6f9fef3e150da]*/
+/*[clinic end generated code: output=95449d630a2adb9a input=a4411bb75eb9712f]*/
 {
     PyObject *args_array[3] = {(PyObject *)self, alias, args};
     PyObject *result = call_typing_func_object(
@@ -1389,25 +1399,27 @@ paramspec_typing_prepare_subst_impl(paramspecobject *self, PyObject *alias,
 }
 
 /*[clinic input]
+@c_stack_frugal
 paramspec.__reduce__ as paramspec_reduce
 
 [clinic start generated code]*/
 
 static PyObject *
 paramspec_reduce_impl(paramspecobject *self)
-/*[clinic end generated code: output=b83398674416db27 input=5bf349f0d5dd426c]*/
+/*[clinic end generated code: output=b83398674416db27 input=8b230a8c43197cf6]*/
 {
     return Py_NewRef(self->name);
 }
 
 /*[clinic input]
+@c_stack_frugal
 paramspec.has_default as paramspec_has_default
 
 [clinic start generated code]*/
 
 static PyObject *
 paramspec_has_default_impl(paramspecobject *self)
-/*[clinic end generated code: output=daaae7467a6a4368 input=2112e97eeb76cd59]*/
+/*[clinic end generated code: output=daaae7467a6a4368 input=171ac797dc62eb40]*/
 {
     if (self->evaluate_default != NULL ||
         (self->default_value != &_Py_NoDefaultStruct && self->default_value != NULL)) {
@@ -1581,6 +1593,7 @@ typevartuple_alloc(PyObject *name, PyObject *module, PyObject *default_value)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 typevartuple.__new__
 
@@ -1594,7 +1607,7 @@ Create a new TypeVarTuple with the given name.
 static PyObject *
 typevartuple_impl(PyTypeObject *type, PyObject *name,
                   PyObject *default_value)
-/*[clinic end generated code: output=9d6b76dfe95aae51 input=e149739929a866d0]*/
+/*[clinic end generated code: output=9d6b76dfe95aae51 input=0c1ff02b9ec54f7b]*/
 {
     PyObject *module = caller();
     if (module == NULL) {
@@ -1606,6 +1619,7 @@ typevartuple_impl(PyTypeObject *type, PyObject *name,
 }
 
 /*[clinic input]
+@c_stack_frugal
 typevartuple.__typing_subst__ as typevartuple_typing_subst
 
     arg: object
@@ -1615,13 +1629,14 @@ typevartuple.__typing_subst__ as typevartuple_typing_subst
 
 static PyObject *
 typevartuple_typing_subst_impl(typevartupleobject *self, PyObject *arg)
-/*[clinic end generated code: output=814316519441cd76 input=3fcf2dfd9eee7945]*/
+/*[clinic end generated code: output=814316519441cd76 input=076646a12165b083]*/
 {
     PyErr_SetString(PyExc_TypeError, "Substitution of bare TypeVarTuple is not supported");
     return NULL;
 }
 
 /*[clinic input]
+@c_stack_frugal
 typevartuple.__typing_prepare_subst__ as typevartuple_typing_prepare_subst
 
     alias: object
@@ -1633,7 +1648,7 @@ typevartuple.__typing_prepare_subst__ as typevartuple_typing_prepare_subst
 static PyObject *
 typevartuple_typing_prepare_subst_impl(typevartupleobject *self,
                                        PyObject *alias, PyObject *args)
-/*[clinic end generated code: output=ff999bc5b02036c1 input=685b149b0fc47556]*/
+/*[clinic end generated code: output=ff999bc5b02036c1 input=829412baa81c0e99]*/
 {
     PyObject *args_array[3] = {(PyObject *)self, alias, args};
     PyObject *result = call_typing_func_object(
@@ -1642,26 +1657,28 @@ typevartuple_typing_prepare_subst_impl(typevartupleobject *self,
 }
 
 /*[clinic input]
+@c_stack_frugal
 typevartuple.__reduce__ as typevartuple_reduce
 
 [clinic start generated code]*/
 
 static PyObject *
 typevartuple_reduce_impl(typevartupleobject *self)
-/*[clinic end generated code: output=3215bc0477913d20 input=3018a4d66147e807]*/
+/*[clinic end generated code: output=3215bc0477913d20 input=8341abe840ca60b3]*/
 {
     return Py_NewRef(self->name);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 typevartuple.has_default as typevartuple_has_default
 
 [clinic start generated code]*/
 
 static PyObject *
 typevartuple_has_default_impl(typevartupleobject *self)
-/*[clinic end generated code: output=4895f602f56a5e29 input=9ef3250ddb2c1851]*/
+/*[clinic end generated code: output=4895f602f56a5e29 input=ebba137753652551]*/
 {
     if (self->evaluate_default != NULL ||
         (self->default_value != &_Py_NoDefaultStruct && self->default_value != NULL)) {
@@ -2051,13 +2068,14 @@ typealias_clear(PyObject *op)
 }
 
 /*[clinic input]
+@c_stack_frugal
 typealias.__reduce__ as typealias_reduce
 
 [clinic start generated code]*/
 
 static PyObject *
 typealias_reduce_impl(typealiasobject *self)
-/*[clinic end generated code: output=913724f92ad3b39b input=4f06fbd9472ec0f1]*/
+/*[clinic end generated code: output=913724f92ad3b39b input=c3f399021b26eef6]*/
 {
     return Py_NewRef(self->name);
 }
@@ -2081,6 +2099,7 @@ static PyMethodDef typealias_methods[] = {
 
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 typealias.__new__ as typealias_new
 
@@ -2095,7 +2114,7 @@ Create a TypeAliasType.
 static PyObject *
 typealias_new_impl(PyTypeObject *type, PyObject *name, PyObject *value,
                    PyObject *type_params)
-/*[clinic end generated code: output=8920ce6bdff86f00 input=df163c34e17e1a35]*/
+/*[clinic end generated code: output=8920ce6bdff86f00 input=2c53dd55390c43bf]*/
 {
     if (type_params != NULL && !PyTuple_Check(type_params)) {
         PyErr_SetString(PyExc_TypeError, "type_params must be a tuple");

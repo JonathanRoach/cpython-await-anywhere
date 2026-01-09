@@ -4667,6 +4667,7 @@ dump(PickleState *state, PicklerObject *self, PyObject *obj)
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _pickle.Pickler.clear_memo
 
@@ -4680,7 +4681,7 @@ re-using picklers.
 
 static PyObject *
 _pickle_Pickler_clear_memo_impl(PicklerObject *self)
-/*[clinic end generated code: output=8665c8658aaa094b input=01bdad52f3d93e56]*/
+/*[clinic end generated code: output=8665c8658aaa094b input=cd8d247e369ac68c]*/
 {
     if (self->memo)
         PyMemoTable_Clear(self->memo);
@@ -4689,6 +4690,7 @@ _pickle_Pickler_clear_memo_impl(PicklerObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _pickle.Pickler.dump
 
@@ -4702,7 +4704,7 @@ Write a pickled representation of the given object to the open file.
 static PyObject *
 _pickle_Pickler_dump_impl(PicklerObject *self, PyTypeObject *cls,
                           PyObject *obj)
-/*[clinic end generated code: output=952cf7f68b1445bb input=f949d84151983594]*/
+/*[clinic end generated code: output=952cf7f68b1445bb input=22b7490b34e61930]*/
 {
     PickleState *st = _Pickle_GetStateByClass(cls);
     /* Check whether the Pickler was initialized correctly (issue3664).
@@ -4728,6 +4730,7 @@ _pickle_Pickler_dump_impl(PicklerObject *self, PyTypeObject *cls,
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _pickle.Pickler.__sizeof__ -> size_t
 
@@ -4736,7 +4739,7 @@ Returns size in memory, in bytes.
 
 static size_t
 _pickle_Pickler___sizeof___impl(PicklerObject *self)
-/*[clinic end generated code: output=23ad75658d3b59ff input=d8127c8e7012ebd7]*/
+/*[clinic end generated code: output=23ad75658d3b59ff input=431fa09cd7a1fecf]*/
 {
     size_t res = _PyObject_SIZE(Py_TYPE(self));
     if (self->memo != NULL) {
@@ -4818,6 +4821,7 @@ Pickler_traverse(PyObject *op, visitproc visit, void *arg)
 
 
 /*[clinic input]
+@c_stack_frugal
 
 _pickle.Pickler.__init__
 
@@ -4863,7 +4867,7 @@ static int
 _pickle_Pickler___init___impl(PicklerObject *self, PyObject *file,
                               PyObject *protocol, int fix_imports,
                               PyObject *buffer_callback)
-/*[clinic end generated code: output=0abedc50590d259b input=cddc50f66b770002]*/
+/*[clinic end generated code: output=0abedc50590d259b input=a47fba4fbb5d21a7]*/
 {
     /* In case of multiple __init__() calls, clear previous content. */
     if (self->write != NULL)
@@ -4920,6 +4924,7 @@ _pickle_Pickler___init___impl(PicklerObject *self, PyObject *file,
  */
 
 /*[clinic input]
+@c_stack_frugal
 _pickle.PicklerMemoProxy.clear
 
 Remove all items from memo.
@@ -4927,7 +4932,7 @@ Remove all items from memo.
 
 static PyObject *
 _pickle_PicklerMemoProxy_clear_impl(PicklerMemoProxyObject *self)
-/*[clinic end generated code: output=5fb9370d48ae8b05 input=ccc186dacd0f1405]*/
+/*[clinic end generated code: output=5fb9370d48ae8b05 input=970a3530748a89b4]*/
 {
     if (self->pickler->memo)
         PyMemoTable_Clear(self->pickler->memo);
@@ -4935,6 +4940,7 @@ _pickle_PicklerMemoProxy_clear_impl(PicklerMemoProxyObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _pickle.PicklerMemoProxy.copy
 
 Copy the memo to a new object.
@@ -4942,7 +4948,7 @@ Copy the memo to a new object.
 
 static PyObject *
 _pickle_PicklerMemoProxy_copy_impl(PicklerMemoProxyObject *self)
-/*[clinic end generated code: output=bb83a919d29225ef input=b73043485ac30b36]*/
+/*[clinic end generated code: output=bb83a919d29225ef input=4b1d009df419c68d]*/
 {
     PyMemoTable *memo;
     PyObject *new_memo = PyDict_New();
@@ -4980,6 +4986,7 @@ _pickle_PicklerMemoProxy_copy_impl(PicklerMemoProxyObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _pickle.PicklerMemoProxy.__reduce__
 
 Implement pickle support.
@@ -4987,7 +4994,7 @@ Implement pickle support.
 
 static PyObject *
 _pickle_PicklerMemoProxy___reduce___impl(PicklerMemoProxyObject *self)
-/*[clinic end generated code: output=bebba1168863ab1d input=2f7c540e24b7aae4]*/
+/*[clinic end generated code: output=bebba1168863ab1d input=e840654b109c6837]*/
 {
     PyObject *reduce_value, *dict_args;
     PyObject *contents = _pickle_PicklerMemoProxy_copy_impl(self);
@@ -7057,6 +7064,7 @@ error:
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _pickle.Unpickler.persistent_load
 
@@ -7069,7 +7077,7 @@ _pickle.Unpickler.persistent_load
 static PyObject *
 _pickle_Unpickler_persistent_load_impl(UnpicklerObject *self,
                                        PyTypeObject *cls, PyObject *pid)
-/*[clinic end generated code: output=9f4706f1330cb14d input=2f9554fae051276e]*/
+/*[clinic end generated code: output=9f4706f1330cb14d input=2031d89eee8726ab]*/
 {
     PickleState *st = _Pickle_GetStateByClass(cls);
     PyErr_SetString(st->UnpicklingError,
@@ -7079,6 +7087,7 @@ _pickle_Unpickler_persistent_load_impl(UnpicklerObject *self,
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _pickle.Unpickler.load
 
@@ -7093,7 +7102,7 @@ specified therein.
 
 static PyObject *
 _pickle_Unpickler_load_impl(UnpicklerObject *self, PyTypeObject *cls)
-/*[clinic end generated code: output=cc88168f608e3007 input=f5d2f87e61d5f07f]*/
+/*[clinic end generated code: output=cc88168f608e3007 input=1b6390b9fb9f861e]*/
 {
     UnpicklerObject *unpickler = (UnpicklerObject*)self;
 
@@ -7118,6 +7127,7 @@ _pickle_Unpickler_load_impl(UnpicklerObject *self, PyTypeObject *cls)
    classes. The name is kept only for backward compatibility. */
 
 /*[clinic input]
+@c_stack_frugal
 
 _pickle.Unpickler.find_class
 
@@ -7140,7 +7150,7 @@ static PyObject *
 _pickle_Unpickler_find_class_impl(UnpicklerObject *self, PyTypeObject *cls,
                                   PyObject *module_name,
                                   PyObject *global_name)
-/*[clinic end generated code: output=99577948abb0be81 input=9577745719219fc7]*/
+/*[clinic end generated code: output=99577948abb0be81 input=af950bb8c5ffedc9]*/
 {
     PyObject *global;
     PyObject *module;
@@ -7238,6 +7248,7 @@ _pickle_Unpickler_find_class_impl(UnpicklerObject *self, PyTypeObject *cls,
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _pickle.Unpickler.__sizeof__ -> size_t
 
@@ -7246,7 +7257,7 @@ Returns size in memory, in bytes.
 
 static size_t
 _pickle_Unpickler___sizeof___impl(UnpicklerObject *self)
-/*[clinic end generated code: output=4648d84c228196df input=27180b2b6b524012]*/
+/*[clinic end generated code: output=4648d84c228196df input=f819322ec8c8d203]*/
 {
     size_t res = _PyObject_SIZE(Py_TYPE(self));
     if (self->memo != NULL)
@@ -7334,6 +7345,7 @@ Unpickler_traverse(PyObject *op, visitproc visit, void *arg)
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _pickle.Unpickler.__init__
 
@@ -7370,7 +7382,7 @@ static int
 _pickle_Unpickler___init___impl(UnpicklerObject *self, PyObject *file,
                                 int fix_imports, const char *encoding,
                                 const char *errors, PyObject *buffers)
-/*[clinic end generated code: output=09f0192649ea3f85 input=ca4c1faea9553121]*/
+/*[clinic end generated code: output=09f0192649ea3f85 input=941c3feafd0aa4fd]*/
 {
     /* In case of multiple __init__() calls, clear previous content. */
     if (self->read != NULL)
@@ -7418,6 +7430,7 @@ _pickle_Unpickler___init___impl(UnpicklerObject *self, PyObject *file,
  */
 
 /*[clinic input]
+@c_stack_frugal
 _pickle.UnpicklerMemoProxy.clear
 
 Remove all items from memo.
@@ -7425,7 +7438,7 @@ Remove all items from memo.
 
 static PyObject *
 _pickle_UnpicklerMemoProxy_clear_impl(UnpicklerMemoProxyObject *self)
-/*[clinic end generated code: output=d20cd43f4ba1fb1f input=b1df7c52e7afd9bd]*/
+/*[clinic end generated code: output=d20cd43f4ba1fb1f input=e425d3c6ea502f86]*/
 {
     _Unpickler_MemoCleanup(self->unpickler);
     self->unpickler->memo = _Unpickler_NewMemo(self->unpickler->memo_size);
@@ -7435,6 +7448,7 @@ _pickle_UnpicklerMemoProxy_clear_impl(UnpicklerMemoProxyObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _pickle.UnpicklerMemoProxy.copy
 
 Copy the memo to a new object.
@@ -7442,7 +7456,7 @@ Copy the memo to a new object.
 
 static PyObject *
 _pickle_UnpicklerMemoProxy_copy_impl(UnpicklerMemoProxyObject *self)
-/*[clinic end generated code: output=e12af7e9bc1e4c77 input=97769247ce032c1d]*/
+/*[clinic end generated code: output=e12af7e9bc1e4c77 input=0f60ce9f59fa866d]*/
 {
     size_t i;
     PyObject *new_memo = PyDict_New();
@@ -7473,6 +7487,7 @@ error:
 }
 
 /*[clinic input]
+@c_stack_frugal
 _pickle.UnpicklerMemoProxy.__reduce__
 
 Implement pickling support.
@@ -7480,7 +7495,7 @@ Implement pickling support.
 
 static PyObject *
 _pickle_UnpicklerMemoProxy___reduce___impl(UnpicklerMemoProxyObject *self)
-/*[clinic end generated code: output=6da34ac048d94cca input=6920862413407199]*/
+/*[clinic end generated code: output=6da34ac048d94cca input=ba7d92faacd8adac]*/
 {
     PyObject *reduce_value;
     PyObject *constructor_args;
@@ -7718,6 +7733,7 @@ static PyType_Spec unpickler_type_spec = {
 };
 
 /*[clinic input]
+@c_stack_frugal
 
 _pickle.dump
 
@@ -7761,7 +7777,7 @@ static PyObject *
 _pickle_dump_impl(PyObject *module, PyObject *obj, PyObject *file,
                   PyObject *protocol, int fix_imports,
                   PyObject *buffer_callback)
-/*[clinic end generated code: output=706186dba996490c input=b89ce8d0e911fd46]*/
+/*[clinic end generated code: output=706186dba996490c input=63c5955dc475ed88]*/
 {
     PickleState *state = _Pickle_GetState(module);
     PicklerObject *pickler = _Pickler_New(state);
@@ -7793,6 +7809,7 @@ _pickle_dump_impl(PyObject *module, PyObject *obj, PyObject *file,
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _pickle.dumps
 
@@ -7826,7 +7843,7 @@ into *file* as part of the pickle stream.  It is an error if
 static PyObject *
 _pickle_dumps_impl(PyObject *module, PyObject *obj, PyObject *protocol,
                    int fix_imports, PyObject *buffer_callback)
-/*[clinic end generated code: output=fbab0093a5580fdf input=139fc546886c63ac]*/
+/*[clinic end generated code: output=fbab0093a5580fdf input=03c4dcc30e015968]*/
 {
     PyObject *result;
     PickleState *state = _Pickle_GetState(module);
@@ -7854,6 +7871,7 @@ _pickle_dumps_impl(PyObject *module, PyObject *obj, PyObject *protocol,
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _pickle.load
 
@@ -7893,7 +7911,7 @@ static PyObject *
 _pickle_load_impl(PyObject *module, PyObject *file, int fix_imports,
                   const char *encoding, const char *errors,
                   PyObject *buffers)
-/*[clinic end generated code: output=250452d141c23e76 input=46c7c31c92f4f371]*/
+/*[clinic end generated code: output=250452d141c23e76 input=e13e8502f37e65d2]*/
 {
     PyObject *result;
     UnpicklerObject *unpickler = _Unpickler_New(module);
@@ -7923,6 +7941,7 @@ _pickle_load_impl(PyObject *module, PyObject *file, int fix_imports,
 }
 
 /*[clinic input]
+@c_stack_frugal
 
 _pickle.loads
 
@@ -7954,7 +7973,7 @@ static PyObject *
 _pickle_loads_impl(PyObject *module, PyObject *data, int fix_imports,
                    const char *encoding, const char *errors,
                    PyObject *buffers)
-/*[clinic end generated code: output=82ac1e6b588e6d02 input=b3615540d0535087]*/
+/*[clinic end generated code: output=82ac1e6b588e6d02 input=d4f70e1285e3aba5]*/
 {
     PyObject *result;
     UnpicklerObject *unpickler = _Unpickler_New(module);

@@ -70,6 +70,7 @@ pysqlite_row_dealloc(PyObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 _sqlite3.Row.__new__ as pysqlite_row_new
 
@@ -82,7 +83,7 @@ _sqlite3.Row.__new__ as pysqlite_row_new
 static PyObject *
 pysqlite_row_new_impl(PyTypeObject *type, pysqlite_Cursor *cursor,
                       PyObject *data)
-/*[clinic end generated code: output=10d58b09a819a4c1 input=b9e954ca31345dbf]*/
+/*[clinic end generated code: output=10d58b09a819a4c1 input=7eef60e5b88fd695]*/
 {
     pysqlite_Row *self;
 
@@ -191,6 +192,7 @@ pysqlite_row_length(PyObject *op)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _sqlite3.Row.keys as pysqlite_row_keys
 
 Returns the keys of the row.
@@ -198,7 +200,7 @@ Returns the keys of the row.
 
 static PyObject *
 pysqlite_row_keys_impl(pysqlite_Row *self)
-/*[clinic end generated code: output=efe3dfb3af6edc07 input=7549a122827c5563]*/
+/*[clinic end generated code: output=efe3dfb3af6edc07 input=23dc59e3518db3a3]*/
 {
     PyObject *list = PyList_New(0);
     if (!list) {

@@ -143,7 +143,7 @@ PyDoc_STRVAR(_zstd_ZstdDecompressor_decompress__doc__,
 "the self.unused_data attribute.");
 
 #define _ZSTD_ZSTDDECOMPRESSOR_DECOMPRESS_METHODDEF    \
-    {"decompress", _PyCFunction_CAST(_zstd_ZstdDecompressor_decompress), METH_FASTCALL|METH_KEYWORDS, _zstd_ZstdDecompressor_decompress__doc__},
+    {"decompress", _PyCFunction_CAST(_zstd_ZstdDecompressor_decompress), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _zstd_ZstdDecompressor_decompress__doc__},
 
 static PyObject *
 _zstd_ZstdDecompressor_decompress_impl(ZstdDecompressor *self,
@@ -220,4 +220,4 @@ exit:
 
     return return_value;
 }
-/*[clinic end generated code: output=30c12ef047027ede input=a9049054013a1b77]*/
+/*[clinic end generated code: output=a0e288e1d5c7d237 input=a9049054013a1b77]*/

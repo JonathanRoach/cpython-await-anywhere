@@ -74,6 +74,7 @@ _PyMp_SetError(PyObject *Type, int num)
 
 #ifdef MS_WINDOWS
 /*[clinic input]
+@c_stack_frugal
 _multiprocessing.closesocket
 
     handle: HANDLE
@@ -83,7 +84,7 @@ _multiprocessing.closesocket
 
 static PyObject *
 _multiprocessing_closesocket_impl(PyObject *module, HANDLE handle)
-/*[clinic end generated code: output=214f359f900966f4 input=8a20706dd386c6cc]*/
+/*[clinic end generated code: output=214f359f900966f4 input=0b0a42690208f901]*/
 {
     int ret;
 
@@ -97,6 +98,7 @@ _multiprocessing_closesocket_impl(PyObject *module, HANDLE handle)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _multiprocessing.recv
 
     handle: HANDLE
@@ -107,7 +109,7 @@ _multiprocessing.recv
 
 static PyObject *
 _multiprocessing_recv_impl(PyObject *module, HANDLE handle, int size)
-/*[clinic end generated code: output=92322781ba9ff598 input=6a5b0834372cee5b]*/
+/*[clinic end generated code: output=92322781ba9ff598 input=9da7a196e1d82ed4]*/
 {
     int nread;
     PyObject *buf;
@@ -129,6 +131,7 @@ _multiprocessing_recv_impl(PyObject *module, HANDLE handle, int size)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _multiprocessing.send
 
     handle: HANDLE
@@ -139,7 +142,7 @@ _multiprocessing.send
 
 static PyObject *
 _multiprocessing_send_impl(PyObject *module, HANDLE handle, Py_buffer *buf)
-/*[clinic end generated code: output=52d7df0519c596cb input=41dce742f98d2210]*/
+/*[clinic end generated code: output=52d7df0519c596cb input=9a3183197aeb1812]*/
 {
     int ret, length;
 
@@ -157,6 +160,7 @@ _multiprocessing_send_impl(PyObject *module, HANDLE handle, Py_buffer *buf)
 #endif
 
 /*[clinic input]
+@c_stack_frugal
 _multiprocessing.sem_unlink
 
     name: str
@@ -166,7 +170,7 @@ _multiprocessing.sem_unlink
 
 static PyObject *
 _multiprocessing_sem_unlink_impl(PyObject *module, const char *name)
-/*[clinic end generated code: output=fcbfeb1ed255e647 input=bf939aff9564f1d5]*/
+/*[clinic end generated code: output=fcbfeb1ed255e647 input=01073b4eb47140fc]*/
 {
     return _PyMp_sem_unlink(name);
 }

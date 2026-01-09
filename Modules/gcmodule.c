@@ -26,6 +26,7 @@ module gc
 #include "clinic/gcmodule.c.h"
 
 /*[clinic input]
+@c_stack_frugal
 gc.enable
 
 Enable automatic garbage collection.
@@ -33,13 +34,14 @@ Enable automatic garbage collection.
 
 static PyObject *
 gc_enable_impl(PyObject *module)
-/*[clinic end generated code: output=45a427e9dce9155c input=81ac4940ca579707]*/
+/*[clinic end generated code: output=45a427e9dce9155c input=2877b162612e4824]*/
 {
     PyGC_Enable();
     Py_RETURN_NONE;
 }
 
 /*[clinic input]
+@c_stack_frugal
 gc.disable
 
 Disable automatic garbage collection.
@@ -47,13 +49,14 @@ Disable automatic garbage collection.
 
 static PyObject *
 gc_disable_impl(PyObject *module)
-/*[clinic end generated code: output=97d1030f7aa9d279 input=8c2e5a14e800d83b]*/
+/*[clinic end generated code: output=97d1030f7aa9d279 input=e67eb71e877d214f]*/
 {
     PyGC_Disable();
     Py_RETURN_NONE;
 }
 
 /*[clinic input]
+@c_stack_frugal
 gc.isenabled -> bool
 
 Returns true if automatic garbage collection is enabled.
@@ -61,12 +64,13 @@ Returns true if automatic garbage collection is enabled.
 
 static int
 gc_isenabled_impl(PyObject *module)
-/*[clinic end generated code: output=1874298331c49130 input=30005e0422373b31]*/
+/*[clinic end generated code: output=1874298331c49130 input=d7950fd7acb3800c]*/
 {
     return PyGC_IsEnabled();
 }
 
 /*[clinic input]
+@c_stack_frugal
 gc.collect -> Py_ssize_t
 
     generation: int(c_default="NUM_GENERATIONS - 1") = 2
@@ -82,7 +86,7 @@ The number of unreachable objects is returned.
 
 static Py_ssize_t
 gc_collect_impl(PyObject *module, int generation)
-/*[clinic end generated code: output=b697e633043233c7 input=40720128b682d879]*/
+/*[clinic end generated code: output=b697e633043233c7 input=05b15fb0456e3fd0]*/
 {
     PyThreadState *tstate = _PyThreadState_GET();
 
@@ -95,6 +99,7 @@ gc_collect_impl(PyObject *module, int generation)
 }
 
 /*[clinic input]
+@c_stack_frugal
 gc.set_debug
 
     flags: int
@@ -114,7 +119,7 @@ Debugging information is written to sys.stderr.
 
 static PyObject *
 gc_set_debug_impl(PyObject *module, int flags)
-/*[clinic end generated code: output=7c8366575486b228 input=5e5ce15e84fbed15]*/
+/*[clinic end generated code: output=7c8366575486b228 input=b545482febc06bb5]*/
 {
     GCState *gcstate = get_gc_state();
     gcstate->debug = flags;
@@ -122,6 +127,7 @@ gc_set_debug_impl(PyObject *module, int flags)
 }
 
 /*[clinic input]
+@c_stack_frugal
 gc.get_debug -> int
 
 Get the garbage collection debugging flags.
@@ -129,13 +135,14 @@ Get the garbage collection debugging flags.
 
 static int
 gc_get_debug_impl(PyObject *module)
-/*[clinic end generated code: output=91242f3506cd1e50 input=91a101e1c3b98366]*/
+/*[clinic end generated code: output=91242f3506cd1e50 input=7740b84d012381a9]*/
 {
     GCState *gcstate = get_gc_state();
     return gcstate->debug;
 }
 
 /*[clinic input]
+@c_stack_frugal
 gc.set_threshold
 
     threshold0: int
@@ -155,7 +162,7 @@ Setting 'threshold0' to zero disables collection.
 static PyObject *
 gc_set_threshold_impl(PyObject *module, int threshold0, int group_right_1,
                       int threshold1, int group_right_2, int threshold2)
-/*[clinic end generated code: output=2e3c7c7dd59060f3 input=0d9612db50984eec]*/
+/*[clinic end generated code: output=2e3c7c7dd59060f3 input=d7dbac46e17e13d4]*/
 {
     GCState *gcstate = get_gc_state();
 
@@ -170,6 +177,7 @@ gc_set_threshold_impl(PyObject *module, int threshold0, int group_right_1,
 }
 
 /*[clinic input]
+@c_stack_frugal
 gc.get_threshold
 
 Return the current collection thresholds.
@@ -177,7 +185,7 @@ Return the current collection thresholds.
 
 static PyObject *
 gc_get_threshold_impl(PyObject *module)
-/*[clinic end generated code: output=7902bc9f41ecbbd8 input=286d79918034d6e6]*/
+/*[clinic end generated code: output=7902bc9f41ecbbd8 input=5021c3bb0d30015c]*/
 {
     GCState *gcstate = get_gc_state();
     return Py_BuildValue("(iii)",
@@ -187,6 +195,7 @@ gc_get_threshold_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 gc.get_count
 
 Return a three-tuple of the current collection counts.
@@ -194,7 +203,7 @@ Return a three-tuple of the current collection counts.
 
 static PyObject *
 gc_get_count_impl(PyObject *module)
-/*[clinic end generated code: output=354012e67b16398f input=a392794a08251751]*/
+/*[clinic end generated code: output=354012e67b16398f input=d06ce894d14710d8]*/
 {
     GCState *gcstate = get_gc_state();
 
@@ -214,6 +223,7 @@ gc_get_count_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 gc.get_referrers
 
     *objs: tuple
@@ -223,7 +233,7 @@ Return the list of objects that directly refer to any of 'objs'.
 
 static PyObject *
 gc_get_referrers_impl(PyObject *module, PyObject *objs)
-/*[clinic end generated code: output=929d6dff26f609b9 input=9102be7ebee69ee3]*/
+/*[clinic end generated code: output=929d6dff26f609b9 input=ea8168cb000d777b]*/
 {
     if (PySys_Audit("gc.get_referrers", "(O)", objs) < 0) {
         return NULL;
@@ -262,6 +272,7 @@ append_referrents(PyObject *result, PyObject *args)
 }
 
 /*[clinic input]
+@c_stack_frugal
 gc.get_referents
 
     *objs: tuple
@@ -271,7 +282,7 @@ Return the list of objects that are directly referred to by 'objs'.
 
 static PyObject *
 gc_get_referents_impl(PyObject *module, PyObject *objs)
-/*[clinic end generated code: output=6dfde40cd1588e1d input=55c078a6d0248fe0]*/
+/*[clinic end generated code: output=6dfde40cd1588e1d input=27afc23fd64748c1]*/
 {
     if (PySys_Audit("gc.get_referents", "(O)", objs) < 0) {
         return NULL;
@@ -296,6 +307,7 @@ gc_get_referents_impl(PyObject *module, PyObject *objs)
 }
 
 /*[clinic input]
+@c_stack_frugal
 gc.get_objects
     generation: Py_ssize_t(accept={int, NoneType}, c_default="-1") = None
         Generation to extract the objects from.
@@ -308,7 +320,7 @@ that are in that generation.
 
 static PyObject *
 gc_get_objects_impl(PyObject *module, Py_ssize_t generation)
-/*[clinic end generated code: output=48b35fea4ba6cb0e input=ef7da9df9806754c]*/
+/*[clinic end generated code: output=48b35fea4ba6cb0e input=4867581e51d8045a]*/
 {
     if (PySys_Audit("gc.get_objects", "n", generation) < 0) {
         return NULL;
@@ -332,6 +344,7 @@ gc_get_objects_impl(PyObject *module, Py_ssize_t generation)
 }
 
 /*[clinic input]
+@c_stack_frugal
 gc.get_stats
 
 Return a list of dictionaries containing per-generation statistics.
@@ -339,7 +352,7 @@ Return a list of dictionaries containing per-generation statistics.
 
 static PyObject *
 gc_get_stats_impl(PyObject *module)
-/*[clinic end generated code: output=a8ab1d8a5d26f3ab input=1ef4ed9d17b1a470]*/
+/*[clinic end generated code: output=a8ab1d8a5d26f3ab input=ae728403576e4a9e]*/
 {
     int i;
     struct gc_generation_stats stats[NUM_GENERATIONS], *st;
@@ -380,6 +393,7 @@ error:
 
 
 /*[clinic input]
+@c_stack_frugal
 gc.is_tracked -> bool
 
     obj: object
@@ -392,12 +406,13 @@ Simple atomic objects will return false.
 
 static int
 gc_is_tracked_impl(PyObject *module, PyObject *obj)
-/*[clinic end generated code: output=91c8d086b7f47a33 input=423b98ec680c3126]*/
+/*[clinic end generated code: output=91c8d086b7f47a33 input=5a9135a39e348d3a]*/
 {
     return PyObject_GC_IsTracked(obj);
 }
 
 /*[clinic input]
+@c_stack_frugal
 gc.is_finalized -> bool
 
     obj: object
@@ -408,12 +423,13 @@ Returns true if the object has been already finalized by the GC.
 
 static int
 gc_is_finalized_impl(PyObject *module, PyObject *obj)
-/*[clinic end generated code: output=401ff5d6fc660429 input=ca4d111c8f8c4e3a]*/
+/*[clinic end generated code: output=401ff5d6fc660429 input=c6c5e655a3d3f002]*/
 {
     return PyObject_GC_IsFinalized(obj);
 }
 
 /*[clinic input]
+@c_stack_frugal
 gc.freeze
 
 Freeze all current tracked objects and ignore them for future collections.
@@ -425,7 +441,7 @@ which can cause copy-on-write.
 
 static PyObject *
 gc_freeze_impl(PyObject *module)
-/*[clinic end generated code: output=502159d9cdc4c139 input=b602b16ac5febbe5]*/
+/*[clinic end generated code: output=502159d9cdc4c139 input=d7e3aafbfa1002cb]*/
 {
     PyInterpreterState *interp = _PyInterpreterState_GET();
     _PyGC_Freeze(interp);
@@ -433,6 +449,7 @@ gc_freeze_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 gc.unfreeze
 
 Unfreeze all objects in the permanent generation.
@@ -442,7 +459,7 @@ Put all objects in the permanent generation back into oldest generation.
 
 static PyObject *
 gc_unfreeze_impl(PyObject *module)
-/*[clinic end generated code: output=1c15f2043b25e169 input=2dd52b170f4cef6c]*/
+/*[clinic end generated code: output=1c15f2043b25e169 input=b53e7aad9ec51bdf]*/
 {
     PyInterpreterState *interp = _PyInterpreterState_GET();
     _PyGC_Unfreeze(interp);
@@ -450,6 +467,7 @@ gc_unfreeze_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 gc.get_freeze_count -> Py_ssize_t
 
 Return the number of objects in the permanent generation.
@@ -457,7 +475,7 @@ Return the number of objects in the permanent generation.
 
 static Py_ssize_t
 gc_get_freeze_count_impl(PyObject *module)
-/*[clinic end generated code: output=61cbd9f43aa032e1 input=45ffbc65cfe2a6ed]*/
+/*[clinic end generated code: output=61cbd9f43aa032e1 input=3675dacb94572977]*/
 {
     PyInterpreterState *interp = _PyInterpreterState_GET();
     return _PyGC_GetFreezeCount(interp);

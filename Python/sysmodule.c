@@ -511,6 +511,7 @@ PySys_AddAuditHook(Py_AuditHookFunction hook, void *userData)
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys.addaudithook
 
     hook: object
@@ -520,7 +521,7 @@ Adds a new audit hook callback.
 
 static PyObject *
 sys_addaudithook_impl(PyObject *module, PyObject *hook)
-/*[clinic end generated code: output=4f9c17aaeb02f44e input=0f3e191217a45e34]*/
+/*[clinic end generated code: output=4f9c17aaeb02f44e input=269c17dc8cec7a2b]*/
 {
     PyThreadState *tstate = _PyThreadState_GET();
 
@@ -552,6 +553,7 @@ sys_addaudithook_impl(PyObject *module, PyObject *hook)
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys.audit
 
     event: str
@@ -563,7 +565,7 @@ Passes the event to any audit hooks that are attached.
 
 static PyObject *
 sys_audit_impl(PyObject *module, const char *event, PyObject *args)
-/*[clinic end generated code: output=1d0fc82da768f49d input=ec3b688527945109]*/
+/*[clinic end generated code: output=1d0fc82da768f49d input=bc438d78b643addd]*/
 {
     PyThreadState *tstate = _PyThreadState_GET();
     _Py_EnsureTstateNotNULL(tstate);
@@ -739,6 +741,7 @@ finally:
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys.displayhook
 
     object as o: object
@@ -749,7 +752,7 @@ Print an object to sys.stdout and also save it in builtins._
 
 static PyObject *
 sys_displayhook(PyObject *module, PyObject *o)
-/*[clinic end generated code: output=347477d006df92ed input=08ba730166d7ef72]*/
+/*[clinic end generated code: output=347477d006df92ed input=a80792cca38b7c07]*/
 {
     PyObject *outf;
     PyObject *builtins;
@@ -812,6 +815,7 @@ sys_displayhook(PyObject *module, PyObject *o)
 
 
 /*[clinic input]
+@c_stack_frugal
 sys.excepthook
 
     exctype:   object
@@ -825,7 +829,7 @@ Handle an exception by displaying it with a traceback on sys.stderr.
 static PyObject *
 sys_excepthook_impl(PyObject *module, PyObject *exctype, PyObject *value,
                     PyObject *traceback)
-/*[clinic end generated code: output=18d99fdda21b6b5e input=ecf606fa826f19d9]*/
+/*[clinic end generated code: output=18d99fdda21b6b5e input=5c545287667554ee]*/
 {
     PyErr_Display(NULL, value, traceback);
     Py_RETURN_NONE;
@@ -833,6 +837,7 @@ sys_excepthook_impl(PyObject *module, PyObject *exctype, PyObject *value,
 
 
 /*[clinic input]
+@c_stack_frugal
 sys.exception
 
 Return the current exception.
@@ -844,7 +849,7 @@ if no such exception exists.
 
 static PyObject *
 sys_exception_impl(PyObject *module)
-/*[clinic end generated code: output=2381ee2f25953e40 input=c88fbb94b6287431]*/
+/*[clinic end generated code: output=2381ee2f25953e40 input=a3f674907d394dfd]*/
 {
     _PyErr_StackItem *err_info = _PyErr_GetTopmostException(_PyThreadState_GET());
     if (err_info->exc_value != NULL) {
@@ -855,6 +860,7 @@ sys_exception_impl(PyObject *module)
 
 
 /*[clinic input]
+@c_stack_frugal
 sys.exc_info
 
 Return current exception information: (type, value, traceback).
@@ -865,7 +871,7 @@ clause in the current stack frame or in an older stack frame.
 
 static PyObject *
 sys_exc_info_impl(PyObject *module)
-/*[clinic end generated code: output=3afd0940cf3a4d30 input=b5c5bf077788a3e5]*/
+/*[clinic end generated code: output=3afd0940cf3a4d30 input=a8ff48e7530cf6ed]*/
 {
     _PyErr_StackItem *err_info = _PyErr_GetTopmostException(_PyThreadState_GET());
     return _PyErr_StackItemToExcInfoTuple(err_info);
@@ -873,6 +879,7 @@ sys_exc_info_impl(PyObject *module)
 
 
 /*[clinic input]
+@c_stack_frugal
 sys.unraisablehook
 
     unraisable: object
@@ -891,13 +898,14 @@ The unraisable argument has the following attributes:
 
 static PyObject *
 sys_unraisablehook(PyObject *module, PyObject *unraisable)
-/*[clinic end generated code: output=bb92838b32abaa14 input=ec3af148294af8d3]*/
+/*[clinic end generated code: output=bb92838b32abaa14 input=ebc7f3cda9a2f876]*/
 {
     return _PyErr_WriteUnraisableDefaultHook(unraisable);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 sys.exit
 
     status: object = None
@@ -913,7 +921,7 @@ exit status will be one (i.e., failure).
 
 static PyObject *
 sys_exit_impl(PyObject *module, PyObject *status)
-/*[clinic end generated code: output=13870986c1ab2ec0 input=b86ca9497baa94f2]*/
+/*[clinic end generated code: output=13870986c1ab2ec0 input=c10600897fd64558]*/
 {
     /* Raise SystemExit so callers may catch it or clean up. */
     PyErr_SetObject(PyExc_SystemExit, status);
@@ -930,6 +938,7 @@ get_utf8_unicode(void)
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys.getdefaultencoding
 
 Return the current default encoding used by the Unicode implementation.
@@ -937,12 +946,13 @@ Return the current default encoding used by the Unicode implementation.
 
 static PyObject *
 sys_getdefaultencoding_impl(PyObject *module)
-/*[clinic end generated code: output=256d19dfcc0711e6 input=d416856ddbef6909]*/
+/*[clinic end generated code: output=256d19dfcc0711e6 input=ad15040a5a0688e0]*/
 {
     return get_utf8_unicode();
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys.getfilesystemencoding
 
 Return the encoding used to convert Unicode filenames to OS filenames.
@@ -950,7 +960,7 @@ Return the encoding used to convert Unicode filenames to OS filenames.
 
 static PyObject *
 sys_getfilesystemencoding_impl(PyObject *module)
-/*[clinic end generated code: output=1dc4bdbe9be44aa7 input=8475f8649b8c7d8c]*/
+/*[clinic end generated code: output=1dc4bdbe9be44aa7 input=6944632a4823f094]*/
 {
     PyInterpreterState *interp = _PyInterpreterState_GET();
     const PyConfig *config = _PyInterpreterState_GetConfig(interp);
@@ -968,6 +978,7 @@ sys_getfilesystemencoding_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys.getfilesystemencodeerrors
 
 Return the error mode used Unicode to OS filename conversion.
@@ -975,7 +986,7 @@ Return the error mode used Unicode to OS filename conversion.
 
 static PyObject *
 sys_getfilesystemencodeerrors_impl(PyObject *module)
-/*[clinic end generated code: output=ba77b36bbf7c96f5 input=22a1e8365566f1e5]*/
+/*[clinic end generated code: output=ba77b36bbf7c96f5 input=005a01e17f163864]*/
 {
     PyInterpreterState *interp = _PyInterpreterState_GET();
     const PyConfig *config = _PyInterpreterState_GetConfig(interp);
@@ -988,6 +999,7 @@ sys_getfilesystemencodeerrors_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys.intern
 
     string as s: unicode
@@ -1002,7 +1014,7 @@ the previously interned string object with the same value.
 
 static PyObject *
 sys_intern_impl(PyObject *module, PyObject *s)
-/*[clinic end generated code: output=be680c24f5c9e5d6 input=849483c006924e2f]*/
+/*[clinic end generated code: output=be680c24f5c9e5d6 input=890269efe278a148]*/
 {
     if (PyUnicode_CheckExact(s)) {
         PyInterpreterState *interp = _PyInterpreterState_GET();
@@ -1019,6 +1031,7 @@ sys_intern_impl(PyObject *module, PyObject *s)
 
 
 /*[clinic input]
+@c_stack_frugal
 sys._is_interned -> bool
 
   string: unicode
@@ -1029,12 +1042,13 @@ Return True if the given string is "interned".
 
 static int
 sys__is_interned_impl(PyObject *module, PyObject *string)
-/*[clinic end generated code: output=c3678267b4e9d7ed input=039843e17883b606]*/
+/*[clinic end generated code: output=c3678267b4e9d7ed input=c4c49d557e1ec744]*/
 {
     return PyUnicode_CHECK_INTERNED(string);
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys._is_immortal -> bool
 
   op: object
@@ -1047,7 +1061,7 @@ This function should be used for specialized purposes only.
 
 static int
 sys__is_immortal_impl(PyObject *module, PyObject *op)
-/*[clinic end generated code: output=c2f5d6a80efb8d1a input=4609c9bf5481db76]*/
+/*[clinic end generated code: output=c2f5d6a80efb8d1a input=e8e21854963d726a]*/
 {
     return PyUnstable_IsImmortal(op);
 }
@@ -1130,6 +1144,7 @@ trace_trampoline(PyObject *self, PyFrameObject *frame,
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys.settrace
 
     function: object
@@ -1143,7 +1158,7 @@ in the library manual.
 
 static PyObject *
 sys_settrace(PyObject *module, PyObject *function)
-/*[clinic end generated code: output=999d12e9d6ec4678 input=8107feb01c5f1c4e]*/
+/*[clinic end generated code: output=999d12e9d6ec4678 input=0457b9505ecb32aa]*/
 {
     PyThreadState *tstate = _PyThreadState_GET();
     if (function == Py_None) {
@@ -1160,6 +1175,7 @@ sys_settrace(PyObject *module, PyObject *function)
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys._settraceallthreads
 
     function as arg: object
@@ -1173,7 +1189,7 @@ in the library manual.
 
 static PyObject *
 sys__settraceallthreads(PyObject *module, PyObject *arg)
-/*[clinic end generated code: output=161cca30207bf3ca input=d4bde1f810d73675]*/
+/*[clinic end generated code: output=161cca30207bf3ca input=2e8e47ea6a9a5646]*/
 {
     PyObject* argument = NULL;
     Py_tracefunc func = NULL;
@@ -1190,6 +1206,7 @@ sys__settraceallthreads(PyObject *module, PyObject *arg)
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys.gettrace
 
 Return the global debug tracing function set with sys.settrace.
@@ -1199,7 +1216,7 @@ See the debugger chapter in the library manual.
 
 static PyObject *
 sys_gettrace_impl(PyObject *module)
-/*[clinic end generated code: output=e97e3a4d8c971b6e input=373b51bb2147f4d8]*/
+/*[clinic end generated code: output=e97e3a4d8c971b6e input=e8d001d7c209c06e]*/
 {
     PyThreadState *tstate = _PyThreadState_GET();
     PyObject *temp = tstate->c_traceobj;
@@ -1210,6 +1227,7 @@ sys_gettrace_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys.setprofile
 
     function: object
@@ -1223,7 +1241,7 @@ chapter in the library manual.
 
 static PyObject *
 sys_setprofile(PyObject *module, PyObject *function)
-/*[clinic end generated code: output=1c3503105939db9c input=055d0d7961413a62]*/
+/*[clinic end generated code: output=1c3503105939db9c input=bbc8e1a2afff6e23]*/
 {
     PyThreadState *tstate = _PyThreadState_GET();
     if (function == Py_None) {
@@ -1240,6 +1258,7 @@ sys_setprofile(PyObject *module, PyObject *function)
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys._setprofileallthreads
 
     function as arg: object
@@ -1253,7 +1272,7 @@ chapter in the library manual.
 
 static PyObject *
 sys__setprofileallthreads(PyObject *module, PyObject *arg)
-/*[clinic end generated code: output=2d61319e27b309fe input=a10589439ba20cee]*/
+/*[clinic end generated code: output=2d61319e27b309fe input=93dfae83cdd6f3e5]*/
 {
     PyObject* argument = NULL;
     Py_tracefunc func = NULL;
@@ -1269,6 +1288,7 @@ sys__setprofileallthreads(PyObject *module, PyObject *arg)
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys.getprofile
 
 Return the profiling function set with sys.setprofile.
@@ -1278,7 +1298,7 @@ See the profiler chapter in the library manual.
 
 static PyObject *
 sys_getprofile_impl(PyObject *module)
-/*[clinic end generated code: output=579b96b373448188 input=1b3209d89a32965d]*/
+/*[clinic end generated code: output=579b96b373448188 input=f04db1d07098e803]*/
 {
     PyThreadState *tstate = _PyThreadState_GET();
     PyObject *temp = tstate->c_profileobj;
@@ -1290,6 +1310,7 @@ sys_getprofile_impl(PyObject *module)
 
 
 /*[clinic input]
+@c_stack_frugal
 sys.setswitchinterval
 
     interval: double
@@ -1307,7 +1328,7 @@ A typical value is 0.005 (5 milliseconds).
 
 static PyObject *
 sys_setswitchinterval_impl(PyObject *module, double interval)
-/*[clinic end generated code: output=65a19629e5153983 input=561b477134df91d9]*/
+/*[clinic end generated code: output=65a19629e5153983 input=0240e9a6d49b5093]*/
 {
     if (interval <= 0.0) {
         PyErr_SetString(PyExc_ValueError,
@@ -1320,6 +1341,7 @@ sys_setswitchinterval_impl(PyObject *module, double interval)
 
 
 /*[clinic input]
+@c_stack_frugal
 sys.getswitchinterval -> double
 
 Return the current thread switch interval; see sys.setswitchinterval().
@@ -1327,12 +1349,13 @@ Return the current thread switch interval; see sys.setswitchinterval().
 
 static double
 sys_getswitchinterval_impl(PyObject *module)
-/*[clinic end generated code: output=a38c277c85b5096d input=bdf9d39c0ebbbb6f]*/
+/*[clinic end generated code: output=a38c277c85b5096d input=a9534db109b66da8]*/
 {
     return 1e-6 * _PyEval_GetSwitchInterval();
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys.setrecursionlimit
 
     limit as new_limit: int
@@ -1347,7 +1370,7 @@ dependent.
 
 static PyObject *
 sys_setrecursionlimit_impl(PyObject *module, int new_limit)
-/*[clinic end generated code: output=35e1c64754800ace input=b0f7a23393924af3]*/
+/*[clinic end generated code: output=35e1c64754800ace input=56deaccd0c8ec88a]*/
 {
     PyThreadState *tstate = _PyThreadState_GET();
 
@@ -1373,6 +1396,7 @@ sys_setrecursionlimit_impl(PyObject *module, int new_limit)
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys.set_coroutine_origin_tracking_depth
 
   depth: int
@@ -1387,7 +1411,7 @@ Set a depth of 0 to disable.
 
 static PyObject *
 sys_set_coroutine_origin_tracking_depth_impl(PyObject *module, int depth)
-/*[clinic end generated code: output=0a2123c1cc6759c5 input=a1d0a05f89d2c426]*/
+/*[clinic end generated code: output=0a2123c1cc6759c5 input=fb17b99d28077dcb]*/
 {
     if (_PyEval_SetCoroutineOriginTrackingDepth(depth) < 0) {
         return NULL;
@@ -1396,6 +1420,7 @@ sys_set_coroutine_origin_tracking_depth_impl(PyObject *module, int depth)
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys.get_coroutine_origin_tracking_depth -> int
 
 Check status of origin tracking for coroutine objects in this thread.
@@ -1403,7 +1428,7 @@ Check status of origin tracking for coroutine objects in this thread.
 
 static int
 sys_get_coroutine_origin_tracking_depth_impl(PyObject *module)
-/*[clinic end generated code: output=3699f7be95a3afb8 input=335266a71205b61a]*/
+/*[clinic end generated code: output=3699f7be95a3afb8 input=5276939aeb7e4022]*/
 {
     return _PyEval_GetCoroutineOriginTrackingDepth();
 }
@@ -1494,6 +1519,7 @@ Set a finalizer for async generators objects."
 );
 
 /*[clinic input]
+@c_stack_frugal
 sys.get_asyncgen_hooks
 
 Return the installed asynchronous generators hooks.
@@ -1503,7 +1529,7 @@ This returns a namedtuple of the form (firstiter, finalizer).
 
 static PyObject *
 sys_get_asyncgen_hooks_impl(PyObject *module)
-/*[clinic end generated code: output=53a253707146f6cf input=3676b9ea62b14625]*/
+/*[clinic end generated code: output=53a253707146f6cf input=e5ba360c9ca66783]*/
 {
     PyObject *res;
     PyObject *firstiter = _PyEval_GetAsyncGenFirstiter();
@@ -1596,6 +1622,7 @@ get_hash_info(PyThreadState *tstate)
     return hash_info;
 }
 /*[clinic input]
+@c_stack_frugal
 sys.getrecursionlimit
 
 Return the current value of the recursion limit.
@@ -1607,7 +1634,7 @@ of the C stack and crashing Python.
 
 static PyObject *
 sys_getrecursionlimit_impl(PyObject *module)
-/*[clinic end generated code: output=d571fb6b4549ef2e input=1c6129fd2efaeea8]*/
+/*[clinic end generated code: output=d571fb6b4549ef2e input=d0967e878a405975]*/
 {
     return PyLong_FromLong(Py_GetRecursionLimit());
 }
@@ -1692,6 +1719,7 @@ _sys_getwindowsversion_from_kernel32(void)
 #pragma warning(disable:4996)
 
 /*[clinic input]
+@c_stack_frugal
 sys.getwindowsversion
 
 Return info about the running version of Windows as a named tuple.
@@ -1709,7 +1737,7 @@ intended for identifying the OS rather than feature detection.
 
 static PyObject *
 sys_getwindowsversion_impl(PyObject *module)
-/*[clinic end generated code: output=1ec063280b932857 input=73a228a328fee63a]*/
+/*[clinic end generated code: output=1ec063280b932857 input=5c02d5cce6143952]*/
 {
     PyObject *version;
     int pos = 0;
@@ -1786,6 +1814,7 @@ error:
 #pragma warning(pop)
 
 /*[clinic input]
+@c_stack_frugal
 sys._enablelegacywindowsfsencoding
 
 Changes the default filesystem encoding to mbcs:replace.
@@ -1799,7 +1828,7 @@ environment variable before launching Python.
 
 static PyObject *
 sys__enablelegacywindowsfsencoding_impl(PyObject *module)
-/*[clinic end generated code: output=f5c3855b45e24fe9 input=2bfa931a20704492]*/
+/*[clinic end generated code: output=f5c3855b45e24fe9 input=b4a25a7fa5fa19de]*/
 {
     if (PyErr_WarnEx(PyExc_DeprecationWarning,
         "sys._enablelegacywindowsfsencoding() is deprecated and will be "
@@ -1819,6 +1848,7 @@ sys__enablelegacywindowsfsencoding_impl(PyObject *module)
 #ifdef HAVE_DLOPEN
 
 /*[clinic input]
+@c_stack_frugal
 sys.setdlopenflags
 
     flags as new_val: int
@@ -1837,7 +1867,7 @@ os.RTLD_LAZY).
 
 static PyObject *
 sys_setdlopenflags_impl(PyObject *module, int new_val)
-/*[clinic end generated code: output=ec918b7fe0a37281 input=4c838211e857a77f]*/
+/*[clinic end generated code: output=ec918b7fe0a37281 input=8c050b9c168b032e]*/
 {
     PyInterpreterState *interp = _PyInterpreterState_GET();
     _PyImport_SetDLOpenFlags(interp, new_val);
@@ -1846,6 +1876,7 @@ sys_setdlopenflags_impl(PyObject *module, int new_val)
 
 
 /*[clinic input]
+@c_stack_frugal
 sys.getdlopenflags
 
 Return the current value of the flags that are used for dlopen calls.
@@ -1855,7 +1886,7 @@ The flag constants are defined in the os module.
 
 static PyObject *
 sys_getdlopenflags_impl(PyObject *module)
-/*[clinic end generated code: output=e92cd1bc5005da6e input=dc4ea0899c53b4b6]*/
+/*[clinic end generated code: output=e92cd1bc5005da6e input=0a6bb02193ebbaba]*/
 {
     PyInterpreterState *interp = _PyInterpreterState_GET();
     return PyLong_FromLong(
@@ -1869,6 +1900,7 @@ sys_getdlopenflags_impl(PyObject *module)
 #include <malloc.h>
 
 /*[clinic input]
+@c_stack_frugal
 sys.mdebug
 
     flag: int
@@ -1877,7 +1909,7 @@ sys.mdebug
 
 static PyObject *
 sys_mdebug_impl(PyObject *module, int flag)
-/*[clinic end generated code: output=5431d545847c3637 input=151d150ae1636f8a]*/
+/*[clinic end generated code: output=5431d545847c3637 input=340933b9cf1e1d16]*/
 {
     int flag;
     mallopt(M_DEBUG, flag);
@@ -1887,6 +1919,7 @@ sys_mdebug_impl(PyObject *module, int flag)
 
 
 /*[clinic input]
+@c_stack_frugal
 sys.get_int_max_str_digits
 
 Return the maximum string digits limit for non-binary int<->str conversions.
@@ -1894,7 +1927,7 @@ Return the maximum string digits limit for non-binary int<->str conversions.
 
 static PyObject *
 sys_get_int_max_str_digits_impl(PyObject *module)
-/*[clinic end generated code: output=0042f5e8ae0e8631 input=61bf9f99bc8b112d]*/
+/*[clinic end generated code: output=0042f5e8ae0e8631 input=1934da70964f5191]*/
 {
     PyInterpreterState *interp = _PyInterpreterState_GET();
     return PyLong_FromLong(interp->long_state.max_str_digits);
@@ -1902,6 +1935,7 @@ sys_get_int_max_str_digits_impl(PyObject *module)
 
 
 /*[clinic input]
+@c_stack_frugal
 sys.set_int_max_str_digits
 
     maxdigits: int
@@ -1911,7 +1945,7 @@ Set the maximum string digits limit for non-binary int<->str conversions.
 
 static PyObject *
 sys_set_int_max_str_digits_impl(PyObject *module, int maxdigits)
-/*[clinic end generated code: output=734d4c2511f2a56d input=d7e3f325db6910c5]*/
+/*[clinic end generated code: output=734d4c2511f2a56d input=86bb82b92fdc381a]*/
 {
     if (_PySys_SetIntMaxStrDigits(maxdigits) < 0) {
         return NULL;
@@ -2004,6 +2038,7 @@ PyDoc_STRVAR(getsizeof_doc,
 Return the size of object in bytes.");
 
 /*[clinic input]
+@c_stack_frugal
 sys.getrefcount -> Py_ssize_t
 
     object:  object
@@ -2018,19 +2053,20 @@ getrefcount().
 
 static Py_ssize_t
 sys_getrefcount_impl(PyObject *module, PyObject *object)
-/*[clinic end generated code: output=5fd477f2264b85b2 input=bf474efd50a21535]*/
+/*[clinic end generated code: output=5fd477f2264b85b2 input=57c61d7f8e229e42]*/
 {
     return Py_REFCNT(object);
 }
 
 #ifdef Py_REF_DEBUG
 /*[clinic input]
+@c_stack_frugal
 sys.gettotalrefcount -> Py_ssize_t
 [clinic start generated code]*/
 
 static Py_ssize_t
 sys_gettotalrefcount_impl(PyObject *module)
-/*[clinic end generated code: output=4103886cf17c25bc input=53b744faa5d2e4f6]*/
+/*[clinic end generated code: output=4103886cf17c25bc input=74f441628092a585]*/
 {
     /* It may make sense to return the total for the current interpreter
        or have a second function that does so. */
@@ -2040,6 +2076,7 @@ sys_gettotalrefcount_impl(PyObject *module)
 #endif /* Py_REF_DEBUG */
 
 /*[clinic input]
+@c_stack_frugal
 sys.getallocatedblocks -> Py_ssize_t
 
 Return the number of memory blocks currently allocated.
@@ -2047,7 +2084,7 @@ Return the number of memory blocks currently allocated.
 
 static Py_ssize_t
 sys_getallocatedblocks_impl(PyObject *module)
-/*[clinic end generated code: output=f0c4e873f0b6dcf7 input=dab13ee346a0673e]*/
+/*[clinic end generated code: output=f0c4e873f0b6dcf7 input=f9d5b2756fc657be]*/
 {
     // It might make sense to return the count
     // for just the current interpreter.
@@ -2055,6 +2092,7 @@ sys_getallocatedblocks_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys.getunicodeinternedsize -> Py_ssize_t
 
     *
@@ -2065,7 +2103,7 @@ Return the number of elements of the unicode interned dictionary
 
 static Py_ssize_t
 sys_getunicodeinternedsize_impl(PyObject *module, int _only_immortal)
-/*[clinic end generated code: output=29a6377a94a14f70 input=0330b3408dd5bcc6]*/
+/*[clinic end generated code: output=29a6377a94a14f70 input=97d668dec2e2b6e6]*/
 {
     if (_only_immortal) {
         return _PyUnicode_InternedSize_Immortal();
@@ -2076,6 +2114,7 @@ sys_getunicodeinternedsize_impl(PyObject *module, int _only_immortal)
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys._getframe
 
     depth: int = 0
@@ -2094,7 +2133,7 @@ only.
 
 static PyObject *
 sys__getframe_impl(PyObject *module, int depth)
-/*[clinic end generated code: output=d438776c04d59804 input=c1be8a6464b11ee5]*/
+/*[clinic end generated code: output=d438776c04d59804 input=98337082bb04f06d]*/
 {
     PyThreadState *tstate = _PyThreadState_GET();
     _PyInterpreterFrame *frame = tstate->current_frame;
@@ -2123,6 +2162,7 @@ sys__getframe_impl(PyObject *module, int depth)
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys._current_frames
 
 Return a dict mapping each thread's thread id to its current stack frame.
@@ -2132,12 +2172,13 @@ This function should be used for specialized purposes only.
 
 static PyObject *
 sys__current_frames_impl(PyObject *module)
-/*[clinic end generated code: output=d2a41ac0a0a3809a input=2a9049c5f5033691]*/
+/*[clinic end generated code: output=d2a41ac0a0a3809a input=914fbb10c53b33ff]*/
 {
     return _PyThread_CurrentFrames();
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys._current_exceptions
 
 Return a dict mapping each thread's identifier to its current raised exception.
@@ -2147,12 +2188,13 @@ This function should be used for specialized purposes only.
 
 static PyObject *
 sys__current_exceptions_impl(PyObject *module)
-/*[clinic end generated code: output=2ccfd838c746f0ba input=0e91818fbf2edc1f]*/
+/*[clinic end generated code: output=2ccfd838c746f0ba input=9f90ca1be2f4620f]*/
 {
     return _PyThread_CurrentExceptions();
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys.call_tracing
 
     func: object
@@ -2168,12 +2210,13 @@ some other code.
 
 static PyObject *
 sys_call_tracing_impl(PyObject *module, PyObject *func, PyObject *funcargs)
-/*[clinic end generated code: output=7e4999853cd4e5a6 input=5102e8b11049f92f]*/
+/*[clinic end generated code: output=7e4999853cd4e5a6 input=4ffd5f1d8513ca07]*/
 {
     return _PyEval_CallTracing(func, funcargs);
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys._debugmallocstats
 
 Print summary info to stderr about the state of pymalloc's structures.
@@ -2184,7 +2227,7 @@ checks.
 
 static PyObject *
 sys__debugmallocstats_impl(PyObject *module)
-/*[clinic end generated code: output=ec3565f8c7cee46a input=33c0c9c416f98424]*/
+/*[clinic end generated code: output=ec3565f8c7cee46a input=d8dc9d4569cfb06f]*/
 {
 #ifdef WITH_PYMALLOC
     if (_PyObject_DebugMallocStats(stderr)) {
@@ -2203,6 +2246,7 @@ extern PyObject *_Py_GetObjects(PyObject *, PyObject *);
 
 
 /*[clinic input]
+@c_stack_frugal
 sys._clear_type_cache
 
 Clear the internal type lookup cache.
@@ -2210,7 +2254,7 @@ Clear the internal type lookup cache.
 
 static PyObject *
 sys__clear_type_cache_impl(PyObject *module)
-/*[clinic end generated code: output=20e48ca54a6f6971 input=127f3e04a8d9b555]*/
+/*[clinic end generated code: output=20e48ca54a6f6971 input=f356a091d8e222b9]*/
 {
     if (PyErr_WarnEx(PyExc_DeprecationWarning,
                      "sys._clear_type_cache() is deprecated and"
@@ -2225,6 +2269,7 @@ sys__clear_type_cache_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys._clear_internal_caches
 
 Clear all internal performance-related caches.
@@ -2232,7 +2277,7 @@ Clear all internal performance-related caches.
 
 static PyObject *
 sys__clear_internal_caches_impl(PyObject *module)
-/*[clinic end generated code: output=0ee128670a4966d6 input=253e741ca744f6e8]*/
+/*[clinic end generated code: output=0ee128670a4966d6 input=d297762bd047cada]*/
 {
 #ifdef _Py_TIER2
     PyInterpreterState *interp = _PyInterpreterState_GET();
@@ -2251,6 +2296,7 @@ sys__clear_internal_caches_impl(PyObject *module)
   for sys.is_finalizing(). */
 
 /*[clinic input]
+@c_stack_frugal
 sys.is_finalizing
 
 Return True if Python is exiting.
@@ -2258,7 +2304,7 @@ Return True if Python is exiting.
 
 static PyObject *
 sys_is_finalizing_impl(PyObject *module)
-/*[clinic end generated code: output=735b5ff7962ab281 input=f0df747a039948a5]*/
+/*[clinic end generated code: output=735b5ff7962ab281 input=5cfa293784b5bba3]*/
 {
     return PyBool_FromLong(Py_IsFinalizing());
 }
@@ -2266,6 +2312,7 @@ sys_is_finalizing_impl(PyObject *module)
 
 #ifdef Py_STATS
 /*[clinic input]
+@c_stack_frugal
 sys._stats_on
 
 Turns on stats gathering (stats gathering is off by default).
@@ -2273,13 +2320,14 @@ Turns on stats gathering (stats gathering is off by default).
 
 static PyObject *
 sys__stats_on_impl(PyObject *module)
-/*[clinic end generated code: output=aca53eafcbb4d9fe input=43b5bfe145299e55]*/
+/*[clinic end generated code: output=aca53eafcbb4d9fe input=5f932f2bd66ab989]*/
 {
     _Py_StatsOn();
     Py_RETURN_NONE;
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys._stats_off
 
 Turns off stats gathering (stats gathering is off by default).
@@ -2287,13 +2335,14 @@ Turns off stats gathering (stats gathering is off by default).
 
 static PyObject *
 sys__stats_off_impl(PyObject *module)
-/*[clinic end generated code: output=1534c1ee63812214 input=d1a84c60c56cbce2]*/
+/*[clinic end generated code: output=1534c1ee63812214 input=a215498d865e895f]*/
 {
     _Py_StatsOff();
     Py_RETURN_NONE;
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys._stats_clear
 
 Clears the stats.
@@ -2301,13 +2350,14 @@ Clears the stats.
 
 static PyObject *
 sys__stats_clear_impl(PyObject *module)
-/*[clinic end generated code: output=fb65a2525ee50604 input=3e03f2654f44da96]*/
+/*[clinic end generated code: output=fb65a2525ee50604 input=5ed8ea3508b77b08]*/
 {
     _Py_StatsClear();
     Py_RETURN_NONE;
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys._stats_dump -> bool
 
 Dump stats to file, and clears the stats.
@@ -2317,7 +2367,7 @@ Return False if no statistics were not dumped because stats gathering was off.
 
 static int
 sys__stats_dump_impl(PyObject *module)
-/*[clinic end generated code: output=6e346b4ba0de4489 input=31a489e39418b2a5]*/
+/*[clinic end generated code: output=6e346b4ba0de4489 input=dde9f755a74803a0]*/
 {
     int res = _Py_PrintSpecializationStats(1);
     _Py_StatsClear();
@@ -2328,6 +2378,7 @@ sys__stats_dump_impl(PyObject *module)
 
 #ifdef ANDROID_API_LEVEL
 /*[clinic input]
+@c_stack_frugal
 sys.getandroidapilevel
 
 Return the build time API version of Android as an integer.
@@ -2335,13 +2386,14 @@ Return the build time API version of Android as an integer.
 
 static PyObject *
 sys_getandroidapilevel_impl(PyObject *module)
-/*[clinic end generated code: output=214abf183a1c70c1 input=3e6d6c9fcdd24ac6]*/
+/*[clinic end generated code: output=214abf183a1c70c1 input=0b4d1267ecb19921]*/
 {
     return PyLong_FromLong(ANDROID_API_LEVEL);
 }
 #endif   /* ANDROID_API_LEVEL */
 
 /*[clinic input]
+@c_stack_frugal
 sys.activate_stack_trampoline
 
     backend: str
@@ -2352,7 +2404,7 @@ Activate stack profiler trampoline *backend*.
 
 static PyObject *
 sys_activate_stack_trampoline_impl(PyObject *module, const char *backend)
-/*[clinic end generated code: output=5783cdeb51874b43 input=a12df928758a82b4]*/
+/*[clinic end generated code: output=5783cdeb51874b43 input=505320ad8cd5cbab]*/
 {
 #ifdef PY_HAVE_PERF_TRAMPOLINE
 #ifdef _Py_JIT
@@ -2398,6 +2450,7 @@ sys_activate_stack_trampoline_impl(PyObject *module, const char *backend)
 
 
 /*[clinic input]
+@c_stack_frugal
 sys.deactivate_stack_trampoline
 
 Deactivate the current stack profiler trampoline backend.
@@ -2407,7 +2460,7 @@ If no stack profiler is activated, this function has no effect.
 
 static PyObject *
 sys_deactivate_stack_trampoline_impl(PyObject *module)
-/*[clinic end generated code: output=b50da25465df0ef1 input=9f629a6be9fe7fc8]*/
+/*[clinic end generated code: output=b50da25465df0ef1 input=f285250295b802d5]*/
 {
     if  (_PyPerfTrampoline_Init(0) < 0) {
         return NULL;
@@ -2416,6 +2469,7 @@ sys_deactivate_stack_trampoline_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys.is_stack_trampoline_active
 
 Return *True* if a stack profiler trampoline is active.
@@ -2423,7 +2477,7 @@ Return *True* if a stack profiler trampoline is active.
 
 static PyObject *
 sys_is_stack_trampoline_active_impl(PyObject *module)
-/*[clinic end generated code: output=ab2746de0ad9d293 input=29616b7bf6a0b703]*/
+/*[clinic end generated code: output=ab2746de0ad9d293 input=60cd7ebe3ba3b3c3]*/
 {
 #ifdef PY_HAVE_PERF_TRAMPOLINE
     if (_PyIsPerfTrampolineActive()) {
@@ -2435,6 +2489,7 @@ sys_is_stack_trampoline_active_impl(PyObject *module)
 
 
 /*[clinic input]
+@c_stack_frugal
 sys.is_remote_debug_enabled
 
 Return True if remote debugging is enabled, False otherwise.
@@ -2442,7 +2497,7 @@ Return True if remote debugging is enabled, False otherwise.
 
 static PyObject *
 sys_is_remote_debug_enabled_impl(PyObject *module)
-/*[clinic end generated code: output=7ca3d38bdd5935eb input=7335c4a2fe8cf4f3]*/
+/*[clinic end generated code: output=7ca3d38bdd5935eb input=26c66152926e37c8]*/
 {
 #if !defined(Py_REMOTE_DEBUG) || !defined(Py_SUPPORTS_REMOTE_DEBUG)
     Py_RETURN_FALSE;
@@ -2453,6 +2508,7 @@ sys_is_remote_debug_enabled_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys.remote_exec
 
     pid: int
@@ -2480,7 +2536,7 @@ Args:
 
 static PyObject *
 sys_remote_exec_impl(PyObject *module, int pid, PyObject *script)
-/*[clinic end generated code: output=7d94c56afe4a52c0 input=39908ca2c5fe1eb0]*/
+/*[clinic end generated code: output=7d94c56afe4a52c0 input=f4e945d2d1f300e2]*/
 {
     PyObject *path;
     const char *debugger_script_path;
@@ -2546,6 +2602,7 @@ error:
 
 
 /*[clinic input]
+@c_stack_frugal
 sys._dump_tracelets
 
     outpath: object
@@ -2555,7 +2612,7 @@ Dump the graph of tracelets in graphviz format
 
 static PyObject *
 sys__dump_tracelets_impl(PyObject *module, PyObject *outpath)
-/*[clinic end generated code: output=a7fe265e2bc3b674 input=5bff6880cd28ffd1]*/
+/*[clinic end generated code: output=a7fe265e2bc3b674 input=86e32c9b4579c958]*/
 {
     FILE *out = Py_fopen(outpath, "wb");
     if (out == NULL) {
@@ -2571,6 +2628,7 @@ sys__dump_tracelets_impl(PyObject *module, PyObject *outpath)
 
 
 /*[clinic input]
+@c_stack_frugal
 sys._getframemodulename
 
     depth: int = 0
@@ -2586,7 +2644,7 @@ If no frame, module, or name can be found, returns None.
 
 static PyObject *
 sys__getframemodulename_impl(PyObject *module, int depth)
-/*[clinic end generated code: output=1d70ef691f09d2db input=d4f1a8ed43b8fb46]*/
+/*[clinic end generated code: output=1d70ef691f09d2db input=43b0caea7604f8a7]*/
 {
     if (PySys_Audit("sys._getframemodulename", "i", depth) < 0) {
         return NULL;
@@ -2608,6 +2666,7 @@ sys__getframemodulename_impl(PyObject *module, int depth)
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys._get_cpu_count_config -> int
 
 Private function for getting PyConfig.cpu_count
@@ -2615,13 +2674,14 @@ Private function for getting PyConfig.cpu_count
 
 static int
 sys__get_cpu_count_config_impl(PyObject *module)
-/*[clinic end generated code: output=36611bb5efad16dc input=523e1ade2204084e]*/
+/*[clinic end generated code: output=36611bb5efad16dc input=a3760b5d37975ab8]*/
 {
     const PyConfig *config = _Py_GetConfig();
     return config->cpu_count;
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys._baserepl
 
 Private function for getting the base REPL
@@ -2629,7 +2689,7 @@ Private function for getting the base REPL
 
 static PyObject *
 sys__baserepl_impl(PyObject *module)
-/*[clinic end generated code: output=f19a36375ebe0a45 input=ade0ebb9fab56f3c]*/
+/*[clinic end generated code: output=f19a36375ebe0a45 input=a908abeb983b7159]*/
 {
     PyCompilerFlags cf = _PyCompilerFlags_INIT;
     PyRun_AnyFileExFlags(stdin, "<stdin>", 0, &cf);
@@ -2637,6 +2697,7 @@ sys__baserepl_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 sys._is_gil_enabled -> bool
 
 Return True if the GIL is currently enabled and False otherwise.
@@ -2644,7 +2705,7 @@ Return True if the GIL is currently enabled and False otherwise.
 
 static int
 sys__is_gil_enabled_impl(PyObject *module)
-/*[clinic end generated code: output=57732cf53f5b9120 input=7e9c47f15a00e809]*/
+/*[clinic end generated code: output=57732cf53f5b9120 input=dd1345a8d874d29f]*/
 {
 #ifdef Py_GIL_DISABLED
     return _PyEval_IsGILEnabled(_PyThreadState_GET());
@@ -3996,13 +4057,14 @@ module _jit
 PyDoc_STRVAR(_jit_doc, "Utilities for observing just-in-time compilation.");
 
 /*[clinic input]
+@c_stack_frugal
 _jit.is_available -> bool
 Return True if the current Python executable supports JIT compilation, and False otherwise.
 [clinic start generated code]*/
 
 static int
 _jit_is_available_impl(PyObject *module)
-/*[clinic end generated code: output=6849a9cd2ff4aac9 input=03add84aa8347cf1]*/
+/*[clinic end generated code: output=6849a9cd2ff4aac9 input=95df7ef26508b02a]*/
 {
     (void)module;
 #ifdef _Py_TIER2
@@ -4013,26 +4075,28 @@ _jit_is_available_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _jit.is_enabled -> bool
 Return True if JIT compilation is enabled for the current Python process (implies sys._jit.is_available()), and False otherwise.
 [clinic start generated code]*/
 
 static int
 _jit_is_enabled_impl(PyObject *module)
-/*[clinic end generated code: output=55865f8de993fe42 input=02439394da8e873f]*/
+/*[clinic end generated code: output=55865f8de993fe42 input=167e9504e9ecd46c]*/
 {
     (void)module;
     return _PyInterpreterState_GET()->jit;
 }
 
 /*[clinic input]
+@c_stack_frugal
 _jit.is_active -> bool
 Return True if the topmost Python frame is currently executing JIT code (implies sys._jit.is_enabled()), and False otherwise.
 [clinic start generated code]*/
 
 static int
 _jit_is_active_impl(PyObject *module)
-/*[clinic end generated code: output=7facca06b10064d4 input=be2fcd8a269d9b72]*/
+/*[clinic end generated code: output=7facca06b10064d4 input=fb15d02180aea4c0]*/
 {
     (void)module;
     return _PyThreadState_GET()->current_executor != NULL;

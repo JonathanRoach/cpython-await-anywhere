@@ -17,7 +17,7 @@ PyDoc_STRVAR(_io_StringIO_getvalue__doc__,
 "Retrieve the entire contents of the object.");
 
 #define _IO_STRINGIO_GETVALUE_METHODDEF    \
-    {"getvalue", (PyCFunction)_io_StringIO_getvalue, METH_NOARGS, _io_StringIO_getvalue__doc__},
+    {"getvalue", (PyCFunction)_io_StringIO_getvalue, METH_NOARGS|METH_C_STACK_FRUGAL, _io_StringIO_getvalue__doc__},
 
 static PyObject *
 _io_StringIO_getvalue_impl(stringio *self);
@@ -41,7 +41,7 @@ PyDoc_STRVAR(_io_StringIO_tell__doc__,
 "Tell the current file position.");
 
 #define _IO_STRINGIO_TELL_METHODDEF    \
-    {"tell", (PyCFunction)_io_StringIO_tell, METH_NOARGS, _io_StringIO_tell__doc__},
+    {"tell", (PyCFunction)_io_StringIO_tell, METH_NOARGS|METH_C_STACK_FRUGAL, _io_StringIO_tell__doc__},
 
 static PyObject *
 _io_StringIO_tell_impl(stringio *self);
@@ -68,7 +68,7 @@ PyDoc_STRVAR(_io_StringIO_read__doc__,
 "is reached. Return an empty string at EOF.");
 
 #define _IO_STRINGIO_READ_METHODDEF    \
-    {"read", _PyCFunction_CAST(_io_StringIO_read), METH_FASTCALL, _io_StringIO_read__doc__},
+    {"read", _PyCFunction_CAST(_io_StringIO_read), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_StringIO_read__doc__},
 
 static PyObject *
 _io_StringIO_read_impl(stringio *self, Py_ssize_t size);
@@ -106,7 +106,7 @@ PyDoc_STRVAR(_io_StringIO_readline__doc__,
 "Returns an empty string if EOF is hit immediately.");
 
 #define _IO_STRINGIO_READLINE_METHODDEF    \
-    {"readline", _PyCFunction_CAST(_io_StringIO_readline), METH_FASTCALL, _io_StringIO_readline__doc__},
+    {"readline", _PyCFunction_CAST(_io_StringIO_readline), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_StringIO_readline__doc__},
 
 static PyObject *
 _io_StringIO_readline_impl(stringio *self, Py_ssize_t size);
@@ -146,7 +146,7 @@ PyDoc_STRVAR(_io_StringIO_truncate__doc__,
 "Returns the new absolute position.");
 
 #define _IO_STRINGIO_TRUNCATE_METHODDEF    \
-    {"truncate", _PyCFunction_CAST(_io_StringIO_truncate), METH_FASTCALL, _io_StringIO_truncate__doc__},
+    {"truncate", _PyCFunction_CAST(_io_StringIO_truncate), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_StringIO_truncate__doc__},
 
 static PyObject *
 _io_StringIO_truncate_impl(stringio *self, PyObject *pos);
@@ -186,7 +186,7 @@ PyDoc_STRVAR(_io_StringIO_seek__doc__,
 "Returns the new absolute position.");
 
 #define _IO_STRINGIO_SEEK_METHODDEF    \
-    {"seek", _PyCFunction_CAST(_io_StringIO_seek), METH_FASTCALL, _io_StringIO_seek__doc__},
+    {"seek", _PyCFunction_CAST(_io_StringIO_seek), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_StringIO_seek__doc__},
 
 static PyObject *
 _io_StringIO_seek_impl(stringio *self, Py_ssize_t pos, int whence);
@@ -239,7 +239,7 @@ PyDoc_STRVAR(_io_StringIO_write__doc__,
 "the length of the string.");
 
 #define _IO_STRINGIO_WRITE_METHODDEF    \
-    {"write", (PyCFunction)_io_StringIO_write, METH_O, _io_StringIO_write__doc__},
+    {"write", (PyCFunction)_io_StringIO_write, METH_O|METH_C_STACK_FRUGAL, _io_StringIO_write__doc__},
 
 static PyObject *
 _io_StringIO_write_impl(stringio *self, PyObject *obj);
@@ -268,7 +268,7 @@ PyDoc_STRVAR(_io_StringIO_close__doc__,
 "This method has no effect if the file is already closed.");
 
 #define _IO_STRINGIO_CLOSE_METHODDEF    \
-    {"close", (PyCFunction)_io_StringIO_close, METH_NOARGS, _io_StringIO_close__doc__},
+    {"close", (PyCFunction)_io_StringIO_close, METH_NOARGS|METH_C_STACK_FRUGAL, _io_StringIO_close__doc__},
 
 static PyObject *
 _io_StringIO_close_impl(stringio *self);
@@ -365,7 +365,7 @@ PyDoc_STRVAR(_io_StringIO_readable__doc__,
 "Returns True if the IO object can be read.");
 
 #define _IO_STRINGIO_READABLE_METHODDEF    \
-    {"readable", (PyCFunction)_io_StringIO_readable, METH_NOARGS, _io_StringIO_readable__doc__},
+    {"readable", (PyCFunction)_io_StringIO_readable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_StringIO_readable__doc__},
 
 static PyObject *
 _io_StringIO_readable_impl(stringio *self);
@@ -389,7 +389,7 @@ PyDoc_STRVAR(_io_StringIO_writable__doc__,
 "Returns True if the IO object can be written.");
 
 #define _IO_STRINGIO_WRITABLE_METHODDEF    \
-    {"writable", (PyCFunction)_io_StringIO_writable, METH_NOARGS, _io_StringIO_writable__doc__},
+    {"writable", (PyCFunction)_io_StringIO_writable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_StringIO_writable__doc__},
 
 static PyObject *
 _io_StringIO_writable_impl(stringio *self);
@@ -413,7 +413,7 @@ PyDoc_STRVAR(_io_StringIO_seekable__doc__,
 "Returns True if the IO object can be seeked.");
 
 #define _IO_STRINGIO_SEEKABLE_METHODDEF    \
-    {"seekable", (PyCFunction)_io_StringIO_seekable, METH_NOARGS, _io_StringIO_seekable__doc__},
+    {"seekable", (PyCFunction)_io_StringIO_seekable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_StringIO_seekable__doc__},
 
 static PyObject *
 _io_StringIO_seekable_impl(stringio *self);
@@ -436,7 +436,7 @@ PyDoc_STRVAR(_io_StringIO___getstate____doc__,
 "\n");
 
 #define _IO_STRINGIO___GETSTATE___METHODDEF    \
-    {"__getstate__", (PyCFunction)_io_StringIO___getstate__, METH_NOARGS, _io_StringIO___getstate____doc__},
+    {"__getstate__", (PyCFunction)_io_StringIO___getstate__, METH_NOARGS|METH_C_STACK_FRUGAL, _io_StringIO___getstate____doc__},
 
 static PyObject *
 _io_StringIO___getstate___impl(stringio *self);
@@ -459,7 +459,7 @@ PyDoc_STRVAR(_io_StringIO___setstate____doc__,
 "\n");
 
 #define _IO_STRINGIO___SETSTATE___METHODDEF    \
-    {"__setstate__", (PyCFunction)_io_StringIO___setstate__, METH_O, _io_StringIO___setstate____doc__},
+    {"__setstate__", (PyCFunction)_io_StringIO___setstate__, METH_O|METH_C_STACK_FRUGAL, _io_StringIO___setstate____doc__},
 
 static PyObject *
 _io_StringIO___setstate___impl(stringio *self, PyObject *state);
@@ -550,4 +550,4 @@ _io_StringIO_newlines_get(PyObject *self, void *Py_UNUSED(context))
 
     return return_value;
 }
-/*[clinic end generated code: output=bccc25ef8e6ce9ef input=a9049054013a1b77]*/
+/*[clinic end generated code: output=f70291494275fa3f input=a9049054013a1b77]*/

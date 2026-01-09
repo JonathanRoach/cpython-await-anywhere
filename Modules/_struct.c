@@ -1729,6 +1729,7 @@ s_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
 }
 
 /*[clinic input]
+@c_stack_frugal
 Struct.__init__
 
     format: object
@@ -1743,7 +1744,7 @@ See help(struct) for more on format strings.
 
 static int
 Struct___init___impl(PyStructObject *self, PyObject *format)
-/*[clinic end generated code: output=b8e80862444e92d0 input=192a4575a3dde802]*/
+/*[clinic end generated code: output=b8e80862444e92d0 input=daa04e1a0f6f38a7]*/
 {
     int ret = 0;
 
@@ -1852,6 +1853,7 @@ fail:
 
 
 /*[clinic input]
+@c_stack_frugal
 Struct.unpack
 
     buffer: Py_buffer
@@ -1867,7 +1869,7 @@ See help(struct) for more on format strings.
 
 static PyObject *
 Struct_unpack_impl(PyStructObject *self, Py_buffer *buffer)
-/*[clinic end generated code: output=873a24faf02e848a input=3113f8e7038b2f6c]*/
+/*[clinic end generated code: output=873a24faf02e848a input=c135889ecf79f23b]*/
 {
     _structmodulestate *state = get_struct_state_structinst(self);
     assert(self->s_codes != NULL);
@@ -1881,6 +1883,7 @@ Struct_unpack_impl(PyStructObject *self, Py_buffer *buffer)
 }
 
 /*[clinic input]
+@c_stack_frugal
 Struct.unpack_from
 
     buffer: Py_buffer
@@ -1899,7 +1902,7 @@ See help(struct) for more on format strings.
 static PyObject *
 Struct_unpack_from_impl(PyStructObject *self, Py_buffer *buffer,
                         Py_ssize_t offset)
-/*[clinic end generated code: output=57fac875e0977316 input=cafd4851d473c894]*/
+/*[clinic end generated code: output=57fac875e0977316 input=5444ab51313e4de8]*/
 {
     _structmodulestate *state = get_struct_state_structinst(self);
     assert(self->s_codes != NULL);
@@ -2035,6 +2038,7 @@ static PyType_Spec unpackiter_type_spec = {
 };
 
 /*[clinic input]
+@c_stack_frugal
 Struct.iter_unpack
 
     buffer: object
@@ -2050,7 +2054,7 @@ Requires that the bytes length be a multiple of the struct size.
 
 static PyObject *
 Struct_iter_unpack_impl(PyStructObject *self, PyObject *buffer)
-/*[clinic end generated code: output=818f89ad4afa8d64 input=6d65b3f3107dbc99]*/
+/*[clinic end generated code: output=818f89ad4afa8d64 input=d72ff6bba0aab07e]*/
 {
     _structmodulestate *state = get_struct_state_structinst(self);
     unpackiterobject *iter;
@@ -2461,6 +2465,7 @@ cache_struct_converter(PyObject *module, PyObject *fmt, PyStructObject **ptr)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _clearcache
 
 Clear the internal cache.
@@ -2468,7 +2473,7 @@ Clear the internal cache.
 
 static PyObject *
 _clearcache_impl(PyObject *module)
-/*[clinic end generated code: output=ce4fb8a7bf7cb523 input=463eaae04bab3211]*/
+/*[clinic end generated code: output=ce4fb8a7bf7cb523 input=d7bffcc3dc2bf67b]*/
 {
     PyDict_Clear(get_struct_state(module)->cache);
     Py_RETURN_NONE;
@@ -2476,6 +2481,7 @@ _clearcache_impl(PyObject *module)
 
 
 /*[clinic input]
+@c_stack_frugal
 calcsize -> Py_ssize_t
 
     format as s_object: cache_struct
@@ -2486,7 +2492,7 @@ Return size in bytes of the struct described by the format string.
 
 static Py_ssize_t
 calcsize_impl(PyObject *module, PyStructObject *s_object)
-/*[clinic end generated code: output=db7d23d09c6932c4 input=96a6a590c7717ecd]*/
+/*[clinic end generated code: output=db7d23d09c6932c4 input=b9896aa7afe3c3ef]*/
 {
     return s_object->s_size;
 }
@@ -2546,6 +2552,7 @@ pack_into(PyObject *module, PyObject *const *args, Py_ssize_t nargs)
 }
 
 /*[clinic input]
+@c_stack_frugal
 unpack
 
     format as s_object: cache_struct
@@ -2561,12 +2568,13 @@ See help(struct) for more on format strings.
 
 static PyObject *
 unpack_impl(PyObject *module, PyStructObject *s_object, Py_buffer *buffer)
-/*[clinic end generated code: output=48ddd4d88eca8551 input=05fa3b91678da727]*/
+/*[clinic end generated code: output=48ddd4d88eca8551 input=7b2c745fdf9f30a5]*/
 {
     return Struct_unpack_impl(s_object, buffer);
 }
 
 /*[clinic input]
+@c_stack_frugal
 unpack_from
 
     format as s_object: cache_struct
@@ -2584,12 +2592,13 @@ See help(struct) for more on format strings.
 static PyObject *
 unpack_from_impl(PyObject *module, PyStructObject *s_object,
                  Py_buffer *buffer, Py_ssize_t offset)
-/*[clinic end generated code: output=1042631674c6e0d3 input=6e80a5398e985025]*/
+/*[clinic end generated code: output=1042631674c6e0d3 input=183f0313c0700670]*/
 {
     return Struct_unpack_from_impl(s_object, buffer, offset);
 }
 
 /*[clinic input]
+@c_stack_frugal
 iter_unpack
 
     format as s_object: cache_struct
@@ -2607,7 +2616,7 @@ Requires that the bytes length be a multiple of the format struct size.
 static PyObject *
 iter_unpack_impl(PyObject *module, PyStructObject *s_object,
                  PyObject *buffer)
-/*[clinic end generated code: output=0ae50e250d20e74d input=b214a58869a3c98d]*/
+/*[clinic end generated code: output=0ae50e250d20e74d input=87c166662e447d58]*/
 {
     return Struct_iter_unpack((PyObject*)s_object, buffer);
 }

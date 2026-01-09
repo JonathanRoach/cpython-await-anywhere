@@ -1913,6 +1913,7 @@ PyMarshal_WriteObjectToString(PyObject *x, int version)
 
 /* And an interface for Python programs... */
 /*[clinic input]
+@c_stack_frugal
 marshal.dump
 
     value: object
@@ -1936,7 +1937,7 @@ to the file. The object will not be properly read back by load().
 static PyObject *
 marshal_dump_impl(PyObject *module, PyObject *value, PyObject *file,
                   int version, int allow_code)
-/*[clinic end generated code: output=429e5fd61c2196b9 input=041f7f6669b0aafb]*/
+/*[clinic end generated code: output=429e5fd61c2196b9 input=8c222c814f0c8034]*/
 {
     /* XXX Quick hack -- need to do this differently */
     PyObject *s;
@@ -1951,6 +1952,7 @@ marshal_dump_impl(PyObject *module, PyObject *value, PyObject *file,
 }
 
 /*[clinic input]
+@c_stack_frugal
 marshal.load
 
     file: object
@@ -1972,7 +1974,7 @@ dump(), load() will substitute None for the unmarshallable type.
 
 static PyObject *
 marshal_load_impl(PyObject *module, PyObject *file, int allow_code)
-/*[clinic end generated code: output=0c1aaf3546ae3ed3 input=2dca7b570653b82f]*/
+/*[clinic end generated code: output=0c1aaf3546ae3ed3 input=3b6002667c01ce87]*/
 {
     PyObject *data, *result;
     RFILE rf;
@@ -2013,6 +2015,7 @@ marshal_load_impl(PyObject *module, PyObject *file, int allow_code)
 }
 
 /*[clinic input]
+@c_stack_frugal
 marshal.dumps
 
     value: object
@@ -2033,12 +2036,13 @@ unsupported type.
 static PyObject *
 marshal_dumps_impl(PyObject *module, PyObject *value, int version,
                    int allow_code)
-/*[clinic end generated code: output=115f90da518d1d49 input=167eaecceb63f0a8]*/
+/*[clinic end generated code: output=115f90da518d1d49 input=323d3b3ce5aabea7]*/
 {
     return _PyMarshal_WriteObjectToString(value, version, allow_code);
 }
 
 /*[clinic input]
+@c_stack_frugal
 marshal.loads
 
     bytes: Py_buffer
@@ -2055,7 +2059,7 @@ bytes in the input are ignored.
 
 static PyObject *
 marshal_loads_impl(PyObject *module, Py_buffer *bytes, int allow_code)
-/*[clinic end generated code: output=62c0c538d3edc31f input=14de68965b45aaa7]*/
+/*[clinic end generated code: output=62c0c538d3edc31f input=f764bc4612619fb4]*/
 {
     RFILE rf;
     char *s = bytes->buf;

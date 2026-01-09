@@ -13,6 +13,7 @@ module _testcapi
 
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.pyfile_newstdprinter
 
     fd: int
@@ -22,13 +23,14 @@ _testcapi.pyfile_newstdprinter
 
 static PyObject *
 _testcapi_pyfile_newstdprinter_impl(PyObject *module, int fd)
-/*[clinic end generated code: output=8a2d1c57b6892db3 input=442f1824142262ea]*/
+/*[clinic end generated code: output=8a2d1c57b6892db3 input=e9c95af2c028bf8d]*/
 {
     return PyFile_NewStdPrinter(fd);
 }
 
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.py_fopen
 
     path: object
@@ -41,7 +43,7 @@ Call Py_fopen(), fread(256) and Py_fclose(). Return read bytes.
 static PyObject *
 _testcapi_py_fopen_impl(PyObject *module, PyObject *path, const char *mode,
                         Py_ssize_t mode_length)
-/*[clinic end generated code: output=69840d0cfd8b7fbb input=f3a579dd7eb60926]*/
+/*[clinic end generated code: output=69840d0cfd8b7fbb input=d1e4fb490579b0f7]*/
 {
     NULLABLE(path);
     FILE *fp = Py_fopen(path, mode);
@@ -58,6 +60,7 @@ _testcapi_py_fopen_impl(PyObject *module, PyObject *path, const char *mode,
 
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.py_universalnewlinefgets
 
     file: object
@@ -70,7 +73,7 @@ Read a line from a file using Py_UniversalNewlineFgets.
 static PyObject *
 _testcapi_py_universalnewlinefgets_impl(PyObject *module, PyObject *file,
                                         int size)
-/*[clinic end generated code: output=2ce1bc76c9dc871c input=02c236049d18569a]*/
+/*[clinic end generated code: output=2ce1bc76c9dc871c input=6597580b1b020a49]*/
 {
     FILE *fp = Py_fopen(file, "rb");
     if (fp == NULL) {

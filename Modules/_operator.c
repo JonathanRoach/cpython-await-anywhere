@@ -39,6 +39,7 @@ used for special methods; variants without leading and trailing\n\
 
 
 /*[clinic input]
+@c_stack_frugal
 _operator.truth -> bool
 
     a: object
@@ -49,12 +50,13 @@ Return True if a is true, False otherwise.
 
 static int
 _operator_truth_impl(PyObject *module, PyObject *a)
-/*[clinic end generated code: output=eaf87767234fa5d7 input=bc74a4cd90235875]*/
+/*[clinic end generated code: output=eaf87767234fa5d7 input=c4c53d8a7f70bf94]*/
 {
     return PyObject_IsTrue(a);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.add
 
     a: object
@@ -66,12 +68,13 @@ Same as a + b.
 
 static PyObject *
 _operator_add_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=8292984204f45164 input=5efe3bff856ac215]*/
+/*[clinic end generated code: output=8292984204f45164 input=7b7cd05830bdec43]*/
 {
     return PyNumber_Add(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.sub = _operator.add
 
 Same as a - b.
@@ -79,12 +82,13 @@ Same as a - b.
 
 static PyObject *
 _operator_sub_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=4adfc3b888c1ee2e input=6494c6b100b8e795]*/
+/*[clinic end generated code: output=4adfc3b888c1ee2e input=717dfa3b8dbe932f]*/
 {
     return PyNumber_Subtract(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.mul = _operator.add
 
 Same as a * b.
@@ -92,12 +96,13 @@ Same as a * b.
 
 static PyObject *
 _operator_mul_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=d24d66f55a01944c input=2368615b4358b70d]*/
+/*[clinic end generated code: output=d24d66f55a01944c input=ae53acbdbc0c72ac]*/
 {
     return PyNumber_Multiply(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.matmul = _operator.add
 
 Same as a @ b.
@@ -105,12 +110,13 @@ Same as a @ b.
 
 static PyObject *
 _operator_matmul_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=a20d917eb35d0101 input=9ab304e37fb42dd4]*/
+/*[clinic end generated code: output=a20d917eb35d0101 input=0d73e3ab4d0d8dd1]*/
 {
     return PyNumber_MatrixMultiply(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.floordiv = _operator.add
 
 Same as a // b.
@@ -118,12 +124,13 @@ Same as a // b.
 
 static PyObject *
 _operator_floordiv_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=df26b71a60589f99 input=bb2e88ba446c612c]*/
+/*[clinic end generated code: output=df26b71a60589f99 input=661aa1a7e470a787]*/
 {
     return PyNumber_FloorDivide(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.truediv = _operator.add
 
 Same as a / b.
@@ -131,12 +138,13 @@ Same as a / b.
 
 static PyObject *
 _operator_truediv_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=0e6a959944d77719 input=ecbb947673f4eb1f]*/
+/*[clinic end generated code: output=0e6a959944d77719 input=41d0451dfa01f278]*/
 {
     return PyNumber_TrueDivide(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.mod = _operator.add
 
 Same as a % b.
@@ -144,12 +152,13 @@ Same as a % b.
 
 static PyObject *
 _operator_mod_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=9519822f0bbec166 input=102e19b422342ac1]*/
+/*[clinic end generated code: output=9519822f0bbec166 input=901dce77cca0c994]*/
 {
     return PyNumber_Remainder(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.neg
 
     a: object
@@ -160,12 +169,13 @@ Same as -a.
 
 static PyObject *
 _operator_neg(PyObject *module, PyObject *a)
-/*[clinic end generated code: output=36e08ecfc6a1c08c input=84f09bdcf27c96ec]*/
+/*[clinic end generated code: output=36e08ecfc6a1c08c input=9d7fac81336e4e3b]*/
 {
     return PyNumber_Negative(a);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.pos = _operator.neg
 
 Same as +a.
@@ -173,12 +183,13 @@ Same as +a.
 
 static PyObject *
 _operator_pos(PyObject *module, PyObject *a)
-/*[clinic end generated code: output=dad7a126221dd091 input=b6445b63fddb8772]*/
+/*[clinic end generated code: output=dad7a126221dd091 input=e6601f7d172d8394]*/
 {
     return PyNumber_Positive(a);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.abs = _operator.neg
 
 Same as abs(a).
@@ -186,12 +197,13 @@ Same as abs(a).
 
 static PyObject *
 _operator_abs(PyObject *module, PyObject *a)
-/*[clinic end generated code: output=1389a93ba053ea3e input=341d07ba86f58039]*/
+/*[clinic end generated code: output=1389a93ba053ea3e input=6498f77d144da073]*/
 {
     return PyNumber_Absolute(a);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.inv = _operator.neg
 
 Same as ~a.
@@ -199,12 +211,13 @@ Same as ~a.
 
 static PyObject *
 _operator_inv(PyObject *module, PyObject *a)
-/*[clinic end generated code: output=a56875ba075ee06d input=b01a4677739f6eb2]*/
+/*[clinic end generated code: output=a56875ba075ee06d input=b2fec8c6596f825a]*/
 {
     return PyNumber_Invert(a);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.invert = _operator.neg
 
 Same as ~a.
@@ -212,12 +225,13 @@ Same as ~a.
 
 static PyObject *
 _operator_invert(PyObject *module, PyObject *a)
-/*[clinic end generated code: output=406b5aa030545fcc input=7f2d607176672e55]*/
+/*[clinic end generated code: output=406b5aa030545fcc input=5727d981ddcfcd9f]*/
 {
     return PyNumber_Invert(a);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.lshift = _operator.add
 
 Same as a << b.
@@ -225,12 +239,13 @@ Same as a << b.
 
 static PyObject *
 _operator_lshift_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=37f7e52c41435bd8 input=746e8a160cbbc9eb]*/
+/*[clinic end generated code: output=37f7e52c41435bd8 input=4287dec91e719095]*/
 {
     return PyNumber_Lshift(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.rshift = _operator.add
 
 Same as a >> b.
@@ -238,12 +253,13 @@ Same as a >> b.
 
 static PyObject *
 _operator_rshift_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=4593c7ef30ec2ee3 input=d2c85bb5a64504c2]*/
+/*[clinic end generated code: output=4593c7ef30ec2ee3 input=dd5d2a2c6837679b]*/
 {
     return PyNumber_Rshift(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.not_ = _operator.truth
 
 Same as not a.
@@ -251,12 +267,13 @@ Same as not a.
 
 static int
 _operator_not__impl(PyObject *module, PyObject *a)
-/*[clinic end generated code: output=743f9c24a09759ef input=854156d50804d9b8]*/
+/*[clinic end generated code: output=743f9c24a09759ef input=719580f82af57199]*/
 {
     return PyObject_Not(a);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.and_ = _operator.add
 
 Same as a & b.
@@ -264,12 +281,13 @@ Same as a & b.
 
 static PyObject *
 _operator_and__impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=93c4fe88f7b76d9e input=4f3057c90ec4c99f]*/
+/*[clinic end generated code: output=93c4fe88f7b76d9e input=b62186bee61a21e5]*/
 {
     return PyNumber_And(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.xor = _operator.add
 
 Same as a ^ b.
@@ -277,12 +295,13 @@ Same as a ^ b.
 
 static PyObject *
 _operator_xor_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=b24cd8b79fde0004 input=3c5cfa7253d808dd]*/
+/*[clinic end generated code: output=b24cd8b79fde0004 input=bd2776d5ed52a995]*/
 {
     return PyNumber_Xor(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.or_ = _operator.add
 
 Same as a | b.
@@ -290,12 +309,13 @@ Same as a | b.
 
 static PyObject *
 _operator_or__impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=58024867b8d90461 input=b40c6c44f7c79c09]*/
+/*[clinic end generated code: output=58024867b8d90461 input=3ef87a973c2b176c]*/
 {
     return PyNumber_Or(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.iadd = _operator.add
 
 Same as a += b.
@@ -303,12 +323,13 @@ Same as a += b.
 
 static PyObject *
 _operator_iadd_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=07dc627832526eb5 input=d22a91c07ac69227]*/
+/*[clinic end generated code: output=07dc627832526eb5 input=26d4b127f2a267a5]*/
 {
     return PyNumber_InPlaceAdd(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.isub = _operator.add
 
 Same as a -= b.
@@ -316,12 +337,13 @@ Same as a -= b.
 
 static PyObject *
 _operator_isub_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=4513467d23b5e0b1 input=4591b00d0a0ccafd]*/
+/*[clinic end generated code: output=4513467d23b5e0b1 input=8f0ea51e27d8de10]*/
 {
     return PyNumber_InPlaceSubtract(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.imul = _operator.add
 
 Same as a *= b.
@@ -329,12 +351,13 @@ Same as a *= b.
 
 static PyObject *
 _operator_imul_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=5e87dacd19a71eab input=0e01fb8631e1b76f]*/
+/*[clinic end generated code: output=5e87dacd19a71eab input=6e3e25f36e31568d]*/
 {
     return PyNumber_InPlaceMultiply(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.imatmul = _operator.add
 
 Same as a @= b.
@@ -342,12 +365,13 @@ Same as a @= b.
 
 static PyObject *
 _operator_imatmul_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=d603cbdf716ce519 input=bb614026372cd542]*/
+/*[clinic end generated code: output=d603cbdf716ce519 input=828ddb303835f534]*/
 {
     return PyNumber_InPlaceMatrixMultiply(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.ifloordiv = _operator.add
 
 Same as a //= b.
@@ -355,12 +379,13 @@ Same as a //= b.
 
 static PyObject *
 _operator_ifloordiv_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=535336048c681794 input=9df3b5021cff4ca1]*/
+/*[clinic end generated code: output=535336048c681794 input=b66d4d30f21cf015]*/
 {
     return PyNumber_InPlaceFloorDivide(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.itruediv = _operator.add
 
 Same as a /= b.
@@ -368,12 +393,13 @@ Same as a /= b.
 
 static PyObject *
 _operator_itruediv_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=28017fbd3563952f input=9a1ee01608f5f590]*/
+/*[clinic end generated code: output=28017fbd3563952f input=2574f9ed6071cce3]*/
 {
     return PyNumber_InPlaceTrueDivide(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.imod = _operator.add
 
 Same as a %= b.
@@ -381,12 +407,13 @@ Same as a %= b.
 
 static PyObject *
 _operator_imod_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=f7c540ae0fc70904 input=d0c384a3ce38e1dd]*/
+/*[clinic end generated code: output=f7c540ae0fc70904 input=c6c09159e2d031ca]*/
 {
     return PyNumber_InPlaceRemainder(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.ilshift = _operator.add
 
 Same as a <<= b.
@@ -394,12 +421,13 @@ Same as a <<= b.
 
 static PyObject *
 _operator_ilshift_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=e73a8fee1ac18749 input=e21b6b310f54572e]*/
+/*[clinic end generated code: output=e73a8fee1ac18749 input=aa3cfcd06fa800fa]*/
 {
     return PyNumber_InPlaceLshift(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.irshift = _operator.add
 
 Same as a >>= b.
@@ -407,12 +435,13 @@ Same as a >>= b.
 
 static PyObject *
 _operator_irshift_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=97f2af6b5ff2ed81 input=6778dbd0f6e1ec16]*/
+/*[clinic end generated code: output=97f2af6b5ff2ed81 input=742aa5b0f8631720]*/
 {
     return PyNumber_InPlaceRshift(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.iand = _operator.add
 
 Same as a &= b.
@@ -420,12 +449,13 @@ Same as a &= b.
 
 static PyObject *
 _operator_iand_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=4599e9d40cbf7d00 input=71dfd8e70c156a7b]*/
+/*[clinic end generated code: output=4599e9d40cbf7d00 input=019638ce256ad1a3]*/
 {
     return PyNumber_InPlaceAnd(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.ixor = _operator.add
 
 Same as a ^= b.
@@ -433,12 +463,13 @@ Same as a ^= b.
 
 static PyObject *
 _operator_ixor_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=5ff881766872be03 input=695c32bec0604d86]*/
+/*[clinic end generated code: output=5ff881766872be03 input=8ef6fd8f31412392]*/
 {
     return PyNumber_InPlaceXor(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.ior = _operator.add
 
 Same as a |= b.
@@ -446,12 +477,13 @@ Same as a |= b.
 
 static PyObject *
 _operator_ior_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=48aac319445bf759 input=8f01d03eda9920cf]*/
+/*[clinic end generated code: output=48aac319445bf759 input=ce8c0ef2074e8819]*/
 {
     return PyNumber_InPlaceOr(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.concat = _operator.add
 
 Same as a + b, for a and b sequences.
@@ -459,12 +491,13 @@ Same as a + b, for a and b sequences.
 
 static PyObject *
 _operator_concat_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=80028390942c5f11 input=8544ccd5341a3658]*/
+/*[clinic end generated code: output=80028390942c5f11 input=f95fc47876bd6eb1]*/
 {
     return PySequence_Concat(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.iconcat = _operator.add
 
 Same as a += b, for a and b sequences.
@@ -472,12 +505,13 @@ Same as a += b, for a and b sequences.
 
 static PyObject *
 _operator_iconcat_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=3ea0a162ebb2e26d input=8f5fe5722fcd837e]*/
+/*[clinic end generated code: output=3ea0a162ebb2e26d input=7000ae3c4a06f79b]*/
 {
     return PySequence_InPlaceConcat(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.contains -> bool
 
     a: object
@@ -489,12 +523,13 @@ Same as b in a (note reversed operands).
 
 static int
 _operator_contains_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=413b4dbe82b6ffc1 input=9122a69b505fde13]*/
+/*[clinic end generated code: output=413b4dbe82b6ffc1 input=cf8b9fd2c1b95b3b]*/
 {
     return PySequence_Contains(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.indexOf -> Py_ssize_t
 
     a: object
@@ -506,12 +541,13 @@ Return the first index of b in a.
 
 static Py_ssize_t
 _operator_indexOf_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=c6226d8e0fb60fa6 input=8be2e43b6a6fffe3]*/
+/*[clinic end generated code: output=c6226d8e0fb60fa6 input=46c89d19f76e9d64]*/
 {
     return PySequence_Index(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.countOf = _operator.indexOf
 
 Return the number of items in a which are, or which equal, b.
@@ -519,12 +555,13 @@ Return the number of items in a which are, or which equal, b.
 
 static Py_ssize_t
 _operator_countOf_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=9e1623197daf3382 input=93ea57f170f3f0bb]*/
+/*[clinic end generated code: output=9e1623197daf3382 input=3cd5635f1be84add]*/
 {
     return PySequence_Count(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.getitem
 
     a: object
@@ -536,12 +573,13 @@ Same as a[b].
 
 static PyObject *
 _operator_getitem_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=6c8d8101a676e594 input=6682797320e48845]*/
+/*[clinic end generated code: output=6c8d8101a676e594 input=caeadf1f375de0ea]*/
 {
     return PyObject_GetItem(a, b);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.setitem
 
     a: object
@@ -555,7 +593,7 @@ Same as a[b] = c.
 static PyObject *
 _operator_setitem_impl(PyObject *module, PyObject *a, PyObject *b,
                        PyObject *c)
-/*[clinic end generated code: output=1324f9061ae99e25 input=ceaf453c4d3a58df]*/
+/*[clinic end generated code: output=1324f9061ae99e25 input=da0c35487da157ec]*/
 {
     if (-1 == PyObject_SetItem(a, b, c))
         return NULL;
@@ -563,6 +601,7 @@ _operator_setitem_impl(PyObject *module, PyObject *a, PyObject *b,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.delitem = _operator.getitem
 
 Same as del a[b].
@@ -570,7 +609,7 @@ Same as del a[b].
 
 static PyObject *
 _operator_delitem_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=db18f61506295799 input=991bec56a0d3ec7f]*/
+/*[clinic end generated code: output=db18f61506295799 input=602e363546ece913]*/
 {
     if (-1 == PyObject_DelItem(a, b))
         return NULL;
@@ -578,6 +617,7 @@ _operator_delitem_impl(PyObject *module, PyObject *a, PyObject *b)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.eq
 
     a: object
@@ -589,12 +629,13 @@ Same as a == b.
 
 static PyObject *
 _operator_eq_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=8d7d46ed4135677c input=586fca687a95a83f]*/
+/*[clinic end generated code: output=8d7d46ed4135677c input=2a113b37f6e0ba3d]*/
 {
     return PyObject_RichCompare(a, b, Py_EQ);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.ne = _operator.eq
 
 Same as a != b.
@@ -602,12 +643,13 @@ Same as a != b.
 
 static PyObject *
 _operator_ne_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=c99bd0c3a4c01297 input=5d88f23d35e9abac]*/
+/*[clinic end generated code: output=c99bd0c3a4c01297 input=14956165ff4160e5]*/
 {
     return PyObject_RichCompare(a, b, Py_NE);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.lt = _operator.eq
 
 Same as a < b.
@@ -615,12 +657,13 @@ Same as a < b.
 
 static PyObject *
 _operator_lt_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=082d7c45c440e535 input=34a59ad6d39d3a2b]*/
+/*[clinic end generated code: output=082d7c45c440e535 input=23930cc76c34f5ce]*/
 {
     return PyObject_RichCompare(a, b, Py_LT);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.le = _operator.eq
 
 Same as a <= b.
@@ -628,12 +671,13 @@ Same as a <= b.
 
 static PyObject *
 _operator_le_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=00970a2923d0ae17 input=b812a7860a0bef44]*/
+/*[clinic end generated code: output=00970a2923d0ae17 input=84fbd4e1ee553ec1]*/
 {
     return PyObject_RichCompare(a, b, Py_LE);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.gt = _operator.eq
 
 Same as a > b.
@@ -641,12 +685,13 @@ Same as a > b.
 
 static PyObject *
 _operator_gt_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=8d373349ecf25641 input=9bdb45b995ada35b]*/
+/*[clinic end generated code: output=8d373349ecf25641 input=49708cdb68233107]*/
 {
     return PyObject_RichCompare(a, b, Py_GT);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.ge = _operator.eq
 
 Same as a >= b.
@@ -654,12 +699,13 @@ Same as a >= b.
 
 static PyObject *
 _operator_ge_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=7ce3882256d4b137 input=cf1dc4a5ca9c35f5]*/
+/*[clinic end generated code: output=7ce3882256d4b137 input=ab6089daee7fa14b]*/
 {
     return PyObject_RichCompare(a, b, Py_GE);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.pow = _operator.add
 
 Same as a ** b.
@@ -667,12 +713,13 @@ Same as a ** b.
 
 static PyObject *
 _operator_pow_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=09e668ad50036120 input=690b40f097ab1637]*/
+/*[clinic end generated code: output=09e668ad50036120 input=2b13deb24315d602]*/
 {
     return PyNumber_Power(a, b, Py_None);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.ipow = _operator.add
 
 Same as a **= b.
@@ -680,12 +727,13 @@ Same as a **= b.
 
 static PyObject *
 _operator_ipow_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=7189ff4d4367c808 input=f00623899d07499a]*/
+/*[clinic end generated code: output=7189ff4d4367c808 input=68bfab6aa4e264b6]*/
 {
     return PyNumber_InPlacePower(a, b, Py_None);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.index
 
     a: object
@@ -696,12 +744,13 @@ Same as a.__index__()
 
 static PyObject *
 _operator_index(PyObject *module, PyObject *a)
-/*[clinic end generated code: output=d972b0764ac305fc input=6f54d50ea64a579c]*/
+/*[clinic end generated code: output=d972b0764ac305fc input=417f3b2150ca5d8e]*/
 {
     return PyNumber_Index(a);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.is_ = _operator.add
 
 Same as a is b.
@@ -709,13 +758,14 @@ Same as a is b.
 
 static PyObject *
 _operator_is__impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=bcd47a402e482e1d input=5fa9b97df03c427f]*/
+/*[clinic end generated code: output=bcd47a402e482e1d input=5841a5bcd9205056]*/
 {
     PyObject *result = Py_Is(a, b) ? Py_True : Py_False;
     return Py_NewRef(result);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.is_not = _operator.add
 
 Same as a is not b.
@@ -723,7 +773,7 @@ Same as a is not b.
 
 static PyObject *
 _operator_is_not_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=491a1f2f81f6c7f9 input=5a93f7e1a93535f1]*/
+/*[clinic end generated code: output=491a1f2f81f6c7f9 input=557162d75c5600a5]*/
 {
     PyObject *result;
     result = (a != b) ? Py_True : Py_False;
@@ -731,6 +781,7 @@ _operator_is_not_impl(PyObject *module, PyObject *a, PyObject *b)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.is_none = _operator.neg
 
 Same as a is None.
@@ -738,13 +789,14 @@ Same as a is None.
 
 static PyObject *
 _operator_is_none(PyObject *module, PyObject *a)
-/*[clinic end generated code: output=07159cc102261dec input=0448b38af7b8533d]*/
+/*[clinic end generated code: output=07159cc102261dec input=86191ba13dc3ffcf]*/
 {
     PyObject *result = Py_IsNone(a) ? Py_True : Py_False;
     return Py_NewRef(result);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.is_not_none = _operator.neg
 
 Same as a is not None.
@@ -752,7 +804,7 @@ Same as a is not None.
 
 static PyObject *
 _operator_is_not_none(PyObject *module, PyObject *a)
-/*[clinic end generated code: output=b0168a51451d9140 input=7587f38ebac51688]*/
+/*[clinic end generated code: output=b0168a51451d9140 input=5d1948bdf57f1ee7]*/
 {
     PyObject *result = Py_IsNone(a) ? Py_False : Py_True;
     return Py_NewRef(result);
@@ -807,6 +859,7 @@ _tscmp(const unsigned char *a, const unsigned char *b,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _operator.length_hint -> Py_ssize_t
 
     obj: object
@@ -825,7 +878,7 @@ The result will be an integer >= 0.
 static Py_ssize_t
 _operator_length_hint_impl(PyObject *module, PyObject *obj,
                            Py_ssize_t default_value)
-/*[clinic end generated code: output=01d469edc1d612ad input=65ed29f04401e96a]*/
+/*[clinic end generated code: output=01d469edc1d612ad input=d40d6f0097735c12]*/
 {
     return PyObject_LengthHint(obj, default_value);
 }
@@ -833,6 +886,7 @@ _operator_length_hint_impl(PyObject *module, PyObject *obj,
 /* NOTE: Keep in sync with _hashopenssl.c implementation. */
 
 /*[clinic input]
+@c_stack_frugal
 _operator._compare_digest = _operator.eq
 
 Return 'a == b'.
@@ -850,7 +904,7 @@ types and lengths of a and b--but not their values.
 
 static PyObject *
 _operator__compare_digest_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=11d452bdd3a23cbc input=9ac7e2c4e30bc356]*/
+/*[clinic end generated code: output=11d452bdd3a23cbc input=42e1d121081350b4]*/
 {
     int rc;
 

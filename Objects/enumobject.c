@@ -28,6 +28,7 @@ typedef struct {
 #define _enumobject_CAST(op)    ((enumobject *)(op))
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 enumerate.__new__ as enum_new
 
@@ -46,7 +47,7 @@ enumerate is useful for obtaining an indexed list:
 
 static PyObject *
 enum_new_impl(PyTypeObject *type, PyObject *iterable, PyObject *start)
-/*[clinic end generated code: output=e95e6e439f812c10 input=782e4911efcb8acf]*/
+/*[clinic end generated code: output=e95e6e439f812c10 input=7bb585375065ee69]*/
 {
     enumobject *en;
 
@@ -364,6 +365,7 @@ typedef struct {
 #define _reversedobject_CAST(op)    ((reversedobject *)(op))
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 reversed.__new__ as reversed_new
 
@@ -375,7 +377,7 @@ Return a reverse iterator over the values of the given sequence.
 
 static PyObject *
 reversed_new_impl(PyTypeObject *type, PyObject *seq)
-/*[clinic end generated code: output=f7854cc1df26f570 input=aeb720361e5e3f1d]*/
+/*[clinic end generated code: output=f7854cc1df26f570 input=255c13c4c23b2d67]*/
 {
     Py_ssize_t n;
     PyObject *reversed_meth;

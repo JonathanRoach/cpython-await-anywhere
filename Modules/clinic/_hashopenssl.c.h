@@ -17,7 +17,7 @@ PyDoc_STRVAR(_hashlib_HASH_copy__doc__,
 "Return a copy of the hash object.");
 
 #define _HASHLIB_HASH_COPY_METHODDEF    \
-    {"copy", (PyCFunction)_hashlib_HASH_copy, METH_NOARGS, _hashlib_HASH_copy__doc__},
+    {"copy", (PyCFunction)_hashlib_HASH_copy, METH_NOARGS|METH_C_STACK_FRUGAL, _hashlib_HASH_copy__doc__},
 
 static PyObject *
 _hashlib_HASH_copy_impl(HASHobject *self);
@@ -35,7 +35,7 @@ PyDoc_STRVAR(_hashlib_HASH_digest__doc__,
 "Return the digest value as a bytes object.");
 
 #define _HASHLIB_HASH_DIGEST_METHODDEF    \
-    {"digest", (PyCFunction)_hashlib_HASH_digest, METH_NOARGS, _hashlib_HASH_digest__doc__},
+    {"digest", (PyCFunction)_hashlib_HASH_digest, METH_NOARGS|METH_C_STACK_FRUGAL, _hashlib_HASH_digest__doc__},
 
 static PyObject *
 _hashlib_HASH_digest_impl(HASHobject *self);
@@ -53,7 +53,7 @@ PyDoc_STRVAR(_hashlib_HASH_hexdigest__doc__,
 "Return the digest value as a string of hexadecimal digits.");
 
 #define _HASHLIB_HASH_HEXDIGEST_METHODDEF    \
-    {"hexdigest", (PyCFunction)_hashlib_HASH_hexdigest, METH_NOARGS, _hashlib_HASH_hexdigest__doc__},
+    {"hexdigest", (PyCFunction)_hashlib_HASH_hexdigest, METH_NOARGS|METH_C_STACK_FRUGAL, _hashlib_HASH_hexdigest__doc__},
 
 static PyObject *
 _hashlib_HASH_hexdigest_impl(HASHobject *self);
@@ -71,7 +71,7 @@ PyDoc_STRVAR(_hashlib_HASH_update__doc__,
 "Update this hash object\'s state with the provided string.");
 
 #define _HASHLIB_HASH_UPDATE_METHODDEF    \
-    {"update", (PyCFunction)_hashlib_HASH_update, METH_O, _hashlib_HASH_update__doc__},
+    {"update", (PyCFunction)_hashlib_HASH_update, METH_O|METH_C_STACK_FRUGAL, _hashlib_HASH_update__doc__},
 
 static PyObject *
 _hashlib_HASH_update_impl(HASHobject *self, PyObject *obj);
@@ -95,7 +95,7 @@ PyDoc_STRVAR(_hashlib_HASHXOF_digest__doc__,
 "Return the digest value as a bytes object.");
 
 #define _HASHLIB_HASHXOF_DIGEST_METHODDEF    \
-    {"digest", _PyCFunction_CAST(_hashlib_HASHXOF_digest), METH_FASTCALL|METH_KEYWORDS, _hashlib_HASHXOF_digest__doc__},
+    {"digest", _PyCFunction_CAST(_hashlib_HASHXOF_digest), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hashlib_HASHXOF_digest__doc__},
 
 static PyObject *
 _hashlib_HASHXOF_digest_impl(HASHobject *self, Py_ssize_t length);
@@ -168,7 +168,7 @@ PyDoc_STRVAR(_hashlib_HASHXOF_hexdigest__doc__,
 "Return the digest value as a string of hexadecimal digits.");
 
 #define _HASHLIB_HASHXOF_HEXDIGEST_METHODDEF    \
-    {"hexdigest", _PyCFunction_CAST(_hashlib_HASHXOF_hexdigest), METH_FASTCALL|METH_KEYWORDS, _hashlib_HASHXOF_hexdigest__doc__},
+    {"hexdigest", _PyCFunction_CAST(_hashlib_HASHXOF_hexdigest), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hashlib_HASHXOF_hexdigest__doc__},
 
 static PyObject *
 _hashlib_HASHXOF_hexdigest_impl(HASHobject *self, Py_ssize_t length);
@@ -244,7 +244,7 @@ PyDoc_STRVAR(_hashlib_HASH_new__doc__,
 "The MD5 and SHA1 algorithms are always supported.");
 
 #define _HASHLIB_HASH_NEW_METHODDEF    \
-    {"new", _PyCFunction_CAST(_hashlib_HASH_new), METH_FASTCALL|METH_KEYWORDS, _hashlib_HASH_new__doc__},
+    {"new", _PyCFunction_CAST(_hashlib_HASH_new), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hashlib_HASH_new__doc__},
 
 static PyObject *
 _hashlib_HASH_new_impl(PyObject *module, const char *name, PyObject *data,
@@ -343,7 +343,7 @@ PyDoc_STRVAR(_hashlib_openssl_md5__doc__,
 "Returns a md5 hash object; optionally initialized with a string");
 
 #define _HASHLIB_OPENSSL_MD5_METHODDEF    \
-    {"openssl_md5", _PyCFunction_CAST(_hashlib_openssl_md5), METH_FASTCALL|METH_KEYWORDS, _hashlib_openssl_md5__doc__},
+    {"openssl_md5", _PyCFunction_CAST(_hashlib_openssl_md5), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hashlib_openssl_md5__doc__},
 
 static PyObject *
 _hashlib_openssl_md5_impl(PyObject *module, PyObject *data,
@@ -428,7 +428,7 @@ PyDoc_STRVAR(_hashlib_openssl_sha1__doc__,
 "Returns a sha1 hash object; optionally initialized with a string");
 
 #define _HASHLIB_OPENSSL_SHA1_METHODDEF    \
-    {"openssl_sha1", _PyCFunction_CAST(_hashlib_openssl_sha1), METH_FASTCALL|METH_KEYWORDS, _hashlib_openssl_sha1__doc__},
+    {"openssl_sha1", _PyCFunction_CAST(_hashlib_openssl_sha1), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hashlib_openssl_sha1__doc__},
 
 static PyObject *
 _hashlib_openssl_sha1_impl(PyObject *module, PyObject *data,
@@ -514,7 +514,7 @@ PyDoc_STRVAR(_hashlib_openssl_sha224__doc__,
 "Returns a sha224 hash object; optionally initialized with a string");
 
 #define _HASHLIB_OPENSSL_SHA224_METHODDEF    \
-    {"openssl_sha224", _PyCFunction_CAST(_hashlib_openssl_sha224), METH_FASTCALL|METH_KEYWORDS, _hashlib_openssl_sha224__doc__},
+    {"openssl_sha224", _PyCFunction_CAST(_hashlib_openssl_sha224), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hashlib_openssl_sha224__doc__},
 
 static PyObject *
 _hashlib_openssl_sha224_impl(PyObject *module, PyObject *data,
@@ -600,7 +600,7 @@ PyDoc_STRVAR(_hashlib_openssl_sha256__doc__,
 "Returns a sha256 hash object; optionally initialized with a string");
 
 #define _HASHLIB_OPENSSL_SHA256_METHODDEF    \
-    {"openssl_sha256", _PyCFunction_CAST(_hashlib_openssl_sha256), METH_FASTCALL|METH_KEYWORDS, _hashlib_openssl_sha256__doc__},
+    {"openssl_sha256", _PyCFunction_CAST(_hashlib_openssl_sha256), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hashlib_openssl_sha256__doc__},
 
 static PyObject *
 _hashlib_openssl_sha256_impl(PyObject *module, PyObject *data,
@@ -686,7 +686,7 @@ PyDoc_STRVAR(_hashlib_openssl_sha384__doc__,
 "Returns a sha384 hash object; optionally initialized with a string");
 
 #define _HASHLIB_OPENSSL_SHA384_METHODDEF    \
-    {"openssl_sha384", _PyCFunction_CAST(_hashlib_openssl_sha384), METH_FASTCALL|METH_KEYWORDS, _hashlib_openssl_sha384__doc__},
+    {"openssl_sha384", _PyCFunction_CAST(_hashlib_openssl_sha384), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hashlib_openssl_sha384__doc__},
 
 static PyObject *
 _hashlib_openssl_sha384_impl(PyObject *module, PyObject *data,
@@ -772,7 +772,7 @@ PyDoc_STRVAR(_hashlib_openssl_sha512__doc__,
 "Returns a sha512 hash object; optionally initialized with a string");
 
 #define _HASHLIB_OPENSSL_SHA512_METHODDEF    \
-    {"openssl_sha512", _PyCFunction_CAST(_hashlib_openssl_sha512), METH_FASTCALL|METH_KEYWORDS, _hashlib_openssl_sha512__doc__},
+    {"openssl_sha512", _PyCFunction_CAST(_hashlib_openssl_sha512), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hashlib_openssl_sha512__doc__},
 
 static PyObject *
 _hashlib_openssl_sha512_impl(PyObject *module, PyObject *data,
@@ -860,7 +860,7 @@ PyDoc_STRVAR(_hashlib_openssl_sha3_224__doc__,
 "Returns a sha3-224 hash object; optionally initialized with a string");
 
 #define _HASHLIB_OPENSSL_SHA3_224_METHODDEF    \
-    {"openssl_sha3_224", _PyCFunction_CAST(_hashlib_openssl_sha3_224), METH_FASTCALL|METH_KEYWORDS, _hashlib_openssl_sha3_224__doc__},
+    {"openssl_sha3_224", _PyCFunction_CAST(_hashlib_openssl_sha3_224), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hashlib_openssl_sha3_224__doc__},
 
 static PyObject *
 _hashlib_openssl_sha3_224_impl(PyObject *module, PyObject *data,
@@ -950,7 +950,7 @@ PyDoc_STRVAR(_hashlib_openssl_sha3_256__doc__,
 "Returns a sha3-256 hash object; optionally initialized with a string");
 
 #define _HASHLIB_OPENSSL_SHA3_256_METHODDEF    \
-    {"openssl_sha3_256", _PyCFunction_CAST(_hashlib_openssl_sha3_256), METH_FASTCALL|METH_KEYWORDS, _hashlib_openssl_sha3_256__doc__},
+    {"openssl_sha3_256", _PyCFunction_CAST(_hashlib_openssl_sha3_256), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hashlib_openssl_sha3_256__doc__},
 
 static PyObject *
 _hashlib_openssl_sha3_256_impl(PyObject *module, PyObject *data,
@@ -1040,7 +1040,7 @@ PyDoc_STRVAR(_hashlib_openssl_sha3_384__doc__,
 "Returns a sha3-384 hash object; optionally initialized with a string");
 
 #define _HASHLIB_OPENSSL_SHA3_384_METHODDEF    \
-    {"openssl_sha3_384", _PyCFunction_CAST(_hashlib_openssl_sha3_384), METH_FASTCALL|METH_KEYWORDS, _hashlib_openssl_sha3_384__doc__},
+    {"openssl_sha3_384", _PyCFunction_CAST(_hashlib_openssl_sha3_384), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hashlib_openssl_sha3_384__doc__},
 
 static PyObject *
 _hashlib_openssl_sha3_384_impl(PyObject *module, PyObject *data,
@@ -1130,7 +1130,7 @@ PyDoc_STRVAR(_hashlib_openssl_sha3_512__doc__,
 "Returns a sha3-512 hash object; optionally initialized with a string");
 
 #define _HASHLIB_OPENSSL_SHA3_512_METHODDEF    \
-    {"openssl_sha3_512", _PyCFunction_CAST(_hashlib_openssl_sha3_512), METH_FASTCALL|METH_KEYWORDS, _hashlib_openssl_sha3_512__doc__},
+    {"openssl_sha3_512", _PyCFunction_CAST(_hashlib_openssl_sha3_512), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hashlib_openssl_sha3_512__doc__},
 
 static PyObject *
 _hashlib_openssl_sha3_512_impl(PyObject *module, PyObject *data,
@@ -1220,7 +1220,7 @@ PyDoc_STRVAR(_hashlib_openssl_shake_128__doc__,
 "Returns a shake-128 variable hash object; optionally initialized with a string");
 
 #define _HASHLIB_OPENSSL_SHAKE_128_METHODDEF    \
-    {"openssl_shake_128", _PyCFunction_CAST(_hashlib_openssl_shake_128), METH_FASTCALL|METH_KEYWORDS, _hashlib_openssl_shake_128__doc__},
+    {"openssl_shake_128", _PyCFunction_CAST(_hashlib_openssl_shake_128), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hashlib_openssl_shake_128__doc__},
 
 static PyObject *
 _hashlib_openssl_shake_128_impl(PyObject *module, PyObject *data,
@@ -1310,7 +1310,7 @@ PyDoc_STRVAR(_hashlib_openssl_shake_256__doc__,
 "Returns a shake-256 variable hash object; optionally initialized with a string");
 
 #define _HASHLIB_OPENSSL_SHAKE_256_METHODDEF    \
-    {"openssl_shake_256", _PyCFunction_CAST(_hashlib_openssl_shake_256), METH_FASTCALL|METH_KEYWORDS, _hashlib_openssl_shake_256__doc__},
+    {"openssl_shake_256", _PyCFunction_CAST(_hashlib_openssl_shake_256), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hashlib_openssl_shake_256__doc__},
 
 static PyObject *
 _hashlib_openssl_shake_256_impl(PyObject *module, PyObject *data,
@@ -1398,7 +1398,7 @@ PyDoc_STRVAR(pbkdf2_hmac__doc__,
 "Password based key derivation function 2 (PKCS #5 v2.0) with HMAC as pseudorandom function.");
 
 #define PBKDF2_HMAC_METHODDEF    \
-    {"pbkdf2_hmac", _PyCFunction_CAST(pbkdf2_hmac), METH_FASTCALL|METH_KEYWORDS, pbkdf2_hmac__doc__},
+    {"pbkdf2_hmac", _PyCFunction_CAST(pbkdf2_hmac), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pbkdf2_hmac__doc__},
 
 static PyObject *
 pbkdf2_hmac_impl(PyObject *module, const char *hash_name,
@@ -1501,7 +1501,7 @@ PyDoc_STRVAR(_hashlib_scrypt__doc__,
 "scrypt password-based key derivation function.");
 
 #define _HASHLIB_SCRYPT_METHODDEF    \
-    {"scrypt", _PyCFunction_CAST(_hashlib_scrypt), METH_FASTCALL|METH_KEYWORDS, _hashlib_scrypt__doc__},
+    {"scrypt", _PyCFunction_CAST(_hashlib_scrypt), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hashlib_scrypt__doc__},
 
 static PyObject *
 _hashlib_scrypt_impl(PyObject *module, Py_buffer *password, Py_buffer *salt,
@@ -1610,7 +1610,7 @@ PyDoc_STRVAR(_hashlib_hmac_singleshot__doc__,
 "Single-shot HMAC.");
 
 #define _HASHLIB_HMAC_SINGLESHOT_METHODDEF    \
-    {"hmac_digest", _PyCFunction_CAST(_hashlib_hmac_singleshot), METH_FASTCALL|METH_KEYWORDS, _hashlib_hmac_singleshot__doc__},
+    {"hmac_digest", _PyCFunction_CAST(_hashlib_hmac_singleshot), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hashlib_hmac_singleshot__doc__},
 
 static PyObject *
 _hashlib_hmac_singleshot_impl(PyObject *module, Py_buffer *key,
@@ -1686,7 +1686,7 @@ PyDoc_STRVAR(_hashlib_hmac_new__doc__,
 "Return a new hmac object.");
 
 #define _HASHLIB_HMAC_NEW_METHODDEF    \
-    {"hmac_new", _PyCFunction_CAST(_hashlib_hmac_new), METH_FASTCALL|METH_KEYWORDS, _hashlib_hmac_new__doc__},
+    {"hmac_new", _PyCFunction_CAST(_hashlib_hmac_new), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hashlib_hmac_new__doc__},
 
 static PyObject *
 _hashlib_hmac_new_impl(PyObject *module, Py_buffer *key, PyObject *msg_obj,
@@ -1766,7 +1766,7 @@ PyDoc_STRVAR(_hashlib_HMAC_copy__doc__,
 "Return a copy (\"clone\") of the HMAC object.");
 
 #define _HASHLIB_HMAC_COPY_METHODDEF    \
-    {"copy", (PyCFunction)_hashlib_HMAC_copy, METH_NOARGS, _hashlib_HMAC_copy__doc__},
+    {"copy", (PyCFunction)_hashlib_HMAC_copy, METH_NOARGS|METH_C_STACK_FRUGAL, _hashlib_HMAC_copy__doc__},
 
 static PyObject *
 _hashlib_HMAC_copy_impl(HMACobject *self);
@@ -1784,7 +1784,7 @@ PyDoc_STRVAR(_hashlib_HMAC_update__doc__,
 "Update the HMAC object with msg.");
 
 #define _HASHLIB_HMAC_UPDATE_METHODDEF    \
-    {"update", _PyCFunction_CAST(_hashlib_HMAC_update), METH_FASTCALL|METH_KEYWORDS, _hashlib_HMAC_update__doc__},
+    {"update", _PyCFunction_CAST(_hashlib_HMAC_update), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hashlib_HMAC_update__doc__},
 
 static PyObject *
 _hashlib_HMAC_update_impl(HMACobject *self, PyObject *msg);
@@ -1842,7 +1842,7 @@ PyDoc_STRVAR(_hashlib_HMAC_digest__doc__,
 "Return the digest of the bytes passed to the update() method so far.");
 
 #define _HASHLIB_HMAC_DIGEST_METHODDEF    \
-    {"digest", (PyCFunction)_hashlib_HMAC_digest, METH_NOARGS, _hashlib_HMAC_digest__doc__},
+    {"digest", (PyCFunction)_hashlib_HMAC_digest, METH_NOARGS|METH_C_STACK_FRUGAL, _hashlib_HMAC_digest__doc__},
 
 static PyObject *
 _hashlib_HMAC_digest_impl(HMACobject *self);
@@ -1863,7 +1863,7 @@ PyDoc_STRVAR(_hashlib_HMAC_hexdigest__doc__,
 "environments.");
 
 #define _HASHLIB_HMAC_HEXDIGEST_METHODDEF    \
-    {"hexdigest", (PyCFunction)_hashlib_HMAC_hexdigest, METH_NOARGS, _hashlib_HMAC_hexdigest__doc__},
+    {"hexdigest", (PyCFunction)_hashlib_HMAC_hexdigest, METH_NOARGS|METH_C_STACK_FRUGAL, _hashlib_HMAC_hexdigest__doc__},
 
 static PyObject *
 _hashlib_HMAC_hexdigest_impl(HMACobject *self);
@@ -1888,7 +1888,7 @@ PyDoc_STRVAR(_hashlib_get_fips_mode__doc__,
 "values other than 1 may have additional significance.");
 
 #define _HASHLIB_GET_FIPS_MODE_METHODDEF    \
-    {"get_fips_mode", (PyCFunction)_hashlib_get_fips_mode, METH_NOARGS, _hashlib_get_fips_mode__doc__},
+    {"get_fips_mode", (PyCFunction)_hashlib_get_fips_mode, METH_NOARGS|METH_C_STACK_FRUGAL, _hashlib_get_fips_mode__doc__},
 
 static int
 _hashlib_get_fips_mode_impl(PyObject *module);
@@ -1926,7 +1926,7 @@ PyDoc_STRVAR(_hashlib_compare_digest__doc__,
 "types and lengths of a and b--but not their values.");
 
 #define _HASHLIB_COMPARE_DIGEST_METHODDEF    \
-    {"compare_digest", _PyCFunction_CAST(_hashlib_compare_digest), METH_FASTCALL, _hashlib_compare_digest__doc__},
+    {"compare_digest", _PyCFunction_CAST(_hashlib_compare_digest), METH_FASTCALL|METH_C_STACK_FRUGAL, _hashlib_compare_digest__doc__},
 
 static PyObject *
 _hashlib_compare_digest_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -1984,4 +1984,4 @@ exit:
 #ifndef _HASHLIB_SCRYPT_METHODDEF
     #define _HASHLIB_SCRYPT_METHODDEF
 #endif /* !defined(_HASHLIB_SCRYPT_METHODDEF) */
-/*[clinic end generated code: output=29f4aaf01714778e input=a9049054013a1b77]*/
+/*[clinic end generated code: output=b20d70c67d339dd9 input=a9049054013a1b77]*/

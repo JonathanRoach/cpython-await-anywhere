@@ -119,7 +119,7 @@ PyDoc_STRVAR(bytearray_find__doc__,
 "Return -1 on failure.");
 
 #define BYTEARRAY_FIND_METHODDEF    \
-    {"find", _PyCFunction_CAST(bytearray_find), METH_FASTCALL, bytearray_find__doc__},
+    {"find", _PyCFunction_CAST(bytearray_find), METH_FASTCALL|METH_C_STACK_FRUGAL, bytearray_find__doc__},
 
 static PyObject *
 bytearray_find_impl(PyByteArrayObject *self, PyObject *sub, Py_ssize_t start,
@@ -170,7 +170,7 @@ PyDoc_STRVAR(bytearray_count__doc__,
 "    Optional stop position. Default: end of the bytes.");
 
 #define BYTEARRAY_COUNT_METHODDEF    \
-    {"count", _PyCFunction_CAST(bytearray_count), METH_FASTCALL, bytearray_count__doc__},
+    {"count", _PyCFunction_CAST(bytearray_count), METH_FASTCALL|METH_C_STACK_FRUGAL, bytearray_count__doc__},
 
 static PyObject *
 bytearray_count_impl(PyByteArrayObject *self, PyObject *sub,
@@ -216,7 +216,7 @@ PyDoc_STRVAR(bytearray_clear__doc__,
 "Remove all items from the bytearray.");
 
 #define BYTEARRAY_CLEAR_METHODDEF    \
-    {"clear", (PyCFunction)bytearray_clear, METH_NOARGS, bytearray_clear__doc__},
+    {"clear", (PyCFunction)bytearray_clear, METH_NOARGS|METH_C_STACK_FRUGAL, bytearray_clear__doc__},
 
 static PyObject *
 bytearray_clear_impl(PyByteArrayObject *self);
@@ -234,7 +234,7 @@ PyDoc_STRVAR(bytearray_copy__doc__,
 "Return a copy of B.");
 
 #define BYTEARRAY_COPY_METHODDEF    \
-    {"copy", (PyCFunction)bytearray_copy, METH_NOARGS, bytearray_copy__doc__},
+    {"copy", (PyCFunction)bytearray_copy, METH_NOARGS|METH_C_STACK_FRUGAL, bytearray_copy__doc__},
 
 static PyObject *
 bytearray_copy_impl(PyByteArrayObject *self);
@@ -265,7 +265,7 @@ PyDoc_STRVAR(bytearray_index__doc__,
 "Raise ValueError if the subsection is not found.");
 
 #define BYTEARRAY_INDEX_METHODDEF    \
-    {"index", _PyCFunction_CAST(bytearray_index), METH_FASTCALL, bytearray_index__doc__},
+    {"index", _PyCFunction_CAST(bytearray_index), METH_FASTCALL|METH_C_STACK_FRUGAL, bytearray_index__doc__},
 
 static PyObject *
 bytearray_index_impl(PyByteArrayObject *self, PyObject *sub,
@@ -318,7 +318,7 @@ PyDoc_STRVAR(bytearray_rfind__doc__,
 "Return -1 on failure.");
 
 #define BYTEARRAY_RFIND_METHODDEF    \
-    {"rfind", _PyCFunction_CAST(bytearray_rfind), METH_FASTCALL, bytearray_rfind__doc__},
+    {"rfind", _PyCFunction_CAST(bytearray_rfind), METH_FASTCALL|METH_C_STACK_FRUGAL, bytearray_rfind__doc__},
 
 static PyObject *
 bytearray_rfind_impl(PyByteArrayObject *self, PyObject *sub,
@@ -371,7 +371,7 @@ PyDoc_STRVAR(bytearray_rindex__doc__,
 "Raise ValueError if the subsection is not found.");
 
 #define BYTEARRAY_RINDEX_METHODDEF    \
-    {"rindex", _PyCFunction_CAST(bytearray_rindex), METH_FASTCALL, bytearray_rindex__doc__},
+    {"rindex", _PyCFunction_CAST(bytearray_rindex), METH_FASTCALL|METH_C_STACK_FRUGAL, bytearray_rindex__doc__},
 
 static PyObject *
 bytearray_rindex_impl(PyByteArrayObject *self, PyObject *sub,
@@ -424,7 +424,7 @@ PyDoc_STRVAR(bytearray_startswith__doc__,
 "    Optional stop position. Default: end of the bytearray.");
 
 #define BYTEARRAY_STARTSWITH_METHODDEF    \
-    {"startswith", _PyCFunction_CAST(bytearray_startswith), METH_FASTCALL, bytearray_startswith__doc__},
+    {"startswith", _PyCFunction_CAST(bytearray_startswith), METH_FASTCALL|METH_C_STACK_FRUGAL, bytearray_startswith__doc__},
 
 static PyObject *
 bytearray_startswith_impl(PyByteArrayObject *self, PyObject *subobj,
@@ -477,7 +477,7 @@ PyDoc_STRVAR(bytearray_endswith__doc__,
 "    Optional stop position. Default: end of the bytearray.");
 
 #define BYTEARRAY_ENDSWITH_METHODDEF    \
-    {"endswith", _PyCFunction_CAST(bytearray_endswith), METH_FASTCALL, bytearray_endswith__doc__},
+    {"endswith", _PyCFunction_CAST(bytearray_endswith), METH_FASTCALL|METH_C_STACK_FRUGAL, bytearray_endswith__doc__},
 
 static PyObject *
 bytearray_endswith_impl(PyByteArrayObject *self, PyObject *subobj,
@@ -527,7 +527,7 @@ PyDoc_STRVAR(bytearray_removeprefix__doc__,
 "bytearray.");
 
 #define BYTEARRAY_REMOVEPREFIX_METHODDEF    \
-    {"removeprefix", (PyCFunction)bytearray_removeprefix, METH_O, bytearray_removeprefix__doc__},
+    {"removeprefix", (PyCFunction)bytearray_removeprefix, METH_O|METH_C_STACK_FRUGAL, bytearray_removeprefix__doc__},
 
 static PyObject *
 bytearray_removeprefix_impl(PyByteArrayObject *self, Py_buffer *prefix);
@@ -565,7 +565,7 @@ PyDoc_STRVAR(bytearray_removesuffix__doc__,
 "the original bytearray.");
 
 #define BYTEARRAY_REMOVESUFFIX_METHODDEF    \
-    {"removesuffix", (PyCFunction)bytearray_removesuffix, METH_O, bytearray_removesuffix__doc__},
+    {"removesuffix", (PyCFunction)bytearray_removesuffix, METH_O|METH_C_STACK_FRUGAL, bytearray_removesuffix__doc__},
 
 static PyObject *
 bytearray_removesuffix_impl(PyByteArrayObject *self, Py_buffer *suffix);
@@ -602,7 +602,7 @@ PyDoc_STRVAR(bytearray_resize__doc__,
 "    New size to resize to..");
 
 #define BYTEARRAY_RESIZE_METHODDEF    \
-    {"resize", (PyCFunction)bytearray_resize, METH_O, bytearray_resize__doc__},
+    {"resize", (PyCFunction)bytearray_resize, METH_O|METH_C_STACK_FRUGAL, bytearray_resize__doc__},
 
 static PyObject *
 bytearray_resize_impl(PyByteArrayObject *self, Py_ssize_t size);
@@ -644,7 +644,7 @@ PyDoc_STRVAR(bytearray_translate__doc__,
 "The remaining characters are mapped through the given translation table.");
 
 #define BYTEARRAY_TRANSLATE_METHODDEF    \
-    {"translate", _PyCFunction_CAST(bytearray_translate), METH_FASTCALL|METH_KEYWORDS, bytearray_translate__doc__},
+    {"translate", _PyCFunction_CAST(bytearray_translate), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, bytearray_translate__doc__},
 
 static PyObject *
 bytearray_translate_impl(PyByteArrayObject *self, PyObject *table,
@@ -717,7 +717,7 @@ PyDoc_STRVAR(bytearray_maketrans__doc__,
 "The bytes objects frm and to must be of the same length.");
 
 #define BYTEARRAY_MAKETRANS_METHODDEF    \
-    {"maketrans", _PyCFunction_CAST(bytearray_maketrans), METH_FASTCALL|METH_STATIC, bytearray_maketrans__doc__},
+    {"maketrans", _PyCFunction_CAST(bytearray_maketrans), METH_FASTCALL|METH_STATIC|METH_C_STACK_FRUGAL, bytearray_maketrans__doc__},
 
 static PyObject *
 bytearray_maketrans_impl(Py_buffer *frm, Py_buffer *to);
@@ -767,7 +767,7 @@ PyDoc_STRVAR(bytearray_replace__doc__,
 "replaced.");
 
 #define BYTEARRAY_REPLACE_METHODDEF    \
-    {"replace", _PyCFunction_CAST(bytearray_replace), METH_FASTCALL, bytearray_replace__doc__},
+    {"replace", _PyCFunction_CAST(bytearray_replace), METH_FASTCALL|METH_C_STACK_FRUGAL, bytearray_replace__doc__},
 
 static PyObject *
 bytearray_replace_impl(PyByteArrayObject *self, Py_buffer *old,
@@ -838,7 +838,7 @@ PyDoc_STRVAR(bytearray_split__doc__,
 "    -1 (the default value) means no limit.");
 
 #define BYTEARRAY_SPLIT_METHODDEF    \
-    {"split", _PyCFunction_CAST(bytearray_split), METH_FASTCALL|METH_KEYWORDS, bytearray_split__doc__},
+    {"split", _PyCFunction_CAST(bytearray_split), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, bytearray_split__doc__},
 
 static PyObject *
 bytearray_split_impl(PyByteArrayObject *self, PyObject *sep,
@@ -929,7 +929,7 @@ PyDoc_STRVAR(bytearray_partition__doc__,
 "original bytearray object and two empty bytearray objects.");
 
 #define BYTEARRAY_PARTITION_METHODDEF    \
-    {"partition", (PyCFunction)bytearray_partition, METH_O, bytearray_partition__doc__},
+    {"partition", (PyCFunction)bytearray_partition, METH_O|METH_C_STACK_FRUGAL, bytearray_partition__doc__},
 
 static PyObject *
 bytearray_partition_impl(PyByteArrayObject *self, PyObject *sep);
@@ -961,7 +961,7 @@ PyDoc_STRVAR(bytearray_rpartition__doc__,
 "objects and the copy of the original bytearray object.");
 
 #define BYTEARRAY_RPARTITION_METHODDEF    \
-    {"rpartition", (PyCFunction)bytearray_rpartition, METH_O, bytearray_rpartition__doc__},
+    {"rpartition", (PyCFunction)bytearray_rpartition, METH_O|METH_C_STACK_FRUGAL, bytearray_rpartition__doc__},
 
 static PyObject *
 bytearray_rpartition_impl(PyByteArrayObject *self, PyObject *sep);
@@ -995,7 +995,7 @@ PyDoc_STRVAR(bytearray_rsplit__doc__,
 "Splitting is done starting at the end of the bytearray and working to the front.");
 
 #define BYTEARRAY_RSPLIT_METHODDEF    \
-    {"rsplit", _PyCFunction_CAST(bytearray_rsplit), METH_FASTCALL|METH_KEYWORDS, bytearray_rsplit__doc__},
+    {"rsplit", _PyCFunction_CAST(bytearray_rsplit), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, bytearray_rsplit__doc__},
 
 static PyObject *
 bytearray_rsplit_impl(PyByteArrayObject *self, PyObject *sep,
@@ -1079,7 +1079,7 @@ PyDoc_STRVAR(bytearray_reverse__doc__,
 "Reverse the order of the values in B in place.");
 
 #define BYTEARRAY_REVERSE_METHODDEF    \
-    {"reverse", (PyCFunction)bytearray_reverse, METH_NOARGS, bytearray_reverse__doc__},
+    {"reverse", (PyCFunction)bytearray_reverse, METH_NOARGS|METH_C_STACK_FRUGAL, bytearray_reverse__doc__},
 
 static PyObject *
 bytearray_reverse_impl(PyByteArrayObject *self);
@@ -1108,7 +1108,7 @@ PyDoc_STRVAR(bytearray_insert__doc__,
 "    The item to be inserted.");
 
 #define BYTEARRAY_INSERT_METHODDEF    \
-    {"insert", _PyCFunction_CAST(bytearray_insert), METH_FASTCALL, bytearray_insert__doc__},
+    {"insert", _PyCFunction_CAST(bytearray_insert), METH_FASTCALL|METH_C_STACK_FRUGAL, bytearray_insert__doc__},
 
 static PyObject *
 bytearray_insert_impl(PyByteArrayObject *self, Py_ssize_t index, int item);
@@ -1156,7 +1156,7 @@ PyDoc_STRVAR(bytearray_append__doc__,
 "    The item to be appended.");
 
 #define BYTEARRAY_APPEND_METHODDEF    \
-    {"append", (PyCFunction)bytearray_append, METH_O, bytearray_append__doc__},
+    {"append", (PyCFunction)bytearray_append, METH_O|METH_C_STACK_FRUGAL, bytearray_append__doc__},
 
 static PyObject *
 bytearray_append_impl(PyByteArrayObject *self, int item);
@@ -1188,7 +1188,7 @@ PyDoc_STRVAR(bytearray_extend__doc__,
 "    The iterable of items to append.");
 
 #define BYTEARRAY_EXTEND_METHODDEF    \
-    {"extend", (PyCFunction)bytearray_extend, METH_O, bytearray_extend__doc__},
+    {"extend", (PyCFunction)bytearray_extend, METH_O|METH_C_STACK_FRUGAL, bytearray_extend__doc__},
 
 static PyObject *
 bytearray_extend_impl(PyByteArrayObject *self, PyObject *iterable_of_ints);
@@ -1218,7 +1218,7 @@ PyDoc_STRVAR(bytearray_pop__doc__,
 "If no index argument is given, will pop the last item.");
 
 #define BYTEARRAY_POP_METHODDEF    \
-    {"pop", _PyCFunction_CAST(bytearray_pop), METH_FASTCALL, bytearray_pop__doc__},
+    {"pop", _PyCFunction_CAST(bytearray_pop), METH_FASTCALL|METH_C_STACK_FRUGAL, bytearray_pop__doc__},
 
 static PyObject *
 bytearray_pop_impl(PyByteArrayObject *self, Py_ssize_t index);
@@ -1266,7 +1266,7 @@ PyDoc_STRVAR(bytearray_remove__doc__,
 "    The value to remove.");
 
 #define BYTEARRAY_REMOVE_METHODDEF    \
-    {"remove", (PyCFunction)bytearray_remove, METH_O, bytearray_remove__doc__},
+    {"remove", (PyCFunction)bytearray_remove, METH_O|METH_C_STACK_FRUGAL, bytearray_remove__doc__},
 
 static PyObject *
 bytearray_remove_impl(PyByteArrayObject *self, int value);
@@ -1297,7 +1297,7 @@ PyDoc_STRVAR(bytearray_strip__doc__,
 "If the argument is omitted or None, strip leading and trailing ASCII whitespace.");
 
 #define BYTEARRAY_STRIP_METHODDEF    \
-    {"strip", _PyCFunction_CAST(bytearray_strip), METH_FASTCALL, bytearray_strip__doc__},
+    {"strip", _PyCFunction_CAST(bytearray_strip), METH_FASTCALL|METH_C_STACK_FRUGAL, bytearray_strip__doc__},
 
 static PyObject *
 bytearray_strip_impl(PyByteArrayObject *self, PyObject *bytes);
@@ -1333,7 +1333,7 @@ PyDoc_STRVAR(bytearray_lstrip__doc__,
 "If the argument is omitted or None, strip leading ASCII whitespace.");
 
 #define BYTEARRAY_LSTRIP_METHODDEF    \
-    {"lstrip", _PyCFunction_CAST(bytearray_lstrip), METH_FASTCALL, bytearray_lstrip__doc__},
+    {"lstrip", _PyCFunction_CAST(bytearray_lstrip), METH_FASTCALL|METH_C_STACK_FRUGAL, bytearray_lstrip__doc__},
 
 static PyObject *
 bytearray_lstrip_impl(PyByteArrayObject *self, PyObject *bytes);
@@ -1369,7 +1369,7 @@ PyDoc_STRVAR(bytearray_rstrip__doc__,
 "If the argument is omitted or None, strip trailing ASCII whitespace.");
 
 #define BYTEARRAY_RSTRIP_METHODDEF    \
-    {"rstrip", _PyCFunction_CAST(bytearray_rstrip), METH_FASTCALL, bytearray_rstrip__doc__},
+    {"rstrip", _PyCFunction_CAST(bytearray_rstrip), METH_FASTCALL|METH_C_STACK_FRUGAL, bytearray_rstrip__doc__},
 
 static PyObject *
 bytearray_rstrip_impl(PyByteArrayObject *self, PyObject *bytes);
@@ -1412,7 +1412,7 @@ PyDoc_STRVAR(bytearray_decode__doc__,
 "    can handle UnicodeDecodeErrors.");
 
 #define BYTEARRAY_DECODE_METHODDEF    \
-    {"decode", _PyCFunction_CAST(bytearray_decode), METH_FASTCALL|METH_KEYWORDS, bytearray_decode__doc__},
+    {"decode", _PyCFunction_CAST(bytearray_decode), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, bytearray_decode__doc__},
 
 static PyObject *
 bytearray_decode_impl(PyByteArrayObject *self, const char *encoding,
@@ -1513,7 +1513,7 @@ PyDoc_STRVAR(bytearray_join__doc__,
 "The result is returned as a new bytearray object.");
 
 #define BYTEARRAY_JOIN_METHODDEF    \
-    {"join", (PyCFunction)bytearray_join, METH_O, bytearray_join__doc__},
+    {"join", (PyCFunction)bytearray_join, METH_O|METH_C_STACK_FRUGAL, bytearray_join__doc__},
 
 static PyObject *
 bytearray_join_impl(PyByteArrayObject *self, PyObject *iterable_of_bytes);
@@ -1540,7 +1540,7 @@ PyDoc_STRVAR(bytearray_splitlines__doc__,
 "true.");
 
 #define BYTEARRAY_SPLITLINES_METHODDEF    \
-    {"splitlines", _PyCFunction_CAST(bytearray_splitlines), METH_FASTCALL|METH_KEYWORDS, bytearray_splitlines__doc__},
+    {"splitlines", _PyCFunction_CAST(bytearray_splitlines), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, bytearray_splitlines__doc__},
 
 static PyObject *
 bytearray_splitlines_impl(PyByteArrayObject *self, int keepends);
@@ -1611,7 +1611,7 @@ PyDoc_STRVAR(bytearray_fromhex__doc__,
 "Example: bytearray.fromhex(\'B9 01EF\') -> bytearray(b\'\\\\xb9\\\\x01\\\\xef\')");
 
 #define BYTEARRAY_FROMHEX_METHODDEF    \
-    {"fromhex", (PyCFunction)bytearray_fromhex, METH_O|METH_CLASS, bytearray_fromhex__doc__},
+    {"fromhex", (PyCFunction)bytearray_fromhex, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, bytearray_fromhex__doc__},
 
 static PyObject *
 bytearray_fromhex_impl(PyTypeObject *type, PyObject *string);
@@ -1650,7 +1650,7 @@ PyDoc_STRVAR(bytearray_hex__doc__,
 "\'b901:ef\'");
 
 #define BYTEARRAY_HEX_METHODDEF    \
-    {"hex", _PyCFunction_CAST(bytearray_hex), METH_FASTCALL|METH_KEYWORDS, bytearray_hex__doc__},
+    {"hex", _PyCFunction_CAST(bytearray_hex), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, bytearray_hex__doc__},
 
 static PyObject *
 bytearray_hex_impl(PyByteArrayObject *self, PyObject *sep, int bytes_per_sep);
@@ -1725,7 +1725,7 @@ PyDoc_STRVAR(bytearray_reduce__doc__,
 "Return state information for pickling.");
 
 #define BYTEARRAY_REDUCE_METHODDEF    \
-    {"__reduce__", (PyCFunction)bytearray_reduce, METH_NOARGS, bytearray_reduce__doc__},
+    {"__reduce__", (PyCFunction)bytearray_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, bytearray_reduce__doc__},
 
 static PyObject *
 bytearray_reduce_impl(PyByteArrayObject *self);
@@ -1749,7 +1749,7 @@ PyDoc_STRVAR(bytearray_reduce_ex__doc__,
 "Return state information for pickling.");
 
 #define BYTEARRAY_REDUCE_EX_METHODDEF    \
-    {"__reduce_ex__", _PyCFunction_CAST(bytearray_reduce_ex), METH_FASTCALL, bytearray_reduce_ex__doc__},
+    {"__reduce_ex__", _PyCFunction_CAST(bytearray_reduce_ex), METH_FASTCALL|METH_C_STACK_FRUGAL, bytearray_reduce_ex__doc__},
 
 static PyObject *
 bytearray_reduce_ex_impl(PyByteArrayObject *self, int proto);
@@ -1786,7 +1786,7 @@ PyDoc_STRVAR(bytearray_sizeof__doc__,
 "Returns the size of the bytearray object in memory, in bytes.");
 
 #define BYTEARRAY_SIZEOF_METHODDEF    \
-    {"__sizeof__", (PyCFunction)bytearray_sizeof, METH_NOARGS, bytearray_sizeof__doc__},
+    {"__sizeof__", (PyCFunction)bytearray_sizeof, METH_NOARGS|METH_C_STACK_FRUGAL, bytearray_sizeof__doc__},
 
 static PyObject *
 bytearray_sizeof_impl(PyByteArrayObject *self);
@@ -1796,4 +1796,4 @@ bytearray_sizeof(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return bytearray_sizeof_impl((PyByteArrayObject *)self);
 }
-/*[clinic end generated code: output=be6d28193bc96a2c input=a9049054013a1b77]*/
+/*[clinic end generated code: output=bef3505e6c1dc084 input=a9049054013a1b77]*/

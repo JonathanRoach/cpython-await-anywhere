@@ -15,7 +15,7 @@ PyDoc_STRVAR(MD5Type_copy__doc__,
 "Return a copy of the hash object.");
 
 #define MD5TYPE_COPY_METHODDEF    \
-    {"copy", _PyCFunction_CAST(MD5Type_copy), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, MD5Type_copy__doc__},
+    {"copy", _PyCFunction_CAST(MD5Type_copy), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, MD5Type_copy__doc__},
 
 static PyObject *
 MD5Type_copy_impl(MD5object *self, PyTypeObject *cls);
@@ -37,7 +37,7 @@ PyDoc_STRVAR(MD5Type_digest__doc__,
 "Return the digest value as a bytes object.");
 
 #define MD5TYPE_DIGEST_METHODDEF    \
-    {"digest", (PyCFunction)MD5Type_digest, METH_NOARGS, MD5Type_digest__doc__},
+    {"digest", (PyCFunction)MD5Type_digest, METH_NOARGS|METH_C_STACK_FRUGAL, MD5Type_digest__doc__},
 
 static PyObject *
 MD5Type_digest_impl(MD5object *self);
@@ -55,7 +55,7 @@ PyDoc_STRVAR(MD5Type_hexdigest__doc__,
 "Return the digest value as a string of hexadecimal digits.");
 
 #define MD5TYPE_HEXDIGEST_METHODDEF    \
-    {"hexdigest", (PyCFunction)MD5Type_hexdigest, METH_NOARGS, MD5Type_hexdigest__doc__},
+    {"hexdigest", (PyCFunction)MD5Type_hexdigest, METH_NOARGS|METH_C_STACK_FRUGAL, MD5Type_hexdigest__doc__},
 
 static PyObject *
 MD5Type_hexdigest_impl(MD5object *self);
@@ -73,7 +73,7 @@ PyDoc_STRVAR(MD5Type_update__doc__,
 "Update this hash object\'s state with the provided string.");
 
 #define MD5TYPE_UPDATE_METHODDEF    \
-    {"update", (PyCFunction)MD5Type_update, METH_O, MD5Type_update__doc__},
+    {"update", (PyCFunction)MD5Type_update, METH_O|METH_C_STACK_FRUGAL, MD5Type_update__doc__},
 
 static PyObject *
 MD5Type_update_impl(MD5object *self, PyObject *obj);
@@ -95,7 +95,7 @@ PyDoc_STRVAR(_md5_md5__doc__,
 "Return a new MD5 hash object; optionally initialized with a string.");
 
 #define _MD5_MD5_METHODDEF    \
-    {"md5", _PyCFunction_CAST(_md5_md5), METH_FASTCALL|METH_KEYWORDS, _md5_md5__doc__},
+    {"md5", _PyCFunction_CAST(_md5_md5), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _md5_md5__doc__},
 
 static PyObject *
 _md5_md5_impl(PyObject *module, PyObject *data, int usedforsecurity,
@@ -172,4 +172,4 @@ skip_optional_kwonly:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=920fe54b9ed06f92 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=293f8a7196287467 input=a9049054013a1b77]*/

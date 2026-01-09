@@ -15,6 +15,7 @@ module _testlimitedcapi
 /*[clinic end generated code: output=da39a3ee5e6b4b0d input=2700057f9c1135ba]*/
 
 /*[clinic input]
+@c_stack_frugal
 _testlimitedcapi.pack_full_version
 
     major: int
@@ -29,7 +30,7 @@ static PyObject *
 _testlimitedcapi_pack_full_version_impl(PyObject *module, int major,
                                         int minor, int micro, int level,
                                         int serial)
-/*[clinic end generated code: output=b87a1e9805648861 input=2a304423be61d2ac]*/
+/*[clinic end generated code: output=b87a1e9805648861 input=e3b236e59280021a]*/
 {
     uint32_t macro_result = Py_PACK_FULL_VERSION(
         major, minor, micro, level, serial);
@@ -42,6 +43,7 @@ _testlimitedcapi_pack_full_version_impl(PyObject *module, int major,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _testlimitedcapi.pack_version
 
     major: int
@@ -51,7 +53,7 @@ _testlimitedcapi.pack_version
 
 static PyObject *
 _testlimitedcapi_pack_version_impl(PyObject *module, int major, int minor)
-/*[clinic end generated code: output=771247bbd06e7883 input=3e39e9dcbc09e86a]*/
+/*[clinic end generated code: output=771247bbd06e7883 input=6788ab8fa7e43774]*/
 {
     uint32_t macro_result = Py_PACK_VERSION(major, minor);
 #undef Py_PACK_VERSION

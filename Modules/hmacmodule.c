@@ -824,6 +824,7 @@ done:
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hmac.new
 
     key as keyobj: object
@@ -836,7 +837,7 @@ Return a new HMAC object.
 static PyObject *
 _hmac_new_impl(PyObject *module, PyObject *keyobj, PyObject *msgobj,
                PyObject *hash_info_ref)
-/*[clinic end generated code: output=7c7573a427d58758 input=92fc7c0a00707d42]*/
+/*[clinic end generated code: output=7c7573a427d58758 input=364efc2bdfba243d]*/
 {
     hmacmodule_state *state = get_hmacmodule_state(module);
     if (hash_info_ref == NULL) {
@@ -929,6 +930,7 @@ hmac_copy_state(HMACObject *out, const HMACObject *src)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hmac.HMAC.copy
 
     cls: defining_class
@@ -938,7 +940,7 @@ Return a copy ("clone") of the HMAC object.
 
 static PyObject *
 _hmac_HMAC_copy_impl(HMACObject *self, PyTypeObject *cls)
-/*[clinic end generated code: output=a955bfa55b65b215 input=17b2c0ad0b147e36]*/
+/*[clinic end generated code: output=a955bfa55b65b215 input=ced6c528203d2210]*/
 {
     hmacmodule_state *state = get_hmacmodule_state_by_cls(cls);
     HMACObject *copy = PyObject_GC_New(HMACObject, state->hmac_type);
@@ -1036,6 +1038,7 @@ hmac_update_state(HMACObject *self, uint8_t *buf, Py_ssize_t len)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hmac.HMAC.update
 
     msg as msgobj: object
@@ -1045,7 +1048,7 @@ Update the HMAC object with the given message.
 
 static PyObject *
 _hmac_HMAC_update_impl(HMACObject *self, PyObject *msgobj)
-/*[clinic end generated code: output=962134ada5e55985 input=7c0ea830efb03367]*/
+/*[clinic end generated code: output=962134ada5e55985 input=540d4baa3bcacc3c]*/
 {
     Py_buffer msg;
     GET_BUFFER_VIEW_OR_ERROUT(msgobj, &msg);
@@ -1080,6 +1083,7 @@ hmac_digest_compute_cond_lock(HMACObject *self, uint8_t *digest)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hmac.HMAC.digest
 
 Return the digest of the bytes passed to the update() method so far.
@@ -1089,7 +1093,7 @@ This method may raise a MemoryError.
 
 static PyObject *
 _hmac_HMAC_digest_impl(HMACObject *self)
-/*[clinic end generated code: output=5bf3cc5862d26ada input=a70feb0b8e2bbe7d]*/
+/*[clinic end generated code: output=5bf3cc5862d26ada input=8270c03b44060bc5]*/
 {
     assert(self->digest_size <= Py_hmac_hash_max_digest_size);
     uint8_t digest[Py_hmac_hash_max_digest_size];
@@ -1100,6 +1104,7 @@ _hmac_HMAC_digest_impl(HMACObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hmac.HMAC.hexdigest
 
 Return hexadecimal digest of the bytes passed to the update() method so far.
@@ -1112,7 +1117,7 @@ This method may raise a MemoryError.
 
 static PyObject *
 _hmac_HMAC_hexdigest_impl(HMACObject *self)
-/*[clinic end generated code: output=6659807a09ae14ec input=493b2db8013982b9]*/
+/*[clinic end generated code: output=6659807a09ae14ec input=f616544742e24f6b]*/
 {
     assert(self->digest_size <= Py_hmac_hash_max_digest_size);
     uint8_t digest[Py_hmac_hash_max_digest_size];
@@ -1123,38 +1128,41 @@ _hmac_HMAC_hexdigest_impl(HMACObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @getter
 _hmac.HMAC.name
 [clinic start generated code]*/
 
 static PyObject *
 _hmac_HMAC_name_get_impl(HMACObject *self)
-/*[clinic end generated code: output=ae693f09778d96d9 input=41c2c5dd1cf47fbc]*/
+/*[clinic end generated code: output=ae693f09778d96d9 input=d06553e4f17cbf39]*/
 {
     assert(self->name != NULL);
     return PyUnicode_FromFormat("hmac-%U", self->name);
 }
 
 /*[clinic input]
+@c_stack_frugal
 @getter
 _hmac.HMAC.block_size
 [clinic start generated code]*/
 
 static PyObject *
 _hmac_HMAC_block_size_get_impl(HMACObject *self)
-/*[clinic end generated code: output=52cb11dee4e80cae input=9dda6b8d43e995b4]*/
+/*[clinic end generated code: output=52cb11dee4e80cae input=85caace92365985f]*/
 {
     return PyLong_FromUInt32(self->block_size);
 }
 
 /*[clinic input]
+@c_stack_frugal
 @getter
 _hmac.HMAC.digest_size
 [clinic start generated code]*/
 
 static PyObject *
 _hmac_HMAC_digest_size_get_impl(HMACObject *self)
-/*[clinic end generated code: output=22eeca1010ac6255 input=5622bb2840025b5a]*/
+/*[clinic end generated code: output=22eeca1010ac6255 input=63228bb3761abec1]*/
 {
     return PyLong_FromUInt32(self->digest_size);
 }
@@ -1233,6 +1241,7 @@ static PyType_Spec HMAC_Type_spec = {
 // --- One-shot HMAC-HASH interface -------------------------------------------
 
 /*[clinic input]
+@c_stack_frugal
 _hmac.compute_digest
 
     key: object
@@ -1244,7 +1253,7 @@ _hmac.compute_digest
 static PyObject *
 _hmac_compute_digest_impl(PyObject *module, PyObject *key, PyObject *msg,
                           PyObject *digest)
-/*[clinic end generated code: output=c519b7c4c9f57333 input=1c2bfc2cd8598574]*/
+/*[clinic end generated code: output=c519b7c4c9f57333 input=e2d26043f93fa087]*/
 {
     hmacmodule_state *state = get_hmacmodule_state(module);
     const py_hmac_hinfo *info = find_hash_info(state, digest);
@@ -1295,6 +1304,7 @@ _hmac_compute_digest_impl(PyObject *module, PyObject *key, PyObject *msg,
     } while (0)
 
 /*[clinic input]
+@c_stack_frugal
 _hmac.compute_md5
 
     key: object
@@ -1305,12 +1315,13 @@ _hmac.compute_md5
 
 static PyObject *
 _hmac_compute_md5_impl(PyObject *module, PyObject *key, PyObject *msg)
-/*[clinic end generated code: output=7837a4ceccbbf636 input=77a4b774c7d61218]*/
+/*[clinic end generated code: output=7837a4ceccbbf636 input=e8a9768aa718d7de]*/
 {
     Py_HMAC_HACL_ONESHOT(md5, key, msg);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hmac.compute_sha1
 
     key: object
@@ -1321,12 +1332,13 @@ _hmac.compute_sha1
 
 static PyObject *
 _hmac_compute_sha1_impl(PyObject *module, PyObject *key, PyObject *msg)
-/*[clinic end generated code: output=79fd7689c83691d8 input=3b64dccc6bdbe4ba]*/
+/*[clinic end generated code: output=79fd7689c83691d8 input=818172102ff26387]*/
 {
     Py_HMAC_HACL_ONESHOT(sha1, key, msg);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hmac.compute_sha224 as _hmac_compute_sha2_224
 
     key: object
@@ -1337,12 +1349,13 @@ _hmac.compute_sha224 as _hmac_compute_sha2_224
 
 static PyObject *
 _hmac_compute_sha2_224_impl(PyObject *module, PyObject *key, PyObject *msg)
-/*[clinic end generated code: output=7f21f1613e53979e input=a1a75f25f23449af]*/
+/*[clinic end generated code: output=7f21f1613e53979e input=f051ada10d1007be]*/
 {
     Py_HMAC_HACL_ONESHOT(sha2_224, key, msg);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hmac.compute_sha256 as _hmac_compute_sha2_256
 
     key: object
@@ -1353,12 +1366,13 @@ _hmac.compute_sha256 as _hmac_compute_sha2_256
 
 static PyObject *
 _hmac_compute_sha2_256_impl(PyObject *module, PyObject *key, PyObject *msg)
-/*[clinic end generated code: output=d4a291f7d9a82459 input=5c9ccf2df048ace3]*/
+/*[clinic end generated code: output=d4a291f7d9a82459 input=c8b03a9962cab22c]*/
 {
     Py_HMAC_HACL_ONESHOT(sha2_256, key, msg);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hmac.compute_sha384 as _hmac_compute_sha2_384
 
     key: object
@@ -1369,12 +1383,13 @@ _hmac.compute_sha384 as _hmac_compute_sha2_384
 
 static PyObject *
 _hmac_compute_sha2_384_impl(PyObject *module, PyObject *key, PyObject *msg)
-/*[clinic end generated code: output=f211fa26e3700c27 input=2fee2c14766af231]*/
+/*[clinic end generated code: output=f211fa26e3700c27 input=c02db899b638b5b1]*/
 {
     Py_HMAC_HACL_ONESHOT(sha2_384, key, msg);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hmac.compute_sha512 as _hmac_compute_sha2_512
 
     key: object
@@ -1385,12 +1400,13 @@ _hmac.compute_sha512 as _hmac_compute_sha2_512
 
 static PyObject *
 _hmac_compute_sha2_512_impl(PyObject *module, PyObject *key, PyObject *msg)
-/*[clinic end generated code: output=d5c20373762cecca input=3371eaac315c7864]*/
+/*[clinic end generated code: output=d5c20373762cecca input=30c4825cfdf30fb9]*/
 {
     Py_HMAC_HACL_ONESHOT(sha2_512, key, msg);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hmac.compute_sha3_224
 
     key: object
@@ -1401,12 +1417,13 @@ _hmac.compute_sha3_224
 
 static PyObject *
 _hmac_compute_sha3_224_impl(PyObject *module, PyObject *key, PyObject *msg)
-/*[clinic end generated code: output=a242ccac9ad9c22b input=d0ab0c7d189c3d87]*/
+/*[clinic end generated code: output=a242ccac9ad9c22b input=f2a677f74f93146d]*/
 {
     Py_HMAC_HACL_ONESHOT(sha3_224, key, msg);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hmac.compute_sha3_256
 
     key: object
@@ -1417,12 +1434,13 @@ _hmac.compute_sha3_256
 
 static PyObject *
 _hmac_compute_sha3_256_impl(PyObject *module, PyObject *key, PyObject *msg)
-/*[clinic end generated code: output=b539dbb61af2fe0b input=f05d7b6364b35d02]*/
+/*[clinic end generated code: output=b539dbb61af2fe0b input=16692ce4e54a9de5]*/
 {
     Py_HMAC_HACL_ONESHOT(sha3_256, key, msg);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hmac.compute_sha3_384
 
     key: object
@@ -1433,12 +1451,13 @@ _hmac.compute_sha3_384
 
 static PyObject *
 _hmac_compute_sha3_384_impl(PyObject *module, PyObject *key, PyObject *msg)
-/*[clinic end generated code: output=5eb372fb5c4ffd3a input=d842d393e7aa05ae]*/
+/*[clinic end generated code: output=5eb372fb5c4ffd3a input=92791e003184aea7]*/
 {
     Py_HMAC_HACL_ONESHOT(sha3_384, key, msg);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hmac.compute_sha3_512
 
     key: object
@@ -1449,12 +1468,13 @@ _hmac.compute_sha3_512
 
 static PyObject *
 _hmac_compute_sha3_512_impl(PyObject *module, PyObject *key, PyObject *msg)
-/*[clinic end generated code: output=154bcbf8c2eacac1 input=166fe5baaeaabfde]*/
+/*[clinic end generated code: output=154bcbf8c2eacac1 input=2b7ef89e64e9ea47]*/
 {
     Py_HMAC_HACL_ONESHOT(sha3_512, key, msg);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hmac.compute_blake2s_32
 
     key: object
@@ -1465,12 +1485,13 @@ _hmac.compute_blake2s_32
 
 static PyObject *
 _hmac_compute_blake2s_32_impl(PyObject *module, PyObject *key, PyObject *msg)
-/*[clinic end generated code: output=cfc730791bc62361 input=d22c36e7fe31a985]*/
+/*[clinic end generated code: output=cfc730791bc62361 input=8e513f339b71c31e]*/
 {
     Py_HMAC_HACL_ONESHOT(blake2s_32, key, msg);
 }
 
 /*[clinic input]
+@c_stack_frugal
 _hmac.compute_blake2b_32
 
     key: object
@@ -1481,7 +1502,7 @@ _hmac.compute_blake2b_32
 
 static PyObject *
 _hmac_compute_blake2b_32_impl(PyObject *module, PyObject *key, PyObject *msg)
-/*[clinic end generated code: output=765c5c4fb9124636 input=4a35ee058d172f4b]*/
+/*[clinic end generated code: output=765c5c4fb9124636 input=e07bb5380c8c8394]*/
 {
     Py_HMAC_HACL_ONESHOT(blake2b_32, key, msg);
 }

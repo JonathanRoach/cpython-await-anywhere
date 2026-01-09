@@ -16,7 +16,7 @@ PyDoc_STRVAR(_ctypes_CType_Type___sizeof____doc__,
 "Return memory consumption of the type object.");
 
 #define _CTYPES_CTYPE_TYPE___SIZEOF___METHODDEF    \
-    {"__sizeof__", _PyCFunction_CAST(_ctypes_CType_Type___sizeof__), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _ctypes_CType_Type___sizeof____doc__},
+    {"__sizeof__", _PyCFunction_CAST(_ctypes_CType_Type___sizeof__), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _ctypes_CType_Type___sizeof____doc__},
 
 static PyObject *
 _ctypes_CType_Type___sizeof___impl(PyObject *self, PyTypeObject *cls);
@@ -82,7 +82,7 @@ PyDoc_STRVAR(CDataType_from_address__doc__,
 "Access a C instance at the specified address.");
 
 #define CDATATYPE_FROM_ADDRESS_METHODDEF    \
-    {"from_address", _PyCFunction_CAST(CDataType_from_address), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, CDataType_from_address__doc__},
+    {"from_address", _PyCFunction_CAST(CDataType_from_address), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, CDataType_from_address__doc__},
 
 static PyObject *
 CDataType_from_address_impl(PyObject *type, PyTypeObject *cls,
@@ -129,7 +129,7 @@ PyDoc_STRVAR(CDataType_from_buffer__doc__,
 "Create a C instance from a writeable buffer.");
 
 #define CDATATYPE_FROM_BUFFER_METHODDEF    \
-    {"from_buffer", _PyCFunction_CAST(CDataType_from_buffer), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, CDataType_from_buffer__doc__},
+    {"from_buffer", _PyCFunction_CAST(CDataType_from_buffer), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, CDataType_from_buffer__doc__},
 
 static PyObject *
 CDataType_from_buffer_impl(PyObject *type, PyTypeObject *cls, PyObject *obj,
@@ -193,7 +193,7 @@ PyDoc_STRVAR(CDataType_from_buffer_copy__doc__,
 "Create a C instance from a readable buffer.");
 
 #define CDATATYPE_FROM_BUFFER_COPY_METHODDEF    \
-    {"from_buffer_copy", _PyCFunction_CAST(CDataType_from_buffer_copy), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, CDataType_from_buffer_copy__doc__},
+    {"from_buffer_copy", _PyCFunction_CAST(CDataType_from_buffer_copy), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, CDataType_from_buffer_copy__doc__},
 
 static PyObject *
 CDataType_from_buffer_copy_impl(PyObject *type, PyTypeObject *cls,
@@ -264,7 +264,7 @@ PyDoc_STRVAR(CDataType_in_dll__doc__,
 "Access a C instance in a dll.");
 
 #define CDATATYPE_IN_DLL_METHODDEF    \
-    {"in_dll", _PyCFunction_CAST(CDataType_in_dll), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, CDataType_in_dll__doc__},
+    {"in_dll", _PyCFunction_CAST(CDataType_in_dll), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, CDataType_in_dll__doc__},
 
 static PyObject *
 CDataType_in_dll_impl(PyObject *type, PyTypeObject *cls, PyObject *dll,
@@ -323,7 +323,7 @@ PyDoc_STRVAR(CDataType_from_param__doc__,
 "Convert a Python object into a function call parameter.");
 
 #define CDATATYPE_FROM_PARAM_METHODDEF    \
-    {"from_param", _PyCFunction_CAST(CDataType_from_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, CDataType_from_param__doc__},
+    {"from_param", _PyCFunction_CAST(CDataType_from_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, CDataType_from_param__doc__},
 
 static PyObject *
 CDataType_from_param_impl(PyObject *type, PyTypeObject *cls, PyObject *value);
@@ -366,7 +366,7 @@ PyDoc_STRVAR(PyCPointerType_set_type__doc__,
 "\n");
 
 #define PYCPOINTERTYPE_SET_TYPE_METHODDEF    \
-    {"set_type", _PyCFunction_CAST(PyCPointerType_set_type), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, PyCPointerType_set_type__doc__},
+    {"set_type", _PyCFunction_CAST(PyCPointerType_set_type), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, PyCPointerType_set_type__doc__},
 
 static PyObject *
 PyCPointerType_set_type_impl(PyTypeObject *self, PyTypeObject *cls,
@@ -411,7 +411,7 @@ PyDoc_STRVAR(PyCPointerType_from_param__doc__,
 "Convert a Python object into a function call parameter.");
 
 #define PYCPOINTERTYPE_FROM_PARAM_METHODDEF    \
-    {"from_param", _PyCFunction_CAST(PyCPointerType_from_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, PyCPointerType_from_param__doc__},
+    {"from_param", _PyCFunction_CAST(PyCPointerType_from_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, PyCPointerType_from_param__doc__},
 
 static PyObject *
 PyCPointerType_from_param_impl(PyObject *type, PyTypeObject *cls,
@@ -555,7 +555,7 @@ PyDoc_STRVAR(c_wchar_p_from_param__doc__,
 "\n");
 
 #define C_WCHAR_P_FROM_PARAM_METHODDEF    \
-    {"from_param", _PyCFunction_CAST(c_wchar_p_from_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, c_wchar_p_from_param__doc__},
+    {"from_param", _PyCFunction_CAST(c_wchar_p_from_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, c_wchar_p_from_param__doc__},
 
 static PyObject *
 c_wchar_p_from_param_impl(PyObject *type, PyTypeObject *cls, PyObject *value);
@@ -598,7 +598,7 @@ PyDoc_STRVAR(c_char_p_from_param__doc__,
 "\n");
 
 #define C_CHAR_P_FROM_PARAM_METHODDEF    \
-    {"from_param", _PyCFunction_CAST(c_char_p_from_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, c_char_p_from_param__doc__},
+    {"from_param", _PyCFunction_CAST(c_char_p_from_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, c_char_p_from_param__doc__},
 
 static PyObject *
 c_char_p_from_param_impl(PyObject *type, PyTypeObject *cls, PyObject *value);
@@ -641,7 +641,7 @@ PyDoc_STRVAR(c_void_p_from_param__doc__,
 "\n");
 
 #define C_VOID_P_FROM_PARAM_METHODDEF    \
-    {"from_param", _PyCFunction_CAST(c_void_p_from_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, c_void_p_from_param__doc__},
+    {"from_param", _PyCFunction_CAST(c_void_p_from_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, c_void_p_from_param__doc__},
 
 static PyObject *
 c_void_p_from_param_impl(PyObject *type, PyTypeObject *cls, PyObject *value);
@@ -685,7 +685,7 @@ PyDoc_STRVAR(PyCSimpleType_from_param__doc__,
 "Convert a Python object into a function call parameter.");
 
 #define PYCSIMPLETYPE_FROM_PARAM_METHODDEF    \
-    {"from_param", _PyCFunction_CAST(PyCSimpleType_from_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, PyCSimpleType_from_param__doc__},
+    {"from_param", _PyCFunction_CAST(PyCSimpleType_from_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, PyCSimpleType_from_param__doc__},
 
 static PyObject *
 PyCSimpleType_from_param_impl(PyObject *type, PyTypeObject *cls,
@@ -729,7 +729,7 @@ PyDoc_STRVAR(_ctypes_PyCData___reduce____doc__,
 "\n");
 
 #define _CTYPES_PYCDATA___REDUCE___METHODDEF    \
-    {"__reduce__", _PyCFunction_CAST(_ctypes_PyCData___reduce__), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _ctypes_PyCData___reduce____doc__},
+    {"__reduce__", _PyCFunction_CAST(_ctypes_PyCData___reduce__), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _ctypes_PyCData___reduce____doc__},
 
 static PyObject *
 _ctypes_PyCData___reduce___impl(PyObject *myself, PyTypeObject *cls);
@@ -757,7 +757,7 @@ PyDoc_STRVAR(_ctypes_PyCData___setstate____doc__,
 "\n");
 
 #define _CTYPES_PYCDATA___SETSTATE___METHODDEF    \
-    {"__setstate__", _PyCFunction_CAST(_ctypes_PyCData___setstate__), METH_FASTCALL, _ctypes_PyCData___setstate____doc__},
+    {"__setstate__", _PyCFunction_CAST(_ctypes_PyCData___setstate__), METH_FASTCALL|METH_C_STACK_FRUGAL, _ctypes_PyCData___setstate____doc__},
 
 static PyObject *
 _ctypes_PyCData___setstate___impl(PyObject *myself, PyObject *dict,
@@ -790,7 +790,7 @@ PyDoc_STRVAR(_ctypes_PyCData___ctypes_from_outparam____doc__,
 "default __ctypes_from_outparam__ method returns self.");
 
 #define _CTYPES_PYCDATA___CTYPES_FROM_OUTPARAM___METHODDEF    \
-    {"__ctypes_from_outparam__", (PyCFunction)_ctypes_PyCData___ctypes_from_outparam__, METH_NOARGS, _ctypes_PyCData___ctypes_from_outparam____doc__},
+    {"__ctypes_from_outparam__", (PyCFunction)_ctypes_PyCData___ctypes_from_outparam__, METH_NOARGS|METH_C_STACK_FRUGAL, _ctypes_PyCData___ctypes_from_outparam____doc__},
 
 static PyObject *
 _ctypes_PyCData___ctypes_from_outparam___impl(PyObject *self);
@@ -1028,7 +1028,7 @@ PyDoc_STRVAR(Simple_from_outparm__doc__,
 "\n");
 
 #define SIMPLE_FROM_OUTPARM_METHODDEF    \
-    {"__ctypes_from_outparam__", _PyCFunction_CAST(Simple_from_outparm), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, Simple_from_outparm__doc__},
+    {"__ctypes_from_outparam__", _PyCFunction_CAST(Simple_from_outparm), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, Simple_from_outparm__doc__},
 
 static PyObject *
 Simple_from_outparm_impl(PyObject *self, PyTypeObject *cls);
@@ -1042,4 +1042,4 @@ Simple_from_outparm(PyObject *self, PyTypeObject *cls, PyObject *const *args, Py
     }
     return Simple_from_outparm_impl(self, cls);
 }
-/*[clinic end generated code: output=536c9bcf4e05913e input=a9049054013a1b77]*/
+/*[clinic end generated code: output=e1b6697712b838fa input=a9049054013a1b77]*/

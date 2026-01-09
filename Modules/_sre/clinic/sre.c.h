@@ -15,7 +15,7 @@ PyDoc_STRVAR(_sre_getcodesize__doc__,
 "\n");
 
 #define _SRE_GETCODESIZE_METHODDEF    \
-    {"getcodesize", (PyCFunction)_sre_getcodesize, METH_NOARGS, _sre_getcodesize__doc__},
+    {"getcodesize", (PyCFunction)_sre_getcodesize, METH_NOARGS|METH_C_STACK_FRUGAL, _sre_getcodesize__doc__},
 
 static int
 _sre_getcodesize_impl(PyObject *module);
@@ -42,7 +42,7 @@ PyDoc_STRVAR(_sre_ascii_iscased__doc__,
 "\n");
 
 #define _SRE_ASCII_ISCASED_METHODDEF    \
-    {"ascii_iscased", (PyCFunction)_sre_ascii_iscased, METH_O, _sre_ascii_iscased__doc__},
+    {"ascii_iscased", (PyCFunction)_sre_ascii_iscased, METH_O|METH_C_STACK_FRUGAL, _sre_ascii_iscased__doc__},
 
 static int
 _sre_ascii_iscased_impl(PyObject *module, int character);
@@ -74,7 +74,7 @@ PyDoc_STRVAR(_sre_unicode_iscased__doc__,
 "\n");
 
 #define _SRE_UNICODE_ISCASED_METHODDEF    \
-    {"unicode_iscased", (PyCFunction)_sre_unicode_iscased, METH_O, _sre_unicode_iscased__doc__},
+    {"unicode_iscased", (PyCFunction)_sre_unicode_iscased, METH_O|METH_C_STACK_FRUGAL, _sre_unicode_iscased__doc__},
 
 static int
 _sre_unicode_iscased_impl(PyObject *module, int character);
@@ -106,7 +106,7 @@ PyDoc_STRVAR(_sre_ascii_tolower__doc__,
 "\n");
 
 #define _SRE_ASCII_TOLOWER_METHODDEF    \
-    {"ascii_tolower", (PyCFunction)_sre_ascii_tolower, METH_O, _sre_ascii_tolower__doc__},
+    {"ascii_tolower", (PyCFunction)_sre_ascii_tolower, METH_O|METH_C_STACK_FRUGAL, _sre_ascii_tolower__doc__},
 
 static int
 _sre_ascii_tolower_impl(PyObject *module, int character);
@@ -138,7 +138,7 @@ PyDoc_STRVAR(_sre_unicode_tolower__doc__,
 "\n");
 
 #define _SRE_UNICODE_TOLOWER_METHODDEF    \
-    {"unicode_tolower", (PyCFunction)_sre_unicode_tolower, METH_O, _sre_unicode_tolower__doc__},
+    {"unicode_tolower", (PyCFunction)_sre_unicode_tolower, METH_O|METH_C_STACK_FRUGAL, _sre_unicode_tolower__doc__},
 
 static int
 _sre_unicode_tolower_impl(PyObject *module, int character);
@@ -171,7 +171,7 @@ PyDoc_STRVAR(_sre_SRE_Pattern_match__doc__,
 "Matches zero or more characters at the beginning of the string.");
 
 #define _SRE_SRE_PATTERN_MATCH_METHODDEF    \
-    {"match", _PyCFunction_CAST(_sre_SRE_Pattern_match), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _sre_SRE_Pattern_match__doc__},
+    {"match", _PyCFunction_CAST(_sre_SRE_Pattern_match), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sre_SRE_Pattern_match__doc__},
 
 static PyObject *
 _sre_SRE_Pattern_match_impl(PatternObject *self, PyTypeObject *cls,
@@ -267,7 +267,7 @@ PyDoc_STRVAR(_sre_SRE_Pattern_fullmatch__doc__,
 "Matches against all of the string.");
 
 #define _SRE_SRE_PATTERN_FULLMATCH_METHODDEF    \
-    {"fullmatch", _PyCFunction_CAST(_sre_SRE_Pattern_fullmatch), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _sre_SRE_Pattern_fullmatch__doc__},
+    {"fullmatch", _PyCFunction_CAST(_sre_SRE_Pattern_fullmatch), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sre_SRE_Pattern_fullmatch__doc__},
 
 static PyObject *
 _sre_SRE_Pattern_fullmatch_impl(PatternObject *self, PyTypeObject *cls,
@@ -365,7 +365,7 @@ PyDoc_STRVAR(_sre_SRE_Pattern_search__doc__,
 "Return None if no position in the string matches.");
 
 #define _SRE_SRE_PATTERN_SEARCH_METHODDEF    \
-    {"search", _PyCFunction_CAST(_sre_SRE_Pattern_search), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _sre_SRE_Pattern_search__doc__},
+    {"search", _PyCFunction_CAST(_sre_SRE_Pattern_search), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sre_SRE_Pattern_search__doc__},
 
 static PyObject *
 _sre_SRE_Pattern_search_impl(PatternObject *self, PyTypeObject *cls,
@@ -461,7 +461,7 @@ PyDoc_STRVAR(_sre_SRE_Pattern_findall__doc__,
 "Return a list of all non-overlapping matches of pattern in string.");
 
 #define _SRE_SRE_PATTERN_FINDALL_METHODDEF    \
-    {"findall", _PyCFunction_CAST(_sre_SRE_Pattern_findall), METH_FASTCALL|METH_KEYWORDS, _sre_SRE_Pattern_findall__doc__},
+    {"findall", _PyCFunction_CAST(_sre_SRE_Pattern_findall), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sre_SRE_Pattern_findall__doc__},
 
 static PyObject *
 _sre_SRE_Pattern_findall_impl(PatternObject *self, PyObject *string,
@@ -558,7 +558,7 @@ PyDoc_STRVAR(_sre_SRE_Pattern_finditer__doc__,
 "For each match, the iterator returns a match object.");
 
 #define _SRE_SRE_PATTERN_FINDITER_METHODDEF    \
-    {"finditer", _PyCFunction_CAST(_sre_SRE_Pattern_finditer), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _sre_SRE_Pattern_finditer__doc__},
+    {"finditer", _PyCFunction_CAST(_sre_SRE_Pattern_finditer), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sre_SRE_Pattern_finditer__doc__},
 
 static PyObject *
 _sre_SRE_Pattern_finditer_impl(PatternObject *self, PyTypeObject *cls,
@@ -653,7 +653,7 @@ PyDoc_STRVAR(_sre_SRE_Pattern_scanner__doc__,
 "\n");
 
 #define _SRE_SRE_PATTERN_SCANNER_METHODDEF    \
-    {"scanner", _PyCFunction_CAST(_sre_SRE_Pattern_scanner), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _sre_SRE_Pattern_scanner__doc__},
+    {"scanner", _PyCFunction_CAST(_sre_SRE_Pattern_scanner), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sre_SRE_Pattern_scanner__doc__},
 
 static PyObject *
 _sre_SRE_Pattern_scanner_impl(PatternObject *self, PyTypeObject *cls,
@@ -749,7 +749,7 @@ PyDoc_STRVAR(_sre_SRE_Pattern_split__doc__,
 "Split string by the occurrences of pattern.");
 
 #define _SRE_SRE_PATTERN_SPLIT_METHODDEF    \
-    {"split", _PyCFunction_CAST(_sre_SRE_Pattern_split), METH_FASTCALL|METH_KEYWORDS, _sre_SRE_Pattern_split__doc__},
+    {"split", _PyCFunction_CAST(_sre_SRE_Pattern_split), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sre_SRE_Pattern_split__doc__},
 
 static PyObject *
 _sre_SRE_Pattern_split_impl(PatternObject *self, PyObject *string,
@@ -826,7 +826,7 @@ PyDoc_STRVAR(_sre_SRE_Pattern_sub__doc__,
 "Return the string obtained by replacing the leftmost non-overlapping occurrences of pattern in string by the replacement repl.");
 
 #define _SRE_SRE_PATTERN_SUB_METHODDEF    \
-    {"sub", _PyCFunction_CAST(_sre_SRE_Pattern_sub), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _sre_SRE_Pattern_sub__doc__},
+    {"sub", _PyCFunction_CAST(_sre_SRE_Pattern_sub), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sre_SRE_Pattern_sub__doc__},
 
 static PyObject *
 _sre_SRE_Pattern_sub_impl(PatternObject *self, PyTypeObject *cls,
@@ -905,7 +905,7 @@ PyDoc_STRVAR(_sre_SRE_Pattern_subn__doc__,
 "Return the tuple (new_string, number_of_subs_made) found by replacing the leftmost non-overlapping occurrences of pattern with the replacement repl.");
 
 #define _SRE_SRE_PATTERN_SUBN_METHODDEF    \
-    {"subn", _PyCFunction_CAST(_sre_SRE_Pattern_subn), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _sre_SRE_Pattern_subn__doc__},
+    {"subn", _PyCFunction_CAST(_sre_SRE_Pattern_subn), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sre_SRE_Pattern_subn__doc__},
 
 static PyObject *
 _sre_SRE_Pattern_subn_impl(PatternObject *self, PyTypeObject *cls,
@@ -984,7 +984,7 @@ PyDoc_STRVAR(_sre_SRE_Pattern___copy____doc__,
 "\n");
 
 #define _SRE_SRE_PATTERN___COPY___METHODDEF    \
-    {"__copy__", (PyCFunction)_sre_SRE_Pattern___copy__, METH_NOARGS, _sre_SRE_Pattern___copy____doc__},
+    {"__copy__", (PyCFunction)_sre_SRE_Pattern___copy__, METH_NOARGS|METH_C_STACK_FRUGAL, _sre_SRE_Pattern___copy____doc__},
 
 static PyObject *
 _sre_SRE_Pattern___copy___impl(PatternObject *self);
@@ -1001,7 +1001,7 @@ PyDoc_STRVAR(_sre_SRE_Pattern___deepcopy____doc__,
 "\n");
 
 #define _SRE_SRE_PATTERN___DEEPCOPY___METHODDEF    \
-    {"__deepcopy__", (PyCFunction)_sre_SRE_Pattern___deepcopy__, METH_O, _sre_SRE_Pattern___deepcopy____doc__},
+    {"__deepcopy__", (PyCFunction)_sre_SRE_Pattern___deepcopy__, METH_O|METH_C_STACK_FRUGAL, _sre_SRE_Pattern___deepcopy____doc__},
 
 static PyObject *
 _sre_SRE_Pattern___deepcopy___impl(PatternObject *self, PyObject *memo);
@@ -1025,7 +1025,7 @@ PyDoc_STRVAR(_sre_SRE_Pattern__fail_after__doc__,
 "For debugging.");
 
 #define _SRE_SRE_PATTERN__FAIL_AFTER_METHODDEF    \
-    {"_fail_after", _PyCFunction_CAST(_sre_SRE_Pattern__fail_after), METH_FASTCALL, _sre_SRE_Pattern__fail_after__doc__},
+    {"_fail_after", _PyCFunction_CAST(_sre_SRE_Pattern__fail_after), METH_FASTCALL|METH_C_STACK_FRUGAL, _sre_SRE_Pattern__fail_after__doc__},
 
 static PyObject *
 _sre_SRE_Pattern__fail_after_impl(PatternObject *self, int count,
@@ -1061,7 +1061,7 @@ PyDoc_STRVAR(_sre_compile__doc__,
 "\n");
 
 #define _SRE_COMPILE_METHODDEF    \
-    {"compile", _PyCFunction_CAST(_sre_compile), METH_FASTCALL|METH_KEYWORDS, _sre_compile__doc__},
+    {"compile", _PyCFunction_CAST(_sre_compile), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sre_compile__doc__},
 
 static PyObject *
 _sre_compile_impl(PyObject *module, PyObject *pattern, int flags,
@@ -1162,7 +1162,7 @@ PyDoc_STRVAR(_sre_template__doc__,
 "        [literal1, group1, ..., literalN, groupN]");
 
 #define _SRE_TEMPLATE_METHODDEF    \
-    {"template", _PyCFunction_CAST(_sre_template), METH_FASTCALL, _sre_template__doc__},
+    {"template", _PyCFunction_CAST(_sre_template), METH_FASTCALL|METH_C_STACK_FRUGAL, _sre_template__doc__},
 
 static PyObject *
 _sre_template_impl(PyObject *module, PyObject *pattern, PyObject *template);
@@ -1196,7 +1196,7 @@ PyDoc_STRVAR(_sre_SRE_Match_expand__doc__,
 "Return the string obtained by doing backslash substitution on the string template, as done by the sub() method.");
 
 #define _SRE_SRE_MATCH_EXPAND_METHODDEF    \
-    {"expand", _PyCFunction_CAST(_sre_SRE_Match_expand), METH_FASTCALL|METH_KEYWORDS, _sre_SRE_Match_expand__doc__},
+    {"expand", _PyCFunction_CAST(_sre_SRE_Match_expand), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sre_SRE_Match_expand__doc__},
 
 static PyObject *
 _sre_SRE_Match_expand_impl(MatchObject *self, PyObject *template);
@@ -1257,7 +1257,7 @@ PyDoc_STRVAR(_sre_SRE_Match_groups__doc__,
 "    Is used for groups that did not participate in the match.");
 
 #define _SRE_SRE_MATCH_GROUPS_METHODDEF    \
-    {"groups", _PyCFunction_CAST(_sre_SRE_Match_groups), METH_FASTCALL|METH_KEYWORDS, _sre_SRE_Match_groups__doc__},
+    {"groups", _PyCFunction_CAST(_sre_SRE_Match_groups), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sre_SRE_Match_groups__doc__},
 
 static PyObject *
 _sre_SRE_Match_groups_impl(MatchObject *self, PyObject *default_value);
@@ -1323,7 +1323,7 @@ PyDoc_STRVAR(_sre_SRE_Match_groupdict__doc__,
 "    Is used for groups that did not participate in the match.");
 
 #define _SRE_SRE_MATCH_GROUPDICT_METHODDEF    \
-    {"groupdict", _PyCFunction_CAST(_sre_SRE_Match_groupdict), METH_FASTCALL|METH_KEYWORDS, _sre_SRE_Match_groupdict__doc__},
+    {"groupdict", _PyCFunction_CAST(_sre_SRE_Match_groupdict), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sre_SRE_Match_groupdict__doc__},
 
 static PyObject *
 _sre_SRE_Match_groupdict_impl(MatchObject *self, PyObject *default_value);
@@ -1386,7 +1386,7 @@ PyDoc_STRVAR(_sre_SRE_Match_start__doc__,
 "Return index of the start of the substring matched by group.");
 
 #define _SRE_SRE_MATCH_START_METHODDEF    \
-    {"start", _PyCFunction_CAST(_sre_SRE_Match_start), METH_FASTCALL, _sre_SRE_Match_start__doc__},
+    {"start", _PyCFunction_CAST(_sre_SRE_Match_start), METH_FASTCALL|METH_C_STACK_FRUGAL, _sre_SRE_Match_start__doc__},
 
 static Py_ssize_t
 _sre_SRE_Match_start_impl(MatchObject *self, PyObject *group);
@@ -1423,7 +1423,7 @@ PyDoc_STRVAR(_sre_SRE_Match_end__doc__,
 "Return index of the end of the substring matched by group.");
 
 #define _SRE_SRE_MATCH_END_METHODDEF    \
-    {"end", _PyCFunction_CAST(_sre_SRE_Match_end), METH_FASTCALL, _sre_SRE_Match_end__doc__},
+    {"end", _PyCFunction_CAST(_sre_SRE_Match_end), METH_FASTCALL|METH_C_STACK_FRUGAL, _sre_SRE_Match_end__doc__},
 
 static Py_ssize_t
 _sre_SRE_Match_end_impl(MatchObject *self, PyObject *group);
@@ -1460,7 +1460,7 @@ PyDoc_STRVAR(_sre_SRE_Match_span__doc__,
 "For match object m, return the 2-tuple (m.start(group), m.end(group)).");
 
 #define _SRE_SRE_MATCH_SPAN_METHODDEF    \
-    {"span", _PyCFunction_CAST(_sre_SRE_Match_span), METH_FASTCALL, _sre_SRE_Match_span__doc__},
+    {"span", _PyCFunction_CAST(_sre_SRE_Match_span), METH_FASTCALL|METH_C_STACK_FRUGAL, _sre_SRE_Match_span__doc__},
 
 static PyObject *
 _sre_SRE_Match_span_impl(MatchObject *self, PyObject *group);
@@ -1491,7 +1491,7 @@ PyDoc_STRVAR(_sre_SRE_Match___copy____doc__,
 "\n");
 
 #define _SRE_SRE_MATCH___COPY___METHODDEF    \
-    {"__copy__", (PyCFunction)_sre_SRE_Match___copy__, METH_NOARGS, _sre_SRE_Match___copy____doc__},
+    {"__copy__", (PyCFunction)_sre_SRE_Match___copy__, METH_NOARGS|METH_C_STACK_FRUGAL, _sre_SRE_Match___copy____doc__},
 
 static PyObject *
 _sre_SRE_Match___copy___impl(MatchObject *self);
@@ -1508,7 +1508,7 @@ PyDoc_STRVAR(_sre_SRE_Match___deepcopy____doc__,
 "\n");
 
 #define _SRE_SRE_MATCH___DEEPCOPY___METHODDEF    \
-    {"__deepcopy__", (PyCFunction)_sre_SRE_Match___deepcopy__, METH_O, _sre_SRE_Match___deepcopy____doc__},
+    {"__deepcopy__", (PyCFunction)_sre_SRE_Match___deepcopy__, METH_O|METH_C_STACK_FRUGAL, _sre_SRE_Match___deepcopy____doc__},
 
 static PyObject *
 _sre_SRE_Match___deepcopy___impl(MatchObject *self, PyObject *memo);
@@ -1529,7 +1529,7 @@ PyDoc_STRVAR(_sre_SRE_Scanner_match__doc__,
 "\n");
 
 #define _SRE_SRE_SCANNER_MATCH_METHODDEF    \
-    {"match", _PyCFunction_CAST(_sre_SRE_Scanner_match), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _sre_SRE_Scanner_match__doc__},
+    {"match", _PyCFunction_CAST(_sre_SRE_Scanner_match), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sre_SRE_Scanner_match__doc__},
 
 static PyObject *
 _sre_SRE_Scanner_match_impl(ScannerObject *self, PyTypeObject *cls);
@@ -1550,7 +1550,7 @@ PyDoc_STRVAR(_sre_SRE_Scanner_search__doc__,
 "\n");
 
 #define _SRE_SRE_SCANNER_SEARCH_METHODDEF    \
-    {"search", _PyCFunction_CAST(_sre_SRE_Scanner_search), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _sre_SRE_Scanner_search__doc__},
+    {"search", _PyCFunction_CAST(_sre_SRE_Scanner_search), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sre_SRE_Scanner_search__doc__},
 
 static PyObject *
 _sre_SRE_Scanner_search_impl(ScannerObject *self, PyTypeObject *cls);
@@ -1568,4 +1568,4 @@ _sre_SRE_Scanner_search(PyObject *self, PyTypeObject *cls, PyObject *const *args
 #ifndef _SRE_SRE_PATTERN__FAIL_AFTER_METHODDEF
     #define _SRE_SRE_PATTERN__FAIL_AFTER_METHODDEF
 #endif /* !defined(_SRE_SRE_PATTERN__FAIL_AFTER_METHODDEF) */
-/*[clinic end generated code: output=bbf42e1de3bdd3ae input=a9049054013a1b77]*/
+/*[clinic end generated code: output=4f63b810e0da8307 input=a9049054013a1b77]*/

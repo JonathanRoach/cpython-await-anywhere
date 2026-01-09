@@ -137,6 +137,7 @@ syslog_get_argv(void)
 
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 syslog.openlog
 
@@ -150,7 +151,7 @@ Set logging options of subsequent syslog() calls.
 static PyObject *
 syslog_openlog_impl(PyObject *module, PyObject *ident, long logopt,
                     long facility)
-/*[clinic end generated code: output=5476c12829b6eb75 input=ee700b8786f81c23]*/
+/*[clinic end generated code: output=5476c12829b6eb75 input=a9ab373f224ea8e2]*/
 {
     // Since the sys.openlog changes the process level state of syslog library,
     // this operation is only allowed for the main interpreter.
@@ -198,6 +199,7 @@ syslog_openlog_impl(PyObject *module, PyObject *ident, long logopt,
 
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 syslog.syslog
 
@@ -215,7 +217,7 @@ Send the string message to the system logger.
 static PyObject *
 syslog_syslog_impl(PyObject *module, int group_left_1, int priority,
                    const char *message)
-/*[clinic end generated code: output=c3dbc73445a0e078 input=6588ddb0b113af8e]*/
+/*[clinic end generated code: output=c3dbc73445a0e078 input=4143f9a617cb14f2]*/
 {
     if (PySys_Audit("syslog.syslog", "is", priority, message) < 0) {
         return NULL;
@@ -253,6 +255,7 @@ syslog_syslog_impl(PyObject *module, int group_left_1, int priority,
 
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 syslog.closelog
 
@@ -261,7 +264,7 @@ Reset the syslog module values and call the system library closelog().
 
 static PyObject *
 syslog_closelog_impl(PyObject *module)
-/*[clinic end generated code: output=97890a80a24b1b84 input=167f489868bd5a72]*/
+/*[clinic end generated code: output=97890a80a24b1b84 input=0ad9323d44213554]*/
 {
     // Since the sys.closelog changes the process level state of syslog library,
     // this operation is only allowed for the main interpreter.
@@ -282,6 +285,7 @@ syslog_closelog_impl(PyObject *module)
 }
 
 /*[clinic input]
+@c_stack_frugal
 syslog.setlogmask -> long
 
     maskpri: long
@@ -292,7 +296,7 @@ Set the priority mask to maskpri and return the previous mask value.
 
 static long
 syslog_setlogmask_impl(PyObject *module, long maskpri)
-/*[clinic end generated code: output=d6ed163917b434bf input=adff2c2b76c7629c]*/
+/*[clinic end generated code: output=d6ed163917b434bf input=5c6f93de0c92d667]*/
 {
     if (PySys_Audit("syslog.setlogmask", "l", maskpri) < 0) {
         return -1;
@@ -302,6 +306,7 @@ syslog_setlogmask_impl(PyObject *module, long maskpri)
 }
 
 /*[clinic input]
+@c_stack_frugal
 syslog.LOG_MASK -> long
 
     pri: long
@@ -312,12 +317,13 @@ Calculates the mask for the individual priority pri.
 
 static long
 syslog_LOG_MASK_impl(PyObject *module, long pri)
-/*[clinic end generated code: output=c4a5bbfcc74c7c94 input=534829cb7fb5f7d2]*/
+/*[clinic end generated code: output=c4a5bbfcc74c7c94 input=a82557acc3deb31f]*/
 {
     return LOG_MASK(pri);
 }
 
 /*[clinic input]
+@c_stack_frugal
 syslog.LOG_UPTO -> long
 
     pri: long
@@ -328,7 +334,7 @@ Calculates the mask for all priorities up to and including pri.
 
 static long
 syslog_LOG_UPTO_impl(PyObject *module, long pri)
-/*[clinic end generated code: output=9eab083c90601d7e input=5e906d6c406b7458]*/
+/*[clinic end generated code: output=9eab083c90601d7e input=185104e88ed092ff]*/
 {
     return LOG_UPTO(pri);
 }

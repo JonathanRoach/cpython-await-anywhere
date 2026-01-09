@@ -840,6 +840,7 @@ func_set_kwdefaults(PyObject *self, PyObject *value, void *Py_UNUSED(ignored))
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @getter
 function.__annotate__
@@ -849,7 +850,7 @@ Get the code object for a function.
 
 static PyObject *
 function___annotate___get_impl(PyFunctionObject *self)
-/*[clinic end generated code: output=5ec7219ff2bda9e6 input=7f3db11e3c3329f3]*/
+/*[clinic end generated code: output=5ec7219ff2bda9e6 input=17df2b9e3c7ae80a]*/
 {
     if (self->func_annotate == NULL) {
         Py_RETURN_NONE;
@@ -858,6 +859,7 @@ function___annotate___get_impl(PyFunctionObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @setter
 function.__annotate__
@@ -865,7 +867,7 @@ function.__annotate__
 
 static int
 function___annotate___set_impl(PyFunctionObject *self, PyObject *value)
-/*[clinic end generated code: output=05b7dfc07ada66cd input=eb6225e358d97448]*/
+/*[clinic end generated code: output=05b7dfc07ada66cd input=33d849127e6e5c7f]*/
 {
     if (value == NULL) {
         PyErr_SetString(PyExc_TypeError,
@@ -889,6 +891,7 @@ function___annotate___set_impl(PyFunctionObject *self, PyObject *value)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @getter
 function.__annotations__
@@ -898,7 +901,7 @@ Dict of annotations in a function object.
 
 static PyObject *
 function___annotations___get_impl(PyFunctionObject *self)
-/*[clinic end generated code: output=a4cf4c884c934cbb input=92643d7186c1ad0c]*/
+/*[clinic end generated code: output=a4cf4c884c934cbb input=4fee071e0945b964]*/
 {
     PyObject *d = NULL;
     if (self->func_annotations == NULL &&
@@ -912,6 +915,7 @@ function___annotations___get_impl(PyFunctionObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @setter
 function.__annotations__
@@ -919,7 +923,7 @@ function.__annotations__
 
 static int
 function___annotations___set_impl(PyFunctionObject *self, PyObject *value)
-/*[clinic end generated code: output=a61795d4a95eede4 input=5302641f686f0463]*/
+/*[clinic end generated code: output=a61795d4a95eede4 input=30c53a3426de83d4]*/
 {
     if (value == Py_None)
         value = NULL;
@@ -937,6 +941,7 @@ function___annotations___set_impl(PyFunctionObject *self, PyObject *value)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @getter
 function.__type_params__
@@ -946,7 +951,7 @@ Get the declared type parameters for a function.
 
 static PyObject *
 function___type_params___get_impl(PyFunctionObject *self)
-/*[clinic end generated code: output=eb844d7ffca517a8 input=0864721484293724]*/
+/*[clinic end generated code: output=eb844d7ffca517a8 input=5e789557743d6a9d]*/
 {
     if (self->func_typeparams == NULL) {
         return PyTuple_New(0);
@@ -957,6 +962,7 @@ function___type_params___get_impl(PyFunctionObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @setter
 function.__type_params__
@@ -964,7 +970,7 @@ function.__type_params__
 
 static int
 function___type_params___set_impl(PyFunctionObject *self, PyObject *value)
-/*[clinic end generated code: output=038b4cda220e56fb input=3862fbd4db2b70e8]*/
+/*[clinic end generated code: output=038b4cda220e56fb input=8cf5cf3ed9cd1d1c]*/
 {
     /* Not legal to del f.__type_params__ or to set it to anything
      * other than a tuple object. */
@@ -1012,6 +1018,7 @@ static PyGetSetDef func_getsetlist[] = {
 */
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 function.__new__ as func_new
     code: object(type="PyCodeObject *", subclass_of="&PyCode_Type")
@@ -1034,7 +1041,7 @@ static PyObject *
 func_new_impl(PyTypeObject *type, PyCodeObject *code, PyObject *globals,
               PyObject *name, PyObject *defaults, PyObject *closure,
               PyObject *kwdefaults)
-/*[clinic end generated code: output=de72f4c22ac57144 input=20c9c9f04ad2d3f2]*/
+/*[clinic end generated code: output=de72f4c22ac57144 input=e0863178dba36130]*/
 {
     PyFunctionObject *newfunc;
     Py_ssize_t nclosure;

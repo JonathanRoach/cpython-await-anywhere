@@ -50,6 +50,7 @@ typedef struct {
     (assert(_PyInterpolation_CheckExact(op)), _Py_CAST(interpolationobject*, (op)))
 
 /*[clinic input]
+@c_stack_frugal
 @classmethod
 Interpolation.__new__ as interpolation_new
 
@@ -63,7 +64,7 @@ static PyObject *
 interpolation_new_impl(PyTypeObject *type, PyObject *value,
                        PyObject *expression, PyObject *conversion,
                        PyObject *format_spec)
-/*[clinic end generated code: output=6488e288765bc1a9 input=d91711024068528c]*/
+/*[clinic end generated code: output=6488e288765bc1a9 input=47230b99845621e6]*/
 {
     interpolationobject *self = PyObject_GC_New(interpolationobject, type);
     if (!self) {

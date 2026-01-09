@@ -544,6 +544,7 @@ CType_Type_dealloc(PyObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _ctypes.CType_Type.__sizeof__
 
     cls: defining_class
@@ -553,7 +554,7 @@ Return memory consumption of the type object.
 
 static PyObject *
 _ctypes_CType_Type___sizeof___impl(PyObject *self, PyTypeObject *cls)
-/*[clinic end generated code: output=c68c235be84d03f3 input=d064433b6110d1ce]*/
+/*[clinic end generated code: output=c68c235be84d03f3 input=e6a0bc17fb91f2c7]*/
 {
     Py_ssize_t size = Py_TYPE(self)->tp_basicsize;
     size += Py_TYPE(self)->tp_itemsize * Py_SIZE(self);
@@ -577,6 +578,7 @@ _ctypes_CType_Type___sizeof___impl(PyObject *self, PyTypeObject *cls)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @getter
 _ctypes.CType_Type.__pointer_type__
 
@@ -584,7 +586,7 @@ _ctypes.CType_Type.__pointer_type__
 
 static PyObject *
 _ctypes_CType_Type___pointer_type___get_impl(PyObject *self)
-/*[clinic end generated code: output=718c9ff10b2b0012 input=ad12dc835943ceb8]*/
+/*[clinic end generated code: output=718c9ff10b2b0012 input=99b48c73ac3aea14]*/
 {
     ctypes_state *st = get_module_state_by_def(Py_TYPE(self));
     StgInfo *info;
@@ -610,6 +612,7 @@ _ctypes_CType_Type___pointer_type___get_impl(PyObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @setter
 _ctypes.CType_Type.__pointer_type__
 
@@ -617,7 +620,7 @@ _ctypes.CType_Type.__pointer_type__
 
 static int
 _ctypes_CType_Type___pointer_type___set_impl(PyObject *self, PyObject *value)
-/*[clinic end generated code: output=6259be8ea21693fa input=a05055fc7f4714b6]*/
+/*[clinic end generated code: output=6259be8ea21693fa input=2c8063092ce50f3c]*/
 {
     ctypes_state *st = get_module_state_by_def(Py_TYPE(self));
     StgInfo *info;
@@ -820,6 +823,7 @@ class _ctypes.CDataType "PyObject *" "clinic_state()->CType_Type"
 
 
 /*[clinic input]
+@c_stack_frugal
 _ctypes.CDataType.from_address as CDataType_from_address
 
     type: self
@@ -835,7 +839,7 @@ Access a C instance at the specified address.
 static PyObject *
 CDataType_from_address_impl(PyObject *type, PyTypeObject *cls,
                             PyObject *value)
-/*[clinic end generated code: output=5be4a7c0d9aa6c74 input=827a22cefe380c01]*/
+/*[clinic end generated code: output=5be4a7c0d9aa6c74 input=d7cc6bcbfe4c53d3]*/
 {
     void *buf;
     if (!PyLong_Check(value)) {
@@ -854,6 +858,7 @@ static int
 KeepRef(CDataObject *target, Py_ssize_t index, PyObject *keep);
 
 /*[clinic input]
+@c_stack_frugal
 _ctypes.CDataType.from_buffer as CDataType_from_buffer
 
     type: self
@@ -870,7 +875,7 @@ Create a C instance from a writeable buffer.
 static PyObject *
 CDataType_from_buffer_impl(PyObject *type, PyTypeObject *cls, PyObject *obj,
                            Py_ssize_t offset)
-/*[clinic end generated code: output=57604e99635abd31 input=0f36cedd105ca28d]*/
+/*[clinic end generated code: output=57604e99635abd31 input=a62a8f88514ca9e1]*/
 {
     PyObject *mv;
     PyObject *result;
@@ -950,6 +955,7 @@ static PyObject *
 GenericPyCData_new(PyTypeObject *type, PyObject *args, PyObject *kwds);
 
 /*[clinic input]
+@c_stack_frugal
 _ctypes.CDataType.from_buffer_copy as CDataType_from_buffer_copy
 
     type: self
@@ -966,7 +972,7 @@ Create a C instance from a readable buffer.
 static PyObject *
 CDataType_from_buffer_copy_impl(PyObject *type, PyTypeObject *cls,
                                 Py_buffer *buffer, Py_ssize_t offset)
-/*[clinic end generated code: output=c8fc62b03e5cc6fa input=2a81e11b765a6253]*/
+/*[clinic end generated code: output=c8fc62b03e5cc6fa input=242fd36d9a6c6a2b]*/
 {
     PyObject *result;
 
@@ -1007,6 +1013,7 @@ CDataType_from_buffer_copy_impl(PyObject *type, PyTypeObject *cls,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _ctypes.CDataType.in_dll as CDataType_in_dll
 
     type: self
@@ -1023,7 +1030,7 @@ Access a C instance in a dll.
 static PyObject *
 CDataType_in_dll_impl(PyObject *type, PyTypeObject *cls, PyObject *dll,
                       const char *name)
-/*[clinic end generated code: output=d0e5c43b66bfa21f input=f85bf281477042b4]*/
+/*[clinic end generated code: output=d0e5c43b66bfa21f input=caaff9336ff5f683]*/
 {
     PyObject *obj;
     void *handle;
@@ -1089,6 +1096,7 @@ CDataType_in_dll_impl(PyObject *type, PyTypeObject *cls, PyObject *dll,
 
 _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, PyObject *, CDataType_from_param_impl, PyObject *, PyTypeObject *, PyObject *)
 /*[clinic input]
+@c_stack_frugal
 _ctypes.CDataType.from_param as CDataType_from_param
 
     type: self
@@ -1101,7 +1109,7 @@ Convert a Python object into a function call parameter.
 
 static PyObject *
 CDataType_from_param_impl(PyObject *type, PyTypeObject *cls, PyObject *value)
-/*[clinic end generated code: output=8da9e34263309f9e input=275a52c4899ddff0]*/
+/*[clinic end generated code: output=8da9e34263309f9e input=20bc0307a205e8ca]*/
 {
     _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(PyObject *, CDataType_from_param_impl, type, cls, value)
     PyObject *as_parameter;
@@ -1364,6 +1372,7 @@ PyCPointerType_init(PyObject *self, PyObject *args, PyObject *kwds)
 }
 
 /*[clinic input]
+@c_stack_frugal
 _ctypes.PyCPointerType.set_type as PyCPointerType_set_type
 
     self: self(type="PyTypeObject *")
@@ -1375,7 +1384,7 @@ _ctypes.PyCPointerType.set_type as PyCPointerType_set_type
 static PyObject *
 PyCPointerType_set_type_impl(PyTypeObject *self, PyTypeObject *cls,
                              PyObject *type)
-/*[clinic end generated code: output=51459d8f429a70ac input=67e1e8df921f123e]*/
+/*[clinic end generated code: output=51459d8f429a70ac input=0ccc1ef7cc447247]*/
 {
     ctypes_state *st = get_module_state_by_class(cls);
     StgInfo *info;
@@ -1400,6 +1409,7 @@ PyCPointerType_set_type_impl(PyTypeObject *self, PyTypeObject *cls,
 static PyObject *_byref(ctypes_state *, PyObject *);
 
 /*[clinic input]
+@c_stack_frugal
 _ctypes.PyCPointerType.from_param as PyCPointerType_from_param
 
     type: self
@@ -1413,7 +1423,7 @@ Convert a Python object into a function call parameter.
 static PyObject *
 PyCPointerType_from_param_impl(PyObject *type, PyTypeObject *cls,
                                PyObject *value)
-/*[clinic end generated code: output=a4b32d929aabaf64 input=6c231276e3997884]*/
+/*[clinic end generated code: output=a4b32d929aabaf64 input=f97dd0ad4c156c52]*/
 {
     if (value == Py_None) {
         /* ConvParam will convert to a NULL pointer later */
@@ -1504,6 +1514,7 @@ class _ctypes.PyCArrayType_Type "CDataObject *" "clinic_state()->PyCArrayType_Ty
 /*[clinic end generated code: output=da39a3ee5e6b4b0d input=6340cbaead1bf3f3]*/
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @setter
 _ctypes.PyCArrayType_Type.raw
@@ -1511,7 +1522,7 @@ _ctypes.PyCArrayType_Type.raw
 
 static int
 _ctypes_PyCArrayType_Type_raw_set_impl(CDataObject *self, PyObject *value)
-/*[clinic end generated code: output=cf9b2a9fd92e9ecb input=a3717561efc45efd]*/
+/*[clinic end generated code: output=cf9b2a9fd92e9ecb input=55305569382e073f]*/
 {
     char *ptr;
     Py_ssize_t size;
@@ -1541,6 +1552,7 @@ _ctypes_PyCArrayType_Type_raw_set_impl(CDataObject *self, PyObject *value)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @getter
 _ctypes.PyCArrayType_Type.raw
@@ -1548,12 +1560,13 @@ _ctypes.PyCArrayType_Type.raw
 
 static PyObject *
 _ctypes_PyCArrayType_Type_raw_get_impl(CDataObject *self)
-/*[clinic end generated code: output=3a90be6f43764e31 input=4c49bbb715235ba7]*/
+/*[clinic end generated code: output=3a90be6f43764e31 input=348940fa0aee6eb7]*/
 {
     return PyBytes_FromStringAndSize(self->b_ptr, self->b_size);
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @getter
 _ctypes.PyCArrayType_Type.value
@@ -1561,7 +1574,7 @@ _ctypes.PyCArrayType_Type.value
 
 static PyObject *
 _ctypes_PyCArrayType_Type_value_get_impl(CDataObject *self)
-/*[clinic end generated code: output=fb0636f4d8875483 input=2432a2aeb1ed78d1]*/
+/*[clinic end generated code: output=fb0636f4d8875483 input=43032ae4bcf8e30b]*/
 {
     Py_ssize_t i;
     PyObject *res;
@@ -1574,6 +1587,7 @@ _ctypes_PyCArrayType_Type_value_get_impl(CDataObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @setter
 _ctypes.PyCArrayType_Type.value
@@ -1581,7 +1595,7 @@ _ctypes.PyCArrayType_Type.value
 
 static int
 _ctypes_PyCArrayType_Type_value_set_impl(CDataObject *self, PyObject *value)
-/*[clinic end generated code: output=39ad655636a28dd5 input=e2e6385fc6ab1a29]*/
+/*[clinic end generated code: output=39ad655636a28dd5 input=418ee50423196d85]*/
 {
     const char *ptr;
     Py_ssize_t size;
@@ -1911,6 +1925,7 @@ class _ctypes.c_void_p "PyObject *" "clinic_state_sub()->PyCSimpleType_Type"
 
 _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, PyObject *, c_wchar_p_from_param_impl, PyObject *, PyTypeObject *, PyObject *)
 /*[clinic input]
+@c_stack_frugal
 _ctypes.c_wchar_p.from_param as c_wchar_p_from_param
 
     type: self
@@ -1921,7 +1936,7 @@ _ctypes.c_wchar_p.from_param as c_wchar_p_from_param
 
 static PyObject *
 c_wchar_p_from_param_impl(PyObject *type, PyTypeObject *cls, PyObject *value)
-/*[clinic end generated code: output=e453949a2f725a4c input=d322c7237a319607]*/
+/*[clinic end generated code: output=e453949a2f725a4c input=9f8b877e523fdb19]*/
 {
     _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(PyObject *, c_wchar_p_from_param_impl, type, cls, value)
     PyObject *as_parameter;
@@ -2002,6 +2017,7 @@ c_wchar_p_from_param_impl(PyObject *type, PyTypeObject *cls, PyObject *value)
 
 _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, PyObject *, c_char_p_from_param_impl, PyObject *, PyTypeObject *, PyObject *)
 /*[clinic input]
+@c_stack_frugal
 _ctypes.c_char_p.from_param as c_char_p_from_param
 
     type: self
@@ -2012,7 +2028,7 @@ _ctypes.c_char_p.from_param as c_char_p_from_param
 
 static PyObject *
 c_char_p_from_param_impl(PyObject *type, PyTypeObject *cls, PyObject *value)
-/*[clinic end generated code: output=219652ab7c174aa1 input=6cf0d1b6bb4ede11]*/
+/*[clinic end generated code: output=219652ab7c174aa1 input=a44bdc7936c30953]*/
 {
     _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(PyObject *, c_char_p_from_param_impl, type, cls, value)
     PyObject *as_parameter;
@@ -2093,6 +2109,7 @@ c_char_p_from_param_impl(PyObject *type, PyTypeObject *cls, PyObject *value)
 
 _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, PyObject *, c_void_p_from_param_impl, PyObject *, PyTypeObject *, PyObject *)
 /*[clinic input]
+@c_stack_frugal
 _ctypes.c_void_p.from_param as c_void_p_from_param
 
     type: self
@@ -2103,7 +2120,7 @@ _ctypes.c_void_p.from_param as c_void_p_from_param
 
 static PyObject *
 c_void_p_from_param_impl(PyObject *type, PyTypeObject *cls, PyObject *value)
-/*[clinic end generated code: output=984d0075b6038cc7 input=0e8b343fc19c77d4]*/
+/*[clinic end generated code: output=984d0075b6038cc7 input=c0294ec91163b1da]*/
 {
     _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(PyObject *, c_void_p_from_param_impl, type, cls, value)
     PyObject *as_parameter;
@@ -2529,6 +2546,7 @@ PyCSimpleType_init(PyObject *self, PyObject *args, PyObject *kwds)
 
 _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, PyObject *, PyCSimpleType_from_param_impl, PyObject *, PyTypeObject *, PyObject *)
 /*[clinic input]
+@c_stack_frugal
 _ctypes.PyCSimpleType.from_param as PyCSimpleType_from_param
 
     type: self
@@ -2542,7 +2560,7 @@ Convert a Python object into a function call parameter.
 static PyObject *
 PyCSimpleType_from_param_impl(PyObject *type, PyTypeObject *cls,
                               PyObject *value)
-/*[clinic end generated code: output=8a8453d9663e3a2e input=61cc48ce3a87a570]*/
+/*[clinic end generated code: output=8a8453d9663e3a2e input=5b3a69c9256443c2]*/
 {
     _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(PyObject *, PyCSimpleType_from_param_impl, type, cls, value)
     const char *fmt;
@@ -3152,6 +3170,7 @@ PyCData_nohash(PyObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _ctypes.PyCData.__reduce__
 
@@ -3162,7 +3181,7 @@ _ctypes.PyCData.__reduce__
 
 static PyObject *
 _ctypes_PyCData___reduce___impl(PyObject *myself, PyTypeObject *cls)
-/*[clinic end generated code: output=eaad97e111599294 input=6a464e1a1e2bbdbd]*/
+/*[clinic end generated code: output=eaad97e111599294 input=98f5c7012ece4ba3]*/
 {
     CDataObject *self = _CDataObject_CAST(myself);
 
@@ -3189,6 +3208,7 @@ _ctypes_PyCData___reduce___impl(PyObject *myself, PyTypeObject *cls)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 _ctypes.PyCData.__setstate__
 
@@ -3201,7 +3221,7 @@ _ctypes.PyCData.__setstate__
 static PyObject *
 _ctypes_PyCData___setstate___impl(PyObject *myself, PyObject *dict,
                                   const char *data, Py_ssize_t data_length)
-/*[clinic end generated code: output=8bd4c0a5b4f254bd input=124f5070258254c6]*/
+/*[clinic end generated code: output=8bd4c0a5b4f254bd input=6a718071255a1d46]*/
 {
     CDataObject *self = _CDataObject_CAST(myself);
 
@@ -3228,6 +3248,7 @@ _ctypes_PyCData___setstate___impl(PyObject *myself, PyObject *dict,
 }
 
 /*[clinic input]
+@c_stack_frugal
 _ctypes.PyCData.__ctypes_from_outparam__
 
 default __ctypes_from_outparam__ method returns self.
@@ -3235,7 +3256,7 @@ default __ctypes_from_outparam__ method returns self.
 
 static PyObject *
 _ctypes_PyCData___ctypes_from_outparam___impl(PyObject *self)
-/*[clinic end generated code: output=a7facc849097b549 input=910c5fec33e268c9]*/
+/*[clinic end generated code: output=a7facc849097b549 input=af02db8d29a8496c]*/
 {
     return Py_NewRef(self);
 }
@@ -3660,6 +3681,7 @@ atomic_xgetref(PyObject *obj, PyObject **field)
 
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @setter
 _ctypes.CFuncPtr.errcheck
@@ -3667,7 +3689,7 @@ _ctypes.CFuncPtr.errcheck
 
 static int
 _ctypes_CFuncPtr_errcheck_set_impl(PyCFuncPtrObject *self, PyObject *value)
-/*[clinic end generated code: output=6580cf1ffdf3b9fb input=84930bb16c490b33]*/
+/*[clinic end generated code: output=6580cf1ffdf3b9fb input=f0b19fa15fb0109c]*/
 {
     if (value && !PyCallable_Check(value)) {
         PyErr_SetString(PyExc_TypeError,
@@ -3680,6 +3702,7 @@ _ctypes_CFuncPtr_errcheck_set_impl(PyCFuncPtrObject *self, PyObject *value)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @getter
 _ctypes.CFuncPtr.errcheck
@@ -3689,7 +3712,7 @@ a function to check for errors
 
 static PyObject *
 _ctypes_CFuncPtr_errcheck_get_impl(PyCFuncPtrObject *self)
-/*[clinic end generated code: output=dfa6fb5c6f90fd14 input=4672135fef37819f]*/
+/*[clinic end generated code: output=dfa6fb5c6f90fd14 input=a8de228b50570e5f]*/
 {
     if (self->errcheck) {
         return Py_NewRef(self->errcheck);
@@ -3698,6 +3721,7 @@ _ctypes_CFuncPtr_errcheck_get_impl(PyCFuncPtrObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @setter
 @critical_section
 _ctypes.CFuncPtr.restype
@@ -3705,7 +3729,7 @@ _ctypes.CFuncPtr.restype
 
 static int
 _ctypes_CFuncPtr_restype_set_impl(PyCFuncPtrObject *self, PyObject *value)
-/*[clinic end generated code: output=0be0a086abbabf18 input=683c3bef4562ccc6]*/
+/*[clinic end generated code: output=0be0a086abbabf18 input=d2b206b953381f1b]*/
 {
     PyObject *checker;
     if (value == NULL) {
@@ -3733,6 +3757,7 @@ _ctypes_CFuncPtr_restype_set_impl(PyCFuncPtrObject *self, PyObject *value)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @getter
 @critical_section
 _ctypes.CFuncPtr.restype
@@ -3742,7 +3767,7 @@ specify the result type
 
 static PyObject *
 _ctypes_CFuncPtr_restype_get_impl(PyCFuncPtrObject *self)
-/*[clinic end generated code: output=c8f44cd16f1dee5e input=5e3ed95116204fd2]*/
+/*[clinic end generated code: output=c8f44cd16f1dee5e input=e20c31f1dcbf3869]*/
 {
     if (self->restype) {
         return Py_NewRef(self->restype);
@@ -3761,6 +3786,7 @@ _ctypes_CFuncPtr_restype_get_impl(PyCFuncPtrObject *self)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @setter
 @critical_section
 _ctypes.CFuncPtr.argtypes
@@ -3768,7 +3794,7 @@ _ctypes.CFuncPtr.argtypes
 
 static int
 _ctypes_CFuncPtr_argtypes_set_impl(PyCFuncPtrObject *self, PyObject *value)
-/*[clinic end generated code: output=596a36e2ae89d7d1 input=c4627573e980aa8b]*/
+/*[clinic end generated code: output=596a36e2ae89d7d1 input=3a6faaf52644b332]*/
 {
     PyObject *converters;
 
@@ -3788,6 +3814,7 @@ _ctypes_CFuncPtr_argtypes_set_impl(PyCFuncPtrObject *self, PyObject *value)
 }
 
 /*[clinic input]
+@c_stack_frugal
 @getter
 @critical_section
 _ctypes.CFuncPtr.argtypes
@@ -3797,7 +3824,7 @@ specify the argument types
 
 static PyObject *
 _ctypes_CFuncPtr_argtypes_get_impl(PyCFuncPtrObject *self)
-/*[clinic end generated code: output=c46b05a1b0f99172 input=37a8a545a56f8ae2]*/
+/*[clinic end generated code: output=c46b05a1b0f99172 input=b83fa2650398b9d6]*/
 {
     if (self->argtypes) {
         return Py_NewRef(self->argtypes);
@@ -5395,6 +5422,7 @@ class _ctypes.Simple "CDataObject *" "clinic_state()->Simple_Type"
 /*[clinic end generated code: output=da39a3ee5e6b4b0d input=e0493451fecf8cd4]*/
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @setter
 _ctypes.Simple.value
@@ -5402,7 +5430,7 @@ _ctypes.Simple.value
 
 static int
 _ctypes_Simple_value_set_impl(CDataObject *self, PyObject *value)
-/*[clinic end generated code: output=f267186118939863 input=977af9dc9e71e857]*/
+/*[clinic end generated code: output=f267186118939863 input=6060cd14ad184131]*/
 {
     PyObject *result;
 
@@ -5442,6 +5470,7 @@ Simple_init(PyObject *self, PyObject *args, PyObject *kw)
 
 
 /*[clinic input]
+@c_stack_frugal
 @critical_section
 @getter
 _ctypes.Simple.value
@@ -5449,7 +5478,7 @@ _ctypes.Simple.value
 
 static PyObject *
 _ctypes_Simple_value_get_impl(CDataObject *self)
-/*[clinic end generated code: output=ce5a26570830a243 input=3ed3f735cec89282]*/
+/*[clinic end generated code: output=ce5a26570830a243 input=edcade33f8ce53fb]*/
 {
     ctypes_state *st = get_module_state_by_def(Py_TYPE(Py_TYPE(self)));
     StgInfo *info;
@@ -5469,6 +5498,7 @@ static PyGetSetDef Simple_getsets[] = {
 };
 
 /*[clinic input]
+@c_stack_frugal
 _ctypes.Simple.__ctypes_from_outparam__ as Simple_from_outparm
 
     self: self
@@ -5478,7 +5508,7 @@ _ctypes.Simple.__ctypes_from_outparam__ as Simple_from_outparm
 
 static PyObject *
 Simple_from_outparm_impl(PyObject *self, PyTypeObject *cls)
-/*[clinic end generated code: output=6c61d90da8aa9b4f input=0f362803fb4629d5]*/
+/*[clinic end generated code: output=6c61d90da8aa9b4f input=88983008c044e161]*/
 {
     ctypes_state *st = get_module_state_by_class(cls);
     if (_ctypes_simple_instance(st, (PyObject *)Py_TYPE(self))) {

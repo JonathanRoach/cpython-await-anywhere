@@ -12,6 +12,7 @@ module _testcapi
 /*[clinic end generated code: output=da39a3ee5e6b4b0d input=6361033e795369fc]*/
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.float_pack
 
     size: int
@@ -24,7 +25,7 @@ Test PyFloat_Pack2(), PyFloat_Pack4() and PyFloat_Pack8()
 
 static PyObject *
 _testcapi_float_pack_impl(PyObject *module, int size, double d, int le)
-/*[clinic end generated code: output=7899bd98f8b6cb04 input=52c9115121999c98]*/
+/*[clinic end generated code: output=7899bd98f8b6cb04 input=a00bb065658376e9]*/
 {
     switch (size)
     {
@@ -61,6 +62,7 @@ _testcapi_float_pack_impl(PyObject *module, int size, double d, int le)
 
 
 /*[clinic input]
+@c_stack_frugal
 _testcapi.float_unpack
 
     data: str(accept={robuffer}, zeroes=True)
@@ -73,7 +75,7 @@ Test PyFloat_Unpack2(), PyFloat_Unpack4() and PyFloat_Unpack8()
 static PyObject *
 _testcapi_float_unpack_impl(PyObject *module, const char *data,
                             Py_ssize_t data_length, int le)
-/*[clinic end generated code: output=617059f889ddbfe4 input=c095e4bb75a696cd]*/
+/*[clinic end generated code: output=617059f889ddbfe4 input=44626e1f5385bc3b]*/
 {
     assert(!PyErr_Occurred());
     double d;
