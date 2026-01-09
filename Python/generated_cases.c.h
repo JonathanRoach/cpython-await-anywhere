@@ -10775,7 +10775,8 @@
                 assert(frame->owner != FRAME_OWNED_BY_INTERPRETER);
                 if ((tstate->interp->eval_frame == NULL) &&
                     (Py_TYPE(receiver_o) == &PyGen_Type || Py_TYPE(receiver_o) == &PyCoro_Type) &&
-                    ((PyGenObject *)receiver_o)->gi_frame_state < FRAME_EXECUTING)
+                    ((PyGenObject *)receiver_o)->gi_frame_state < FRAME_EXECUTING &&
+                    !(Py_TYPE(receiver_o) == &PyCoro_Type && ((PyCoroObject *)receiver_o)->cr_coroutine != NULL) )
                 {
                     PyGenObject *gen = (PyGenObject *)receiver_o;
                     _PyInterpreterFrame *gen_frame = &gen->gi_iframe;
