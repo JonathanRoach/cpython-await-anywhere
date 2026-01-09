@@ -246,6 +246,7 @@ struct Coroutines {
 };
 
 _Cor_thread_local Coroutines *g_c;
+_Cor_thread_local unsigned char *g_stack_limit;
 
 static void ReserveStackSpace(Coroutines *cors, Coroutine *parent, size_t chunk_size, unsigned char *childs_limit);
 static void stack_chunk_base(Coroutines *cors, Coroutine *parent, unsigned char *prev_limit, unsigned char *limit);
@@ -442,7 +443,7 @@ void Coroutine_StartSystem(void)
     cors->tip = NULL;
     cors->active = NULL;
     cors->primary = NULL;
-    cors->stack_limit = NULL;
+    cors->stack_limit = g_stack_limit;
 
     List_Init(&cors->all);
     List_Init(&cors->free);
@@ -481,9 +482,11 @@ void Coroutine_StartSystem(void)
 
 
 void Coroutine_SetStackLimit(void *limit){
-    assert(g_c);
-    assert(!limit || !(g_c->state == Coroutines_Started || g_c->state == Coroutines_Active) || (unsigned char *)limit < (unsigned char *)g_c->tip || !g_c->tip);
-    g_c->stack_limit = limit;
+    assert(!limit || !g_c || !(g_c->state == Coroutines_Started || g_c->state == Coroutines_Active) || (unsigned char *)limit < (unsigned char *)g_c->tip || !g_c->tip);
+    g_stack_limit = limit;
+    if (g_c){
+        g_c->stack_limit = limit;
+    }
 }
 
 
