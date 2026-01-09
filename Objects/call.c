@@ -100,14 +100,22 @@ _Py_CheckSlotResult(PyObject *obj, const char *slot_name, int success)
 /* --- Core PyObject call functions ------------------------------- */
 
 /* Call a callable Python object without any arguments */
-PyObject *
-PyObject_CallNoArgs(PyObject *func)
+static void *
+co_PyObject_CallNoArgs(void *func)
 {
-    EVAL_CALL_STAT_INC_IF_FUNCTION(EVAL_CALL_API, func);
+    EVAL_CALL_STAT_INC_IF_FUNCTION(EVAL_CALL_API, (PyObject *)func);
     PyThreadState *tstate = _PyThreadState_GET();
     return _PyObject_VectorcallTstate(tstate, func, NULL, 0, NULL, NULL);
 }
-
+PyObject *
+PyObject_CallNoArgs(PyObject *func)
+{
+    PyObject *result;
+    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_CallNoArgs, func, (void **)&result)){
+        return NULL;
+    }
+    return result;
+}
 
 PyObject *
 _PyObject_VectorcallDictTstate(PyThreadState *tstate, PyObject *callable,
@@ -383,11 +391,27 @@ _PyObject_Call(PyThreadState *tstate, PyObject *callable,
     }
 }
 
+struct PyObject_Call_Params {
+    PyObject *callable;
+    PyObject *args;
+    PyObject *kwargs;
+};
+static void *
+co_PyObject_Call(void *_params)
+{
+    struct PyObject_Call_Params *params = (struct PyObject_Call_Params *)_params;
+    PyThreadState *tstate = _PyThreadState_GET();
+    return _PyObject_Call(tstate, params->callable, params->args, params->kwargs);
+}
 PyObject *
 PyObject_Call(PyObject *callable, PyObject *args, PyObject *kwargs)
 {
-    PyThreadState *tstate = _PyThreadState_GET();
-    return _PyObject_Call(tstate, callable, args, kwargs);
+    struct PyObject_Call_Params params = {callable, args, kwargs};
+    PyObject *result;
+    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_Call, &params, (void **)&result)){
+        return NULL;
+    }
+    return result;
 }
 
 
@@ -414,12 +438,26 @@ _PyObject_CallOneArg_Inlinable(PyObject *func, PyObject *arg,
 }
 
 
-_PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(extern, PyObject *, PyObject_CallOneArg, PyObject *, PyObject *)
+struct PyObject_CallOneArg_params {
+    PyObject *func;
+    PyObject *arg;
+};
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, co_PyObject_CallOneArg, void *)
+static void *
+co_PyObject_CallOneArg(void *_params){
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(void *, co_PyObject_CallOneArg, _params)
+    struct PyObject_CallOneArg_params *params = (struct PyObject_CallOneArg_params *)_params;
+    return _PyObject_CallOneArg_Inlinable(params->func, params->arg, NULL);
+}
 PyObject *
 PyObject_CallOneArg(PyObject *func, PyObject *arg)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(PyObject *, PyObject_CallOneArg, func, arg)
-    return _PyObject_CallOneArg_Inlinable(func, arg, NULL);
+    struct PyObject_CallOneArg_params params = {func, arg};
+    PyObject *result;
+    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_CallOneArg, &params, (void **)&result)){
+        return NULL;
+    }
+    return result;
 }
 
 
@@ -504,20 +542,35 @@ PyEval_CallObjectWithKeywords(PyObject *callable,
 }
 
 
-PyObject *
-PyObject_CallObject(PyObject *callable, PyObject *args)
+struct PyObject_CallObject_params {
+    PyObject *callable;
+    PyObject *args;
+};
+static void *
+co_PyObject_CallObject(void *_params)
 {
+    struct PyObject_CallObject_params *params = (struct PyObject_CallObject_params *)_params;
     PyThreadState *tstate = _PyThreadState_GET();
     assert(!_PyErr_Occurred(tstate));
-    if (args == NULL) {
-        return _PyObject_CallNoArgsTstate(tstate, callable);
+    if (params->args == NULL) {
+        return _PyObject_CallNoArgsTstate(tstate, params->callable);
     }
-    if (!PyTuple_Check(args)) {
+    if (!PyTuple_Check(params->args)) {
         _PyErr_SetString(tstate, PyExc_TypeError,
                          "argument list must be a tuple");
         return NULL;
     }
-    return _PyObject_Call(tstate, callable, args, NULL);
+    return _PyObject_Call(tstate, params->callable, params->args, NULL);
+}
+PyObject *
+PyObject_CallObject(PyObject *callable, PyObject *args)
+{
+    struct PyObject_CallOneArg_params params = {callable, args};
+    PyObject *result;
+    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_CallObject, &params, (void **)&result)){
+        return NULL;
+    }
+    return result;
 }
 
 
@@ -611,17 +664,28 @@ _PyObject_CallFunctionVa(PyThreadState *tstate, PyObject *callable,
 }
 
 
+struct PyObject_CallFunction_params {
+    PyObject *callable;
+    const char *format;
+    va_list va;
+};
+static void *
+co_PyObject_CallFunction(void *_params)
+{
+    struct PyObject_CallFunction_params *params = (struct PyObject_CallFunction_params *)_params;
+    PyThreadState *tstate = _PyThreadState_GET();
+    return _PyObject_CallFunctionVa(tstate, params->callable, params->format, params->va);
+}
 PyObject *
 PyObject_CallFunction(PyObject *callable, const char *format, ...)
 {
-    va_list va;
+    struct PyObject_CallFunction_params params = {callable, format};
+    va_start(params.va, format);
     PyObject *result;
-    PyThreadState *tstate = _PyThreadState_GET();
-
-    va_start(va, format);
-    result = _PyObject_CallFunctionVa(tstate, callable, format, va);
-    va_end(va);
-
+    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_CallFunction, &params, (void **)&result)){
+        return NULL;
+    }
+    va_end(params.va);
     return result;
 }
 
@@ -674,27 +738,43 @@ callmethod(PyThreadState *tstate, PyObject* callable, const char *format, va_lis
     return _PyObject_CallFunctionVa(tstate, callable, format, va);
 }
 
-PyObject *
-PyObject_CallMethod(PyObject *obj, const char *name, const char *format, ...)
+struct PyObject_CallMethod_params {
+    PyObject *obj;
+    char const *name;
+    const char *format;
+    va_list va;
+};
+static void *
+co_PyObject_CallMethod(void *_params)
 {
+    struct PyObject_CallMethod_params *params = (struct PyObject_CallMethod_params *)_params;
     PyThreadState *tstate = _PyThreadState_GET();
 
-    if (obj == NULL || name == NULL) {
+    if (params->obj == NULL || params->name == NULL) {
         return null_error(tstate);
     }
 
-    PyObject *callable = PyObject_GetAttrString(obj, name);
+    PyObject *callable = PyObject_GetAttrString(params->obj, params->name);
     if (callable == NULL) {
         return NULL;
     }
 
-    va_list va;
-    va_start(va, format);
-    PyObject *retval = callmethod(tstate, callable, format, va);
-    va_end(va);
+    PyObject *retval = callmethod(tstate, callable, params->format, params->va);
 
     Py_DECREF(callable);
     return retval;
+}
+PyObject *
+PyObject_CallMethod(PyObject *obj, const char *name, const char *format, ...)
+{
+    struct PyObject_CallMethod_params params = {obj, name, format};
+    va_start(params.va, format);
+    PyObject *result;
+    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_CallMethod, &params, (void **)&result)){
+        return NULL;
+    }
+    va_end(params.va);
+    return result;
 }
 
 
@@ -911,30 +991,45 @@ PyObject_VectorcallMethod(PyObject *name, PyObject *const *args,
 }
 
 
-PyObject *
-PyObject_CallMethodObjArgs(PyObject *obj, PyObject *name, ...)
+struct PyObject_CallMethodObjArgs_params {
+    PyObject *obj;
+    PyObject *name;
+    va_list va;
+};
+static void *
+co_PyObject_CallMethodObjArgs(void *_params)
 {
+    struct PyObject_CallMethodObjArgs_params *params = (struct PyObject_CallMethodObjArgs_params *)_params;
     PyThreadState *tstate = _PyThreadState_GET();
-    if (obj == NULL || name == NULL) {
+    if (params->obj == NULL || params->name == NULL) {
         return null_error(tstate);
     }
 
     _PyCStackRef method;
     _PyThreadState_PushCStackRef(tstate, &method);
-    int is_method = _PyObject_GetMethodStackRef(tstate, obj, name, &method.ref);
+    int is_method = _PyObject_GetMethodStackRef(tstate, params->obj, params->name, &method.ref);
     if (PyStackRef_IsNull(method.ref)) {
         _PyThreadState_PopCStackRef(tstate, &method);
         return NULL;
     }
     PyObject *callable = PyStackRef_AsPyObjectBorrow(method.ref);
-    obj = is_method ? obj : NULL;
+    PyObject *obj = is_method ? params->obj : NULL;
 
-    va_list vargs;
-    va_start(vargs, name);
-    PyObject *result = object_vacall(tstate, obj, callable, vargs);
-    va_end(vargs);
+    PyObject *result = object_vacall(tstate, obj, callable, params->va);
 
     _PyThreadState_PopCStackRef(tstate, &method);
+    return result;
+}
+PyObject *
+PyObject_CallMethodObjArgs(PyObject *obj, PyObject *name, ...)
+{
+    struct PyObject_CallMethodObjArgs_params params = {obj, name};
+    va_start(params.va, name);
+    PyObject *result;
+    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_CallMethodObjArgs, &params, (void **)&result)){
+        return NULL;
+    }
+    va_end(params.va);
     return result;
 }
 
@@ -972,17 +1067,27 @@ _PyObject_CallMethodIdObjArgs(PyObject *obj, _Py_Identifier *name, ...)
 }
 
 
+struct PyObject_CallFunctioObjArgs_params {
+    PyObject *callable;
+    va_list va;
+};
+static void *
+co_PyObject_CallFunctionObjArgs(void *_params)
+{
+    struct PyObject_CallFunctioObjArgs_params *params = (struct PyObject_CallFunctioObjArgs_params *)_params;
+    PyThreadState *tstate = _PyThreadState_GET();
+    return object_vacall(tstate, NULL, params->callable, params->va);
+}
 PyObject *
 PyObject_CallFunctionObjArgs(PyObject *callable, ...)
 {
-    PyThreadState *tstate = _PyThreadState_GET();
-    va_list vargs;
+    struct PyObject_CallFunctioObjArgs_params params = {callable};
+    va_start(params.va, callable);
     PyObject *result;
-
-    va_start(vargs, callable);
-    result = object_vacall(tstate, NULL, callable, vargs);
-    va_end(vargs);
-
+    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_CallFunctionObjArgs, &params, (void **)&result)){
+        return NULL;
+    }
+    va_end(params.va);
     return result;
 }
 
