@@ -3253,10 +3253,7 @@ _PyObject_AssertFailed(PyObject *obj, const char *expr, const char *msg,
 }
 
 
-static void *Do_Py_Dealloc(void *op){
-    _Py_Dealloc((PyObject *)op);
-    return NULL;
-}
+static void *_Py_Dealloc_Now(void *op);
 
 /*
 When deallocating a container object, it's possible to trigger an unbounded
@@ -3268,20 +3265,28 @@ stack is shallower */
 void
 _Py_Dealloc(PyObject *op)
 {
-    PyTypeObject *type = Py_TYPE(op);
-    destructor dealloc = type->tp_dealloc;
     PyThreadState *tstate = _PyThreadState_GET();
     intptr_t margin = _Py_RecursionLimit_GetMargin(tstate);
     if (margin < 2) {
         _PyTrash_thread_deposit_object(tstate, (PyObject *)op);
         return;
     }
+    Coroutine_Run(PYOS_COSTACK_STD_SIZE, _Py_Dealloc_Now, op, NULL);
+}
+
+static void *
+_Py_Dealloc_Now(void *_op)
+{
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(2*PYOS_STACK_MARGIN_BYTES)) {
         // This should always succeed, given the pre-conditioning above
-        bool fail = _Py_Coroutine_Chain(PYOS_COSTACK_STD_SIZE, Do_Py_Dealloc, op, NULL);
+        bool fail = _Py_Coroutine_Chain(PYOS_COSTACK_STD_SIZE, _Py_Dealloc_Now, _op, NULL);
         assert(!fail);
-        return;
+        return NULL;
     }
+    PyObject *op = (PyObject *)_op;
+    PyThreadState *tstate = _PyThreadState_GET();
+    PyTypeObject *type = Py_TYPE(op);
+    destructor dealloc = type->tp_dealloc;
 #ifdef Py_DEBUG
 #if !defined(Py_GIL_DISABLED) && !defined(Py_STACKREF_DEBUG)
     /* This assertion doesn't hold for the free-threading build, as
@@ -3324,9 +3329,10 @@ _Py_Dealloc(PyObject *op)
     Py_XDECREF(old_exc);
     Py_DECREF(type);
 #endif
-    if (tstate->delete_later && margin >= 4) {
+    if (tstate->delete_later && _Py_RecursionLimit_GetMargin(tstate) >= 4) {
         _PyTrash_thread_destroy_chain(tstate);
     }
+    return NULL;
 }
 
 
