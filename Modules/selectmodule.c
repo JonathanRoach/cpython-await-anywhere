@@ -236,9 +236,12 @@ set2list(fd_set *set, pylist fd2obj[FD_SETSIZE + 1])
 }
 
 #undef SELECT_USES_HEAP
-#if FD_SETSIZE > 1024
+// Want to say this, but sizeof() not allowed in #if's
+//#if sizeof(pylist)*(FD_SETSIZE+1)*3+1024 >= PYOS_STACK_MARGIN_BYTES*2
+//#define SELECT_USES_HEAP
+//#endif
+//Having said that, FD_SETSIZE needs to be 256 on a 32 bit system, so lets just use the heap
 #define SELECT_USES_HEAP
-#endif /* FD_SETSIZE > 1024 */
 
 /*[clinic input]
 @c_stack_frugal
