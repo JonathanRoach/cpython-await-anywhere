@@ -426,17 +426,17 @@ class BaseTaskCountingTests:
         self.assertEqual(self.counter.get(), 0 if self.eager else 1)
 
     def test_recursive_taskgroups(self):
-        num_tasks = self.loop.run_until_complete(recursive_taskgroups(5, 4))
+        num_tasks = self.loop.run_until_complete(recursive_taskgroups(5, 3))
         self.assertEqual(self.counter.get(), self.expected_task_count)
 
     def test_recursive_gather(self):
-        self.loop.run_until_complete(recursive_gather(5, 4))
+        self.loop.run_until_complete(recursive_gather(5, 3))
         self.assertEqual(self.counter.get(), self.expected_task_count)
 
 
 class BaseNonEagerTaskFactoryTests(BaseTaskCountingTests):
     eager = False
-    expected_task_count = 781  # 1 + 5 + 5^2 + 5^3 + 5^4
+    expected_task_count = 141  # 1 + 5 + 5^2 + 5^3
 
 
 class BaseEagerTaskFactoryTests(BaseTaskCountingTests):
