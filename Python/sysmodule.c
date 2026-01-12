@@ -2508,7 +2508,6 @@ sys_is_remote_debug_enabled_impl(PyObject *module)
 }
 
 /*[clinic input]
-@c_stack_frugal
 sys.remote_exec
 
     pid: int
@@ -2536,7 +2535,7 @@ Args:
 
 static PyObject *
 sys_remote_exec_impl(PyObject *module, int pid, PyObject *script)
-/*[clinic end generated code: output=7d94c56afe4a52c0 input=f4e945d2d1f300e2]*/
+/*[clinic end generated code: output=7d94c56afe4a52c0 input=39908ca2c5fe1eb0]*/
 {
     PyObject *path;
     const char *debugger_script_path;

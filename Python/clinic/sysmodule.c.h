@@ -1561,7 +1561,7 @@ PyDoc_STRVAR(sys_remote_exec__doc__,
 "         the Python code to be executed.");
 
 #define SYS_REMOTE_EXEC_METHODDEF    \
-    {"remote_exec", _PyCFunction_CAST(sys_remote_exec), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, sys_remote_exec__doc__},
+    {"remote_exec", _PyCFunction_CAST(sys_remote_exec), METH_FASTCALL|METH_KEYWORDS, sys_remote_exec__doc__},
 
 static PyObject *
 sys_remote_exec_impl(PyObject *module, int pid, PyObject *script);
@@ -1948,4 +1948,4 @@ exit:
 #ifndef SYS_GETANDROIDAPILEVEL_METHODDEF
     #define SYS_GETANDROIDAPILEVEL_METHODDEF
 #endif /* !defined(SYS_GETANDROIDAPILEVEL_METHODDEF) */
-/*[clinic end generated code: output=3b5f7ed89e6b97d7 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=5d638c1c46999e53 input=a9049054013a1b77]*/
