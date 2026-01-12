@@ -434,15 +434,23 @@ cfunction_enter_call(PyThreadState *tstate, PyObject *func)
 }
 
 
-_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(static inline, PyObject *, dovectorcall_FASTCALL, PyCFunctionFast, PyObject*, PyObject*const *, Py_ssize_t)
+/* Now the actual vectorcall functions */
+_PY_ENSURE_STACK_FOR_FN4_A(dovectorcall_FASTCALL, PyCFunctionFast, PyObject*, PyObject *const *, Py_ssize_t)
 static inline PyObject *dovectorcall_FASTCALL(
-    PyCFunctionFast meth, PyObject *self, PyObject *const *args, Py_ssize_t nargs)
+    PyCFunctionFast meth, PyObject *func_obj, PyObject *const *args, Py_ssize_t nargs)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(PyObject *, dovectorcall_FASTCALL, meth, self, args, nargs)
-    return meth(self, args, nargs);
+    PyCFunctionObject *func = _PyCFunctionObject_CAST(func_obj);
+    size_t stack_needed;
+    if (func->m_ml->ml_flags & METH_C_STACK_FRUGAL) {
+        stack_needed = PYOS_STACK_MARGIN_BYTES;
+    } else {
+        stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
+    }
+    _PY_ENSURE_STACK_FOR_FN4_B(stack_needed, NULL, PyObject *, dovectorcall_FASTCALL,
+        PyCFunctionFast, meth, PyObject *, func_obj, PyObject *const *, args, Py_ssize_t, nargs)
+    return meth(PyCFunction_GET_SELF(func_obj), args, nargs);
 }
 
-/* Now the actual vectorcall functions */
 static PyObject *
 cfunction_vectorcall_FASTCALL(
     PyObject *func, PyObject *const *args, size_t nargsf, PyObject *kwnames)
@@ -457,9 +465,25 @@ cfunction_vectorcall_FASTCALL(
     if (meth == NULL) {
         return NULL;
     }
-    PyObject *result = dovectorcall_FASTCALL(meth, PyCFunction_GET_SELF(func), args, nargs);
+    PyObject *result = dovectorcall_FASTCALL(meth, func, args, nargs);
     _Py_LeaveRecursiveCallTstate(tstate);
     return result;
+}
+
+_PY_ENSURE_STACK_FOR_FN5_A(docfunction_vectorcall_FASTCALL_KEYWORDS, PyCFunctionFastWithKeywords, PyObject*, PyObject*const *, Py_ssize_t, PyObject *)
+static inline PyObject *docfunction_vectorcall_FASTCALL_KEYWORDS(
+    PyCFunctionFastWithKeywords meth, PyObject *func_obj, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
+{
+    PyCFunctionObject *func = _PyCFunctionObject_CAST(func_obj);
+    size_t stack_needed;
+    if (func->m_ml->ml_flags & METH_C_STACK_FRUGAL) {
+        stack_needed = PYOS_STACK_MARGIN_BYTES;
+    } else {
+        stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
+    }
+    _PY_ENSURE_STACK_FOR_FN5_B(stack_needed, NULL, PyObject *, docfunction_vectorcall_FASTCALL_KEYWORDS,
+        PyCFunctionFastWithKeywords, meth, PyObject *, func_obj, PyObject *const *, args, Py_ssize_t, nargs, PyObject *, kwnames)
+    return meth(PyCFunction_GET_SELF(func_obj), args, nargs, kwnames);
 }
 
 static PyObject *
@@ -473,9 +497,25 @@ cfunction_vectorcall_FASTCALL_KEYWORDS(
     if (meth == NULL) {
         return NULL;
     }
-    PyObject *result = meth(PyCFunction_GET_SELF(func), args, nargs, kwnames);
+    PyObject *result = docfunction_vectorcall_FASTCALL_KEYWORDS(meth, func, args, nargs, kwnames);
     _Py_LeaveRecursiveCallTstate(tstate);
     return result;
+}
+
+_PY_ENSURE_STACK_FOR_FN6_A(docfunction_vectorcall_FASTCALL_KEYWORDS_METHOD, PyCMethod, PyObject*, PyTypeObject *, PyObject*const *, Py_ssize_t, PyObject *)
+static inline PyObject *docfunction_vectorcall_FASTCALL_KEYWORDS_METHOD(
+    PyCMethod meth, PyObject *func_obj, PyTypeObject *cls, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
+{
+    PyCFunctionObject *func = _PyCFunctionObject_CAST(func_obj);
+    size_t stack_needed;
+    if (func->m_ml->ml_flags & METH_C_STACK_FRUGAL) {
+        stack_needed = PYOS_STACK_MARGIN_BYTES;
+    } else {
+        stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
+    }
+    _PY_ENSURE_STACK_FOR_FN6_B(stack_needed, NULL, PyObject *, docfunction_vectorcall_FASTCALL_KEYWORDS_METHOD,
+        PyCMethod, meth, PyObject *, func_obj, PyTypeObject *, cls, PyObject *const *, args, Py_ssize_t, nargs, PyObject *, kwnames)
+    return meth(PyCFunction_GET_SELF(func_obj), cls, args, nargs, kwnames);
 }
 
 static PyObject *
@@ -489,9 +529,26 @@ cfunction_vectorcall_FASTCALL_KEYWORDS_METHOD(
     if (meth == NULL) {
         return NULL;
     }
-    PyObject *result = meth(PyCFunction_GET_SELF(func), cls, args, nargs, kwnames);
+    PyObject *result = docfunction_vectorcall_FASTCALL_KEYWORDS_METHOD(meth, func, cls, args, nargs, kwnames);
     _Py_LeaveRecursiveCallTstate(tstate);
     return result;
+}
+
+_PY_ENSURE_STACK_FOR_FN2_A(docfunction_vectorcall_NOARGS, PyCFunction, PyObject*)
+static inline PyObject *docfunction_vectorcall_NOARGS(
+    PyCFunction meth, PyObject *func_obj)
+{
+    PyCFunctionObject *func = _PyCFunctionObject_CAST(func_obj);
+    size_t stack_needed;
+    if (func->m_ml->ml_flags & METH_C_STACK_FRUGAL) {
+        stack_needed = PYOS_STACK_MARGIN_BYTES;
+    } else {
+        stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
+    }
+    _PY_ENSURE_STACK_FOR_FN2_B(stack_needed, NULL, PyObject *, docfunction_vectorcall_NOARGS,
+        PyCFunction, meth, PyObject *, func_obj)
+    return _PyCFunction_TrampolineCall(
+        meth, PyCFunction_GET_SELF(func_obj), NULL);
 }
 
 static PyObject *
@@ -516,10 +573,26 @@ cfunction_vectorcall_NOARGS(
     if (meth == NULL) {
         return NULL;
     }
-    PyObject *result = _PyCFunction_TrampolineCall(
-        meth, PyCFunction_GET_SELF(func), NULL);
+    PyObject *result = docfunction_vectorcall_NOARGS(meth, func);
     _Py_LeaveRecursiveCallTstate(tstate);
     return result;
+}
+
+_PY_ENSURE_STACK_FOR_FN3_A(docfunction_vectorcall_O, PyCFunction, PyObject*, PyObject*)
+static inline PyObject *docfunction_vectorcall_O(
+    PyCFunction meth, PyObject *func_obj, PyObject *arg)
+{
+    PyCFunctionObject *func = _PyCFunctionObject_CAST(func_obj);
+    size_t stack_needed;
+    if (func->m_ml->ml_flags & METH_C_STACK_FRUGAL) {
+        stack_needed = PYOS_STACK_MARGIN_BYTES;
+    } else {
+        stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
+    }
+    _PY_ENSURE_STACK_FOR_FN3_B(stack_needed, NULL, PyObject *, docfunction_vectorcall_O,
+        PyCFunction, meth, PyObject *, func_obj, PyObject *, arg)
+    return _PyCFunction_TrampolineCall(
+        meth, PyCFunction_GET_SELF(func_obj), arg);
 }
 
 static PyObject *
@@ -544,8 +617,8 @@ cfunction_vectorcall_O(
     if (meth == NULL) {
         return NULL;
     }
-    PyObject *result = _PyCFunction_TrampolineCall(
-        meth, PyCFunction_GET_SELF(func), args[0]);
+    PyObject *result = docfunction_vectorcall_O(
+        meth, func, args[0]);
     _Py_LeaveRecursiveCallTstate(tstate);
     return result;
 }
