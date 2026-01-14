@@ -436,7 +436,7 @@ class BaseTaskCountingTests:
 
 class BaseNonEagerTaskFactoryTests(BaseTaskCountingTests):
     eager = False
-    expected_task_count = 141  # 1 + 5 + 5^2 + 5^3
+    expected_task_count = 156  # 1 + 5 + 5^2 + 5^3
 
 
 class BaseEagerTaskFactoryTests(BaseTaskCountingTests):
