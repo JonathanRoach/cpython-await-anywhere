@@ -150,11 +150,6 @@ gen_clear_frame(PyGenObject *gen)
 
     gen->gi_frame_state = FRAME_CLEARED;
     _PyInterpreterFrame *frame = &gen->gi_iframe;
-    for ( _PyInterpreterFrame *f = gen->gi_resume_iframe; f != frame; f = f->previous ){
-        assert(f->owner == FRAME_OWNED_BY_THREAD);
-        f->previous = NULL;
-        _PyFrame_ClearExceptCode(f);
-    }
     frame->previous = NULL;
     _PyFrame_ClearExceptCode(frame);
     _PyErr_ClearExcState(&gen->gi_exc_state);
@@ -1418,7 +1413,7 @@ coro_throw(PyObject *op, PyObject *const *args, Py_ssize_t nargs)
     }
     PyObject *typ = args[0];
 
-    PySendResult sendresult = coro_dosend(coro, Py_NewRef(typ), false);
+    PySendResult sendresult = coro_dosend(coro, typ, false);
     return gen_to_return((PyObject *)coro, sendresult, coro->cr_result);
 }
 
