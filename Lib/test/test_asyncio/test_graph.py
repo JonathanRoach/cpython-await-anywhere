@@ -16,19 +16,19 @@ def capture_test_stack(*, fut=None, depth=1):
                 if isinstance(s.future, asyncio.Task) else 'F'
         ]
 
-        ret.append(
-            [
-                (
-                    f"s {entry.frame.f_code.co_name}"
-                        if entry.frame.f_generator is None else
-                        (
-                            f"a {entry.frame.f_generator.cr_code.co_name}"
-                            if hasattr(entry.frame.f_generator, 'cr_code') else
-                            f"ag {entry.frame.f_generator.ag_code.co_name}"
-                        )
-                ) for entry in s.call_stack
-            ]
-        )
+        call_stack = []
+        for idx, entry in enumerate(s.call_stack):
+            if (gen := entry.frame.f_generator) is None:
+                call_stack.append(f"s {entry.frame.f_code.co_name}")
+            else:
+                if hasattr(gen, 'cr_code'):
+                    call_stack.append(f"a {entry.frame.f_generator.cr_code.co_name}")
+                elif hasattr(gen, 'ag_code'):
+                    call_stack.append(f"ag {entry.frame.f_generator.ag_code.co_name}")
+                else:
+                    if idx > 0 or entry.frame.f_generator.gi_code.co_name != '__await__':
+                        call_stack.append(f"gi {entry.frame.f_generator.gi_code.co_name}")
+        ret.append(call_stack)
 
         ret.append(
             sorted([
