@@ -3279,9 +3279,12 @@ _Py_Dealloc_Now(void *_op)
 {
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(2*PYOS_STACK_MARGIN_BYTES)) {
         // This should always succeed, given the pre-conditioning above
-        bool fail = _Py_Coroutine_Chain(PYOS_COSTACK_STD_SIZE, _Py_Dealloc_Now, _op, NULL);
-        assert(!fail);
-        return NULL;
+        if (!_Py_Coroutine_Chain(PYOS_COSTACK_STD_SIZE, _Py_Dealloc_Now, _op, NULL)){
+            return NULL;
+        }
+        // If we're here, margin would have been 2 in _Py_Dealloc, but have
+        // less than 2*PYOS_STACK_MARGIN_BYTES of stack headroom, and unable
+        // to chain. There should be enough stack headroom to continue...
     }
     PyObject *op = (PyObject *)_op;
     PyThreadState *tstate = _PyThreadState_GET();
