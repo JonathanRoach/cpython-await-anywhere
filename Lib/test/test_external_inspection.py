@@ -539,6 +539,8 @@ class TestGetStackTrace(unittest.TestCase):
         "Test only runs on Linux with process_vm_readv support",
     )
     def test_async_global_awaited_by(self):
+        # Note: with stackful coroutines, theres a limit to the number of concurrent coroutines a default stack can handle
+        num_tasks_in_test = 50
         port = find_unused_port()
         script = textwrap.dedent(
             f"""\
@@ -583,7 +585,7 @@ class TestGetStackTrace(unittest.TestCase):
 
             async def echo_client_spam(server):
                 async with asyncio.TaskGroup() as tg:
-                    while connections < 1000:
+                    while connections < {num_tasks_in_test}:
                         msg = list(ascii_lowercase + digits)
                         random.shuffle(msg)
                         tg.create_task(echo_client("".join(msg)))
@@ -624,7 +626,7 @@ class TestGetStackTrace(unittest.TestCase):
                 p = subprocess.Popen([sys.executable, script_name])
                 client_socket, _ = server_socket.accept()
                 server_socket.close()
-                for _ in range(1000):
+                for _ in range(num_tasks_in_test):
                     expected_response = b"ready"
                     response = client_socket.recv(len(expected_response))
                     self.assertEqual(response, expected_response)
@@ -656,8 +658,8 @@ class TestGetStackTrace(unittest.TestCase):
                 # expected: no tasks in the fallback per-interp task list
                 self.assertEqual(all_awaited_by[1], (0, []))
                 entries = all_awaited_by[0][1]
-                # expected: at least 1000 pending tasks
-                self.assertGreaterEqual(len(entries), 1000)
+                # expected: at least {num_tasks_in_test} pending tasks
+                self.assertGreaterEqual(len(entries), num_tasks_in_test)
                 # the first three tasks stem from the code structure
                 self.assertIn((ANY, "Task-1", []), entries)
                 main_stack = [
@@ -703,7 +705,7 @@ class TestGetStackTrace(unittest.TestCase):
                 tasks_with_stack = [
                     task for task in entries if task[2] == expected_stack
                 ]
-                self.assertGreaterEqual(len(tasks_with_stack), 1000)
+                self.assertGreaterEqual(len(tasks_with_stack), num_tasks_in_test)
 
                 # the final task will have some random number, but it should for
                 # sure be one of the echo client spam horde (In windows this is not true
