@@ -268,7 +268,7 @@ struct Do_Call_Params_##fn { \
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(space) ){ \
         void *result; \
         if ( !_Py_Coroutine_Chain(space > PYOS_COSTACK_STD_SIZE ? space : PYOS_COSTACK_STD_SIZE, Do_##fn, &params, &result)) { \
-            return (r_t)result; \
+            return (r_t)(intptr_t)result; \
         } else { \
             PyErr_NoMemory(); \
             return nomemret; \
@@ -293,7 +293,7 @@ struct Do_Call_Params_##fn { \
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(space) ){ \
         void *result; \
         if ( !_Py_Coroutine_Chain(space > PYOS_COSTACK_STD_SIZE ? space : PYOS_COSTACK_STD_SIZE, Do_##fn, &params, &result)) { \
-            return (r_t)result; \
+            return (r_t)(intptr_t)result; \
         } else { \
             PyErr_NoMemory(); \
             return nomemret; \
@@ -320,7 +320,7 @@ struct Do_Call_Params_##fn { \
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(space) ){ \
         void *result; \
         if ( !_Py_Coroutine_Chain(space > PYOS_COSTACK_STD_SIZE ? space : PYOS_COSTACK_STD_SIZE, Do_##fn, &params, &result)) { \
-            return (r_t)result; \
+            return (r_t)(intptr_t)result; \
         } else { \
             PyErr_NoMemory(); \
             return nomemret; \
@@ -349,7 +349,7 @@ struct Do_Call_Params_##fn { \
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(space) ){ \
         void *result; \
         if ( !_Py_Coroutine_Chain(space > PYOS_COSTACK_STD_SIZE ? space : PYOS_COSTACK_STD_SIZE, Do_##fn, &params, &result)) { \
-            return (r_t)result; \
+            return (r_t)(intptr_t)result; \
         } else { \
             PyErr_NoMemory(); \
             return nomemret; \
@@ -380,7 +380,7 @@ struct Do_Call_Params_##fn { \
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(space) ){ \
         void *result; \
         if ( !_Py_Coroutine_Chain(space > PYOS_COSTACK_STD_SIZE ? space : PYOS_COSTACK_STD_SIZE, Do_##fn, &params, &result)) { \
-            return (r_t)result; \
+            return (r_t)(intptr_t)result; \
         } else { \
             PyErr_NoMemory(); \
             return nomemret; \
@@ -413,7 +413,7 @@ struct Do_Call_Params_##fn { \
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(space) ){ \
         void *result; \
         if ( !_Py_Coroutine_Chain(space > PYOS_COSTACK_STD_SIZE ? space : PYOS_COSTACK_STD_SIZE, Do_##fn, &params, &result)) { \
-            return (r_t)result; \
+            return (r_t)(intptr_t)result; \
         } else { \
             PyErr_NoMemory(); \
             return nomemret; \
@@ -448,7 +448,7 @@ struct Do_Call_Params_##fn { \
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(space) ){ \
         void *result; \
         if ( !_Py_Coroutine_Chain(space > PYOS_COSTACK_STD_SIZE ? space : PYOS_COSTACK_STD_SIZE, Do_##fn, &params, &result)) { \
-            return (r_t)result; \
+            return (r_t)(intptr_t)result; \
         } else { \
             PyErr_NoMemory(); \
             return nomemret; \
