@@ -918,7 +918,7 @@ _PyType_GetDocFromInternalDoc(const char *name, const char *internal_doc)
 static const char *
 signature_from_flags(int flags)
 {
-    switch (flags & ~METH_COEXIST) {
+    switch (flags & ~(METH_COEXIST|METH_C_STACK_FRUGAL)) {
         case METH_NOARGS:
             return "($self, /)";
         case METH_NOARGS|METH_CLASS:
