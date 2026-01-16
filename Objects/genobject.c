@@ -1412,7 +1412,7 @@ coro_throw(PyObject *op, PyObject *const *args, Py_ssize_t nargs)
         return NULL;
     }
     PyObject *typ = args[0];
-
+    Py_INCREF(typ);
     PySendResult sendresult = coro_dosend(coro, typ, false);
     return gen_to_return((PyObject *)coro, sendresult, coro->cr_result);
 }
@@ -1458,6 +1458,7 @@ _PyCoro_DoYield(PyObject *op)
 
     if (param->exc){
         PyErr_SetObject((PyObject *)Py_TYPE(param->exc), param->exc);
+        Py_DECREF(param->exc);
         return NULL;
     }
     Py_RETURN_NONE;
