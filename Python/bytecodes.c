@@ -1348,73 +1348,59 @@ dummy_func(
             // The compiler treats any exception raised here as a failed close()
             // or throw() call.
             assert(frame->owner != FRAME_OWNED_BY_INTERPRETER);
-            frame->instr_ptr++;
-
-            int frame_count;
-            PyGenObject *gen;
-            PyGenObject *yielding_gen;
             if (oparg & 2){
-                // Search for the nearest coro generator
-                _PyInterpreterFrame *search_frame = frame;
-                frame_count = 1;
-                while (search_frame->owner != FRAME_OWNED_BY_GENERATOR){
-                    frame_count += 1;
-                    search_frame = search_frame->previous;
+                // coroutine yield
+                PyObject *value_o = _PyCoro_DoYield(PyStackRef_AsPyObjectBorrow(retval));
+                PyStackRef_CLOSE(retval);
+                if (!value_o){
+                    ERROR_IF(true);
                 }
-                yielding_gen = gen = _PyGen_GetGeneratorFromFrame(search_frame);
-                for(;;) {
-                    if (search_frame->owner == FRAME_OWNED_BY_GENERATOR) {
-                        yielding_gen = _PyGen_GetGeneratorFromFrame(search_frame);
-                        if (PyCoro_CheckExact(yielding_gen) || PyAsyncGen_CheckExact(yielding_gen)) {
-                            break;
-                        }
-                    }
-                    frame_count += 1;
-                    search_frame = search_frame->previous;
-                }
+                value = PyStackRef_FromPyObjectSteal(value_o);
             } else {
+                // generator yield
+                frame->instr_ptr++;
+
+                int frame_count;
+                PyGenObject *gen;
                 // this frame should be the generatory
                 assert(frame->owner == FRAME_OWNED_BY_GENERATOR);
                 frame_count = 1;
-                yielding_gen = gen = _PyGen_GetGeneratorFromFrame(frame);
+                gen = _PyGen_GetGeneratorFromFrame(frame);
+
+                assert(FRAME_SUSPENDED_YIELD_FROM == FRAME_SUSPENDED + 1);
+                assert(oparg == 0 || oparg == 1 || oparg == 3);
+                gen->gi_frame_state = FRAME_SUSPENDED + (oparg & 1);
+                gen->gi_resume_iframe = frame;
+                gen->gi_resume_gen = gen;
+
+                _PyStackRef temp = retval;
+                DEAD(retval);
+                SAVE_STACK();
+                tstate->exc_info = gen->gi_exc_state.previous_item;
+                gen->gi_exc_state.previous_item = NULL;
+                gen->gi_resume_frame_count = frame_count;
+                _Py_LeaveRecursiveCallsPy(tstate, frame_count);
+
+                _PyInterpreterFrame *yielding_gen_frame = &gen->gi_iframe;
+
+                frame = tstate->current_frame = yielding_gen_frame->previous;
+                yielding_gen_frame->previous = NULL;
+
+                /* We don't know which of these is relevant here, so keep them equal */
+                assert(INLINE_CACHE_ENTRIES_SEND == INLINE_CACHE_ENTRIES_FOR_ITER);
+                #if TIER_ONE
+                assert(frame->instr_ptr->op.code == INSTRUMENTED_LINE ||
+                    frame->instr_ptr->op.code == INSTRUMENTED_INSTRUCTION ||
+                    _PyOpcode_Deopt[frame->instr_ptr->op.code] == SEND ||
+                    _PyOpcode_Deopt[frame->instr_ptr->op.code] == FOR_ITER ||
+                    _PyOpcode_Deopt[frame->instr_ptr->op.code] == INTERPRETER_EXIT ||
+                    _PyOpcode_Deopt[frame->instr_ptr->op.code] == ENTER_EXECUTOR);
+                #endif
+                RELOAD_STACK();
+                LOAD_IP(1 + INLINE_CACHE_ENTRIES_SEND);
+                value = PyStackRef_MakeHeapSafe(temp);
+                LLTRACE_RESUME_FRAME();
             }
-
-            assert(FRAME_SUSPENDED_YIELD_FROM == FRAME_SUSPENDED + 1);
-            assert(oparg == 0 || oparg == 1 || oparg == 3);
-            yielding_gen->gi_frame_state = FRAME_SUSPENDED + (oparg & 1);
-            gen->gi_resume_iframe = frame;
-            yielding_gen->gi_resume_gen = gen;
-
-            _PyStackRef temp = retval;
-            DEAD(retval);
-            SAVE_STACK();
-            tstate->exc_info = yielding_gen->gi_exc_state.previous_item;
-            yielding_gen->gi_exc_state.previous_item = NULL;
-            yielding_gen->gi_resume_frame_count = frame_count;
-            _Py_LeaveRecursiveCallsPy(tstate, frame_count);
-
-            _PyInterpreterFrame *yielding_gen_frame = &yielding_gen->gi_iframe;
-
-            frame = tstate->current_frame = yielding_gen_frame->previous;
-            yielding_gen_frame->previous = NULL;
-            // assert(yielding_gen->gi_previous_datastack);
-            // _PyThreadState_ActivateDataStack(tstate, yielding_gen->gi_previous_datastack);
-            // yielding_gen->gi_previous_datastack = NULL;
-
-            /* We don't know which of these is relevant here, so keep them equal */
-            assert(INLINE_CACHE_ENTRIES_SEND == INLINE_CACHE_ENTRIES_FOR_ITER);
-            #if TIER_ONE
-            assert(frame->instr_ptr->op.code == INSTRUMENTED_LINE ||
-                   frame->instr_ptr->op.code == INSTRUMENTED_INSTRUCTION ||
-                   _PyOpcode_Deopt[frame->instr_ptr->op.code] == SEND ||
-                   _PyOpcode_Deopt[frame->instr_ptr->op.code] == FOR_ITER ||
-                   _PyOpcode_Deopt[frame->instr_ptr->op.code] == INTERPRETER_EXIT ||
-                   _PyOpcode_Deopt[frame->instr_ptr->op.code] == ENTER_EXECUTOR);
-            #endif
-            RELOAD_STACK();
-            LOAD_IP(1 + INLINE_CACHE_ENTRIES_SEND);
-            value = PyStackRef_MakeHeapSafe(temp);
-            LLTRACE_RESUME_FRAME();
         }
 
         tier1 op(_YIELD_VALUE_EVENT, (val -- val)) {

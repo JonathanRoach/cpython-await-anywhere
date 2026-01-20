@@ -273,6 +273,29 @@ static inline void Apply_Guard(unsigned char *guard){
 }
 
 
+static void CheckListIntegrity(List_Head *head, Coroutine_State state1, Coroutine_State state2){
+    for (List_Link *link = List_Begin(head); Link_NextIsLink(link); link = Link_Next(link)){
+        Coroutine *candidate = List_Link_Container(Coroutine, link, link);
+        assert(candidate->coroutines == g_c);
+        assert(candidate->state == state1 || candidate->state == state2);
+        bool found = false;
+        for (List_Link *link = List_Begin(&g_c->all); Link_NextIsLink(link); link = Link_Next(link)){
+            Coroutine *candidate2 = List_Link_Container(Coroutine, all_link, link);
+            if (candidate == candidate2){
+                found = true;
+            }
+        }
+        assert(found);
+    }
+}
+void CheckIntegrity(void){
+    CheckListIntegrity(&g_c->free, Coroutine_Free, Coroutine_Free);
+    CheckListIntegrity(&g_c->inactive, Coroutine_Idle, Coroutine_Complete);
+    CheckListIntegrity(&g_c->runable, Coroutine_Running, Coroutine_Running);
+    CheckListIntegrity(&g_c->waiting, Coroutine_Waiting, Coroutine_Waiting);
+}
+
+
 static bool Coroutine_StackHasOverrun(void){
     unsigned char *stack_top = StackTopNow();
     unsigned char *stack_limit = g_c ? g_c->stack_limit : NULL;
@@ -281,10 +304,15 @@ static bool Coroutine_StackHasOverrun(void){
         // current stack top is beyond limit - we are overrunning NOW
         return true;
     }
+    if (stack_limit && stack_top < stack_limit+2048){
+        printf("Stack LOW hazard\n");
+    }
     Coroutine *me = g_c ? g_c->active : NULL;
     if (!me){
         return false;
     }
+    // Check all coroutines integrity
+    CheckIntegrity();
     if (me->guard){
         bool ret = !Check_Guard(me->guard);
         // if (ret){
@@ -571,6 +599,7 @@ bool Coroutine_Run(
     void **result
 ){
     if (g_c && g_c->active){
+        assert(!Coroutine_StackHasOverrun());
         void *res = start(value);
         if (result){
             *result = res;
@@ -648,6 +677,7 @@ static Coroutine *Coroutine_New_Lock_Assumed(
     Coroutine *cor = NULL;
     for (link = List_Begin(&g_c->free); Link_NextIsLink(link); link = Link_Next(link)){
         Coroutine *candidate = List_Link_Container(Coroutine, link, link);
+        assert(candidate->coroutines == g_c);
         if (!candidate->guard) {
             // this must be the tip
             assert(candidate == g_c->tip);

@@ -1422,7 +1422,7 @@ _PyCoro_DoYield(PyObject *op)
 {
     PyCoroObject *coro = coro_active;
 
-    if (!coro->cr_coroutine){
+    if (!coro || !coro->cr_coroutine){
         //  not running
         PyErr_SetString(
             PyExc_RuntimeError,
