@@ -618,27 +618,27 @@ dis_asyncwith = """\
                 CALL                     0
                 GET_AWAITABLE            1
                 LOAD_CONST               0 (None)
-        L2:     SEND                     3 (to L5)
-        L3:     YIELD_VALUE              3
-        L4:     RESUME                   3
+        L2:     SEND                     3 (to L3)
+                YIELD_VALUE              3
+                RESUME                   7
                 JUMP_BACKWARD_NO_INTERRUPT 5 (to L2)
-        L5:     END_SEND
-        L6:     POP_TOP
+        L3:     END_SEND
+        L4:     POP_TOP
 
 %4d            LOAD_SMALL_INT           1
                 STORE_FAST               1 (x)
 
-%4d    L7:     LOAD_CONST               0 (None)
+%4d    L5:     LOAD_CONST               0 (None)
                 LOAD_CONST               0 (None)
                 LOAD_CONST               0 (None)
                 CALL                     3
                 GET_AWAITABLE            2
                 LOAD_CONST               0 (None)
-        L8:     SEND                     3 (to L11)
-        L9:     YIELD_VALUE              3
-       L10:     RESUME                   3
-                JUMP_BACKWARD_NO_INTERRUPT 5 (to L8)
-       L11:     END_SEND
+        L6:     SEND                     3 (to L7)
+                YIELD_VALUE              3
+                RESUME                   7
+                JUMP_BACKWARD_NO_INTERRUPT 5 (to L6)
+        L7:     END_SEND
                 POP_TOP
 
 %4d            LOAD_SMALL_INT           2
@@ -646,26 +646,21 @@ dis_asyncwith = """\
                 LOAD_CONST               0 (None)
                 RETURN_VALUE
 
-%4d   L12:     CLEANUP_THROW
-       L13:     JUMP_BACKWARD_NO_INTERRUPT 26 (to L5)
-       L14:     CLEANUP_THROW
-       L15:     JUMP_BACKWARD_NO_INTERRUPT 10 (to L11)
-       L16:     PUSH_EXC_INFO
+%4d    L8:     PUSH_EXC_INFO
                 WITH_EXCEPT_START
                 GET_AWAITABLE            2
                 LOAD_CONST               0 (None)
-       L17:     SEND                     4 (to L21)
-       L18:     YIELD_VALUE              3
-       L19:     RESUME                   3
-                JUMP_BACKWARD_NO_INTERRUPT 5 (to L17)
-       L20:     CLEANUP_THROW
-       L21:     END_SEND
+        L9:     SEND                     3 (to L10)
+                YIELD_VALUE              3
+                RESUME                   3
+                JUMP_BACKWARD_NO_INTERRUPT 5 (to L9)
+       L10:     END_SEND
                 TO_BOOL
-                POP_JUMP_IF_TRUE         2 (to L24)
-       L22:     NOT_TAKEN
-       L23:     RERAISE                  2
-       L24:     POP_TOP
-       L25:     POP_EXCEPT
+                POP_JUMP_IF_TRUE         2 (to L13)
+       L11:     NOT_TAKEN
+       L12:     RERAISE                  2
+       L13:     POP_TOP
+       L14:     POP_EXCEPT
                 POP_TOP
                 POP_TOP
                 POP_TOP
@@ -675,25 +670,18 @@ dis_asyncwith = """\
                 LOAD_CONST               0 (None)
                 RETURN_VALUE
 
-  --   L26:     COPY                     3
+  --   L15:     COPY                     3
                 POP_EXCEPT
                 RERAISE                  1
-       L27:     CALL_INTRINSIC_1         3 (INTRINSIC_STOPITERATION_ERROR)
+       L16:     CALL_INTRINSIC_1         3 (INTRINSIC_STOPITERATION_ERROR)
                 RERAISE                  1
 ExceptionTable:
-  L1 to L3 -> L27 [0] lasti
-  L3 to L4 -> L12 [4]
-  L4 to L6 -> L27 [0] lasti
-  L6 to L7 -> L16 [2] lasti
-  L7 to L9 -> L27 [0] lasti
-  L9 to L10 -> L14 [2]
-  L10 to L13 -> L27 [0] lasti
-  L14 to L15 -> L27 [0] lasti
-  L16 to L18 -> L26 [4] lasti
-  L18 to L19 -> L20 [7]
-  L19 to L22 -> L26 [4] lasti
-  L23 to L25 -> L26 [4] lasti
-  L25 to L27 -> L27 [0] lasti
+  L1 to L4 -> L16 [0] lasti
+  L4 to L5 -> L8 [2] lasti
+  L5 to L8 -> L16 [0] lasti
+  L8 to L11 -> L15 [4] lasti
+  L12 to L14 -> L15 [4] lasti
+  L14 to L16 -> L16 [0] lasti
 """ % (_asyncwith.__code__.co_firstlineno,
        _asyncwith.__code__.co_firstlineno + 1,
        _asyncwith.__code__.co_firstlineno + 2,
