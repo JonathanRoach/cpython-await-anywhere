@@ -3045,9 +3045,10 @@ unmarshal_frozen_code(PyInterpreterState *interp, struct frozen_info *info)
    an exception set if the initialization failed.
    This function is also used from frozenmain.c */
 
-int
-PyImport_ImportFrozenModuleObject(PyObject *name)
+static void *
+co_PyImport_ImportFrozenModuleObject(void *_param)
 {
+    PyObject *name = (PyObject *)_param;
     PyThreadState *tstate = _PyThreadState_GET();
     PyObject *co, *m, *d = NULL;
     int err;
@@ -3062,11 +3063,11 @@ PyImport_ImportFrozenModuleObject(PyObject *name)
     }
     else if (status != FROZEN_OKAY) {
         set_frozen_error(status, name);
-        return -1;
+        return (void *)-1;
     }
     co = unmarshal_frozen_code(tstate->interp, &info);
     if (co == NULL) {
-        return -1;
+        return (void *)-1;
     }
     if (info.is_package) {
         /* Set __path__ to the empty list */
@@ -3113,12 +3114,22 @@ PyImport_ImportFrozenModuleObject(PyObject *name)
     }
     Py_DECREF(d);
     Py_DECREF(co);
-    return 1;
+    return (void *)1;
 
 err_return:
     Py_XDECREF(d);
     Py_DECREF(co);
-    return -1;
+    return (void *)-1;
+}
+int
+PyImport_ImportFrozenModuleObject(PyObject *name)
+{
+    void *result;
+    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyImport_ImportFrozenModuleObject, name, &result)){
+        PyErr_NoMemory();
+        return -1;
+    }
+    return (int)(intptr_t)result;
 }
 
 int
