@@ -4330,6 +4330,7 @@ class ClinicReprTests(unittest.TestCase):
             full_name='foofoo',
             return_converter=int_return_converter(),
             kind=FunctionKind.METHOD_INIT,
+            c_stack_frugal=False,
             coexist=False
         )
         self.assertEqual(repr(function), "<clinic.Function 'foo'>")
