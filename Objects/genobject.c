@@ -1307,6 +1307,7 @@ coro_dosend(PyCoroObject *coro, PyObject *exc, int closing)
             PyErr_SetString(
                 PyExc_RuntimeError,
                 "cannot reuse already awaited coroutine");
+            coro->cr_result = NULL;
             return PYGEN_ERROR;
         }
         if (coro->cr_frame_state != FRAME_CREATED){
