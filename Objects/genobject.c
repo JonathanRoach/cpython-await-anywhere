@@ -25,7 +25,7 @@
 static PyObject* gen_close(PyObject *, PyObject *);
 static PyObject* async_gen_asend_new(PyAsyncGenObject *, PyObject *);
 static PyObject* async_gen_athrow_new(PyAsyncGenObject *, PyObject *);
-static PySendResult coro_dosend(PyCoroObject *coro, PyObject *exc, int closing);
+static PySendResult coro_dosend(PyCoroObject *coro, PyObject *val, int exc, int closing);
 
 #define _PyGen_CAST(op) \
     _Py_CAST(PyGenObject*, (op))
@@ -443,7 +443,7 @@ gen_close(PyObject *self, PyObject *args)
     PyObject *retval;
     if (PyCoro_CheckExact(gen) && ((PyCoroObject*)self)->cr_coroutine) {
         PyCoroObject *coro = (PyCoroObject *)self;
-        PySendResult sendresult = coro_dosend(coro, _PyObject_CallNoArgs(PyExc_GeneratorExit), true);
+        PySendResult sendresult = coro_dosend(coro, _PyObject_CallNoArgs(PyExc_GeneratorExit), true, true);
         retval = gen_to_return(self, sendresult, coro->cr_result);
     } else {
         if (err == 0) {
@@ -966,7 +966,8 @@ compute_cr_origin(int origin_depth, _PyInterpreterFrame *current_frame);
 
 typedef struct {
     PyCoroObject *coro;
-    PyObject *exc;
+    PyObject *val;
+    int exc;
     int closing;
 } Entry_Param;
 
@@ -977,10 +978,11 @@ static void *coro_entry(void *_param){
     PyThreadState *tstate = _PyThreadState_GET();
     _PyThreadState_ActivateDataStack(tstate, &coro->cr_datastack);
     if (param->exc){
-        PyErr_SetRaisedException(param->exc);
+        PyErr_SetObject((PyObject *)Py_TYPE(param->val), param->val);
     }
-    PySendResult sendresult = gen_send_ex2((PyGenObject *)(coro), Py_None, &coro->cr_result, param->exc != NULL, param->closing);
+    PySendResult sendresult = gen_send_ex2((PyGenObject *)(coro), param->exc ? Py_None : param->val, &coro->cr_result, param->exc, param->closing);
     assert(sendresult != PYGEN_NEXT);
+    Py_DECREF(param->val);
     _Py_Coroutine_Continue(coro->cr_return_coroutine, NULL, true);
     return (void *)(intptr_t)sendresult;
 }
@@ -1297,7 +1299,7 @@ coro_onyield(void *param){
 }
 
 static PySendResult
-coro_dosend(PyCoroObject *coro, PyObject *exc, int closing)
+coro_dosend(PyCoroObject *coro, PyObject *val, int exc, int closing)
 {
     if (!coro->cr_coroutine){
         if (FRAME_STATE_FINISHED(coro->cr_frame_state)) {
@@ -1348,7 +1350,7 @@ coro_dosend(PyCoroObject *coro, PyObject *exc, int closing)
     _PyDataStack *datastack = tstate->active_datastack;
 
     coro->cr_return_coroutine = _Py_Coroutine_GetActive();
-    Entry_Param param = {coro, exc, closing};
+    Entry_Param param = {coro, val, exc, closing};
     _Py_Coroutine_Continue(coro->cr_coroutine, &param, true);
     _Py_Coroutine_Yield(NULL, coro_onyield, NULL);
 
@@ -1379,7 +1381,8 @@ static PyObject *
 coro_send(PyObject *op, PyObject *arg)
 {
     PyCoroObject *coro = _PyCoroObject_CAST(op);
-    PySendResult sendresult = coro_dosend(coro, NULL, false);
+    Py_INCREF(arg);
+    PySendResult sendresult = coro_dosend(coro, arg, false, false);
     PyObject *result = gen_to_return((PyObject *)coro, sendresult, coro->cr_result);
     assert((_PyErr_Occurred(_PyThreadState_GET()) != NULL) == (result == NULL));
     return result;
@@ -1389,7 +1392,8 @@ static PySendResult
 PyCoro_am_send(PyObject *self, PyObject *arg, PyObject **result)
 {
     PyCoroObject *coro = _PyCoroObject_CAST(self);
-    PySendResult sendresult = coro_dosend(coro, NULL, false);
+    Py_INCREF(arg);
+    PySendResult sendresult = coro_dosend(coro, arg, false, false);
     *result = sendresult == PYGEN_ERROR ? NULL : coro->cr_result;
     return sendresult;
 }
@@ -1414,7 +1418,7 @@ coro_throw(PyObject *op, PyObject *const *args, Py_ssize_t nargs)
     }
     PyObject *typ = args[0];
     Py_INCREF(typ);
-    PySendResult sendresult = coro_dosend(coro, typ, false);
+    PySendResult sendresult = coro_dosend(coro, typ, true, false);
     return gen_to_return((PyObject *)coro, sendresult, coro->cr_result);
 }
 
@@ -1458,11 +1462,11 @@ _PyCoro_DoYield(PyObject *op)
     coro->cr_py_recursion_depth_at_entry = current_depth;
 
     if (param->exc){
-        PyErr_SetObject((PyObject *)Py_TYPE(param->exc), param->exc);
-        Py_DECREF(param->exc);
+        PyErr_SetObject((PyObject *)Py_TYPE(param->val), param->val);
+        Py_DECREF(param->val);
         return NULL;
     }
-    Py_RETURN_NONE;
+    return param->val;
 }
 
 PyDoc_STRVAR(coro_doyield_doc,
