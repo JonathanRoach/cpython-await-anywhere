@@ -3378,7 +3378,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(static, int, abstract_issubclass, PyObject
 static int
 abstract_issubclass(PyObject *derived, PyObject *cls)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(int, abstract_issubclass, derived, cls)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(-1, int, abstract_issubclass, derived, cls)
     PyObject *bases = NULL;
     Py_ssize_t i, n;
     int r = 0;
@@ -3483,7 +3483,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, int, object_recursive_isinstance, 
 static int
 object_recursive_isinstance(PyThreadState *tstate, PyObject *inst, PyObject *cls)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(int, object_recursive_isinstance, tstate, inst, cls)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(-1, int, object_recursive_isinstance, tstate, inst, cls)
 
     /* Quick test for an exact match */
     if (Py_IS_TYPE(inst, (PyTypeObject *)cls)) {
@@ -3579,7 +3579,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, int, object_issubclass, PyThreadSt
 static int
 object_issubclass(PyThreadState *tstate, PyObject *derived, PyObject *cls)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(int, object_issubclass, tstate, derived, cls)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(-1, int, object_issubclass, tstate, derived, cls)
     PyObject *checker;
 
     /* We know what type's __subclasscheck__ does. */

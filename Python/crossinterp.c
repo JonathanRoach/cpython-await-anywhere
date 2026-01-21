@@ -467,7 +467,7 @@ _PyObject_GetXIData(PyThreadState *tstate,
                     PyObject *obj, xidata_fallback_t fallback,
                     _PyXIData_t *xidata)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, _PyObject_GetXIData, tstate, obj, fallback, xidata)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(-1, int, _PyObject_GetXIData, tstate, obj, fallback, xidata)
     switch (fallback) {
         case _PyXIDATA_XIDATA_ONLY:
             return _get_xidata(tstate, obj, fallback, xidata);

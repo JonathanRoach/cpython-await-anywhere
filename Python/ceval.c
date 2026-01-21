@@ -1100,7 +1100,7 @@ _PyEval_EvalFramesDefault(PyThreadState *tstate, _PyInterpreterFrame *framebase,
     }
     CALL_STAT_INC(pyeval_calls);
 
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN5_B(PyObject *, _PyEval_EvalFramesDefault, tstate, framebase, frame, frame_count, throwflag)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN5_B(NULL, PyObject *, _PyEval_EvalFramesDefault, tstate, framebase, frame, frame_count, throwflag)
 
     /* Local "register" variables.
      * These are cached values from the frame and code object.  */

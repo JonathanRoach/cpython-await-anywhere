@@ -171,7 +171,7 @@ validate_constant(PyObject *value)
         return 1;
 
     if (PyTuple_CheckExact(value) || PyFrozenSet_CheckExact(value)) {
-        _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(int, validate_constant, value)
+        _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(0, int, validate_constant, value)
         ENTER_RECURSIVE();
 
         PyObject *it = PyObject_GetIter(value);
@@ -216,7 +216,7 @@ validate_expr(expr_ty exp, expr_context_ty ctx)
     assert(!PyErr_Occurred());
     VALIDATE_POSITIONS(exp);
     int ret = -1;
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(int, validate_expr, exp, ctx)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(0, int, validate_expr, exp, ctx)
     ENTER_RECURSIVE();
     int check_ctx = 1;
     expr_context_ty actual_ctx;
@@ -558,7 +558,7 @@ validate_pattern(pattern_ty p, int star_ok)
     assert(!PyErr_Occurred());
     VALIDATE_POSITIONS(p);
     int ret = -1;
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(int, validate_pattern, p, star_ok)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(0, int, validate_pattern, p, star_ok)
     ENTER_RECURSIVE();
     switch (p->kind) {
         case MatchValue_kind:
@@ -737,7 +737,7 @@ validate_stmt(stmt_ty stmt)
     assert(!PyErr_Occurred());
     VALIDATE_POSITIONS(stmt);
     int ret = -1;
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(int, validate_stmt, stmt)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(0, int, validate_stmt, stmt)
     ENTER_RECURSIVE();
     switch (stmt->kind) {
     case FunctionDef_kind:

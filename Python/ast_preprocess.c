@@ -492,7 +492,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, int, astfold_expr, expr_ty, PyAren
 static int
 astfold_expr(expr_ty node_, PyArena *ctx_, _PyASTPreprocessState *state)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(int, astfold_expr, node_, ctx_, state)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(0, int, astfold_expr, node_, ctx_, state)
     ENTER_RECURSIVE();
     switch (node_->kind) {
     case BoolOp_kind:
@@ -657,7 +657,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, int, astfold_stmt, stmt_ty, PyAren
 static int
 astfold_stmt(stmt_ty node_, PyArena *ctx_, _PyASTPreprocessState *state)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(int, astfold_stmt, node_, ctx_, state)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(0, int, astfold_stmt, node_, ctx_, state)
     ENTER_RECURSIVE();
     switch (node_->kind) {
     case FunctionDef_kind: {
@@ -880,7 +880,7 @@ astfold_pattern(pattern_ty node_, PyArena *ctx_, _PyASTPreprocessState *state)
     // Currently, this is really only used to form complex/negative numeric
     // constants in MatchValue and MatchMapping nodes
     // We still recurse into all subexpressions and subpatterns anyway
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(int, astfold_pattern, node_, ctx_, state)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(0, int, astfold_pattern, node_, ctx_, state)
     ENTER_RECURSIVE();
     switch (node_->kind) {
         case MatchValue_kind:

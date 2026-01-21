@@ -66,6 +66,7 @@ _PyImport_FindSharedFuncptr(const char *prefix,
         void *result;
         if (_Py_Coroutine_Chain(COROUTINE_STACK_SIZE, Do_Call__PyImport_FindSharedFuncptr, (void *)&params, &result)){
             // not enough stack ot load dll
+            PyErr_NoMemory();
             return NULL;
         }
         return (dl_funcptr)result;

@@ -380,7 +380,7 @@ class CParserGenerator(ParserGenerator, GrammarVisitor):
         self.cleanup_statements: List[str] = []
 
     def add_level(self, node: Rule, result_type: str) -> None:
-        self.print(f"_PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B({result_type}, {node.name}_rule, p)")
+        self.print(f"_PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, {result_type}, {node.name}_rule, p)")
         self.print("if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {")
         with self.indent():
             self.print("_Pypegen_stack_overflow(p);")

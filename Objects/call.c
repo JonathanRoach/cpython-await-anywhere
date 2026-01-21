@@ -350,7 +350,7 @@ PyObject_Vectorcall(PyObject *callable, PyObject *const *args,
 
 _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(static, PyObject *, doternarycall, ternaryfunc, PyObject *, PyObject *, PyObject *)
 static inline PyObject *doternarycall(ternaryfunc call, PyObject *callable, PyObject *args, PyObject *kwargs){
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(PyObject *, doternarycall, call, callable, args, kwargs)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(NULL, PyObject *, doternarycall, call, callable, args, kwargs)
     return (*call)(callable, args, kwargs);
 }
 
@@ -446,7 +446,7 @@ struct PyObject_CallOneArg_params {
 _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, co_PyObject_CallOneArg, void *)
 static void *
 co_PyObject_CallOneArg(void *_params){
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(void *, co_PyObject_CallOneArg, _params)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, co_PyObject_CallOneArg, _params)
     struct PyObject_CallOneArg_params *params = (struct PyObject_CallOneArg_params *)_params;
     return _PyObject_CallOneArg_Inlinable(params->func, params->arg, NULL);
 }

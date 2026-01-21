@@ -753,7 +753,7 @@ _PyObject_Dump(PyObject* op)
 
 _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(static, PyObject *, do_repr_call, reprfunc, PyObject*)
 static inline PyObject *do_repr_call(reprfunc repr, PyObject *self){
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(PyObject *, do_repr_call, repr, self)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(NULL, PyObject *, do_repr_call, repr, self)
     return (*repr)(self);
 }
 
@@ -1050,7 +1050,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(static, PyObject *, do_richcompare, PyThre
 static PyObject *
 do_richcompare(PyThreadState *tstate, PyObject *v, PyObject *w, int op)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(PyObject *, do_richcompare, tstate, v, w, op)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(NULL, PyObject *, do_richcompare, tstate, v, w, op)
     richcmpfunc f;
     PyObject *res;
     int checked_reverse_op = 0;

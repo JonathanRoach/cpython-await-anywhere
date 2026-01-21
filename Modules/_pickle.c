@@ -2918,7 +2918,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(static, int, batch_list, PickleState *, Pi
 static int
 batch_list(PickleState *state, PicklerObject *self, PyObject *iter, PyObject *origobj)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, batch_list, state, self, iter, origobj)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(-1, int, batch_list, state, self, iter, origobj)
     PyObject *obj = NULL;
     PyObject *firstitem = NULL;
     int i, n;
@@ -3047,7 +3047,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, int, batch_list_exact, PickleState
 static int
 batch_list_exact(PickleState *state, PicklerObject *self, PyObject *obj)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(int, batch_list_exact, state, self, obj)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(-1, int, batch_list_exact, state, self, obj)
     PyObject *item = NULL;
     Py_ssize_t this_batch, total;
 
@@ -3178,7 +3178,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(static, int, batch_dict, PickleState *, Pi
 static int
 batch_dict(PickleState *state, PicklerObject *self, PyObject *iter, PyObject *origobj)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, batch_dict, state, self, iter, origobj)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(-1, int, batch_dict, state, self, iter, origobj)
     PyObject *obj = NULL;
     PyObject *firstitem = NULL;
     int i, n;
@@ -3327,7 +3327,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, int, batch_dict_exact, PickleState
 static int
 batch_dict_exact(PickleState *state, PicklerObject *self, PyObject *obj)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(int, batch_dict_exact, state, self, obj)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(-1, int, batch_dict_exact, state, self, obj)
     PyObject *key = NULL, *value = NULL;
     int i;
     Py_ssize_t dict_size, ppos = 0;
@@ -4365,7 +4365,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(static, int, save_inner, PickleState *, Pi
 static int
 save_inner(PickleState *st, PicklerObject *self, PyObject *obj, int pers_save)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(int, save_inner, st, self, obj, pers_save)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(-1, int, save_inner, st, self, obj, pers_save)
     PyTypeObject *type;
     PyObject *reduce_func = NULL;
     PyObject *reduce_value = NULL;

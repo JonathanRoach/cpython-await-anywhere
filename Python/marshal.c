@@ -433,7 +433,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(static, int, w_object, PyObject *, WFILE *
 static int
 w_object(PyObject *v, WFILE *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(int, w_object, v, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B((p->error = WFERR_NOSTACK, 0), int, w_object, v, p)
     char flag = '\0';
 
     p->depth++;
@@ -1132,7 +1132,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, PyObject *, r_object, RFILE *)
 static PyObject *
 r_object(RFILE *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(PyObject *, r_object, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, PyObject *, r_object, p)
     /* NULL is a valid return value, it does not necessarily means that
        an exception is set. */
     PyObject *v, *v2;
