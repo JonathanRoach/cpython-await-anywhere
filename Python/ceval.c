@@ -359,7 +359,6 @@ _Py_ReachedRecursionLimitWithMargin(PyThreadState *tstate, int margin_count)
         // If a new coroutine can be started, there's enough room
         return 0;
     }
-    printf("%lu %lu\n", _Py_Coroutine_GetStackHeadroom(), (2+margin_count) * PYOS_STACK_MARGIN_BYTES);
     // 1 PYOS_STACK_MARGIN_BYTES for creating the stack overflow exception in an emergency (hard limit)
     // 1 PYOS_STACK_MARGIN_BYTES for creating the stack overflow exception when stack is running low (soft limit)
     // margin_count * PYOS_STACK_MARGIN_BYTES for working in.
