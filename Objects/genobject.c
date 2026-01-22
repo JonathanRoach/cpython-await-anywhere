@@ -972,17 +972,17 @@ typedef struct {
 } Entry_Param;
 
 static void *coro_entry(void *_param){
-    Entry_Param *param = (Entry_Param *)_param;
-    PyCoroObject *coro = param->coro;
+    Entry_Param param = *(Entry_Param *)_param;
+    PyCoroObject *coro = param.coro;
 
     PyThreadState *tstate = _PyThreadState_GET();
     _PyThreadState_ActivateDataStack(tstate, &coro->cr_datastack);
-    if (param->exc){
-        PyErr_SetObject((PyObject *)Py_TYPE(param->val), param->val);
+    if (param.exc){
+        PyErr_SetObject((PyObject *)Py_TYPE(param.val), param.val);
     }
-    PySendResult sendresult = gen_send_ex2((PyGenObject *)(coro), param->exc ? Py_None : param->val, &coro->cr_result, param->exc, param->closing);
+    PySendResult sendresult = gen_send_ex2((PyGenObject *)(coro), param.exc ? Py_None : param.val, &coro->cr_result, param.exc, param.closing);
     assert(sendresult != PYGEN_NEXT);
-    Py_DECREF(param->val);
+    Py_DECREF(param.val);
     _Py_Coroutine_Continue(coro->cr_return_coroutine, NULL, true);
     return (void *)(intptr_t)sendresult;
 }
@@ -1447,7 +1447,7 @@ _PyCoro_DoYield(PyObject *op)
     coro->cr_resume_iframe = current_frame;
     coro->cr_result = Py_NewRef(op);
     coro->cr_frame_state = FRAME_SUSPENDED;
-    Entry_Param *param = (Entry_Param *)_Py_Coroutine_Yield((void *)PYGEN_NEXT, coro_onyield, NULL);
+    Entry_Param param = *(Entry_Param *)_Py_Coroutine_Yield((void *)PYGEN_NEXT, coro_onyield, NULL);
     coro->cr_frame_state = FRAME_EXECUTING;
     coro->cr_resume_iframe = &coro->cr_iframe;;
 
@@ -1461,12 +1461,12 @@ _PyCoro_DoYield(PyObject *op)
     tstate->py_recursion_remaining = tstate->py_recursion_limit - current_depth - py_recusion_depth_for_coroutine;
     coro->cr_py_recursion_depth_at_entry = current_depth;
 
-    if (param->exc){
-        PyErr_SetObject((PyObject *)Py_TYPE(param->val), param->val);
-        Py_DECREF(param->val);
+    if (param.exc){
+        PyErr_SetObject((PyObject *)Py_TYPE(param.val), param.val);
+        Py_DECREF(param.val);
         return NULL;
     }
-    return param->val;
+    return param.val;
 }
 
 PyDoc_STRVAR(coro_doyield_doc,
