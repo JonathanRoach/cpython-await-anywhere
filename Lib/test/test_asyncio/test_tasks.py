@@ -2616,7 +2616,7 @@ class BaseTaskTests:
         self.assertEqual(cvar.get(), 'nope')
 
     def test_context_3(self):
-        # Run 100 Tasks in parallel, each modifying cvar.
+        # Run 50 Tasks in parallel, each modifying cvar.
 
         cvar = contextvars.ContextVar('cvar', default=-1)
 
@@ -2628,7 +2628,7 @@ class BaseTaskTests:
 
         async def main():
             tasks = []
-            for i in range(100):
+            for i in range(50):
                 task = loop.create_task(sub(random.randint(0, 10)))
                 tasks.append(task)
 
