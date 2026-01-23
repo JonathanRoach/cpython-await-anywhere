@@ -443,8 +443,14 @@ gen_close(PyObject *self, PyObject *args)
     PyObject *retval;
     if (PyCoro_CheckExact(gen) && ((PyCoroObject*)self)->cr_coroutine) {
         PyCoroObject *coro = (PyCoroObject *)self;
-        PySendResult sendresult = coro_dosend(coro, _PyObject_CallNoArgs(PyExc_GeneratorExit), true, true);
-        retval = gen_to_return(self, sendresult, coro->cr_result);
+        if (coro->cr_frame_state == FRAME_EXECUTING)
+        {
+            PyErr_SetString(PyExc_ValueError, "coroutine already executing");
+            retval = NULL;
+        } else {
+            PySendResult sendresult = coro_dosend(coro, _PyObject_CallNoArgs(PyExc_GeneratorExit), true, true);
+            retval = gen_to_return(self, sendresult, coro->cr_result);
+        }
     } else {
         if (err == 0) {
             PyErr_SetNone(PyExc_GeneratorExit);
@@ -1381,6 +1387,11 @@ static PyObject *
 coro_send(PyObject *op, PyObject *arg)
 {
     PyCoroObject *coro = _PyCoroObject_CAST(op);
+    if (coro->cr_frame_state == FRAME_EXECUTING)
+    {
+        PyErr_SetString(PyExc_ValueError, "coroutine already executing");
+        return NULL;
+    }
     Py_INCREF(arg);
     PySendResult sendresult = coro_dosend(coro, arg, false, false);
     PyObject *result = gen_to_return((PyObject *)coro, sendresult, coro->cr_result);
@@ -1392,6 +1403,12 @@ static PySendResult
 PyCoro_am_send(PyObject *self, PyObject *arg, PyObject **result)
 {
     PyCoroObject *coro = _PyCoroObject_CAST(self);
+    if (coro->cr_frame_state == FRAME_EXECUTING)
+    {
+        PyErr_SetString(PyExc_ValueError, "coroutine already executing");
+        *result = NULL;
+        return PYGEN_ERROR;
+    }
     Py_INCREF(arg);
     PySendResult sendresult = coro_dosend(coro, arg, false, false);
     *result = sendresult == PYGEN_ERROR ? NULL : coro->cr_result;
@@ -1412,7 +1429,11 @@ static PyObject *
 coro_throw(PyObject *op, PyObject *const *args, Py_ssize_t nargs)
 {
     PyCoroObject *coro = _PyCoroObject_CAST(op);
-
+    if (coro->cr_frame_state == FRAME_EXECUTING)
+    {
+        PyErr_SetString(PyExc_ValueError, "coroutine already executing");
+        return NULL;
+    }
     if (!_PyArg_CheckPositional("throw", nargs, 1, 3)) {
         return NULL;
     }
