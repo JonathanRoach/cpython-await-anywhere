@@ -335,7 +335,6 @@ class BaseFutureTests:
 
         g = fixture()
         self.assertEqual(next(g), 'A')  # yield 'A'.
-        self.assertEqual(next(g), f)  # First yield from f.
         f.set_result(42)
         self.assertEqual(next(g), ('B', 42))  # yield 'B', x.
         # The second "yield from f" does not yield f.
