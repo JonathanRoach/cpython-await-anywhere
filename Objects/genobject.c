@@ -984,7 +984,11 @@ static void *coro_entry(void *_param){
     PyThreadState *tstate = _PyThreadState_GET();
     _PyThreadState_ActivateDataStack(tstate, &coro->cr_datastack);
     if (param.exc){
-        PyErr_SetObject((PyObject *)Py_TYPE(param.val), param.val);
+        if (PyExceptionInstance_Check(param.val)){
+            PyErr_SetObject((PyObject *)Py_TYPE(param.val), param.val);
+        } else {
+            PyErr_SetObject(param.val, NULL);
+        }
     }
     PySendResult sendresult = gen_send_ex2((PyGenObject *)(coro), param.exc ? Py_None : param.val, &coro->cr_result, param.exc, param.closing);
     assert(sendresult != PYGEN_NEXT);
