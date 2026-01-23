@@ -22,8 +22,10 @@
 #   endif
 #endif
 
+typedef struct Coroutines Coroutines;
+
 static void Coroutine_RunNext(void);
-static void _Coroutine_Continue(Coroutine *cor, void *value, bool early);
+static bool _Coroutine_Continue(Coroutines *cors, Coroutine *cor, void *value, bool early);
 static unsigned char *StackTopNow(void);
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -169,8 +171,6 @@ static inline void Link_Remove(
 ///////////////////////////////////////////////////////////////////////////////
 // ...2-way linked lists
 ///////////////////////////////////////////////////////////////////////////////
-
-typedef struct Coroutines Coroutines;
 
 enum {
     Coroutines_Starting,
@@ -575,7 +575,7 @@ void Coroutine_Run_Coroutine(
     cors->state = Coroutines_Active;
     cors->primary = cor;
 
-    _Coroutine_Continue(cor, value, true);
+    _Coroutine_Continue(cors, cor, value, true);
 
     if (!setjmp(cors->controller)){
         _Cor_Mutex_Unlock(&cors->mutex);
@@ -848,12 +848,20 @@ void _Py_Coroutine_Delete(
 
 
 // Coroutine_Continue, assuming the mutex is claimed
-static void _Coroutine_Continue(
+// return false for success, true for something went wrong
+static bool _Coroutine_Continue(
+    Coroutines *cors,
     Coroutine *cor,
     void *value,
     bool early
 ){
-    Coroutines *cors = cor->coroutines;
+    if (cor->state == Coroutine_Free || cor->state == Coroutine_Complete){
+        return true;
+    }
+    if (cor->state == Coroutine_Running){
+        // already running
+        return false;
+    }
     assert(cor->state == Coroutine_Idle || cor->state == Coroutine_Waiting);
     cor->entry_param = value;
     cor->state = Coroutine_Running;
@@ -864,10 +872,11 @@ static void _Coroutine_Continue(
         List_AddTail(&cors->runable, &cor->link);
     }
     _Cor_Mutex_Unlock(&cors->waiting_mutex);
+    return false;
 }
 
 
-void _Py_Coroutine_Continue(
+bool _Py_Coroutine_Continue(
     Coroutine *cor,
     void *value,
     bool early
@@ -875,8 +884,9 @@ void _Py_Coroutine_Continue(
     assert(!Coroutine_StackHasOverrun());
     Coroutines *cors = cor->coroutines;
     _Cor_Mutex_Lock(&cors->mutex);
-    _Coroutine_Continue(cor, value, early);
+    bool ret = _Coroutine_Continue(cors, cor, value, early);
     _Cor_Mutex_Unlock(&cors->mutex);
+    return ret;
 }
 
 

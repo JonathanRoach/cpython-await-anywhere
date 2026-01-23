@@ -152,7 +152,7 @@ PyAPI_FUNC(Coroutine *) _Py_Coroutine_New(size_t size, Coroutine_Start start);
 PyAPI_FUNC(void) _Py_Coroutine_Delete(Coroutine *cor);
 PyAPI_FUNC(bool) _Py_Coroutine_IsRunning(Coroutine *cor);
 PyAPI_FUNC(bool) _Py_Coroutine_IsComplete(Coroutine *cor);
-PyAPI_FUNC(void) _Py_Coroutine_Continue(Coroutine *cor, void *value, bool early);
+PyAPI_FUNC(bool) _Py_Coroutine_Continue(Coroutine *cor, void *value, bool early);
 PyAPI_FUNC(void *) _Py_Coroutine_Yield(void *value, Coroutine_YieldCallback on_yield, void *me);
 PyAPI_FUNC(void *) _Py_Coroutine_GetValue(Coroutine *cor);
 PyAPI_FUNC(Coroutine *) _Py_Coroutine_GetActive(void);
