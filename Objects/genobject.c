@@ -1059,6 +1059,7 @@ _Py_MakeCoro(PyFunctionObject *func)
         }
         _PyDataStack_Init(&ag->ag_datastack);
         ag->ag_coroutine = NULL;
+        ag->ag_yield_from = NULL;
         ag->ag_origin_or_finalizer = NULL;
         ag->ag_closed = 0;
         ag->ag_hooks_inited = 0;
@@ -1073,6 +1074,7 @@ _Py_MakeCoro(PyFunctionObject *func)
     }
     _PyDataStack_Init(&((PyCoroObject *)coro)->cr_datastack);
     ((PyCoroObject *)coro)->cr_coroutine = NULL;
+    ((PyCoroObject *)coro)->cr_yield_from = NULL;
     PyThreadState *tstate = _PyThreadState_GET();
     int origin_depth = tstate->coroutine_origin_tracking_depth;
 
@@ -1510,6 +1512,37 @@ StopIteration.\n\
 the (type, val, tb) signature is deprecated, \n\
 and may be removed in a future version of Python.");
 
+static PyObject *
+_coro_throw(PyCoroObject *coro, int close_on_exit, PyObject *typ, PyObject *val, PyObject *tb)
+{
+    if (coro->cr_frame_state == FRAME_EXECUTING)
+    {
+        PyErr_SetString(PyExc_ValueError, "coroutine already executing");
+        return NULL;
+    }
+
+    int result_here = GEN_THROW_YF_THROW_HERE;
+    PyObject *res;
+    if (coro->cr_frame_state == FRAME_SUSPENDED){
+        if (coro->cr_yield_from){
+            Py_INCREF(coro->cr_yield_from);
+            res = _gen_throw_yf((PyGenObject *)coro, close_on_exit, typ, val, tb, coro->cr_yield_from, &result_here);
+
+            if (result_here == GEN_THROW_YF_RESULT){
+                return res;
+            }
+        }
+    }
+
+    if (result_here == GEN_THROW_YF_EXCEPTION_HERE){
+        typ = NULL;
+    } else {
+        Py_INCREF(typ);
+    }
+    PySendResult sendresult = coro_dosend(coro, typ, true, false);
+    return gen_to_return((PyObject *)coro, sendresult, coro->cr_result);
+}
+
 
 static PyObject *
 coro_throw(PyObject *op, PyObject *const *args, Py_ssize_t nargs)
@@ -1525,28 +1558,12 @@ coro_throw(PyObject *op, PyObject *const *args, Py_ssize_t nargs)
     if (!_PyArg_CheckPositional("throw", nargs, 1, 3)) {
         return NULL;
     }
+
     PyObject *typ = args[0];
+    PyObject *val = nargs >= 2 ? args[1] : NULL;
+    PyObject *tb = nargs >= 3 ? args[2] : NULL;
 
-    int result_here = GEN_THROW_YF_THROW_HERE;
-    PyObject *res;
-    if (coro->cr_frame_state == FRAME_SUSPENDED){
-        if (coro->cr_yield_from){
-            Py_INCREF(coro->cr_yield_from);
-            res = _gen_throw_yf((PyGenObject *)coro, 1, typ, NULL, NULL, coro->cr_yield_from, &result_here);
-
-            if (result_here == GEN_THROW_YF_RESULT){
-                return res;
-            }
-        }
-    }
-
-    if (result_here == GEN_THROW_YF_EXCEPTION_HERE){
-        typ = NULL;
-    } else {
-        Py_INCREF(typ);
-    }
-    PySendResult sendresult = coro_dosend(coro, typ, true, false);
-    return gen_to_return((PyObject *)coro, sendresult, coro->cr_result);
+    return _coro_throw(coro, 1, typ, val, tb);
 }
 
 
@@ -1897,8 +1914,11 @@ typedef struct _PyAsyncGenWrappedValue {
 static void
 _async_gen_dealloc_inner(PyGenObject *gen)
 {
-    PyAsyncGenObject *coro = _PyAsyncGenObject_CAST(gen);
-    Py_CLEAR(coro->ag_origin_or_finalizer);
+    PyAsyncGenObject *agen = _PyAsyncGenObject_CAST(gen);
+    Py_CLEAR(agen->ag_origin_or_finalizer);
+
+    _PyDataStack_Clear(&agen->ag_datastack);
+    _Py_Coroutine_Delete(agen->ag_coroutine);
 }
 
 static void
@@ -2588,7 +2608,7 @@ async_gen_athrow_send(PyObject *self, PyObject *arg)
             /* aclose() mode */
             o->agt_gen->ag_closed = 1;
 
-            retval = _gen_throw((PyGenObject *)gen,
+            retval = _coro_throw((PyCoroObject *)gen,
                                 0,  /* Do not close generator when
                                        PyExc_GeneratorExit is passed */
                                 PyExc_GeneratorExit, NULL, NULL);
@@ -2598,7 +2618,7 @@ async_gen_athrow_send(PyObject *self, PyObject *arg)
                 goto yield_close;
             }
         } else {
-            retval = _gen_throw((PyGenObject *)gen,
+            retval = _coro_throw((PyCoroObject *)gen,
                                 0,  /* Do not close generator when
                                        PyExc_GeneratorExit is passed */
                                 o->agt_typ, o->agt_val, o->agt_tb);
@@ -2612,7 +2632,7 @@ async_gen_athrow_send(PyObject *self, PyObject *arg)
 
     assert(o->agt_state == AWAITABLE_STATE_ITER);
 
-    retval = gen_send((PyObject *)gen, arg);
+    retval = coro_send((PyObject *)gen, arg);
     if (o->agt_typ) {
         return async_gen_unwrap_value(o->agt_gen, retval);
     } else {
@@ -2690,7 +2710,7 @@ async_gen_athrow_throw(PyObject *self, PyObject *const *args, Py_ssize_t nargs)
         o->agt_gen->ag_running_async = 1;
     }
 
-    PyObject *retval = gen_throw((PyObject*)o->agt_gen, args, nargs);
+    PyObject *retval = coro_throw((PyObject*)o->agt_gen, args, nargs);
     if (o->agt_typ) {
         retval = async_gen_unwrap_value(o->agt_gen, retval);
         if (retval == NULL) {
