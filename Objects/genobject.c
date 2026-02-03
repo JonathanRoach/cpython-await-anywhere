@@ -1530,11 +1530,13 @@ coro_throw(PyObject *op, PyObject *const *args, Py_ssize_t nargs)
     int result_here = GEN_THROW_YF_THROW_HERE;
     PyObject *res;
     if (coro->cr_frame_state == FRAME_SUSPENDED){
-        Py_INCREF(coro->cr_yield_from);
-        res = _gen_throw_yf((PyGenObject *)coro, 1, typ, NULL, NULL, coro->cr_yield_from, &result_here);
+        if (coro->cr_yield_from){
+            Py_INCREF(coro->cr_yield_from);
+            res = _gen_throw_yf((PyGenObject *)coro, 1, typ, NULL, NULL, coro->cr_yield_from, &result_here);
 
-        if (result_here == GEN_THROW_YF_RESULT){
-            return res;
+            if (result_here == GEN_THROW_YF_RESULT){
+                return res;
+            }
         }
     }
 
