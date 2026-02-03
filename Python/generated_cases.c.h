@@ -7728,8 +7728,9 @@
                 retval = val;
                 assert(frame->owner != FRAME_OWNED_BY_INTERPRETER);
                 if (oparg & 2){
+                    PyObject *yield_from = PyStackRef_AsPyObjectBorrow(stack_pointer[-2]);
                     _PyFrame_SetStackPointer(frame, stack_pointer);
-                    PyObject *value_o = _PyCoro_DoYield(PyStackRef_AsPyObjectBorrow(retval));
+                    PyObject *value_o = _PyCoro_DoYield(PyStackRef_AsPyObjectBorrow(retval), yield_from);
                     stack_pointer = _PyFrame_GetStackPointer(frame);
                     stack_pointer += -1;
                     assert(WITHIN_STACK_BOUNDS());
@@ -12432,8 +12433,9 @@
             retval = stack_pointer[-1];
             assert(frame->owner != FRAME_OWNED_BY_INTERPRETER);
             if (oparg & 2){
+                PyObject *yield_from = PyStackRef_AsPyObjectBorrow(stack_pointer[-2]);
                 _PyFrame_SetStackPointer(frame, stack_pointer);
-                PyObject *value_o = _PyCoro_DoYield(PyStackRef_AsPyObjectBorrow(retval));
+                PyObject *value_o = _PyCoro_DoYield(PyStackRef_AsPyObjectBorrow(retval), yield_from);
                 stack_pointer = _PyFrame_GetStackPointer(frame);
                 stack_pointer += -1;
                 assert(WITHIN_STACK_BOUNDS());

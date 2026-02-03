@@ -1915,7 +1915,7 @@ FutureIter_am_send(PyObject *op,
     res = FutureIter_am_send_lock_held(it, result);
     Py_END_CRITICAL_SECTION();
     if (res == PYGEN_NEXT){
-        _PyCoro_DoYield((PyObject *)fut);
+        _PyCoro_DoYield((PyObject *)fut, NULL);
         if(fut->fut_state == STATE_PENDING){
             PyErr_SetString(PyExc_RuntimeError,
                         "future still pending after coroutine yield");

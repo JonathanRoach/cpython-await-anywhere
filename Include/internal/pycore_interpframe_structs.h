@@ -106,6 +106,7 @@ struct _PyInterpreterFrame {
     /* (when frame is running) the datastack previous to this generator */  \
     _PyDataStack *prefix##_previous_datastack;                              \
     PyObject *prefix##_result;                                              \
+    PyObject *prefix##_yield_from;                                          \
     /* the gen and its frame to resume at */                                \
     struct _PyInterpreterFrame *prefix##_resume_iframe;                     \
     struct _PyGenObject *prefix##_resume_gen;                               \

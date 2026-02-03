@@ -1350,7 +1350,8 @@ dummy_func(
             assert(frame->owner != FRAME_OWNED_BY_INTERPRETER);
             if (oparg & 2){
                 // coroutine yield
-                PyObject *value_o = _PyCoro_DoYield(PyStackRef_AsPyObjectBorrow(retval));
+                PyObject *yield_from = PyStackRef_AsPyObjectBorrow(stack_pointer[-2]);
+                PyObject *value_o = _PyCoro_DoYield(PyStackRef_AsPyObjectBorrow(retval), yield_from);
                 PyStackRef_CLOSE(retval);
                 if (!value_o){
                     ERROR_IF(true);
