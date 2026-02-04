@@ -1,3 +1,4 @@
+
 /* Python interpreter top-level routines, including init/exit */
 
 #include "Python.h"
@@ -2474,9 +2475,10 @@ Py_NewInterpreter(void)
 
 */
 
-void
-Py_EndInterpreter(PyThreadState *tstate)
+static void *
+_Py_EndInterpreter(void *_tstate)
 {
+    PyThreadState *tstate = _tstate;
     PyInterpreterState *interp = tstate->interp;
 
     if (tstate != _PyThreadState_GET()) {
@@ -2511,6 +2513,16 @@ Py_EndInterpreter(PyThreadState *tstate)
 
     finalize_interp_clear(tstate);
     finalize_interp_delete(tstate->interp);
+
+    return NULL;
+}
+
+
+void
+Py_EndInterpreter(PyThreadState *tstate)
+{
+    bool fail = Coroutine_Run(PYOS_COSTACK_STD_SIZE, _Py_EndInterpreter, tstate, NULL);
+    assert(!fail);
 }
 
 int
