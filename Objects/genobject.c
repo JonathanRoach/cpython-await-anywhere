@@ -1279,12 +1279,15 @@ coro_await(PyObject *coro)
 }
 
 static PyObject *
-coro_get_cr_await(PyObject *coro, void *Py_UNUSED(ignored))
+coro_get_cr_await(PyObject *self, void *Py_UNUSED(ignored))
 {
-    PyObject *yf = _PyGen_yf((PyGenObject *) coro);
-    if (yf == NULL)
-        Py_RETURN_NONE;
-    return yf;
+    PyCoroObject *coro = (PyCoroObject *)self;
+    PyObject *yf = coro->cr_yield_from;
+    if (yf){
+        Py_INCREF(yf);
+        return yf;
+    }
+    Py_RETURN_NONE;
 }
 
 static PyObject *
@@ -1597,6 +1600,7 @@ _PyCoro_DoYield(PyObject *op, PyObject *yield_from)
     coro->cr_yield_from = yield_from;
     Entry_Param param = *(Entry_Param *)_Py_Coroutine_Yield((void *)PYGEN_NEXT, coro_onyield, NULL);
     coro->cr_frame_state = FRAME_EXECUTING;
+    coro->cr_yield_from = NULL;
     coro->cr_resume_iframe = &coro->cr_iframe;;
 
     _PyThreadState_ActivateDataStack(tstate, datastack);
