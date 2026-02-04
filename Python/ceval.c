@@ -3746,13 +3746,8 @@ _PyEval_GetAwaitable(PyObject *iterable, int oparg)
         _PyEval_FormatAwaitableError(PyThreadState_GET(),
             Py_TYPE(iterable), oparg);
     }
-    else if (PyCoro_CheckExact(iter)) {
-        PyObject *yf = _PyGen_yf((PyGenObject*)iter);
-        if (yf != NULL) {
-            /* `iter` is a coroutine object that is being
-                awaited, `yf` is a pointer to the current awaitable
-                being awaited on. */
-            Py_DECREF(yf);
+    else if (PyCoro_CheckExact(iter) || PyAsyncGen_CheckExact(iter)) {
+        if (((PyCoroObject *)iter)->cr_yield_from){
             Py_CLEAR(iter);
             _PyErr_SetString(PyThreadState_GET(), PyExc_RuntimeError,
                                 "coroutine is being awaited already");
