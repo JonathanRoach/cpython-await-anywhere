@@ -506,11 +506,13 @@ class BaseFutureTests:
     def test_iter(self):
         fut = self._new_future(loop=self.loop)
 
-        def coro():
-            yield from fut
+        async def coro():
+            await fut
 
         def test():
-            arg1, arg2 = coro()
+            c = coro()
+            c.send(None)
+            c.send(None)
 
         with self.assertRaisesRegex(RuntimeError, "await wasn't used"):
             test()
