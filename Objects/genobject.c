@@ -442,21 +442,6 @@ gen_close(PyObject *self, PyObject *args)
         gen->gi_frame_state = state;
         Py_DECREF(yf);
     }
-    _PyInterpreterFrame *frame = gen->gi_resume_iframe;
-    if (is_resume(frame->instr_ptr)) {
-        /* We can safely ignore the outermost try block
-         * as it is automatically generated to handle
-         * StopIteration. */
-        int oparg = frame->instr_ptr->op.arg;
-        if (oparg & RESUME_OPARG_DEPTH1_MASK) {
-            // RESUME after YIELD_VALUE and exception depth is 1
-            assert((oparg & RESUME_OPARG_LOCATION_MASK) != RESUME_AT_FUNC_START);
-            gen->gi_frame_state = FRAME_COMPLETED;
-            gen_clear_frame(gen);
-            Py_RETURN_NONE;
-        }
-    }
-
     PyObject *retval;
     if ((PyCoro_CheckExact(gen) || PyAsyncGen_CheckExact(gen)) && ((PyCoroObject*)self)->cr_coroutine) {
         PyCoroObject *coro = (PyCoroObject *)self;
@@ -469,6 +454,21 @@ gen_close(PyObject *self, PyObject *args)
             retval = gen_to_return(self, sendresult, coro->cr_result);
         }
     } else {
+        _PyInterpreterFrame *frame = gen->gi_resume_iframe;
+        if (is_resume(frame->instr_ptr)) {
+            /* We can safely ignore the outermost try block
+            * as it is automatically generated to handle
+            * StopIteration. */
+            int oparg = frame->instr_ptr->op.arg;
+            if (oparg & RESUME_OPARG_DEPTH1_MASK) {
+                // RESUME after YIELD_VALUE and exception depth is 1
+                assert((oparg & RESUME_OPARG_LOCATION_MASK) != RESUME_AT_FUNC_START);
+                gen->gi_frame_state = FRAME_COMPLETED;
+                gen_clear_frame(gen);
+                Py_RETURN_NONE;
+            }
+        }
+
         if (err == 0) {
             PyErr_SetNone(PyExc_GeneratorExit);
         }
