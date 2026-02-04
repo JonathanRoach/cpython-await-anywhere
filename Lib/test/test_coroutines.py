@@ -764,7 +764,7 @@ class CoroutineTest(unittest.TestCase):
 
         coro_b.send(None)
         self.assertEqual(inspect.getcoroutinestate(coro_b), inspect.CORO_SUSPENDED)
-        self.assertEqual(coro_b.cr_await.cr_await.gi_code.co_name, 'a')
+        self.assertEqual(coro_b.cr_await.gi_code.co_name, 'a')
 
         with self.assertRaises(StopIteration):
             coro_b.send(None)  # complete coroutine
