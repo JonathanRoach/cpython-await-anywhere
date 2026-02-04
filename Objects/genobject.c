@@ -538,7 +538,7 @@ _gen_throw_yf(PyGenObject *gen, int close_on_genexit, PyObject *typ, PyObject *v
             ceval.c. */
         _PyInterpreterFrame *prev = tstate->current_frame;
         frame->previous = prev;
-        tstate->current_frame = frame;
+        tstate->current_frame = gen->gi_resume_iframe;
         /* Close the generator that we are currently iterating with
             'yield from' or awaiting on with 'await'. */
         PyFrameState state = gen->gi_frame_state;
@@ -563,7 +563,7 @@ _gen_throw_yf(PyGenObject *gen, int close_on_genexit, PyObject *typ, PyObject *v
 
         _PyInterpreterFrame *prev = tstate->current_frame;
         frame->previous = prev;
-        tstate->current_frame = frame;
+        tstate->current_frame = gen->gi_resume_iframe;
         PyFrameState state = gen->gi_frame_state;
         gen->gi_frame_state = FRAME_EXECUTING;
         ret = PyObject_CallFunctionObjArgs(meth, typ, val, tb, NULL);
