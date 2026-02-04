@@ -1918,7 +1918,7 @@ FutureIter_am_send(PyObject *op,
         _PyCoro_DoYield((PyObject *)fut, NULL);
         if(fut->fut_state == STATE_PENDING){
             PyErr_SetString(PyExc_RuntimeError,
-                        "future still pending after coroutine yield");
+                        "await wasn't used with future");
             return PYGEN_ERROR;
         }
         // We assume an error will be recorded on the Future too
