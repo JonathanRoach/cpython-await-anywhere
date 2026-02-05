@@ -1915,7 +1915,10 @@ FutureIter_am_send(PyObject *op,
     res = FutureIter_am_send_lock_held(it, result);
     Py_END_CRITICAL_SECTION();
     if (res == PYGEN_NEXT){
-        _PyCoro_DoYield((PyObject *)fut, NULL);
+        *result = _PyCoro_DoYield((PyObject *)fut, NULL);
+        if (!*result){
+            return PYGEN_ERROR;
+        }
         if(fut->fut_state == STATE_PENDING){
             PyErr_SetString(PyExc_RuntimeError,
                         "await wasn't used with future");
@@ -3276,8 +3279,10 @@ task_step_handle_result_impl(asyncio_state *state, TaskObj *task, PyObject *resu
     int res;
     PyObject *o;
 
+    printf("%p %p\n", result, task);
     if (result == (PyObject*)task) {
         /* We have a task that wants to await on itself */
+        printf("going to self_await\n");
         goto self_await;
     }
 
@@ -3488,6 +3493,7 @@ task_step_handle_result_impl(asyncio_state *state, TaskObj *task, PyObject *resu
     return o;
 
 self_await:
+    printf("self await triggered\n");
     o = task_set_error_soon(
         state, task, PyExc_RuntimeError,
         "Task cannot await on itself: %R", task);
