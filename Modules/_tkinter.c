@@ -1497,9 +1497,12 @@ done:
       interpreter thread, so we ship the PyObject* args to the target thread,
       and perform processing there. */
 
+_PY_ENSURE_STACK_FOR_FN2_A(Tkapp_Call, PyObject *, PyObject *)
 static PyObject *
 Tkapp_Call(PyObject *selfptr, PyObject *args)
 {
+    _PY_ENSURE_STACK_FOR_FN2_B((12000*sizeof(void *)), NULL, PyObject *, Tkapp_Call,
+        PyObject *, selfptr, PyObject *, args)
     Tcl_Obj *objStore[ARGSZ];
     Tcl_Obj **objv = NULL;
     Tcl_Size objc;
@@ -1519,8 +1522,9 @@ Tkapp_Call(PyObject *selfptr, PyObject *args)
         Tkapp_CallEvent *ev;
         Tcl_Condition cond = NULL;
         PyObject *exc = NULL;  // init to make static analyzers happy
-        if (!WaitForMainloop(self))
+        if (!WaitForMainloop(self)){
             return NULL;
+        }
         ev = (Tkapp_CallEvent*)attemptckalloc(sizeof(Tkapp_CallEvent));
         if (ev == NULL) {
             PyErr_NoMemory();
@@ -1551,8 +1555,9 @@ Tkapp_Call(PyObject *selfptr, PyObject *args)
 
         int i;
         objv = Tkapp_CallArgs(args, objStore, &objc);
-        if (!objv)
+        if (!objv){
             return NULL;
+        }
 
         ENTER_TCL
 
@@ -2050,12 +2055,14 @@ _tkinter_tkapp_getint_impl(TkappObject *self, PyObject *arg)
         Tcl_IncrRefCount(value);
     }
     else {
-        if (!PyArg_Parse(arg, "s:getint", &s))
+        if (!PyArg_Parse(arg, "s:getint", &s)){
             return NULL;
+        }
         CHECK_STRING_LENGTH(s);
         value = Tcl_NewStringObj(s, -1);
-        if (value == NULL)
+        if (value == NULL){
             return Tkinter_Error(self);
+        }
     }
     /* Don't use Tcl_GetInt() because it returns ambiguous result for value
        in ranges -2**32..-2**31-1 and 2**31..2**32-1 (on 32-bit platform).
@@ -2065,8 +2072,9 @@ _tkinter_tkapp_getint_impl(TkappObject *self, PyObject *arg)
      */
     result = fromBignumObj(self, value);
     Tcl_DecrRefCount(value);
-    if (result != NULL || PyErr_Occurred())
+    if (result != NULL || PyErr_Occurred()){
         return result;
+    }
     return Tkinter_Error(self);
 }
 
@@ -2096,16 +2104,19 @@ _tkinter_tkapp_getdouble_impl(TkappObject *self, PyObject *arg)
     if (PyTclObject_Check(arg)) {
         if (Tcl_GetDoubleFromObj(Tkapp_Interp(self),
                                  ((PyTclObject*)arg)->value,
-                                 &v) == TCL_ERROR)
+                                 &v) == TCL_ERROR){
             return Tkinter_Error(self);
+        }
         return PyFloat_FromDouble(v);
     }
 
-    if (!PyArg_Parse(arg, "s:getdouble", &s))
+    if (!PyArg_Parse(arg, "s:getdouble", &s)){
         return NULL;
+    }
     CHECK_STRING_LENGTH(s);
-    if (Tcl_GetDouble(Tkapp_Interp(self), s, &v) == TCL_ERROR)
+    if (Tcl_GetDouble(Tkapp_Interp(self), s, &v) == TCL_ERROR){
         return Tkinter_Error(self);
+    }
     return PyFloat_FromDouble(v);
 }
 
@@ -2131,16 +2142,19 @@ _tkinter_tkapp_getboolean_impl(TkappObject *self, PyObject *arg)
     if (PyTclObject_Check(arg)) {
         if (Tcl_GetBooleanFromObj(Tkapp_Interp(self),
                                   ((PyTclObject*)arg)->value,
-                                  &v) == TCL_ERROR)
+                                  &v) == TCL_ERROR){
             return Tkinter_Error(self);
+        }
         return PyBool_FromLong(v);
     }
 
-    if (!PyArg_Parse(arg, "s:getboolean", &s))
+    if (!PyArg_Parse(arg, "s:getboolean", &s)){
         return NULL;
+    }
     CHECK_STRING_LENGTH(s);
-    if (Tcl_GetBoolean(Tkapp_Interp(self), s, &v) == TCL_ERROR)
+    if (Tcl_GetBoolean(Tkapp_Interp(self), s, &v) == TCL_ERROR){
         return Tkinter_Error(self);
+    }
     return PyBool_FromLong(v);
 }
 
@@ -2298,8 +2312,9 @@ _tkinter_tkapp_splitlist_impl(TkappObject *self, PyObject *arg)
                                    &objc, &objv) == TCL_ERROR) {
             return Tkinter_Error(self);
         }
-        if (!(v = PyTuple_New(objc)))
+        if (!(v = PyTuple_New(objc))){
             return NULL;
+        }
         for (i = 0; i < objc; i++) {
             PyObject *s = FromObj(self, objv[i]);
             if (!s) {
@@ -2317,8 +2332,9 @@ _tkinter_tkapp_splitlist_impl(TkappObject *self, PyObject *arg)
         return PySequence_Tuple(arg);
     }
 
-    if (!PyArg_Parse(arg, "et:splitlist", "utf-8", &list))
+    if (!PyArg_Parse(arg, "et:splitlist", "utf-8", &list)){
         return NULL;
+    }
 
     if (strlen(list) >= INT_MAX) {
         PyErr_SetString(PyExc_OverflowError, "string is too long");
@@ -2483,14 +2499,16 @@ _tkinter_tkapp_createcommand_impl(TkappObject *self, const char *name,
     }
 
     if (self->threaded && self->thread_id != Tcl_GetCurrentThread() &&
-        !WaitForMainloop(self))
+        !WaitForMainloop(self)){
         return NULL;
+    }
 
     TRACE(self, ("((ss()O))", "proc", name, func));
 
     data = PyMem_NEW(PythonCmd_ClientData, 1);
-    if (!data)
+    if (!data){
         return PyErr_NoMemory();
+    }
     Py_INCREF(self);
     data->self = self;
     data->func = Py_NewRef(func);
@@ -2671,8 +2689,9 @@ _tkinter_tkapp_createfilehandler_impl(TkappObject *self, PyObject *file,
     CHECK_TCL_APPARTMENT(self);
 
     tfile = PyObject_AsFileDescriptor(file);
-    if (tfile < 0)
+    if (tfile < 0){
         return NULL;
+    }
     if (!PyCallable_Check(func)) {
         PyErr_SetString(PyExc_TypeError, "bad argument list");
         return NULL;
@@ -2681,8 +2700,9 @@ _tkinter_tkapp_createfilehandler_impl(TkappObject *self, PyObject *file,
     TRACE(self, ("((ssiiO))", "#", "createfilehandler", tfile, mask, func));
 
     data = NewFHCD(func, file, tfile);
-    if (data == NULL)
+    if (data == NULL){
         return NULL;
+    }
 
     /* Ought to check for null Tcl_File object... */
     ENTER_TCL
@@ -2708,8 +2728,9 @@ _tkinter_tkapp_deletefilehandler_impl(TkappObject *self, PyObject *file)
     CHECK_TCL_APPARTMENT(self);
 
     tfile = PyObject_AsFileDescriptor(file);
-    if (tfile < 0)
+    if (tfile < 0){
         return NULL;
+    }
 
     TRACE(self, ("((ssi))", "#", "deletefilehandler", tfile));
 
@@ -3230,9 +3251,10 @@ _tkinter_create_impl(PyObject *module, const char *screenName,
     CHECK_STRING_LENGTH(className);
     CHECK_STRING_LENGTH(use);
 
-    return (PyObject *) Tkapp_New(screenName, className,
+    PyObject *ret = (PyObject *) Tkapp_New(screenName, className,
                                   interactive, wantobjects, wantTk,
                                   sync, use);
+    return ret;
 }
 
 /*[clinic input]
