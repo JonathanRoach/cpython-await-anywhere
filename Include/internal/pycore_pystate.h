@@ -122,6 +122,9 @@ _PyThreadState_GET(void)
 #endif
 }
 
+PyAPI_FUNC(void) _PyThreadStack_SetAssigned(size_t);
+PyAPI_FUNC(size_t) _PyThreadStack_GetAssigned(void);
+
 static inline _PyDataStack *_PyThreadState_ActivateDataStack(PyThreadState *tstate, _PyDataStack *datastack){
     _PyDataStack *previous = tstate->active_datastack;
     *previous = tstate->datastack;

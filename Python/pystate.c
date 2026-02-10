@@ -75,6 +75,8 @@ _Py_thread_local PyThreadState *_Py_tss_tstate = NULL;
 /* The "bound" thread state used by PyGILState_Ensure(),
    also known as a "gilstate." */
 _Py_thread_local PyThreadState *_Py_tss_gilstate = NULL;
+
+_Py_thread_local size_t _Py_assigned_stack = 0;
 #endif
 
 static inline PyThreadState *
@@ -120,6 +122,27 @@ PyThreadState *
 _PyThreadState_GetCurrent(void)
 {
     return current_fast_get();
+}
+
+
+PyAPI_FUNC(void)
+_PyThreadStack_SetAssigned(size_t size)
+{
+#ifdef HAVE_THREAD_LOCAL
+    _Py_assigned_stack = size;
+#else
+#  error "no supported thread-local variable storage classifier"
+#endif
+}
+
+PyAPI_FUNC(size_t)
+_PyThreadStack_GetAssigned(void)
+{
+#ifdef HAVE_THREAD_LOCAL
+    return _Py_assigned_stack;
+#else
+#  error "no supported thread-local variable storage classifier"
+#endif
 }
 
 

@@ -324,6 +324,7 @@ struct bootstate {
     PyObject *kwargs;
     ThreadHandle *handle;
     PyEvent handle_ready;
+    size_t assigned_stack;
 };
 
 static void
@@ -342,6 +343,7 @@ static void *
 thread_run_coroutine(void *boot_raw)
 {
     struct bootstate *boot = (struct bootstate *) boot_raw;
+    _PyThreadStack_SetAssigned(boot->assigned_stack);
     PyThreadState *tstate = boot->tstate;
 
     // Wait until the handle is marked as running
@@ -461,6 +463,12 @@ ThreadHandle_start(ThreadHandle *self, PyObject *func, PyObject *args,
     boot->handle = self;
     ThreadHandle_incref(self);
     boot->handle_ready = (PyEvent){0};
+#if defined(THREAD_STACK_SIZE)
+    PyThreadState *tstate = _PyThreadState_GET();
+    boot->assigned_stack = tstate ? tstate->interp->threads.stacksize : 0;
+#else
+    boot->assigned_stack = 0;
+#endif
 
     PyThread_ident_t ident;
     PyThread_handle_t os_handle;

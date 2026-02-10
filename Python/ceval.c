@@ -493,10 +493,12 @@ _Py_InitializeRecursionLimits(PyThreadState *tstate)
         return;
     }
 #  endif
+    size_t stack_size = _PyThreadStack_GetAssigned();
+    stack_size = stack_size != 0 ? stack_size : Py_C_STACK_SIZE;
     _tstate->c_stack_top = _Py_SIZE_ROUND_UP(here_addr, 4096);
-    _tstate->c_stack_soft_limit = _tstate->c_stack_top - Py_C_STACK_SIZE;
-    _tstate->c_stack_hard_limit = _tstate->c_stack_top - (Py_C_STACK_SIZE + PYOS_STACK_MARGIN_BYTES);
-    Coroutine_SetStackLimit((unsigned char *)_tstate->c_stack_hard_limit + PYOS_STACK_MARGIN_BYTES);
+    _tstate->c_stack_hard_limit = _tstate->c_stack_top - stack_size + PYOS_STACK_MARGIN_BYTES;
+    _tstate->c_stack_soft_limit = _tstate->c_stack_hard_limit + PYOS_STACK_MARGIN_BYTES;
+    Coroutine_SetStackLimit((unsigned char *)_tstate->c_stack_hard_limit - PYOS_STACK_MARGIN_BYTES);
 #endif
 }
 
