@@ -90,8 +90,6 @@
 // There's a trade-off between smaller chunk sizes, which allow more async tasks to co-exist
 // on a thread, and larger chunk sizes which waste less memory in part-used chunks.
 //
-// Maximum number of concurrent async tasks on a thread = thread's stack size / COROUTINE_STACK_SIZE
-//
 // ... which means 10000 async tasks need a 2.6 GB stack, which fits comfortably in the address map.
 // 
 // Note, when developing the use of Coroutine in Python, the author found the following used
@@ -100,13 +98,6 @@
 // _decimal multplies of big decimal numbers: 256k+640 (2 x 128k buffers in squaretrans_pow2() + workings)
 //
 // On 64 bit macos, PYOS_STACK_MARGIN_BYTES is 2k * sizeof(void *), ie 16k, or 17 of those, 272k, should give enough slack to operate well.
-#ifndef COROUTINE_STACK_SIZE
-    #define COROUTINE_MAX(a,b) ((a)>(b)?(a):(b))
-    #define COROUTINE_GENERAL_STACK (PYOS_STACK_MARGIN_BYTES * 3)
-    #define COROUTINE_TK_INIT_STACK (9*1024*sizeof(void *)+PYOS_STACK_MARGIN_BYTES)
-    #define COROUTINE_SQUARETRANS_POW2_STACK (2*128*128*sizeof(void *) + PYOS_STACK_MARGIN_BYTES)
-    #define COROUTINE_STACK_SIZE COROUTINE_MAX(COROUTINE_GENERAL_STACK, COROUTINE_MAX(COROUTINE_TK_INIT_STACK, COROUTINE_SQUARETRANS_POW2_STACK))
-#endif
 
 // No coroutine will ask for less stack than this
 #ifndef COROUTINE_MINIMUM_STACK_SIZE
