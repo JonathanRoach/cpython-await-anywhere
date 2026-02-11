@@ -60,11 +60,10 @@ _PyImport_FindSharedFuncptr(const char *prefix,
 {
     // After metering the stack usage of dlopen(), 26k on MacOS was seen, so check a margin of 32k (ie 4096 'void *'s)
 #define NECESSARY_dlopen_STACK (4096*sizeof(void *))
-    assert(COROUTINE_STACK_SIZE > NECESSARY_dlopen_STACK);
     if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)NECESSARY_dlopen_STACK) {
         struct Do_Call_Params__PyImport_FindSharedFuncptr params = {prefix, shortname, pathname, fp};
         void *result;
-        if (_Py_Coroutine_Chain(COROUTINE_STACK_SIZE, Do_Call__PyImport_FindSharedFuncptr, (void *)&params, &result)){
+        if (_Py_Coroutine_Chain(NECESSARY_dlopen_STACK < PYOS_COSTACK_STD_SIZE ? PYOS_COSTACK_STD_SIZE : NECESSARY_dlopen_STACK, Do_Call__PyImport_FindSharedFuncptr, (void *)&params, &result)){
             // not enough stack ot load dll
             PyErr_NoMemory();
             return NULL;
