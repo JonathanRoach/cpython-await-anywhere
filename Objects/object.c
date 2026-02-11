@@ -3277,7 +3277,7 @@ _Py_Dealloc(PyObject *op)
 static void *
 _Py_Dealloc_Now(void *_op)
 {
-    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(2*PYOS_STACK_MARGIN_BYTES)) {
+    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(PYOS_STACK_MARGIN_BYTES)) {
         // This should always succeed, given the pre-conditioning above
         if (!_Py_Coroutine_Chain(PYOS_COSTACK_STD_SIZE, _Py_Dealloc_Now, _op, NULL)){
             return NULL;
