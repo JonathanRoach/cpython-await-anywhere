@@ -111,6 +111,11 @@
     #define COROUTINE_STARTUP_STACK_SIZE (128 * sizeof(void *))
 #endif
 
+// This is *expensive* to turn on, especially if you have lots of stack pieces (eg when there's lots of Tasks)
+#ifndef COROUTINE_CHECK_INTEGRITY_ON_STACK_CHECK
+    #define COROUTINE_CHECK_INTEGRITY_ON_STACK_CHECK 0
+#endif
+
 // Returned by Coroutine_StopSystem(), this summarises the coroutine session
 typedef struct Coroutine_Report {
     unsigned coroutines_created;

@@ -288,7 +288,9 @@ static void CheckListIntegrity(List_Head *head, Coroutine_State state1, Coroutin
         assert(found);
     }
 }
-void CheckIntegrity(void){
+
+
+void Coroutine_CheckIntegrity(void){
     CheckListIntegrity(&g_c->free, Coroutine_Free, Coroutine_Free);
     CheckListIntegrity(&g_c->inactive, Coroutine_Idle, Coroutine_Complete);
     CheckListIntegrity(&g_c->runable, Coroutine_Running, Coroutine_Running);
@@ -311,8 +313,10 @@ static bool Coroutine_StackHasOverrun(void){
     if (!me){
         return false;
     }
+#if COROUTINE_CHECK_INTEGRITY_ON_STACK_CHECK
     // Check all coroutines integrity
-    CheckIntegrity();
+    Coroutine_CheckIntegrity();
+#endif
     if (me->guard){
         bool ret = !Check_Guard(me->guard);
         // if (ret){
@@ -561,6 +565,19 @@ Coroutine_Report Coroutine_StopSystem(void)
 }
 
 
+#ifndef NDEBUG
+static void Coroutine_ReportNonEmptyList(
+    List_Head const *head,
+    char const *tag
+){
+    List_Link *link;
+    for (link = List_Begin(head); Link_NextIsLink(link); link = Link_Next(link)){
+        Coroutine *cor = List_Link_Container(Coroutine, link, link);
+        printf("%s: %p %p %p\n", tag, cor, cor->start, cor->entry_param);
+    }
+}
+#endif
+
 void Coroutine_Run_Coroutine(
     Coroutine *cor,
     void *value
@@ -584,8 +601,13 @@ void Coroutine_Run_Coroutine(
         Coroutine_RunNext();
     }
     // arrive here with mutex locked
-    assert(List_IsEmpty(&cors->runable));
-    assert(List_IsEmpty(&cors->waiting));
+#ifndef NDEBUG
+    if (!List_IsEmpty(&cors->runable) || !List_IsEmpty(&cors->waiting)){
+        Coroutine_ReportNonEmptyList(&cors->runable, "runable");
+        Coroutine_ReportNonEmptyList(&cors->waiting, "waiting");
+        assert(false);
+    }
+#endif
     assert(cors->state == Coroutines_Active);
     cors->state = Coroutines_Started;
     _Cor_Mutex_Unlock(&cors->mutex);
@@ -958,7 +980,6 @@ intptr_t _Py_Coroutine_GetStackHeadroom(void){
         // no active coroutine
         unsigned char *stack_limit = g_c->stack_limit;
         if (stack_limit){
-            // no stack limit - assume we'll use COROUTINE_STACK_SIZE
             return StackTopNow() - stack_limit;
         } else {
             // no information where the stack ends - return something
