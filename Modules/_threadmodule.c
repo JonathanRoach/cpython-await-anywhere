@@ -409,7 +409,10 @@ exit:
 static void
 thread_run(void *boot_raw){
     // This shouldn't fail ever - this is the thread entry point
-    bool fails = Coroutine_Run(PYOS_COSTACK_STD_SIZE, thread_run_coroutine, boot_raw, NULL);
+#ifndef NDEBUG
+    bool fails = 
+#endif
+    Coroutine_Run(PYOS_COSTACK_STD_SIZE, thread_run_coroutine, boot_raw, NULL);
     assert(!fails);
 }
 

@@ -792,8 +792,9 @@ int
 Py_RunMain(void)
 {
     void *res;
-    bool fail = Coroutine_Run(PYOS_COSTACK_STD_SIZE, _Py_RunMain, NULL, &res);
-    assert(!fail);
+    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, _Py_RunMain, NULL, &res)){
+        return 1;
+    }
     return (int)(intptr_t)res;
 }
 
@@ -817,8 +818,9 @@ static int
 pymain_main(_PyArgv *args)
 {
     void *res;
-    bool fail = Coroutine_Run(PYOS_COSTACK_STD_SIZE, _pymain_main, args, &res);
-    assert(!fail);
+    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, _pymain_main, args, &res)){
+        return 1;
+    }
     return (int)(intptr_t)res;
 }
 

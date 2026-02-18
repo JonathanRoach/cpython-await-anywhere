@@ -152,20 +152,18 @@ PyObject_LengthHint(PyObject *o, Py_ssize_t defaultvalue)
     return res;
 }
 
-static inline bool checkimmediateslotresult(struct _PyInterpreterFrame *frame,
-    struct _PyInterpreterFrame **inlined, PyObject *v, PyObject *res,
 #ifndef NDEBUG
-    char const *op_name
-#endif
-)
-{
-    if (!inlined || *inlined == frame) {
-        assert(_Py_CheckSlotResult(v, op_name, res != NULL));
+    static inline bool checkimmediateslotresult(struct _PyInterpreterFrame *frame,
+        struct _PyInterpreterFrame **inlined, PyObject *v, PyObject *res,
+        char const *op_name
+    )
+    {
+        if (!inlined || *inlined == frame) {
+            assert(_Py_CheckSlotResult(v, op_name, res != NULL));
+        }
+        return true;
     }
-    return true;
-}
 
-#ifndef NDEBUG
     #define CHECKIMMEDIATESLOTRESULT(frame, inlined, ob, res, op_name) checkimmediateslotresult(frame, inlined, ob, res, op_name)
 #else
     #define CHECKIMMEDIATESLOTRESULT(frame, inlined, ob, res, op_name) checkimmediateslotresult(frame, inlined, ob, res)
@@ -180,7 +178,9 @@ _PyObject_GetItem_Inlinable(PyObject *o, PyObject *key, struct _PyInterpreterFra
 
     PyMappingMethods *m = Py_TYPE(o)->tp_as_mapping;
     if (m && m->mp_subscript) {
+#ifndef NDEBUG
         struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
+#endif
         PyObject *item = m->mp_subscript == _PyType_Slot_mp_subscript ? _PyType_Slot_mp_subscript_Inlinable(o, key, inlined) : m->mp_subscript(o, key);
         assert(CHECKIMMEDIATESLOTRESULT(frame, inlined, o, item, "__getitem__"));
         return item;
@@ -990,7 +990,9 @@ static PyObject *binaryop1_returnaction_trysecondmethod_AdaptExit(binaryop1_retu
         return res ? Py_NewRef(res) : NULL;
     }
     // need to try slotw
+#ifndef NDEBUG
     struct _PyInterpreterFrame *frame = *inlined;
+#endif
     res = (me->slotw_inlinable ? me->slotw_inlinable(me->v, me->w, inlined) : me->slotw(me->v, me->w));
     assert(CHECKIMMEDIATESLOTRESULT(frame, inlined, me->switched ? me->v : me->w, res, me->op_name));
     return res;

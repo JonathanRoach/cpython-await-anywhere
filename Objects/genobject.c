@@ -526,9 +526,10 @@ _gen_throw_yf(PyGenObject *gen, int close_on_genexit, PyObject *typ, PyObject *v
         err = gen_close_iter(yf);
         gen->gi_frame_state = state;
         Py_DECREF(yf);
-        if (err < 0)
+        if (err < 0) {
             *result_here = GEN_THROW_YF_EXCEPTION_HERE;
             return NULL;
+        }
         goto throw_here;
     }
     PyThreadState *tstate = _PyThreadState_GET();

@@ -273,6 +273,7 @@ static inline void Apply_Guard(unsigned char *guard){
 }
 
 
+#ifndef NDEBUG
 static void CheckListIntegrity(List_Head *head, Coroutine_State state1, Coroutine_State state2){
     for (List_Link *link = List_Begin(head); Link_NextIsLink(link); link = Link_Next(link)){
         Coroutine *candidate = List_Link_Container(Coroutine, link, link);
@@ -288,16 +289,20 @@ static void CheckListIntegrity(List_Head *head, Coroutine_State state1, Coroutin
         assert(found);
     }
 }
+#endif
 
 
 void Coroutine_CheckIntegrity(void){
+#ifndef NDEBUG
     CheckListIntegrity(&g_c->free, Coroutine_Free, Coroutine_Free);
     CheckListIntegrity(&g_c->inactive, Coroutine_Idle, Coroutine_Complete);
     CheckListIntegrity(&g_c->runable, Coroutine_Running, Coroutine_Running);
     CheckListIntegrity(&g_c->waiting, Coroutine_Waiting, Coroutine_Waiting);
+#endif
 }
 
 
+#ifndef NDEBUG
 static bool Coroutine_StackHasOverrun(void){
     unsigned char *stack_top = StackTopNow();
     unsigned char *stack_limit = g_c ? g_c->stack_limit : NULL;
@@ -330,6 +335,7 @@ static bool Coroutine_StackHasOverrun(void){
     // }
     return ret;
 }
+#endif
 
 
 static void ReserveStackSpace(

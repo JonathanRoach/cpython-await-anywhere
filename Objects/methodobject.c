@@ -635,8 +635,7 @@ cfunction_call(PyObject *func, PyObject *args, PyObject *kwargs)
 {
     assert(kwargs == NULL || PyDict_Check(kwargs));
 
-    PyThreadState *tstate = _PyThreadState_GET();
-    assert(!_PyErr_Occurred(tstate));
+    assert(!PyErr_Occurred(tstate));
 
     int flags = PyCFunction_GET_FLAGS(func);
 

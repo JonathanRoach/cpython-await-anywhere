@@ -264,7 +264,8 @@ main(int argc, char *argv[])
 {
     struct argparams params = {argc, argv};
     void *res;
-    bool fail = Coroutine_Run(PYOS_COSTACK_STD_SIZE, _main, &params, &res);
-    assert(!fail);
+    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, _main, &params, &res)){
+        return 1;
+    }
     return (int)(intptr_t)res;
 }

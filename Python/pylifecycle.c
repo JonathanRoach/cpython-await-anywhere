@@ -1459,8 +1459,9 @@ PyStatus
 Py_InitializeFromConfig(const PyConfig *config)
 {
     struct Py_InitializeFromConfig_Params params = {config};
-    bool fail = Coroutine_Run(PYOS_COSTACK_STD_SIZE, _Py_InitializeFromConfig, &params, NULL);
-    assert(!fail);
+    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, _Py_InitializeFromConfig, &params, NULL)){
+        return PyStatus_NoMemory();
+    }
     return params.status;
 }
 
@@ -2270,8 +2271,9 @@ static int
 _Py_Finalize(_PyRuntimeState *runtime)
 {
     void *res;
-    bool fail = Coroutine_Run(PYOS_COSTACK_STD_SIZE, __Py_Finalize, runtime, &res);
-    assert(!fail);
+    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, __Py_Finalize, runtime, &res)){
+        return -1;
+    }
     return (int)(intptr_t)res;
 }
 
@@ -2437,8 +2439,9 @@ new_interpreter(PyThreadState **tstate_p,
                 const PyInterpreterConfig *config, long whence)
 {
     struct new_interpreter_params params = {tstate_p, config, whence};
-    bool fail = Coroutine_Run(PYOS_COSTACK_STD_SIZE, _new_interpreter, &params, NULL);
-    assert(!fail);
+    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, _new_interpreter, &params, NULL)){
+        return PyStatus_NoMemory();
+    }
     return params.status;
 }
 
@@ -2521,7 +2524,10 @@ _Py_EndInterpreter(void *_tstate)
 void
 Py_EndInterpreter(PyThreadState *tstate)
 {
-    bool fail = Coroutine_Run(PYOS_COSTACK_STD_SIZE, _Py_EndInterpreter, tstate, NULL);
+#ifndef NDEBUG
+    bool fail = 
+#endif
+    Coroutine_Run(PYOS_COSTACK_STD_SIZE, _Py_EndInterpreter, tstate, NULL);
     assert(!fail);
 }
 
