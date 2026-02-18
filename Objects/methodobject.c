@@ -635,7 +635,7 @@ cfunction_call(PyObject *func, PyObject *args, PyObject *kwargs)
 {
     assert(kwargs == NULL || PyDict_Check(kwargs));
 
-    assert(!PyErr_Occurred(tstate));
+    assert(!PyErr_Occurred());
 
     int flags = PyCFunction_GET_FLAGS(func);
 
