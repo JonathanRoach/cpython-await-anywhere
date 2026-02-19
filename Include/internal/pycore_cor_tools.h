@@ -153,11 +153,12 @@ struct Do_Call_Params_##fn { \
     p0_t p0; \
 }; \
 static void *Do_Call_##fn(void *param);
-#define _PY_ENSURE_COSTACK_FOR_FN1_B(r_t, fn, p0) \
+#define _PY_ENSURE_COSTACK_FOR_FN1_B(nonmemret, r_t, fn, p0) \
     struct Do_Call_Params_##fn params = {p0}; \
     void *res; \
-    bool fail = Coroutine_Run(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res); \
-    assert(!fail); \
+    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res)) { \
+        return nonmemret; \
+    } \
     return (r_t)(uintptr_t)res; \
 } \
 static void *Do_Call_##fn(void *_params){ \
@@ -169,11 +170,12 @@ struct Do_Call_Params_##fn { \
     p1_t p1; \
 }; \
 static void *Do_Call_##fn(void *param);
-#define _PY_ENSURE_COSTACK_FOR_FN2_B(r_t, fn, p0, p1) \
+#define _PY_ENSURE_COSTACK_FOR_FN2_B(nonmemret, r_t, fn, p0, p1) \
     struct Do_Call_Params_##fn params = {p0, p1}; \
     void *res; \
-    bool fail = Coroutine_Run(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res); \
-    assert(!fail); \
+    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res)) { \
+        return nonmemret; \
+    } \
     return (r_t)(uintptr_t)res; \
 } \
 static void *Do_Call_##fn(void *_params){ \
@@ -186,11 +188,12 @@ struct Do_Call_Params_##fn { \
     p2_t p2; \
 }; \
 static void *Do_Call_##fn(void *param);
-#define _PY_ENSURE_COSTACK_FOR_FN3_B(r_t, fn, p0, p1, p2) \
+#define _PY_ENSURE_COSTACK_FOR_FN3_B(nonmemret, r_t, fn, p0, p1, p2) \
     struct Do_Call_Params_##fn params = {p0, p1, p2}; \
     void *res; \
-    bool fail = Coroutine_Run(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res); \
-    assert(!fail); \
+    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res)) { \
+        return nonmemret; \
+    } \
     return (r_t)(uintptr_t)res; \
 } \
 static void *Do_Call_##fn(void *_params){ \
@@ -204,11 +207,12 @@ struct Do_Call_Params_##fn { \
     p3_t p3; \
 }; \
 static void *Do_Call_##fn(void *param);
-#define _PY_ENSURE_COSTACK_FOR_FN4_B(r_t, fn, p0, p1, p2, p3) \
+#define _PY_ENSURE_COSTACK_FOR_FN4_B(nonmemret, r_t, fn, p0, p1, p2, p3) \
     struct Do_Call_Params_##fn params = {p0, p1, p2, p3}; \
     void *res; \
-    bool fail = Coroutine_Run(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res); \
-    assert(!fail); \
+    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res)) { \
+        return nonmemret; \
+    } \
     return (r_t)(uintptr_t)res; \
 } \
 static void *Do_Call_##fn(void *_params){ \
@@ -223,11 +227,12 @@ struct Do_Call_Params_##fn { \
     p4_t p4; \
 }; \
 static void *Do_Call_##fn(void *param);
-#define _PY_ENSURE_COSTACK_FOR_FN5_B(r_t, fn, p0, p1, p2, p3, p4) \
+#define _PY_ENSURE_COSTACK_FOR_FN5_B(nonmemret, r_t, fn, p0, p1, p2, p3, p4) \
     struct Do_Call_Params_##fn params = {p0, p1, p2, p3, p4}; \
     void *res; \
-    bool fail = Coroutine_Run(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res); \
-    assert(!fail); \
+    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res)) { \
+        return nonmemret; \
+    } \
     return (r_t)(uintptr_t)res; \
 } \
 static void *Do_Call_##fn(void *_params){ \
@@ -243,11 +248,12 @@ struct Do_Call_Params_##fn { \
     p5_t p5; \
 }; \
 static void *Do_Call_##fn(void *param);
-#define _PY_ENSURE_COSTACK_FOR_FN6_B(r_t, fn, p0, p1, p2, p3, p4, p5) \
+#define _PY_ENSURE_COSTACK_FOR_FN6_B(nonmemret, r_t, fn, p0, p1, p2, p3, p4, p5) \
     struct Do_Call_Params_##fn params = {p0, p1, p2, p3, p4, p5}; \
     void *res; \
-    bool fail = Coroutine_Run(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res); \
-    assert(!fail); \
+    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res)) { \
+        return nonmemret; \
+    } \
     return (r_t)(uintptr_t)res; \
 } \
 static void *Do_Call_##fn(void *_params){ \
@@ -264,11 +270,12 @@ struct Do_Call_Params_##fn { \
     p6_t p6; \
 }; \
 static void *Do_Call_##fn(void *param);
-#define _PY_ENSURE_COSTACK_FOR_FN7_B(r_t, fn, p0, p1, p2, p3, p4, p5, p6) \
+#define _PY_ENSURE_COSTACK_FOR_FN7_B(nonmemret, r_t, fn, p0, p1, p2, p3, p4, p5, p6) \
     struct Do_Call_Params_##fn params = {p0, p1, p2, p3, p4, p5, p6}; \
     void *res; \
-    bool fail = Coroutine_Run(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res); \
-    assert(!fail); \
+    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, Do_Call_##fn, (void *)&params, &res)) { \
+        return nonmemret; \
+    } \
     return (r_t)(uintptr_t)res; \
 } \
 static void *Do_Call_##fn(void *_params){ \
