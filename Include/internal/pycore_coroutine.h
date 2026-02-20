@@ -3,6 +3,7 @@
 
 #include "Python.h"
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdint.h>
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -101,7 +102,7 @@
 
 // No coroutine will ask for less stack than this
 #ifndef COROUTINE_MINIMUM_STACK_SIZE
-    #define COROUTINE_MINIMUM_STACK_SIZE PYOS_STACK_MARGIN_BYTES
+    #define COROUTINE_MINIMUM_STACK_SIZE (4096 * sizeof(void *))
 #endif
 
 // When Coroutine is started, an amount of stack is set aside to give
@@ -116,6 +117,10 @@
     #define COROUTINE_CHECK_INTEGRITY_ON_STACK_CHECK 0
 #endif
 
+#ifndef COROUTINE_RECORD_LOWEST_HEADROOM
+    #define COROUTINE_RECORD_LOWEST_HEADROOM 1
+#endif
+
 // Returned by Coroutine_StopSystem(), this summarises the coroutine session
 typedef struct Coroutine_Report {
     unsigned coroutines_created;
@@ -124,16 +129,36 @@ typedef struct Coroutine_Report {
     size_t largest_stack;
 } Coroutine_Report;
 
+typedef enum Coroutine_Err {
+    Coroutine_OK = 0,
+    Coroutine_Err_SystemNotRunning,
+    Coroutine_Err_SystemRunning,
+    Coroutine_Err_NoStack,
+    Coroutine_Err_CoroutineFromWrongThread,
+    Coroutine_Err_ACoroutineIsAlreadyRunning,
+    Coroutine_Err_ExitWithRunningCoroutines,
+    Coroutine_Err_StackOverrun,
+    Coroutine_Err_InternalInsistency,
+    Coroutine_Err_CouldNotInitialiseSystem,
+    Coroutine_Err_WrongState,
+    Coroutine_Err_Canceled
+} Coroutine_Err;
+
 typedef struct Coroutine Coroutine;
 
 typedef void (*Coroutine_YieldCallback)(void *me);
+typedef Coroutine_Err (*Coroutine_SystemStart)(void *);
 typedef void *(*Coroutine_Start)(void *);
 
-extern void Coroutine_StartSystem(void);
 extern void Coroutine_SetStackLimit(void *);
-extern Coroutine_Report Coroutine_StopSystem(void);
-extern void Coroutine_Run_Coroutine(Coroutine *cor, void *value);
-extern bool Coroutine_Run(size_t size, Coroutine_Start start, void *value, void **result);
+extern Coroutine_Report Coroutine_GetReport(void);
+#ifndef NDEBUG
+    extern Coroutine_Err Coroutine_CheckIntegrity(void);
+#else
+    static inline Coroutine_Err Coroutine_CheckIntegrity(void){return Coroutine_OK;}
+#endif
+extern Coroutine_Err Coroutine_Run_Coroutine(Coroutine *cor, void *value);
+extern Coroutine_Err Coroutine_Run(size_t size, Coroutine_Start start, void *value, void **result);
 extern void *Coroutine_GetCStackTop(void);
 extern bool Coroutine_IsStarted(void);
 
@@ -143,12 +168,12 @@ extern void *Coroutine_GetStackHWM(void);
 // export for _ctype, _json and _pickle for the _PY_ENSURE_COSTACK_HEADROOM_FOR_FN macros
 PyAPI_FUNC(bool) _Py_Coroutine_CanStartCoroutine(size_t size);
 PyAPI_FUNC(intptr_t) _Py_Coroutine_GetStackHeadroom(void);
-PyAPI_FUNC(bool) _Py_Coroutine_Chain(size_t size, Coroutine_Start start, void *value, void **result);
+PyAPI_FUNC(Coroutine_Err) _Py_Coroutine_Chain(size_t size, Coroutine_Start start, void *value, void **result);
 PyAPI_FUNC(Coroutine *) _Py_Coroutine_New(size_t size, Coroutine_Start start);
 PyAPI_FUNC(void) _Py_Coroutine_Delete(Coroutine *cor);
 PyAPI_FUNC(bool) _Py_Coroutine_IsRunning(Coroutine *cor);
 PyAPI_FUNC(bool) _Py_Coroutine_IsComplete(Coroutine *cor);
-PyAPI_FUNC(bool) _Py_Coroutine_Continue(Coroutine *cor, void *value, bool early);
+PyAPI_FUNC(Coroutine_Err) _Py_Coroutine_Continue(Coroutine *cor, void *value, bool early);
 PyAPI_FUNC(void *) _Py_Coroutine_Yield(void *value, Coroutine_YieldCallback on_yield, void *me);
 PyAPI_FUNC(void *) _Py_Coroutine_GetValue(Coroutine *cor);
 PyAPI_FUNC(Coroutine *) _Py_Coroutine_GetActive(void);
