@@ -2458,7 +2458,7 @@ PyDecType_FromLongExact(PyTypeObject *type, PyObject *v,
 
 /* Return a PyDecObject or a subtype from a PyFloatObject.
    Conversion is exact. */
-_PY_ENSURE_STACK_FOR_FN3_A(PyDecType_FromFloatExact, PyTypeObject *, PyObject *, PyObject *)
+_PY_ENSURE_STACK_FOR_FN3_A(PyObject *, PyDecType_FromFloatExact, PyTypeObject *, PyObject *, PyObject *)
 static PyObject *
 PyDecType_FromFloatExact(PyTypeObject *type, PyObject *v,
                          PyObject *context)
@@ -3191,7 +3191,7 @@ convert_op(int type_err, PyObject **conv, PyObject *v, PyObject *context)
 /*              Implicit conversions to Decimal for comparison                */
 /******************************************************************************/
 
-_PY_ENSURE_STACK_FOR_FN3_A(multiply_by_denominator, PyObject *, PyObject *, PyObject *)
+_PY_ENSURE_STACK_FOR_FN3_A(PyObject *, multiply_by_denominator, PyObject *, PyObject *, PyObject *)
 static PyObject *
 multiply_by_denominator(PyObject *v, PyObject *r, PyObject *context)
 {
@@ -4186,7 +4186,7 @@ nm_##MPDFUNC(PyObject *self, PyObject *other)                    \
 
 /* Binary number method that uses default module context. */
 #define Dec_BinaryNumberMethod_BigStack(MPDFUNC, STACKREQUIRED) \
-_PY_ENSURE_STACK_FOR_FN2_A(nm_##MPDFUNC, PyObject *, PyObject *) \
+_PY_ENSURE_STACK_FOR_FN2_A(PyObject *, nm_##MPDFUNC, PyObject *, PyObject *) \
 static PyObject *                                                \
 nm_##MPDFUNC(PyObject *self, PyObject *other)                    \
 {                                                                \
@@ -4921,7 +4921,7 @@ dec_floor(PyObject *self, PyObject *Py_UNUSED(dummy))
 }
 
 /* Always uses the module context */
-_PY_ENSURE_STACK_FOR_FN1_A(_dec_hash, PyDecObject *)
+_PY_ENSURE_STACK_FOR_FN1_A(Py_hash_t, _dec_hash, PyDecObject *)
 static Py_hash_t
 _dec_hash(PyDecObject *v)
 {
@@ -4961,13 +4961,13 @@ _dec_hash(PyDecObject *v)
         if (mpd_issnan(MPD(v))) {
             PyErr_SetString(PyExc_TypeError,
                 "Cannot hash a signaling NaN value");
-            return (void *)-1;
+            return -1;
         }
         else if (mpd_isnan(MPD(v))) {
-            return (void *)(intptr_t)PyObject_GenericHash((PyObject *)v);
+            return PyObject_GenericHash((PyObject *)v);
         }
         else {
-            return (void *)(intptr_t)(py_hash_inf * mpd_arith_sign(MPD(v)));
+            return py_hash_inf * mpd_arith_sign(MPD(v));
         }
     }
 
@@ -5030,7 +5030,7 @@ _dec_hash(PyDecObject *v)
 finish:
     if (exp_hash) mpd_del(exp_hash);
     if (tmp) mpd_del(tmp);
-    return (void *)(intptr_t)result;
+    return result;
 
 malloc_error:
     PyErr_NoMemory();
@@ -5354,7 +5354,7 @@ ctx_##MPDFUNC(PyObject *context, PyObject *args)                 \
 
 /* Binary context method when a big stack is needed. */
 #define DecCtx_BinaryFunc_BigStack(MPDFUNC, STACKNEEDED) \
-_PY_ENSURE_STACK_FOR_FN2_A(ctx_##MPDFUNC, PyObject *, PyObject *) \
+_PY_ENSURE_STACK_FOR_FN2_A(PyObject *, ctx_##MPDFUNC, PyObject *, PyObject *) \
 static PyObject *                                                \
 ctx_##MPDFUNC(PyObject *context, PyObject *args)                 \
 {                                                                \

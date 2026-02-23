@@ -599,7 +599,7 @@ struct Tkapp_New_Params {
 
 static void *Do_Tkapp_New(void *_params);
 
-_PY_ENSURE_STACK_FOR_FN7_A(Tkapp_New, const char *, const char *, int, int, int, int, const char *)
+_PY_ENSURE_STACK_FOR_FN7_A(TkappObject *, Tkapp_New, const char *, const char *, int, int, int, int, const char *)
 static TkappObject *
 Tkapp_New(const char *screenName, const char *className,
           int interactive, int wantobjects, int wantTk, int sync,
@@ -1497,7 +1497,7 @@ done:
       interpreter thread, so we ship the PyObject* args to the target thread,
       and perform processing there. */
 
-_PY_ENSURE_STACK_FOR_FN2_A(Tkapp_Call, PyObject *, PyObject *)
+_PY_ENSURE_STACK_FOR_FN2_A(PyObject *, Tkapp_Call, PyObject *, PyObject *)
 static PyObject *
 Tkapp_Call(PyObject *selfptr, PyObject *args)
 {

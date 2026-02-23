@@ -5181,9 +5181,12 @@ codegen_with(compiler *c, stmt_ty s)
     return codegen_with_inner(c, s, 0);
 }
 
+
+_PY_ENSURE_STACK_FOR_FN2_A(int, codegen_visit_expr, compiler *, expr_ty)
 static int
 codegen_visit_expr(compiler *c, expr_ty e)
 {
+    _PY_ENSURE_STACK_FOR_FN2_B(PYOS_STACK_MARGIN_BYTES, ERROR, int, codegen_visit_expr, compiler *, c, expr_ty, e)
     if (Py_EnterRecursiveCall(" during compilation")) {
         return ERROR;
     }
@@ -6363,33 +6366,33 @@ codegen_pattern_singleton(compiler *c, pattern_ty p, pattern_context *pc)
     return SUCCESS;
 }
 
-_PY_ENSURE_STACK_FOR_FN3_A(codegen_pattern, compiler *, pattern_ty, pattern_context *)
+_PY_ENSURE_STACK_FOR_FN3_A(int, codegen_pattern, compiler *, pattern_ty, pattern_context *)
 static int
 codegen_pattern(compiler *c, pattern_ty p, pattern_context *pc)
 {
     _PY_ENSURE_STACK_FOR_FN3_B(PYOS_STACK_MARGIN_BYTES, ERROR, int, codegen_pattern, compiler *, c, pattern_ty, p, pattern_context *, pc)
     switch (p->kind) {
         case MatchValue_kind:
-            return (void *)(intptr_t)codegen_pattern_value(c, p, pc);
+            return codegen_pattern_value(c, p, pc);
         case MatchSingleton_kind:
-            return (void *)(intptr_t)codegen_pattern_singleton(c, p, pc);
+            return codegen_pattern_singleton(c, p, pc);
         case MatchSequence_kind:
-            return (void *)(intptr_t)codegen_pattern_sequence(c, p, pc);
+            return codegen_pattern_sequence(c, p, pc);
         case MatchMapping_kind:
-            return (void *)(intptr_t)codegen_pattern_mapping(c, p, pc);
+            return codegen_pattern_mapping(c, p, pc);
         case MatchClass_kind:
-            return (void *)(intptr_t)codegen_pattern_class(c, p, pc);
+            return codegen_pattern_class(c, p, pc);
         case MatchStar_kind:
-            return (void *)(intptr_t)codegen_pattern_star(c, p, pc);
+            return codegen_pattern_star(c, p, pc);
         case MatchAs_kind:
-            return (void *)(intptr_t)codegen_pattern_as(c, p, pc);
+            return codegen_pattern_as(c, p, pc);
         case MatchOr_kind:
-            return (void *)(intptr_t)codegen_pattern_or(c, p, pc);
+            return codegen_pattern_or(c, p, pc);
     }
     // AST validator shouldn't let this happen, but if it does,
     // just fail, don't crash out of the interpreter
     const char *e = "invalid match pattern node in AST (kind=%d)";
-    return (void *)(intptr_t)_PyCompile_Error(c, LOC(p), e, p->kind);
+    return _PyCompile_Error(c, LOC(p), e, p->kind);
 }
 
 static int

@@ -435,7 +435,7 @@ cfunction_enter_call(PyThreadState *tstate, PyObject *func)
 
 
 /* Now the actual vectorcall functions */
-_PY_ENSURE_STACK_FOR_FN4_A(dovectorcall_FASTCALL, PyCFunctionFast, PyObject*, PyObject *const *, Py_ssize_t)
+_PY_ENSURE_STACK_FOR_FN4_A(PyObject *, dovectorcall_FASTCALL, PyCFunctionFast, PyObject*, PyObject *const *, Py_ssize_t)
 static inline PyObject *dovectorcall_FASTCALL(
     PyCFunctionFast meth, PyObject *func_obj, PyObject *const *args, Py_ssize_t nargs)
 {
@@ -470,7 +470,7 @@ cfunction_vectorcall_FASTCALL(
     return result;
 }
 
-_PY_ENSURE_STACK_FOR_FN5_A(docfunction_vectorcall_FASTCALL_KEYWORDS, PyCFunctionFastWithKeywords, PyObject*, PyObject*const *, Py_ssize_t, PyObject *)
+_PY_ENSURE_STACK_FOR_FN5_A(PyObject *, docfunction_vectorcall_FASTCALL_KEYWORDS, PyCFunctionFastWithKeywords, PyObject*, PyObject*const *, Py_ssize_t, PyObject *)
 static inline PyObject *docfunction_vectorcall_FASTCALL_KEYWORDS(
     PyCFunctionFastWithKeywords meth, PyObject *func_obj, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
@@ -502,7 +502,7 @@ cfunction_vectorcall_FASTCALL_KEYWORDS(
     return result;
 }
 
-_PY_ENSURE_STACK_FOR_FN6_A(docfunction_vectorcall_FASTCALL_KEYWORDS_METHOD, PyCMethod, PyObject*, PyTypeObject *, PyObject*const *, Py_ssize_t, PyObject *)
+_PY_ENSURE_STACK_FOR_FN6_A(PyObject *, docfunction_vectorcall_FASTCALL_KEYWORDS_METHOD, PyCMethod, PyObject*, PyTypeObject *, PyObject*const *, Py_ssize_t, PyObject *)
 static inline PyObject *docfunction_vectorcall_FASTCALL_KEYWORDS_METHOD(
     PyCMethod meth, PyObject *func_obj, PyTypeObject *cls, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 {
@@ -534,7 +534,7 @@ cfunction_vectorcall_FASTCALL_KEYWORDS_METHOD(
     return result;
 }
 
-_PY_ENSURE_STACK_FOR_FN2_A(docfunction_vectorcall_NOARGS, PyCFunction, PyObject*)
+_PY_ENSURE_STACK_FOR_FN2_A(PyObject *, docfunction_vectorcall_NOARGS, PyCFunction, PyObject*)
 static inline PyObject *docfunction_vectorcall_NOARGS(
     PyCFunction meth, PyObject *func_obj)
 {
@@ -578,7 +578,7 @@ cfunction_vectorcall_NOARGS(
     return result;
 }
 
-_PY_ENSURE_STACK_FOR_FN3_A(docfunction_vectorcall_O, PyCFunction, PyObject*, PyObject*)
+_PY_ENSURE_STACK_FOR_FN3_A(PyObject *, docfunction_vectorcall_O, PyCFunction, PyObject*, PyObject*)
 static inline PyObject *docfunction_vectorcall_O(
     PyCFunction meth, PyObject *func_obj, PyObject *arg)
 {
