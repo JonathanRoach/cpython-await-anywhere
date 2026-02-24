@@ -1230,7 +1230,7 @@ Coroutine_Err _Py_Coroutine_Chain(
     void *value,
     void **result
 ){
-    assert(Guard_Pattern_OK(Coroutine_GetActive()->guard));
+    assert(Guard_Pattern_OK(_Py_Coroutine_GetActive()->guard));
     Coroutine *cor = _Py_Coroutine_New(size, Coroutine_ChainFn);
     if (!cor){
         // failed
