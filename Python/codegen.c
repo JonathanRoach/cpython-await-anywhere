@@ -3011,9 +3011,11 @@ codegen_stmt_expr(compiler *c, location loc, expr_ty value)
         return result; \
     } while(0)
 
+_PY_ENSURE_STACK_FOR_FN2_A(int, codegen_visit_stmt, compiler *, stmt_ty)
 static int
 codegen_visit_stmt(compiler *c, stmt_ty s)
 {
+    _PY_ENSURE_STACK_FOR_FN2_B(PYOS_STACK_MARGIN_BYTES, ERROR, int, codegen_visit_stmt, compiler *, c, stmt_ty, s)
 
     switch (s->kind) {
     case FunctionDef_kind:
