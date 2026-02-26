@@ -529,7 +529,7 @@ static int fuzz_pycompile(const char* data, size_t size) {
     unsigned char optimize_idx = (unsigned char) data[1];
     int optimize = optimize_vals[optimize_idx % NUM_OPTIMIZE_VALS];
 
-    char pycompile_scratch[MAX_PYCOMPILE_TEST_SIZE];
+    char *pycompile_scratch = PyMem_Malloc(MAX_PYCOMPILE_TEST_SIZE);
 
     // Create a NUL-terminated C string from the remaining input
     memcpy(pycompile_scratch, data + 2, size - 2);
@@ -548,6 +548,7 @@ static int fuzz_pycompile(const char* data, size_t size) {
     PyCompilerFlags *flags = NULL;
 
     PyObject *result = Py_CompileStringExFlags(pycompile_scratch, "<fuzz input>", start, flags, optimize);
+    PyMem_Free(pycompile_scratch);
     if (result == NULL) {
         /* Compilation failed, most likely from a syntax error. If it was a
            SystemError we abort. There's no non-bug reason to raise a
@@ -709,5 +710,5 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
 #if !defined(_Py_FUZZ_ONE) || defined(_Py_FUZZ_fuzz_pycompile)
     rv |= _run_fuzz(data, size, fuzz_pycompile);
 #endif
-  return rv;
+    return rv;
 }
