@@ -28,6 +28,29 @@ static void Coroutine_RunNext(void);
 static Coroutine_Err _Coroutine_Continue(Coroutines *cors, Coroutine *cor, void *value, bool early);
 static unsigned char *StackTopNow(void);
 
+#ifndef NDEBUG
+    // In debug builds, use the built-in assert
+    #define MyAssert assert
+#else
+ #if 1
+    // In non-debug builds, normally use this - all the asserts are disabled
+    #define MyAssert(cond)
+ #else
+    // In non-debug builds with stack problems, you can use this.
+    // This activates all the asserts, and gives a line to put a
+    // breakpoint in your debugger.
+    static void _MyAssert(bool cond, char const *msg)
+    {
+        if (!cond){
+            fputs("Assertion failed: ", stdout);
+            fputs(msg, stdout);
+            fputs("\n", stdout);
+        }
+    }
+    #define MyAssert(cond) _MyAssert(cond, #cond)
+ #endif
+#endif
+
 #define CHECK_SYSTEM_RUNNING \
     if (!g_c){ \
         return Coroutine_Err_SystemNotRunning; \
@@ -436,7 +459,7 @@ static void stack_chunk_base(
                 // return to the coroutine allocator
                 longjmp(cors->chunk_allocated, 1);
             } else {
-                assert(here.state == Coroutine_Complete);
+                MyAssert(here.state == Coroutine_Complete);
                 // we finish here to ensure the setjmp is redone
                 if (cors->primary == &here) {
                     // if primary coroutine - return to Coroutine_Run
@@ -444,7 +467,7 @@ static void stack_chunk_base(
                 }
                 _Cor_Mutex_Unlock(&cors->mutex);
                 Coroutine_RunNext();
-                assert(false);
+                MyAssert(false);
             }
         case Chunk_Create:
             // Request to create a new chunk on the stack
@@ -453,31 +476,31 @@ static void stack_chunk_base(
             // Run, but not not entered yet (Coroutine_Running)
             // Completed (Coroutine_Complete)
             // Free, and the coroutines system is starting - we're characterising the system
-            assert(here.state == Coroutine_Idle ||
+            MyAssert(here.state == Coroutine_Idle ||
                 here.state == Coroutine_Running ||
                 here.state == Coroutine_Complete ||
                 (here.state == Coroutine_Free && cors->state == Coroutines_Starting));
             ReserveStackSpace(here.coroutines, &here, here.size, NULL);
-            assert(false);
+            MyAssert(false);
         case Chunk_Split:
             // Request to split this free block into two
             // here.size will be set to our shorter size
             ReserveStackSpace(here.coroutines, &here, here.size, here.limit);
-            assert(false);
+            MyAssert(false);
         case Chunk_Enter:
             // request to start a coroutine (ie use the chunk for a coroutine)
             // arrive here with mutex locked
-            assert(here.state == Coroutine_Running);
+            MyAssert(here.state == Coroutine_Running);
             here.coroutines->active = &here;
             _Cor_Mutex_Unlock(&cors->mutex);
             here.value = here.start(here.entry_param);
 
             // check the guard
-            assert(Guard_Pattern_OK(here.guard));
+            MyAssert(Guard_Pattern_OK(here.guard));
 
             _Cor_Mutex_Lock(&here.coroutines->mutex);
             here.coroutines->active = NULL;
-            assert(here.state == Coroutine_Running);
+            MyAssert(here.state == Coroutine_Running);
             Link_Remove(&here.link);
             here.state = Coroutine_Complete;
             List_AddTail(&here.coroutines->inactive, &here.link);
@@ -495,9 +518,9 @@ static void Coroutine_RunNext(void)
     _Cor_Mutex_Lock(&g_c->waiting_mutex);
     _Cor_Mutex_Lock(&g_c->mutex);
     Coroutine *next = List_Link_Container(Coroutine, link, List_GetHead(&g_c->runable));
-    assert(next->state == Coroutine_Running);
+    MyAssert(next->state == Coroutine_Running);
     longjmp(next->buf, Chunk_Enter);
-    assert(false);
+    MyAssert(false);
 }
 
 
@@ -558,11 +581,11 @@ static void Coroutines_dtor(Coroutines *cors)
     _Cor_Mutex_Lock(&cors->mutex);
     cors->state = Coroutines_Stopping;
 
-    assert(List_IsEmpty(&cors->inactive));
+    MyAssert(List_IsEmpty(&cors->inactive));
     _Cor_Mutex_Unlock(&cors->waiting_mutex);
     _Cor_Mutex_dtor(&cors->waiting_mutex);
 
-    assert(cors->state == Coroutines_Stopping);
+    MyAssert(cors->state == Coroutines_Stopping);
     _Cor_Mutex_Unlock(&cors->mutex);
     _Cor_Mutex_dtor(&cors->mutex);
 }
@@ -586,7 +609,7 @@ Coroutine_Err Coroutine_RunSystem(Coroutine_SystemStart start, void *value)
 
 
 void Coroutine_SetStackLimit(void *limit){
-    assert(!limit || !g_c || !(g_c->state == Coroutines_Started || g_c->state == Coroutines_Active) || (unsigned char *)limit < (unsigned char *)g_c->tip || !g_c->tip);
+    MyAssert(!limit || !g_c || !(g_c->state == Coroutines_Started || g_c->state == Coroutines_Active) || (unsigned char *)limit < (unsigned char *)g_c->tip || !g_c->tip);
     g_stack_limit = limit;
     if (g_c){
         g_c->stack_limit = limit;
@@ -679,7 +702,7 @@ Coroutine_Err Coroutine_Run_Coroutine(
 #endif
         return Coroutine_Err_ExitWithRunningCoroutines;
     }
-    assert(cors->state == Coroutines_Active);
+    MyAssert(cors->state == Coroutines_Active);
     cors->state = Coroutines_Started;
     _Cor_Mutex_Unlock(&cors->mutex);
 
@@ -754,7 +777,7 @@ static void Coroutine_FreeToIdle(
     Coroutine *cor,
     Coroutine_Start start
 ){
-    assert(cor->state == Coroutine_Free);
+    MyAssert(cor->state == Coroutine_Free);
     cor->state = Coroutine_Idle;
     cor->start = start;
     cor->value = NULL;
@@ -770,7 +793,7 @@ static void Coroutine_FreeToIdleSize(
     Coroutine_Start start,
     size_t size
 ){
-    assert(!cor->guard);
+    MyAssert(!cor->guard);
     cor->size = size;
     cor->base = (unsigned char *)cor - g_c->gap_after;
     cor->limit = cor->base - cor->size;
@@ -797,10 +820,10 @@ static Coroutine *Coroutine_New_Lock_Assumed(
     Coroutine *cor = NULL;
     for (link = List_Begin(&g_c->free); Link_NextIsLink(link); link = Link_Next(link)){
         Coroutine *candidate = List_Link_Container(Coroutine, link, link);
-        assert(candidate->coroutines == g_c);
+        MyAssert(candidate->coroutines == g_c);
         if (!candidate->guard) {
             // this must be the tip
-            assert(candidate == g_c->tip);
+            MyAssert(candidate == g_c->tip);
 
             // If this is the only Coroutine in the system, go ahead and use it regardless of size.
             // Note: there can only be one free block if there's no other sort of blocks as we merge on free
@@ -878,7 +901,7 @@ static Coroutine *Coroutine_New_Lock_Assumed(
     }
 
     cor = List_Link_Container(Coroutine, link, List_GetTail(&g_c->free));
-    assert(cor->state == Coroutine_Free);
+    MyAssert(cor->state == Coroutine_Free);
     cor->size = size;
     cor->limit = (unsigned char *)cor - g_c->gap_after - size;
     cor->state = Coroutine_Idle;
@@ -896,9 +919,9 @@ Coroutine *_Py_Coroutine_New(
     size_t stack,
     Coroutine_Start start
 ){
-    assert(g_c);
-    assert((g_c->state == Coroutines_Started && List_IsEmpty(&g_c->inactive)) || g_c->state == Coroutines_Active);
-    assert(!Coroutine_StackHasOverrun());
+    MyAssert(g_c);
+    MyAssert((g_c->state == Coroutines_Started && List_IsEmpty(&g_c->inactive)) || g_c->state == Coroutines_Active);
+    MyAssert(!Coroutine_StackHasOverrun());
 
     _Cor_Mutex_Lock(&g_c->mutex);
 
@@ -917,11 +940,11 @@ Coroutine *_Py_Coroutine_New(
 void _Py_Coroutine_Delete(
     Coroutine *cor
 ){
-    assert(!Coroutine_StackHasOverrun());
+    MyAssert(!Coroutine_StackHasOverrun());
     if (cor){
         Coroutines *cors = cor->coroutines;
         _Cor_Mutex_Lock(&cors->mutex);
-        assert(cor->state == Coroutine_Idle || cor->state == Coroutine_Complete);
+        MyAssert(cor->state == Coroutine_Idle || cor->state == Coroutine_Complete);
 
 #if COROUTINE_RECORD_LOWEST_HEADROOM
         if (cor->guard){
@@ -1017,7 +1040,7 @@ Coroutine_Err _Py_Coroutine_Continue(
     void *value,
     bool early
 ){
-    assert(!Coroutine_StackHasOverrun());
+    MyAssert(!Coroutine_StackHasOverrun());
     Coroutines *cors = cor->coroutines;
     _Cor_Mutex_Lock(&cors->mutex);
     Coroutine_Err err = _Coroutine_Continue(cors, cor, value, early);
@@ -1031,14 +1054,14 @@ void *_Py_Coroutine_Yield(
     Coroutine_YieldCallback on_yield,
     void *yield_me
 ){
-    assert(g_c);
+    MyAssert(g_c);
     Coroutine *me = g_c->active;
-    assert(me);
-    assert(!Coroutine_StackHasOverrun());
+    MyAssert(me);
+    MyAssert(!Coroutine_StackHasOverrun());
 
     _Cor_Mutex_Lock(&g_c->mutex);
     Coroutines *cors = me->coroutines;
-    assert(me && me->state == Coroutine_Running && cors == g_c);
+    MyAssert(me && me->state == Coroutine_Running && cors == g_c);
     me->stack_top = StackTopNow();
     me->value = value;
     me->state = Coroutine_Waiting;
@@ -1054,17 +1077,17 @@ void *_Py_Coroutine_Yield(
         _Cor_Mutex_Unlock(&cors->mutex);
         on_yield(yield_me);
         Coroutine_RunNext();
-        assert(false);
+        MyAssert(false);
     case Chunk_Create:
-        assert(me == g_c->tip);
+        MyAssert(me == g_c->tip);
         ReserveStackSpace(me->coroutines, me, me->stack_top - me->limit, NULL);
-        assert(false);
+        MyAssert(false);
     case Chunk_Enter:
         // arrive here with mutex locked
         cors->active = me;
-        assert(!Coroutine_StackHasOverrun());
+        MyAssert(!Coroutine_StackHasOverrun());
         // when we return here - we are running again
-        assert(me->state == Coroutine_Running);
+        MyAssert(me->state == Coroutine_Running);
         void *res = me->entry_param;
         _Cor_Mutex_Unlock(&cors->mutex);
         return res;
@@ -1109,9 +1132,9 @@ static inline void *StopAddressWarnings(void *p)
 
 
 void *Coroutine_GetStackHWM(void){
-    assert(g_c);
-    assert(g_c->state == Coroutines_Active);
-    assert(!Coroutine_StackHasOverrun());
+    MyAssert(g_c);
+    MyAssert(g_c->state == Coroutines_Active);
+    MyAssert(!Coroutine_StackHasOverrun());
     // Find where the guards end
     unsigned char *guard;
     for (guard = g_c->active->guard; Guard_Pattern_OK(guard); guard += 4){
@@ -1122,9 +1145,9 @@ void *Coroutine_GetStackHWM(void){
 
 
 void Coroutine_ClearStackForHWM(void){
-    assert(g_c);
-    assert(g_c->state == Coroutines_Active);
-    assert(!Coroutine_StackHasOverrun());
+    MyAssert(g_c);
+    MyAssert(g_c->state == Coroutines_Active);
+    MyAssert(!Coroutine_StackHasOverrun());
     unsigned char *end = StackTopNow() - GUARD_PATTERN_SIZE;
     for (unsigned char *guard = g_c->active->guard+GUARD_PATTERN_SIZE; guard <= end; guard += GUARD_PATTERN_SIZE){
         Apply_Guard(guard);
@@ -1173,9 +1196,9 @@ static bool Coroutine_CanStartCoroutine_Lock_Assumed(
 bool _Py_Coroutine_CanStartCoroutine(
     size_t size
 ){
-    assert(g_c);
-    assert(g_c->state == Coroutines_Started || g_c->state == Coroutines_Active);
-    assert(!Coroutine_StackHasOverrun());
+    MyAssert(g_c);
+    MyAssert(g_c->state == Coroutines_Started || g_c->state == Coroutines_Active);
+    MyAssert(!Coroutine_StackHasOverrun());
 
     _Cor_Mutex_Lock(&g_c->mutex);
 
@@ -1187,7 +1210,7 @@ bool _Py_Coroutine_CanStartCoroutine(
 }
 
 void *Coroutine_GetCStackTop(void){
-    assert(!Coroutine_StackHasOverrun());
+    MyAssert(!Coroutine_StackHasOverrun());
     if ((g_c->state == Coroutines_Started || g_c->state == Coroutines_Active) && g_c->tip != g_c->active) {
         return g_c->tip->stack_top;
     } else {
@@ -1230,7 +1253,7 @@ Coroutine_Err _Py_Coroutine_Chain(
     void *value,
     void **result
 ){
-    assert(Guard_Pattern_OK(_Py_Coroutine_GetActive()->guard));
+    MyAssert(!Coroutine_StackHasOverrun());
     Coroutine *cor = _Py_Coroutine_New(size, Coroutine_ChainFn);
     if (!cor){
         // failed
