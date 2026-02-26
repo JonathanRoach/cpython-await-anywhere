@@ -37,8 +37,6 @@ _PyEM_TrampolineCall(PyCFunctionWithKeywords func,
                      PyObject* args,
                      PyObject* kw);
 
-// #define _PyCFunction_TrampolineCall(meth, self, args) \
-//     _PyEM_TrampolineCall(*_PyCFunctionWithKeywords_CAST(meth), (self), (args), NULL)
 _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, PyObject *, _PyCFunction_TrampolineCall, PyCFunction, PyObject*, PyObject*)
 static inline PyObject *_PyCFunction_TrampolineCall(
     PyCFunction func,
@@ -49,8 +47,6 @@ static inline PyObject *_PyCFunction_TrampolineCall(
     return _PyEM_TrampolineCall(*_PyCFunctionWithKeywords_CAST(meth), self, args, NULL);
 }
 
-// #define _PyCFunctionWithKeywords_TrampolineCall(meth, self, args, kw) \
-//     _PyEM_TrampolineCall((meth), (self), (args), (kw))
 _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(static, PyObject *, _PyCFunctionWithKeywords_TrampolineCall, PyCFunctionWithKeywords, PyObject*, PyObject*, PyObject*)
 static inline PyObject *_PyCFunctionWithKeywords_TrampolineCall(
     PyCFunctionWithKeywords meth,
@@ -73,8 +69,6 @@ static inline PyObject *_PyCFunctionWithKeywords_TrampolineCall(
 
 #else // defined(__EMSCRIPTEN__) && defined(PY_CALL_TRAMPOLINE)
 
-// #define _PyCFunction_TrampolineCall(meth, self, args) \
-//     (meth)((self), (args))
 _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, PyObject *, _PyCFunction_TrampolineCall, PyCFunction, PyObject*, PyObject*)
 static inline PyObject *_PyCFunction_TrampolineCall(
     PyCFunction meth,
@@ -85,8 +79,6 @@ static inline PyObject *_PyCFunction_TrampolineCall(
     return meth(self, args);
 }
 
-// #define _PyCFunctionWithKeywords_TrampolineCall(meth, self, args, kw) \
-//     (meth)((self), (args), (kw))
 _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(static, PyObject *, _PyCFunctionWithKeywords_TrampolineCall, PyCFunctionWithKeywords, PyObject*, PyObject*, PyObject*)
 static inline PyObject *_PyCFunctionWithKeywords_TrampolineCall(
     PyCFunctionWithKeywords meth,
