@@ -467,8 +467,9 @@ static void stack_chunk_base(
                 }
                 _Cor_Mutex_Unlock(&cors->mutex);
                 Coroutine_RunNext();
-                MyAssert(false);
             }
+            MyAssert(false);
+            break;
         case Chunk_Create:
             // Request to create a new chunk on the stack
             // We're here if the coroutine is:
@@ -482,11 +483,13 @@ static void stack_chunk_base(
                 (here.state == Coroutine_Free && cors->state == Coroutines_Starting));
             ReserveStackSpace(here.coroutines, &here, here.size, NULL);
             MyAssert(false);
+            break;
         case Chunk_Split:
             // Request to split this free block into two
             // here.size will be set to our shorter size
             ReserveStackSpace(here.coroutines, &here, here.size, here.limit);
             MyAssert(false);
+            break;
         case Chunk_Enter:
             // request to start a coroutine (ie use the chunk for a coroutine)
             // arrive here with mutex locked
@@ -507,6 +510,7 @@ static void stack_chunk_base(
             // Coroutine has completed
             // Loop round to redo the setjmp() - if this coroutine yielded, then the setjmp will
             // need reseting
+            break;
         }
     }
 }
@@ -1078,10 +1082,12 @@ void *_Py_Coroutine_Yield(
         on_yield(yield_me);
         Coroutine_RunNext();
         MyAssert(false);
+        break;
     case Chunk_Create:
         MyAssert(me == g_c->tip);
         ReserveStackSpace(me->coroutines, me, me->stack_top - me->limit, NULL);
         MyAssert(false);
+        break;
     case Chunk_Enter:
         // arrive here with mutex locked
         cors->active = me;
@@ -1092,6 +1098,7 @@ void *_Py_Coroutine_Yield(
         _Cor_Mutex_Unlock(&cors->mutex);
         return res;
     }
+    MyAssert(false);
     return NULL;
 }
 
