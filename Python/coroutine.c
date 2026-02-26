@@ -829,6 +829,7 @@ static Coroutine *Coroutine_New_Lock_Assumed(
             // this must be the tip
             MyAssert(candidate == g_c->tip);
 
+            size_t size_to_use;
             // If this is the only Coroutine in the system, go ahead and use it regardless of size.
             // Note: there can only be one free block if there's no other sort of blocks as we merge on free
             if (List_IsEmpty(&g_c->inactive) &&
@@ -836,9 +837,11 @@ static Coroutine *Coroutine_New_Lock_Assumed(
                 List_IsEmpty(&g_c->waiting) ){
                 if (g_c->stack_limit){
                     size_t available = (unsigned char *)candidate - g_c->stack_limit - g_c->gap_after;
-                    size = available < size ? available : size;
+                    size_to_use = available < size ? available : size;
+                } else {
+                    size_to_use = size;
                 }
-                Coroutine_FreeToIdleSize(candidate, start, size);
+                Coroutine_FreeToIdleSize(candidate, start, size_to_use);
                 return candidate;
             }
 
@@ -856,9 +859,13 @@ static Coroutine *Coroutine_New_Lock_Assumed(
                 if (available < size + g_c->gap_before + g_c->gap_after + COROUTINE_MINIMUM_STACK_SIZE) {
                     // not enough space for another coroutine - use all the space for this one
                     size = available;
+                } else {
+                    size_to_use = size;
                 }
+            } else {
+                size_to_use = size;
             }
-            Coroutine_FreeToIdleSize(candidate, start, size);
+            Coroutine_FreeToIdleSize(candidate, start, size_to_use);
             return candidate;
         }
         if (candidate->size >= size && candidate > cor){
