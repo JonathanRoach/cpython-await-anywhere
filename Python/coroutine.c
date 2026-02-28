@@ -858,7 +858,7 @@ static Coroutine *Coroutine_New_Lock_Assumed(
                 
                 if (available < size + g_c->gap_before + g_c->gap_after + COROUTINE_MINIMUM_STACK_SIZE) {
                     // not enough space for another coroutine - use all the space for this one
-                    size = available;
+                    size_to_use = available;
                 } else {
                     size_to_use = size;
                 }
