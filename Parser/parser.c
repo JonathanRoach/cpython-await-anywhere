@@ -4142,10 +4142,11 @@ dotted_name_rule(Parser *p)
     p->level--;
     return _res;
 }
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, dotted_name_raw, Parser *)
 static expr_ty
 dotted_name_raw(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, dotted_name_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, dotted_name_raw, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -9637,10 +9638,11 @@ attr_rule(Parser *p)
     p->level--;
     return _res;
 }
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, attr_raw, Parser *)
 static expr_ty
 attr_raw(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, attr_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, attr_raw, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -13419,10 +13421,11 @@ bitwise_or_rule(Parser *p)
     p->level--;
     return _res;
 }
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, bitwise_or_raw, Parser *)
 static expr_ty
 bitwise_or_raw(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, bitwise_or_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, bitwise_or_raw, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -13544,10 +13547,11 @@ bitwise_xor_rule(Parser *p)
     p->level--;
     return _res;
 }
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, bitwise_xor_raw, Parser *)
 static expr_ty
 bitwise_xor_raw(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, bitwise_xor_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, bitwise_xor_raw, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -13669,10 +13673,11 @@ bitwise_and_rule(Parser *p)
     p->level--;
     return _res;
 }
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, bitwise_and_raw, Parser *)
 static expr_ty
 bitwise_and_raw(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, bitwise_and_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, bitwise_and_raw, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -13794,10 +13799,11 @@ shift_expr_rule(Parser *p)
     p->level--;
     return _res;
 }
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, shift_expr_raw, Parser *)
 static expr_ty
 shift_expr_raw(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, shift_expr_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, shift_expr_raw, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -13977,10 +13983,11 @@ sum_rule(Parser *p)
     p->level--;
     return _res;
 }
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, sum_raw, Parser *)
 static expr_ty
 sum_raw(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, sum_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, sum_raw, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -14148,10 +14155,11 @@ term_rule(Parser *p)
     p->level--;
     return _res;
 }
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, term_raw, Parser *)
 static expr_ty
 term_raw(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, term_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, term_raw, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -14793,10 +14801,11 @@ primary_rule(Parser *p)
     p->level--;
     return _res;
 }
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, primary_raw, Parser *)
 static expr_ty
 primary_raw(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, primary_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, primary_raw, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -19993,10 +20002,11 @@ t_primary_rule(Parser *p)
     p->level--;
     return _res;
 }
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, t_primary_raw, Parser *)
 static expr_ty
 t_primary_raw(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, t_primary_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, t_primary_raw, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
