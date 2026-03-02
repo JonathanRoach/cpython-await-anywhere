@@ -380,17 +380,26 @@ static Coroutine_Err Coroutine_StackHasOverrun(void){
     if (!me){
         return Coroutine_OK;
     }
+    Coroutine_Err err;
 #if COROUTINE_CHECK_INTEGRITY_ON_STACK_CHECK
     // Check all coroutines integrity
-    Coroutine_Err err = _Coroutine_CheckIntegrity();
+    err = _Coroutine_CheckIntegrity();
     if (err){
         return err;
     }
 #endif
     if (me->guard){
-        return Guard_Pattern_OK(me->guard) ? Coroutine_OK : Coroutine_Err_StackOverrun;
+        err = Guard_Pattern_OK(me->guard) ? Coroutine_OK : Coroutine_Err_StackOverrun;
+        if (err){
+            printf("Guard pattern trampled\n");
+        }
+        return err;
     }
-    return stack_top >= me->limit ? Coroutine_OK : Coroutine_Err_StackOverrun;
+    err = stack_top >= me->limit ? Coroutine_OK : Coroutine_Err_StackOverrun;
+    if (err){
+        printf("Stack top beyond active stack limit\n");
+    }
+    return err;
 }
 
 #ifndef NDEBUG
