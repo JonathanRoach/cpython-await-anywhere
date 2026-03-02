@@ -997,19 +997,39 @@ PyObject*
 _Py_module_getattro_impl(PyModuleObject *m, PyObject *name, int suppress)
 {
     // When suppress=1, this function suppresses AttributeError.
+#ifndef NDEBUG
+    if (Coroutine_CheckIntegrity()){
+        printf("Stack corrupt on entry getting attribute %s from module %s\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
+    }
+#endif
     PyObject *attr, *mod_name, *getattr;
     attr = _PyObject_GenericGetAttrWithDict((PyObject *)m, name, NULL, suppress, NULL);
     if (attr) {
+#ifndef NDEBUG
+        if (Coroutine_CheckIntegrity()){
+            printf("Stack corrupt after getting attribute %s from module %s's dictionary\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
+        }
+#endif
         return attr;
     }
     if (suppress == 1) {
         if (PyErr_Occurred()) {
+#ifndef NDEBUG
+            if (Coroutine_CheckIntegrity()){
+                printf("Stack corrupt after failing to get attribute %s from module %s's dictionary, with suppress=1\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
+            }
+#endif
             // pass up non-AttributeError exception
             return NULL;
         }
     }
     else {
         if (!PyErr_ExceptionMatches(PyExc_AttributeError)) {
+#ifndef NDEBUG
+            if (Coroutine_CheckIntegrity()){
+                printf("Stack corrupt after failing to get attribute %s from module %s's dictionary, with suppress=0, non-attribute error\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
+            }
+#endif
             // pass up non-AttributeError exception
             return NULL;
         }
@@ -1017,10 +1037,20 @@ _Py_module_getattro_impl(PyModuleObject *m, PyObject *name, int suppress)
     }
     assert(m->md_dict != NULL);
     if (PyDict_GetItemRef(m->md_dict, &_Py_ID(__getattr__), &getattr) < 0) {
+#ifndef NDEBUG
+        if (Coroutine_CheckIntegrity()){
+            printf("Stack corrupt after GetItemRef of __getattr__ %s from module %s's dictionary failed\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
+        }
+#endif
         return NULL;
     }
     if (getattr) {
         PyObject *result = PyObject_CallOneArg(getattr, name);
+#ifndef NDEBUG
+        if (Coroutine_CheckIntegrity()){
+            printf("Stack corrupt after __getattr__(%s) from module %s's dictionary failed\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
+        }
+#endif
         if (result == NULL && suppress == 1 && PyErr_ExceptionMatches(PyExc_AttributeError)) {
             // suppress AttributeError
             PyErr_Clear();
@@ -1028,6 +1058,11 @@ _Py_module_getattro_impl(PyModuleObject *m, PyObject *name, int suppress)
         Py_DECREF(getattr);
         return result;
     }
+#ifndef NDEBUG
+    if (Coroutine_CheckIntegrity()){
+        printf("Stack corrupt after seeing there's no __getattr__ %s from module %s\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
+    }
+#endif
 
     // The attribute was not found.  We make a best effort attempt at a useful error message,
     // but only if we're not suppressing AttributeError.
@@ -1035,8 +1070,18 @@ _Py_module_getattro_impl(PyModuleObject *m, PyObject *name, int suppress)
         return NULL;
     }
     if (PyDict_GetItemRef(m->md_dict, &_Py_ID(__name__), &mod_name) < 0) {
+#ifndef NDEBUG
+        if (Coroutine_CheckIntegrity()){
+            printf("Stack corrupt after GetItemRef of __name__ %s from module %s's dictionary failed\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
+        }
+#endif
         return NULL;
     }
+#ifndef NDEBUG
+    if (Coroutine_CheckIntegrity()){
+        printf("Stack corrupt after GetItemRef of __name__ %s from module %s's dictionary\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
+    }
+#endif
     if (!mod_name || !PyUnicode_Check(mod_name)) {
         Py_XDECREF(mod_name);
         PyErr_Format(PyExc_AttributeError,
@@ -1045,9 +1090,19 @@ _Py_module_getattro_impl(PyModuleObject *m, PyObject *name, int suppress)
     }
     PyObject *spec;
     if (PyDict_GetItemRef(m->md_dict, &_Py_ID(__spec__), &spec) < 0) {
+#ifndef NDEBUG
+        if (Coroutine_CheckIntegrity()){
+            printf("Stack corrupt after GetItemRef of bad search for __spec__ %s from module %s's dictionary\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
+        }
+#endif
         Py_DECREF(mod_name);
         return NULL;
     }
+#ifndef NDEBUG
+        if (Coroutine_CheckIntegrity()){
+            printf("Stack corrupt after GetItemRef of __spec__ %s from module %s's dictionary\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
+        }
+#endif
     if (spec == NULL) {
         PyErr_Format(PyExc_AttributeError,
                      "module '%U' has no attribute '%U'",
@@ -1139,6 +1194,11 @@ _Py_module_getattro_impl(PyModuleObject *m, PyObject *name, int suppress)
     }
 
 done:
+#ifndef NDEBUG
+    if (Coroutine_CheckIntegrity()){
+        printf("Stack corrupt after done attempting to get %s from module %s\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
+    }
+#endif
     Py_XDECREF(origin);
     Py_DECREF(spec);
     Py_DECREF(mod_name);
