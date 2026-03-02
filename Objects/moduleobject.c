@@ -1135,6 +1135,11 @@ _Py_module_getattro_impl(PyModuleObject *m, PyObject *name, int suppress)
         }
         Py_XDECREF(stdlib_modules);
     }
+#ifndef NDEBUG
+    if (Coroutine_CheckIntegrity()){
+        printf("Stack corrupt position (a) getting %s from module %s\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
+    }
+#endif
 
     if (is_possibly_shadowing_stdlib) {
         assert(origin);
@@ -1146,7 +1151,17 @@ _Py_module_getattro_impl(PyModuleObject *m, PyObject *name, int suppress)
                     mod_name, name, origin, mod_name);
     }
     else {
+#ifndef NDEBUG
+    if (Coroutine_CheckIntegrity()){
+        printf("Stack corrupt position (b) getting %s from module %s\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
+    }
+#endif
         int rc = _PyModuleSpec_IsInitializing(spec);
+#ifndef NDEBUG
+    if (Coroutine_CheckIntegrity()){
+        printf("Stack corrupt position (c) getting %s from module %s\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
+    }
+#endif
         if (rc < 0) {
             goto done;
         }
@@ -1177,8 +1192,18 @@ _Py_module_getattro_impl(PyModuleObject *m, PyObject *name, int suppress)
             }
         }
         else {
+#ifndef NDEBUG
+    if (Coroutine_CheckIntegrity()){
+        printf("Stack corrupt position (d) getting %s from module %s\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
+    }
+#endif
             assert(rc == 0);
             rc = _PyModuleSpec_IsUninitializedSubmodule(spec, name);
+#ifndef NDEBUG
+    if (Coroutine_CheckIntegrity()){
+        printf("Stack corrupt position (e) getting %s from module %s\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
+    }
+#endif
             if (rc > 0) {
                 PyErr_Format(PyExc_AttributeError,
                             "cannot access submodule '%U' of module '%U' "
