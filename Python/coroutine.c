@@ -345,7 +345,7 @@ static Coroutine_Err CheckListIntegrity(List_Head *head, Coroutine_State state1,
 }
 
 
-Coroutine_Err Coroutine_CheckIntegrity(void){
+static Coroutine_Err _Coroutine_CheckIntegrity(void){
     Coroutine_Err err;
     err = CheckListIntegrity(&g_c->free, Coroutine_Free, Coroutine_Free);
     if (err){
@@ -382,7 +382,7 @@ static Coroutine_Err Coroutine_StackHasOverrun(void){
     }
 #if COROUTINE_CHECK_INTEGRITY_ON_STACK_CHECK
     // Check all coroutines integrity
-    Coroutine_Err err = Coroutine_CheckIntegrity();
+    Coroutine_Err err = _Coroutine_CheckIntegrity();
     if (err){
         return err;
     }
@@ -392,6 +392,18 @@ static Coroutine_Err Coroutine_StackHasOverrun(void){
     }
     return stack_top >= me->limit ? Coroutine_OK : Coroutine_Err_StackOverrun;
 }
+
+#ifndef NDEBUG
+Coroutine_Err Coroutine_CheckIntegrity(void){
+    Coroutine_Err err = Coroutine_StackHasOverrun();
+#if !COROUTINE_CHECK_INTEGRITY_ON_STACK_CHECK
+    if (!err){
+        err = _Coroutine_CheckIntegrity();
+    }
+#endif
+    return err;
+}
+#endif
 
 
 static void ReserveStackSpace(
