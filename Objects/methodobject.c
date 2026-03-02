@@ -16,6 +16,16 @@
 /* undefine macro trampoline to PyCMethod_New */
 #undef PyCFunction_NewEx
 
+#ifndef NDEBUG
+    #define CheckCoroutineIntegrity(func_param) \
+    if (Coroutine_CheckIntegrity()) { \
+        PyCFunctionObject *badfunc = _PyCFunctionObject_CAST(func_param); \
+        printf("Coroutine system corrupted after call to %s: %s\n", badfunc->m_ml->ml_name, badfunc->m_ml->ml_doc); \
+    }
+#else
+    #define CheckCoroutineIntegrity()
+#endif
+
 /* Forward declarations */
 static PyObject * cfunction_vectorcall_FASTCALL(
     PyObject *func, PyObject *const *args, size_t nargsf, PyObject *kwnames);
@@ -547,8 +557,10 @@ static inline PyObject *docfunction_vectorcall_NOARGS(
     }
     _PY_ENSURE_STACK_FOR_FN2_B(stack_needed, NULL, PyObject *, docfunction_vectorcall_NOARGS,
         PyCFunction, meth, PyObject *, func_obj)
-    return _PyCFunction_TrampolineCall(
+    PyObject *ret = _PyCFunction_TrampolineCall(
         meth, PyCFunction_GET_SELF(func_obj), NULL);
+    CheckCoroutineIntegrity(func_obj);
+    return ret;
 }
 
 static PyObject *
@@ -591,8 +603,10 @@ static inline PyObject *docfunction_vectorcall_O(
     }
     _PY_ENSURE_STACK_FOR_FN3_B(stack_needed, NULL, PyObject *, docfunction_vectorcall_O,
         PyCFunction, meth, PyObject *, func_obj, PyObject *, arg)
-    return _PyCFunction_TrampolineCall(
+    PyObject *ret = _PyCFunction_TrampolineCall(
         meth, PyCFunction_GET_SELF(func_obj), arg);
+    CheckCoroutineIntegrity(func_obj);        
+    return ret;
 }
 
 static PyObject *
@@ -691,5 +705,6 @@ Do_cfunction_call(void *_params)
         }
         result = _PyCFunction_TrampolineCall(meth, self, args);
     }
+    CheckCoroutineIntegrity(func);
     return _Py_CheckFunctionResult(tstate, func, result, NULL);
 }
