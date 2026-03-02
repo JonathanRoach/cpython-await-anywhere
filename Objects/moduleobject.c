@@ -13,6 +13,7 @@
 #include "pycore_pyerrors.h"      // _PyErr_FormatFromCause()
 #include "pycore_pystate.h"       // _PyInterpreterState_GET()
 #include "pycore_unicodeobject.h" // _PyUnicode_EqualToASCIIString()
+#include "pycore_coroutine.h"     // _PyUnicode_EqualToASCIIString()
 
 #include "osdefs.h"               // MAXPATHLEN
 
@@ -493,7 +494,17 @@ PyModule_ExecDef(PyObject *module, PyModuleDef *def)
                 /* handled in PyModule_FromDefAndSpec2 */
                 break;
             case Py_mod_exec:
+#ifndef NDEBUG
+                if (Coroutine_CheckIntegrity()){
+                    printf("Stack corrupt on entry to module %s exec\n", def->m_name);
+                }
+#endif
                 ret = ((int (*)(PyObject *))cur_slot->value)(module);
+#ifndef NDEBUG
+                if (Coroutine_CheckIntegrity()){
+                    printf("Stack corrupt after exit of module %s exec\n", def->m_name);
+                }
+#endif
                 if (ret != 0) {
                     if (!PyErr_Occurred()) {
                         PyErr_Format(
