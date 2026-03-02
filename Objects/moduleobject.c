@@ -1110,16 +1110,31 @@ _Py_module_getattro_impl(PyModuleObject *m, PyObject *name, int suppress)
         Py_DECREF(mod_name);
         return NULL;
     }
+#ifndef NDEBUG
+    if (Coroutine_CheckIntegrity()){
+        printf("Stack corrupt position (C) getting %s from module %s\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
+    }
+#endif
 
     PyObject *origin = NULL;
     if (_PyModuleSpec_GetFileOrigin(spec, &origin) < 0) {
         goto done;
     }
+#ifndef NDEBUG
+    if (Coroutine_CheckIntegrity()){
+        printf("Stack corrupt position (B) getting %s from module %s\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
+    }
+#endif
 
     int is_possibly_shadowing = _PyModule_IsPossiblyShadowing(origin);
     if (is_possibly_shadowing < 0) {
         goto done;
     }
+#ifndef NDEBUG
+    if (Coroutine_CheckIntegrity()){
+        printf("Stack corrupt position (A) getting %s from module %s\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
+    }
+#endif
     int is_possibly_shadowing_stdlib = 0;
     if (is_possibly_shadowing) {
         PyObject *stdlib_modules;
