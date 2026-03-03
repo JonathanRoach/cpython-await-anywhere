@@ -950,24 +950,33 @@ _PyModule_IsPossiblyShadowing(PyObject *origin)
     }
 
     // root = os.path.dirname(origin.removesuffix(os.sep + "__init__.py"))
-    wchar_t root[MAXPATHLEN + 1];
+    wchar_t *root = PyMem_Malloc((MAXPATHLEN + 1 + MAXPATHLEN) * sizeof(wchar_t));
+    if (!root){
+        PyErr_NoMemory();
+        return -1;
+    }
+    wchar_t *sys_path_0_buf = &root[MAXPATHLEN + 1];
+    int result = 0;
     Py_ssize_t size = PyUnicode_AsWideChar(origin, root, MAXPATHLEN);
     if (size < 0) {
-        return -1;
+        result = -1;
+        goto done;
     }
     assert(size <= MAXPATHLEN);
     root[size] = L'\0';
 
     wchar_t *sep = wcsrchr(root, SEP);
     if (sep == NULL) {
-        return 0;
+        result = 0;
+        goto done;
     }
     // If it's a package then we need to look one directory further up
     if (wcscmp(sep + 1, L"__init__.py") == 0) {
         *sep = L'\0';
         sep = wcsrchr(root, SEP);
         if (sep == NULL) {
-            return 0;
+            result = 0;
+            goto done;
         }
     }
     *sep = L'\0';
@@ -975,21 +984,24 @@ _PyModule_IsPossiblyShadowing(PyObject *origin)
     // sys.path[0] or os.getcwd()
     wchar_t *sys_path_0 = config->sys_path_0;
     if (!sys_path_0) {
-        return 0;
+        result = 0;
+        goto done;
     }
 
-    wchar_t sys_path_0_buf[MAXPATHLEN];
     if (sys_path_0[0] == L'\0') {
         // if sys.path[0] == "", treat it as if it were the current directory
         if (!_Py_wgetcwd(sys_path_0_buf, MAXPATHLEN)) {
             // If we failed to getcwd, don't raise an exception and instead
             // let the caller proceed assuming no shadowing
-            return 0;
+            result = 0;
+            goto done;
         }
         sys_path_0 = sys_path_0_buf;
     }
 
-    int result = wcscmp(sys_path_0, root) == 0;
+    result = wcscmp(sys_path_0, root) == 0;
+done:
+    PyMem_Free(root);
     return result;
 }
 
