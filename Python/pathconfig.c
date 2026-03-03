@@ -366,14 +366,23 @@ _PyPathConfig_ComputeSysPath0(const PyWideStringList *argv, PyObject **path0_p)
     Py_ssize_t n = 0;
 
 #ifdef HAVE_REALPATH
-    wchar_t fullpath[MAXPATHLEN];
+    size_t fullpath_len = MAXPATHLEN;
+    wchar_t *fullpath = PyMem_RawMalloc(fullpath_len * sizeof(wchar_t));
+    if (!fullpath){
+        return -1;
+    }
 #elif defined(MS_WINDOWS)
-    wchar_t fullpath[MAX_PATH];
+    size_t fullpath_len = MAX_PATH;
+    wchar_t *fullpath = PyMem_RawMalloc(fullpath_len * sizeof(wchar_t));
+    if (!fullpath){
+        return -1;
+    }
 #endif
+    int result;
 
     if (have_module_arg) {
 #if defined(HAVE_REALPATH) || defined(MS_WINDOWS)
-        if (!_Py_wgetcwd(fullpath, Py_ARRAY_LENGTH(fullpath))) {
+        if (!_Py_wgetcwd(fullpath, fullpath_len)) {
             return 0;
         }
         path0 = fullpath;
@@ -384,12 +393,18 @@ _PyPathConfig_ComputeSysPath0(const PyWideStringList *argv, PyObject **path0_p)
     }
 
 #ifdef HAVE_READLINK
-    wchar_t link[MAXPATHLEN + 1];
+    size_t link_len = MAXPATHLEN + 1;
+    size_t path0copy_len = 2 * MAXPATHLEN + 1;
+    wchar_t *link = PyMem_RawMalloc((link_len + path0copy_len) * sizeof(wchar_t));
+    if (!link){
+        result = -1;
+        goto done;
+    }
     int nr = 0;
-    wchar_t path0copy[2 * MAXPATHLEN + 1];
+    wchar_t *path0copy = &link[link_len];
 
     if (have_script_arg) {
-        nr = _Py_wreadlink(path0, link, Py_ARRAY_LENGTH(link));
+        nr = _Py_wreadlink(path0, link, link_len);
     }
     if (nr > 0) {
         /* It's a symlink */
@@ -417,6 +432,7 @@ _PyPathConfig_ComputeSysPath0(const PyWideStringList *argv, PyObject **path0_p)
             }
         }
     }
+    PyMem_RawFree(link);
 #endif /* HAVE_READLINK */
 
     wchar_t *p = NULL;
@@ -429,7 +445,7 @@ _PyPathConfig_ComputeSysPath0(const PyWideStringList *argv, PyObject **path0_p)
         /* Replace the first element in argv with the full path. */
         wchar_t *ptemp;
         if (GetFullPathNameW(path0,
-                           Py_ARRAY_LENGTH(fullpath),
+                           fullpath_len,
                            fullpath,
                            &ptemp)) {
             path0 = fullpath;
@@ -450,7 +466,7 @@ _PyPathConfig_ComputeSysPath0(const PyWideStringList *argv, PyObject **path0_p)
     /* All other filename syntaxes */
     if (have_script_arg) {
 #if defined(HAVE_REALPATH)
-        if (_Py_wrealpath(path0, fullpath, Py_ARRAY_LENGTH(fullpath))) {
+        if (_Py_wrealpath(path0, fullpath, fullpath_len)) {
             path0 = fullpath;
         }
 #endif
@@ -469,9 +485,14 @@ _PyPathConfig_ComputeSysPath0(const PyWideStringList *argv, PyObject **path0_p)
 
     PyObject *path0_obj = PyUnicode_FromWideChar(path0, n);
     if (path0_obj == NULL) {
-        return -1;
+        result = -1;
+    } else {
+        *path0_p = path0_obj;
+        result = 1;
     }
-
-    *path0_p = path0_obj;
-    return 1;
+done:
+#if defined(HAVE_REALPATH) || defined(MS_WINDOWS)
+    PyMem_RawFree(fullpath);
+#endif
+    return result;
 }
