@@ -406,7 +406,7 @@ static Coroutine_Err Coroutine_StackHasOverrun(void){
 Coroutine_Err Coroutine_CheckIntegrity(void){
     Coroutine_Err err = Coroutine_StackHasOverrun();
 #if !COROUTINE_CHECK_INTEGRITY_ON_STACK_CHECK
-    if (!err){
+    if (!err && g_c){
         err = _Coroutine_CheckIntegrity();
     }
 #endif
