@@ -529,7 +529,6 @@ struct sync_module_result {
 
 struct sync_module {
     const char *filename;
-    char _filename[MAXPATHLEN+1];
     struct sync_module_result cached;
 };
 
