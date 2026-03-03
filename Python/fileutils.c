@@ -2070,41 +2070,54 @@ int
 _Py_wreadlink(const wchar_t *path, wchar_t *buf, size_t buflen)
 {
     char *cpath;
-    char cbuf[MAXPATHLEN];
-    size_t cbuf_len = Py_ARRAY_LENGTH(cbuf);
+    size_t cbuf_len = MAXPATHLEN;
+    char *cbuf = PyMem_RawMalloc(cbuf_len);
+    if (!cbuf){
+        errno = ENOMEM;
+        return -1;
+    }
     wchar_t *wbuf;
     Py_ssize_t res;
+    int result;
     size_t r1;
 
     cpath = _Py_EncodeLocaleRaw(path, NULL);
     if (cpath == NULL) {
         errno = EINVAL;
-        return -1;
+        result = -1;
+        goto done;
     }
     res = readlink(cpath, cbuf, cbuf_len);
     PyMem_RawFree(cpath);
     if (res == -1) {
-        return -1;
+        result = -1;
+        goto done;
     }
     if ((size_t)res == cbuf_len) {
         errno = EINVAL;
-        return -1;
+        result = -1;
+        goto done;
     }
     cbuf[res] = '\0'; /* buf will be null terminated */
     wbuf = Py_DecodeLocale(cbuf, &r1);
     if (wbuf == NULL) {
         errno = EINVAL;
-        return -1;
+        result = -1;
+        goto done;
     }
     /* wbuf must have space to store the trailing NUL character */
     if (buflen <= r1) {
         PyMem_RawFree(wbuf);
         errno = EINVAL;
-        return -1;
+        result = -1;
+        goto done;
     }
     wcsncpy(buf, wbuf, buflen);
     PyMem_RawFree(wbuf);
-    return (int)r1;
+    result = (int)r1;
+done:
+    PyMem_RawFree(cbuf);
+    return result;
 }
 #endif
 
@@ -2119,35 +2132,43 @@ wchar_t*
 _Py_wrealpath(const wchar_t *path,
               wchar_t *resolved_path, size_t resolved_path_len)
 {
+    char *cresolved_path = PyMem_RawMalloc(MAXPATHLEN);
+    if (!cresolved_path){
+        errno = ENOMEM;
+        return NULL;
+    }
+    wchar_t *result = NULL;
     char *cpath;
-    char cresolved_path[MAXPATHLEN];
     wchar_t *wresolved_path;
     char *res;
     size_t r;
     cpath = _Py_EncodeLocaleRaw(path, NULL);
     if (cpath == NULL) {
         errno = EINVAL;
-        return NULL;
+        goto done;
     }
     res = realpath(cpath, cresolved_path);
     PyMem_RawFree(cpath);
-    if (res == NULL)
-        return NULL;
+    if (res == NULL){
+        goto done;
+    }
 
     wresolved_path = Py_DecodeLocale(cresolved_path, &r);
     if (wresolved_path == NULL) {
         errno = EINVAL;
-        return NULL;
+        goto done;
     }
     /* wresolved_path must have space to store the trailing NUL character */
     if (resolved_path_len <= r) {
-        PyMem_RawFree(wresolved_path);
         errno = EINVAL;
-        return NULL;
+    } else {
+        wcsncpy(resolved_path, wresolved_path, resolved_path_len);
+        result = resolved_path;
     }
-    wcsncpy(resolved_path, wresolved_path, resolved_path_len);
     PyMem_RawFree(wresolved_path);
-    return resolved_path;
+done:
+    PyMem_RawFree(cresolved_path);
+    return result;
 }
 #endif
 
@@ -2185,14 +2206,22 @@ int
 _Py_abspath(const wchar_t *path, wchar_t **abspath_p)
 {
     if (path[0] == '\0' || !wcscmp(path, L".")) {
-        wchar_t cwd[MAXPATHLEN + 1];
-        cwd[Py_ARRAY_LENGTH(cwd) - 1] = 0;
-        if (!_Py_wgetcwd(cwd, Py_ARRAY_LENGTH(cwd) - 1)) {
-            /* unable to get the current directory */
-            return -1;
+        wchar_t *cwd = PyMem_RawMalloc((MAXPATHLEN + 1) * sizeof(wchar_t));
+        if (!cwd){
+            *abspath_p = NULL;
+            return 0;
         }
-        *abspath_p = _PyMem_RawWcsdup(cwd);
-        return 0;
+        int result;
+        cwd[MAXPATHLEN] = 0;
+        if (!_Py_wgetcwd(cwd, MAXPATHLEN)) {
+            /* unable to get the current directory */
+            result = -1;
+        } else {
+            *abspath_p = _PyMem_RawWcsdup(cwd);
+            result = 0;
+        }
+        PyMem_RawFree(cwd);
+        return result;
     }
 
     if (_Py_isabs(path)) {
@@ -2203,10 +2232,15 @@ _Py_abspath(const wchar_t *path, wchar_t **abspath_p)
 #ifdef MS_WINDOWS
     return _PyOS_getfullpathname(path, abspath_p);
 #else
-    wchar_t cwd[MAXPATHLEN + 1];
-    cwd[Py_ARRAY_LENGTH(cwd) - 1] = 0;
-    if (!_Py_wgetcwd(cwd, Py_ARRAY_LENGTH(cwd) - 1)) {
+    wchar_t *cwd = PyMem_RawMalloc((MAXPATHLEN + 1) * sizeof(wchar_t));
+    if (!cwd){
+        *abspath_p = NULL;
+        return 0;
+    }
+    cwd[MAXPATHLEN] = 0;
+    if (!_Py_wgetcwd(cwd, MAXPATHLEN)) {
         /* unable to get the current directory */
+        PyMem_RawFree(cwd);
         return -1;
     }
 
@@ -2219,21 +2253,20 @@ _Py_abspath(const wchar_t *path, wchar_t **abspath_p)
     else {
         *abspath_p = NULL;
     }
-    if (*abspath_p == NULL) {
-        return 0;
+    if (*abspath_p != NULL) {
+        wchar_t *abspath = *abspath_p;
+        memcpy(abspath, cwd, cwd_len * sizeof(wchar_t));
+        abspath += cwd_len;
+
+        *abspath = (wchar_t)SEP;
+        abspath++;
+
+        memcpy(abspath, path, path_len * sizeof(wchar_t));
+        abspath += path_len;
+
+        *abspath = 0;
     }
-
-    wchar_t *abspath = *abspath_p;
-    memcpy(abspath, cwd, cwd_len * sizeof(wchar_t));
-    abspath += cwd_len;
-
-    *abspath = (wchar_t)SEP;
-    abspath++;
-
-    memcpy(abspath, path, path_len * sizeof(wchar_t));
-    abspath += path_len;
-
-    *abspath = 0;
+    PyMem_RawFree(cwd);
     return 0;
 #endif
 }
@@ -2632,23 +2665,30 @@ _Py_wgetcwd(wchar_t *buf, size_t buflen)
     int ibuflen = (int)Py_MIN(buflen, INT_MAX);
     return _wgetcwd(buf, ibuflen);
 #else
-    char fname[MAXPATHLEN];
+    char *fname = PyMem_RawMalloc(MAXPATHLEN);
+    if (!fname){
+        return NULL;
+    }
+    wchar_t *result = NULL;
     wchar_t *wname;
     size_t len;
 
-    if (getcwd(fname, Py_ARRAY_LENGTH(fname)) == NULL)
-        return NULL;
-    wname = Py_DecodeLocale(fname, &len);
-    if (wname == NULL)
-        return NULL;
-    /* wname must have space to store the trailing NUL character */
-    if (buflen <= len) {
-        PyMem_RawFree(wname);
-        return NULL;
+    if (getcwd(fname, MAXPATHLEN) == NULL){
+        goto done;
     }
-    wcsncpy(buf, wname, buflen);
+    wname = Py_DecodeLocale(fname, &len);
+    if (wname == NULL) {
+        goto done;
+    }
+    /* wname must have space to store the trailing NUL character */
+    if (buflen > len) {
+        wcsncpy(buf, wname, buflen);
+        result = buf;
+    }
     PyMem_RawFree(wname);
-    return buf;
+done:
+    PyMem_RawFree(fname);
+    return result;
 #endif
 }
 
