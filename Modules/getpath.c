@@ -442,9 +442,13 @@ getpath_realpath(PyObject *Py_UNUSED(self) , PyObject *args)
     wchar_t *path2 = _PyMem_RawWcsdup(path);
     PyMem_Free((void *)path);
     path = path2;
+    wchar_t *resolved = PyMem_Malloc((MAXPATHLEN + 1) * sizeof(wchar_t));
+    if (!resolved){
+        PyErr_NoMemory();
+        goto done;
+    }
     while (path) {
-        wchar_t resolved[MAXPATHLEN + 1];
-        int linklen = _Py_wreadlink(path, resolved, Py_ARRAY_LENGTH(resolved));
+        int linklen = _Py_wreadlink(path, resolved, MAXPATHLEN + 1);
         if (linklen == -1) {
             r = PyUnicode_FromWideChar(path, -1);
             break;
@@ -474,6 +478,7 @@ getpath_realpath(PyObject *Py_UNUSED(self) , PyObject *args)
     if (!path) {
         PyErr_NoMemory();
     }
+    PyMem_Free(resolved);
 done:
     PyMem_RawFree((void *)path);
     return r;
@@ -499,19 +504,23 @@ done:
         r = Py_NewRef(pathobj);
         goto done;
     }
-    wchar_t resolved[MAXPATHLEN+1];
+    wchar_t *resolved = PyMem_Malloc((MAXPATHLEN+1) * sizeof(wchat_t));
+    if (!resolved){
+        PyErr_NoMemory();
+        goto done;
+    }
     if (_Py_wrealpath(path, resolved, MAXPATHLEN) == NULL) {
         PyErr_SetFromErrno(PyExc_OSError);
     } else {
         r = PyUnicode_FromWideChar(resolved, -1);
     }
+    PyMem_Free(resolved);
 done:
     PyMem_Free((void *)path);
     PyMem_Free((void *)narrow);
     return r;
 #elif defined(MS_WINDOWS)
     HANDLE hFile;
-    wchar_t resolved[MAXPATHLEN+1];
     int len = 0, err;
     Py_ssize_t pathlen;
     PyObject *result;
@@ -525,6 +534,11 @@ done:
         return NULL;
     }
 
+    wchar_t *resolved = PyMem_Malloc((MAXPATHLEN+1) * sizeof(wchar_t));
+    if (!resolved){
+        result = PyErr_NoMemory();
+        goto done;
+    }
     Py_BEGIN_ALLOW_THREADS
     hFile = CreateFileW(path, 0, 0, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
     if (hFile != INVALID_HANDLE_VALUE) {
@@ -555,6 +569,8 @@ done:
     } else {
         result = Py_NewRef(pathobj);
     }
+    PyMem_Free(resolved);
+done:
     PyMem_Free(path);
     return result;
 #endif
