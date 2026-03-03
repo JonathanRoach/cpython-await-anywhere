@@ -4217,16 +4217,20 @@ static PyObject *
 posix_getcwd(int use_bytes)
 {
 #ifdef MS_WINDOWS
-    wchar_t wbuf[MAXPATHLEN];
+    wchar_t *wbuf = PyMem_RawMalloc(MAXPATHLEN * sizeof(wchar_t));
+    if (!wbuf){
+        return PyErr_NoMemory();
+    }
     wchar_t *wbuf2 = wbuf;
     DWORD len;
+    PyObject *resobj;
 
     Py_BEGIN_ALLOW_THREADS
-    len = GetCurrentDirectoryW(Py_ARRAY_LENGTH(wbuf), wbuf);
+    len = GetCurrentDirectoryW(MAXPATHLEN, wbuf);
     /* If the buffer is large enough, len does not include the
        terminating \0. If the buffer is too small, len includes
        the space needed for the terminator. */
-    if (len >= Py_ARRAY_LENGTH(wbuf)) {
+    if (len >= MAXPATHLEN) {
         if ((Py_ssize_t)len <= PY_SSIZE_T_MAX / sizeof(wchar_t)) {
             wbuf2 = PyMem_RawMalloc(len * sizeof(wchar_t));
         }
@@ -4240,28 +4244,29 @@ posix_getcwd(int use_bytes)
     Py_END_ALLOW_THREADS
 
     if (!wbuf2) {
-        PyErr_NoMemory();
-        return NULL;
+        resobj = PyErr_NoMemory();
+        goto done;
     }
     if (!len) {
         PyErr_SetFromWindowsErr(0);
-        if (wbuf2 != wbuf)
-            PyMem_RawFree(wbuf2);
-        return NULL;
+        resobj = NULL;
+        goto done2;
     }
 
-    PyObject *resobj = PyUnicode_FromWideChar(wbuf2, len);
+    resobj = PyUnicode_FromWideChar(wbuf2, len);
+
+    if (use_bytes) {
+        if (resobj) {
+            Py_SETREF(resobj, PyUnicode_EncodeFSDefault(resobj));
+        }
+    }
+
+done2:
     if (wbuf2 != wbuf) {
         PyMem_RawFree(wbuf2);
     }
-
-    if (use_bytes) {
-        if (resobj == NULL) {
-            return NULL;
-        }
-        Py_SETREF(resobj, PyUnicode_EncodeFSDefault(resobj));
-    }
-
+done:
+    PyMem_RawFree(wbuf);
     return resobj;
 #else
     const size_t chunk = 1024;
@@ -5108,8 +5113,12 @@ os__getfinalpathname_impl(PyObject *module, path_t *path)
 /*[clinic end generated code: output=621a3c79bc29ebfa input=88ef9056d23c1c35]*/
 {
     HANDLE hFile;
-    wchar_t buf[MAXPATHLEN], *target_path = buf;
-    int buf_size = Py_ARRAY_LENGTH(buf);
+    wchar_t *buf = PyMem_Malloc(MAXPATHLEN * sizeof(wchar_t));
+    if (!buf){
+        return PyErr_NoMemory();
+    }
+    wchar_t *target_path = buf;
+    int buf_size = MAXPATHLEN;
     int result_length;
     PyObject *result;
 
@@ -5169,6 +5178,7 @@ cleanup:
         PyMem_Free(target_path);
     }
     CloseHandle(hFile);
+    PyMem_Free(buf);
     return result;
 }
 
@@ -8867,21 +8877,30 @@ os_ptsname_impl(PyObject *module, int fd)
 {
 #ifdef HAVE_PTSNAME_R
     int ret;
-    char name[MAXPATHLEN+1];
+    char *name = PyMem_Malloc(MAXPATHLEN+1);
+    if (!name){
+        return PyErr_NoMemory();
+    }
+    PyObject *result;
 
     if (HAVE_PTSNAME_R_RUNTIME) {
-        ret = ptsname_r(fd, name, sizeof(name));
+        ret = ptsname_r(fd, name, MAXPATHLEN+1);
     }
     else {
         // fallback to ptsname() if ptsname_r() is not available in runtime.
-        return py_ptsname(fd);
+        result = py_ptsname(fd);
+        goto done;
     }
     if (ret != 0) {
         errno = ret;
-        return posix_error();
+        result = posix_error();
+        goto done;
     }
 
-    return PyUnicode_DecodeFSDefault(name);
+    result = PyUnicode_DecodeFSDefault(name);
+done:
+    PyMem_Free(name);
+    return result;
 #else
     return py_ptsname(fd);
 #endif /* HAVE_PTSNAME_R */
@@ -10470,7 +10489,11 @@ os_readlink_impl(PyObject *module, path_t *path, int dir_fd)
 /*[clinic end generated code: output=d21b732a2e814030 input=d6042a8290fe89bb]*/
 {
 #if defined(HAVE_READLINK)
-    char buffer[MAXPATHLEN+1];
+    char *buffer = PyMem_Malloc(MAXPATHLEN+1);
+    if (!buffer){
+        return PyErr_NoMemory();
+    }
+    PyObject *result;
     ssize_t length;
 #ifdef HAVE_READLINKAT
     int readlinkat_unavailable = 0;
@@ -10492,19 +10515,24 @@ os_readlink_impl(PyObject *module, path_t *path, int dir_fd)
 #ifdef HAVE_READLINKAT
     if (readlinkat_unavailable) {
         argument_unavailable_error(NULL, "dir_fd");
-        return NULL;
+        result = NULL;
+        goto done;
     }
 #endif
 
     if (length < 0) {
-        return path_error(path);
+        result = path_error(path);
+        goto done;
     }
     buffer[length] = '\0';
 
     if (PyUnicode_Check(path->object))
-        return PyUnicode_DecodeFSDefaultAndSize(buffer, length);
+        result = PyUnicode_DecodeFSDefaultAndSize(buffer, length);
     else
-        return PyBytes_FromStringAndSize(buffer, length);
+        result = PyBytes_FromStringAndSize(buffer, length);
+done:
+    PyMem_Free(buffer);
+    return result;
 #elif defined(MS_WINDOWS)
     DWORD n_bytes_returned;
     DWORD io_result = 0;
