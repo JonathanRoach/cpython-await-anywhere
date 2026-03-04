@@ -141,7 +141,6 @@ get_module_state_by_def(PyTypeObject *tp)
 static inline decimal_state *
 find_state_left_or_right(PyObject *left, PyObject *right)
 {
-    printf("Finding %s in %s and %s\n", dec_spec.name, Py_TYPE(left)->tp_name, Py_TYPE(right)->tp_name);
     PyTypeObject *base;
     if (PyType_GetBaseByToken(Py_TYPE(left), &dec_spec, &base) != 1) {
         assert(!PyErr_Occurred());
