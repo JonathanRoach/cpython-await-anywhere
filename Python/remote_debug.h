@@ -488,7 +488,11 @@ search_map_for_section(proc_handle_t *handle, const char* secname, const char* s
         return 0;
     }
 
-    char map_filename[MAXPATHLEN + 1];
+    char *map_filename = PyMem_Malloc(MAXPATHLEN + 1);
+    if (!map_filename){
+        PyErr_NoMemory();
+        return 0;
+    }
 
     while (mach_vm_region(
         proc_ref,
@@ -530,6 +534,7 @@ search_map_for_section(proc_handle_t *handle, const char* secname, const char* s
 
         address += size;
     }
+    PyMem_Free(map_filename);
 
     return 0;
 }

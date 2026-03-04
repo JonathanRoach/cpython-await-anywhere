@@ -487,33 +487,42 @@ display_source_line(PyObject *f, PyObject *filename, int lineno, int indent,
     PyObject *fob = NULL;
     PyObject *lineobj = NULL;
     PyObject *res;
-    char buf[MAXPATHLEN+1];
+    char *buf = PyMem_Malloc(MAXPATHLEN+1);
+    if (!buf){
+        PyErr_NoMemory();
+        return -1;
+    }
+    int result;
     int kind;
     const void *data;
 
     /* open the file */
-    if (filename == NULL)
-        return 0;
+    if (filename == NULL){
+        result = 0;
+        goto done;
+    }
 
     /* Do not attempt to open things like <string> or <stdin> */
     assert(PyUnicode_Check(filename));
     if (PyUnicode_READ_CHAR(filename, 0) == '<') {
         Py_ssize_t len = PyUnicode_GET_LENGTH(filename);
         if (len > 0 && PyUnicode_READ_CHAR(filename, len - 1) == '>') {
-            return 0;
+            result = 0;
+            goto done;
         }
     }
 
     io = PyImport_ImportModule("io");
     if (io == NULL) {
-        return -1;
+        result = -1;
+        goto done;
     }
 
     binary = _PyObject_CallMethod(io, &_Py_ID(open), "Os", filename, "rb");
     if (binary == NULL) {
         PyErr_Clear();
 
-        binary = _Py_FindSourceFile(filename, buf, sizeof(buf), io);
+        binary = _Py_FindSourceFile(filename, buf, MAXPATHLEN+1, io);
         if (binary == NULL) {
             Py_DECREF(io);
             return -1;
@@ -552,7 +561,8 @@ display_source_line(PyObject *f, PyObject *filename, int lineno, int indent,
             Py_DECREF(res);
         else
             PyErr_Clear();
-        return 0;
+        result = 0;
+        goto done;
     }
     Py_DECREF(binary);
 
@@ -574,8 +584,8 @@ display_source_line(PyObject *f, PyObject *filename, int lineno, int indent,
     }
     Py_DECREF(fob);
     if (!lineobj || !PyUnicode_Check(lineobj)) {
-        Py_XDECREF(lineobj);
-        return -1;
+        result = -1;
+        goto done2;
     }
 
     if (line) {
@@ -606,23 +616,27 @@ display_source_line(PyObject *f, PyObject *filename, int lineno, int indent,
 
     /* Write some spaces before the line */
     if (_Py_WriteIndent(indent, f) < 0) {
-        goto error;
+        result = -1;
+        goto done2;
     }
 
     /* finally display the line */
     if (PyFile_WriteObject(lineobj, f, Py_PRINT_RAW) < 0) {
-        goto error;
+        result = -1;
+        goto done2;
     }
 
     if (PyFile_WriteString("\n", f) < 0) {
-        goto error;
+        result = -1;
+        goto done2;
     }
 
-    Py_DECREF(lineobj);
-    return 0;
-error:
-    Py_DECREF(lineobj);
-    return -1;
+    result = 0;
+done2:
+    Py_XDECREF(lineobj);
+done:
+    PyMem_Free(buf);
+    return result;
 }
 
 int
