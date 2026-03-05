@@ -413,6 +413,27 @@ _PyImport_GetModInitFunc(struct _Py_ext_module_loader_info *info,
 }
 #endif /* HAVE_DYNAMIC_LOADING */
 
+#define MEASURE_STACK_USED 1
+
+#if MEASURE_STACK_USED
+struct MeasureParams {
+    PyModInitFunction p0;
+    struct _Py_ext_module_loader_info *info;
+};
+
+static void *
+DoMeasure(void *_params)
+{
+    struct MeasureParams *params = _params;
+    Coroutine_ClearStackForHWM();
+    char *start = Coroutine_GetStackHWM();
+    void *ret = params->p0();
+    char *end = Coroutine_GetStackHWM();
+    printf("Module %s init took %ld bytes of stack\n", PyUnicode_AsUTF8(params->info->name), start - end);
+    return ret;
+}
+#endif
+
 int
 _PyImport_RunModInitFunc(PyModInitFunction p0,
                          struct _Py_ext_module_loader_info *info,
@@ -426,7 +447,14 @@ _PyImport_RunModInitFunc(PyModInitFunction p0,
 
     /* Package context is needed for single-phase init */
     const char *oldcontext = _PyImport_SwapPackageContext(info->newcontext);
+#if MEASURE_STACK_USED
+    struct MeasureParams params = {p0, info};
+    PyObject *m;
+    _Py_Coroutine_Chain(1*1024*1024, DoMeasure, &params, (void **)&m);
+#else
     PyObject *m = p0();
+#endif
+#undef MEASURE_STACK_USED
 #ifndef NDEBUG
     if (Coroutine_CheckIntegrity()){
         printf("Stack corrupt after module init of %s (%s)\n", PyUnicode_AsUTF8(info->name), PyUnicode_AsUTF8(info->filename));
