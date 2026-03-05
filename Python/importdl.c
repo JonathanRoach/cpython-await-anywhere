@@ -429,7 +429,7 @@ _PyImport_RunModInitFunc(PyModInitFunction p0,
     PyObject *m = p0();
 #ifndef NDEBUG
     if (Coroutine_CheckIntegrity()){
-        printf("Stack after module init of %s from %s\n", PyUnicode_AsUTF8(info->name), PyUnicode_AsUTF8(info->filename));
+        printf("Stack corrupt after module init of %s (%s)\n", PyUnicode_AsUTF8(info->name), PyUnicode_AsUTF8(info->filename));
     }
 #endif
     _PyImport_SwapPackageContext(oldcontext);
