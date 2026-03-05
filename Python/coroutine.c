@@ -1184,7 +1184,7 @@ void Coroutine_ClearStackForHWM(void){
     MyAssert(g_c->state == Coroutines_Active);
     MyAssert(!Coroutine_StackHasOverrun());
     unsigned char *end = StackTopNow() - GUARD_PATTERN_SIZE;
-    for (unsigned char *guard = g_c->active->limit+GUARD_PATTERN_SIZE; guard <= end; guard += GUARD_PATTERN_SIZE){
+    for (unsigned char *guard = g_c->active->limit; guard <= end; guard += GUARD_PATTERN_SIZE){
         Apply_Guard(guard);
     }
 }
