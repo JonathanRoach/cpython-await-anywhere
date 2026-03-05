@@ -231,16 +231,6 @@ class TestGetStackTrace(unittest.TestCase):
                     [
                         [
                             [
-                                (
-                                    taskgroups.__file__,
-                                    ANY,
-                                    "TaskGroup._aexit"
-                                ),
-                                (
-                                    taskgroups.__file__,
-                                    ANY,
-                                    "TaskGroup.__aexit__"
-                                ),
                                 (script_name, 26, "main"),
                             ],
                             "Task-1",
@@ -252,16 +242,6 @@ class TestGetStackTrace(unittest.TestCase):
                             [
                                 [
                                     [
-                                        (
-                                            taskgroups.__file__,
-                                            ANY,
-                                            "TaskGroup._aexit"
-                                        ),
-                                        (
-                                            taskgroups.__file__,
-                                            ANY,
-                                            "TaskGroup.__aexit__"
-                                        ),
                                         (script_name, 26, "main"),
                                     ],
                                     "Task-1",
@@ -275,16 +255,6 @@ class TestGetStackTrace(unittest.TestCase):
                             [
                                 [
                                     [
-                                        (
-                                            taskgroups.__file__,
-                                            ANY,
-                                            "TaskGroup._aexit"
-                                        ),
-                                        (
-                                            taskgroups.__file__,
-                                            ANY,
-                                            "TaskGroup.__aexit__"
-                                        ),
                                         (script_name, 26, "main"),
                                     ],
                                     "Task-1",
@@ -523,7 +493,6 @@ class TestGetStackTrace(unittest.TestCase):
                 [
                     [
                         [
-                            (staggered.__file__, ANY, "staggered_race"),
                             (script_name, 21, "main"),
                         ],
                         "Task-1",
@@ -677,16 +646,6 @@ class TestGetStackTrace(unittest.TestCase):
                 expected_stack = [
                     [
                         [
-                            (
-                                taskgroups.__file__,
-                                ANY,
-                                "TaskGroup._aexit",
-                            ),
-                            (
-                                taskgroups.__file__,
-                                ANY,
-                                "TaskGroup.__aexit__",
-                            ),
                             (script_name, 41, "echo_client_spam"),
                         ],
                         ANY,
