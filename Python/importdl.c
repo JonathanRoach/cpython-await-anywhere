@@ -413,7 +413,7 @@ _PyImport_GetModInitFunc(struct _Py_ext_module_loader_info *info,
 }
 #endif /* HAVE_DYNAMIC_LOADING */
 
-#define MEASURE_STACK_USED 1
+#define MEASURE_STACK_USED 0
 
 #if MEASURE_STACK_USED
 struct MeasureParams {
