@@ -282,6 +282,28 @@ static void *Do_Call_##fn(void *_params){ \
     struct Do_Call_Params_##fn *params = (struct Do_Call_Params_##fn *)_params;
 
 
+#define _PY_ENSURE_STACK_FOR_FN0_A(r_t, fn) \
+static void *Do_##fn(void *); \
+static r_t Actual_##fn(void); \
+// Function definition start goes here
+#define _PY_ENSURE_STACK_FOR_FN0_B(space, nomemret, r_t, fn) \
+    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(space) ){ \
+        void *result; \
+        if ( !_Py_Coroutine_Chain(space > PYOS_COSTACK_STD_SIZE ? space : PYOS_COSTACK_STD_SIZE, Do_##fn, NULL, &result)) { \
+            return (r_t)(intptr_t)result; \
+        } else { \
+            PyErr_NoMemory(); \
+            return nomemret; \
+        } \
+    } \
+    return Actual_##fn(); \
+} \
+static void *Do_##fn(void *_params) { \
+    return (void *)(uintptr_t)Actual_##fn(); \
+} \
+static r_t Actual_##fn(void) {
+
+
 #define _PY_ENSURE_STACK_FOR_FN1_A(r_t, fn, p0_t) \
 static void *Do_##fn(void *); \
 static r_t Actual_##fn(p0_t); \
