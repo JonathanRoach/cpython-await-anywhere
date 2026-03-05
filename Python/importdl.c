@@ -427,6 +427,11 @@ _PyImport_RunModInitFunc(PyModInitFunction p0,
     /* Package context is needed for single-phase init */
     const char *oldcontext = _PyImport_SwapPackageContext(info->newcontext);
     PyObject *m = p0();
+#ifndef NDEBUG
+    if (Coroutine_CheckIntegrity()){
+        printf("Stack after module init of %s from %s\n", PyUnicode_AsUTF8(info->name), PyUnicode_AsUTF8(info->filename));
+    }
+#endif
     _PyImport_SwapPackageContext(oldcontext);
 
     /* Validate the result (and populate "res". */
