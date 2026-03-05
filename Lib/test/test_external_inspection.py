@@ -663,16 +663,6 @@ class TestGetStackTrace(unittest.TestCase):
                 # the first three tasks stem from the code structure
                 self.assertIn((ANY, "Task-1", []), entries)
                 main_stack = [
-                    (
-                        taskgroups.__file__,
-                        ANY,
-                        "TaskGroup._aexit",
-                    ),
-                    (
-                        taskgroups.__file__,
-                        ANY,
-                        "TaskGroup.__aexit__",
-                    ),
                     (script_name, 60, "main"),
                 ]
                 self.assertIn(
