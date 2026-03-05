@@ -1624,9 +1624,13 @@ static struct PyModuleDef readlinemodule = {
 };
 
 
+_PY_ENSURE_STACK_FOR_FN0_A(PyObject *, PyInit_readline)
 PyMODINIT_FUNC
 PyInit_readline(void)
 {
+    // Ensure a 128k stack. This may seem excessive, but Fedora35 on a 64 bit ARM
+    // used 103,536 bytes of stack
+    _PY_ENSURE_STACK_FOR_FN0_B(128*1024, NULL, PyObject *, PyInit_readline)
     const char *backend = "readline";
     PyObject *m;
     readlinestate *mod_state;
