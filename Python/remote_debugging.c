@@ -349,14 +349,21 @@ _PySysRemoteDebug_SendExec(int pid, int tid, const char *debugger_script_path)
         return -1;
     }
 
-    proc_handle_t handle;
-    if (init_proc_handle(&handle, pid) < 0) {
+    proc_handle_t *handle = PyMem_Malloc(sizeof(*handle));
+    if (!handle){
+        PyErr_NoMemory();
         return -1;
     }
+    int rc;
+    if (init_proc_handle(handle, pid) < 0) {
+        rc = -1;
+        goto done;
+    }
 
-    int rc = send_exec_to_proc_handle(&handle, tid, debugger_script_path);
-    cleanup_proc_handle(&handle);
+    rc = send_exec_to_proc_handle(handle, tid, debugger_script_path);
+    cleanup_proc_handle(handle);
+done:
+    PyMem_Free(handle);
     return rc;
 #endif
 }
-
