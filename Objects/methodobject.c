@@ -23,7 +23,7 @@
         printf("Coroutine system corrupted after call to %s: %s\n", badfunc->m_ml->ml_name, badfunc->m_ml->ml_doc); \
     }
 #else
-    #define CheckCoroutineIntegrity()
+    #define CheckCoroutineIntegrity(func_param)
 #endif
 
 /* Forward declarations */
