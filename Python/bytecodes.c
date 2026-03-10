@@ -1289,9 +1289,6 @@ dummy_func(
                 gen_frame->previous = frame;
                 // gen->gi_previous_datastack = _PyThreadState_ActivateDataStack(tstate, &resume_gen->gi_datastack);
 
-                // consume (count-1) recursions, as DISPATCH_INLINED will consume one more, and check the result
-                tstate->py_recursion_remaining -= gen->gi_resume_frame_count-1;
-
                 DISPATCH_INLINED(resume_frame);
             }
             if (PyStackRef_IsNone(v) && PyIter_Check(receiver_o)) {
@@ -1359,11 +1356,9 @@ dummy_func(
                 // generator yield
                 frame->instr_ptr++;
 
-                int frame_count;
                 PyGenObject *gen;
                 // this frame should be the generatory
                 assert(frame->owner == FRAME_OWNED_BY_GENERATOR);
-                frame_count = 1;
                 gen = _PyGen_GetGeneratorFromFrame(frame);
 
                 assert(FRAME_SUSPENDED_YIELD_FROM == FRAME_SUSPENDED + 1);
@@ -1377,8 +1372,7 @@ dummy_func(
                 SAVE_STACK();
                 tstate->exc_info = gen->gi_exc_state.previous_item;
                 gen->gi_exc_state.previous_item = NULL;
-                gen->gi_resume_frame_count = frame_count;
-                _Py_LeaveRecursiveCallsPy(tstate, frame_count);
+                _Py_LeaveRecursiveCallPy(tstate);
 
                 _PyInterpreterFrame *yielding_gen_frame = &gen->gi_iframe;
 
@@ -3241,7 +3235,6 @@ dummy_func(
                     _PyInterpreterFrame *resume_frame = resume_gen->gi_resume_iframe;
                     gen_frame->previous = frame;
                     // gen->gi_previous_datastack = _PyThreadState_ActivateDataStack(tstate, &resume_gen->gi_datastack);
-                    assert(gen->gi_resume_frame_count == 1);
                     DISPATCH_INLINED(resume_frame);
                 }
             }
@@ -4086,7 +4079,7 @@ dummy_func(
             // gen->gi_previous_datastack = _PyThreadState_ActivateDataStack(tstate, &resume_gen->gi_datastack);
             CALL_STAT_INC(inlined_py_calls);
             frame = tstate->current_frame = resume_frame;
-            tstate->py_recursion_remaining -= gen->gi_resume_frame_count;
+            tstate->py_recursion_remaining -= 1;
             LOAD_SP();
             LOAD_IP(0);
             LLTRACE_RESUME_FRAME();

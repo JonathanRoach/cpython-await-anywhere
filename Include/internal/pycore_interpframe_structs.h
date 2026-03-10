@@ -110,7 +110,6 @@ struct _PyInterpreterFrame {
     /* the gen and its frame to resume at */                                \
     struct _PyInterpreterFrame *prefix##_resume_iframe;                     \
     struct _PyGenObject *prefix##_resume_gen;                               \
-    int prefix##_resume_frame_count;                                        \
     int prefix##_py_recursion_depth_at_entry;                               \
     char prefix##_hooks_inited;                                             \
     char prefix##_closed;                                                   \

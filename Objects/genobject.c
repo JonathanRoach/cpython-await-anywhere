@@ -275,7 +275,7 @@ gen_send_ex2(PyGenObject *gen, PyObject *arg, PyObject **presult,
 
     gen->gi_frame_state = FRAME_EXECUTING;
     EVAL_CALL_STAT_INC(EVAL_CALL_GENERATOR);
-    PyObject *result = _PyEval_EvalFrames(tstate, &gen->gi_iframe, frame, gen->gi_resume_frame_count, exc);
+    PyObject *result = _PyEval_EvalFrame(tstate, &gen->gi_iframe, exc);
     assert(gen->gi_exc_state.previous_item == NULL);
     assert(gen->gi_frame_state != FRAME_EXECUTING);
     assert(gen->gi_iframe.previous == NULL);
@@ -997,7 +997,6 @@ make_gen(PyTypeObject *type, PyFunctionObject *func)
     }
     gen->gi_resume_iframe = &gen->gi_iframe;
     gen->gi_resume_gen = gen;
-    gen->gi_resume_frame_count = 1;
     gen->gi_previous_datastack = NULL;
     gen->gi_frame_state = FRAME_CLEARED;
     gen->gi_weakreflist = NULL;

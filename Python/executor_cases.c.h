@@ -1970,10 +1970,8 @@
                 value = PyStackRef_FromPyObjectSteal(value_o);
             } else {
                 frame->instr_ptr++;
-                int frame_count;
                 PyGenObject *gen;
                 assert(frame->owner == FRAME_OWNED_BY_GENERATOR);
-                frame_count = 1;
                 gen = _PyGen_GetGeneratorFromFrame(frame);
                 assert(FRAME_SUSPENDED_YIELD_FROM == FRAME_SUSPENDED + 1);
                 assert(oparg == 0 || oparg == 1 || oparg == 3);
@@ -1986,8 +1984,7 @@
                 _PyFrame_SetStackPointer(frame, stack_pointer);
                 tstate->exc_info = gen->gi_exc_state.previous_item;
                 gen->gi_exc_state.previous_item = NULL;
-                gen->gi_resume_frame_count = frame_count;
-                _Py_LeaveRecursiveCallsPy(tstate, frame_count);
+                _Py_LeaveRecursiveCallPy(tstate);
                 _PyInterpreterFrame *yielding_gen_frame = &gen->gi_iframe;
                 frame = tstate->current_frame = yielding_gen_frame->previous;
                 yielding_gen_frame->previous = NULL;
@@ -5356,7 +5353,7 @@
             gen_frame->previous = frame;
             CALL_STAT_INC(inlined_py_calls);
             frame = tstate->current_frame = resume_frame;
-            tstate->py_recursion_remaining -= gen->gi_resume_frame_count;
+            tstate->py_recursion_remaining -= 1;
             LOAD_SP();
             LOAD_IP(0);
             LLTRACE_RESUME_FRAME();

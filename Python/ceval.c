@@ -1043,15 +1043,9 @@ typedef struct {
     _PyStackRef stack[1];
 } _PyEntryFrame;
 
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(extern, PyObject *, _PyEval_EvalFrameDefault, PyThreadState *, _PyInterpreterFrame *, int)
 PyObject* _Py_HOT_FUNCTION DONT_SLP_VECTORIZE
 _PyEval_EvalFrameDefault(PyThreadState *tstate, _PyInterpreterFrame *frame, int throwflag)
-{
-    return _PyEval_EvalFramesDefault(tstate, frame, frame, 1, throwflag);
-}
-
-_PY_ENSURE_COSTACK_HEADROOM_FOR_FN5_A(extern, PyObject *, _PyEval_EvalFramesDefault, PyThreadState *, _PyInterpreterFrame *, _PyInterpreterFrame *, int, int)
-PyObject* _Py_HOT_FUNCTION DONT_SLP_VECTORIZE
-_PyEval_EvalFramesDefault(PyThreadState *tstate, _PyInterpreterFrame *framebase, _PyInterpreterFrame *frame, int frame_count, int throwflag)
 {
     _Py_EnsureTstateNotNULL(tstate);
     check_invalid_reentrancy();
@@ -1071,33 +1065,14 @@ _PyEval_EvalFramesDefault(PyThreadState *tstate, _PyInterpreterFrame *framebase,
 #endif
     _PyEntryFrame entry;
 
-#if defined(Py_DEBUG)
-    {
-        _PyInterpreterFrame *search_frame = frame;
-        int depth = 1;
-        while(search_frame != framebase){
-            search_frame = search_frame->previous;
-            assert(search_frame);
-            depth += 1;
-        }
-        assert(depth == frame_count);
-    }
-#endif
-
     if (_Py_EnterRecursiveCallTstate(tstate, "")) {
-        for(;;) {
-            assert(frame->owner != FRAME_OWNED_BY_INTERPRETER);
-            _PyEval_FrameClearAndPop(tstate, frame);
-            if (frame == framebase){
-                break;
-            }
-            frame = frame->previous;
-        }
+        assert(frame->owner != FRAME_OWNED_BY_INTERPRETER);
+        _PyEval_FrameClearAndPop(tstate, frame);
         return NULL;
     }
     CALL_STAT_INC(pyeval_calls);
 
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN5_B(NULL, PyObject *, _PyEval_EvalFramesDefault, tstate, framebase, frame, frame_count, throwflag)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(NULL, PyObject *, _PyEval_EvalFrameDefault, tstate, frame, throwflag)
 
     /* Local "register" variables.
      * These are cached values from the frame and code object.  */
@@ -1126,7 +1101,7 @@ _PyEval_EvalFramesDefault(PyThreadState *tstate, _PyInterpreterFrame *framebase,
 #endif
     /* Push frame */
     entry.frame.previous = tstate->current_frame;
-    framebase->previous = &entry.frame;
+    frame->previous = &entry.frame;
     tstate->current_frame = frame;
     entry.frame.localsplus[0] = PyStackRef_NULL;
 #ifdef _Py_TIER2
@@ -1138,7 +1113,7 @@ _PyEval_EvalFramesDefault(PyThreadState *tstate, _PyInterpreterFrame *framebase,
 
     /* support for generator.throw() */
     if (throwflag) {
-        if (_Py_EnterRecursiveCallsPy(tstate, frame_count)) {
+        if (_Py_EnterRecursivePy(tstate)) {
             goto early_exit;
         }
 #ifdef Py_GIL_DISABLED
@@ -1169,8 +1144,6 @@ _PyEval_EvalFramesDefault(PyThreadState *tstate, _PyInterpreterFrame *framebase,
         goto error;
 #endif
     }
-    // start frame processing will deal with the extra frame, and check if we've gone over
-    tstate->py_recursion_remaining -= (frame_count-1);
 
 #if defined(_Py_TIER2) && !defined(_Py_JIT)
     /* Tier 2 interpreter state */
@@ -1293,7 +1266,7 @@ jump_to_jump_target:
 
 early_exit:
     assert(_PyErr_Occurred(tstate));
-    _Py_LeaveRecursiveCallsPy(tstate, frame_count);
+    _Py_LeaveRecursiveCallPy(tstate);
     assert(frame->owner != FRAME_OWNED_BY_INTERPRETER);
     do {
         // GH-99729: We need to unlink the frame *before* clearing it:
