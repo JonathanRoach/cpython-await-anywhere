@@ -3903,10 +3903,13 @@ _curses.setupterm
 Initialize the terminal.
 [clinic start generated code]*/
 
+_PY_ENSURE_STACK_FOR_FN3_A(PyObject *, _curses_setupterm_impl, PyObject *, const char *, int)
 static PyObject *
 _curses_setupterm_impl(PyObject *module, const char *term, int fd)
 /*[clinic end generated code: output=4584e587350f2848 input=4a11ae3b572c04e6]*/
 {
+    // Seen using 37056 on Fedora 43 x86 64 bit
+    _PY_ENSURE_STACK_FOR_FN3_B(48*1024, NULL, PyObject *, _curses_setupterm_impl, PyObject *, module, const char *, term, int, fd)
     int err;
 
     if (fd == -1) {
