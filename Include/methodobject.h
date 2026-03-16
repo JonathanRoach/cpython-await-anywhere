@@ -151,6 +151,16 @@ MacOS, for example) - please check before you set!
 */
 #define METH_C_STACK_FRUGAL 0x0400
 
+/* METH_C_STACK_MEASURE means measure the C stack usage of this function.
+In debug builds of python the stack usage is printed out after each call
+of the function.
+
+A 1M chunk of stack is be created
+to call the function, then marked with a guard pattern, and the difference
+before and after the call of how much guard pattern is there is the stack
+usage. 1M may seem a great deal, but some functions use 100's of k
+that it's worth it. */
+#define METH_C_STACK_MEASURE 0x0800
 
 #ifndef Py_LIMITED_API
 #  define Py_CPYTHON_METHODOBJECT_H

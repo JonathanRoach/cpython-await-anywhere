@@ -1,4 +1,3 @@
-
 /* Method object implementation */
 
 #include "Python.h"
@@ -24,6 +23,21 @@
     }
 #else
     #define CheckCoroutineIntegrity(func_param)
+#endif
+
+#ifndef NDEBUG
+    #define MeasureCStackUsage(FLAGS, NAME, CALL) \
+        if ((FLAGS) & METH_C_STACK_MEASURE){ \
+            Coroutine_ClearStackForHWM(); \
+            char *before = Coroutine_GetStackHWM(); \
+            ret = (CALL); \
+            char *after = Coroutine_GetStackHWM(); \
+            printf("%s used %ld bytes\n", NAME, before - after); \
+        } else { \
+            ret = (CALL); \
+        }
+#else
+#define MeasureCStackUsage(FLAGS, NAME, CALL) PyObject *ret = (CALL)
 #endif
 
 /* Forward declarations */
@@ -454,11 +468,21 @@ static inline PyObject *dovectorcall_FASTCALL(
     if (func->m_ml->ml_flags & METH_C_STACK_FRUGAL) {
         stack_needed = PYOS_STACK_MARGIN_BYTES;
     } else {
+#ifndef NDEBUG
+        if (func->m_ml->ml_flags & METH_C_STACK_MEASURE){
+            stack_needed = 1024*1024;
+        } else {
+            stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
+        }
+#else
         stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
+#endif
     }
     _PY_ENSURE_STACK_FOR_FN4_B(stack_needed, NULL, PyObject *, dovectorcall_FASTCALL,
         PyCFunctionFast, meth, PyObject *, func_obj, PyObject *const *, args, Py_ssize_t, nargs)
-    return meth(PyCFunction_GET_SELF(func_obj), args, nargs);
+    PyObject *ret;
+    MeasureCStackUsage(_PyCFunctionObject_CAST(func_obj)->m_ml->ml_flags, _PyCFunctionObject_CAST(func_obj)->m_ml->ml_name, meth(PyCFunction_GET_SELF(func_obj), args, nargs));
+    return ret;
 }
 
 static PyObject *
@@ -489,11 +513,23 @@ static inline PyObject *docfunction_vectorcall_FASTCALL_KEYWORDS(
     if (func->m_ml->ml_flags & METH_C_STACK_FRUGAL) {
         stack_needed = PYOS_STACK_MARGIN_BYTES;
     } else {
+#ifndef NDEBUG
+        if (func->m_ml->ml_flags & METH_C_STACK_MEASURE){
+            stack_needed = 1024*1024;
+        } else {
+#endif
+            stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
+#ifndef NDEBUG
+        }
+#else
         stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
+#endif
     }
     _PY_ENSURE_STACK_FOR_FN5_B(stack_needed, NULL, PyObject *, docfunction_vectorcall_FASTCALL_KEYWORDS,
         PyCFunctionFastWithKeywords, meth, PyObject *, func_obj, PyObject *const *, args, Py_ssize_t, nargs, PyObject *, kwnames)
-    return meth(PyCFunction_GET_SELF(func_obj), args, nargs, kwnames);
+    PyObject *ret;
+    MeasureCStackUsage(_PyCFunctionObject_CAST(func_obj)->m_ml->ml_flags, _PyCFunctionObject_CAST(func_obj)->m_ml->ml_name, meth(PyCFunction_GET_SELF(func_obj), args, nargs, kwnames));
+    return ret;
 }
 
 static PyObject *
@@ -521,11 +557,21 @@ static inline PyObject *docfunction_vectorcall_FASTCALL_KEYWORDS_METHOD(
     if (func->m_ml->ml_flags & METH_C_STACK_FRUGAL) {
         stack_needed = PYOS_STACK_MARGIN_BYTES;
     } else {
+#ifndef NDEBUG
+        if (func->m_ml->ml_flags & METH_C_STACK_MEASURE){
+            stack_needed = 1024*1024;
+        } else {
+            stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
+        }
+#else
         stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
+#endif
     }
     _PY_ENSURE_STACK_FOR_FN6_B(stack_needed, NULL, PyObject *, docfunction_vectorcall_FASTCALL_KEYWORDS_METHOD,
         PyCMethod, meth, PyObject *, func_obj, PyTypeObject *, cls, PyObject *const *, args, Py_ssize_t, nargs, PyObject *, kwnames)
-    return meth(PyCFunction_GET_SELF(func_obj), cls, args, nargs, kwnames);
+    PyObject *ret;
+    MeasureCStackUsage(_PyCFunctionObject_CAST(func_obj)->m_ml->ml_flags, _PyCFunctionObject_CAST(func_obj)->m_ml->ml_name, meth(PyCFunction_GET_SELF(func_obj), cls, args, nargs, kwnames));
+    return ret;
 }
 
 static PyObject *
@@ -553,12 +599,21 @@ static inline PyObject *docfunction_vectorcall_NOARGS(
     if (func->m_ml->ml_flags & METH_C_STACK_FRUGAL) {
         stack_needed = PYOS_STACK_MARGIN_BYTES;
     } else {
+#ifndef NDEBUG
+        if (func->m_ml->ml_flags & METH_C_STACK_MEASURE){
+            stack_needed = 1024*1024;
+        } else {
+            stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
+        }
+#else
         stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
+#endif
     }
     _PY_ENSURE_STACK_FOR_FN2_B(stack_needed, NULL, PyObject *, docfunction_vectorcall_NOARGS,
         PyCFunction, meth, PyObject *, func_obj)
-    PyObject *ret = _PyCFunction_TrampolineCall(
-        meth, PyCFunction_GET_SELF(func_obj), NULL);
+    PyObject *ret;
+    MeasureCStackUsage(_PyCFunctionObject_CAST(func_obj)->m_ml->ml_flags, _PyCFunctionObject_CAST(func_obj)->m_ml->ml_name, _PyCFunction_TrampolineCall(
+        meth, PyCFunction_GET_SELF(func_obj), NULL));
     CheckCoroutineIntegrity(func_obj);
     return ret;
 }
@@ -599,13 +654,22 @@ static inline PyObject *docfunction_vectorcall_O(
     if (func->m_ml->ml_flags & METH_C_STACK_FRUGAL) {
         stack_needed = PYOS_STACK_MARGIN_BYTES;
     } else {
+#ifndef NDEBUG
+        if (func->m_ml->ml_flags & METH_C_STACK_MEASURE){
+            stack_needed = 1024*1024;
+        } else {
+            stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
+        }
+#else
         stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
+#endif
     }
     _PY_ENSURE_STACK_FOR_FN3_B(stack_needed, NULL, PyObject *, docfunction_vectorcall_O,
         PyCFunction, meth, PyObject *, func_obj, PyObject *, arg)
-    PyObject *ret = _PyCFunction_TrampolineCall(
-        meth, PyCFunction_GET_SELF(func_obj), arg);
-    CheckCoroutineIntegrity(func_obj);        
+    PyObject *ret;
+    MeasureCStackUsage(_PyCFunctionObject_CAST(func_obj)->m_ml->ml_flags, _PyCFunctionObject_CAST(func_obj)->m_ml->ml_name, _PyCFunction_TrampolineCall(
+        meth, PyCFunction_GET_SELF(func_obj), arg));
+    CheckCoroutineIntegrity(func_obj);
     return ret;
 }
 
@@ -656,10 +720,20 @@ cfunction_call(PyObject *func, PyObject *args, PyObject *kwargs)
     struct Do_Call_Params_cfunction_call params = {func, args, kwargs};
     if ((flags & METH_C_STACK_FRUGAL) == 0){
         // Ensure enough stack headroom
-        if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(2*PYOS_STACK_MARGIN_BYTES)){
+        size_t stack_needed;
+#ifndef NDEBUG
+        if (_PyCFunctionObject_CAST(func)->m_ml->ml_flags & METH_C_STACK_MEASURE){
+            stack_needed = 1024*1024;
+        } else {
+            stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
+        }
+#else
+        stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
+#endif
+        if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)stack_needed){
             // Chain with a new stack
             void *result;
-            if ( !_Py_Coroutine_Chain(PYOS_COSTACK_STD_SIZE, Do_cfunction_call, &params, &result)) {
+            if ( !_Py_Coroutine_Chain(PYOS_COSTACK_STD_SIZE > stack_needed ? PYOS_COSTACK_STD_SIZE : stack_needed, Do_cfunction_call, &params, &result)) {
                 return (PyObject *)result;
             } else {
                 return PyErr_NoMemory();
@@ -690,11 +764,11 @@ Do_cfunction_call(void *_params)
     PyCFunction meth = PyCFunction_GET_FUNCTION(func);
     PyObject *self = PyCFunction_GET_SELF(func);
 
-    PyObject *result;
+    PyObject *ret;
     if (flags & METH_KEYWORDS) {
-        result = _PyCFunctionWithKeywords_TrampolineCall(
+        MeasureCStackUsage(flags, _PyCFunctionObject_CAST(func)->m_ml->ml_name, _PyCFunctionWithKeywords_TrampolineCall(
             *_PyCFunctionWithKeywords_CAST(meth),
-            self, args, kwargs);
+            self, args, kwargs));
     }
     else {
         if (kwargs != NULL && PyDict_GET_SIZE(kwargs) != 0) {
@@ -703,8 +777,8 @@ Do_cfunction_call(void *_params)
                           ((PyCFunctionObject*)func)->m_ml->ml_name);
             return NULL;
         }
-        result = _PyCFunction_TrampolineCall(meth, self, args);
+        MeasureCStackUsage(flags, _PyCFunctionObject_CAST(func)->m_ml->ml_name, _PyCFunction_TrampolineCall(meth, self, args));
     }
     CheckCoroutineIntegrity(func);
-    return _Py_CheckFunctionResult(tstate, func, result, NULL);
+    return _Py_CheckFunctionResult(tstate, func, ret, NULL);
 }
