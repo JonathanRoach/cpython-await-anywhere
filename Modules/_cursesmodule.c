@@ -2946,87 +2946,87 @@ static PyMethodDef PyCursesWindow_methods[] = {
     _CURSES_WINDOW_BKGD_METHODDEF
 #ifdef HAVE_CURSES_WCHGAT
     {
-        "chgat", PyCursesWindow_ChgAt, METH_VARARGS|METH_C_STACK_MEASURE,
+        "chgat", PyCursesWindow_ChgAt, METH_VARARGS|METH_C_STACK_FRUGAL,
         _curses_window_chgat__doc__
     },
 #endif
     _CURSES_WINDOW_BKGDSET_METHODDEF
     _CURSES_WINDOW_BORDER_METHODDEF
     _CURSES_WINDOW_BOX_METHODDEF
-    {"clear",           PyCursesWindow_wclear, METH_NOARGS|METH_C_STACK_MEASURE},
-    {"clearok",         PyCursesWindow_clearok, METH_VARARGS|METH_C_STACK_MEASURE},
-    {"clrtobot",        PyCursesWindow_wclrtobot, METH_NOARGS|METH_C_STACK_MEASURE},
-    {"clrtoeol",        PyCursesWindow_wclrtoeol, METH_NOARGS|METH_C_STACK_MEASURE},
-    {"cursyncup",       PyCursesWindow_wcursyncup, METH_NOARGS|METH_C_STACK_MEASURE},
+    {"clear",           PyCursesWindow_wclear, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"clearok",         PyCursesWindow_clearok, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"clrtobot",        PyCursesWindow_wclrtobot, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"clrtoeol",        PyCursesWindow_wclrtoeol, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"cursyncup",       PyCursesWindow_wcursyncup, METH_NOARGS|METH_C_STACK_FRUGAL},
     _CURSES_WINDOW_DELCH_METHODDEF
-    {"deleteln",        PyCursesWindow_wdeleteln, METH_NOARGS|METH_C_STACK_MEASURE},
+    {"deleteln",        PyCursesWindow_wdeleteln, METH_NOARGS|METH_C_STACK_FRUGAL},
     _CURSES_WINDOW_DERWIN_METHODDEF
     _CURSES_WINDOW_ECHOCHAR_METHODDEF
     _CURSES_WINDOW_ENCLOSE_METHODDEF
-    {"erase",           PyCursesWindow_werase, METH_NOARGS|METH_C_STACK_MEASURE},
-    {"getbegyx",        PyCursesWindow_getbegyx, METH_NOARGS|METH_C_STACK_MEASURE},
+    {"erase",           PyCursesWindow_werase, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"getbegyx",        PyCursesWindow_getbegyx, METH_NOARGS|METH_C_STACK_FRUGAL},
     _CURSES_WINDOW_GETBKGD_METHODDEF
     _CURSES_WINDOW_GETCH_METHODDEF
     _CURSES_WINDOW_GETKEY_METHODDEF
     _CURSES_WINDOW_GET_WCH_METHODDEF
-    {"getmaxyx",        PyCursesWindow_getmaxyx, METH_NOARGS|METH_C_STACK_MEASURE},
-    {"getparyx",        PyCursesWindow_getparyx, METH_NOARGS|METH_C_STACK_MEASURE},
+    {"getmaxyx",        PyCursesWindow_getmaxyx, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"getparyx",        PyCursesWindow_getparyx, METH_NOARGS|METH_C_STACK_FRUGAL},
     {
-        "getstr", PyCursesWindow_getstr, METH_VARARGS|METH_C_STACK_MEASURE,
+        "getstr", PyCursesWindow_getstr, METH_VARARGS|METH_C_STACK_FRUGAL,
         _curses_window_getstr__doc__
     },
-    {"getyx",           PyCursesWindow_getyx, METH_NOARGS|METH_C_STACK_MEASURE},
+    {"getyx",           PyCursesWindow_getyx, METH_NOARGS|METH_C_STACK_FRUGAL},
     _CURSES_WINDOW_HLINE_METHODDEF
-    {"idcok",           PyCursesWindow_idcok, METH_VARARGS|METH_C_STACK_MEASURE},
-    {"idlok",           PyCursesWindow_idlok, METH_VARARGS|METH_C_STACK_MEASURE},
+    {"idcok",           PyCursesWindow_idcok, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"idlok",           PyCursesWindow_idlok, METH_VARARGS|METH_C_STACK_FRUGAL},
 #ifdef HAVE_CURSES_IMMEDOK
-    {"immedok",         PyCursesWindow_immedok, METH_VARARGS|METH_C_STACK_MEASURE},
+    {"immedok",         PyCursesWindow_immedok, METH_VARARGS|METH_C_STACK_FRUGAL},
 #endif
     _CURSES_WINDOW_INCH_METHODDEF
     _CURSES_WINDOW_INSCH_METHODDEF
-    {"insdelln",        PyCursesWindow_winsdelln, METH_VARARGS|METH_C_STACK_MEASURE},
-    {"insertln",        PyCursesWindow_winsertln, METH_NOARGS|METH_C_STACK_MEASURE},
+    {"insdelln",        PyCursesWindow_winsdelln, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"insertln",        PyCursesWindow_winsertln, METH_NOARGS|METH_C_STACK_FRUGAL},
     _CURSES_WINDOW_INSNSTR_METHODDEF
     _CURSES_WINDOW_INSSTR_METHODDEF
     {
-        "instr", PyCursesWindow_instr, METH_VARARGS|METH_C_STACK_MEASURE,
+        "instr", PyCursesWindow_instr, METH_VARARGS|METH_C_STACK_FRUGAL,
         _curses_window_instr__doc__
     },
     _CURSES_WINDOW_IS_LINETOUCHED_METHODDEF
-    {"is_wintouched",   PyCursesWindow_is_wintouched, METH_NOARGS|METH_C_STACK_MEASURE},
-    {"keypad",          PyCursesWindow_keypad, METH_VARARGS|METH_C_STACK_MEASURE},
-    {"leaveok",         PyCursesWindow_leaveok, METH_VARARGS|METH_C_STACK_MEASURE},
-    {"move",            PyCursesWindow_wmove, METH_VARARGS|METH_C_STACK_MEASURE},
-    {"mvderwin",        PyCursesWindow_mvderwin, METH_VARARGS|METH_C_STACK_MEASURE},
-    {"mvwin",           PyCursesWindow_mvwin, METH_VARARGS|METH_C_STACK_MEASURE},
-    {"nodelay",         PyCursesWindow_nodelay, METH_VARARGS|METH_C_STACK_MEASURE},
-    {"notimeout",       PyCursesWindow_notimeout, METH_VARARGS|METH_C_STACK_MEASURE},
+    {"is_wintouched",   PyCursesWindow_is_wintouched, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"keypad",          PyCursesWindow_keypad, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"leaveok",         PyCursesWindow_leaveok, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"move",            PyCursesWindow_wmove, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"mvderwin",        PyCursesWindow_mvderwin, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"mvwin",           PyCursesWindow_mvwin, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"nodelay",         PyCursesWindow_nodelay, METH_VARARGS|METH_C_STACK_FRUGAL},
+    {"notimeout",       PyCursesWindow_notimeout, METH_VARARGS|METH_C_STACK_FRUGAL},
     _CURSES_WINDOW_NOUTREFRESH_METHODDEF
     _CURSES_WINDOW_OVERLAY_METHODDEF
     _CURSES_WINDOW_OVERWRITE_METHODDEF
     _CURSES_WINDOW_PUTWIN_METHODDEF
     _CURSES_WINDOW_REDRAWLN_METHODDEF
-    {"redrawwin",       PyCursesWindow_redrawwin, METH_NOARGS|METH_C_STACK_MEASURE},
+    {"redrawwin",       PyCursesWindow_redrawwin, METH_NOARGS|METH_C_STACK_FRUGAL},
     _CURSES_WINDOW_REFRESH_METHODDEF
 #ifndef STRICT_SYSV_CURSES
-    {"resize",          PyCursesWindow_wresize, METH_VARARGS|METH_C_STACK_MEASURE},
+    {"resize",          PyCursesWindow_wresize, METH_VARARGS|METH_C_STACK_FRUGAL},
 #endif
     _CURSES_WINDOW_SCROLL_METHODDEF
-    {"scrollok",        PyCursesWindow_scrollok, METH_VARARGS|METH_C_STACK_MEASURE},
+    {"scrollok",        PyCursesWindow_scrollok, METH_VARARGS|METH_C_STACK_FRUGAL},
     _CURSES_WINDOW_SETSCRREG_METHODDEF
-    {"standend",        PyCursesWindow_wstandend, METH_NOARGS|METH_C_STACK_MEASURE},
-    {"standout",        PyCursesWindow_wstandout, METH_NOARGS|METH_C_STACK_MEASURE},
-    {"subpad",          _curses_window_subwin, METH_VARARGS|METH_C_STACK_MEASURE, _curses_window_subwin__doc__},
+    {"standend",        PyCursesWindow_wstandend, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"standout",        PyCursesWindow_wstandout, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"subpad",          _curses_window_subwin, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_subwin__doc__},
     _CURSES_WINDOW_SUBWIN_METHODDEF
-    {"syncdown",        PyCursesWindow_wsyncdown, METH_NOARGS|METH_C_STACK_MEASURE},
+    {"syncdown",        PyCursesWindow_wsyncdown, METH_NOARGS|METH_C_STACK_FRUGAL},
 #ifdef HAVE_CURSES_SYNCOK
-    {"syncok",          PyCursesWindow_syncok, METH_VARARGS|METH_C_STACK_MEASURE},
+    {"syncok",          PyCursesWindow_syncok, METH_VARARGS|METH_C_STACK_FRUGAL},
 #endif
-    {"syncup",          PyCursesWindow_wsyncup, METH_NOARGS|METH_C_STACK_MEASURE},
-    {"timeout",         PyCursesWindow_wtimeout, METH_VARARGS|METH_C_STACK_MEASURE},
+    {"syncup",          PyCursesWindow_wsyncup, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"timeout",         PyCursesWindow_wtimeout, METH_VARARGS|METH_C_STACK_FRUGAL},
     _CURSES_WINDOW_TOUCHLINE_METHODDEF
-    {"touchwin",        PyCursesWindow_touchwin, METH_NOARGS|METH_C_STACK_MEASURE},
-    {"untouchwin",      PyCursesWindow_untouchwin, METH_NOARGS|METH_C_STACK_MEASURE},
+    {"touchwin",        PyCursesWindow_touchwin, METH_NOARGS|METH_C_STACK_FRUGAL},
+    {"untouchwin",      PyCursesWindow_untouchwin, METH_NOARGS|METH_C_STACK_FRUGAL},
     _CURSES_WINDOW_VLINE_METHODDEF
     {NULL,                  NULL}   /* sentinel */
 };
@@ -3757,6 +3757,7 @@ _curses_init_pair_impl(PyObject *module, int pair_number, int fg, int bg)
     Py_RETURN_NONE;
 }
 
+_PY_ENSURE_STACK_FOR_FN3_A(PyObject *, _curses_initscr_impl, PyObject *)
 /*[clinic input]
 @c_stack_frugal
 _curses.initscr
@@ -3770,6 +3771,8 @@ static PyObject *
 _curses_initscr_impl(PyObject *module)
 /*[clinic end generated code: output=619fb68443810b7b input=041d3d675ca935d3]*/
 {
+    // seen using 103808 bytes on Fedora 43 x86 64 bit
+    _PY_ENSURE_STACK_FOR_FN3_B(128*1024, NULL, PyObject *, _curses_initscr_impl, PyObject *, module)
     WINDOW *win;
 
     if (curses_initscr_called) {
@@ -3890,6 +3893,7 @@ _curses_initscr_impl(PyObject *module)
     return winobj;
 }
 
+_PY_ENSURE_STACK_FOR_FN3_A(PyObject *, _curses_setupterm_impl, PyObject *, const char *, int)
 /*[clinic input]
 @c_stack_frugal
 _curses.setupterm
@@ -3904,13 +3908,12 @@ _curses.setupterm
 Initialize the terminal.
 [clinic start generated code]*/
 
-_PY_ENSURE_STACK_FOR_FN3_A(PyObject *, _curses_setupterm_impl, PyObject *, const char *, int)
 static PyObject *
 _curses_setupterm_impl(PyObject *module, const char *term, int fd)
 /*[clinic end generated code: output=4584e587350f2848 input=4a11ae3b572c04e6]*/
 {
-    // Seen using 37056 on Fedora 43 x86 64 bit
-    _PY_ENSURE_STACK_FOR_FN3_B(48*1024, NULL, PyObject *, _curses_setupterm_impl, PyObject *, module, const char *, term, int, fd)
+    // Seen using 103616 on Fedora 43 x86 64 bit
+    _PY_ENSURE_STACK_FOR_FN3_B(128*1024, NULL, PyObject *, _curses_setupterm_impl, PyObject *, module, const char *, term, int, fd)
     int err;
 
     if (fd == -1) {
