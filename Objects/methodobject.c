@@ -37,7 +37,7 @@
             ret = (CALL); \
         }
 #else
-#define MeasureCStackUsage(FLAGS, NAME, CALL) PyObject *ret = (CALL)
+#define MeasureCStackUsage(FLAGS, NAME, CALL) ret = (CALL)
 #endif
 
 /* Forward declarations */
