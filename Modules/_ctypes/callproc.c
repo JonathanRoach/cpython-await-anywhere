@@ -1220,7 +1220,8 @@ PyObject *_ctypes_callproc(ctypes_state *st,
     };
 
     // Ensure there's enough stack to marshall the arguments, and call the function
-    uintptr_t stack_requirement = CTYPES_ARGUMENT_WORKSPACE * argcount + PYOS_STACK_MARGIN_BYTES;
+    // Security.SecTrustEvaluateWithError used by pip on Mac needs quite a bit of stack space
+    uintptr_t stack_requirement = CTYPES_ARGUMENT_WORKSPACE * argcount + 3*PYOS_STACK_MARGIN_BYTES;
     if ((intptr_t)stack_requirement > _Py_Coroutine_GetStackHeadroom()){
         void *result;
         if (_Py_Coroutine_Chain(stack_requirement < PYOS_COSTACK_STD_SIZE ? PYOS_COSTACK_STD_SIZE : stack_requirement, _ctypes_callproc_inner, &params, &result)){
