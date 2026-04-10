@@ -33,6 +33,7 @@ typedef struct {
     PyObject *str_reason;
     PyObject *str_verify_code;
     PyObject *str_verify_message;
+    PyObject *fn_select;
     /* keylog lock */
     PyThread_type_lock keylog_lock;
 } _sslmodulestate;

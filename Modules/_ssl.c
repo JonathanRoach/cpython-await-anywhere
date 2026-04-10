@@ -381,7 +381,7 @@ class _ssl.SSLSession "PySSLSession *" "get_state_type(type)->PySSLSession_Type"
 
 #include "clinic/_ssl.c.h"
 
-static int PySSL_select(PySocketSockObject *s, int writing, PyTime_t timeout);
+static int PySSL_select(PySSLSocket *self, PySocketSockObject *s, int writing, PyTime_t timeout);
 
 typedef enum {
     SOCKET_IS_NONBLOCKING,
@@ -1048,9 +1048,9 @@ _ssl__SSLSocket_do_handshake_impl(PySSLSocket *self)
             timeout = _PyDeadline_Get(deadline);
 
         if (err.ssl == SSL_ERROR_WANT_READ) {
-            sockstate = PySSL_select(sock, 0, timeout);
+            sockstate = PySSL_select(self, sock, 0, timeout);
         } else if (err.ssl == SSL_ERROR_WANT_WRITE) {
-            sockstate = PySSL_select(sock, 1, timeout);
+            sockstate = PySSL_select(self, sock, 1, timeout);
         } else {
             sockstate = SOCKET_OPERATION_OK;
         }
@@ -2394,7 +2394,7 @@ PySSL_dealloc(PyObject *op)
  */
 
 static int
-PySSL_select(PySocketSockObject *s, int writing, PyTime_t timeout)
+PySSL_select(PySSLSocket *self, PySocketSockObject *s, int writing, PyTime_t timeout)
 {
     int rc;
 #ifdef HAVE_POLL
@@ -2419,6 +2419,18 @@ PySSL_select(PySocketSockObject *s, int writing, PyTime_t timeout)
     /* Guard against closed socket */
     if (s->sock_fd == INVALID_SOCKET)
         return SOCKET_HAS_BEEN_CLOSED;
+
+    _sslmodulestate *state = get_state_sock(self);
+    if (state->fn_select) {
+        // use fn_select to do the select
+        PyObject *res = PyObject_CallFunction(state->fn_select, "iid", s->sock_fd, writing, PyTime_AsSecondsDouble(timeout));
+        if (!res){
+            PyErr_Clear();
+            return SOCKET_TOO_LARGE_FOR_SELECT;
+        }
+        int r = PyLong_AsInt(res);
+        return (r < 0 || r > SOCKET_OPERATION_OK) ? SOCKET_TOO_LARGE_FOR_SELECT : r;
+    }
 
     /* Prefer poll, if available, since you can poll() any fd
      * which can't be done with select(). */
@@ -2506,7 +2518,7 @@ _ssl__SSLSocket_write_impl(PySSLSocket *self, Py_buffer *b)
         deadline = _PyDeadline_Init(timeout);
     }
 
-    sockstate = PySSL_select(sock, 1, timeout);
+    sockstate = PySSL_select(self, sock, 1, timeout);
     if (sockstate == SOCKET_HAS_TIMED_OUT) {
         PyErr_SetString(PyExc_TimeoutError,
                         "The write operation timed out");
@@ -2536,9 +2548,9 @@ _ssl__SSLSocket_write_impl(PySSLSocket *self, Py_buffer *b)
         }
 
         if (err.ssl == SSL_ERROR_WANT_READ) {
-            sockstate = PySSL_select(sock, 0, timeout);
+            sockstate = PySSL_select(self, sock, 0, timeout);
         } else if (err.ssl == SSL_ERROR_WANT_WRITE) {
-            sockstate = PySSL_select(sock, 1, timeout);
+            sockstate = PySSL_select(self, sock, 1, timeout);
         } else {
             sockstate = SOCKET_OPERATION_OK;
         }
@@ -2693,9 +2705,9 @@ _ssl__SSLSocket_read_impl(PySSLSocket *self, Py_ssize_t len,
         }
 
         if (err.ssl == SSL_ERROR_WANT_READ) {
-            sockstate = PySSL_select(sock, 0, timeout);
+            sockstate = PySSL_select(self, sock, 0, timeout);
         } else if (err.ssl == SSL_ERROR_WANT_WRITE) {
-            sockstate = PySSL_select(sock, 1, timeout);
+            sockstate = PySSL_select(self, sock, 1, timeout);
         } else if (err.ssl == SSL_ERROR_ZERO_RETURN &&
                    SSL_get_shutdown(self->ssl) == SSL_RECEIVED_SHUTDOWN)
         {
@@ -2818,9 +2830,9 @@ _ssl__SSLSocket_shutdown_impl(PySSLSocket *self)
 
         /* Possibly retry shutdown until timeout or failure */
         if (err.ssl == SSL_ERROR_WANT_READ)
-            sockstate = PySSL_select(sock, 0, timeout);
+            sockstate = PySSL_select(self, sock, 0, timeout);
         else if (err.ssl == SSL_ERROR_WANT_WRITE)
-            sockstate = PySSL_select(sock, 1, timeout);
+            sockstate = PySSL_select(self, sock, 1, timeout);
         else
             break;
 
@@ -5947,6 +5959,27 @@ _ssl_get_default_verify_paths_impl(PyObject *module)
     return NULL;
 }
 
+/*[clinic input]
+@c_stack_frugal
+@critical_section
+_ssl.set_select_function
+    fn: object
+
+Set the function to perform select()s for SSL. def fn(socket, writenotread, timeout)
+
+[clinic start generated code]*/
+
+static PyObject *
+_ssl_set_select_function_impl(PyObject *module, PyObject *fn)
+/*[clinic end generated code: output=cce6f2bdee16542d input=f7547a4d53587f2f]*/
+{
+    _sslmodulestate *state = get_ssl_state(module);
+    Py_XDECREF(state->fn_select);
+    Py_INCREF(fn);
+    state->fn_select = fn == Py_None ? NULL : fn;
+    return Py_None;
+}
+
 static PyObject*
 asn1obj2py(_sslmodulestate *state, ASN1_OBJECT *obj)
 {
@@ -6358,6 +6391,7 @@ static PyMethodDef PySSL_methods[] = {
     _SSL_ENUM_CRLS_METHODDEF
     _SSL_TXT2OBJ_METHODDEF
     _SSL_NID2OBJ_METHODDEF
+    _SSL_SET_SELECT_FUNCTION_METHODDEF
     {NULL,                  NULL}            /* Sentinel */
 };
 
@@ -6896,6 +6930,7 @@ sslmodule_init_strings(PyObject *module)
     if (state->str_verify_code == NULL) {
         return -1;
     }
+    state->fn_select = NULL;
     return 0;
 }
 
@@ -6973,6 +7008,7 @@ sslmodule_clear(PyObject *m)
     Py_CLEAR(state->str_reason);
     Py_CLEAR(state->str_verify_code);
     Py_CLEAR(state->str_verify_message);
+    Py_CLEAR(state->fn_select);
     return 0;
 }
 

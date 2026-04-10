@@ -2615,6 +2615,66 @@ _ssl_get_default_verify_paths(PyObject *module, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+PyDoc_STRVAR(_ssl_set_select_function__doc__,
+"set_select_function($module, /, fn)\n"
+"--\n"
+"\n"
+"Set the function to perform select()s for SSL. def fn(socket, writenotread, timeout)");
+
+#define _SSL_SET_SELECT_FUNCTION_METHODDEF    \
+    {"set_select_function", _PyCFunction_CAST(_ssl_set_select_function), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _ssl_set_select_function__doc__},
+
+static PyObject *
+_ssl_set_select_function_impl(PyObject *module, PyObject *fn);
+
+static PyObject *
+_ssl_set_select_function(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
+{
+    PyObject *return_value = NULL;
+    #if defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_MODULE)
+
+    #define NUM_KEYWORDS 1
+    static struct {
+        PyGC_Head _this_is_not_used;
+        PyObject_VAR_HEAD
+        Py_hash_t ob_hash;
+        PyObject *ob_item[NUM_KEYWORDS];
+    } _kwtuple = {
+        .ob_base = PyVarObject_HEAD_INIT(&PyTuple_Type, NUM_KEYWORDS)
+        .ob_hash = -1,
+        .ob_item = { &_Py_ID(fn), },
+    };
+    #undef NUM_KEYWORDS
+    #define KWTUPLE (&_kwtuple.ob_base.ob_base)
+
+    #else  // !Py_BUILD_CORE
+    #  define KWTUPLE NULL
+    #endif  // !Py_BUILD_CORE
+
+    static const char * const _keywords[] = {"fn", NULL};
+    static _PyArg_Parser _parser = {
+        .keywords = _keywords,
+        .fname = "set_select_function",
+        .kwtuple = KWTUPLE,
+    };
+    #undef KWTUPLE
+    PyObject *argsbuf[1];
+    PyObject *fn;
+
+    args = _PyArg_UnpackKeywords(args, nargs, NULL, kwnames, &_parser,
+            /*minpos*/ 1, /*maxpos*/ 1, /*minkw*/ 0, /*varpos*/ 0, argsbuf);
+    if (!args) {
+        goto exit;
+    }
+    fn = args[0];
+    Py_BEGIN_CRITICAL_SECTION(module);
+    return_value = _ssl_set_select_function_impl(module, fn);
+    Py_END_CRITICAL_SECTION();
+
+exit:
+    return return_value;
+}
+
 PyDoc_STRVAR(_ssl_txt2obj__doc__,
 "txt2obj($module, /, txt, name=False)\n"
 "--\n"
@@ -2900,4 +2960,4 @@ exit:
 #ifndef _SSL_ENUM_CRLS_METHODDEF
     #define _SSL_ENUM_CRLS_METHODDEF
 #endif /* !defined(_SSL_ENUM_CRLS_METHODDEF) */
-/*[clinic end generated code: output=95ab564ae58575ad input=a9049054013a1b77]*/
+/*[clinic end generated code: output=49f0379d7e0a27f5 input=a9049054013a1b77]*/
