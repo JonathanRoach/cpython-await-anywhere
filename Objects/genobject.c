@@ -133,15 +133,21 @@ _PyGen_Finalize(PyObject *self)
         _PyErr_WarnUnawaitedCoroutine((PyObject *)gen);
     }
     else {
-        PyObject *res = gen_close((PyObject*)gen, NULL);
-        if (res == NULL) {
-            if (PyErr_Occurred()) {
-                PyErr_FormatUnraisable("Exception ignored while "
-                                       "closing generator %R", self);
+        // Check if we're executing.
+        // If the gen is executing, we must be in a garbage collection
+        // so don't do the close here - it will happen in a moment when the
+        // calling generator is destructed/closed.
+        if (gen->gi_frame_state != FRAME_EXECUTING){
+            PyObject *res = gen_close((PyObject*)gen, NULL);
+            if (res == NULL) {
+                if (PyErr_Occurred()) {
+                    PyErr_FormatUnraisable("Exception ignored while "
+                                        "closing generator %R", self);
+                }
             }
-        }
-        else {
-            Py_DECREF(res);
+            else {
+                Py_DECREF(res);
+            }
         }
     }
 
