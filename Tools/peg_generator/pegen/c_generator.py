@@ -584,11 +584,13 @@ class CParserGenerator(ParserGenerator, GrammarVisitor):
     def _should_memoize(self, node: Rule) -> bool:
         return node.memo and not node.left_recursive
 
-    def _handle_default_rule_body(self, node: Rule, rhs: Rhs, result_type: str) -> None:
+    def _handle_default_rule_body(self, node: Rule, rhs: Rhs, result_type: str, body_preamble: List[str]) -> None:
         memoize = self._should_memoize(node)
 
         with self.indent():
             self.add_level(node, result_type, node.left_recursive and node.leader)
+            for line in body_preamble:
+                self.print(line)
             self._check_for_errors()
             self.print(f"{result_type} _res = NULL;")
             if memoize:
@@ -614,12 +616,14 @@ class CParserGenerator(ParserGenerator, GrammarVisitor):
                 self.print(f"_PyPegen_insert_memo(p, _mark, {node.name}_type, _res);")
             self.add_return("_res")
 
-    def _handle_loop_rule_body(self, node: Rule, rhs: Rhs) -> None:
+    def _handle_loop_rule_body(self, node: Rule, rhs: Rhs, body_preamble:List[str]) -> None:
         memoize = self._should_memoize(node)
         is_repeat1 = node.name.startswith("_loop1")
 
         with self.indent():
             self.add_level(node, "asdl_seq *", node.left_recursive and node.leader)
+            for line in body_preamble:
+                self.print(line)
             self._check_for_errors()
             self.print("void *_res = NULL;")
             if memoize:
@@ -682,15 +686,18 @@ class CParserGenerator(ParserGenerator, GrammarVisitor):
         self.print("{")
 
         if node.name.endswith("without_invalid"):
-            with self.indent():
-                self.print("int _prev_call_invalid = p->call_invalid_rules;")
-                self.print("p->call_invalid_rules = 0;")
-                self.cleanup_statements.append("p->call_invalid_rules = _prev_call_invalid;")
+            body_preamble = [
+                "int _prev_call_invalid = p->call_invalid_rules;",
+                "p->call_invalid_rules = 0;",
+            ]
+            self.cleanup_statements.append("p->call_invalid_rules = _prev_call_invalid;")
+        else:
+            body_preamble = []
 
         if is_loop:
-            self._handle_loop_rule_body(node, rhs)
+            self._handle_loop_rule_body(node, rhs, body_preamble)
         else:
-            self._handle_default_rule_body(node, rhs, result_type)
+            self._handle_default_rule_body(node, rhs, result_type, body_preamble)
 
         if node.name.endswith("without_invalid"):
             self.cleanup_statements.pop()

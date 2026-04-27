@@ -21399,12 +21399,12 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, expression_without_invali
 static expr_ty
 expression_without_invalid_rule(Parser *p)
 {
-    int _prev_call_invalid = p->call_invalid_rules;
-    p->call_invalid_rules = 0;
     _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, expression_without_invalid_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
+    int _prev_call_invalid = p->call_invalid_rules;
+    p->call_invalid_rules = 0;
     if (p->error_indicator) {
         p->call_invalid_rules = _prev_call_invalid;
         p->level--;
