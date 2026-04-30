@@ -175,28 +175,33 @@ _PyObject_VectorcallTstate(PyThreadState *tstate, PyObject *callable,
     assert(callable != NULL);
 
     PyTypeObject *tp = Py_TYPE(callable);
-    if (!PyType_HasFeature(tp, Py_TPFLAGS_HAVE_VECTORCALL)) {
-        Py_ssize_t nargs = PyVectorcall_NARGS(nargsf);
-        return _PyObject_MakeTpCall(tstate, callable, args, nargs, kwnames);
-    }
-    assert(PyCallable_Check(callable));
 
-    Py_ssize_t offset = tp->tp_vectorcall_offset;
-    assert(offset > 0);
+    if (PyType_HasFeature(tp, Py_TPFLAGS_HAVE_VECTORCALL)) {
+        assert(PyCallable_Check(callable));
 
-    if (callable->ob_flags & _Py_VECTORCALL_IS_INLINABLE){
-        _vectorcallfunc_inlinable func_inlinable;
-        memcpy(&func_inlinable, (char *) callable + offset + sizeof(func), sizeof(func_inlinable));
-        res = func_inlinable(callable, args, nargsf, kwnames, inlined);
-    } else {
+        Py_ssize_t offset = tp->tp_vectorcall_offset;
+        assert(offset > 0);
+
+        if (PyType_HasFeature(tp, Py_TPFLAGS_VECTORCALL_INLINEABLE)) {
+            _vectorcallfunc_inlinable func_inlinable;
+            memcpy(&func_inlinable, (char *) callable + offset + sizeof(func), sizeof(func_inlinable));
+            if (func_inlinable){
+                res = func_inlinable(callable, args, nargsf, kwnames, inlined);
+                goto done;
+            }
+        }
         memcpy(&func, (char *) callable + offset, sizeof(func));
         if (func) {
             res = func(callable, args, nargsf, kwnames);
-        } else {
-            Py_ssize_t nargs = PyVectorcall_NARGS(nargsf);
-            return _PyObject_MakeTpCall(tstate, callable, args, nargs, kwnames);
+            goto done;
         }
     }
+
+    // _PyObject_MakeTpCall does _Py_CheckFunctionResult
+    Py_ssize_t nargs = PyVectorcall_NARGS(nargsf);
+    return _PyObject_MakeTpCall(tstate, callable, args, nargs, kwnames);
+
+done:
     return _Py_CheckFunctionResult(tstate, callable, res, NULL);
 }
 

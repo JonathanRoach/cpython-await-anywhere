@@ -587,6 +587,9 @@ given type object has a specified feature.
 /* Objects behave like an unbound method */
 #define Py_TPFLAGS_METHOD_DESCRIPTOR (1UL << 17)
 
+/* Objects with tp_vectorcall_offset may be inlineable */
+#define Py_TPFLAGS_VECTORCALL_INLINEABLE (1UL << 18)
+
 /* Unused. Legacy flag */
 #define Py_TPFLAGS_VALID_VERSION_TAG  (1UL << 19)
 
@@ -637,7 +640,6 @@ given type object has a specified feature.
 #if defined(Py_GIL_DISABLED) && defined(Py_DEBUG)
 #define _Py_TYPE_REVEALED_FLAG (1 << 3)
 #endif
-#define _Py_VECTORCALL_IS_INLINABLE (1<<4)
 
 #define Py_CONSTANT_NONE 0
 #define Py_CONSTANT_FALSE 1

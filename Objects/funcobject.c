@@ -134,7 +134,6 @@ _PyFunction_FromConstructor(PyFrameConstructor *constr)
     op->func_annotate = NULL;
     op->func_typeparams = NULL;
     op->vectorcall = _PyFunction_Vectorcall;
-    op->ob_base.ob_flags |= _Py_VECTORCALL_IS_INLINABLE;
     op->vectorcall_inlinable = _PyFunction_Vectorcall_inlinable;
     op->func_version = FUNC_VERSION_UNSET;
     // NOTE: functions created via FrameConstructor do not use deferred
@@ -214,7 +213,6 @@ PyFunction_NewWithQualName(PyObject *code, PyObject *globals, PyObject *qualname
     op->func_annotate = NULL;
     op->func_typeparams = NULL;
     op->vectorcall = _PyFunction_Vectorcall;
-    op->ob_base.ob_flags |= _Py_VECTORCALL_IS_INLINABLE;
     op->vectorcall_inlinable = _PyFunction_Vectorcall_inlinable;
     op->func_version = FUNC_VERSION_UNSET;
     if (((code_obj->co_flags & CO_NESTED) == 0) ||
@@ -481,7 +479,7 @@ PyFunction_SetVectorcall(PyFunctionObject *func, vectorcallfunc vectorcall)
     assert(func != NULL);
     _PyFunction_ClearVersion(func);
     func->vectorcall = vectorcall;
-    func->ob_base.ob_flags &= ~_Py_VECTORCALL_IS_INLINABLE;
+    func->vectorcall_inlinable = NULL;
 }
 
 PyObject *
@@ -1232,6 +1230,7 @@ PyTypeObject PyFunction_Type = {
     0,                                          /* tp_as_buffer */
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
     Py_TPFLAGS_HAVE_VECTORCALL |
+    Py_TPFLAGS_VECTORCALL_INLINEABLE |
     Py_TPFLAGS_METHOD_DESCRIPTOR,               /* tp_flags */
     func_new__doc__,                            /* tp_doc */
     func_traverse,                              /* tp_traverse */
