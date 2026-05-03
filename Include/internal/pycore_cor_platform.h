@@ -6,7 +6,7 @@
 
 #define _Cor_thread_local _Py_thread_local
 
-#ifndef HAVE_ALLOCA_H
+#ifdef HAVE_ALLOCA_H
  #define COROUTINE_HAVE_ALLOCA_H HAVE_ALLOCA_H
 #endif
 
