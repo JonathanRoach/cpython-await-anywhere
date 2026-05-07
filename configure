@@ -19261,6 +19261,8 @@ case "$host" in
   # the check for dup3 ('does it link') != 'is it in the headers'
   # so, for now, lets hard-wire the result to 'no', which matches iOS
   # ...do nothing, ie an implicit #undef HAVE_DUP3
+  { printf "%s\n" "$as_me:$LINENO: checking for dup3" >&5
+    printf "%s\n" "checking for dup3... (hardwired) no" >&6; }
   ;;
 *)
   ac_fn_c_check_func "$LINENO" "dup3" "ac_cv_func_dup3"
@@ -19750,6 +19752,8 @@ case "$host" in
   # the check for pipe2 ('does it link') != 'is it in the headers'
   # so, for now, lets hard-wire the result to 'no', which matches iOS
   # ...do nothing, ie an implicit #undef HAVE_PIPE2
+  { printf "%s\n" "$as_me:$LINENO: checking for pipe2" >&5
+    printf "%s\n" "checking for pipe2... (hardwired) no" >&6; }
   ;;
 *)
   ac_fn_c_check_func "$LINENO" "pipe2" "ac_cv_func_pipe2"
