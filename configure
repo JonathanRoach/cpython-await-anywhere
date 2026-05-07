@@ -19255,12 +19255,21 @@ then :
   printf "%s\n" "#define HAVE_DUP 1" >>confdefs.h
 
 fi
-ac_fn_c_check_func "$LINENO" "dup3" "ac_cv_func_dup3"
-if test "x$ac_cv_func_dup3" = xyes
-then :
-  printf "%s\n" "#define HAVE_DUP3 1" >>confdefs.h
+case "$host" in
+*-apple-ios-simulator*)
+  # on apple ios simulator:
+  # the check for dup3 ('does it link') != 'is it in the headers'
+  # so, for now, lets hard-wire the result to 'no', which matches iOS
+  # ...do nothing, ie an implicit #undef HAVE_DUP3
+  ;;
+*)
+  ac_fn_c_check_func "$LINENO" "dup3" "ac_cv_func_dup3"
+  if test "x$ac_cv_func_dup3" = xyes
+  then :
+    printf "%s\n" "#define HAVE_DUP3 1" >>confdefs.h
 
-fi
+  fi
+esac
 ac_fn_c_check_func "$LINENO" "execv" "ac_cv_func_execv"
 if test "x$ac_cv_func_execv" = xyes
 then :
@@ -19735,12 +19744,21 @@ then :
   printf "%s\n" "#define HAVE_PIPE 1" >>confdefs.h
 
 fi
-ac_fn_c_check_func "$LINENO" "pipe2" "ac_cv_func_pipe2"
-if test "x$ac_cv_func_pipe2" = xyes
-then :
-  printf "%s\n" "#define HAVE_PIPE2 1" >>confdefs.h
+case "$host" in
+*-apple-ios-simulator*)
+  # on apple ios simulator:
+  # the check for pipe2 ('does it link') != 'is it in the headers'
+  # so, for now, lets hard-wire the result to 'no', which matches iOS
+  # ...do nothing, ie an implicit #undef HAVE_PIPE2
+  ;;
+*)
+  ac_fn_c_check_func "$LINENO" "pipe2" "ac_cv_func_pipe2"
+  if test "x$ac_cv_func_pipe2" = xyes
+  then :
+    printf "%s\n" "#define HAVE_PIPE2 1" >>confdefs.h
 
-fi
+  fi
+esac
 ac_fn_c_check_func "$LINENO" "plock" "ac_cv_func_plock"
 if test "x$ac_cv_func_plock" = xyes
 then :
