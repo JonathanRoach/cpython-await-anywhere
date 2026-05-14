@@ -75,6 +75,17 @@ static unsigned char *StackTopNow(void);
         } \
     } while (0);
 
+
+static inline void ready_jmp_buf(jmp_buf buf) {
+#if defined(_M_X64) || defined(_M_ARM64)
+    // Win64:
+    //   Set Frame to 0 on Windows 64 bit to prevent C++ stack unwinding in longjmp().
+    // Win32:
+    //   Doesn't do this, so only needed on the 2 64 bit Windows versions
+    ((_JUMP_BUFFER*)buf)->Frame = 0;
+#endif
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // 2-way linked lists...
 //
@@ -476,6 +487,7 @@ static void stack_chunk_base(
     for(;;){
         switch (setjmp(here.buf)) {
         case Chunk_Initial:
+            ready_jmp_buf(here.buf);
             if (here.state == Coroutine_Free){
                 // return to the coroutine allocator
                 longjmp(cors->chunk_allocated, 1);
@@ -581,11 +593,13 @@ static Coroutine_Err Coroutines_ctor(Coroutines *cors)
 
     // Charactersize the system...
     if (!setjmp(cors->chunk_allocated)){
+        ready_jmp_buf(cors->chunk_allocated);
         ReserveStackSpace(cors, NULL, COROUTINE_STARTUP_STACK_SIZE, NULL);
     }
     Coroutine *cor = List_Link_Container(Coroutine, link, List_GetHead(&cors->free));
     cor->size = COROUTINE_STARTUP_STACK_SIZE;
     if (!setjmp(cors->chunk_allocated)){
+        ready_jmp_buf(cors->chunk_allocated);
         longjmp(cor->buf, Chunk_Create);
     }
     cors->gap_before = cor->prev_limit - (unsigned char *)cor;
@@ -714,6 +728,7 @@ Coroutine_Err Coroutine_Run_Coroutine(
     _Coroutine_Continue(cors, cor, value, true);
 
     if (!setjmp(cors->controller)){
+        ready_jmp_buf(cors->controller);
         _Cor_Mutex_Unlock(&cors->mutex);
 
         // start the first coroutine
@@ -838,7 +853,11 @@ static Coroutine *Coroutine_New_Lock_Assumed(
         // we're the non-Coroutine which starts the Coroutine system.
         // Add a single free block
         if (!setjmp(g_c->chunk_allocated)){
+            ready_jmp_buf(g_c->chunk_allocated);
             ReserveStackSpace(g_c, NULL, COROUTINE_STARTUP_STACK_SIZE, NULL);
+        }
+        if (!g_c->tip) {
+            return NULL;
         }
     }
 
@@ -901,6 +920,7 @@ static Coroutine *Coroutine_New_Lock_Assumed(
             // enough space for a second coroutine so split this free block
             cor->size = size;
             if (!setjmp(g_c->chunk_allocated)){
+                ready_jmp_buf(g_c->chunk_allocated);
                 longjmp(cor->buf, Chunk_Split);
             }
         }
@@ -911,8 +931,12 @@ static Coroutine *Coroutine_New_Lock_Assumed(
 
     // No big-enough free blocks - check if there's space beyond the tip block
 
+    if (!g_c) {
+        return NULL;
+    }
+    Coroutine *tip = g_c->tip;
     if (g_c->stack_limit) {
-        ptrdiff_t available = (unsigned char *)g_c->tip->limit - g_c->gap_before - g_c->gap_after - g_c->stack_limit;
+        ptrdiff_t available = (unsigned char *)tip->limit - g_c->gap_before - g_c->gap_after - g_c->stack_limit;
         if (available < (ptrdiff_t)size){
             // no space for a new stack block
             // printf("Not enough stack space (B) %p %zu %zu %p %ld\n", g_c->tip->limit, g_c->gap_before, g_c->gap_after, g_c->stack_limit, available);
@@ -920,14 +944,15 @@ static Coroutine *Coroutine_New_Lock_Assumed(
             return NULL;
         }
     }
-    Coroutine *tip = g_c->tip;
     Coroutine *me = g_c->active;
     if (tip == me) {
         if (!setjmp(g_c->chunk_allocated)){
+            ready_jmp_buf(g_c->chunk_allocated);
             ReserveStackSpace(g_c, me, StackTopNow() - me->limit, NULL);
         }
     } else {
         if (!setjmp(g_c->chunk_allocated)){
+            ready_jmp_buf(g_c->chunk_allocated);
             longjmp(tip->buf, Chunk_Create);
         }
     }
@@ -1106,6 +1131,7 @@ void *_Py_Coroutine_Yield(
 
     switch (setjmp(me->buf)){
     case Chunk_Initial:
+        ready_jmp_buf(me->buf);
         _Cor_Mutex_Unlock(&cors->mutex);
         on_yield(yield_me);
         Coroutine_RunNext();
@@ -1348,6 +1374,6 @@ void _Coroutine_Dump(void){
     List_Link *link;
     for (link = List_Begin(&g_c->all); Link_NextIsLink(link); link = Link_Next(link)){
         Coroutine *cor = List_Link_Container(Coroutine, all_link, link);
-        printf("%d) %p (%s) %ld%s\n", idx++, cor, state_to_text[cor->state], cor->size, cor == g_c->tip ? " (TIP)" : "");
+        printf("%d) %p (%s) %zd%s\n", idx++, cor, state_to_text[cor->state], cor->size, cor == g_c->tip ? " (TIP)" : "");
     }
 }
