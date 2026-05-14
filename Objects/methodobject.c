@@ -32,7 +32,7 @@
             char *before = Coroutine_GetStackHWM(); \
             ret = (CALL); \
             char *after = Coroutine_GetStackHWM(); \
-            printf("%s used %ld bytes\n", NAME, before - after); \
+            printf("%s used %td bytes\n", NAME, before - after); \
         } else { \
             ret = (CALL); \
         }
