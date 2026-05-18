@@ -80,7 +80,7 @@ class TestFreeThreading:
                     tasks = asyncio.all_tasks(loop)
             done.wait()
         
-        threading.stack_size(50*1024*1024)
+        threading.stack_size(128*1024*1024)
         runner = threading.Thread(target=lambda: asyncio.run(main()))
 
         def check():
