@@ -109,7 +109,11 @@
 // the caller of Coroutine_StartSystem a bit of room to work before calling
 // Coroutine_Run(), that is this amount:
 #ifndef COROUTINE_STARTUP_STACK_SIZE
-    #define COROUTINE_STARTUP_STACK_SIZE (128 * sizeof(void *))
+    #ifndef _NDEBUG
+        #define COROUTINE_STARTUP_STACK_SIZE (1024 * sizeof(void *))
+    #else
+        #define COROUTINE_STARTUP_STACK_SIZE (128 * sizeof(void *))
+    #endif
 #endif
 
 // This is *expensive* to turn on, especially if you have lots of stack pieces (eg when there's lots of Tasks)
