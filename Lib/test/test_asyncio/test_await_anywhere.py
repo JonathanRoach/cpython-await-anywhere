@@ -1,8 +1,13 @@
 import unittest
 
+import asyncio
+
+
+def tearDownModule():
+    asyncio._set_event_loop_policy(None)
+
 class AwaitAnywhereTests(unittest.TestCase):
     def test_await_anywhere(self):
-        import asyncio
 
         def withasync():
             await asyncio.sleep(0.01)
@@ -16,8 +21,6 @@ class AwaitAnywhereTests(unittest.TestCase):
         self.assertEqual(r, 'from withasync()')
 
     def test_await_disallowed_through_C_call(self):
-        import asyncio
-
         def withasync():
             await asyncio.sleep(0.01)
             return 'from withasync()'
@@ -30,8 +33,6 @@ class AwaitAnywhereTests(unittest.TestCase):
         self.assertRaises(RuntimeError, checknotallowed)
 
     def test_async_for_anywhere(self):
-        import asyncio
-
         async def afor():
             yield 1
             await asyncio.sleep(0.01)
@@ -51,8 +52,6 @@ class AwaitAnywhereTests(unittest.TestCase):
         self.assertEqual(asyncio.run(dotest()), [1, 2, 3, 1, 2, 3])
 
     def test_async_for_disallowed_through_C_call(self):
-        import asyncio
-
         async def afor():
             yield 1
             await asyncio.sleep(0.01)
@@ -74,8 +73,6 @@ class AwaitAnywhereTests(unittest.TestCase):
         self.assertRaises(RuntimeError, checknotallowed)
 
     def test_async_with_anywhere(self):
-        import asyncio
-
         class SupportAsyncWith:
             def __init__(self):
                 self.entered = False
@@ -103,8 +100,6 @@ class AwaitAnywhereTests(unittest.TestCase):
         self.assertTrue(value.exited)
 
     def test_async_with_disallowed_through_C_call(self):
-        import asyncio
-
         class SupportAsyncWith:
             def __init__(self):
                 self.entered = False
@@ -132,8 +127,6 @@ class AwaitAnywhereTests(unittest.TestCase):
         self.assertRaises(RuntimeError, checknotallowed)
 
     def test_await_through_property(self):
-        import asyncio
-
         # tests get...
         class HasAwaitInProperty:
             @property
@@ -177,8 +170,6 @@ class AwaitAnywhereTests(unittest.TestCase):
         # ...tests delete
 
     def test_await_through_descriptor(self):
-        import asyncio
-
         # tests __get__ on its own...
         class DescriptorWithGetWithAWait:
             def __get__(self, obj, objtype=None):
@@ -248,8 +239,6 @@ class AwaitAnywhereTests(unittest.TestCase):
         # ...tests __delete__
 
     def test_await_through__getattr__getattribute__(self):
-        import asyncio
-
         class HasAwaitIn__getattr__:
             def __getattr__(self, name):
                 if name == 'awaitvalue':
@@ -299,8 +288,6 @@ class AwaitAnywhereTests(unittest.TestCase):
         self.assertEqual(asyncio.run(dotest2()), 'awaitdoneawaitdone2')
 
     def test_await_through__setattr__(self):
-        import asyncio
-
         class HasAwaitIn__setattr__:
             def __setattr__(self, name, value):
                 if name == 'awaitvalue':
@@ -316,8 +303,6 @@ class AwaitAnywhereTests(unittest.TestCase):
         self.assertEqual(asyncio.run(dotest1()), 'awaitdone')
 
     def test_await_in_ops(self):
-        import asyncio
-
         # has no overrides
         class WithXorBase:
             ...
