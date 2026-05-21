@@ -1278,6 +1278,7 @@ static void *_ctypes_callproc_inner(void *_params)
         args[0].ffi_type = &ffi_type_pointer;
         args[0].value.p = pIunk;
         pa = &args[1];
+        --n;
     } else
 #endif
         pa = &args[0];
