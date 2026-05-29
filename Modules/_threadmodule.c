@@ -412,7 +412,7 @@ thread_run(void *boot_raw){
 #ifndef NDEBUG
     bool fails = 
 #endif
-    Coroutine_Run(PYOS_COSTACK_STD_SIZE, thread_run_coroutine, boot_raw, NULL);
+    _Py_Coroutine_Run(PYOS_COSTACK_STD_SIZE, thread_run_coroutine, boot_raw, NULL);
     assert(!fails);
 }
 

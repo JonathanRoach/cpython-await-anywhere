@@ -495,13 +495,13 @@ PyModule_ExecDef(PyObject *module, PyModuleDef *def)
                 break;
             case Py_mod_exec:
 #ifndef NDEBUG
-                if (Coroutine_CheckIntegrity()){
+                if (_Py_Coroutine_CheckIntegrity()){
                     printf("Stack corrupt on entry to module %s exec\n", def->m_name);
                 }
 #endif
                 ret = ((int (*)(PyObject *))cur_slot->value)(module);
 #ifndef NDEBUG
-                if (Coroutine_CheckIntegrity()){
+                if (_Py_Coroutine_CheckIntegrity()){
                     printf("Stack corrupt after exit of module %s exec\n", def->m_name);
                 }
 #endif
@@ -1010,14 +1010,14 @@ _Py_module_getattro_impl(PyModuleObject *m, PyObject *name, int suppress)
 {
     // When suppress=1, this function suppresses AttributeError.
 #ifndef NDEBUG
-    if (Coroutine_CheckIntegrity()){
+    if (_Py_Coroutine_CheckIntegrity()){
         printf("Stack corrupt getting module attribute %s.%s (entry)\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
     }
 #endif
     PyObject *attr, *mod_name, *getattr;
     attr = _PyObject_GenericGetAttrWithDict((PyObject *)m, name, NULL, suppress, NULL);
 #ifndef NDEBUG
-    if (Coroutine_CheckIntegrity()){
+    if (_Py_Coroutine_CheckIntegrity()){
         printf("Stack corrupt getting module attribute %s.%s (GetAttrWithDict)\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
     }
 #endif
@@ -1040,21 +1040,21 @@ _Py_module_getattro_impl(PyModuleObject *m, PyObject *name, int suppress)
     assert(m->md_dict != NULL);
     if (PyDict_GetItemRef(m->md_dict, &_Py_ID(__getattr__), &getattr) < 0) {
 #ifndef NDEBUG
-        if (Coroutine_CheckIntegrity()){
+        if (_Py_Coroutine_CheckIntegrity()){
             printf("Stack corrupt getting module attribute %s.%s (GetItemRef __getattr__ fail)\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
         }
 #endif
         return NULL;
     }
 #ifndef NDEBUG
-    if (Coroutine_CheckIntegrity()){
+    if (_Py_Coroutine_CheckIntegrity()){
         printf("Stack corrupt getting module attribute %s.%s (GetItemRef __getattr__ success)\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
     }
 #endif
     if (getattr) {
         PyObject *result = PyObject_CallOneArg(getattr, name);
 #ifndef NDEBUG
-        if (Coroutine_CheckIntegrity()){
+        if (_Py_Coroutine_CheckIntegrity()){
             printf("Stack corrupt getting module attribute %s.%s (after __getattr__())\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
         }
 #endif
@@ -1073,14 +1073,14 @@ _Py_module_getattro_impl(PyModuleObject *m, PyObject *name, int suppress)
     }
     if (PyDict_GetItemRef(m->md_dict, &_Py_ID(__name__), &mod_name) < 0) {
 #ifndef NDEBUG
-        if (Coroutine_CheckIntegrity()){
+        if (_Py_Coroutine_CheckIntegrity()){
             printf("Stack corrupt getting module attribute %s.%s (GetItemRef __name__ fail)\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
         }
 #endif
         return NULL;
     }
 #ifndef NDEBUG
-    if (Coroutine_CheckIntegrity()){
+    if (_Py_Coroutine_CheckIntegrity()){
         printf("Stack corrupt getting module attribute %s.%s (GetItemRef __name__ success)\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
     }
 #endif
@@ -1093,7 +1093,7 @@ _Py_module_getattro_impl(PyModuleObject *m, PyObject *name, int suppress)
     PyObject *spec;
     if (PyDict_GetItemRef(m->md_dict, &_Py_ID(__spec__), &spec) < 0) {
 #ifndef NDEBUG
-        if (Coroutine_CheckIntegrity()){
+        if (_Py_Coroutine_CheckIntegrity()){
             printf("Stack corrupt getting module attribute %s.%s (GetItemRef __spec__ fail)\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
         }
 #endif
@@ -1101,7 +1101,7 @@ _Py_module_getattro_impl(PyModuleObject *m, PyObject *name, int suppress)
         return NULL;
     }
 #ifndef NDEBUG
-    if (Coroutine_CheckIntegrity()){
+    if (_Py_Coroutine_CheckIntegrity()){
         printf("Stack corrupt getting module attribute %s.%s (GetItemRef __spec__ success)\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
     }
 #endif
@@ -1197,7 +1197,7 @@ _Py_module_getattro_impl(PyModuleObject *m, PyObject *name, int suppress)
 
 done:
 #ifndef NDEBUG
-    if (Coroutine_CheckIntegrity()){
+    if (_Py_Coroutine_CheckIntegrity()){
         printf("Stack corrupt after done attempting to get %s from module %s\n", PyUnicode_AsUTF8(m->md_name), PyUnicode_AsUTF8(name));
     }
 #endif

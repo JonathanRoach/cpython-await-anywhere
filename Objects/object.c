@@ -3271,7 +3271,7 @@ _Py_Dealloc(PyObject *op)
         _PyTrash_thread_deposit_object(tstate, (PyObject *)op);
         return;
     }
-    Coroutine_Run(PYOS_COSTACK_STD_SIZE, _Py_Dealloc_Now, op, NULL);
+    _Py_Coroutine_Run(PYOS_COSTACK_STD_SIZE, _Py_Dealloc_Now, op, NULL);
 }
 
 static void *

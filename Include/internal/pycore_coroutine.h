@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include "pycore_cor_platform_inc.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Coroutine
@@ -100,6 +101,15 @@
 //
 // On 64 bit macos, PYOS_STACK_MARGIN_BYTES is 2k * sizeof(void *), ie 16k, or 17 of those, 272k, should give enough slack to operate well.
 
+// This allows you to rename all Coroutine things with your own namespace.
+#ifndef Coroutine_NS
+    #define Coroutine_NS(N) Coroutine_##N
+#endif
+
+#ifndef Coroutine_API_FUNC
+    #define Coroutine_API_FUNC(T) extern T
+#endif
+
 // No coroutine will ask for less stack than this
 #ifndef COROUTINE_MINIMUM_STACK_SIZE
     #define COROUTINE_MINIMUM_STACK_SIZE (4096 * sizeof(void *))
@@ -154,32 +164,32 @@ typedef void (*Coroutine_YieldCallback)(void *me);
 typedef Coroutine_Err (*Coroutine_SystemStart)(void *);
 typedef void *(*Coroutine_Start)(void *);
 
-extern void Coroutine_SetStackLimit(void *);
-extern Coroutine_Report Coroutine_GetReport(void);
+Coroutine_API_FUNC(void) Coroutine_NS(SetStackLimit)(void *);
+Coroutine_API_FUNC(Coroutine_Report) Coroutine_NS(GetReport)(void);
 #ifndef NDEBUG
-    extern Coroutine_Err Coroutine_CheckIntegrity(void);
+    Coroutine_API_FUNC(Coroutine_Err) Coroutine_NS(CheckIntegrity)(void);
 #else
-    static inline Coroutine_Err Coroutine_CheckIntegrity(void){return Coroutine_OK;}
+    static inline Coroutine_Err Coroutine_NS(CheckIntegrity)(void){return Coroutine_OK;}
 #endif
-extern Coroutine_Err Coroutine_Run_Coroutine(Coroutine *cor, void *value);
-extern Coroutine_Err Coroutine_Run(size_t size, Coroutine_Start start, void *value, void **result);
-extern void *Coroutine_GetCStackTop(void);
-extern bool Coroutine_IsStarted(void);
+Coroutine_API_FUNC(Coroutine *) Coroutine_NS(New)(size_t size, Coroutine_Start start);
+Coroutine_API_FUNC(Coroutine_Err) Coroutine_NS(Run_Coroutine)(Coroutine *cor, void *value);
+Coroutine_API_FUNC(Coroutine_Err) Coroutine_NS(RunSystem)(Coroutine_SystemStart start, void *value);
+Coroutine_API_FUNC(Coroutine_Err) Coroutine_NS(Run)(size_t size, Coroutine_Start start, void *value, void **result);
+Coroutine_API_FUNC(void) Coroutine_NS(Delete)(Coroutine *cor);
+Coroutine_API_FUNC(Coroutine_Err) Coroutine_NS(Continue)(Coroutine *cor, void *value, bool early);
+Coroutine_API_FUNC(void *) Coroutine_NS(Yield)(void *value, Coroutine_YieldCallback on_yield, void *me);
+Coroutine_API_FUNC(void *) Coroutine_NS(GetValue)(Coroutine *cor);
+Coroutine_API_FUNC(Coroutine *) Coroutine_NS(GetActive)(void);
+Coroutine_API_FUNC(intptr_t) Coroutine_NS(GetStackHeadroom)(void);
+Coroutine_API_FUNC(void *) Coroutine_NS(GetStackHWM)(void);
+Coroutine_API_FUNC(void) Coroutine_NS(ClearStackForHWM)(void);
+Coroutine_API_FUNC(bool) Coroutine_NS(CanStartCoroutine)(size_t size);
+Coroutine_API_FUNC(void *) Coroutine_NS(GetCStackTop)(void);
+Coroutine_API_FUNC(Coroutine_Err) Coroutine_NS(Chain)(size_t size, Coroutine_Start start, void *value, void **result);
+Coroutine_API_FUNC(bool) Coroutine_NS(IsStarted)(void);
+Coroutine_API_FUNC(bool) Coroutine_NS(IsRunning)(Coroutine *cor);
+Coroutine_API_FUNC(bool) Coroutine_NS(IsComplete)(Coroutine *cor);
 
-extern void Coroutine_ClearStackForHWM(void);
-extern void *Coroutine_GetStackHWM(void);
-
-// export for _ctype, _json and _pickle for the _PY_ENSURE_COSTACK_HEADROOM_FOR_FN macros
-PyAPI_FUNC(bool) _Py_Coroutine_CanStartCoroutine(size_t size);
-PyAPI_FUNC(intptr_t) _Py_Coroutine_GetStackHeadroom(void);
-PyAPI_FUNC(Coroutine_Err) _Py_Coroutine_Chain(size_t size, Coroutine_Start start, void *value, void **result);
-PyAPI_FUNC(Coroutine *) _Py_Coroutine_New(size_t size, Coroutine_Start start);
-PyAPI_FUNC(void) _Py_Coroutine_Delete(Coroutine *cor);
-PyAPI_FUNC(bool) _Py_Coroutine_IsRunning(Coroutine *cor);
-PyAPI_FUNC(bool) _Py_Coroutine_IsComplete(Coroutine *cor);
-PyAPI_FUNC(Coroutine_Err) _Py_Coroutine_Continue(Coroutine *cor, void *value, bool early);
-PyAPI_FUNC(void *) _Py_Coroutine_Yield(void *value, Coroutine_YieldCallback on_yield, void *me);
-PyAPI_FUNC(void *) _Py_Coroutine_GetValue(Coroutine *cor);
-PyAPI_FUNC(Coroutine *) _Py_Coroutine_GetActive(void);
+Coroutine_API_FUNC(void) Coroutine_NS(Dump_)(void);
 
 #endif

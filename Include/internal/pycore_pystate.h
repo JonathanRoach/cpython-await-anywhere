@@ -337,7 +337,7 @@ _Py_RecursionLimit_GetMargin(PyThreadState *tstate)
 {
     _PyThreadStateImpl *_tstate = (_PyThreadStateImpl *)tstate;
     assert(_tstate->c_stack_hard_limit != 0);
-    if (Coroutine_IsStarted()){
+    if (_Py_Coroutine_IsStarted()){
         if (_Py_Coroutine_CanStartCoroutine(PYOS_COSTACK_STD_SIZE)) {
             return 4;
         }

@@ -111,7 +111,7 @@ PyObject *
 PyObject_CallNoArgs(PyObject *func)
 {
     PyObject *result;
-    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_CallNoArgs, func, (void **)&result)){
+    if (_Py_Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_CallNoArgs, func, (void **)&result)){
         PyErr_NoMemory();
         return NULL;
     }
@@ -409,7 +409,7 @@ PyObject_Call(PyObject *callable, PyObject *args, PyObject *kwargs)
 {
     struct PyObject_Call_Params params = {callable, args, kwargs};
     PyObject *result;
-    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_Call, &params, (void **)&result)){
+    if (_Py_Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_Call, &params, (void **)&result)){
         return NULL;
     }
     return result;
@@ -455,7 +455,7 @@ PyObject_CallOneArg(PyObject *func, PyObject *arg)
 {
     struct PyObject_CallOneArg_params params = {func, arg};
     PyObject *result;
-    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_CallOneArg, &params, (void **)&result)){
+    if (_Py_Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_CallOneArg, &params, (void **)&result)){
         PyErr_NoMemory();
         return NULL;
     }
@@ -569,7 +569,7 @@ PyObject_CallObject(PyObject *callable, PyObject *args)
 {
     struct PyObject_CallOneArg_params params = {callable, args};
     PyObject *result;
-    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_CallObject, &params, (void **)&result)){
+    if (_Py_Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_CallObject, &params, (void **)&result)){
         PyErr_NoMemory();
         return NULL;
     }
@@ -685,7 +685,7 @@ PyObject_CallFunction(PyObject *callable, const char *format, ...)
     struct PyObject_CallFunction_params params = {callable, format};
     va_start(params.va, format);
     PyObject *result;
-    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_CallFunction, &params, (void **)&result)){
+    if (_Py_Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_CallFunction, &params, (void **)&result)){
         PyErr_NoMemory();
         return NULL;
     }
@@ -774,7 +774,7 @@ PyObject_CallMethod(PyObject *obj, const char *name, const char *format, ...)
     struct PyObject_CallMethod_params params = {obj, name, format};
     va_start(params.va, format);
     PyObject *result;
-    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_CallMethod, &params, (void **)&result)){
+    if (_Py_Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_CallMethod, &params, (void **)&result)){
         PyErr_NoMemory();
         return NULL;
     }
@@ -1011,7 +1011,7 @@ PyObject_VectorcallMethod(PyObject *name, PyObject *const *args,
 {
     struct PyObject_VectorcallMethod_params params = {name, args, nargsf, kwnames};
     PyObject *result;
-    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_VectorcallMethod, &params, (void **)&result)){
+    if (_Py_Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_VectorcallMethod, &params, (void **)&result)){
         PyErr_NoMemory();
         return NULL;
     }
@@ -1053,7 +1053,7 @@ PyObject_CallMethodObjArgs(PyObject *obj, PyObject *name, ...)
     struct PyObject_CallMethodObjArgs_params params = {obj, name};
     va_start(params.va, name);
     PyObject *result;
-    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_CallMethodObjArgs, &params, (void **)&result)){
+    if (_Py_Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_CallMethodObjArgs, &params, (void **)&result)){
         PyErr_NoMemory();
         return NULL;
     }
@@ -1112,7 +1112,7 @@ PyObject_CallFunctionObjArgs(PyObject *callable, ...)
     struct PyObject_CallFunctioObjArgs_params params = {callable};
     va_start(params.va, callable);
     PyObject *result;
-    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_CallFunctionObjArgs, &params, (void **)&result)){
+    if (_Py_Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyObject_CallFunctionObjArgs, &params, (void **)&result)){
         PyErr_NoMemory();
         return NULL;
     }

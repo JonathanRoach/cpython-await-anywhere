@@ -264,7 +264,7 @@ main(int argc, char *argv[])
 {
     struct argparams params = {argc, argv};
     void *res;
-    if (Coroutine_Run(PYOS_COSTACK_STD_SIZE, _main, &params, &res)){
+    if (_Py_Coroutine_Run(PYOS_COSTACK_STD_SIZE, _main, &params, &res)){
         return 1;
     }
     return (int)(intptr_t)res;

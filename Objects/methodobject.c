@@ -17,7 +17,7 @@
 
 #ifndef NDEBUG
     #define CheckCoroutineIntegrity(func_param) \
-    if (Coroutine_CheckIntegrity()) { \
+    if (_Py_Coroutine_CheckIntegrity()) { \
         PyCFunctionObject *badfunc = _PyCFunctionObject_CAST(func_param); \
         printf("Coroutine system corrupted after call to %s: %s\n", badfunc->m_ml->ml_name, badfunc->m_ml->ml_doc); \
     }
@@ -28,10 +28,10 @@
 #ifndef NDEBUG
     #define MeasureCStackUsage(FLAGS, NAME, CALL) \
         if ((FLAGS) & METH_C_STACK_MEASURE){ \
-            Coroutine_ClearStackForHWM(); \
-            char *before = Coroutine_GetStackHWM(); \
+            _Py_Coroutine_ClearStackForHWM(); \
+            char *before = _Py_Coroutine_GetStackHWM(); \
             ret = (CALL); \
-            char *after = Coroutine_GetStackHWM(); \
+            char *after = _Py_Coroutine_GetStackHWM(); \
             printf("%s used %td bytes\n", NAME, before - after); \
         } else { \
             ret = (CALL); \

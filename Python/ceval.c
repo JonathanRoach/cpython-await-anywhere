@@ -458,7 +458,7 @@ _Py_InitializeRecursionLimits(PyThreadState *tstate)
     _tstate->c_stack_top = (uintptr_t)high;
     ULONG guarantee = 0;
     SetThreadStackGuarantee(&guarantee);
-    Coroutine_SetStackLimit((unsigned char *)low + guarantee);
+    _Py_Coroutine_SetStackLimit((unsigned char *)low + guarantee);
     _tstate->c_stack_hard_limit = ((uintptr_t)low) + guarantee + PYOS_STACK_MARGIN_BYTES;
     _tstate->c_stack_soft_limit = _tstate->c_stack_hard_limit + PYOS_STACK_MARGIN_BYTES;
 #else
@@ -476,7 +476,7 @@ _Py_InitializeRecursionLimits(PyThreadState *tstate)
     if (err == 0) {
         uintptr_t base = ((uintptr_t)stack_addr) + guard_size;
         _tstate->c_stack_top = base + stack_size_as_read;
-        Coroutine_SetStackLimit((unsigned char *)base);
+        _Py_Coroutine_SetStackLimit((unsigned char *)base);
 #ifdef _Py_THREAD_SANITIZER
         // Thread sanitizer crashes if we use a bit more than half the stack.
         _tstate->c_stack_soft_limit = base + (stack_size_as_read / 2);
@@ -494,7 +494,7 @@ _Py_InitializeRecursionLimits(PyThreadState *tstate)
     _tstate->c_stack_top = _Py_SIZE_ROUND_UP(here_addr, 4096);
     _tstate->c_stack_hard_limit = _tstate->c_stack_top - stack_size + PYOS_STACK_MARGIN_BYTES;
     _tstate->c_stack_soft_limit = _tstate->c_stack_hard_limit + PYOS_STACK_MARGIN_BYTES;
-    Coroutine_SetStackLimit((unsigned char *)_tstate->c_stack_hard_limit - PYOS_STACK_MARGIN_BYTES);
+    _Py_Coroutine_SetStackLimit((unsigned char *)_tstate->c_stack_hard_limit - PYOS_STACK_MARGIN_BYTES);
 #endif
 }
 
@@ -532,7 +532,7 @@ _Py_CheckRecursiveCall(PyThreadState *tstate, const char *where)
     assert(_tstate->c_stack_hard_limit != 0);
     if (coroutine_headroom < (intptr_t)PYOS_STACK_MARGIN_BYTES) {
         /* Overflowing while handling an overflow. Give up. */
-        int kbytes_used = (int)(_tstate->c_stack_top - (uintptr_t)Coroutine_GetCStackTop())/1024;
+        int kbytes_used = (int)(_tstate->c_stack_top - (uintptr_t)_Py_Coroutine_GetCStackTop())/1024;
         char buffer[80];
         snprintf(buffer, 80, "Unrecoverable stack overflow (used %d kB)%s", kbytes_used, where);
         Py_FatalError(buffer);
@@ -541,7 +541,7 @@ _Py_CheckRecursiveCall(PyThreadState *tstate, const char *where)
         return 0;
     }
     else {
-        int kbytes_used = (int)(_tstate->c_stack_top - (uintptr_t)Coroutine_GetCStackTop())/1024;
+        int kbytes_used = (int)(_tstate->c_stack_top - (uintptr_t)_Py_Coroutine_GetCStackTop())/1024;
         tstate->recursion_headroom++;
         _PyErr_Format(tstate, PyExc_RecursionError,
                     "Stack overflow (used %d kB)%s",

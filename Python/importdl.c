@@ -425,10 +425,10 @@ static void *
 DoMeasure(void *_params)
 {
     struct MeasureParams *params = _params;
-    Coroutine_ClearStackForHWM();
-    char *start = Coroutine_GetStackHWM();
+    _Py_Coroutine_ClearStackForHWM();
+    char *start = _Py_Coroutine_GetStackHWM();
     void *ret = params->p0();
-    char *end = Coroutine_GetStackHWM();
+    char *end = _Py_Coroutine_GetStackHWM();
     printf("Module %s init took %ld bytes of stack\n", PyUnicode_AsUTF8(params->info->name), start - end);
     return ret;
 }
@@ -456,7 +456,7 @@ _PyImport_RunModInitFunc(PyModInitFunction p0,
 #endif
 #undef MEASURE_STACK_USED
 #ifndef NDEBUG
-    if (Coroutine_CheckIntegrity()){
+    if (_Py_Coroutine_CheckIntegrity()){
         printf("Stack corrupt after module init of %s (%s)\n", PyUnicode_AsUTF8(info->name), PyUnicode_AsUTF8(info->filename));
     }
 #endif
