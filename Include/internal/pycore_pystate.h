@@ -123,7 +123,39 @@ _PyThreadState_GET(void)
 }
 
 PyAPI_FUNC(void) _PyThreadStack_SetAssigned(size_t);
-PyAPI_FUNC(size_t) _PyThreadStack_GetAssigned(void);
+typedef struct _PyThreadStack_Assigned {
+    uintptr_t base;
+    uintptr_t limit;
+} _PyThreadStack_Assigned;
+PyAPI_FUNC(_PyThreadStack_Assigned) _PyThreadStack_GetAssigned(void);
+Coroutine_Err _PyThreadStack_CallInsideCoroutine(void *(*fn)(void *), void *param, void **ret);
+
+// Return whether the stack is full, assuming we'll need
+// (headroom_needed+2)*PYOS_STACK_MARGIN_BYTES of space
+static inline int _PyThreadStack_IsStackFull(size_t headroom_needed) {
+    // Add in space to raise a low memory error, and convert ot bytes
+    headroom_needed = (2+headroom_needed)*PYOS_STACK_MARGIN_BYTES;
+
+    uintptr_t headroom = _Py_Coroutine_GetStackHeadroom();
+    if (headroom >= headroom_needed){
+        return 0;
+    }
+
+    // work out space we'll need in a chained coroutine
+    uintptr_t required = headroom_needed;
+    if (headroom > PYOS_COSTACK_MIN_HEADROOM){
+        required -= headroom - PYOS_COSTACK_MIN_HEADROOM;
+    }
+    if (required < PYOS_COSTACK_STD_SIZE){
+        required = PYOS_COSTACK_STD_SIZE;
+    }
+
+    if (_Py_Coroutine_CanStartCoroutine(required)) {
+        // If a new coroutine can be started, there's enough room
+        return 0;
+    }
+    return 1;
+}
 
 static inline _PyDataStack *_PyThreadState_ActivateDataStack(PyThreadState *tstate, _PyDataStack *datastack){
     _PyDataStack *previous = tstate->active_datastack;
@@ -330,22 +362,6 @@ _Py_get_machine_stack_pointer(void) {
     /* Avoid compiler warning about returning stack address */
     return return_pointer_as_int(&here);
 #endif
-}
-
-static inline intptr_t
-_Py_RecursionLimit_GetMargin(PyThreadState *tstate)
-{
-    _PyThreadStateImpl *_tstate = (_PyThreadStateImpl *)tstate;
-    assert(_tstate->c_stack_hard_limit != 0);
-    if (_Py_Coroutine_IsStarted()){
-        if (_Py_Coroutine_CanStartCoroutine(PYOS_COSTACK_STD_SIZE)) {
-            return 4;
-        }
-        return Py_ARITHMETIC_RIGHT_SHIFT(intptr_t, _Py_Coroutine_GetStackHeadroom(), PYOS_STACK_MARGIN_SHIFT);
-    } else {
-        intptr_t here_addr = _Py_get_machine_stack_pointer();
-        return Py_ARITHMETIC_RIGHT_SHIFT(intptr_t, here_addr - (intptr_t)_tstate->c_stack_soft_limit, PYOS_STACK_MARGIN_SHIFT);
-    }
 }
 
 #ifdef __cplusplus

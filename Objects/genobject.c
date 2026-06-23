@@ -1400,7 +1400,7 @@ coro_dosend(PyCoroObject *coro, PyObject *val, int exc, int closing)
             coro->cr_result = NULL;
             return PYGEN_ERROR;
         }
-        coro->cr_coroutine = _Py_Coroutine_New(PYOS_COSTACK_STD_SIZE, coro_entry);
+        coro->cr_coroutine = _Py_Coroutine_New(PYOS_COSTACK_STD_SIZE, PYOS_COSTACK_CHAIN_HEADROOM, coro_entry);
         if (!coro->cr_coroutine){
             PyErr_NoMemory();
             coro->cr_result = NULL;

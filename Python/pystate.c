@@ -76,7 +76,7 @@ _Py_thread_local PyThreadState *_Py_tss_tstate = NULL;
    also known as a "gilstate." */
 _Py_thread_local PyThreadState *_Py_tss_gilstate = NULL;
 
-_Py_thread_local size_t _Py_assigned_stack = 0;
+_Py_thread_local _PyThreadStack_Assigned _Py_assigned_stack = {0,0};
 #endif
 
 static inline PyThreadState *
@@ -124,18 +124,71 @@ _PyThreadState_GetCurrent(void)
     return current_fast_get();
 }
 
+#if defined(__s390x__)
+#  define Py_C_STACK_SIZE 320000
+#elif defined(_WIN32)
+   // Don't define Py_C_STACK_SIZE, ask the O/S
+#elif defined(__ANDROID__)
+#  define Py_C_STACK_SIZE 1200000
+#elif defined(__sparc__)
+#  define Py_C_STACK_SIZE 1600000
+#elif defined(__hppa__) || defined(__powerpc64__)
+#  define Py_C_STACK_SIZE 2000000
+#else
+#  define Py_C_STACK_SIZE 4000000
+#endif
 
 PyAPI_FUNC(void)
 _PyThreadStack_SetAssigned(size_t size)
 {
 #ifdef HAVE_THREAD_LOCAL
-    _Py_assigned_stack = size;
+    if (_Py_assigned_stack.base != 0 || _Py_assigned_stack.limit != 0){
+        // can't assign more than once per thread
+        return;
+    }
+ #ifdef WIN32
+    ULONG_PTR low, high;
+    GetCurrentThreadStackLimits(&low, &high);
+    ULONG guarantee = 0;
+    SetThreadStackGuarantee(&guarantee);
+
+    _Py_assigned_stack.base = (uintptr_t)high;
+    _Py_assigned_stack.limit = (uintptr_t)(low + guarantee);
+ #else
+  #if defined(HAVE_PTHREAD_GETATTR_NP) && !defined(_AIX) && !defined(__NetBSD__)
+    size_t stack_size_as_read, guard_size;
+    void *stack_addr;
+    pthread_attr_t attr;
+    int err = pthread_getattr_np(pthread_self(), &attr);
+    if (err == 0) {
+        err = pthread_attr_getguardsize(&attr, &guard_size);
+        err |= pthread_attr_getstack(&attr, &stack_addr, &stack_size_as_read);
+        err |= pthread_attr_destroy(&attr);
+    }
+    if (err == 0) {
+        _Py_assigned_stack.base = ((uintptr_t)stack_addr) + guard_size;
+        _Py_assigned_stack.limit = _Py_assigned_stack.base + stack_size_as_read;
+        return;
+    }
+  #endif
+    if (size == 0){
+        size = Py_C_STACK_SIZE;
+    }
+    uintptr_t here_addr = _Py_get_machine_stack_pointer();
+  #if defined(_Py_STACK_GROWS_DOWN) && !_Py_STACK_GROWS_DOWN
+    _Py_assigned_stack.base = _Py_SIZE_ROUND_DOWN(here_addr, 4096);
+    _Py_assigned_stack.limit = _Py_assigned_stack.base + size;
+  #else
+    _Py_assigned_stack.base = _Py_SIZE_ROUND_UP(here_addr, 4096);
+    _Py_assigned_stack.limit = _Py_assigned_stack.base - size;
+  #endif
+ #endif
 #else
 #  error "no supported thread-local variable storage classifier"
 #endif
 }
 
-PyAPI_FUNC(size_t)
+PyAPI_FUNC(_PyThreadStack_Assigned)
 _PyThreadStack_GetAssigned(void)
 {
 #ifdef HAVE_THREAD_LOCAL
@@ -143,6 +196,36 @@ _PyThreadStack_GetAssigned(void)
 #else
 #  error "no supported thread-local variable storage classifier"
 #endif
+}
+
+// Ensure fn(param) is called within a running coroutine system
+// The coroutine system will have its stack limits set if possible
+Coroutine_Err _PyThreadStack_CallInsideCoroutine(
+    void *(*fn)(void *),
+    void *param,
+    void **ret
+){
+    if (_Py_Coroutine_IsStarted()){
+        void *retval = fn(param);
+        if (ret){
+            *ret = retval;
+        }
+        return Coroutine_OK;
+    }
+
+    // Set the stack limit before we enter coroutine land
+    _PyThreadStack_Assigned stack = _PyThreadStack_GetAssigned();
+    if (stack.base == 0 && stack.limit == 0){
+        // For unassigned stacks (eg initial stack on MacOS), stack is going to be here
+        // Note, reassigning (eg due to a sub interpreter starting) won't reset the stack limits
+        _PyThreadStack_SetAssigned(0);
+        stack = _PyThreadStack_GetAssigned();
+    }
+    if (stack.base != 0 || stack.limit != 0){
+        _Py_Coroutine_SetStackLimit((unsigned char *)stack.limit);
+    }
+    
+    return _Py_Coroutine_Run(PYOS_COSTACK_STD_SIZE, PYOS_COSTACK_CHAIN_HEADROOM, fn, param, ret);
 }
 
 
@@ -1495,9 +1578,7 @@ init_threadstate(_PyThreadStateImpl *_tstate,
     tstate->current_executor = NULL;
     tstate->dict_global_version = 0;
 
-    _tstate->c_stack_soft_limit = UINTPTR_MAX;
     _tstate->c_stack_top = 0;
-    _tstate->c_stack_hard_limit = 0;
 
     _tstate->asyncio_running_loop = NULL;
     _tstate->asyncio_running_task = NULL;
@@ -2094,10 +2175,6 @@ _PyThreadState_Attach(PyThreadState *tstate)
     _Py_EnsureTstateNotNULL(tstate);
     if (current_fast_get() != NULL) {
         Py_FatalError("non-NULL old thread state");
-    }
-    _PyThreadStateImpl *_tstate = (_PyThreadStateImpl *)tstate;
-    if (_tstate->c_stack_hard_limit == 0) {
-        _Py_InitializeRecursionLimits(tstate);
     }
 
     while (1) {

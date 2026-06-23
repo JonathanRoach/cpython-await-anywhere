@@ -343,7 +343,6 @@ static void *
 thread_run_coroutine(void *boot_raw)
 {
     struct bootstate *boot = (struct bootstate *) boot_raw;
-    _PyThreadStack_SetAssigned(boot->assigned_stack);
     PyThreadState *tstate = boot->tstate;
 
     // Wait until the handle is marked as running
@@ -409,10 +408,12 @@ exit:
 static void
 thread_run(void *boot_raw){
     // This shouldn't fail ever - this is the thread entry point
+    struct bootstate *boot = (struct bootstate *) boot_raw;
+    _PyThreadStack_SetAssigned(boot->assigned_stack);
 #ifndef NDEBUG
     bool fails = 
 #endif
-    _Py_Coroutine_Run(PYOS_COSTACK_STD_SIZE, thread_run_coroutine, boot_raw, NULL);
+    _PyThreadStack_CallInsideCoroutine(thread_run_coroutine, boot_raw, NULL);
     assert(!fails);
 }
 

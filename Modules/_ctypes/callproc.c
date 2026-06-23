@@ -1224,7 +1224,7 @@ PyObject *_ctypes_callproc(ctypes_state *st,
     uintptr_t stack_requirement = CTYPES_ARGUMENT_WORKSPACE * argcount + 3*PYOS_STACK_MARGIN_BYTES;
     if ((intptr_t)stack_requirement > _Py_Coroutine_GetStackHeadroom()){
         void *result;
-        if (_Py_Coroutine_Chain(stack_requirement < PYOS_COSTACK_STD_SIZE ? PYOS_COSTACK_STD_SIZE : stack_requirement, _ctypes_callproc_inner, &params, &result)){
+        if (_Py_Coroutine_Chain(stack_requirement, PYOS_COSTACK_CHAIN_HEADROOM, _ctypes_callproc_inner, &params, &result)){
             // deal with failure
             return PyErr_NoMemory();
         }

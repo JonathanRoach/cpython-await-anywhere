@@ -14,6 +14,7 @@
 #include "pycore_fileutils.h"     // _Py_stat_struct
 #include <pycore_import.h>
 #include <pycore_coroutine.h>
+#include <pycore_pystate.h>
 
 #include <stdio.h>
 #include <stdlib.h>               // malloc()
@@ -264,7 +265,7 @@ main(int argc, char *argv[])
 {
     struct argparams params = {argc, argv};
     void *res;
-    if (_Py_Coroutine_Run(PYOS_COSTACK_STD_SIZE, _main, &params, &res)){
+    if (_PyThreadStack_CallInsideCoroutine(_main, &params, &res)){
         return 1;
     }
     return (int)(intptr_t)res;

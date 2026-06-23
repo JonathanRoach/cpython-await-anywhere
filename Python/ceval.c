@@ -347,47 +347,10 @@ Py_SetRecursionLimit(int new_limit)
 int
 _Py_ReachedRecursionLimitWithMargin(PyThreadState *tstate, int margin_count)
 {
-     _PyThreadStateImpl *_tstate = (_PyThreadStateImpl *)tstate;
-     if (_tstate->c_stack_hard_limit == 0) {
-        _Py_InitializeRecursionLimits(tstate);
-    }
-    if (_Py_Coroutine_CanStartCoroutine(PYOS_COSTACK_STD_SIZE)) {
-        // If a new coroutine can be started, there's enough room
-        return 0;
-    }
-    // 1 PYOS_STACK_MARGIN_BYTES for creating the stack overflow exception in an emergency (hard limit)
-    // 1 PYOS_STACK_MARGIN_BYTES for creating the stack overflow exception when stack is running low (soft limit)
-    // margin_count * PYOS_STACK_MARGIN_BYTES for working in.
-    return _Py_Coroutine_GetStackHeadroom() < (intptr_t)((2+margin_count) * PYOS_STACK_MARGIN_BYTES);
+    // Only used by parser.c
+    (void)margin_count;
+    return _Py_ReachedRecursionLimit(tstate);
 }
-
-void
-_Py_EnterRecursiveCallUnchecked(PyThreadState *tstate)
-{
-     _PyThreadStateImpl *_tstate = (_PyThreadStateImpl *)tstate;
-    if (_tstate->c_stack_hard_limit == 0) {
-        // If a new coroutine can be started, there's enough room
-        _Py_InitializeRecursionLimits(tstate);
-    }
-    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)PYOS_STACK_MARGIN_BYTES){
-        // hard limit reached
-        Py_FatalError("Unchecked stack overflow.");
-    }
-}
-
-#if defined(__s390x__)
-#  define Py_C_STACK_SIZE 320000
-#elif defined(_WIN32)
-   // Don't define Py_C_STACK_SIZE, ask the O/S
-#elif defined(__ANDROID__)
-#  define Py_C_STACK_SIZE 1200000
-#elif defined(__sparc__)
-#  define Py_C_STACK_SIZE 1600000
-#elif defined(__hppa__) || defined(__powerpc64__)
-#  define Py_C_STACK_SIZE 2000000
-#else
-#  define Py_C_STACK_SIZE 4000000
-#endif
 
 #if defined(__EMSCRIPTEN__)
 
@@ -447,57 +410,6 @@ int pthread_attr_destroy(pthread_attr_t *a)
 
 #endif
 
-
-void
-_Py_InitializeRecursionLimits(PyThreadState *tstate)
-{
-    _PyThreadStateImpl *_tstate = (_PyThreadStateImpl *)tstate;
-#ifdef WIN32
-    ULONG_PTR low, high;
-    GetCurrentThreadStackLimits(&low, &high);
-    _tstate->c_stack_top = (uintptr_t)high;
-    ULONG guarantee = 0;
-    SetThreadStackGuarantee(&guarantee);
-    _Py_Coroutine_SetStackLimit((unsigned char *)low + guarantee);
-    _tstate->c_stack_hard_limit = ((uintptr_t)low) + guarantee + PYOS_STACK_MARGIN_BYTES;
-    _tstate->c_stack_soft_limit = _tstate->c_stack_hard_limit + PYOS_STACK_MARGIN_BYTES;
-#else
-    uintptr_t here_addr = _Py_get_machine_stack_pointer();
-#  if defined(HAVE_PTHREAD_GETATTR_NP) && !defined(_AIX) && !defined(__NetBSD__)
-    size_t stack_size_as_read, guard_size;
-    void *stack_addr;
-    pthread_attr_t attr;
-    int err = pthread_getattr_np(pthread_self(), &attr);
-    if (err == 0) {
-        err = pthread_attr_getguardsize(&attr, &guard_size);
-        err |= pthread_attr_getstack(&attr, &stack_addr, &stack_size_as_read);
-        err |= pthread_attr_destroy(&attr);
-    }
-    if (err == 0) {
-        uintptr_t base = ((uintptr_t)stack_addr) + guard_size;
-        _tstate->c_stack_top = base + stack_size_as_read;
-        _Py_Coroutine_SetStackLimit((unsigned char *)base);
-#ifdef _Py_THREAD_SANITIZER
-        // Thread sanitizer crashes if we use a bit more than half the stack.
-        _tstate->c_stack_soft_limit = base + (stack_size_as_read / 2);
-#else
-        _tstate->c_stack_soft_limit = base + PYOS_STACK_MARGIN_BYTES * 2;
-#endif
-        _tstate->c_stack_hard_limit = base + PYOS_STACK_MARGIN_BYTES;
-        assert(_tstate->c_stack_soft_limit < here_addr);
-        assert(here_addr < _tstate->c_stack_top);
-        return;
-    }
-#  endif
-    size_t stack_size = _PyThreadStack_GetAssigned();
-    stack_size = stack_size != 0 ? stack_size : Py_C_STACK_SIZE;
-    _tstate->c_stack_top = _Py_SIZE_ROUND_UP(here_addr, 4096);
-    _tstate->c_stack_hard_limit = _tstate->c_stack_top - stack_size + PYOS_STACK_MARGIN_BYTES;
-    _tstate->c_stack_soft_limit = _tstate->c_stack_hard_limit + PYOS_STACK_MARGIN_BYTES;
-    _Py_Coroutine_SetStackLimit((unsigned char *)_tstate->c_stack_hard_limit - PYOS_STACK_MARGIN_BYTES);
-#endif
-}
-
 int _Py_StackNearlyExhausted(void)
 {
     intptr_t coroutine_headroom = _Py_Coroutine_GetStackHeadroom();
@@ -528,8 +440,6 @@ _Py_CheckRecursiveCall(PyThreadState *tstate, const char *where)
         // still not close as we can chain
         return 0;
     }
-    assert(_tstate->c_stack_soft_limit != 0);
-    assert(_tstate->c_stack_hard_limit != 0);
     if (coroutine_headroom < (intptr_t)PYOS_STACK_MARGIN_BYTES) {
         /* Overflowing while handling an overflow. Give up. */
         int kbytes_used = (int)(_tstate->c_stack_top - (uintptr_t)_Py_Coroutine_GetCStackTop())/1024;

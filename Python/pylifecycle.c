@@ -856,9 +856,6 @@ static PyStatus
 pycore_interp_init(PyThreadState *tstate)
 {
     _PyThreadStateImpl *_tstate = (_PyThreadStateImpl *)tstate;
-    if (_tstate->c_stack_hard_limit == 0) {
-        _Py_InitializeRecursionLimits(tstate);
-    }
     PyInterpreterState *interp = tstate->interp;
     PyStatus status;
     PyObject *sysmod = NULL;
@@ -1459,7 +1456,7 @@ PyStatus
 Py_InitializeFromConfig(const PyConfig *config)
 {
     struct Py_InitializeFromConfig_Params params = {config};
-    if (_Py_Coroutine_Run(PYOS_COSTACK_STD_SIZE, _Py_InitializeFromConfig, &params, NULL)){
+    if (_PyThreadStack_CallInsideCoroutine(_Py_InitializeFromConfig, &params, NULL)){
         return PyStatus_NoMemory();
     }
     return params.status;
@@ -2271,7 +2268,7 @@ static int
 _Py_Finalize(_PyRuntimeState *runtime)
 {
     void *res;
-    if (_Py_Coroutine_Run(PYOS_COSTACK_STD_SIZE, __Py_Finalize, runtime, &res)){
+    if (_PyThreadStack_CallInsideCoroutine(__Py_Finalize, runtime, &res)){
         return -1;
     }
     return (int)(intptr_t)res;
@@ -2439,7 +2436,7 @@ new_interpreter(PyThreadState **tstate_p,
                 const PyInterpreterConfig *config, long whence)
 {
     struct new_interpreter_params params = {tstate_p, config, whence};
-    if (_Py_Coroutine_Run(PYOS_COSTACK_STD_SIZE, _new_interpreter, &params, NULL)){
+    if (_PyThreadStack_CallInsideCoroutine(_new_interpreter, &params, NULL)){
         return PyStatus_NoMemory();
     }
     return params.status;
@@ -2527,7 +2524,7 @@ Py_EndInterpreter(PyThreadState *tstate)
 #ifndef NDEBUG
     bool fail = 
 #endif
-    _Py_Coroutine_Run(PYOS_COSTACK_STD_SIZE, _Py_EndInterpreter, tstate, NULL);
+    _PyThreadStack_CallInsideCoroutine(_Py_EndInterpreter, tstate, NULL);
     assert(!fail);
 }
 

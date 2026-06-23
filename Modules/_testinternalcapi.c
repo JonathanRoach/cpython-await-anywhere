@@ -117,10 +117,23 @@ get_recursion_depth(PyObject *self, PyObject *Py_UNUSED(args))
 static PyObject*
 get_c_recursion_remaining(PyObject *self, PyObject *Py_UNUSED(args))
 {
-    PyThreadState *tstate = _PyThreadState_GET();
-    uintptr_t here_addr = _Py_get_machine_stack_pointer();
-    _PyThreadStateImpl *_tstate = (_PyThreadStateImpl *)tstate;
-    int remaining = (int)((here_addr - _tstate->c_stack_soft_limit)/PYOS_STACK_MARGIN_BYTES * 50);
+    // available stack
+    size_t remaining = _Py_Coroutine_GetStackHeadroom();
+
+    // stack limit unknown - just return a huge amount
+    if (remaining == SIZE_MAX){
+        return PyLong_FromLong(remaining);
+    }
+
+    remaining -= PYOS_COSTACK_MIN_HEADROOM;
+    remaining += _Py_Coroutine_GetUsefulFreeSpace(PYOS_COSTACK_STD_SIZE, PYOS_COSTACK_MIN_HEADROOM);
+
+    // less the margin for raising a low memory error
+    remaining -= 2*PYOS_STACK_MARGIN_BYTES;
+
+    // scale to a test-useful amount
+    remaining = remaining / PYOS_STACK_MARGIN_BYTES * 50;
+
     return PyLong_FromLong(remaining);
 }
 

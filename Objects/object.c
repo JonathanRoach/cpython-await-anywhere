@@ -3266,20 +3266,19 @@ void
 _Py_Dealloc(PyObject *op)
 {
     PyThreadState *tstate = _PyThreadState_GET();
-    intptr_t margin = _Py_RecursionLimit_GetMargin(tstate);
-    if (margin < 2) {
+    if (_PyThreadStack_IsStackFull(2)) {
         _PyTrash_thread_deposit_object(tstate, (PyObject *)op);
         return;
     }
-    _Py_Coroutine_Run(PYOS_COSTACK_STD_SIZE, _Py_Dealloc_Now, op, NULL);
+    _PyThreadStack_CallInsideCoroutine(_Py_Dealloc_Now, op, NULL);
 }
 
 static void *
 _Py_Dealloc_Now(void *_op)
 {
-    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(PYOS_STACK_MARGIN_BYTES)) {
+    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(PYOS_COSTACK_MIN_HEADROOM)) {
         // This should always succeed, given the pre-conditioning above
-        if (!_Py_Coroutine_Chain(PYOS_COSTACK_STD_SIZE, _Py_Dealloc_Now, _op, NULL)){
+        if (!_Py_Coroutine_Chain(PYOS_COSTACK_STD_SIZE, PYOS_COSTACK_CHAIN_HEADROOM, _Py_Dealloc_Now, _op, NULL)){
             return NULL;
         }
         // If we're here, margin would have been 2 in _Py_Dealloc, but have
@@ -3332,7 +3331,7 @@ _Py_Dealloc_Now(void *_op)
     Py_XDECREF(old_exc);
     Py_DECREF(type);
 #endif
-    if (tstate->delete_later && _Py_RecursionLimit_GetMargin(tstate) >= 4) {
+    if (tstate->delete_later && !_PyThreadStack_IsStackFull(4)) {
         _PyTrash_thread_destroy_chain(tstate);
     }
     return NULL;

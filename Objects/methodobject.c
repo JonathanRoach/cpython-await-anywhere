@@ -733,7 +733,7 @@ cfunction_call(PyObject *func, PyObject *args, PyObject *kwargs)
         if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)stack_needed){
             // Chain with a new stack
             void *result;
-            if ( !_Py_Coroutine_Chain(PYOS_COSTACK_STD_SIZE > stack_needed ? PYOS_COSTACK_STD_SIZE : stack_needed, Do_cfunction_call, &params, &result)) {
+            if ( !_Py_Coroutine_Chain(stack_needed, PYOS_COSTACK_CHAIN_HEADROOM, Do_cfunction_call, &params, &result)) {
                 return (PyObject *)result;
             } else {
                 return PyErr_NoMemory();

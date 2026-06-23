@@ -3125,7 +3125,7 @@ int
 PyImport_ImportFrozenModuleObject(PyObject *name)
 {
     void *result;
-    if (_Py_Coroutine_Run(PYOS_COSTACK_STD_SIZE, co_PyImport_ImportFrozenModuleObject, name, &result)){
+    if (_PyThreadStack_CallInsideCoroutine(co_PyImport_ImportFrozenModuleObject, name, &result)){
         PyErr_NoMemory();
         return -1;
     }

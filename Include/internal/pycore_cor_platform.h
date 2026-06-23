@@ -16,4 +16,10 @@ static inline int _Cor_Mutex_dtor(_Cor_Mutex *mut){(void)mut; return 0;}
 static inline int _Cor_Mutex_Lock(_Cor_Mutex *mut){ PyMutex_Lock(mut); return 0;}
 static inline int _Cor_Mutex_Unlock(_Cor_Mutex *mut){ _PyMutex_TryUnlock(mut); return 0;}
 
+#if defined(_Py_STACK_GROWS_DOWN) && !_Py_STACK_GROWS_DOWN
+    #define COROUTINE_STACK_GROWS_UP 1
+#else
+    #define COROUTINE_STACK_GROWS_UP 0
+#endif
+
 #endif
