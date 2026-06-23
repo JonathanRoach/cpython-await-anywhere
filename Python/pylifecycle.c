@@ -855,7 +855,6 @@ error:
 static PyStatus
 pycore_interp_init(PyThreadState *tstate)
 {
-    _PyThreadStateImpl *_tstate = (_PyThreadStateImpl *)tstate;
     PyInterpreterState *interp = tstate->interp;
     PyStatus status;
     PyObject *sysmod = NULL;
