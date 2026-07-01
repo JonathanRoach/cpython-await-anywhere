@@ -182,6 +182,7 @@ Coroutine_API_FUNC(bool) Coroutine_CanStartCoroutine(size_t size);
 Coroutine_API_FUNC(size_t) Coroutine_GetUsefulFreeSpace(size_t min_size, size_t overhead);
 Coroutine_API_FUNC(void *) Coroutine_GetCStackTop(void);
 Coroutine_API_FUNC(Coroutine_Err) Coroutine_Chain(size_t min_size, size_t min_headroom, Coroutine_Start start, void *value, void **result);
+Coroutine_API_FUNC(Coroutine_Err) Coroutine_CallWithMaxStack(Coroutine_Start start, void *value, void **result);
 Coroutine_API_FUNC(bool) Coroutine_IsStarted(void);
 Coroutine_API_FUNC(bool) Coroutine_IsRunning(Coroutine *cor);
 Coroutine_API_FUNC(bool) Coroutine_IsComplete(Coroutine *cor);

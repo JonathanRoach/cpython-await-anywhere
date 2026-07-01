@@ -23,6 +23,7 @@
 #define Coroutine_GetUsefulFreeSpace Coroutine_NS(GetUsefulFreeSpace)
 #define Coroutine_GetCStackTop Coroutine_NS(GetCStackTop)
 #define Coroutine_Chain Coroutine_NS(Chain)
+#define Coroutine_CallWithMaxStack Coroutine_NS(CallWithMaxStack)
 #define Coroutine_IsStarted Coroutine_NS(IsStarted)
 #define Coroutine_IsRunning Coroutine_NS(IsRunning)
 #define Coroutine_IsComplete Coroutine_NS(IsComplete)
