@@ -251,8 +251,10 @@ test_type_from_ephemeral_spec(PyObject *self, PyObject *Py_UNUSED(ignored))
     }
     slots[0].slot = Py_tp_str;
     slots[0].pfunc = simple_str;
+    slots[0].flags = Py_FNFLAGS_FRUGAL;
     slots[1].slot = Py_tp_doc;
     slots[1].pfunc = doc;
+    slots[1].flags = 0;
     slots[2].slot = 0;
     slots[2].pfunc = NULL;
     spec->slots = slots;

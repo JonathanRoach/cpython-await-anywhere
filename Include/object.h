@@ -385,6 +385,7 @@ typedef PyObject *(*_vectorcallfunc_inlinable)(
 typedef struct{
     int slot;    /* slot id, see below */
     void *pfunc; /* function pointer */
+    unsigned char flags; /* function flags */
 } PyType_Slot;
 
 typedef struct{
@@ -393,6 +394,10 @@ typedef struct{
     int itemsize;
     unsigned int flags;
     PyType_Slot *slots; /* terminated by slot==0. */
+//
+// The following fields are only present if Py_TPFLAGS_IS_EXTENDED is set in flags
+//
+    unsigned int ex_flags;
 } PyType_Spec;
 
 PyAPI_FUNC(PyObject*) PyType_FromSpec(PyType_Spec*);
@@ -596,6 +601,9 @@ given type object has a specified feature.
 /* Type is abstract and cannot be instantiated */
 #define Py_TPFLAGS_IS_ABSTRACT (1UL << 20)
 
+/* Type is an extended type - additional fields are present */
+#define Py_TPFLAGS_IS_EXTENDED (1UL << 21)
+
 // This undocumented flag gives certain built-ins their unique pattern-matching
 // behavior, which allows a single positional subpattern to match against the
 // subject itself (rather than a mapped attribute on it):
@@ -615,7 +623,8 @@ given type object has a specified feature.
 #define Py_TPFLAGS_TYPE_SUBCLASS        (1UL << 31)
 
 #define Py_TPFLAGS_DEFAULT  ( \
-                 Py_TPFLAGS_HAVE_STACKLESS_EXTENSION | \
+                Py_TPFLAGS_IS_EXTENDED | \
+                Py_TPFLAGS_HAVE_STACKLESS_EXTENSION | \
                 0)
 
 /* NOTE: Some of the following flags reuse lower bits (removed as part of the
@@ -633,6 +642,21 @@ given type object has a specified feature.
  */
 #define Py_TPFLAGS_HAVE_FINALIZE (1UL << 0)
 #define Py_TPFLAGS_HAVE_VERSION_TAG   (1UL << 18)
+
+// When defining tp_ex_flags bits, do it like this...
+// #define Py_TPEXFLAGS_FLAGSJOB        (1UL<<0)
+
+
+// The Py_FNFLAGS_* flags are for ??_functionflags[]...
+
+// This function is 'frugal' with its stack, ie it uses significatly less
+// than PYOS_COSTACK_MIN_HEADROOM. If in doubt, don't set this.
+// The default behaviour (this bit not set) is to ensure the function
+// has as much stack as possible.
+#define Py_FNFLAGS_FRUGAL (1UL << 0)
+
+// ... the Py_FNFLAGS_* flags are for ??_functionflags[]
+
 
 // Flag values for ob_flags (16 bits available, if SIZEOF_VOID_P > 4).
 #define _Py_IMMORTAL_FLAGS (1 << 0)

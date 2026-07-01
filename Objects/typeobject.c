@@ -198,6 +198,7 @@ type_lock_allow_release(void)
 typedef struct PySlot_Offset {
     short subslot_offset;
     short slot_offset;
+    short slot_flag_offset;
 } PySlot_Offset;
 
 static void
@@ -450,30 +451,37 @@ _PyStaticType_GetBuiltins(void)
 /* end static builtin helpers */
 
 static void
-type_set_flags(PyTypeObject *tp, unsigned long flags)
+type_set_flags(PyTypeObject *tp, unsigned long flags, unsigned long ex_flags)
 {
     ASSERT_WORLD_STOPPED_OR_NEW_TYPE(tp);
     tp->tp_flags = flags;
+    tp->tp_ex_flags = ex_flags;
 }
 
 static void
-type_set_flags_with_mask(PyTypeObject *tp, unsigned long mask, unsigned long flags)
-{
+type_set_flags_with_mask(
+    PyTypeObject *tp,
+    unsigned long mask,
+    unsigned long flags,
+    unsigned long ex_mask,
+    unsigned long ex_flags
+){
     ASSERT_WORLD_STOPPED_OR_NEW_TYPE(tp);
     unsigned long new_flags = (tp->tp_flags & ~mask) | flags;
-    type_set_flags(tp, new_flags);
+    unsigned long new_ex_flags = (tp->tp_ex_flags & ~ex_mask) | ex_flags;
+    type_set_flags(tp, new_flags, new_ex_flags);
 }
 
 static void
-type_add_flags(PyTypeObject *tp, unsigned long flag)
+type_add_flags(PyTypeObject *tp, unsigned long flag, unsigned long ex_flag)
 {
-    type_set_flags(tp, tp->tp_flags | flag);
+    type_set_flags(tp, tp->tp_flags | flag, tp->tp_ex_flags | ex_flag);
 }
 
 static void
-type_clear_flags(PyTypeObject *tp, unsigned long flag)
+type_clear_flags(PyTypeObject *tp, unsigned long flag, unsigned long ex_flag)
 {
-    type_set_flags(tp, tp->tp_flags & ~flag);
+    type_set_flags(tp, tp->tp_flags & ~flag, tp->tp_ex_flags & ~ex_flag);
 }
 
 static inline void
@@ -488,7 +496,7 @@ start_readying(PyTypeObject *type)
         return;
     }
     assert((type->tp_flags & Py_TPFLAGS_READYING) == 0);
-    type_add_flags(type, Py_TPFLAGS_READYING);
+    type_add_flags(type, Py_TPFLAGS_READYING, 0);
 }
 
 static inline void
@@ -503,7 +511,7 @@ stop_readying(PyTypeObject *type)
         return;
     }
     assert(type->tp_flags & Py_TPFLAGS_READYING);
-    type_clear_flags(type, Py_TPFLAGS_READYING);
+    type_clear_flags(type, Py_TPFLAGS_READYING, 0);
 }
 
 static inline int
@@ -1686,9 +1694,9 @@ type_set_abstractmethods(PyObject *tp, PyObject *value, void *Py_UNUSED(closure)
     type_modified_unlocked(type);
     types_stop_world();
     if (abstract)
-        type_add_flags(type, Py_TPFLAGS_IS_ABSTRACT);
+        type_add_flags(type, Py_TPFLAGS_IS_ABSTRACT, 0);
     else
-        type_clear_flags(type, Py_TPFLAGS_IS_ABSTRACT);
+        type_clear_flags(type, Py_TPFLAGS_IS_ABSTRACT, 0);
     types_start_world();
     ASSERT_TYPE_LOCK_HELD();
     END_TYPE_LOCK();
@@ -2705,7 +2713,7 @@ subtype_dealloc(PyObject *self)
 
         /* Call the base tp_dealloc() */
         assert(basedealloc);
-        basedealloc(self);
+        PYTYPE_CALLFUNCTION(base, tp, dealloc, self);
 
         /* Can't reference self beyond this point. It's possible tp_del switched
            our type from a HEAPTYPE to a non-HEAPTYPE, so be careful about
@@ -2814,7 +2822,7 @@ subtype_dealloc(PyObject *self)
                              && !(base->tp_flags & Py_TPFLAGS_HEAPTYPE));
 
     assert(basedealloc);
-    basedealloc(self);
+    PYTYPE_CALLFUNCTION(base, tp, dealloc, self);
 
     /* Can't reference self beyond this point. It's possible tp_del switched
        our type from a HEAPTYPE to a non-HEAPTYPE, so be careful about
@@ -3835,7 +3843,7 @@ apply_slot_updates(slot_update_t *updates)
             *(item->slot_ptr) = item->slot_value;
             if (item->slot_value == slot_tp_call) {
                 /* A generic __call__ is incompatible with vectorcall */
-                type_clear_flags(item->type, Py_TPFLAGS_HAVE_VECTORCALL);
+                type_clear_flags(item->type, Py_TPFLAGS_HAVE_VECTORCALL, 0);
             }
         }
         chunk = chunk->prev;
@@ -4387,7 +4395,7 @@ type_new_alloc(type_new_ctx *ctx)
     // All heap types need GC, since we can create a reference cycle by storing
     // an instance on one of its parents.
     type_set_flags(type, Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HEAPTYPE |
-                   Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC);
+                   Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_IS_EXTENDED, 0);
 
     // Initialize essential fields
     type->tp_as_async = &et->as_async;
@@ -4396,10 +4404,19 @@ type_new_alloc(type_new_ctx *ctx)
     type->tp_as_mapping = &et->as_mapping;
     type->tp_as_buffer = &et->as_buffer;
 
+    // clear all function flags
+    memset(type->tp_functionflags, 0, sizeof(type->tp_functionflags));
+    memset(type->tp_as_async->am_functionflags, 0, sizeof(type->tp_as_async->am_functionflags));
+    memset(type->tp_as_number->nb_functionflags, 0, sizeof(type->tp_as_number->nb_functionflags));
+    memset(type->tp_as_sequence->sq_functionflags, 0, sizeof(type->tp_as_sequence->sq_functionflags));
+    memset(type->tp_as_mapping->mp_functionflags, 0, sizeof(type->tp_as_mapping->mp_functionflags));
+    memset(type->tp_as_buffer->bf_functionflags, 0, sizeof(type->tp_as_buffer->bf_functionflags));
+
     set_tp_bases(type, Py_NewRef(ctx->bases), 1);
     type->tp_base = (PyTypeObject *)Py_NewRef(ctx->base);
 
     type->tp_dealloc = subtype_dealloc;
+    type->tp_functionflags[_PyFunctionIndex_tp_dealloc] |= Py_FNFLAGS_FRUGAL;
     /* Always override allocation strategy to use regular heap */
     type->tp_alloc = PyType_GenericAlloc;
     type->tp_free = PyObject_GC_Del;
@@ -4615,12 +4632,12 @@ type_new_descriptors(const type_new_ctx *ctx, PyTypeObject *type)
 
     if (ctx->add_weak) {
         assert((type->tp_flags & Py_TPFLAGS_MANAGED_WEAKREF) == 0);
-        type_add_flags(type, Py_TPFLAGS_MANAGED_WEAKREF);
+        type_add_flags(type, Py_TPFLAGS_MANAGED_WEAKREF, 0);
         type->tp_weaklistoffset = MANAGED_WEAKREF_OFFSET;
     }
     if (ctx->add_dict) {
         assert((type->tp_flags & Py_TPFLAGS_MANAGED_DICT) == 0);
-        type_add_flags(type, Py_TPFLAGS_MANAGED_DICT);
+        type_add_flags(type, Py_TPFLAGS_MANAGED_DICT, 0);
         type->tp_dictoffset = -1;
     }
 
@@ -5423,7 +5440,9 @@ PyType_FromMetaclass(
 
     type = &res->ht_type;
     /* The flags must be initialized early, before the GC traverses us */
-    type_set_flags(type, spec->flags | Py_TPFLAGS_HEAPTYPE);
+    unsigned long flags = spec->flags | Py_TPFLAGS_HEAPTYPE; 
+    unsigned long ex_flags = spec->flags & Py_TPFLAGS_IS_EXTENDED ? spec->ex_flags : 0;
+    type_set_flags(type, flags, ex_flags);
 
     res->ht_module = Py_XNewRef(module);
 
@@ -5494,14 +5513,22 @@ PyType_FromMetaclass(
                 /* Copy other slots directly */
                 PySlot_Offset slotoffsets = pyslot_offsets[slot->slot];
                 short slot_offset = slotoffsets.slot_offset;
+                short slot_flag_offset = slotoffsets.slot_flag_offset;
                 if (slotoffsets.subslot_offset == -1) {
                     /* Set a slot in the main PyTypeObject */
                     *(void**)((char*)res_start + slot_offset) = slot->pfunc;
+                    if (slot_flag_offset >= 0){
+                        *(unsigned char *)((char*)res_start + slot_flag_offset) = slot->flags;
+                    }
                 }
                 else {
                     void *procs = *(void**)((char*)res_start + slot_offset);
                     short subslot_offset = slotoffsets.subslot_offset;
                     *(void**)((char*)procs + subslot_offset) = slot->pfunc;
+                    if (slot_flag_offset >= 0){
+                        *(void**)((char*)procs + subslot_offset) = slot->pfunc;
+                        *(unsigned char *)((char*)procs + slot_flag_offset) = slot->flags;
+                    }
                 }
             }
             break;
@@ -5512,6 +5539,7 @@ PyType_FromMetaclass(
            subtype_dealloc will call the base type's tp_dealloc, if
            necessary. */
         type->tp_dealloc = subtype_dealloc;
+        type->tp_functionflags[_PyFunctionIndex_tp_dealloc] |= Py_FNFLAGS_FRUGAL;
     }
 
     /* Set up offsets */
@@ -6226,15 +6254,21 @@ _PyType_Validate(PyTypeObject *ty, _py_validate_type validate, unsigned int *tp_
 }
 
 static void
-set_flags_recursive(PyTypeObject *self, unsigned long mask, unsigned long flags)
+set_flags_recursive(
+    PyTypeObject *self,
+    unsigned long mask,
+    unsigned long flags,
+    unsigned long ex_mask,
+    unsigned long ex_flags
+)
 {
     if (PyType_HasFeature(self, Py_TPFLAGS_IMMUTABLETYPE) ||
-        (self->tp_flags & mask) == flags)
+        ((self->tp_flags & mask) == flags && (self->tp_ex_flags & ex_mask) == ex_flags))
     {
         return;
     }
 
-    type_set_flags_with_mask(self, mask, flags);
+    type_set_flags_with_mask(self, mask, flags, ex_mask, ex_flags);
 
     PyObject *children = _PyType_GetSubclasses(self);
     if (children == NULL) {
@@ -6243,16 +6277,21 @@ set_flags_recursive(PyTypeObject *self, unsigned long mask, unsigned long flags)
 
     for (Py_ssize_t i = 0; i < PyList_GET_SIZE(children); i++) {
         PyObject *child = PyList_GET_ITEM(children, i);
-        set_flags_recursive((PyTypeObject *)child, mask, flags);
+        set_flags_recursive((PyTypeObject *)child, mask, flags, ex_mask, ex_flags);
     }
     Py_DECREF(children);
 }
 
 void
-_PyType_SetFlagsRecursive(PyTypeObject *self, unsigned long mask, unsigned long flags)
-{
+_PyType_SetFlagsRecursive(
+    PyTypeObject *self,
+    unsigned long mask,
+    unsigned long flags,
+    unsigned long ex_mask,
+    unsigned long ex_flags
+){
     types_stop_world();
-    set_flags_recursive(self, mask, flags);
+    set_flags_recursive(self, mask, flags, ex_mask, ex_flags);
     types_start_world();
 }
 
@@ -6600,7 +6639,7 @@ fini_static_type(PyInterpreterState *interp, PyTypeObject *type,
 
     if (final) {
         BEGIN_TYPE_LOCK();
-        type_clear_flags(type, Py_TPFLAGS_READY);
+        type_clear_flags(type, Py_TPFLAGS_READY, 0);
         set_version_unlocked(type, 0);
         END_TYPE_LOCK();
     }
@@ -8355,13 +8394,13 @@ inherit_special(PyTypeObject *type, PyTypeObject *base)
     if (!(type->tp_flags & Py_TPFLAGS_HAVE_GC) &&
         (base->tp_flags & Py_TPFLAGS_HAVE_GC) &&
         (!type->tp_traverse && !type->tp_clear)) {
-        type_add_flags(type, Py_TPFLAGS_HAVE_GC);
+        type_add_flags(type, Py_TPFLAGS_HAVE_GC, 0);
         if (type->tp_traverse == NULL)
             type->tp_traverse = base->tp_traverse;
         if (type->tp_clear == NULL)
             type->tp_clear = base->tp_clear;
     }
-    type_add_flags(type, base->tp_flags & Py_TPFLAGS_PREHEADER);
+    type_add_flags(type, base->tp_flags & Py_TPFLAGS_PREHEADER, 0);
 
     if (type->tp_basicsize == 0)
         type->tp_basicsize = base->tp_basicsize;
@@ -8380,6 +8419,7 @@ inherit_special(PyTypeObject *type, PyTypeObject *base)
     /* Setup fast subclass flags */
     PyObject *mro = lookup_tp_mro(base);
     unsigned long flags = 0;
+    unsigned long ex_flags = 0;
     if (is_subtype_with_mro(mro, base, (PyTypeObject*)PyExc_BaseException)) {
         flags |= Py_TPFLAGS_BASE_EXC_SUBCLASS;
     }
@@ -8412,7 +8452,7 @@ inherit_special(PyTypeObject *type, PyTypeObject *base)
     if (PyType_HasFeature(base, Py_TPFLAGS_ITEMS_AT_END)) {
         flags |= Py_TPFLAGS_ITEMS_AT_END;
     }
-    type_add_flags(type, flags);
+    type_add_flags(type, flags, ex_flags);
 }
 
 static int
@@ -8433,25 +8473,54 @@ inherit_slots(PyTypeObject *type, PyTypeObject *base)
 {
     PyTypeObject *basebase;
 
-#undef SLOTDEFINED
+#undef COPYSLOT_INNER
+#undef COPYSLOT_OUTER
 #undef COPYSLOT
-#undef COPYNUM
-#undef COPYSEQ
-#undef COPYMAP
-#undef COPYBUF
 
-#define SLOTDEFINED(SLOT) \
-    (base->SLOT != 0 && \
-     (basebase == NULL || base->SLOT != basebase->SLOT))
+#define PYTYPE_SLOTLOC_tp
+#define PYTYPE_SLOTLOC_am tp_as_async->
+#define PYTYPE_SLOTLOC_nb tp_as_number->
+#define PYTYPE_SLOTLOC_sq tp_as_sequence->
+#define PYTYPE_SLOTLOC_mp tp_as_mapping->
+#define PYTYPE_SLOTLOC_bf tp_as_buffer->
 
-#define COPYSLOT(SLOT) \
-    if (!type->SLOT && SLOTDEFINED(SLOT)) type->SLOT = base->SLOT
+#define COPYSLOT_INNER_FN(LOC, SLOT, FLAGS, FNIDX) \
+            do { \
+                type->LOC SLOT = base->LOC SLOT; \
+                if (base->tp_flags & Py_TPFLAGS_IS_EXTENDED) { \
+                    type->LOC FLAGS[FNIDX] = base->LOC FLAGS[FNIDX]; \
+                } else { \
+                    type->LOC FLAGS[FNIDX] = 0; \
+                } \
+            } while(0)
 
-#define COPYASYNC(SLOT) COPYSLOT(tp_as_async->SLOT)
-#define COPYNUM(SLOT) COPYSLOT(tp_as_number->SLOT)
-#define COPYSEQ(SLOT) COPYSLOT(tp_as_sequence->SLOT)
-#define COPYMAP(SLOT) COPYSLOT(tp_as_mapping->SLOT)
-#define COPYBUF(SLOT) COPYSLOT(tp_as_buffer->SLOT)
+#define COPYSLOT_INNER_VAL(LOC, SLOT, FLAGS, FNIDX) \
+            do { \
+                type->LOC SLOT = base->LOC SLOT; \
+            } while(0)
+
+#define COPYSLOT_INNER(LOC, SLOT, FLAGS, FNIDX, VALKIND) \
+    do { \
+        if (!type->LOC SLOT && \
+            (base->LOC SLOT != 0 && \
+            (basebase == NULL || base->LOC SLOT != basebase->LOC SLOT))) \
+        { \
+            COPYSLOT_INNER_##VALKIND(LOC, SLOT, FLAGS, FNIDX); \
+        } \
+    } while (0)
+
+// Expand
+//      (nm, add)
+// into
+//      (tp_as_number->, nm_add, nm_functionflags, _PyFunctionIndex_nm_add)
+#define COPYSLOT(KIND, SLOT) \
+COPYSLOT_INNER(PYTYPE_SLOTLOC_##KIND, KIND##_##SLOT, KIND##_functionflags, _PyFunctionIndex_##KIND##_##SLOT, FN)
+
+#define COPYSLOT_FN(KIND, SLOT) \
+COPYSLOT_INNER_FN(PYTYPE_SLOTLOC_##KIND, KIND##_##SLOT, KIND##_functionflags, _PyFunctionIndex_##KIND##_##SLOT)
+
+#define COPYSLOT_VAL(KIND, SLOT) \
+COPYSLOT_INNER(PYTYPE_SLOTLOC_##KIND, KIND##_##SLOT, KIND##_functionflags, _PyFunctionIndex_##KIND##_##SLOT, VAL)
 
     /* This won't inherit indirect slots (from tp_as_number etc.)
        if type doesn't provide the space. */
@@ -8460,111 +8529,111 @@ inherit_slots(PyTypeObject *type, PyTypeObject *base)
         basebase = base->tp_base;
         if (basebase->tp_as_number == NULL)
             basebase = NULL;
-        COPYNUM(nb_add);
-        COPYNUM(nb_subtract);
-        COPYNUM(nb_multiply);
-        COPYNUM(nb_remainder);
-        COPYNUM(nb_divmod);
-        COPYNUM(nb_power);
-        COPYNUM(nb_negative);
-        COPYNUM(nb_positive);
-        COPYNUM(nb_absolute);
-        COPYNUM(nb_bool);
-        COPYNUM(nb_invert);
-        COPYNUM(nb_lshift);
-        COPYNUM(nb_rshift);
-        COPYNUM(nb_and);
-        COPYNUM(nb_xor);
-        COPYNUM(nb_or);
-        COPYNUM(nb_int);
-        COPYNUM(nb_float);
-        COPYNUM(nb_inplace_add);
-        COPYNUM(nb_inplace_subtract);
-        COPYNUM(nb_inplace_multiply);
-        COPYNUM(nb_inplace_remainder);
-        COPYNUM(nb_inplace_power);
-        COPYNUM(nb_inplace_lshift);
-        COPYNUM(nb_inplace_rshift);
-        COPYNUM(nb_inplace_and);
-        COPYNUM(nb_inplace_xor);
-        COPYNUM(nb_inplace_or);
-        COPYNUM(nb_true_divide);
-        COPYNUM(nb_floor_divide);
-        COPYNUM(nb_inplace_true_divide);
-        COPYNUM(nb_inplace_floor_divide);
-        COPYNUM(nb_index);
-        COPYNUM(nb_matrix_multiply);
-        COPYNUM(nb_inplace_matrix_multiply);
+        COPYSLOT(nb,add);
+        COPYSLOT(nb,subtract);
+        COPYSLOT(nb,multiply);
+        COPYSLOT(nb,remainder);
+        COPYSLOT(nb,divmod);
+        COPYSLOT(nb,power);
+        COPYSLOT(nb,negative);
+        COPYSLOT(nb,positive);
+        COPYSLOT(nb,absolute);
+        COPYSLOT(nb,bool);
+        COPYSLOT(nb,invert);
+        COPYSLOT(nb,lshift);
+        COPYSLOT(nb,rshift);
+        COPYSLOT(nb,and);
+        COPYSLOT(nb,xor);
+        COPYSLOT(nb,or);
+        COPYSLOT(nb,int);
+        COPYSLOT(nb,float);
+        COPYSLOT(nb,inplace_add);
+        COPYSLOT(nb,inplace_subtract);
+        COPYSLOT(nb,inplace_multiply);
+        COPYSLOT(nb,inplace_remainder);
+        COPYSLOT(nb,inplace_power);
+        COPYSLOT(nb,inplace_lshift);
+        COPYSLOT(nb,inplace_rshift);
+        COPYSLOT(nb,inplace_and);
+        COPYSLOT(nb,inplace_xor);
+        COPYSLOT(nb,inplace_or);
+        COPYSLOT(nb,true_divide);
+        COPYSLOT(nb,floor_divide);
+        COPYSLOT(nb,inplace_true_divide);
+        COPYSLOT(nb,inplace_floor_divide);
+        COPYSLOT(nb,index);
+        COPYSLOT(nb,matrix_multiply);
+        COPYSLOT(nb,inplace_matrix_multiply);
     }
 
     if (type->tp_as_async != NULL && base->tp_as_async != NULL) {
         basebase = base->tp_base;
         if (basebase->tp_as_async == NULL)
             basebase = NULL;
-        COPYASYNC(am_await);
-        COPYASYNC(am_aiter);
-        COPYASYNC(am_anext);
+        COPYSLOT(am,await);
+        COPYSLOT(am,aiter);
+        COPYSLOT(am,anext);
     }
 
     if (type->tp_as_sequence != NULL && base->tp_as_sequence != NULL) {
         basebase = base->tp_base;
         if (basebase->tp_as_sequence == NULL)
             basebase = NULL;
-        COPYSEQ(sq_length);
-        COPYSEQ(sq_concat);
-        COPYSEQ(sq_repeat);
-        COPYSEQ(sq_item);
-        COPYSEQ(sq_ass_item);
-        COPYSEQ(sq_contains);
-        COPYSEQ(sq_inplace_concat);
-        COPYSEQ(sq_inplace_repeat);
+        COPYSLOT(sq,length);
+        COPYSLOT(sq,concat);
+        COPYSLOT(sq,repeat);
+        COPYSLOT(sq,item);
+        COPYSLOT(sq,ass_item);
+        COPYSLOT(sq,contains);
+        COPYSLOT(sq,inplace_concat);
+        COPYSLOT(sq,inplace_repeat);
     }
 
     if (type->tp_as_mapping != NULL && base->tp_as_mapping != NULL) {
         basebase = base->tp_base;
         if (basebase->tp_as_mapping == NULL)
             basebase = NULL;
-        COPYMAP(mp_length);
-        COPYMAP(mp_subscript);
-        COPYMAP(mp_ass_subscript);
+        COPYSLOT(mp,length);
+        COPYSLOT(mp,subscript);
+        COPYSLOT(mp,ass_subscript);
     }
 
     if (type->tp_as_buffer != NULL && base->tp_as_buffer != NULL) {
         basebase = base->tp_base;
         if (basebase->tp_as_buffer == NULL)
             basebase = NULL;
-        COPYBUF(bf_getbuffer);
-        COPYBUF(bf_releasebuffer);
+        COPYSLOT(bf,getbuffer);
+        COPYSLOT(bf,releasebuffer);
     }
 
     basebase = base->tp_base;
 
-    COPYSLOT(tp_dealloc);
+    COPYSLOT(tp,dealloc);
     if (type->tp_getattr == NULL && type->tp_getattro == NULL) {
-        type->tp_getattr = base->tp_getattr;
-        type->tp_getattro = base->tp_getattro;
+        COPYSLOT_FN(tp,getattr);
+        COPYSLOT_FN(tp,getattro);
     }
     if (type->tp_setattr == NULL && type->tp_setattro == NULL) {
-        type->tp_setattr = base->tp_setattr;
-        type->tp_setattro = base->tp_setattro;
+        COPYSLOT_FN(tp,setattr);
+        COPYSLOT_FN(tp,setattro);
     }
-    COPYSLOT(tp_repr);
+    COPYSLOT(tp,repr);
     /* tp_hash see tp_richcompare */
     {
         /* Always inherit tp_vectorcall_offset to support PyVectorcall_Call().
          * If Py_TPFLAGS_HAVE_VECTORCALL is not inherited, then vectorcall
          * won't be used automatically. */
-        COPYSLOT(tp_vectorcall_offset);
+        COPYSLOT(tp,vectorcall_offset);
 
         /* Inherit Py_TPFLAGS_HAVE_VECTORCALL if tp_call is not overridden */
         if (!type->tp_call &&
             _PyType_HasFeature(base, Py_TPFLAGS_HAVE_VECTORCALL))
         {
-            type_add_flags(type, Py_TPFLAGS_HAVE_VECTORCALL);
+            type_add_flags(type, Py_TPFLAGS_HAVE_VECTORCALL, 0);
         }
-        COPYSLOT(tp_call);
+        COPYSLOT(tp,call);
     }
-    COPYSLOT(tp_str);
+    COPYSLOT(tp,str);
     {
         /* Copy comparison-related slots only when
            not overriding them anywhere */
@@ -8576,17 +8645,17 @@ inherit_slots(PyTypeObject *type, PyTypeObject *base)
                 return -1;
             }
             if (!r) {
-                type->tp_richcompare = base->tp_richcompare;
-                type->tp_hash = base->tp_hash;
+                COPYSLOT_FN(tp,richcompare);
+                COPYSLOT_FN(tp,hash);
             }
         }
     }
     {
-        COPYSLOT(tp_iter);
-        COPYSLOT(tp_iternext);
+        COPYSLOT(tp,iter);
+        COPYSLOT(tp,iternext);
     }
     {
-        COPYSLOT(tp_descr_get);
+        COPYSLOT(tp,descr_get);
         /* Inherit Py_TPFLAGS_METHOD_DESCRIPTOR if tp_descr_get was inherited,
          * but only for extension types */
         if (base->tp_descr_get &&
@@ -8594,18 +8663,18 @@ inherit_slots(PyTypeObject *type, PyTypeObject *base)
             _PyType_HasFeature(type, Py_TPFLAGS_IMMUTABLETYPE) &&
             _PyType_HasFeature(base, Py_TPFLAGS_METHOD_DESCRIPTOR))
         {
-            type_add_flags(type, Py_TPFLAGS_METHOD_DESCRIPTOR);
+            type_add_flags(type, Py_TPFLAGS_METHOD_DESCRIPTOR, 0);
         }
-        COPYSLOT(tp_descr_set);
-        COPYSLOT(tp_dictoffset);
-        COPYSLOT(tp_init);
-        COPYSLOT(tp_alloc);
-        COPYSLOT(tp_is_gc);
-        COPYSLOT(tp_finalize);
+        COPYSLOT(tp,descr_set);
+        COPYSLOT_VAL(tp,dictoffset);
+        COPYSLOT(tp,init);
+        COPYSLOT(tp,alloc);
+        COPYSLOT(tp,is_gc);
+        COPYSLOT(tp,finalize);
         if ((type->tp_flags & Py_TPFLAGS_HAVE_GC) ==
             (base->tp_flags & Py_TPFLAGS_HAVE_GC)) {
             /* They agree about gc. */
-            COPYSLOT(tp_free);
+            COPYSLOT(tp,free);
         }
         else if ((type->tp_flags & Py_TPFLAGS_HAVE_GC) &&
                  type->tp_free == NULL &&
@@ -8909,7 +8978,7 @@ type_ready_inherit_as_structs(PyTypeObject *type, PyTypeObject *base)
 static void
 inherit_patma_flags(PyTypeObject *type, PyTypeObject *base) {
     if ((type->tp_flags & COLLECTION_FLAGS) == 0) {
-        type_add_flags(type, base->tp_flags & COLLECTION_FLAGS);
+        type_add_flags(type, base->tp_flags & COLLECTION_FLAGS, 0);
     }
 }
 
@@ -9024,7 +9093,7 @@ type_ready_set_new(PyTypeObject *type, int initial)
         && base == &PyBaseObject_Type
         && !(type->tp_flags & Py_TPFLAGS_HEAPTYPE))
     {
-        type_add_flags(type, Py_TPFLAGS_DISALLOW_INSTANTIATION);
+        type_add_flags(type, Py_TPFLAGS_DISALLOW_INSTANTIATION, 0);
     }
 
     if (!(type->tp_flags & Py_TPFLAGS_DISALLOW_INSTANTIATION)) {
@@ -9071,7 +9140,7 @@ type_ready_managed_dict(PyTypeObject *type)
         }
     }
     if (type->tp_itemsize == 0) {
-        type_add_flags(type, Py_TPFLAGS_INLINE_VALUES);
+        type_add_flags(type, Py_TPFLAGS_INLINE_VALUES, 0);
     }
     return 0;
 }
@@ -9177,7 +9246,7 @@ type_ready(PyTypeObject *type, int initial)
     }
 
     /* All done -- set the ready flag */
-    type_add_flags(type, Py_TPFLAGS_READY);
+    type_add_flags(type, Py_TPFLAGS_READY, 0);
     stop_readying(type);
 
     assert(_PyType_CheckConsistency(type));
@@ -9199,7 +9268,7 @@ PyType_Ready(PyTypeObject *type)
 
     /* Historically, all static types were immutable. See bpo-43908 */
     if (!(type->tp_flags & Py_TPFLAGS_HEAPTYPE)) {
-        type_add_flags(type, Py_TPFLAGS_IMMUTABLETYPE);
+        type_add_flags(type, Py_TPFLAGS_IMMUTABLETYPE, 0);
         /* Static types must be immortal */
         _Py_SetImmortalUntracked((PyObject *)type);
     }
@@ -9229,8 +9298,8 @@ init_static_type(PyInterpreterState *interp, PyTypeObject *self,
     if ((self->tp_flags & Py_TPFLAGS_READY) == 0) {
         assert(initial);
 
-        type_add_flags(self, _Py_TPFLAGS_STATIC_BUILTIN);
-        type_add_flags(self, Py_TPFLAGS_IMMUTABLETYPE);
+        type_add_flags(self, _Py_TPFLAGS_STATIC_BUILTIN, 0);
+        type_add_flags(self, Py_TPFLAGS_IMMUTABLETYPE, 0);
 
         assert(NEXT_GLOBAL_VERSION_TAG <= _Py_MAX_GLOBAL_TYPE_VERSION_TAG);
         if (self->tp_version_tag == 0) {
@@ -11834,7 +11903,7 @@ update_one_slot(PyTypeObject *type, pytype_slotdef *p, pytype_slotdef **next_p,
             if (p->function == slot_tp_call) {
                 /* A generic __call__ is incompatible with vectorcall */
                 if (queued_updates == NULL) {
-                    type_clear_flags(type, Py_TPFLAGS_HAVE_VECTORCALL);
+                    type_clear_flags(type, Py_TPFLAGS_HAVE_VECTORCALL, 0);
                 }
             }
         }
@@ -12254,7 +12323,7 @@ PyType_Freeze(PyTypeObject *type)
 
     BEGIN_TYPE_LOCK();
     types_stop_world();
-    type_add_flags(type, Py_TPFLAGS_IMMUTABLETYPE);
+    type_add_flags(type, Py_TPFLAGS_IMMUTABLETYPE, 0);
     types_start_world();
     ASSERT_TYPE_LOCK_HELD();
     type_modified_unlocked(type);

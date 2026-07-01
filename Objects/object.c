@@ -3177,7 +3177,6 @@ _PyTrash_thread_destroy_chain(PyThreadState *tstate)
 {
     while (tstate->delete_later) {
         PyObject *op = tstate->delete_later;
-        destructor dealloc = Py_TYPE(op)->tp_dealloc;
 
 #ifdef Py_GIL_DISABLED
         tstate->delete_later = (PyObject*) op->ob_tid;
@@ -3198,7 +3197,7 @@ _PyTrash_thread_destroy_chain(PyThreadState *tstate)
          * up distorting allocation statistics.
          */
         _PyObject_ASSERT(op, Py_REFCNT(op) == 0);
-        (*dealloc)(op);
+        PYTYPE_CALLFUNCTION(Py_TYPE(op), tp, dealloc, op);
     }
 }
 
@@ -3288,7 +3287,6 @@ _Py_Dealloc_Now(void *_op)
     PyObject *op = (PyObject *)_op;
     PyThreadState *tstate = _PyThreadState_GET();
     PyTypeObject *type = Py_TYPE(op);
-    destructor dealloc = type->tp_dealloc;
 #ifdef Py_DEBUG
 #if !defined(Py_GIL_DISABLED) && !defined(Py_STACKREF_DEBUG)
     /* This assertion doesn't hold for the free-threading build, as
@@ -3307,7 +3305,7 @@ _Py_Dealloc_Now(void *_op)
     _Py_ForgetReference(op);
 #endif
     _PyReftracerTrack(op, PyRefTracer_DESTROY);
-    (*dealloc)(op);
+    PYTYPE_CALLFUNCTION(Py_TYPE(op), tp, dealloc, op);
 
 #ifdef Py_DEBUG
     // gh-89373: The tp_dealloc function must leave the current exception

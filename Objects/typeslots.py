@@ -16,24 +16,26 @@ def generate_typeslots(out=sys.stdout):
         if member == "tp_token":
             # The heap type structure (ht_*) is an implementation detail;
             # the public slot for it has a familiar `tp_` prefix
-            member = '{-1, offsetof(PyHeapTypeObject, ht_token)}'
+            member = '{-1, offsetof(PyHeapTypeObject, ht_token), -1}'
+        elif member in ('tp_base', 'tp_bases', 'tp_doc', 'tp_methods', 'tp_members'):
+            member = f'{{-1, offsetof(PyTypeObject, {member}), -1}}'
         elif member.startswith("tp_"):
-            member = f'{{-1, offsetof(PyTypeObject, {member})}}'
+            member = f'{{-1, offsetof(PyTypeObject, {member}), offsetof(PyTypeObject, tp_functionflags[_PyFunctionIndex_{member}])}}'
         elif member.startswith("am_"):
             member = (f'{{offsetof(PyAsyncMethods, {member}),'+
-                      ' offsetof(PyTypeObject, tp_as_async)}')
+                      f' offsetof(PyTypeObject, tp_as_async), offsetof(PyAsyncMethods, am_functionflags[_PyFunctionIndex_{member}])}}')
         elif member.startswith("nb_"):
             member = (f'{{offsetof(PyNumberMethods, {member}),'+
-                      ' offsetof(PyTypeObject, tp_as_number)}')
+                      f' offsetof(PyTypeObject, tp_as_number), offsetof(PyNumberMethods, nb_functionflags[_PyFunctionIndex_{member}])}}')
         elif member.startswith("mp_"):
             member = (f'{{offsetof(PyMappingMethods, {member}),'+
-                      ' offsetof(PyTypeObject, tp_as_mapping)}')
+                      f' offsetof(PyTypeObject, tp_as_mapping), offsetof(PyMappingMethods, mp_functionflags[_PyFunctionIndex_{member}])}}')
         elif member.startswith("sq_"):
             member = (f'{{offsetof(PySequenceMethods, {member}),'+
-                      ' offsetof(PyTypeObject, tp_as_sequence)}')
+                      f' offsetof(PyTypeObject, tp_as_sequence), offsetof(PySequenceMethods, sq_functionflags[_PyFunctionIndex_{member}])}}')
         elif member.startswith("bf_"):
             member = (f'{{offsetof(PyBufferProcs, {member}),'+
-                      ' offsetof(PyTypeObject, tp_as_buffer)}')
+                      f' offsetof(PyTypeObject, tp_as_buffer), offsetof(PyBufferProcs, bf_functionflags[_PyFunctionIndex_{member}])}}')
         res[int(m.group(2))] = member
 
     M = max(res.keys())+1

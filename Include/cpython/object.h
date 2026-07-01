@@ -57,6 +57,46 @@ typedef struct _Py_Identifier {
 
 #endif /* !Py_BUILD_CORE */
 
+enum {
+    _PyFunctionIndex_nb_add,
+    _PyFunctionIndex_nb_subtract,
+    _PyFunctionIndex_nb_multiply,
+    _PyFunctionIndex_nb_remainder,
+    _PyFunctionIndex_nb_divmod,
+    _PyFunctionIndex_nb_power,
+    _PyFunctionIndex_nb_negative,
+    _PyFunctionIndex_nb_positive,
+    _PyFunctionIndex_nb_absolute,
+    _PyFunctionIndex_nb_bool,
+    _PyFunctionIndex_nb_invert,
+    _PyFunctionIndex_nb_lshift,
+    _PyFunctionIndex_nb_rshift,
+    _PyFunctionIndex_nb_and,
+    _PyFunctionIndex_nb_xor,
+    _PyFunctionIndex_nb_or,
+    _PyFunctionIndex_nb_int,
+    _PyFunctionIndex_nb_reserved,  /* the slot formerly known as nb_long */
+    _PyFunctionIndex_nb_float,
+    _PyFunctionIndex_nb_inplace_add,
+    _PyFunctionIndex_nb_inplace_subtract,
+    _PyFunctionIndex_nb_inplace_multiply,
+    _PyFunctionIndex_nb_inplace_remainder,
+    _PyFunctionIndex_nb_inplace_power,
+    _PyFunctionIndex_nb_inplace_lshift,
+    _PyFunctionIndex_nb_inplace_rshift,
+    _PyFunctionIndex_nb_inplace_and,
+    _PyFunctionIndex_nb_inplace_xor,
+    _PyFunctionIndex_nb_inplace_or,
+    _PyFunctionIndex_nb_floor_divide,
+    _PyFunctionIndex_nb_true_divide,
+    _PyFunctionIndex_nb_inplace_floor_divide,
+    _PyFunctionIndex_nb_inplace_true_divide,
+    _PyFunctionIndex_nb_index,
+    _PyFunctionIndex_nb_matrix_multiply,
+    _PyFunctionIndex_nb_inplace_matrix_multiply,
+
+    _PyFunctionIndex_nb_COUNT
+};
 
 typedef struct {
     /* Number implementations must check *both*
@@ -103,7 +143,28 @@ typedef struct {
 
     binaryfunc nb_matrix_multiply;
     binaryfunc nb_inplace_matrix_multiply;
+
+//
+// Fields below here only present if Py_TPFLAGS_IS_EXTENDED
+//
+
+    unsigned char nb_functionflags[_PyFunctionIndex_nb_COUNT];
 } PyNumberMethods;
+
+enum {
+    _PyFunctionIndex_sq_length,
+    _PyFunctionIndex_sq_concat,
+    _PyFunctionIndex_sq_repeat,
+    _PyFunctionIndex_sq_item,
+    _PyFunctionIndex_sq_was_slice,
+    _PyFunctionIndex_sq_ass_item,
+    _PyFunctionIndex_sq_sq_ass_slice,
+    _PyFunctionIndex_sq_contains,
+    _PyFunctionIndex_sq_inplace_concat,
+    _PyFunctionIndex_sq_inplace_repeat,
+
+    _PyFunctionIndex_sq_COUNT
+};
 
 typedef struct {
     lenfunc sq_length;
@@ -117,13 +178,42 @@ typedef struct {
 
     binaryfunc sq_inplace_concat;
     ssizeargfunc sq_inplace_repeat;
+
+//
+// Fields below here only present if Py_TPFLAGS_IS_EXTENDED
+//
+
+    unsigned char sq_functionflags[_PyFunctionIndex_sq_COUNT];
 } PySequenceMethods;
+
+enum {
+    _PyFunctionIndex_mp_length,
+    _PyFunctionIndex_mp_subscript,
+    _PyFunctionIndex_mp_ass_subscript,
+
+    _PyFunctionIndex_mp_COUNT
+};
 
 typedef struct {
     lenfunc mp_length;
     binaryfunc mp_subscript;
     objobjargproc mp_ass_subscript;
+
+//
+// Fields below here only present if Py_TPFLAGS_IS_EXTENDED
+//
+
+    unsigned char mp_functionflags[_PyFunctionIndex_mp_COUNT];
 } PyMappingMethods;
+
+enum {
+    _PyFunctionIndex_am_await,
+    _PyFunctionIndex_am_aiter,
+    _PyFunctionIndex_am_anext,
+    _PyFunctionIndex_am_send,
+
+    _PyFunctionIndex_am_COUNT
+};
 
 typedef PySendResult (*sendfunc)(PyObject *iter, PyObject *value, PyObject **result);
 
@@ -132,16 +222,65 @@ typedef struct {
     unaryfunc am_aiter;
     unaryfunc am_anext;
     sendfunc am_send;
+
+//
+// Fields below here only present if Py_TPFLAGS_IS_EXTENDED
+//
+
+    unsigned char am_functionflags[_PyFunctionIndex_am_COUNT];
 } PyAsyncMethods;
+
+enum {
+    _PyFunctionIndex_bf_getbuffer,
+    _PyFunctionIndex_bf_releasebuffer,
+
+    _PyFunctionIndex_bf_COUNT
+};
 
 typedef struct {
      getbufferproc bf_getbuffer;
      releasebufferproc bf_releasebuffer;
+
+//
+// Fields below here only present if Py_TPFLAGS_IS_EXTENDED
+//
+
+    unsigned char bf_functionflags[_PyFunctionIndex_bf_COUNT];
 } PyBufferProcs;
 
 /* Allow printfunc in the tp_vectorcall_offset slot for
  * backwards-compatibility */
 typedef Py_ssize_t printfunc;
+
+enum {
+    _PyFunctionIndex_tp_dealloc,
+    _PyFunctionIndex_tp_vectorcall_offset,
+    _PyFunctionIndex_tp_getattr,
+    _PyFunctionIndex_tp_setattr,
+    _PyFunctionIndex_tp_repr,
+    _PyFunctionIndex_tp_hash,
+    _PyFunctionIndex_tp_call,
+    _PyFunctionIndex_tp_str,
+    _PyFunctionIndex_tp_getattro,
+    _PyFunctionIndex_tp_setattro,
+    _PyFunctionIndex_tp_traverse,
+    _PyFunctionIndex_tp_clear,
+    _PyFunctionIndex_tp_richcompare,
+    _PyFunctionIndex_tp_iter,
+    _PyFunctionIndex_tp_iternext,
+    _PyFunctionIndex_tp_getset,
+    _PyFunctionIndex_tp_descr_get,
+    _PyFunctionIndex_tp_descr_set,
+    _PyFunctionIndex_tp_init,
+    _PyFunctionIndex_tp_alloc,
+    _PyFunctionIndex_tp_new,
+    _PyFunctionIndex_tp_free,
+    _PyFunctionIndex_tp_is_gc,
+    _PyFunctionIndex_tp_del,
+    _PyFunctionIndex_tp_finalize,
+    _PyFunctionIndex_tp_vectorcall,
+    _PyFunctionIndex_tp_COUNT
+};
 
 // If this structure is modified, Doc/includes/typestruct.h should be updated
 // as well.
@@ -239,6 +378,12 @@ struct _typeobject {
      * Otherwise, limited to MAX_VERSIONS_PER_CLASS (defined elsewhere).
      */
     uint16_t tp_versions_used;
+
+//
+// Below here are extension fields only present if tp_TPFLAGS_IS_EXTENDED is set
+//
+    unsigned long tp_ex_flags;
+    unsigned char tp_functionflags[_PyFunctionIndex_tp_COUNT];
 };
 
 #define _Py_ATTR_CACHE_UNUSED (30000)  // (see tp_versions_used)

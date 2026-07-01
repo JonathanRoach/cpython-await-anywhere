@@ -603,7 +603,7 @@ _abc__abc_register_impl(PyObject *module, PyObject *self, PyObject *subclass)
         if (collection_flag) {
             _PyType_SetFlagsRecursive((PyTypeObject *)subclass,
                                       COLLECTION_FLAGS,
-                                      collection_flag);
+                                      collection_flag, 0, 0);
         }
     }
     return Py_NewRef(subclass);

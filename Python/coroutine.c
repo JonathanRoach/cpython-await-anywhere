@@ -5,9 +5,9 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "cor_platform.h"
+#include "pycore_cor_platform.h"
 
-#include "coroutine_names_def.h"
+#include "pycore_coroutine_names_def.h"
 
 // see CPython again, this time from ctypes.h
 #if (defined (__SVR4) && defined (__sun)) || defined(COROUTINE_HAVE_ALLOCA_H)
@@ -970,7 +970,7 @@ static Coroutine *Coroutine_New_Lock_Assumed(
         return NULL;
     }
 
-    // use the whole block - the tail will be freed in (New) or (Yield)
+    // use this free block
     cor->min_size = min_size;
     cor->min_headroom = min_headroom;
     cor->state = Coroutine_Idle;
@@ -1379,7 +1379,6 @@ Coroutine_CanStartCoroutine_Lock_Assumed(
     return false;
 }
 
-
 bool
 Coroutine_CanStartCoroutine(
     size_t size
@@ -1526,18 +1525,94 @@ Coroutine_Chain(
         Coroutine_GetActive()
     };
     Coroutine_Err err = Coroutine_Continue(cor, &params, true);
-    if (err){
-        goto error;
+    if (!err){
+        void *res = Coroutine_Yield(NULL, Coroutine_ChainYield, NULL);
+        err = (Coroutine_Err)(uintptr_t)Coroutine_GetValue(cor);
+        if (!err && result){
+            *result = res;
+        }
     }
-    void *res = Coroutine_Yield(NULL, Coroutine_ChainYield, NULL);
-    err = (Coroutine_Err)(uintptr_t)Coroutine_GetValue(cor);
-error:
     Coroutine_Delete(cor);
-    if (!err && result){
-        *result = res;
-    }
     // success! ...probably
     return err;
+}
+
+
+static Coroutine *
+Coroutine_BiggestFreeBlock_Lock_Assumed(
+    void
+){
+    // check free list
+    Coroutine *best = NULL;
+    size_t best_size = 0;
+    List_Link *link;
+    for (link = List_Begin(&g_c->free); Link_NextIsLink(link); link = Link_Next(link)){
+        Coroutine *cor = List_Link_Container(Coroutine, link, link);
+        size_t cor_size = Coroutine_Size(cor);
+        if (cor_size > best_size){
+            best = cor;
+            best_size = cor_size;
+        }
+    }
+
+    return best;
+}
+
+
+Coroutine_Err
+Coroutine_CallWithMaxStack(
+    Coroutine_Start start,
+    void *value,
+    void **result
+){
+    MyAssert(!Coroutine_StackHasOverrun());
+    size_t headroom = (size_t)Coroutine_GetStackHeadroom();
+    if (headroom != PTRDIFF_MAX){
+        _Cor_Mutex_Lock(&g_c->mutex);
+
+        Coroutine *cor = Coroutine_BiggestFreeBlock_Lock_Assumed();
+
+        if (cor && Coroutine_Size(cor) > headroom){
+            // use cor for chaining
+            Coroutine *active = Coroutine_GetActive();
+            cor->min_size = active->min_size;
+            cor->min_headroom = active->min_headroom;
+            cor->state = Coroutine_Idle;
+            cor->start = Coroutine_ChainFn;
+            cor->value = NULL;
+            Link_Remove(&cor->link);
+            List_AddHead(&g_c->inactive, &cor->link);
+            g_c->report.coroutines_created += 1;
+        } else {
+            cor = NULL;
+        }
+
+        _Cor_Mutex_Unlock(&g_c->mutex);
+
+        if (cor){
+            // we're chaining, not calling
+            struct Coroutine_ChainParam params = {
+                start,
+                value,
+                g_c->active
+            };
+            Coroutine_Err err = Coroutine_Continue(cor, &params, true);
+            if (!err){
+                void *res = Coroutine_Yield(NULL, Coroutine_ChainYield, NULL);
+                err = (Coroutine_Err)(uintptr_t)Coroutine_GetValue(cor);
+                if (!err && result){
+                    *result = res;
+                }
+            }
+            Coroutine_Delete(cor);
+            return err;
+        }
+    }
+    void *ret = start(value);
+    if (result){
+        *result = ret;
+    }
+    return Coroutine_OK;
 }
 
 
@@ -1583,4 +1658,4 @@ Coroutine_Dump_(
         printf("%d) %p %p %zu (%s) %s\n", idx++, cor, cor->base, StackPointerDiff(cor->limit, cor->base), state_to_text[cor->state], cor == g_c->tip ? " (TIP)" : "");
     }
 }
-#include "coroutine_names_undef.h"
+#include "pycore_coroutine_names_undef.h"

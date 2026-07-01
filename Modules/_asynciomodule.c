@@ -1804,7 +1804,7 @@ static PyGetSetDef FutureType_getsetlist[] = {
 static void FutureObj_dealloc(PyObject *self);
 
 static PyType_Slot Future_slots[] = {
-    {Py_tp_dealloc, FutureObj_dealloc},
+    {Py_tp_dealloc, FutureObj_dealloc, Py_FNFLAGS_FRUGAL},
     {Py_tp_repr, FutureObj_repr},
     {Py_tp_doc, (void *)_asyncio_Future___init____doc__},
     {Py_tp_traverse, FutureObj_traverse},

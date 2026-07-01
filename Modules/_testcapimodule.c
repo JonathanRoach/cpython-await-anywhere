@@ -3162,6 +3162,7 @@ create_manual_heap_type(void)
     type->tp_dictoffset = offsetof(ManualHeapType, dict);
     type->tp_traverse = ManualHeapType_traverse;
     type->tp_dealloc = ManualHeapType_dealloc;
+    type->tp_functionflags[_PyFunctionIndex_tp_dealloc] |= Py_FNFLAGS_FRUGAL;
     heap_type->ht_name = PyUnicode_FromString(type->tp_name);
     if (!heap_type->ht_name) {
         Py_DECREF(type);

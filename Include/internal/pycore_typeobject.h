@@ -10,7 +10,7 @@ extern "C" {
 
 #include "pycore_interp_structs.h" // managed_static_type_state
 #include "pycore_moduleobject.h"  // PyModuleObject
-
+#include "pycore_coroutine.h"
 
 /* state */
 
@@ -177,7 +177,8 @@ extern int _PyType_AddMethod(PyTypeObject *, PyMethodDef *);
 // Like _PyType_SetFlags(), but apply the operation to self and any of its
 // subclasses without Py_TPFLAGS_IMMUTABLETYPE set.
 extern void _PyType_SetFlagsRecursive(PyTypeObject *self, unsigned long mask,
-                                      unsigned long flags);
+                                      unsigned long flags, unsigned long ex_mask,
+                                      unsigned long ex_flags);
 
 PyAPI_FUNC(void) _PyType_SetVersion(PyTypeObject *tp, unsigned int version);
 PyTypeObject *_PyType_LookupByVersion(unsigned int version);
@@ -192,6 +193,36 @@ typedef int (*_py_validate_type)(PyTypeObject *);
 // tp_version_tag from the ``ty``.
 extern int _PyType_Validate(PyTypeObject *ty, _py_validate_type validate, unsigned int *tp_version);
 extern int _PyType_CacheGetItemForSpecialization(PyHeapTypeObject *ht, PyObject *descriptor, uint32_t tp_version);
+
+static inline void *
+_PyType_CallFunction(PyTypeObject *tp, Coroutine_Start fn, void *param, unsigned char *functionflags, int fnindex){
+    void *ret;
+
+    // If (the type is extended and the function is frugal)
+    //     or if the non-frugal call wasn't possible
+    if (((tp->tp_flags & Py_TPFLAGS_IS_EXTENDED) &&
+         (functionflags[fnindex] & Py_FNFLAGS_FRUGAL)) ||
+        _Py_Coroutine_CallWithMaxStack(fn, param, &ret)){
+        // then do a (frugal) dealloc with what stack we have
+        return fn(param);
+    }
+    return ret;
+}
+
+#define PYTYPE_SLOTLOC_tp
+#define PYTYPE_SLOTLOC_am tp_as_async->
+#define PYTYPE_SLOTLOC_nb tp_as_number->
+#define PYTYPE_SLOTLOC_sq tp_as_sequence->
+#define PYTYPE_SLOTLOC_mp tp_as_mapping->
+#define PYTYPE_SLOTLOC_bf tp_as_buffer->
+
+#define PYTYPE_CALLFUNCTION(tp, KIND, SLOT, param) \
+    _PyType_CallFunction( \
+        tp, \
+        (Coroutine_Start)(void *)tp->PYTYPE_SLOTLOC_##KIND KIND##_##SLOT, \
+        param, \
+        tp->PYTYPE_SLOTLOC_##KIND KIND##_functionflags, \
+        _PyFunctionIndex_##KIND##_##SLOT)
 
 #ifdef __cplusplus
 }
