@@ -5,9 +5,9 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "pycore_cor_platform.h"
+#include "cor_platform.h"
 
-#include "pycore_coroutine_names_def.h"
+#include "coroutine_names_def.h"
 
 // see CPython again, this time from ctypes.h
 #if (defined (__SVR4) && defined (__sun)) || defined(COROUTINE_HAVE_ALLOCA_H)
@@ -1583,4 +1583,4 @@ Coroutine_Dump_(
         printf("%d) %p %p %zu (%s) %s\n", idx++, cor, cor->base, StackPointerDiff(cor->limit, cor->base), state_to_text[cor->state], cor == g_c->tip ? " (TIP)" : "");
     }
 }
-#include "pycore_coroutine_names_undef.h"
+#include "coroutine_names_undef.h"
