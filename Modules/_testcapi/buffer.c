@@ -95,7 +95,8 @@ static PyTypeObject testBufType = {
     .tp_traverse = testbuf_traverse,
     .tp_clear = testbuf_clear,
     .tp_as_buffer = &testbuf_as_buffer,
-    .tp_members = testbuf_members
+    .tp_members = testbuf_members,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 int

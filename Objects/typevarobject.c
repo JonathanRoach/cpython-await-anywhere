@@ -114,6 +114,7 @@ PyTypeObject _PyNoDefault_Type = {
     PyVarObject_HEAD_INIT(&PyType_Type, 0)
     "NoDefaultType",
     .tp_dealloc = nodefault_dealloc,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_repr = NoDefault_repr,
     .tp_flags = Py_TPFLAGS_DEFAULT,
     .tp_doc = nodefault_doc,
@@ -2181,6 +2182,7 @@ PyTypeObject _PyTypeAlias_Type = {
     .tp_getset = typealias_getset,
     .tp_alloc = PyType_GenericAlloc,
     .tp_dealloc = typealias_dealloc,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_new = typealias_new,
     .tp_free = PyObject_GC_Del,
     .tp_iter = unpack_iter,

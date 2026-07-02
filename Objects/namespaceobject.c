@@ -301,6 +301,7 @@ PyTypeObject _PyNamespace_Type = {
     PyType_GenericAlloc,                        /* tp_alloc */
     namespace_new,                              /* tp_new */
     PyObject_GC_Del,                            /* tp_free */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 

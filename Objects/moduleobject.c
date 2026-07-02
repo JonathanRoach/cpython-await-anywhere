@@ -1509,4 +1509,5 @@ PyTypeObject PyModule_Type = {
     0,                                          /* tp_alloc */
     new_module,                                 /* tp_new */
     PyObject_GC_Del,                            /* tp_free */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };

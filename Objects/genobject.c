@@ -990,6 +990,7 @@ PyTypeObject PyGen_Type = {
     0,                                          /* tp_del */
     0,                                          /* tp_version_tag */
     _PyGen_Finalize,                            /* tp_finalize */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *
@@ -1727,6 +1728,7 @@ PyTypeObject PyCoro_Type = {
     0,                                          /* tp_del */
     0,                                          /* tp_version_tag */
     _PyGen_Finalize,                            /* tp_finalize */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 static void
@@ -1822,6 +1824,7 @@ PyTypeObject _PyCoroWrapper_Type = {
     0,                                          /* tp_alloc */
     0,                                          /* tp_new */
     0,                                          /* tp_free */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *
@@ -2179,6 +2182,7 @@ PyTypeObject PyAsyncGen_Type = {
     0,                                          /* tp_del */
     0,                                          /* tp_version_tag */
     _PyGen_Finalize,                            /* tp_finalize */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -2463,6 +2467,7 @@ PyTypeObject _PyAsyncGenASend_Type = {
     0,                                          /* tp_alloc */
     0,                                          /* tp_new */
     .tp_finalize = async_gen_asend_finalize,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -2548,6 +2553,7 @@ PyTypeObject _PyAsyncGenWrappedValue_Type = {
     0,                                          /* tp_init */
     0,                                          /* tp_alloc */
     0,                                          /* tp_new */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -2907,6 +2913,7 @@ PyTypeObject _PyAsyncGenAThrow_Type = {
     0,                                          /* tp_alloc */
     0,                                          /* tp_new */
     .tp_finalize = async_gen_athrow_finalize,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 

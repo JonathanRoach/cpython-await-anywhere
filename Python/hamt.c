@@ -2505,6 +2505,7 @@ hamt_baseiter_new(PyTypeObject *type, binaryfunc yield, PyHamtObject *o)
     .tp_itemsize = 0,                                           \
     .tp_as_mapping = &PyHamtIterator_as_mapping,                \
     .tp_dealloc = hamt_baseiter_tp_dealloc,                     \
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL, \
     .tp_getattro = PyObject_GenericGetAttr,                     \
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,        \
     .tp_traverse = hamt_baseiter_tp_traverse,                   \
@@ -2814,6 +2815,7 @@ PyTypeObject _PyHamt_Type = {
     .tp_as_sequence = &PyHamt_as_sequence,
     .tp_iter = hamt_tp_iter,
     .tp_dealloc = hamt_tp_dealloc,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_getattro = PyObject_GenericGetAttr,
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
     .tp_richcompare = hamt_tp_richcompare,
@@ -2834,6 +2836,7 @@ PyTypeObject _PyHamt_ArrayNode_Type = {
     sizeof(PyHamtNode_Array),
     0,
     .tp_dealloc = hamt_node_array_dealloc,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_getattro = PyObject_GenericGetAttr,
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
     .tp_traverse = hamt_node_array_traverse,
@@ -2847,6 +2850,7 @@ PyTypeObject _PyHamt_BitmapNode_Type = {
     sizeof(PyHamtNode_Bitmap) - sizeof(PyObject *),
     sizeof(PyObject *),
     .tp_dealloc = hamt_node_bitmap_dealloc,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_getattro = PyObject_GenericGetAttr,
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
     .tp_traverse = hamt_node_bitmap_traverse,
@@ -2860,6 +2864,7 @@ PyTypeObject _PyHamt_CollisionNode_Type = {
     sizeof(PyHamtNode_Collision) - sizeof(PyObject *),
     sizeof(PyObject *),
     .tp_dealloc = hamt_node_collision_dealloc,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_getattro = PyObject_GenericGetAttr,
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
     .tp_traverse = hamt_node_collision_traverse,

@@ -3432,6 +3432,7 @@ PyTypeObject PyBytesIter_Type = {
     striter_next,                               /* tp_iternext */
     striter_methods,                            /* tp_methods */
     0,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *

@@ -513,6 +513,7 @@ PyTypeObject _PyUnion_Type = {
               "E.g. for int | str"),
     .tp_basicsize = sizeof(unionobject),
     .tp_dealloc = unionobject_dealloc,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_alloc = PyType_GenericAlloc,
     .tp_free = PyObject_GC_Del,
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,

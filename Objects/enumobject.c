@@ -351,7 +351,8 @@ PyTypeObject PyEnum_Type = {
     PyType_GenericAlloc,            /* tp_alloc */
     enum_new,                       /* tp_new */
     PyObject_GC_Del,                /* tp_free */
-    .tp_vectorcall = enumerate_vectorcall
+    .tp_vectorcall = enumerate_vectorcall,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 /* Reversed Object ***************************************************************/
@@ -584,4 +585,5 @@ PyTypeObject PyReversed_Type = {
     reversed_new,                   /* tp_new */
     PyObject_GC_Del,                /* tp_free */
     .tp_vectorcall = reversed_vectorcall,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };

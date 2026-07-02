@@ -211,6 +211,7 @@ static PyTypeObject _HashInheritanceTester_Type = {
     0,                          /* tp_init */
     0,                          /* tp_alloc */
     PyType_GenericNew,                  /* tp_new */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject*
@@ -2745,6 +2746,7 @@ static PyTypeObject matmulType = {
     0,
     PyType_GenericNew,                  /* tp_new */
     PyObject_Free,                      /* tp_free */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 typedef struct {
@@ -2860,6 +2862,7 @@ static PyTypeObject awaitType = {
     0,
     awaitObject_new,                    /* tp_new */
     PyObject_Free,                      /* tp_free */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -2931,6 +2934,7 @@ static PyTypeObject MyList_Type = {
     0,                                          /* tp_init */
     0,                                          /* tp_alloc */
     MyList_new,                                 /* tp_new */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 /* Test PEP 560 */
@@ -2968,6 +2972,7 @@ static PyTypeObject GenericAlias_Type = {
     .tp_dealloc = generic_alias_dealloc,
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
     .tp_methods = generic_alias_methods,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *
@@ -3117,6 +3122,7 @@ static PyTypeObject ContainerNoGC_type = {
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
     .tp_members = ContainerNoGC_members,
     .tp_new = ContainerNoGC_new,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 /* Manually allocated heap type */

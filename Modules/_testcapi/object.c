@@ -157,6 +157,7 @@ static PyTypeObject MyType = {
     .tp_name = "MyType",
     .tp_basicsize = sizeof(PyObject),
     .tp_dealloc = MyObject_dealloc,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *

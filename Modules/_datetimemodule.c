@@ -3709,7 +3709,7 @@ static void
 iso_calendar_date_dealloc(PyObject *self)
 {
     PyTypeObject *tp = Py_TYPE(self);
-    PyTuple_Type.tp_dealloc(self);  // delegate GC-untrack as well
+    PYTYPE_CALLFUNCTION(&PyTuple_Type, tp, dealloc, self);  // delegate GC-untrack as well
     Py_DECREF(tp);
 }
 
@@ -4493,6 +4493,7 @@ static PyTypeObject PyDateTime_TimeZoneType = {
     0,                                /* tp_init */
     0,                                /* tp_alloc */
     timezone_new,                     /* tp_new */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 // XXX Can we make this const?
@@ -5237,6 +5238,7 @@ static PyTypeObject PyDateTime_TimeType = {
     time_alloc,                                 /* tp_alloc */
     time_new,                                   /* tp_new */
     0,                                          /* tp_free */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 /*
@@ -7163,6 +7165,7 @@ static PyTypeObject PyDateTime_DateTimeType = {
     datetime_alloc,                             /* tp_alloc */
     datetime_new,                               /* tp_new */
     0,                                          /* tp_free */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 /* ---------------------------------------------------------------------------

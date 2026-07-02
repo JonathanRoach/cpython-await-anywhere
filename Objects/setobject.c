@@ -961,6 +961,7 @@ PyTypeObject PySetIter_Type = {
     setiter_iternext,                           /* tp_iternext */
     setiter_methods,                            /* tp_methods */
     0,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *
@@ -2611,6 +2612,7 @@ PyTypeObject PySet_Type = {
     PyObject_GC_Del,                    /* tp_free */
     .tp_vectorcall = set_vectorcall,
     .tp_version_tag = _Py_TYPE_VERSION_SET,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 /* frozenset object ********************************************************/
@@ -2702,6 +2704,7 @@ PyTypeObject PyFrozenSet_Type = {
     PyObject_GC_Del,                    /* tp_free */
     .tp_vectorcall = frozenset_vectorcall,
     .tp_version_tag = _Py_TYPE_VERSION_FROZEN_SET,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -2883,6 +2886,7 @@ static PyTypeObject _PySetDummy_Type = {
     0,                  /*tp_setattro */
     0,                  /*tp_as_buffer */
     Py_TPFLAGS_DEFAULT, /*tp_flags */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject _dummy_struct = _PyObject_HEAD_INIT(&_PySetDummy_Type);

@@ -209,4 +209,5 @@ PyTypeObject PyCell_Type = {
     0,                                          /* tp_alloc */
     cell_new,                                   /* tp_new */
     0,                                          /* tp_free */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };

@@ -962,6 +962,7 @@ PyTypeObject _Py_GenericAliasIterType = {
     .tp_dealloc = ga_iter_dealloc,
     .tp_clear = ga_iter_clear,
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *
@@ -1002,6 +1003,7 @@ PyTypeObject Py_GenericAliasType = {
     .tp_getset = ga_properties,
     .tp_iter = ga_iter,
     .tp_vectorcall_offset = offsetof(gaobject, vectorcall),
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 PyObject *

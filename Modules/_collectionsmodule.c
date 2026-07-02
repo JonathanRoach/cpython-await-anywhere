@@ -2363,7 +2363,8 @@ defdict_dealloc(PyObject *op)
     PyTypeObject *tp = Py_TYPE(dd);
     PyObject_GC_UnTrack(dd);
     Py_CLEAR(dd->default_factory);
-    PyDict_Type.tp_dealloc(op);
+
+    PYTYPE_CALLFUNCTION(&PyDict_Type, tp, dealloc, op);
     Py_DECREF(tp);
 }
 

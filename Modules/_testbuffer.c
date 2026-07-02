@@ -2690,6 +2690,7 @@ static PyTypeObject NDArray_Type = {
     ndarray_init,                /* tp_init */
     0,                           /* tp_alloc */
     ndarray_new,                 /* tp_new */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 /**************************************************************************/
@@ -2810,6 +2811,7 @@ static PyTypeObject StaticArray_Type = {
     staticarray_init,                /* tp_init */
     0,                               /* tp_alloc */
     staticarray_new,                 /* tp_new */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 

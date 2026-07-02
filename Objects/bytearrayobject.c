@@ -2874,6 +2874,7 @@ PyTypeObject PyByteArray_Type = {
     PyType_GenericNew,                  /* tp_new */
     PyObject_Free,                      /* tp_free */
     .tp_version_tag = _Py_TYPE_VERSION_BYTEARRAY,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 /*********************** Bytearray Iterator ****************************/
@@ -3038,6 +3039,7 @@ PyTypeObject PyByteArrayIter_Type = {
     bytearrayiter_next,                /* tp_iternext */
     bytearrayiter_methods,             /* tp_methods */
     0,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *

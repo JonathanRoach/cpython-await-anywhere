@@ -1400,7 +1400,7 @@ odict_dealloc(PyObject *op)
         PyObject_ClearWeakRefs((PyObject *)self);
 
     _odict_clear_nodes(self);
-    PyDict_Type.tp_dealloc((PyObject *)self);
+    PYTYPE_CALLFUNCTION(&PyDict_Type, tp, dealloc, op);
 }
 
 /* tp_repr */
@@ -1579,6 +1579,7 @@ PyTypeObject PyODict_Type = {
     PyType_GenericAlloc,                        /* tp_alloc */
     0,                                          /* tp_new */
     0,                                          /* tp_free */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -1846,6 +1847,7 @@ PyTypeObject PyODictIter_Type = {
     odictiter_iternext,                       /* tp_iternext */
     odictiter_methods,                        /* tp_methods */
     0,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *

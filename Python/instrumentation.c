@@ -2943,6 +2943,7 @@ static PyTypeObject _PyLegacyBranchEventHandler_Type = {
     "sys.monitoring.branch_event_handler",
     sizeof(_PyLegacyBranchEventHandler),
     .tp_dealloc = dealloc_branch_handler,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_vectorcall_offset = offsetof(_PyLegacyBranchEventHandler, vectorcall),
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE |
         Py_TPFLAGS_HAVE_VECTORCALL | Py_TPFLAGS_DISALLOW_INSTANTIATION,
@@ -3163,6 +3164,7 @@ static PyTypeObject _PyBranchesIterator = {
     0,                                  /* tp_itemsize */
     /* methods */
     .tp_dealloc = branchesiter_dealloc,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
     .tp_iter = PyObject_SelfIter,
     .tp_iternext = branchesiter_next,

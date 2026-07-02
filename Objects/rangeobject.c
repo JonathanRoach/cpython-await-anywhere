@@ -779,45 +779,46 @@ static PyMemberDef range_members[] = {
 };
 
 PyTypeObject PyRange_Type = {
-        PyVarObject_HEAD_INIT(&PyType_Type, 0)
-        "range",                /* Name of this type */
-        sizeof(rangeobject),    /* Basic object size */
-        0,                      /* Item size for varobject */
-        range_dealloc,          /* tp_dealloc */
-        0,                      /* tp_vectorcall_offset */
-        0,                      /* tp_getattr */
-        0,                      /* tp_setattr */
-        0,                      /* tp_as_async */
-        range_repr,             /* tp_repr */
-        &range_as_number,       /* tp_as_number */
-        &range_as_sequence,     /* tp_as_sequence */
-        &range_as_mapping,      /* tp_as_mapping */
-        range_hash,             /* tp_hash */
-        0,                      /* tp_call */
-        0,                      /* tp_str */
-        PyObject_GenericGetAttr,  /* tp_getattro */
-        0,                      /* tp_setattro */
-        0,                      /* tp_as_buffer */
-        Py_TPFLAGS_DEFAULT | Py_TPFLAGS_SEQUENCE,  /* tp_flags */
-        range_doc,              /* tp_doc */
-        0,                      /* tp_traverse */
-        0,                      /* tp_clear */
-        range_richcompare,      /* tp_richcompare */
-        0,                      /* tp_weaklistoffset */
-        range_iter,             /* tp_iter */
-        0,                      /* tp_iternext */
-        range_methods,          /* tp_methods */
-        range_members,          /* tp_members */
-        0,                      /* tp_getset */
-        0,                      /* tp_base */
-        0,                      /* tp_dict */
-        0,                      /* tp_descr_get */
-        0,                      /* tp_descr_set */
-        0,                      /* tp_dictoffset */
-        0,                      /* tp_init */
-        0,                      /* tp_alloc */
-        range_new,              /* tp_new */
-        .tp_vectorcall = range_vectorcall
+    PyVarObject_HEAD_INIT(&PyType_Type, 0)
+    "range",                /* Name of this type */
+    sizeof(rangeobject),    /* Basic object size */
+    0,                      /* Item size for varobject */
+    range_dealloc,          /* tp_dealloc */
+    0,                      /* tp_vectorcall_offset */
+    0,                      /* tp_getattr */
+    0,                      /* tp_setattr */
+    0,                      /* tp_as_async */
+    range_repr,             /* tp_repr */
+    &range_as_number,       /* tp_as_number */
+    &range_as_sequence,     /* tp_as_sequence */
+    &range_as_mapping,      /* tp_as_mapping */
+    range_hash,             /* tp_hash */
+    0,                      /* tp_call */
+    0,                      /* tp_str */
+    PyObject_GenericGetAttr,  /* tp_getattro */
+    0,                      /* tp_setattro */
+    0,                      /* tp_as_buffer */
+    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_SEQUENCE,  /* tp_flags */
+    range_doc,              /* tp_doc */
+    0,                      /* tp_traverse */
+    0,                      /* tp_clear */
+    range_richcompare,      /* tp_richcompare */
+    0,                      /* tp_weaklistoffset */
+    range_iter,             /* tp_iter */
+    0,                      /* tp_iternext */
+    range_methods,          /* tp_methods */
+    range_members,          /* tp_members */
+    0,                      /* tp_getset */
+    0,                      /* tp_base */
+    0,                      /* tp_dict */
+    0,                      /* tp_descr_get */
+    0,                      /* tp_descr_set */
+    0,                      /* tp_dictoffset */
+    0,                      /* tp_init */
+    0,                      /* tp_alloc */
+    range_new,              /* tp_new */
+    .tp_vectorcall = range_vectorcall,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 /*********************** range Iterator **************************/
@@ -915,36 +916,37 @@ static PyMethodDef rangeiter_methods[] = {
 };
 
 PyTypeObject PyRangeIter_Type = {
-        PyVarObject_HEAD_INIT(&PyType_Type, 0)
-        "range_iterator",                       /* tp_name */
-        sizeof(_PyRangeIterObject),             /* tp_basicsize */
-        0,                                      /* tp_itemsize */
-        /* methods */
-        rangeiter_dealloc,                      /* tp_dealloc */
-        0,                                      /* tp_vectorcall_offset */
-        0,                                      /* tp_getattr */
-        0,                                      /* tp_setattr */
-        0,                                      /* tp_as_async */
-        0,                                      /* tp_repr */
-        0,                                      /* tp_as_number */
-        0,                                      /* tp_as_sequence */
-        0,                                      /* tp_as_mapping */
-        0,                                      /* tp_hash */
-        0,                                      /* tp_call */
-        0,                                      /* tp_str */
-        PyObject_GenericGetAttr,                /* tp_getattro */
-        0,                                      /* tp_setattro */
-        0,                                      /* tp_as_buffer */
-        Py_TPFLAGS_DEFAULT,                     /* tp_flags */
-        0,                                      /* tp_doc */
-        0,                                      /* tp_traverse */
-        0,                                      /* tp_clear */
-        0,                                      /* tp_richcompare */
-        0,                                      /* tp_weaklistoffset */
-        PyObject_SelfIter,                      /* tp_iter */
-        rangeiter_next,                         /* tp_iternext */
-        rangeiter_methods,                      /* tp_methods */
-        0,                                      /* tp_members */
+    PyVarObject_HEAD_INIT(&PyType_Type, 0)
+    "range_iterator",                       /* tp_name */
+    sizeof(_PyRangeIterObject),             /* tp_basicsize */
+    0,                                      /* tp_itemsize */
+    /* methods */
+    rangeiter_dealloc,                      /* tp_dealloc */
+    0,                                      /* tp_vectorcall_offset */
+    0,                                      /* tp_getattr */
+    0,                                      /* tp_setattr */
+    0,                                      /* tp_as_async */
+    0,                                      /* tp_repr */
+    0,                                      /* tp_as_number */
+    0,                                      /* tp_as_sequence */
+    0,                                      /* tp_as_mapping */
+    0,                                      /* tp_hash */
+    0,                                      /* tp_call */
+    0,                                      /* tp_str */
+    PyObject_GenericGetAttr,                /* tp_getattro */
+    0,                                      /* tp_setattro */
+    0,                                      /* tp_as_buffer */
+    Py_TPFLAGS_DEFAULT,                     /* tp_flags */
+    0,                                      /* tp_doc */
+    0,                                      /* tp_traverse */
+    0,                                      /* tp_clear */
+    0,                                      /* tp_richcompare */
+    0,                                      /* tp_weaklistoffset */
+    PyObject_SelfIter,                      /* tp_iter */
+    rangeiter_next,                         /* tp_iternext */
+    rangeiter_methods,                      /* tp_methods */
+    0,                                      /* tp_members */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 /* Return number of items in range (lo, hi, step).  step != 0
@@ -1119,36 +1121,37 @@ longrangeiter_next(PyObject *op)
 }
 
 PyTypeObject PyLongRangeIter_Type = {
-        PyVarObject_HEAD_INIT(&PyType_Type, 0)
-        "longrange_iterator",                   /* tp_name */
-        sizeof(longrangeiterobject),            /* tp_basicsize */
-        0,                                      /* tp_itemsize */
-        /* methods */
-        longrangeiter_dealloc,                  /* tp_dealloc */
-        0,                                      /* tp_vectorcall_offset */
-        0,                                      /* tp_getattr */
-        0,                                      /* tp_setattr */
-        0,                                      /* tp_as_async */
-        0,                                      /* tp_repr */
-        0,                                      /* tp_as_number */
-        0,                                      /* tp_as_sequence */
-        0,                                      /* tp_as_mapping */
-        0,                                      /* tp_hash */
-        0,                                      /* tp_call */
-        0,                                      /* tp_str */
-        PyObject_GenericGetAttr,                /* tp_getattro */
-        0,                                      /* tp_setattro */
-        0,                                      /* tp_as_buffer */
-        Py_TPFLAGS_DEFAULT,                     /* tp_flags */
-        0,                                      /* tp_doc */
-        0,                                      /* tp_traverse */
-        0,                                      /* tp_clear */
-        0,                                      /* tp_richcompare */
-        0,                                      /* tp_weaklistoffset */
-        PyObject_SelfIter,                      /* tp_iter */
-        longrangeiter_next,                     /* tp_iternext */
-        longrangeiter_methods,                  /* tp_methods */
-        0,
+    PyVarObject_HEAD_INIT(&PyType_Type, 0)
+    "longrange_iterator",                   /* tp_name */
+    sizeof(longrangeiterobject),            /* tp_basicsize */
+    0,                                      /* tp_itemsize */
+    /* methods */
+    longrangeiter_dealloc,                  /* tp_dealloc */
+    0,                                      /* tp_vectorcall_offset */
+    0,                                      /* tp_getattr */
+    0,                                      /* tp_setattr */
+    0,                                      /* tp_as_async */
+    0,                                      /* tp_repr */
+    0,                                      /* tp_as_number */
+    0,                                      /* tp_as_sequence */
+    0,                                      /* tp_as_mapping */
+    0,                                      /* tp_hash */
+    0,                                      /* tp_call */
+    0,                                      /* tp_str */
+    PyObject_GenericGetAttr,                /* tp_getattro */
+    0,                                      /* tp_setattro */
+    0,                                      /* tp_as_buffer */
+    Py_TPFLAGS_DEFAULT,                     /* tp_flags */
+    0,                                      /* tp_doc */
+    0,                                      /* tp_traverse */
+    0,                                      /* tp_clear */
+    0,                                      /* tp_richcompare */
+    0,                                      /* tp_weaklistoffset */
+    PyObject_SelfIter,                      /* tp_iter */
+    longrangeiter_next,                     /* tp_iternext */
+    longrangeiter_methods,                  /* tp_methods */
+    0,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *

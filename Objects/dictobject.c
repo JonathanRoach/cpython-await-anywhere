@@ -4976,6 +4976,7 @@ PyTypeObject PyDict_Type = {
     PyObject_GC_Del,                            /* tp_free */
     .tp_vectorcall = dict_vectorcall,
     .tp_version_tag = _Py_TYPE_VERSION_DICT,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 /* For backward compatibility with old dictionary interface */
@@ -5285,6 +5286,7 @@ PyTypeObject PyDictIterKey_Type = {
     dictiter_iternextkey,                       /* tp_iternext */
     dictiter_methods,                           /* tp_methods */
     0,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 #ifndef Py_GIL_DISABLED
@@ -5408,6 +5410,7 @@ PyTypeObject PyDictIterValue_Type = {
     dictiter_iternextvalue,                     /* tp_iternext */
     dictiter_methods,                           /* tp_methods */
     0,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 static int
@@ -5717,6 +5720,7 @@ PyTypeObject PyDictIterItem_Type = {
     dictiter_iternextitem,                      /* tp_iternext */
     dictiter_methods,                           /* tp_methods */
     0,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -5843,7 +5847,8 @@ PyTypeObject PyDictRevIterKey_Type = {
     .tp_traverse = dictiter_traverse,
     .tp_iter = PyObject_SelfIter,
     .tp_iternext = dictreviter_iternext,
-    .tp_methods = dictiter_methods
+    .tp_methods = dictiter_methods,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -5886,7 +5891,8 @@ PyTypeObject PyDictRevIterItem_Type = {
     .tp_traverse = dictiter_traverse,
     .tp_iter = PyObject_SelfIter,
     .tp_iternext = dictreviter_iternext,
-    .tp_methods = dictiter_methods
+    .tp_methods = dictiter_methods,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 PyTypeObject PyDictRevIterValue_Type = {
@@ -5898,7 +5904,8 @@ PyTypeObject PyDictRevIterValue_Type = {
     .tp_traverse = dictiter_traverse,
     .tp_iter = PyObject_SelfIter,
     .tp_iternext = dictreviter_iternext,
-    .tp_methods = dictiter_methods
+    .tp_methods = dictiter_methods,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 /***********************************************/
@@ -6501,6 +6508,7 @@ PyTypeObject PyDictKeys_Type = {
     0,                                          /* tp_iternext */
     dictkeys_methods,                           /* tp_methods */
     .tp_getset = dictview_getset,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 /*[clinic input]
@@ -6614,6 +6622,7 @@ PyTypeObject PyDictItems_Type = {
     0,                                          /* tp_iternext */
     dictitems_methods,                          /* tp_methods */
     .tp_getset = dictview_getset,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 /*[clinic input]
@@ -6705,6 +6714,7 @@ PyTypeObject PyDictValues_Type = {
     0,                                          /* tp_iternext */
     dictvalues_methods,                         /* tp_methods */
     .tp_getset = dictview_getset,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 /*[clinic input]

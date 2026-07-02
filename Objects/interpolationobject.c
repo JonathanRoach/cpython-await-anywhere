@@ -159,6 +159,7 @@ PyTypeObject _PyInterpolation_Type = {
     .tp_members = interpolation_members,
     .tp_methods = interpolation_methods,
     .tp_traverse = interpolation_traverse,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 PyStatus

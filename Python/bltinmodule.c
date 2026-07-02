@@ -685,7 +685,8 @@ PyTypeObject PyFilter_Type = {
     PyType_GenericAlloc,                /* tp_alloc */
     filter_new,                         /* tp_new */
     PyObject_GC_Del,                    /* tp_free */
-    .tp_vectorcall = filter_vectorcall
+    .tp_vectorcall = filter_vectorcall,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -1635,7 +1636,8 @@ PyTypeObject PyMap_Type = {
     PyType_GenericAlloc,                /* tp_alloc */
     map_new,                            /* tp_new */
     PyObject_GC_Del,                    /* tp_free */
-    .tp_vectorcall = map_vectorcall
+    .tp_vectorcall = map_vectorcall,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -3297,6 +3299,7 @@ PyTypeObject PyZip_Type = {
     PyType_GenericAlloc,                /* tp_alloc */
     zip_new,                            /* tp_new */
     PyObject_GC_Del,                    /* tp_free */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 

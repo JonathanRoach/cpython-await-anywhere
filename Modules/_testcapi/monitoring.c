@@ -106,6 +106,7 @@ static PyTypeObject PyCodeLike_Type = {
     .tp_new = CodeLike_new,
     .tp_dealloc = CodeLike_dealloc,
     .tp_str = CodeLike_str,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 #define RAISE_UNLESS_CODELIKE(v)  if (!Py_IS_TYPE((v), &PyCodeLike_Type)) { \

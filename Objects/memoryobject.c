@@ -167,7 +167,8 @@ PyTypeObject _PyManagedBuffer_Type = {
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC, /* tp_flags */
     0,                                       /* tp_doc */
     mbuf_traverse,                           /* tp_traverse */
-    mbuf_clear                               /* tp_clear */
+    mbuf_clear,                              /* tp_clear */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -3564,6 +3565,7 @@ PyTypeObject _PyMemoryIter_Type = {
     .tp_traverse = memoryiter_traverse,
     .tp_iter = PyObject_SelfIter,
     .tp_iternext = memoryiter_next,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 PyTypeObject PyMemoryView_Type = {
@@ -3606,4 +3608,5 @@ PyTypeObject PyMemoryView_Type = {
     0,                                        /* tp_init */
     0,                                        /* tp_alloc */
     memoryview,                               /* tp_new */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };

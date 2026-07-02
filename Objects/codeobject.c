@@ -1433,6 +1433,7 @@ PyTypeObject _PyLineIterator = {
     0,                                  /* tp_alloc */
     0,                                  /* tp_new */
     PyObject_Free,                      /* tp_free */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 static lineiterator *
@@ -1526,6 +1527,7 @@ PyTypeObject _PyPositionsIterator = {
     0,                                  /* tp_alloc */
     0,                                  /* tp_new */
     PyObject_Free,                      /* tp_free */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject*
@@ -2904,6 +2906,7 @@ PyTypeObject PyCode_Type = {
     0,                                  /* tp_init */
     0,                                  /* tp_alloc */
     code_new,                           /* tp_new */
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 

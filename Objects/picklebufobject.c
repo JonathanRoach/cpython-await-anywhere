@@ -221,4 +221,5 @@ PyTypeObject PyPickleBuffer_Type = {
     .tp_weaklistoffset = offsetof(PyPickleBufferObject, weakreflist),
     .tp_as_buffer = &picklebuf_as_buffer,
     .tp_methods = picklebuf_methods,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
