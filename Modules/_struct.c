@@ -2028,13 +2028,23 @@ static PyType_Slot unpackiter_type_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra unpackiter_type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iter, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iternext, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec unpackiter_type_spec = {
-    "_struct.unpack_iterator",
-    sizeof(unpackiterobject),
-    0,
-    (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
+    .name = "_struct.unpack_iterator",
+    .basicsize = sizeof(unpackiterobject),
+    .itemsize = 0,
+    .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
      Py_TPFLAGS_IMMUTABLETYPE | Py_TPFLAGS_DISALLOW_INSTANTIATION),
-    unpackiter_type_slots
+    .slots = unpackiter_type_slots,
+    .slot_extras = unpackiter_type_slots_ex,
 };
 
 /*[clinic input]
@@ -2418,13 +2428,29 @@ static PyType_Slot PyStructType_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra PyStructType_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_setattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_alloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_free, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec PyStructType_spec = {
-    "_struct.Struct",
-    sizeof(PyStructObject),
-    0,
-    (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
+    .name = "_struct.Struct",
+    .basicsize = sizeof(PyStructObject),
+    .itemsize = 0,
+    .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
      Py_TPFLAGS_BASETYPE | Py_TPFLAGS_IMMUTABLETYPE),
-    PyStructType_slots
+    .slots = PyStructType_slots,
+    .slot_extras = PyStructType_slots_ex,
 };
 
 

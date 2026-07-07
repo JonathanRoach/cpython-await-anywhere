@@ -3207,15 +3207,24 @@ static PyType_Slot ManagedDict_slots[] = {
     {Py_tp_getset, (void *)ManagedDict_getset},
     {Py_tp_traverse, (void *)ManagedDict_traverse},
     {Py_tp_clear, (void *)ManagedDict_clear},
-    {0}
+    {0, NULL}
+};
+
+static PyType_Slot_Extra ManagedDict_slots_ex[] = {
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {0, 0},
 };
 
 static PyType_Spec ManagedDict_spec = {
-    "_testcapi.ManagedDictType",
-    sizeof(ManagedDictObject),
-    0, // itemsize
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_MANAGED_DICT | Py_TPFLAGS_HEAPTYPE | Py_TPFLAGS_HAVE_GC,
-    ManagedDict_slots
+    .name = "_testcapi.ManagedDictType",
+    .basicsize = sizeof(ManagedDictObject),
+    .itemsize = 0,
+    .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_MANAGED_DICT | Py_TPFLAGS_HEAPTYPE | Py_TPFLAGS_HAVE_GC,
+    .slots = ManagedDict_slots,
+    .slot_extras = ManagedDict_slots_ex,
 };
 
 static PyObject *

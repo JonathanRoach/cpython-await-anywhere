@@ -753,6 +753,7 @@ PyTypeObject PyMethodDescr_Type = {
     method_get,                                 /* tp_descr_get */
     0,                                          /* tp_descr_set */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset] = Py_FNFLAGS_FRUGAL,
 };
 
 /* This is for METH_CLASS in C, not for "f = classmethod(f)" in Python! */

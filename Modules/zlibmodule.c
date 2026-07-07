@@ -2045,11 +2045,17 @@ static PyType_Slot Comptype_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra Comptype_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec Comptype_spec = {
     .name = "zlib.Compress",
     .basicsize = sizeof(compobject),
     .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_DISALLOW_INSTANTIATION,
     .slots= Comptype_slots,
+    .slot_extras = Comptype_slots_ex,
 };
 
 static PyType_Slot Decomptype_slots[] = {
@@ -2059,11 +2065,17 @@ static PyType_Slot Decomptype_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra Decomptype_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec Decomptype_spec = {
     .name = "zlib.Decompress",
     .basicsize = sizeof(compobject),
     .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_DISALLOW_INSTANTIATION,
     .slots = Decomptype_slots,
+    .slot_extras = Decomptype_slots_ex,
 };
 
 static PyType_Slot ZlibDecompressor_type_slots[] = {
@@ -2072,6 +2084,12 @@ static PyType_Slot ZlibDecompressor_type_slots[] = {
     {Py_tp_new, ZlibDecompressor__new__},
     {Py_tp_doc, (char *)ZlibDecompressor__new____doc__},
     {Py_tp_methods, ZlibDecompressor_methods},
+    {0, 0},
+};
+
+static PyType_Slot_Extra ZlibDecompressor_type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
     {0, 0},
 };
 
@@ -2084,6 +2102,7 @@ static PyType_Spec ZlibDecompressor_type_spec = {
     // So calling PyType_GetModuleState() in this file is always safe.
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_IMMUTABLETYPE),
     .slots = ZlibDecompressor_type_slots,
+    .slot_extras = ZlibDecompressor_type_slots_ex,
 };
 
 PyDoc_STRVAR(zlib_module_documentation,

@@ -3049,6 +3049,13 @@ static PyType_Slot PyCursesWindow_Type_slots[] = {
     {0, NULL}
 };
 
+static PyType_Slot_Extra PyCursesWindow_Type_slots_ex[] = {
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec PyCursesWindow_Type_spec = {
     .name = "_curses.window",
     .basicsize =  sizeof(PyCursesWindowObject),
@@ -3057,7 +3064,8 @@ static PyType_Spec PyCursesWindow_Type_spec = {
         | Py_TPFLAGS_IMMUTABLETYPE
         | Py_TPFLAGS_HEAPTYPE
         | Py_TPFLAGS_HAVE_GC,
-    .slots = PyCursesWindow_Type_slots
+    .slots = PyCursesWindow_Type_slots,
+    .slot_extras = PyCursesWindow_Type_slots_ex,
 };
 
 /* -------------------------------------------------------*/

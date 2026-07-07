@@ -1345,10 +1345,22 @@ static PyType_Slot fileio_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra fileio_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec fileio_spec = {
     .name = "_io.FileIO",
     .basicsize = sizeof(fileio),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = fileio_slots,
+    .slot_extras = fileio_slots_ex,
 };

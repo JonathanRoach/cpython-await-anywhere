@@ -441,6 +441,12 @@ static PyType_Slot pdata_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra pdata_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec pdata_spec = {
     .name = "_pickle.Pdata",
     .basicsize = sizeof(Pdata),
@@ -448,6 +454,7 @@ static PyType_Spec pdata_spec = {
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = pdata_slots,
+    .slot_extras = pdata_slots_ex,
 };
 
 static PyObject *
@@ -5062,12 +5069,21 @@ static PyType_Slot memoproxy_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra memoproxy_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_hash, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec memoproxy_spec = {
     .name = "_pickle.PicklerMemoProxy",
     .basicsize = sizeof(PicklerMemoProxyObject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = memoproxy_slots,
+    .slot_extras = memoproxy_slots_ex,
 };
 
 static PyObject *
@@ -5214,12 +5230,27 @@ static PyType_Slot pickler_type_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra pickler_type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_setattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_alloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_free, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec pickler_type_spec = {
     .name = "_pickle.Pickler",
     .basicsize = sizeof(PicklerObject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = pickler_type_slots,
+    .slot_extras = pickler_type_slots_ex,
 };
 
 /* Temporary helper for calling self.find_class().
@@ -7564,12 +7595,21 @@ static PyType_Slot unpickler_memoproxy_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra unpickler_memoproxy_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_hash, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec unpickler_memoproxy_spec = {
     .name = "_pickle.UnpicklerMemoProxy",
     .basicsize = sizeof(UnpicklerMemoProxyObject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = unpickler_memoproxy_slots,
+    .slot_extras = unpickler_memoproxy_slots_ex,
 };
 
 static PyObject *
@@ -7724,12 +7764,27 @@ static PyType_Slot unpickler_type_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra unpickler_type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_setattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_alloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_free, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec unpickler_type_spec = {
     .name = "_pickle.Unpickler",
     .basicsize = sizeof(UnpicklerObject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = unpickler_type_slots,
+    .slot_extras = unpickler_type_slots_ex,
 };
 
 /*[clinic input]

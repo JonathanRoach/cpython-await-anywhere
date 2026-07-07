@@ -711,10 +711,20 @@ static PyType_Slot ZstdDecompressor_slots[] = {
     {0, 0}
 };
 
+static PyType_Slot_Extra ZstdDecompressor_slots_ex[] = {
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec zstd_decompressor_type_spec = {
     .name = "compression.zstd.ZstdDecompressor",
     .basicsize = sizeof(ZstdDecompressor),
     .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_IMMUTABLETYPE
              | Py_TPFLAGS_HAVE_GC,
     .slots = ZstdDecompressor_slots,
+    .slot_extras = ZstdDecompressor_slots_ex,
 };

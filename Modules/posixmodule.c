@@ -16248,12 +16248,19 @@ static PyType_Slot DirEntryType_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra DirEntryType_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec DirEntryType_spec = {
-    MODNAME ".DirEntry",
-    sizeof(DirEntry),
-    0,
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_DISALLOW_INSTANTIATION,
-    DirEntryType_slots
+    .name = MODNAME ".DirEntry",
+    .basicsize = sizeof(DirEntry),
+    .itemsize = 0,
+    .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_DISALLOW_INSTANTIATION,
+    .slots = DirEntryType_slots,
+    .slot_extras = DirEntryType_slots_ex,
 };
 
 
@@ -16690,15 +16697,24 @@ static PyType_Slot ScandirIteratorType_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra ScandirIteratorType_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_finalize, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iter, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iternext, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec ScandirIteratorType_spec = {
-    MODNAME ".ScandirIterator",
-    sizeof(ScandirIterator),
-    0,
+    .name = MODNAME ".ScandirIterator",
+    .basicsize = sizeof(ScandirIterator),
+    .itemsize = 0,
     // bpo-40549: Py_TPFLAGS_BASETYPE should not be used, since
     // PyType_GetModule(Py_TYPE(self)) doesn't work on a subclass instance.
-    (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_FINALIZE
+    .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_FINALIZE
         | Py_TPFLAGS_DISALLOW_INSTANTIATION),
-    ScandirIteratorType_slots
+    .slots = ScandirIteratorType_slots,
+    .slot_extras = ScandirIteratorType_slots_ex,
 };
 
 /*[clinic input]

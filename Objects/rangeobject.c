@@ -818,6 +818,7 @@ PyTypeObject PyRange_Type = {
     0,                      /* tp_alloc */
     range_new,              /* tp_new */
     .tp_vectorcall = range_vectorcall,
+    .tp_functionflags[_PyFunctionIndex_tp_vectorcall] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 

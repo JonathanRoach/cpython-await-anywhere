@@ -1897,6 +1897,31 @@ static PyType_Slot deque_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra deque_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_hash, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_richcompare, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iter, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_alloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_free, Py_FNFLAGS_FRUGAL},
+    {Py_sq_length, Py_FNFLAGS_FRUGAL},
+    {Py_sq_concat, Py_FNFLAGS_FRUGAL},
+    {Py_sq_repeat, Py_FNFLAGS_FRUGAL},
+    {Py_sq_item, Py_FNFLAGS_FRUGAL},
+    {Py_sq_ass_item, Py_FNFLAGS_FRUGAL},
+    {Py_sq_contains, Py_FNFLAGS_FRUGAL},
+    {Py_sq_inplace_concat, Py_FNFLAGS_FRUGAL},
+    {Py_sq_inplace_repeat, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec deque_spec = {
     .name = "collections.deque",
     .basicsize = sizeof(dequeobject),
@@ -1904,6 +1929,7 @@ static PyType_Spec deque_spec = {
               Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_SEQUENCE |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = deque_slots,
+    .slot_extras = deque_slots_ex,
 };
 
 /*********************** Deque Iterator **************************/
@@ -2089,12 +2115,24 @@ static PyType_Slot dequeiter_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra dequeiter_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iter, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iternext, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec dequeiter_spec = {
     .name = "collections._deque_iterator",
     .basicsize = sizeof(dequeiterobject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = dequeiter_slots,
+    .slot_extras = dequeiter_slots_ex,
 };
 
 /*********************** Deque Reverse Iterator **************************/
@@ -2207,12 +2245,24 @@ static PyType_Slot dequereviter_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra dequereviter_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iter, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iternext, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec dequereviter_spec = {
     .name = "collections._deque_reverse_iterator",
     .basicsize = sizeof(dequeiterobject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = dequereviter_slots,
+    .slot_extras = dequereviter_slots_ex,
 };
 
 /* defaultdict type *********************************************************/
@@ -2518,12 +2568,27 @@ static PyType_Slot defdict_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra defdict_slots_ex[] = {
+    {Py_tp_token, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_nb_or, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_alloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_free, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec defdict_spec = {
     .name = "collections.defaultdict",
     .basicsize = sizeof(defdictobject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = defdict_slots,
+    .slot_extras = defdict_slots_ex,
 };
 
 /* helper function for Counter  *********************************************/
@@ -2792,12 +2857,24 @@ static PyType_Slot tuplegetter_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra tuplegetter_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_descr_get, Py_FNFLAGS_FRUGAL},
+    {Py_tp_descr_set, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec tuplegetter_spec = {
     .name = "collections._tuplegetter",
     .basicsize = sizeof(_tuplegetterobject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = tuplegetter_slots,
+    .slot_extras = tuplegetter_slots_ex,
 };
 
 

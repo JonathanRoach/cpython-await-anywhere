@@ -263,12 +263,20 @@ static PyType_Slot sha1_type_slots[] = {
     {0,0}
 };
 
+static PyType_Slot_Extra sha1_type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec sha1_type_spec = {
     .name = "_sha1.sha1",
     .basicsize =  sizeof(SHA1object),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_DISALLOW_INSTANTIATION |
               Py_TPFLAGS_IMMUTABLETYPE | Py_TPFLAGS_HAVE_GC),
-    .slots = sha1_type_slots
+    .slots = sha1_type_slots,
+    .slot_extras = sha1_type_slots_ex,
 };
 
 /* The single module-level function: new() */

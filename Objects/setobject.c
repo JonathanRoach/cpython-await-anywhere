@@ -2611,6 +2611,7 @@ PyTypeObject PySet_Type = {
     set_new,                            /* tp_new */
     PyObject_GC_Del,                    /* tp_free */
     .tp_vectorcall = set_vectorcall,
+    .tp_functionflags[_PyFunctionIndex_tp_vectorcall] = Py_FNFLAGS_FRUGAL,
     .tp_version_tag = _Py_TYPE_VERSION_SET,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
@@ -2703,6 +2704,7 @@ PyTypeObject PyFrozenSet_Type = {
     frozenset_new,                      /* tp_new */
     PyObject_GC_Del,                    /* tp_free */
     .tp_vectorcall = frozenset_vectorcall,
+    .tp_functionflags[_PyFunctionIndex_tp_vectorcall] = Py_FNFLAGS_FRUGAL,
     .tp_version_tag = _Py_TYPE_VERSION_FROZEN_SET,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };

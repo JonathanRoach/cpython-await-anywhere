@@ -413,7 +413,14 @@ static PyType_Slot bz2_compressor_type_slots[] = {
     {Py_tp_new, _bz2_BZ2Compressor},
     {Py_tp_doc, (char *)_bz2_BZ2Compressor__doc__},
     {Py_tp_traverse, BZ2Compressor_traverse},
-    {0, 0}
+    {0, NULL}
+};
+
+static PyType_Slot_Extra bz2_compressor_type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {0, 0},
 };
 
 static PyType_Spec bz2_compressor_type_spec = {
@@ -425,6 +432,7 @@ static PyType_Spec bz2_compressor_type_spec = {
     // So calling PyType_GetModuleState() in this file is always safe.
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_IMMUTABLETYPE),
     .slots = bz2_compressor_type_slots,
+    .slot_extras = bz2_compressor_type_slots_ex,
 };
 
 /* BZ2Decompressor class. */
@@ -748,6 +756,13 @@ static PyType_Slot bz2_decompressor_type_slots[] = {
     {0, 0}
 };
 
+static PyType_Slot_Extra bz2_decompressor_type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec bz2_decompressor_type_spec = {
     .name = "_bz2.BZ2Decompressor",
     .basicsize = sizeof(BZ2Decompressor),
@@ -757,6 +772,7 @@ static PyType_Spec bz2_decompressor_type_spec = {
     // So calling PyType_GetModuleState() in this file is always safe.
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_IMMUTABLETYPE),
     .slots = bz2_decompressor_type_slots,
+    .slot_extras = bz2_decompressor_type_slots_ex,
 };
 
 /* Module initialization. */

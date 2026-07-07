@@ -107,7 +107,12 @@ test_structmembers_new(PyTypeObject *type, PyObject *args, PyObject *kwargs)
 static PyType_Slot test_structmembers_slots[] = {
     {Py_tp_new, test_structmembers_new},
     {Py_tp_members, test_members_newapi},
-    {0},
+    {0, NULL},
+};
+
+static PyType_Slot_Extra test_structmembers_slots_ex[] = {
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {0, 0},
 };
 
 static PyType_Spec test_structmembers_spec = {
@@ -115,6 +120,7 @@ static PyType_Spec test_structmembers_spec = {
     .flags = Py_TPFLAGS_DEFAULT,
     .basicsize = sizeof(test_structmembers),
     .slots = test_structmembers_slots,
+    .slot_extras = test_structmembers_slots_ex,
 };
 
 #include <structmember.h>

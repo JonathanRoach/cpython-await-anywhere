@@ -3,7 +3,11 @@
 
 
 static PyType_Slot HeapTypeNameType_slots[] = {
-    {0},
+    {0, NULL},
+};
+
+static PyType_Slot_Extra HeapTypeNameType_slots_ex[] = {
+    {0, 0},
 };
 
 static PyType_Spec HeapTypeNameType_Spec = {
@@ -11,6 +15,7 @@ static PyType_Spec HeapTypeNameType_Spec = {
     .basicsize = sizeof(PyObject),
     .flags = Py_TPFLAGS_DEFAULT,
     .slots = HeapTypeNameType_slots,
+    .slot_extras = HeapTypeNameType_slots_ex,
 };
 
 static PyObject *

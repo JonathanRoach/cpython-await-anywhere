@@ -5833,12 +5833,24 @@ static PyType_Slot sock_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra sock_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_finalize, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec sock_spec = {
     .name = "_socket.socket",
     .basicsize = sizeof(PySocketSockObject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = sock_slots,
+    .slot_extras = sock_slots_ex,
 };
 
 

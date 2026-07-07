@@ -432,6 +432,15 @@ static PyGetSetDef SHA3_getseters[] = {
         {Py_tp_getset, type_getseters}, \
         {Py_tp_new, py_sha3_new}, \
         {0, NULL} \
+    }; \
+ \
+    static PyType_Slot_Extra type_slots_obj##_ex[] = { \
+        {Py_tp_clear, Py_FNFLAGS_FRUGAL}, \
+        {Py_tp_dealloc, Py_FNFLAGS_FRUGAL}, \
+        {Py_tp_traverse, Py_FNFLAGS_FRUGAL}, \
+        {Py_tp_getset, Py_FNFLAGS_FRUGAL}, \
+        {Py_tp_new, Py_FNFLAGS_FRUGAL}, \
+        {0, 0} \
     }
 
 // Using _PyType_GetModuleState() on these types is safe since they
@@ -442,7 +451,8 @@ static PyGetSetDef SHA3_getseters[] = {
         .basicsize = sizeof(SHA3object), \
         .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_IMMUTABLETYPE \
                  | Py_TPFLAGS_HAVE_GC, \
-        .slots = type_slots \
+        .slots = type_slots, \
+        .slot_extras = type_slots##_ex, \
     }
 
 PyDoc_STRVAR(sha3_224__doc__,

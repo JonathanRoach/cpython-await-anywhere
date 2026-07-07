@@ -1516,12 +1516,31 @@ static PyType_Slot mmap_object_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra mmap_object_slots_ex[] = {
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_sq_length, Py_FNFLAGS_FRUGAL},
+    {Py_sq_item, Py_FNFLAGS_FRUGAL},
+    {Py_sq_ass_item, Py_FNFLAGS_FRUGAL},
+    {Py_mp_length, Py_FNFLAGS_FRUGAL},
+    {Py_mp_subscript, Py_FNFLAGS_FRUGAL},
+    {Py_mp_ass_subscript, Py_FNFLAGS_FRUGAL},
+    {Py_bf_getbuffer, Py_FNFLAGS_FRUGAL},
+    {Py_bf_releasebuffer, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec mmap_object_spec = {
     .name = "mmap.mmap",
     .basicsize = sizeof(mmap_object),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE |
               Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_IMMUTABLETYPE),
     .slots = mmap_object_slots,
+    .slot_extras = mmap_object_slots_ex,
 };
 
 

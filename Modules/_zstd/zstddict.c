@@ -269,10 +269,22 @@ static PyType_Slot zstddict_slots[] = {
     {0, 0}
 };
 
+static PyType_Slot_Extra zstddict_slots_ex[] = {
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_sq_length, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec zstd_dict_type_spec = {
     .name = "compression.zstd.ZstdDict",
     .basicsize = sizeof(ZstdDict),
     .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_IMMUTABLETYPE
              | Py_TPFLAGS_HAVE_GC,
     .slots = zstddict_slots,
+    .slot_extras = zstddict_slots_ex,
 };

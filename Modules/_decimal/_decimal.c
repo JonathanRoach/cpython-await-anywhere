@@ -860,12 +860,28 @@ static PyType_Slot signaldict_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra signaldict_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_hash, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_richcompare, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iter, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_mp_length, Py_FNFLAGS_FRUGAL},
+    {Py_mp_subscript, Py_FNFLAGS_FRUGAL},
+    {Py_mp_ass_subscript, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec signaldict_spec = {
     .name = "decimal.SignalDictMixin",
     .basicsize = sizeof(PyDecSignalDictObject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE |
               Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_IMMUTABLETYPE),
     .slots = signaldict_slots,
+    .slot_extras = signaldict_slots_ex,
 };
 
 
@@ -2050,12 +2066,21 @@ static PyType_Slot ctxmanager_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra ctxmanager_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec ctxmanager_spec = {
     .name = "decimal.ContextManager",
     .basicsize = sizeof(PyDecContextManagerObject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE | Py_TPFLAGS_DISALLOW_INSTANTIATION),
     .slots = ctxmanager_slots,
+    .slot_extras = ctxmanager_slots_ex,
 };
 
 
@@ -5242,6 +5267,34 @@ static PyType_Slot dec_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra dec_slots_ex[] = {
+    {Py_tp_token, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_hash, Py_FNFLAGS_FRUGAL},
+    {Py_tp_str, Py_FNFLAGS_FRUGAL},
+    {Py_tp_richcompare, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_nb_add, Py_FNFLAGS_FRUGAL},
+    {Py_nb_subtract, Py_FNFLAGS_FRUGAL},
+    {Py_nb_multiply, Py_FNFLAGS_FRUGAL},
+    {Py_nb_remainder, Py_FNFLAGS_FRUGAL},
+    {Py_nb_divmod, Py_FNFLAGS_FRUGAL},
+    {Py_nb_power, Py_FNFLAGS_FRUGAL},
+    {Py_nb_negative, Py_FNFLAGS_FRUGAL},
+    {Py_nb_positive, Py_FNFLAGS_FRUGAL},
+    {Py_nb_absolute, Py_FNFLAGS_FRUGAL},
+    {Py_nb_bool, Py_FNFLAGS_FRUGAL},
+    {Py_nb_int, Py_FNFLAGS_FRUGAL},
+    {Py_nb_float, Py_FNFLAGS_FRUGAL},
+    {Py_nb_floor_divide, Py_FNFLAGS_FRUGAL},
+    {Py_nb_true_divide, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 
 static PyType_Spec dec_spec = {
     .name = "decimal.Decimal",
@@ -5249,6 +5302,7 @@ static PyType_Spec dec_spec = {
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE |
               Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_IMMUTABLETYPE),
     .slots = dec_slots,
+    .slot_extras = dec_slots_ex,
 };
 
 
@@ -5951,12 +6005,27 @@ static PyType_Slot context_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra context_slots_ex[] = {
+    {Py_tp_token, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_setattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec context_spec = {
     .name = "decimal.Context",
     .basicsize = sizeof(PyDecContextObject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE |
               Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_IMMUTABLETYPE),
     .slots = context_slots,
+    .slot_extras = context_slots_ex,
 };
 
 

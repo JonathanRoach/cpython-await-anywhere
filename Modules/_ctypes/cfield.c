@@ -470,12 +470,25 @@ static PyType_Slot cfield_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra cfield_slots_ex[] = {
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_descr_get, Py_FNFLAGS_FRUGAL},
+    {Py_tp_descr_set, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec cfield_spec = {
     .name = "ctypes.CField",
     .basicsize = sizeof(CFieldObject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = cfield_slots,
+    .slot_extras = cfield_slots_ex,
 };
 
 

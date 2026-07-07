@@ -154,11 +154,20 @@ static PyType_Slot _abc_data_type_spec_slots[] = {
     {0, 0}
 };
 
+static PyType_Slot_Extra _abc_data_type_spec_slots_ex[] = {
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec _abc_data_type_spec = {
     .name = "_abc._abc_data",
     .basicsize = sizeof(_abc_data),
     .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
     .slots = _abc_data_type_spec_slots,
+    .slot_extras = _abc_data_type_spec_slots_ex,
 };
 
 static _abc_data *

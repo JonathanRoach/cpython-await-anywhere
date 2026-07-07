@@ -599,12 +599,20 @@ static PyType_Slot Random_Type_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra Random_Type_slots_ex[] = {
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_free, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec Random_Type_spec = {
-    "_random.Random",
-    sizeof(RandomObject),
-    0,
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
-    Random_Type_slots
+    .name = "_random.Random",
+    .basicsize = sizeof(RandomObject),
+    .itemsize = 0,
+    .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
+    .slots = Random_Type_slots,
+    .slot_extras = Random_Type_slots_ex,
 };
 
 PyDoc_STRVAR(module_doc,

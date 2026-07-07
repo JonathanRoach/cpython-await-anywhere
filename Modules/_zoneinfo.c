@@ -2651,12 +2651,24 @@ static PyType_Slot zoneinfo_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra zoneinfo_slots_ex[] = {
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_str, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec zoneinfo_spec = {
     .name = "zoneinfo.ZoneInfo",
     .basicsize = sizeof(PyZoneInfo_ZoneInfo),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE |
               Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_IMMUTABLETYPE),
     .slots = zoneinfo_slots,
+    .slot_extras = zoneinfo_slots_ex,
 };
 
 /////

@@ -593,12 +593,21 @@ static PyType_Slot carg_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra carg_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec carg_spec = {
     .name = "_ctypes.CArgObject",
     .basicsize = sizeof(PyCArgObject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE | Py_TPFLAGS_DISALLOW_INSTANTIATION),
     .slots = carg_slots,
+    .slot_extras = carg_slots_ex,
 };
 
 /****************************************************************/

@@ -928,6 +928,13 @@ static PyType_Slot lzma_compressor_type_slots[] = {
     {0, 0}
 };
 
+static PyType_Slot_Extra lzma_compressor_type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec lzma_compressor_type_spec = {
     .name = "_lzma.LZMACompressor",
     .basicsize = sizeof(Compressor),
@@ -937,6 +944,7 @@ static PyType_Spec lzma_compressor_type_spec = {
     // So calling PyType_GetModuleState() in this file is always safe.
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_IMMUTABLETYPE),
     .slots = lzma_compressor_type_slots,
+    .slot_extras = lzma_compressor_type_slots_ex,
 };
 
 /* LZMADecompressor class. */
@@ -1377,6 +1385,13 @@ static PyType_Slot lzma_decompressor_type_slots[] = {
     {0, 0}
 };
 
+static PyType_Slot_Extra lzma_decompressor_type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec lzma_decompressor_type_spec = {
     .name = "_lzma.LZMADecompressor",
     .basicsize = sizeof(Decompressor),
@@ -1386,6 +1401,7 @@ static PyType_Spec lzma_decompressor_type_spec = {
     // So calling PyType_GetModuleState() in this file is always safe.
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_IMMUTABLETYPE),
     .slots = lzma_decompressor_type_slots,
+    .slot_extras = lzma_decompressor_type_slots_ex,
 };
 
 

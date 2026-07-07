@@ -1804,7 +1804,7 @@ static PyGetSetDef FutureType_getsetlist[] = {
 static void FutureObj_dealloc(PyObject *self);
 
 static PyType_Slot Future_slots[] = {
-    {Py_tp_dealloc, FutureObj_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, FutureObj_dealloc},
     {Py_tp_repr, FutureObj_repr},
     {Py_tp_doc, (void *)_asyncio_Future___init____doc__},
     {Py_tp_traverse, FutureObj_traverse},
@@ -1821,6 +1821,20 @@ static PyType_Slot Future_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra Future_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iter, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_finalize, Py_FNFLAGS_FRUGAL},
+    {Py_am_await, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec Future_spec = {
     .name = "_asyncio.Future",
     .basicsize = sizeof(FutureObj),
@@ -1828,6 +1842,7 @@ static PyType_Spec Future_spec = {
               Py_TPFLAGS_IMMUTABLETYPE | Py_TPFLAGS_MANAGED_DICT |
               Py_TPFLAGS_MANAGED_WEAKREF),
     .slots = Future_slots,
+    .slot_extras = Future_slots_ex,
 };
 
 static void
@@ -2086,12 +2101,24 @@ static PyType_Slot FutureIter_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra FutureIter_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iter, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iternext, Py_FNFLAGS_FRUGAL},
+    {Py_am_send, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec FutureIter_spec = {
     .name = "_asyncio.FutureIter",
     .basicsize = sizeof(futureiterobject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = FutureIter_slots,
+    .slot_extras = FutureIter_slots_ex,
 };
 
 static PyObject *
@@ -2208,12 +2235,23 @@ static PyType_Slot TaskStepMethWrapper_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra TaskStepMethWrapper_slots_ex[] = {
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_call, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec TaskStepMethWrapper_spec = {
     .name = "_asyncio.TaskStepMethWrapper",
     .basicsize = sizeof(TaskStepMethWrapper),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = TaskStepMethWrapper_slots,
+    .slot_extras = TaskStepMethWrapper_slots_ex,
 };
 
 static PyObject *
@@ -3046,6 +3084,20 @@ static PyType_Slot Task_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra Task_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iter, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_finalize, Py_FNFLAGS_FRUGAL},
+    {Py_am_await, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec Task_spec = {
     .name = "_asyncio.Task",
     .basicsize = sizeof(TaskObj),
@@ -3053,6 +3105,7 @@ static PyType_Spec Task_spec = {
               Py_TPFLAGS_IMMUTABLETYPE | Py_TPFLAGS_MANAGED_DICT |
               Py_TPFLAGS_MANAGED_WEAKREF),
     .slots = Task_slots,
+    .slot_extras = Task_slots_ex,
 };
 
 static void

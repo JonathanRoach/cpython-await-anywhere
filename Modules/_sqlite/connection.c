@@ -2717,12 +2717,24 @@ static PyType_Slot connection_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra connection_slots_ex[] = {
+    {Py_tp_finalize, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_call, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec connection_spec = {
     .name = MODULE_NAME ".Connection",
     .basicsize = sizeof(pysqlite_Connection),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE |
               Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_IMMUTABLETYPE),
     .slots = connection_slots,
+    .slot_extras = connection_slots_ex,
 };
 
 int

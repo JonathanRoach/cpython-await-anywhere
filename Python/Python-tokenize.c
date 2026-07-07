@@ -369,11 +369,21 @@ static PyType_Slot tokenizeriter_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra tokenizeriter_slots_ex[] = {
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iter, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iternext, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec tokenizeriter_spec = {
     .name = "_tokenize.TokenizerIter",
     .basicsize = sizeof(tokenizeriterobject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_IMMUTABLETYPE),
     .slots = tokenizeriter_slots,
+    .slot_extras = tokenizeriter_slots_ex,
 };
 
 static int

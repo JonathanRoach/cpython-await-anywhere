@@ -563,12 +563,21 @@ static PyType_Slot simplequeue_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra simplequeue_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec simplequeue_spec = {
     .name = "_queue.SimpleQueue",
     .basicsize = sizeof(simplequeueobject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = simplequeue_slots,
+    .slot_extras = simplequeue_slots_ex,
 };
 
 

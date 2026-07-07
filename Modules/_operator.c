@@ -1285,6 +1285,18 @@ static PyType_Slot itemgetter_type_slots[] = {
     {0, 0}
 };
 
+static PyType_Slot_Extra itemgetter_type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_call, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec itemgetter_type_spec = {
     .name = "operator.itemgetter",
     .basicsize = sizeof(itemgetterobject),
@@ -1292,6 +1304,7 @@ static PyType_Spec itemgetter_type_spec = {
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE | Py_TPFLAGS_HAVE_VECTORCALL),
     .slots = itemgetter_type_slots,
+    .slot_extras = itemgetter_type_slots_ex,
 };
 
 /* attrgetter object **********************************************************/
@@ -1652,6 +1665,18 @@ static PyType_Slot attrgetter_type_slots[] = {
     {0, 0}
 };
 
+static PyType_Slot_Extra attrgetter_type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_call, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec attrgetter_type_spec = {
     .name = "operator.attrgetter",
     .basicsize = sizeof(attrgetterobject),
@@ -1659,6 +1684,7 @@ static PyType_Spec attrgetter_type_spec = {
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE | Py_TPFLAGS_HAVE_VECTORCALL),
     .slots = attrgetter_type_slots,
+    .slot_extras = attrgetter_type_slots_ex,
 };
 
 
@@ -1993,6 +2019,18 @@ static PyType_Slot methodcaller_type_slots[] = {
     {0, 0}
 };
 
+static PyType_Slot_Extra methodcaller_type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_call, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec methodcaller_type_spec = {
     .name = "operator.methodcaller",
     .basicsize = sizeof(methodcallerobject),
@@ -2000,6 +2038,7 @@ static PyType_Spec methodcaller_type_spec = {
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_HAVE_VECTORCALL | Py_TPFLAGS_IMMUTABLETYPE),
     .slots = methodcaller_type_slots,
+    .slot_extras = methodcaller_type_slots_ex,
 };
 
 static int

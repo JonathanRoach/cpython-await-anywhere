@@ -271,11 +271,24 @@ PyVectorcall_Function(PyObject *callable)
 }
 
 
-static PyObject *
-_PyVectorcall_Call(PyThreadState *tstate, vectorcallfunc func,
-                   PyObject *callable, PyObject *tuple, PyObject *kwargs)
+struct _PyVectorcall_Call_params {
+    vectorcallfunc func;
+    PyObject *callable;
+    PyObject *tuple;
+    PyObject *kwargs;
+};
+
+static void *
+Do__PyVectorcall_Call(void *_params)
 {
+    struct _PyVectorcall_Call_params *params = (struct _PyVectorcall_Call_params *)_params;
+    vectorcallfunc func = params->func;
+    PyObject *callable = params->callable;
+    PyObject *tuple = params->tuple;
+    PyObject *kwargs = params->kwargs;
+
     assert(func != NULL);
+    PyThreadState *tstate = _PyThreadState_GET();
 
     Py_ssize_t nargs = PyTuple_GET_SIZE(tuple);
 
@@ -300,6 +313,27 @@ _PyVectorcall_Call(PyThreadState *tstate, vectorcallfunc func,
     return _Py_CheckFunctionResult(tstate, callable, result, NULL);
 }
 
+static PyObject *
+_PyVectorcall_Call(vectorcallfunc func,
+                   PyObject *callable, PyObject *tuple, PyObject *kwargs)
+{
+    PyTypeObject *tp = Py_TYPE(callable);
+    unsigned flags = (tp->tp_flags & Py_TPFLAGS_IS_EXTENDED) ? tp->tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset] : 0;
+
+    struct _PyVectorcall_Call_params params = {
+        .func = func,
+        .callable = callable,
+        .tuple = tuple,
+        .kwargs = kwargs,
+    };
+
+    void *ret;
+    if ((flags & Py_FNFLAGS_FRUGAL) ||
+        _Py_Coroutine_CallWithMaxStack(Do__PyVectorcall_Call, &params, &ret)) {
+        ret = Do__PyVectorcall_Call(&params);
+    }
+    return ret;
+}
 
 PyObject *
 PyVectorcall_Call(PyObject *callable, PyObject *tuple, PyObject *kwargs)
@@ -308,11 +342,12 @@ PyVectorcall_Call(PyObject *callable, PyObject *tuple, PyObject *kwargs)
 
     /* get vectorcallfunc as in _PyVectorcall_Function, but without
      * the Py_TPFLAGS_HAVE_VECTORCALL check */
-    Py_ssize_t offset = Py_TYPE(callable)->tp_vectorcall_offset;
+    PyTypeObject *tp = Py_TYPE(callable);
+    Py_ssize_t offset = tp->tp_vectorcall_offset;
     if (offset <= 0) {
         _PyErr_Format(tstate, PyExc_TypeError,
                       "'%.200s' object does not support vectorcall",
-                      Py_TYPE(callable)->tp_name);
+                      tp->tp_name);
         return NULL;
     }
     assert(PyCallable_Check(callable));
@@ -322,11 +357,11 @@ PyVectorcall_Call(PyObject *callable, PyObject *tuple, PyObject *kwargs)
     if (func == NULL) {
         _PyErr_Format(tstate, PyExc_TypeError,
                       "'%.200s' object does not support vectorcall",
-                      Py_TYPE(callable)->tp_name);
+                      tp->tp_name);
         return NULL;
     }
 
-    return _PyVectorcall_Call(tstate, func, callable, tuple, kwargs);
+    return _PyVectorcall_Call(func, callable, tuple, kwargs);
 }
 
 
@@ -371,7 +406,7 @@ _PyObject_Call(PyThreadState *tstate, PyObject *callable,
     EVAL_CALL_STAT_INC_IF_FUNCTION(EVAL_CALL_API, callable);
     vectorcallfunc vector_func = PyVectorcall_Function(callable);
     if (vector_func != NULL) {
-        return _PyVectorcall_Call(tstate, vector_func, callable, args, kwargs);
+        return _PyVectorcall_Call(vector_func, callable, args, kwargs);
     }
     else {
         call = Py_TYPE(callable)->tp_call;

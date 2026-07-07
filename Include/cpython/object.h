@@ -639,3 +639,5 @@ PyAPI_FUNC(int) PyUnstable_TryIncRef(PyObject *);
 PyAPI_FUNC(void) PyUnstable_EnableTryIncRef(PyObject *);
 
 PyAPI_FUNC(int) PyUnstable_Object_IsUniquelyReferenced(PyObject *);
+
+PyObject *_PyObject_Call_tp_vectorcall(PyTypeObject *tp, PyObject *callable, PyObject *const *args, size_t nargsf, PyObject *kwnames);

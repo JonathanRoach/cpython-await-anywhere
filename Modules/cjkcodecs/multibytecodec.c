@@ -777,12 +777,21 @@ static PyType_Slot multibytecodec_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra multibytecodec_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec multibytecodec_spec = {
     .name = MODULE_NAME ".MultibyteCodec",
     .basicsize = sizeof(MultibyteCodecObject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_DISALLOW_INSTANTIATION | Py_TPFLAGS_IMMUTABLETYPE),
     .slots = multibytecodec_slots,
+    .slot_extras = multibytecodec_slots_ex,
 };
 
 
@@ -1166,12 +1175,23 @@ static PyType_Slot encoder_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra encoder_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec encoder_spec = {
     .name = MODULE_NAME ".MultibyteIncrementalEncoder",
     .basicsize = sizeof(MultibyteIncrementalEncoderObject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = encoder_slots,
+    .slot_extras = encoder_slots_ex,
 };
 
 
@@ -1452,12 +1472,23 @@ static PyType_Slot decoder_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra decoder_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec decoder_spec = {
     .name = MODULE_NAME ".MultibyteIncrementalDecoder",
     .basicsize = sizeof(MultibyteIncrementalDecoderObject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = decoder_slots,
+    .slot_extras = decoder_slots_ex,
 };
 
 static PyObject *
@@ -1776,12 +1807,23 @@ static PyType_Slot reader_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra reader_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec reader_spec = {
     .name = MODULE_NAME ".MultibyteStreamReader",
     .basicsize = sizeof(MultibyteStreamReaderObject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = reader_slots,
+    .slot_extras = reader_slots_ex,
 };
 
 static int
@@ -2017,12 +2059,23 @@ static PyType_Slot writer_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra writer_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec writer_spec = {
     .name = MODULE_NAME ".MultibyteStreamWriter",
     .basicsize = sizeof(MultibyteStreamWriterObject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = writer_slots,
+    .slot_extras = writer_slots_ex,
 };
 
 

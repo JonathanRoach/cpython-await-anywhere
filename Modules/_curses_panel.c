@@ -537,11 +537,17 @@ static PyType_Slot PyCursesPanel_Type_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra PyCursesPanel_Type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec PyCursesPanel_Type_spec = {
     .name = "_curses_panel.panel",
     .basicsize = sizeof(PyCursesPanelObject),
     .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_DISALLOW_INSTANTIATION,
-    .slots = PyCursesPanel_Type_slots
+    .slots = PyCursesPanel_Type_slots,
+    .slot_extras = PyCursesPanel_Type_slots_ex,
 };
 
 /* Wrapper for panel_above(NULL). This function returns the bottom

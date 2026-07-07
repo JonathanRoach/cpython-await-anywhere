@@ -1201,6 +1201,12 @@ static PyType_Slot devpoll_Type_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra devpoll_Type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec devpoll_Type_spec = {
     "select.devpoll",
     sizeof(devpollObject),
@@ -2008,12 +2014,21 @@ static PyType_Slot kqueue_event_Type_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra kqueue_event_Type_slots_ex[] = {
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_richcompare, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec kqueue_event_Type_spec = {
-    "select.kevent",
-    sizeof(kqueue_event_Object),
-    0,
-    Py_TPFLAGS_DEFAULT,
-    kqueue_event_Type_slots
+    .name = "select.kevent",
+    .basicsize = sizeof(kqueue_event_Object),
+    .itemsize = 0,
+    .flags = Py_TPFLAGS_DEFAULT,
+    .slots = kqueue_event_Type_slots,
+    .slot_extras = kqueue_event_Type_slots_ex,
 };
 
 static PyObject *
@@ -2508,11 +2523,17 @@ static PyType_Slot poll_Type_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra poll_Type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec poll_Type_spec = {
     .name = "select.poll",
     .basicsize = sizeof(pollObject),
     .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_DISALLOW_INSTANTIATION,
     .slots = poll_Type_slots,
+    .slot_extras = poll_Type_slots_ex,
 };
 
 #ifdef HAVE_SYS_DEVPOLL_H
@@ -2556,6 +2577,14 @@ static PyType_Slot pyEpoll_Type_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra pyEpoll_Type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec pyEpoll_Type_spec = {
     "select.epoll",
     sizeof(pyEpoll_Object),
@@ -2585,12 +2614,20 @@ static PyType_Slot kqueue_queue_Type_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra kqueue_queue_Type_slots_ex[] = {
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_finalize, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec kqueue_queue_Type_spec = {
-    "select.kqueue",
-    sizeof(kqueue_queue_Object),
-    0,
-    Py_TPFLAGS_DEFAULT,
-    kqueue_queue_Type_slots
+    .name = "select.kqueue",
+    .basicsize = sizeof(kqueue_queue_Object),
+    .itemsize = 0,
+    .flags = Py_TPFLAGS_DEFAULT,
+    .slots = kqueue_queue_Type_slots,
+    .slot_extras = kqueue_queue_Type_slots_ex,
 };
 
 #endif /* HAVE_KQUEUE */

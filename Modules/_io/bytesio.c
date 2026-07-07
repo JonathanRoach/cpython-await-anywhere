@@ -1170,12 +1170,25 @@ static PyType_Slot bytesio_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra bytesio_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iter, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iternext, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec bytesio_spec = {
     .name = "_io.BytesIO",
     .basicsize = sizeof(bytesio),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = bytesio_slots,
+    .slot_extras = bytesio_slots_ex,
 };
 
 /*
@@ -1260,10 +1273,19 @@ static PyType_Slot bytesiobuf_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra bytesiobuf_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_bf_getbuffer, Py_FNFLAGS_FRUGAL},
+    {Py_bf_releasebuffer, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec bytesiobuf_spec = {
     .name = "_io._BytesIOBuffer",
     .basicsize = sizeof(bytesiobuf),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE | Py_TPFLAGS_DISALLOW_INSTANTIATION),
     .slots = bytesiobuf_slots,
+    .slot_extras = bytesiobuf_slots_ex,
 };

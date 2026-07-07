@@ -244,6 +244,14 @@ static PyType_Slot PySSLCertificate_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra PySSLCertificate_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_hash, Py_FNFLAGS_FRUGAL},
+    {Py_tp_richcompare, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec PySSLCertificate_spec = {
     "_ssl.Certificate",
     sizeof(PySSLCertificate),

@@ -131,12 +131,22 @@ static PyType_Slot Xxo_Type_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra Xxo_Type_slots_ex[] = {
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_finalize, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_setattr, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec Xxo_Type_spec = {
-    "xxlimited_35.Xxo",
-    sizeof(XxoObject),
-    0,
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
-    Xxo_Type_slots
+    .name = "xxlimited_35.Xxo",
+    .basicsize = sizeof(XxoObject),
+    .itemsize = 0,
+    .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
+    .slots = Xxo_Type_slots,
+    .slot_extras = Xxo_Type_slots_ex,
 };
 
 /* --------------------------------------------------------------------- */
@@ -195,12 +205,17 @@ static PyType_Slot Str_Type_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra Str_Type_slots_ex[] = {
+    {0, 0},
+};
+
 static PyType_Spec Str_Type_spec = {
-    "xxlimited_35.Str",
-    0,
-    0,
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
-    Str_Type_slots
+    .name = "xxlimited_35.Str",
+    .basicsize = 0,
+    .itemsize = 0,
+    .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
+    .slots = Str_Type_slots,
+    .slot_extras = Str_Type_slots_ex,
 };
 
 /* ---------- */
@@ -218,12 +233,19 @@ static PyType_Slot Null_Type_slots[] = {
     {0, 0}
 };
 
+static PyType_Slot_Extra Null_Type_slots_ex[] = {
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_richcompare, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec Null_Type_spec = {
-    "xxlimited_35.Null",
-    0,               /* basicsize */
-    0,               /* itemsize */
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
-    Null_Type_slots
+    .name = "xxlimited_35.Null",
+    .basicsize = 0,
+    .itemsize = 0,
+    .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
+    .slots = Null_Type_slots,
+    .slot_extras = Null_Type_slots_ex,
 };
 
 /* ---------- */

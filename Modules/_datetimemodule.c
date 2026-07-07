@@ -3724,6 +3724,15 @@ static PyType_Slot isocal_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra isocal_slots_ex[] = {
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec isocal_spec = {
     .name = "datetime.IsoCalendarDate",
     .basicsize = sizeof(PyDateTime_IsoCalendarDate),
@@ -3731,6 +3740,7 @@ static PyType_Spec isocal_spec = {
               Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = isocal_slots,
+    .slot_extras = isocal_slots_ex,
 };
 
 /*[clinic input]

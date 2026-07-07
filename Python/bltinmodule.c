@@ -686,6 +686,7 @@ PyTypeObject PyFilter_Type = {
     filter_new,                         /* tp_new */
     PyObject_GC_Del,                    /* tp_free */
     .tp_vectorcall = filter_vectorcall,
+    .tp_functionflags[_PyFunctionIndex_tp_vectorcall] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
@@ -1637,6 +1638,7 @@ PyTypeObject PyMap_Type = {
     map_new,                            /* tp_new */
     PyObject_GC_Del,                    /* tp_free */
     .tp_vectorcall = map_vectorcall,
+    .tp_functionflags[_PyFunctionIndex_tp_vectorcall] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 

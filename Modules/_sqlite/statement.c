@@ -187,12 +187,19 @@ static PyType_Slot stmt_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra stmt_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec stmt_spec = {
     .name = MODULE_NAME ".Statement",
     .basicsize = sizeof(pysqlite_Statement),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE | Py_TPFLAGS_DISALLOW_INSTANTIATION),
     .slots = stmt_slots,
+    .slot_extras = stmt_slots_ex,
 };
 
 int

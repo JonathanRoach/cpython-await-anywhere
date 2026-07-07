@@ -466,11 +466,17 @@ static PyType_Slot sslerror_type_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra sslerror_type_slots_ex[] = {
+    {Py_tp_str, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec sslerror_type_spec = {
     .name = "ssl.SSLError",
     .basicsize = sizeof(PyOSErrorObject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_IMMUTABLETYPE),
-    .slots = sslerror_type_slots
+    .slots = sslerror_type_slots,
+    .slot_extras = sslerror_type_slots_ex,
 };
 
 static void
@@ -3080,12 +3086,21 @@ static PyType_Slot PySSLSocket_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra PySSLSocket_slots_ex[] = {
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec PySSLSocket_spec = {
     .name = "_ssl._SSLSocket",
     .basicsize = sizeof(PySSLSocket),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_IMMUTABLETYPE |
               Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_DISALLOW_INSTANTIATION),
     .slots = PySSLSocket_slots,
+    .slot_extras = PySSLSocket_slots_ex,
 };
 
 /*
@@ -5347,12 +5362,22 @@ static PyType_Slot PySSLContext_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra PySSLContext_slots_ex[] = {
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec PySSLContext_spec = {
     .name = "_ssl._SSLContext",
     .basicsize = sizeof(PySSLContext),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = PySSLContext_slots,
+    .slot_extras = PySSLContext_slots_ex,
 };
 
 
@@ -5584,12 +5609,21 @@ static PyType_Slot PySSLMemoryBIO_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra PySSLMemoryBIO_slots_ex[] = {
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec PySSLMemoryBIO_spec = {
     .name = "_ssl.MemoryBIO",
     .basicsize = sizeof(PySSLMemoryBIO),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_IMMUTABLETYPE |
               Py_TPFLAGS_HAVE_GC),
     .slots = PySSLMemoryBIO_slots,
+    .slot_extras = PySSLMemoryBIO_slots_ex,
 };
 
 /*
@@ -5797,6 +5831,15 @@ static PyType_Slot PySSLSession_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra PySSLSession_slots_ex[] = {
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_richcompare, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec PySSLSession_spec = {
     .name = "_ssl.SSLSession",
     .basicsize = sizeof(PySSLSession),
@@ -5804,6 +5847,7 @@ static PyType_Spec PySSLSession_spec = {
               Py_TPFLAGS_IMMUTABLETYPE |
               Py_TPFLAGS_DISALLOW_INSTANTIATION),
     .slots = PySSLSession_slots,
+    .slot_extras = PySSLSession_slots_ex,
 };
 
 

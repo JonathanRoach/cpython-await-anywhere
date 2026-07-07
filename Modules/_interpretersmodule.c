@@ -220,12 +220,19 @@ static PyType_Slot XIBufferViewType_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra XIBufferViewType_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_bf_getbuffer, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec XIBufferViewType_spec = {
     .name = MODULE_NAME_STR ".CrossInterpreterBufferView",
     .basicsize = sizeof(xibufferview),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE |
               Py_TPFLAGS_DISALLOW_INSTANTIATION | Py_TPFLAGS_IMMUTABLETYPE),
     .slots = XIBufferViewType_slots,
+    .slot_extras = XIBufferViewType_slots_ex,
 };
 
 

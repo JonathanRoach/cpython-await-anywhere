@@ -2340,6 +2340,14 @@ static PyType_Slot elementiter_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra elementiter_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iter, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iternext, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec elementiter_spec = {
     /* Using the module's name since the pure-Python implementation does not
        have such a type. */
@@ -2348,6 +2356,7 @@ static PyType_Spec elementiter_spec = {
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE | Py_TPFLAGS_DISALLOW_INSTANTIATION),
     .slots = elementiter_slots,
+    .slot_extras = elementiter_slots_ex,
 };
 
 #define INIT_PARENT_STACK_SIZE 8
@@ -4363,12 +4372,33 @@ static PyType_Slot element_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra element_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_alloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_sq_length, Py_FNFLAGS_FRUGAL},
+    {Py_sq_item, Py_FNFLAGS_FRUGAL},
+    {Py_sq_ass_item, Py_FNFLAGS_FRUGAL},
+    {Py_nb_bool, Py_FNFLAGS_FRUGAL},
+    {Py_mp_length, Py_FNFLAGS_FRUGAL},
+    {Py_mp_subscript, Py_FNFLAGS_FRUGAL},
+    {Py_mp_ass_subscript, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec element_spec = {
     .name = "xml.etree.ElementTree.Element",
     .basicsize = sizeof(ElementObject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = element_slots,
+    .slot_extras = element_slots_ex,
 };
 
 static PyMethodDef treebuilder_methods[] = {
@@ -4392,11 +4422,22 @@ static PyType_Slot treebuilder_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra treebuilder_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_alloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec treebuilder_spec = {
     .name = "xml.etree.ElementTree.TreeBuilder",
     .basicsize = sizeof(TreeBuilderObject),
     .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_IMMUTABLETYPE,
     .slots = treebuilder_slots,
+    .slot_extras = treebuilder_slots_ex,
 };
 
 static PyMethodDef xmlparser_methods[] = {
@@ -4421,12 +4462,24 @@ static PyType_Slot xmlparser_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra xmlparser_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_alloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec xmlparser_spec = {
     .name = "xml.etree.ElementTree.XMLParser",
     .basicsize = sizeof(XMLParserObject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = xmlparser_slots,
+    .slot_extras = xmlparser_slots_ex,
 };
 
 /* ==================================================================== */

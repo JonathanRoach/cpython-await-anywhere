@@ -2559,12 +2559,17 @@ static PyType_Slot bufferediobase_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra bufferediobase_slots_ex[] = {
+    {0, 0},
+};
+
 /* Do not set Py_TPFLAGS_HAVE_GC so that tp_traverse and tp_clear are inherited */
 PyType_Spec bufferediobase_spec = {
     .name = "_io._BufferedIOBase",
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = bufferediobase_slots,
+    .slot_extras = bufferediobase_slots_ex,
 };
 
 static PyMethodDef bufferedreader_methods[] = {
@@ -2623,12 +2628,24 @@ static PyType_Slot bufferedreader_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra bufferedreader_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iternext, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec bufferedreader_spec = {
     .name = "_io.BufferedReader",
     .basicsize = sizeof(buffered),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = bufferedreader_slots,
+    .slot_extras = bufferedreader_slots_ex,
 };
 
 static PyMethodDef bufferedwriter_methods[] = {
@@ -2681,12 +2698,23 @@ static PyType_Slot bufferedwriter_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra bufferedwriter_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec bufferedwriter_spec = {
     .name = "_io.BufferedWriter",
     .basicsize = sizeof(buffered),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = bufferedwriter_slots,
+    .slot_extras = bufferedwriter_slots_ex,
 };
 
 static PyMethodDef bufferedrwpair_methods[] = {
@@ -2731,12 +2759,22 @@ static PyType_Slot bufferedrwpair_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra bufferedrwpair_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec bufferedrwpair_spec = {
     .name = "_io.BufferedRWPair",
     .basicsize = sizeof(rwpair),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = bufferedrwpair_slots,
+    .slot_extras = bufferedrwpair_slots_ex,
 };
 
 
@@ -2799,10 +2837,22 @@ static PyType_Slot bufferedrandom_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra bufferedrandom_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iternext, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec bufferedrandom_spec = {
     .name = "_io.BufferedRandom",
     .basicsize = sizeof(buffered),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = bufferedrandom_slots,
+    .slot_extras = bufferedrandom_slots_ex,
 };

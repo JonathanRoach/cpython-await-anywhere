@@ -208,6 +208,7 @@ PyTypeObject PyBool_Type = {
     0,                                          /* tp_alloc */
     bool_new,                                   /* tp_new */
     .tp_vectorcall = bool_vectorcall,
+    .tp_functionflags[_PyFunctionIndex_tp_vectorcall] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 

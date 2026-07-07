@@ -289,11 +289,25 @@ static PyType_Slot Xxo_Type_slots[] = {
     {0, 0},  /* sentinel */
 };
 
+static PyType_Slot_Extra Xxo_Type_slots_ex[] = {
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_finalize, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_setattro, Py_FNFLAGS_FRUGAL},
+    {Py_bf_getbuffer, Py_FNFLAGS_FRUGAL},
+    {Py_bf_releasebuffer, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec Xxo_Type_spec = {
     .name = "xxlimited.Xxo",
     .basicsize = sizeof(XxoObject),
     .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
     .slots = Xxo_Type_slots,
+    .slot_extras = Xxo_Type_slots_ex,
 };
 
 
@@ -303,11 +317,16 @@ static PyType_Slot Str_Type_slots[] = {
     {0, 0},  /* sentinel */
 };
 
+static PyType_Slot_Extra Str_Type_slots_ex[] = {
+    {0, 0},
+};
+
 static PyType_Spec Str_Type_spec = {
     .name = "xxlimited.Str",
     .basicsize = 0,
     .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
     .slots = Str_Type_slots,
+    .slot_extras = Str_Type_slots_ex,
 };
 
 

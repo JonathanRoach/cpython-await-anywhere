@@ -2836,11 +2836,18 @@ static PyType_Slot RemoteUnwinder_slots[] = {
     {0, NULL}
 };
 
+static PyType_Slot_Extra RemoteUnwinder_slots_ex[] = {
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec RemoteUnwinder_spec = {
     .name = "_remote_debugging.RemoteUnwinder",
     .basicsize = sizeof(RemoteUnwinderObject),
     .flags = Py_TPFLAGS_DEFAULT,
     .slots = RemoteUnwinder_slots,
+    .slot_extras = RemoteUnwinder_slots_ex,
 };
 
 /* ============================================================================

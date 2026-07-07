@@ -550,6 +550,17 @@ static PyType_Slot dbmtype_spec_slots[] = {
     {0, 0}
 };
 
+static PyType_Slot_Extra dbmtype_spec_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_sq_contains, Py_FNFLAGS_FRUGAL},
+    {Py_mp_length, Py_FNFLAGS_FRUGAL},
+    {Py_mp_subscript, Py_FNFLAGS_FRUGAL},
+    {Py_mp_ass_subscript, Py_FNFLAGS_FRUGAL},
+    {Py_nb_bool, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 
 static PyType_Spec dbmtype_spec = {
     .name = "_dbm.dbm",
@@ -561,6 +572,7 @@ static PyType_Spec dbmtype_spec = {
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_DISALLOW_INSTANTIATION |
               Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_IMMUTABLETYPE),
     .slots = dbmtype_spec_slots,
+    .slot_extras = dbmtype_spec_slots_ex,
 };
 
 /* ----------------------------------------------------------------- */

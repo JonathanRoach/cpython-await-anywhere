@@ -55,12 +55,20 @@ static PyType_Slot type_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec type_spec = {
     .name = MODULE_NAME ".PrepareProtocol",
     .basicsize = sizeof(pysqlite_PrepareProtocol),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = type_slots,
+    .slot_extras = type_slots_ex,
 };
 
 int

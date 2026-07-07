@@ -662,6 +662,7 @@ static PyTypeObject _PyExc_BaseException = {
     0,                          /* tp_alloc */
     BaseException_new,          /* tp_new */
     .tp_vectorcall = BaseException_vectorcall,
+    .tp_functionflags[_PyFunctionIndex_tp_vectorcall] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 /* the CPython API expects exceptions to be (PyObject *) - both a hold-over
@@ -4377,6 +4378,7 @@ _PyExc_InitTypes(PyInterpreterState *interp)
             && exc->tp_init == BaseException_init)
         {
             exc->tp_vectorcall = BaseException_vectorcall;
+            exc->tp_functionflags[_PyFunctionIndex_tp_vectorcall] |= Py_FNFLAGS_FRUGAL;
         }
     }
     return 0;

@@ -367,6 +367,7 @@ PyTypeObject PyMethod_Type = {
     .tp_descr_get = method_descr_get,
     .tp_new = method_new,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset] = Py_FNFLAGS_FRUGAL,
 };
 
 /* ------------------------------------------------------------------------

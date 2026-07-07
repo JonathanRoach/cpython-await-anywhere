@@ -3496,3 +3496,50 @@ PyUnstable_Object_IsUniquelyReferenced(PyObject *op)
     assert(op != NULL);
     return _PyObject_IsUniquelyReferenced(op);
 }
+
+
+
+
+#define PyObject_CallTypeFunction4(KIND, SLOT, T0, T1, T2, T3) \
+struct Do_PyObject_Call_##KIND##_##SLOT##_Params { \
+    PyTypeObject *tp; \
+    T0 v0; \
+    T1 v1; \
+    T2 v2; \
+    T3 v3; \
+}; \
+ \
+void *Do_PyObject_Call_##KIND##_##SLOT(void *_params){ \
+    struct Do_PyObject_Call_##KIND##_##SLOT##_Params *params = (struct Do_PyObject_Call_##KIND##_##SLOT##_Params *)_params; \
+    return params->tp->PYTYPE_SLOTLOC_##KIND KIND##_##SLOT( \
+        params->v0, \
+        params->v1, \
+        params->v2, \
+        params->v3 \
+    ); \
+} \
+ \
+PyObject *_PyObject_Call_##KIND##_##SLOT( \
+    PyTypeObject *tp, \
+    T0 v0, \
+    T1 v1, \
+    T2 v2, \
+    T3 v3 \
+) \
+{ \
+    struct Do_PyObject_Call_##KIND##_##SLOT##_Params params = { \
+        .tp = tp, \
+        .v0 = v0, \
+        .v1 = v1, \
+        .v2 = v2, \
+        .v3 = v3, \
+    }; \
+    return _PyType_CallFunction( \
+        tp, \
+        Do_PyObject_Call_##KIND##_##SLOT, \
+        &params, \
+        tp->tp_functionflags, \
+        _PyFunctionIndex_##KIND##_##SLOT); \
+}
+
+PyObject_CallTypeFunction4(tp, vectorcall, PyObject *, PyObject *const *, size_t, PyObject *)

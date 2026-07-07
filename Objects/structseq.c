@@ -743,6 +743,7 @@ _PyStructSequence_NewType(PyStructSequence_Desc *desc, unsigned long tp_flags)
     PyMemberDef *members;
     PyTypeObject *type;
     PyType_Slot slots[8];
+    PyType_Slot_Extra slots_ex[5];
     PyType_Spec spec;
     Py_ssize_t n_members, n_unnamed_members;
 
@@ -763,6 +764,12 @@ _PyStructSequence_NewType(PyStructSequence_Desc *desc, unsigned long tp_flags)
     slots[6] = (PyType_Slot){Py_tp_traverse, structseq_traverse};
     slots[7] = (PyType_Slot){0, 0};
 
+    slots_ex[0] = (PyType_Slot_Extra){Py_tp_dealloc, Py_FNFLAGS_FRUGAL};
+    slots_ex[1] = (PyType_Slot_Extra){Py_tp_repr, Py_FNFLAGS_FRUGAL};
+    slots_ex[2] = (PyType_Slot_Extra){Py_tp_new, Py_FNFLAGS_FRUGAL};
+    slots_ex[3] = (PyType_Slot_Extra){Py_tp_traverse, Py_FNFLAGS_FRUGAL};
+    slots_ex[4] = (PyType_Slot_Extra){0, 0};
+
     /* Initialize Spec */
     /* The name in this PyType_Spec is statically allocated so it is */
     /* expected that it'll outlive the PyType_Spec */
@@ -772,6 +779,7 @@ _PyStructSequence_NewType(PyStructSequence_Desc *desc, unsigned long tp_flags)
     spec.itemsize = sizeof(PyObject *);
     spec.flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC | tp_flags;
     spec.slots = slots;
+    spec.slot_extras = slots_ex;
 
     type = (PyTypeObject *)PyType_FromSpecWithBases(&spec, (PyObject *)&PyTuple_Type);
     PyMem_Free(members);

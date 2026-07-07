@@ -691,6 +691,14 @@ static PyType_Slot zstdcompressor_slots[] = {
     {0, 0}
 };
 
+static PyType_Slot_Extra zstdcompressor_slots_ex[] = {
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec zstd_compressor_type_spec = {
     .name = "compression.zstd.ZstdCompressor",
     .basicsize = sizeof(ZstdCompressor),
@@ -699,4 +707,5 @@ PyType_Spec zstd_compressor_type_spec = {
     // PyType_Freeze is called later to set the flag.
     .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
     .slots = zstdcompressor_slots,
+    .slot_extras = zstdcompressor_slots_ex,
 };

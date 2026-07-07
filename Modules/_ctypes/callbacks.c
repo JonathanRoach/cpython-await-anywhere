@@ -59,6 +59,13 @@ static PyType_Slot cthunk_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra cthunk_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec cthunk_spec = {
     .name = "_ctypes.CThunkObject",
     .basicsize = sizeof(CThunkObject),
@@ -66,6 +73,7 @@ PyType_Spec cthunk_spec = {
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE | Py_TPFLAGS_DISALLOW_INSTANTIATION),
     .slots = cthunk_slots,
+    .slot_extras = cthunk_slots_ex,
 };
 
 /**************************************************************/

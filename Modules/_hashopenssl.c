@@ -800,6 +800,13 @@ static PyType_Slot HASHobject_type_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra HASHobject_type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec HASHobject_type_spec = {
     .name = "_hashlib.HASH",
     .basicsize = sizeof(HASHobject),
@@ -809,7 +816,8 @@ static PyType_Spec HASHobject_type_spec = {
         | Py_TPFLAGS_DISALLOW_INSTANTIATION
         | Py_TPFLAGS_IMMUTABLETYPE
     ),
-    .slots = HASHobject_type_slots
+    .slots = HASHobject_type_slots,
+    .slot_extras = HASHobject_type_slots_ex,
 };
 
 #ifdef PY_OPENSSL_HAS_SHAKE
@@ -956,6 +964,11 @@ static PyType_Slot HASHXOFobject_type_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra HASHXOFobject_type_slots_ex[] = {
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec HASHXOFobject_type_spec = {
     .name = "_hashlib.HASHXOF",
     .basicsize = sizeof(HASHobject),
@@ -965,7 +978,8 @@ static PyType_Spec HASHXOFobject_type_spec = {
         | Py_TPFLAGS_DISALLOW_INSTANTIATION
         | Py_TPFLAGS_IMMUTABLETYPE
     ),
-    .slots = HASHXOFobject_type_slots
+    .slots = HASHXOFobject_type_slots,
+    .slot_extras = HASHXOFobject_type_slots_ex,
 };
 
 
@@ -1976,11 +1990,19 @@ static PyType_Slot HMACtype_slots[] = {
     {0, NULL}
 };
 
+static PyType_Slot_Extra HMACtype_slots_ex[] = {
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec HMACtype_spec = {
     "_hashlib.HMAC",    /* name */
     sizeof(HMACobject),     /* basicsize */
     .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_DISALLOW_INSTANTIATION | Py_TPFLAGS_IMMUTABLETYPE,
     .slots = HMACtype_slots,
+    .slot_extras = HMACtype_slots_ex,
 };
 
 

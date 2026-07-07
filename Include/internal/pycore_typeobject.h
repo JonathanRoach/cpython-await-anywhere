@@ -224,6 +224,7 @@ _PyType_CallFunction(PyTypeObject *tp, Coroutine_Start fn, void *param, unsigned
         (tp)->PYTYPE_SLOTLOC_##KIND KIND##_functionflags, \
         _PyFunctionIndex_##KIND##_##SLOT)
 
+
 #ifdef __cplusplus
 }
 #endif

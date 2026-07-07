@@ -792,12 +792,24 @@ static PyType_Slot _PyMp_SemLockType_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra _PyMp_SemLockType_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_setattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_alloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_free, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec _PyMp_SemLockType_spec = {
     .name = "_multiprocessing.SemLock",
     .basicsize = sizeof(SemLockObject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE |
               Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_IMMUTABLETYPE),
     .slots = _PyMp_SemLockType_slots,
+    .slot_extras = _PyMp_SemLockType_slots_ex,
 };
 
 /*

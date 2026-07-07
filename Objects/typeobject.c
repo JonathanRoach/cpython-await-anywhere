@@ -5514,11 +5514,12 @@ PyType_FromMetaclass(
                 PySlot_Offset slotoffsets = pyslot_offsets[slot->slot];
                 short slot_offset = slotoffsets.slot_offset;
                 short slot_flag_offset = slotoffsets.slot_flag_offset;
+                unsigned char slotflags = 0;
                 if (slotoffsets.subslot_offset == -1) {
                     /* Set a slot in the main PyTypeObject */
                     *(void**)((char*)res_start + slot_offset) = slot->pfunc;
                     if (slot_flag_offset >= 0){
-                        *(unsigned char *)((char*)res_start + slot_flag_offset) = slot->flags;
+                        *(unsigned char *)((char*)res_start + slot_flag_offset) = slotflags;
                     }
                 }
                 else {
@@ -5527,13 +5528,51 @@ PyType_FromMetaclass(
                     *(void**)((char*)procs + subslot_offset) = slot->pfunc;
                     if (slot_flag_offset >= 0){
                         *(void**)((char*)procs + subslot_offset) = slot->pfunc;
-                        *(unsigned char *)((char*)procs + slot_flag_offset) = slot->flags;
+                        *(unsigned char *)((char*)procs + slot_flag_offset) = slotflags;
                     }
                 }
             }
             break;
         }
     }
+
+    if ((spec->flags & Py_TPFLAGS_IS_EXTENDED) && spec->slot_extras){
+        // copy extended slots
+        PyType_Slot_Extra *slot_ex;
+        for (slot_ex = spec->slot_extras; slot_ex->slot; slot_ex++) {
+            switch (slot_ex->slot) {
+            case Py_tp_base:
+            case Py_tp_bases:
+            case Py_tp_doc:
+            case Py_tp_members:
+            case Py_tp_token:
+                /* nothing to copy */
+                break;
+            default:
+                {
+                    /* Copy other slots directly */
+                    PySlot_Offset slotoffsets = pyslot_offsets[slot_ex->slot];
+                    short slot_offset = slotoffsets.slot_offset;
+                    short slot_flag_offset = slotoffsets.slot_flag_offset;
+                    unsigned char slotflags = slot_ex->flags;
+                    if (slotoffsets.subslot_offset == -1) {
+                        /* Set a slot in the main PyTypeObject */
+                        if (slot_flag_offset >= 0){
+                            *(unsigned char *)((char*)res_start + slot_flag_offset) = slotflags;
+                        }
+                    }
+                    else {
+                        void *procs = *(void**)((char*)res_start + slot_offset);
+                        if (slot_flag_offset >= 0){
+                            *(unsigned char *)((char*)procs + slot_flag_offset) = slotflags;
+                        }
+                    }
+                }
+                break;
+            }
+        }
+    }
+
     if (type->tp_dealloc == NULL) {
         /* It's a heap type, so needs the heap types' dealloc.
            subtype_dealloc will call the base type's tp_dealloc, if
@@ -5545,6 +5584,11 @@ PyType_FromMetaclass(
     /* Set up offsets */
 
     type->tp_vectorcall_offset = vectorcalloffset;
+    if (vectorcalloffset_member && (spec->flags & Py_TPFLAGS_IS_EXTENDED)){
+        type->tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset] = vectorcalloffset_member->flags;
+    } else {
+        type->tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset] = 0;
+    }
     type->tp_weaklistoffset = weaklistoffset;
     type->tp_dictoffset = dictoffset;
 
@@ -7007,6 +7051,7 @@ PyTypeObject PyType_Type = {
     PyObject_GC_Del,                            /* tp_free */
     type_is_gc,                                 /* tp_is_gc */
     .tp_vectorcall = type_vectorcall,
+    .tp_functionflags[_PyFunctionIndex_tp_vectorcall] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
@@ -12871,5 +12916,6 @@ PyTypeObject PySuper_Type = {
     PyType_GenericNew,                          /* tp_new */
     PyObject_GC_Del,                            /* tp_free */
     .tp_vectorcall = super_vectorcall,
+    .tp_functionflags[_PyFunctionIndex_tp_vectorcall] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };

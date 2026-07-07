@@ -2028,11 +2028,20 @@ static PyType_Slot overlapped_type_slots[] = {
     {0,0}
 };
 
+static PyType_Slot_Extra overlapped_type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec overlapped_type_spec = {
     .name = "_overlapped.Overlapped",
     .basicsize = sizeof(OverlappedObject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_IMMUTABLETYPE),
-    .slots = overlapped_type_slots
+    .slots = overlapped_type_slots,
+    .slot_extras = overlapped_type_slots_ex,
 };
 
 static PyMethodDef overlapped_functions[] = {

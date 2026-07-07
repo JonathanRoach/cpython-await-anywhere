@@ -14,6 +14,10 @@ static PyType_Slot empty_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra empty_slots_ex[] = {
+    {0, 0},
+};
+
 static PyObject *
 make_sized_heaptypes(PyObject *module, PyObject *args)
 {
@@ -34,12 +38,14 @@ make_sized_heaptypes(PyObject *module, PyObject *args)
         .basicsize = sizeof(PyObject) + extra_base_size,
         .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
         .slots = empty_slots,
+    .slot_extras = empty_slots_ex,
     };
     PyType_Spec sub_spec = {
         .name = "_testcapi.Sub",
         .basicsize = basicsize,
         .flags = Py_TPFLAGS_DEFAULT,
         .slots = empty_slots,
+    .slot_extras = empty_slots_ex,
     };
 
     base = PyType_FromMetaclass(NULL, module, &base_spec, NULL);
@@ -133,12 +139,17 @@ subclass_var_heaptype(PyObject *module, PyObject *args)
         {0, NULL},
     };
 
+static PyType_Slot_Extra slots_ex[] = {
+    {0, 0},
+};
+
     PyType_Spec sub_spec = {
         .name = "_testcapi.Sub",
         .basicsize = basicsize,
         .itemsize = itemsize,
         .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_ITEMS_AT_END,
         .slots = slots,
+    .slot_extras = slots_ex,
     };
 
     result = PyType_FromMetaclass(NULL, module, &sub_spec, base);
@@ -164,12 +175,17 @@ subclass_heaptype(PyObject *module, PyObject *args)
         {0, NULL},
     };
 
+static PyType_Slot_Extra slots_ex[] = {
+    {0, 0},
+};
+
     PyType_Spec sub_spec = {
         .name = "_testcapi.Sub",
         .basicsize = basicsize,
         .itemsize = itemsize,
         .flags = Py_TPFLAGS_DEFAULT,
         .slots = slots,
+    .slot_extras = slots_ex,
     };
 
     result = PyType_FromMetaclass(NULL, module, &sub_spec, base);
@@ -364,6 +380,7 @@ make_heaptype_with_member_impl(PyObject *module, int extra_base_size,
         .basicsize = sizeof(PyObject) + extra_base_size,
         .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
         .slots = empty_slots,
+    .slot_extras = empty_slots_ex,
     };
     base = PyType_FromMetaclass(NULL, module, &base_spec, NULL);
     if (!base) {
@@ -381,11 +398,16 @@ make_heaptype_with_member_impl(PyObject *module, int extra_base_size,
         {0, NULL},
     };
 
+static PyType_Slot_Extra slots_ex[] = {
+    {0, 0},
+};
+
     PyType_Spec sub_spec = {
         .name = "_testcapi.Sub",
         .basicsize = basicsize,
         .flags = Py_TPFLAGS_DEFAULT,
         .slots = slots,
+    .slot_extras = slots_ex,
     };
 
     result = PyType_FromMetaclass(NULL, module, &sub_spec, base);

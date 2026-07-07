@@ -763,12 +763,22 @@ static PyType_Slot ThreadHandle_Type_slots[] = {
     {0, 0}
 };
 
+static PyType_Slot_Extra ThreadHandle_Type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec ThreadHandle_Type_spec = {
-    "_thread._ThreadHandle",
-    sizeof(PyThreadHandleObject),
-    0,
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_IMMUTABLETYPE | Py_TPFLAGS_HAVE_GC,
-    ThreadHandle_Type_slots,
+    .name = "_thread._ThreadHandle",
+    .basicsize = sizeof(PyThreadHandleObject),
+    .itemsize = 0,
+    .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_IMMUTABLETYPE | Py_TPFLAGS_HAVE_GC,
+    .slots = ThreadHandle_Type_slots,
+    .slot_extras = ThreadHandle_Type_slots_ex,
 };
 
 /* Lock objects */
@@ -1024,12 +1034,21 @@ static PyType_Slot lock_type_slots[] = {
     {0, 0}
 };
 
+static PyType_Slot_Extra lock_type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec lock_type_spec = {
     .name = "_thread.lock",
     .basicsize = sizeof(lockobject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE | Py_TPFLAGS_MANAGED_WEAKREF),
     .slots = lock_type_slots,
+    .slot_extras = lock_type_slots_ex,
 };
 
 /* Recursive lock objects */
@@ -1315,12 +1334,22 @@ static PyType_Slot rlock_type_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra rlock_type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_alloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec rlock_type_spec = {
     .name = "_thread.RLock",
     .basicsize = sizeof(rlockobject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE |
               Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_IMMUTABLETYPE | Py_TPFLAGS_MANAGED_WEAKREF),
     .slots = rlock_type_slots,
+    .slot_extras = rlock_type_slots_ex,
 };
 
 /* Thread-local objects */
@@ -1407,12 +1436,18 @@ static PyType_Slot local_dummy_type_slots[] = {
     {0, 0}
 };
 
+static PyType_Slot_Extra local_dummy_type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec local_dummy_type_spec = {
     .name = "_thread._localdummy",
     .basicsize = sizeof(localdummyobject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_DISALLOW_INSTANTIATION |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = local_dummy_type_slots,
+    .slot_extras = local_dummy_type_slots_ex,
 };
 
 
@@ -1763,12 +1798,23 @@ static PyType_Slot local_type_slots[] = {
     {0, 0}
 };
 
+static PyType_Slot_Extra local_type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_setattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec local_type_spec = {
     .name = "_thread._local",
     .basicsize = sizeof(localobject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = local_type_slots,
+    .slot_extras = local_type_slots_ex,
 };
 
 static PyObject *

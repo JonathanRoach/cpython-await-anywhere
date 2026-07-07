@@ -385,8 +385,12 @@ typedef PyObject *(*_vectorcallfunc_inlinable)(
 typedef struct{
     int slot;    /* slot id, see below */
     void *pfunc; /* function pointer */
-    unsigned char flags; /* function flags */
 } PyType_Slot;
+
+typedef struct{
+    int slot;    /* slot id, see below */
+    unsigned char flags; /* function flags */
+} PyType_Slot_Extra;
 
 typedef struct{
     const char* name;
@@ -398,6 +402,7 @@ typedef struct{
 // The following fields are only present if Py_TPFLAGS_IS_EXTENDED is set in flags
 //
     unsigned int ex_flags;
+    PyType_Slot_Extra *slot_extras; /* terminated by slot==0. */
 } PyType_Spec;
 
 PyAPI_FUNC(PyObject*) PyType_FromSpec(PyType_Spec*);

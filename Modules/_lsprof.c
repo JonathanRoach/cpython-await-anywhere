@@ -1026,12 +1026,20 @@ static PyType_Slot _lsprof_profiler_type_spec_slots[] = {
     {0, 0}
 };
 
+static PyType_Slot_Extra _lsprof_profiler_type_spec_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec _lsprof_profiler_type_spec = {
     .name = "_lsprof.Profiler",
     .basicsize = sizeof(ProfilerObject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE |
               Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_IMMUTABLETYPE),
     .slots = _lsprof_profiler_type_spec_slots,
+    .slot_extras = _lsprof_profiler_type_spec_slots_ex,
 };
 
 static PyMethodDef moduleMethods[] = {

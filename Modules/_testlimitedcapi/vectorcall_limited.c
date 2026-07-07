@@ -167,7 +167,13 @@ static PyType_Slot LimitedVectorallClass_slots[] = {
     {Py_tp_new, LimitedVectorCallClass_new},
     {Py_tp_call, LimitedVectorCallClass_tpcall},
     {Py_tp_members, LimitedVectorCallClass_members},
-    {0},
+    {0, NULL},
+};
+
+static PyType_Slot_Extra LimitedVectorallClass_slots_ex[] = {
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_call, Py_FNFLAGS_FRUGAL},
+    {0, 0},
 };
 
 static PyType_Spec LimitedVectorCallClass_spec = {
@@ -177,6 +183,7 @@ static PyType_Spec LimitedVectorCallClass_spec = {
         | Py_TPFLAGS_HAVE_VECTORCALL
         | Py_TPFLAGS_BASETYPE,
     .slots = LimitedVectorallClass_slots,
+    .slot_extras = LimitedVectorallClass_slots_ex,
 };
 
 typedef struct {

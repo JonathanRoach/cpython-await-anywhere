@@ -251,12 +251,24 @@ static PyType_Slot constevaluator_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra constevaluator_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_call, Py_FNFLAGS_FRUGAL},
+    {Py_tp_alloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_free, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec constevaluator_spec = {
     .name = "_typing._ConstEvaluator",
     .basicsize = sizeof(constevaluatorobject),
     .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_IMMUTABLETYPE
         | Py_TPFLAGS_DISALLOW_INSTANTIATION,
     .slots = constevaluator_slots,
+    .slot_extras = constevaluator_slots_ex,
 };
 
 int
@@ -933,12 +945,26 @@ static PyType_Slot typevar_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra typevar_slots_ex[] = {
+    {Py_nb_or, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_alloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_free, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec typevar_spec = {
     .name = "typing.TypeVar",
     .basicsize = sizeof(typevarobject),
     .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_IMMUTABLETYPE
         | Py_TPFLAGS_MANAGED_DICT | Py_TPFLAGS_MANAGED_WEAKREF,
     .slots = typevar_slots,
+    .slot_extras = typevar_slots_ex,
 };
 
 typedef struct {
@@ -1082,12 +1108,25 @@ static PyType_Slot paramspecargs_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra paramspecargs_slots_ex[] = {
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_alloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_free, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_richcompare, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec paramspecargs_spec = {
     .name = "typing.ParamSpecArgs",
     .basicsize = sizeof(paramspecattrobject),
     .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_IMMUTABLETYPE
         | Py_TPFLAGS_MANAGED_WEAKREF,
     .slots = paramspecargs_slots,
+    .slot_extras = paramspecargs_slots_ex,
 };
 
 static PyObject *
@@ -1163,12 +1202,25 @@ static PyType_Slot paramspeckwargs_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra paramspeckwargs_slots_ex[] = {
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_alloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_free, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_richcompare, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec paramspeckwargs_spec = {
     .name = "typing.ParamSpecKwargs",
     .basicsize = sizeof(paramspecattrobject),
     .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_IMMUTABLETYPE
         | Py_TPFLAGS_MANAGED_WEAKREF,
     .slots = paramspeckwargs_slots,
+    .slot_extras = paramspeckwargs_slots_ex,
 };
 
 static void
@@ -1517,12 +1569,26 @@ static PyType_Slot paramspec_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra paramspec_slots_ex[] = {
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_nb_or, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_alloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_free, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec paramspec_spec = {
     .name = "typing.ParamSpec",
     .basicsize = sizeof(paramspecobject),
     .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_IMMUTABLETYPE
         | Py_TPFLAGS_MANAGED_DICT | Py_TPFLAGS_MANAGED_WEAKREF,
     .slots = paramspec_slots,
+    .slot_extras = paramspec_slots_ex,
 };
 
 static void
@@ -2342,11 +2408,20 @@ static PyType_Slot generic_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra generic_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_alloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_free, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec generic_spec = {
     .name = "typing.Generic",
     .basicsize = sizeof(PyObject),
     .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC,
     .slots = generic_slots,
+    .slot_extras = generic_slots_ex,
 };
 
 int _Py_initialize_generic(PyInterpreterState *interp)

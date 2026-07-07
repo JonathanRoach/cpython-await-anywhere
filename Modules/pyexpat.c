@@ -1624,12 +1624,21 @@ static PyType_Slot _xml_parse_type_spec_slots[] = {
     {0, 0}
 };
 
+static PyType_Slot_Extra _xml_parse_type_spec_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec _xml_parse_type_spec = {
     .name = "pyexpat.xmlparser",
     .basicsize = sizeof(xmlparseobject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_DISALLOW_INSTANTIATION | Py_TPFLAGS_IMMUTABLETYPE),
     .slots = _xml_parse_type_spec_slots,
+    .slot_extras = _xml_parse_type_spec_slots_ex,
 };
 
 /* End of code for xmlparser objects */

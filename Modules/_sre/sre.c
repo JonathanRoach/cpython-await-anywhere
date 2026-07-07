@@ -3239,6 +3239,17 @@ static PyType_Slot pattern_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra pattern_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_hash, Py_FNFLAGS_FRUGAL},
+    {Py_tp_richcompare, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec pattern_spec = {
     .name = "re.Pattern",
     .basicsize = sizeof(PatternObject),
@@ -3246,6 +3257,7 @@ static PyType_Spec pattern_spec = {
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_IMMUTABLETYPE |
               Py_TPFLAGS_DISALLOW_INSTANTIATION | Py_TPFLAGS_HAVE_GC),
     .slots = pattern_slots,
+    .slot_extras = pattern_slots_ex,
 };
 
 static PyMethodDef match_methods[] = {
@@ -3307,6 +3319,16 @@ static PyType_Slot match_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra match_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_mp_subscript, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec match_spec = {
     .name = "re.Match",
     .basicsize = sizeof(MatchObject),
@@ -3314,6 +3336,7 @@ static PyType_Spec match_spec = {
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_IMMUTABLETYPE |
               Py_TPFLAGS_DISALLOW_INSTANTIATION | Py_TPFLAGS_HAVE_GC),
     .slots = match_slots,
+    .slot_extras = match_slots_ex,
 };
 
 static PyMethodDef scanner_methods[] = {
@@ -3337,12 +3360,20 @@ static PyType_Slot scanner_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra scanner_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec scanner_spec = {
     .name = "_sre.SRE_Scanner",
     .basicsize = sizeof(ScannerObject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_IMMUTABLETYPE |
               Py_TPFLAGS_DISALLOW_INSTANTIATION | Py_TPFLAGS_HAVE_GC),
     .slots = scanner_slots,
+    .slot_extras = scanner_slots_ex,
 };
 
 static PyType_Slot template_slots[] = {
@@ -3352,6 +3383,13 @@ static PyType_Slot template_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra template_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec template_spec = {
     .name = "_sre.SRE_Template",
     .basicsize = sizeof(TemplateObject),
@@ -3359,6 +3397,7 @@ static PyType_Spec template_spec = {
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_IMMUTABLETYPE |
               Py_TPFLAGS_DISALLOW_INSTANTIATION | Py_TPFLAGS_HAVE_GC),
     .slots = template_slots,
+    .slot_extras = template_slots_ex,
 };
 
 static PyMethodDef _functions[] = {

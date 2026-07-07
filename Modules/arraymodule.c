@@ -3010,6 +3010,32 @@ static PyType_Slot array_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra array_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_richcompare, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iter, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_alloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_sq_length, Py_FNFLAGS_FRUGAL},
+    {Py_sq_concat, Py_FNFLAGS_FRUGAL},
+    {Py_sq_repeat, Py_FNFLAGS_FRUGAL},
+    {Py_sq_item, Py_FNFLAGS_FRUGAL},
+    {Py_sq_ass_item, Py_FNFLAGS_FRUGAL},
+    {Py_sq_contains, Py_FNFLAGS_FRUGAL},
+    {Py_sq_inplace_concat, Py_FNFLAGS_FRUGAL},
+    {Py_sq_inplace_repeat, Py_FNFLAGS_FRUGAL},
+    {Py_mp_length, Py_FNFLAGS_FRUGAL},
+    {Py_mp_subscript, Py_FNFLAGS_FRUGAL},
+    {Py_mp_ass_subscript, Py_FNFLAGS_FRUGAL},
+    {Py_bf_getbuffer, Py_FNFLAGS_FRUGAL},
+    {Py_bf_releasebuffer, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec array_spec = {
     .name = "array.array",
     .basicsize = sizeof(arrayobject),
@@ -3017,6 +3043,7 @@ static PyType_Spec array_spec = {
               Py_TPFLAGS_IMMUTABLETYPE | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_SEQUENCE),
     .slots = array_slots,
+    .slot_extras = array_slots_ex,
 };
 
 /*********************** Array Iterator **************************/
@@ -3163,12 +3190,22 @@ static PyType_Slot arrayiter_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra arrayiter_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iter, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iternext, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec arrayiter_spec = {
     .name = "array.arrayiterator",
     .basicsize = sizeof(arrayiterobject),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_DISALLOW_INSTANTIATION | Py_TPFLAGS_IMMUTABLETYPE),
     .slots = arrayiter_slots,
+    .slot_extras = arrayiter_slots_ex,
 };
 
 

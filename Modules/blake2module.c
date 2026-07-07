@@ -1050,6 +1050,15 @@ static PyType_Slot blake2b_type_slots[] = {
     {0,0}
 };
 
+static PyType_Slot_Extra blake2b_type_slots_ex[] = {
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Slot blake2s_type_slots[] = {
     {Py_tp_clear, py_blake2_clear},
     {Py_tp_dealloc, py_blake2_dealloc},
@@ -1063,12 +1072,22 @@ static PyType_Slot blake2s_type_slots[] = {
     {0,0}
 };
 
+static PyType_Slot_Extra blake2s_type_slots_ex[] = {
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec blake2b_type_spec = {
     .name = "_blake2.blake2b",
     .basicsize =  sizeof(Blake2Object),
     .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_IMMUTABLETYPE
              | Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_HEAPTYPE,
-    .slots = blake2b_type_slots
+    .slots = blake2b_type_slots,
+    .slot_extras = blake2b_type_slots_ex,
 };
 
 static PyType_Spec blake2s_type_spec = {
@@ -1076,5 +1095,6 @@ static PyType_Spec blake2s_type_spec = {
     .basicsize =  sizeof(Blake2Object),
     .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_IMMUTABLETYPE
              | Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_HEAPTYPE,
-    .slots = blake2s_type_slots
+    .slots = blake2s_type_slots,
+    .slot_extras = blake2s_type_slots_ex,
 };

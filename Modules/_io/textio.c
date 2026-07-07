@@ -212,12 +212,18 @@ static PyType_Slot textiobase_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra textiobase_slots_ex[] = {
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 /* Do not set Py_TPFLAGS_HAVE_GC so that tp_traverse and tp_clear are inherited */
 PyType_Spec textiobase_spec = {
     .name = "_io._TextIOBase",
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = textiobase_slots,
+    .slot_extras = textiobase_slots_ex,
 };
 
 /* IncrementalNewlineDecoder */
@@ -3385,12 +3391,22 @@ static PyType_Slot nldecoder_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra nldecoder_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec nldecoder_spec = {
     .name = "_io.IncrementalNewlineDecoder",
     .basicsize = sizeof(nldecoder_object),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = nldecoder_slots,
+    .slot_extras = nldecoder_slots_ex,
 };
 
 

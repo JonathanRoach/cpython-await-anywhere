@@ -121,12 +121,21 @@ static PyType_Slot Example_Type_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra Example_Type_slots_ex[] = {
+    {Py_tp_finalize, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_setattr, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec Example_Type_spec = {
-    "_testimportexec.Example",
-    sizeof(ExampleObject),
-    0,
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
-    Example_Type_slots
+    .name = "_testimportexec.Example",
+    .basicsize = sizeof(ExampleObject),
+    .itemsize = 0,
+    .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
+    .slots = Example_Type_slots,
+    .slot_extras = Example_Type_slots_ex,
 };
 
 
@@ -295,12 +304,17 @@ static PyType_Slot StateAccessType_Type_slots[] = {
     {0, NULL}
 };
 
+static PyType_Slot_Extra StateAccessType_Type_slots_ex[] = {
+    {0, 0},
+};
+
 static PyType_Spec StateAccessType_spec = {
-    "_testimportexec.StateAccessType",
-    sizeof(StateAccessTypeObject),
-    0,
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_FINALIZE | Py_TPFLAGS_BASETYPE,
-    StateAccessType_Type_slots
+    .name = "_testimportexec.StateAccessType",
+    .basicsize = sizeof(StateAccessTypeObject),
+    .itemsize = 0,
+    .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_FINALIZE | Py_TPFLAGS_BASETYPE,
+    .slots = StateAccessType_Type_slots,
+    .slot_extras = StateAccessType_Type_slots_ex,
 };
 
 /* Function of two integers returning integer */
@@ -367,12 +381,17 @@ static PyType_Slot Str_Type_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra Str_Type_slots_ex[] = {
+    {0, 0},
+};
+
 static PyType_Spec Str_Type_spec = {
-    "_testimportexec.Str",
-    0,
-    0,
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
-    Str_Type_slots
+    .name = "_testimportexec.Str",
+    .basicsize = 0,
+    .itemsize = 0,
+    .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
+    .slots = Str_Type_slots,
+    .slot_extras = Str_Type_slots_ex,
 };
 
 static PyMethodDef testexport_methods[] = {

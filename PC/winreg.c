@@ -395,12 +395,39 @@ static PyType_Slot pyhkey_type_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra pyhkey_type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_hash, Py_FNFLAGS_FRUGAL},
+    {Py_tp_str, Py_FNFLAGS_FRUGAL},
+    {Py_nb_add, Py_FNFLAGS_FRUGAL},
+    {Py_nb_subtract, Py_FNFLAGS_FRUGAL},
+    {Py_nb_multiply, Py_FNFLAGS_FRUGAL},
+    {Py_nb_remainder, Py_FNFLAGS_FRUGAL},
+    {Py_nb_divmod, Py_FNFLAGS_FRUGAL},
+    {Py_nb_power, Py_FNFLAGS_FRUGAL},
+    {Py_nb_negative, Py_FNFLAGS_FRUGAL},
+    {Py_nb_positive, Py_FNFLAGS_FRUGAL},
+    {Py_nb_absolute, Py_FNFLAGS_FRUGAL},
+    {Py_nb_bool, Py_FNFLAGS_FRUGAL},
+    {Py_nb_invert, Py_FNFLAGS_FRUGAL},
+    {Py_nb_lshift, Py_FNFLAGS_FRUGAL},
+    {Py_nb_rshift, Py_FNFLAGS_FRUGAL},
+    {Py_nb_and, Py_FNFLAGS_FRUGAL},
+    {Py_nb_xor, Py_FNFLAGS_FRUGAL},
+    {Py_nb_or, Py_FNFLAGS_FRUGAL},
+    {Py_nb_int, Py_FNFLAGS_FRUGAL},
+    {Py_nb_float, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec pyhkey_type_spec = {
     .name = "winreg.PyHKEY",
     .basicsize = sizeof(PyHKEYObject),
     .flags = (Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_IMMUTABLETYPE |
               Py_TPFLAGS_DISALLOW_INSTANTIATION),
     .slots = pyhkey_type_slots,
+    .slot_extras = pyhkey_type_slots_ex,
 };
 
 /************************************************************************

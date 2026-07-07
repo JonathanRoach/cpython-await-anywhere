@@ -609,12 +609,23 @@ static PyType_Slot blob_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra blob_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_mp_length, Py_FNFLAGS_FRUGAL},
+    {Py_mp_subscript, Py_FNFLAGS_FRUGAL},
+    {Py_mp_ass_subscript, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec blob_spec = {
     .name = MODULE_NAME ".Blob",
     .basicsize = sizeof(pysqlite_Blob),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE | Py_TPFLAGS_DISALLOW_INSTANTIATION),
     .slots = blob_slots,
+    .slot_extras = blob_slots_ex,
 };
 
 int

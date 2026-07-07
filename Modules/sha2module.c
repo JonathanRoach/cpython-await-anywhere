@@ -555,12 +555,26 @@ static PyType_Slot sha256_types_slots[] = {
     {0,0}
 };
 
+static PyType_Slot_Extra sha256_types_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Slot sha512_type_slots[] = {
     {Py_tp_dealloc, SHA512_dealloc},
     {Py_tp_methods, SHA512_methods},
     {Py_tp_getset, SHA512_getseters},
     {Py_tp_traverse, SHA2_traverse},
     {0,0}
+};
+
+static PyType_Slot_Extra sha512_type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {0, 0},
 };
 
 // Using _PyType_GetModuleState() on these types is safe since they
@@ -570,7 +584,8 @@ static PyType_Spec sha224_type_spec = {
     .basicsize = sizeof(SHA256object),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_DISALLOW_INSTANTIATION |
               Py_TPFLAGS_IMMUTABLETYPE | Py_TPFLAGS_HAVE_GC),
-    .slots = sha256_types_slots
+    .slots = sha256_types_slots,
+    .slot_extras = sha256_types_slots_ex,
 };
 
 static PyType_Spec sha256_type_spec = {
@@ -578,7 +593,8 @@ static PyType_Spec sha256_type_spec = {
     .basicsize = sizeof(SHA256object),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_DISALLOW_INSTANTIATION |
               Py_TPFLAGS_IMMUTABLETYPE | Py_TPFLAGS_HAVE_GC),
-    .slots = sha256_types_slots
+    .slots = sha256_types_slots,
+    .slot_extras = sha256_types_slots_ex,
 };
 
 static PyType_Spec sha384_type_spec = {
@@ -586,7 +602,8 @@ static PyType_Spec sha384_type_spec = {
     .basicsize =  sizeof(SHA512object),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_DISALLOW_INSTANTIATION |
               Py_TPFLAGS_IMMUTABLETYPE | Py_TPFLAGS_HAVE_GC),
-    .slots = sha512_type_slots
+    .slots = sha512_type_slots,
+    .slot_extras = sha512_type_slots_ex,
 };
 
 static PyType_Spec sha512_type_spec = {
@@ -594,7 +611,8 @@ static PyType_Spec sha512_type_spec = {
     .basicsize =  sizeof(SHA512object),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_DISALLOW_INSTANTIATION |
               Py_TPFLAGS_IMMUTABLETYPE | Py_TPFLAGS_HAVE_GC),
-    .slots = sha512_type_slots
+    .slots = sha512_type_slots,
+    .slot_extras = sha512_type_slots_ex,
 };
 
 /* The module-level constructors. */

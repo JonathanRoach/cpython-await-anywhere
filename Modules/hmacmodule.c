@@ -1227,6 +1227,15 @@ static PyType_Slot HMACObject_Type_slots[] = {
     {0, NULL} /* sentinel */
 };
 
+static PyType_Slot_Extra HMACObject_Type_slots_ex[] = {
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec HMAC_Type_spec = {
     .name = "_hmac.HMAC",
     .basicsize = sizeof(HMACObject),
@@ -1236,6 +1245,7 @@ static PyType_Spec HMAC_Type_spec = {
              | Py_TPFLAGS_IMMUTABLETYPE
              | Py_TPFLAGS_HAVE_GC,
     .slots = HMACObject_Type_slots,
+    .slot_extras = HMACObject_Type_slots_ex,
 };
 
 // --- One-shot HMAC-HASH interface -------------------------------------------

@@ -554,11 +554,19 @@ static PyType_Slot Writer_Type_slots[] = {
     {0, 0},  /* sentinel */
 };
 
+static PyType_Slot_Extra Writer_Type_slots_ex[] = {
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec Writer_spec = {
     .name = "_testcapi.PyUnicodeWriter",
     .basicsize = sizeof(WriterObject),
     .flags = Py_TPFLAGS_DEFAULT,
     .slots = Writer_Type_slots,
+    .slot_extras = Writer_Type_slots_ex,
 };
 
 

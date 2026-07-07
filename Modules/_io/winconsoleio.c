@@ -1253,12 +1253,25 @@ static PyType_Slot winconsoleio_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra winconsoleio_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec winconsoleio_spec = {
     .name = "_io._WindowsConsoleIO",
     .basicsize = sizeof(winconsoleio),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = winconsoleio_slots,
+    .slot_extras = winconsoleio_slots_ex,
 };
 
 #endif /* HAVE_WINDOWS_CONSOLE_IO */

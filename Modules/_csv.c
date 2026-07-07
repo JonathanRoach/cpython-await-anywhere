@@ -622,12 +622,22 @@ static PyType_Slot Dialect_Type_slots[] = {
     {0, NULL}
 };
 
+static PyType_Slot_Extra Dialect_Type_slots_ex[] = {
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec Dialect_Type_spec = {
     .name = "_csv.Dialect",
     .basicsize = sizeof(DialectObj),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = Dialect_Type_slots,
+    .slot_extras = Dialect_Type_slots_ex,
 };
 
 
@@ -1054,12 +1064,22 @@ static PyType_Slot Reader_Type_slots[] = {
     {0, NULL}
 };
 
+static PyType_Slot_Extra Reader_Type_slots_ex[] = {
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iter, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iternext, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec Reader_Type_spec = {
     .name = "_csv.reader",
     .basicsize = sizeof(ReaderObj),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE | Py_TPFLAGS_DISALLOW_INSTANTIATION),
-    .slots = Reader_Type_slots
+    .slots = Reader_Type_slots,
+    .slot_extras = Reader_Type_slots_ex,
 };
 
 
@@ -1511,12 +1531,20 @@ static PyType_Slot Writer_Type_slots[] = {
     {0, NULL}
 };
 
+static PyType_Slot_Extra Writer_Type_slots_ex[] = {
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec Writer_Type_spec = {
     .name = "_csv.writer",
     .basicsize = sizeof(WriterObj),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE | Py_TPFLAGS_DISALLOW_INSTANTIATION),
     .slots = Writer_Type_slots,
+    .slot_extras = Writer_Type_slots_ex,
 };
 
 
@@ -1696,10 +1724,15 @@ static PyType_Slot error_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra error_slots_ex[] = {
+    {0, 0},
+};
+
 PyType_Spec error_spec = {
     .name = "_csv.Error",
     .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
     .slots = error_slots,
+    .slot_extras = error_slots_ex,
 };
 
 /*

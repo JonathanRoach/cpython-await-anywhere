@@ -897,12 +897,24 @@ static PyType_Slot iobase_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra iobase_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iter, Py_FNFLAGS_FRUGAL},
+    {Py_tp_iternext, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_finalize, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 PyType_Spec iobase_spec = {
     .name = "_io._IOBase",
     .basicsize = sizeof(iobase),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = iobase_slots,
+    .slot_extras = iobase_slots_ex,
 };
 
 /*
@@ -1054,10 +1066,15 @@ static PyType_Slot rawiobase_slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra rawiobase_slots_ex[] = {
+    {0, 0},
+};
+
 /* Do not set Py_TPFLAGS_HAVE_GC so that tp_traverse and tp_clear are inherited */
 PyType_Spec rawiobase_spec = {
     .name = "_io._RawIOBase",
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE |
               Py_TPFLAGS_IMMUTABLETYPE),
     .slots = rawiobase_slots,
+    .slot_extras = rawiobase_slots_ex,
 };

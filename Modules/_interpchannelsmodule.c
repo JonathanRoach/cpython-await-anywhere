@@ -2693,12 +2693,25 @@ static PyType_Slot channelid_typeslots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra channelid_typeslots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_str, Py_FNFLAGS_FRUGAL},
+    {Py_tp_hash, Py_FNFLAGS_FRUGAL},
+    {Py_tp_richcompare, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_nb_int, Py_FNFLAGS_FRUGAL},
+    {Py_nb_index, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec channelid_typespec = {
     .name = MODULE_NAME_STR ".ChannelID",
     .basicsize = sizeof(channelid),
     .flags = (Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE |
               Py_TPFLAGS_DISALLOW_INSTANTIATION | Py_TPFLAGS_IMMUTABLETYPE),
     .slots = channelid_typeslots,
+    .slot_extras = channelid_typeslots_ex,
 };
 
 static PyTypeObject *

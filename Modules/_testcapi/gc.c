@@ -306,11 +306,22 @@ static PyType_Slot ObjExtraData_Slots[] = {
     {0, NULL},
 };
 
+static PyType_Slot_Extra ObjExtraData_Slots_ex[] = {
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_free, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec ObjExtraData_TypeSpec = {
     .name = "_testcapi.ObjExtraData",
     .basicsize = sizeof(ObjExtraData),
     .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC,
     .slots = ObjExtraData_Slots,
+    .slot_extras = ObjExtraData_Slots_ex,
 };
 
 static PyMethodDef test_methods[] = {
