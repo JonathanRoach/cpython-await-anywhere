@@ -1709,12 +1709,28 @@ static PyType_Slot AST_type_slots[] = {
     {0, 0},
 };
 
+static PyType_Slot_Extra AST_type_slots_ex[] = {
+    {Py_tp_dealloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_repr, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_setattro, Py_FNFLAGS_FRUGAL},
+    {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
+    {Py_tp_clear, Py_FNFLAGS_FRUGAL},
+    {Py_tp_getset, Py_FNFLAGS_FRUGAL},
+    {Py_tp_init, Py_FNFLAGS_FRUGAL},
+    {Py_tp_alloc, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_free, Py_FNFLAGS_FRUGAL},
+    {0, 0},
+};
+
 static PyType_Spec AST_type_spec = {
-    "ast.AST",
-    sizeof(AST_object),
-    0,
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC,
-    AST_type_slots
+    .name = "ast.AST",
+    .basicsize = sizeof(AST_object),
+    .itemsize = 0,
+    .flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_GC,
+    .slots = AST_type_slots,
+    .slot_extras = AST_type_slots_ex,
 };
 
 static PyObject *

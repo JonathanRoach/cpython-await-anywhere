@@ -5663,7 +5663,7 @@
                 JUMP_TO_ERROR();
             }
             _PyFrame_SetStackPointer(frame, stack_pointer);
-            PyObject *res_o = tp->tp_vectorcall((PyObject *)tp, args_o, total_args, NULL);
+            PyObject *res_o = _PyObject_Call_tp_vectorcall(tp, (PyObject *)tp, args_o, total_args, NULL);
             stack_pointer = _PyFrame_GetStackPointer(frame);
             STACKREFS_TO_PYOBJECTS_CLEANUP(args_o);
             _PyFrame_SetStackPointer(frame, stack_pointer);
