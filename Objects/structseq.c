@@ -579,6 +579,7 @@ initialize_static_fields(PyTypeObject *type, PyStructSequence_Desc *desc,
     type->tp_dealloc = structseq_dealloc;
     type->tp_functionflags[_PyFunctionIndex_tp_dealloc] |= Py_FNFLAGS_FRUGAL;
     type->tp_repr = structseq_repr;
+    type->tp_functionflags[_PyFunctionIndex_tp_repr] |= Py_FNFLAGS_FRUGAL,
     type->tp_doc = desc->doc;
     type->tp_base = &PyTuple_Type;
     type->tp_methods = structseq_methods;

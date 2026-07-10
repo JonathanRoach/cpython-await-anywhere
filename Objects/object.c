@@ -751,12 +751,6 @@ _PyObject_Dump(PyObject* op)
     fflush(stderr);
 }
 
-_PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(static, PyObject *, do_repr_call, reprfunc, PyObject*)
-static inline PyObject *do_repr_call(reprfunc repr, PyObject *self){
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(NULL, PyObject *, do_repr_call, repr, self)
-    return (*repr)(self);
-}
-
 PyObject *
 PyObject_Repr(PyObject *v)
 {
@@ -783,7 +777,7 @@ PyObject_Repr(PyObject *v)
                                      " while getting the repr of an object")) {
         return NULL;
     }
-    res = do_repr_call(Py_TYPE(v)->tp_repr, v);
+    res = PYTYPE_CALLFUNCTION(Py_TYPE(v), tp, repr, v);
     _Py_LeaveRecursiveCallTstate(tstate);
 
     if (res == NULL) {
@@ -826,7 +820,7 @@ PyObject_Str(PyObject *v)
     if (_Py_EnterRecursiveCallTstate(tstate, " while getting the str of an object")) {
         return NULL;
     }
-    res = do_repr_call(*Py_TYPE(v)->tp_str, v);
+    res = PYTYPE_CALLFUNCTION(Py_TYPE(v), tp, str, v);
     _Py_LeaveRecursiveCallTstate(tstate);
 
     if (res == NULL) {
@@ -1182,7 +1176,7 @@ PyObject_GetAttrString(PyObject *v, const char *name)
     PyObject *w, *res;
 
     if (Py_TYPE(v)->tp_getattr != NULL)
-        return (*Py_TYPE(v)->tp_getattr)(v, (char*)name);
+        return _PyType_Call_tp_getattr(Py_TYPE(v), v, (char *)name);
     w = PyUnicode_FromString(name);
     if (w == NULL)
         return NULL;
@@ -1222,7 +1216,7 @@ PyObject_SetAttrString(PyObject *v, const char *name, PyObject *w)
     int res;
 
     if (Py_TYPE(v)->tp_setattr != NULL)
-        return (*Py_TYPE(v)->tp_setattr)(v, (char*)name, w);
+        return _PyType_Call_tp_setattr(Py_TYPE(v), v, (char *)name, w);
     s = PyUnicode_InternFromString(name);
     if (s == NULL)
         return -1;
@@ -1333,7 +1327,7 @@ _PyObject_GetAttrInlinable(PyObject *v, PyObject *name, _PyInterpreterFrame **in
         if (name_str == NULL) {
             return NULL;
         }
-        result = (*tp->tp_getattr)(v, (char *)name_str);
+        result = _PyType_Call_tp_getattr(tp, v, (char *)name_str);
     }
     else {
         PyErr_Format(PyExc_AttributeError,
@@ -1404,7 +1398,7 @@ PyObject_GetOptionalAttr(PyObject *v, PyObject *name, PyObject **result)
             *result = NULL;
             return -1;
         }
-        *result = (*tp->tp_getattr)(v, (char *)name_str);
+        *result = _PyType_Call_tp_getattr(tp, v, (char *)name_str);
     }
     else {
         *result = NULL;
@@ -1435,7 +1429,7 @@ PyObject_GetOptionalAttrString(PyObject *obj, const char *name, PyObject **resul
         return rc;
     }
 
-    *result = (*Py_TYPE(obj)->tp_getattr)(obj, (char*)name);
+    *result = _PyType_Call_tp_getattr(Py_TYPE(obj), obj, (char *)name);
     if (*result != NULL) {
         return 1;
     }
@@ -1504,7 +1498,7 @@ _PyObject_SetAttrInlinable(PyObject *v, PyObject *name, PyObject *value,
             Py_DECREF(name);
             return -1;
         }
-        err = (*tp->tp_setattr)(v, (char *)name_str, value);
+        err = _PyType_Call_tp_setattr(tp, v, (char *)name_str, value);
         Py_DECREF(name);
         return err;
     }
@@ -2370,6 +2364,7 @@ PyTypeObject _PyNone_Type = {
     0,                  /*tp_alloc */
     none_new,           /*tp_new */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 PyObject _Py_NoneStruct = _PyObject_HEAD_INIT(&_PyNone_Type);
@@ -2471,6 +2466,7 @@ PyTypeObject _PyNotImplemented_Type = {
     0,                  /*tp_alloc */
     notimplemented_new, /*tp_new */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 PyObject _Py_NotImplementedStruct = _PyObject_HEAD_INIT(&_PyNotImplemented_Type);
@@ -3496,50 +3492,3 @@ PyUnstable_Object_IsUniquelyReferenced(PyObject *op)
     assert(op != NULL);
     return _PyObject_IsUniquelyReferenced(op);
 }
-
-
-
-
-#define PyObject_CallTypeFunction4(KIND, SLOT, T0, T1, T2, T3) \
-struct Do_PyObject_Call_##KIND##_##SLOT##_Params { \
-    PyTypeObject *tp; \
-    T0 v0; \
-    T1 v1; \
-    T2 v2; \
-    T3 v3; \
-}; \
- \
-void *Do_PyObject_Call_##KIND##_##SLOT(void *_params){ \
-    struct Do_PyObject_Call_##KIND##_##SLOT##_Params *params = (struct Do_PyObject_Call_##KIND##_##SLOT##_Params *)_params; \
-    return params->tp->PYTYPE_SLOTLOC_##KIND KIND##_##SLOT( \
-        params->v0, \
-        params->v1, \
-        params->v2, \
-        params->v3 \
-    ); \
-} \
- \
-PyObject *_PyObject_Call_##KIND##_##SLOT( \
-    PyTypeObject *tp, \
-    T0 v0, \
-    T1 v1, \
-    T2 v2, \
-    T3 v3 \
-) \
-{ \
-    struct Do_PyObject_Call_##KIND##_##SLOT##_Params params = { \
-        .tp = tp, \
-        .v0 = v0, \
-        .v1 = v1, \
-        .v2 = v2, \
-        .v3 = v3, \
-    }; \
-    return _PyType_CallFunction( \
-        tp, \
-        Do_PyObject_Call_##KIND##_##SLOT, \
-        &params, \
-        tp->tp_functionflags, \
-        _PyFunctionIndex_##KIND##_##SLOT); \
-}
-
-PyObject_CallTypeFunction4(tp, vectorcall, PyObject *, PyObject *const *, size_t, PyObject *)

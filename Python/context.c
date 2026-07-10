@@ -1131,6 +1131,7 @@ PyTypeObject PyContextVar_Type = {
     .tp_free = PyObject_GC_Del,
     .tp_hash = contextvar_tp_hash,
     .tp_repr = contextvar_tp_repr,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -1302,6 +1303,7 @@ PyTypeObject PyContextToken_Type = {
     .tp_free = PyObject_GC_Del,
     .tp_hash = PyObject_HashNotImplemented,
     .tp_repr = token_tp_repr,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyContextToken *
@@ -1355,6 +1357,7 @@ PyTypeObject _PyContextTokenMissing_Type = {
     .tp_getattro = PyObject_GenericGetAttr,
     .tp_flags = Py_TPFLAGS_DEFAULT,
     .tp_repr = context_token_missing_tp_repr,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 

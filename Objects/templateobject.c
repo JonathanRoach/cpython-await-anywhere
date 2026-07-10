@@ -468,6 +468,7 @@ PyTypeObject _PyTemplate_Type = {
     .tp_clear = template_clear,
     .tp_free = PyObject_GC_Del,
     .tp_repr = template_repr,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_members = template_members,
     .tp_methods = template_methods,
     .tp_getset = template_getset,

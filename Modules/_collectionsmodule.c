@@ -2425,7 +2425,7 @@ defdict_repr(PyObject *op)
     PyObject *baserepr;
     PyObject *defrepr;
     PyObject *result;
-    baserepr = PyDict_Type.tp_repr(op);
+    baserepr = PYTYPE_CALLFUNCTION(&PyDict_Type, tp, repr, op);
     if (baserepr == NULL)
         return NULL;
     if (dd->default_factory == NULL)

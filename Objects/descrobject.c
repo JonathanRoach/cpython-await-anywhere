@@ -754,6 +754,7 @@ PyTypeObject PyMethodDescr_Type = {
     0,                                          /* tp_descr_set */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 /* This is for METH_CLASS in C, not for "f = classmethod(f)" in Python! */
@@ -793,6 +794,7 @@ PyTypeObject PyClassMethodDescr_Type = {
     classmethod_get,                            /* tp_descr_get */
     0,                                          /* tp_descr_set */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 PyTypeObject PyMemberDescr_Type = {
@@ -831,6 +833,7 @@ PyTypeObject PyMemberDescr_Type = {
     member_get,                                 /* tp_descr_get */
     member_set,                                 /* tp_descr_set */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 PyTypeObject PyGetSetDescr_Type = {
@@ -869,6 +872,7 @@ PyTypeObject PyGetSetDescr_Type = {
     getset_get,                                 /* tp_descr_get */
     getset_set,                                 /* tp_descr_set */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 PyTypeObject PyWrapperDescr_Type = {
@@ -908,6 +912,7 @@ PyTypeObject PyWrapperDescr_Type = {
     wrapperdescr_get,                           /* tp_descr_get */
     0,                                          /* tp_descr_set */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyDescrObject *
@@ -1019,7 +1024,7 @@ PyDescr_NewGetSet(PyTypeObject *type, PyGetSetDef *getset)
 }
 
 PyObject *
-PyDescr_NewWrapper(PyTypeObject *type, struct wrapperbase *base, void *wrapped)
+PyDescr_NewWrapper_Ex(PyTypeObject *type, struct wrapperbase *base, void *wrapped, unsigned char flags)
 {
     PyWrapperDescrObject *descr;
 
@@ -1028,8 +1033,15 @@ PyDescr_NewWrapper(PyTypeObject *type, struct wrapperbase *base, void *wrapped)
     if (descr != NULL) {
         descr->d_base = base;
         descr->d_wrapped = wrapped;
+        descr->d_flags = flags;
     }
     return (PyObject *)descr;
+}
+
+PyObject *
+PyDescr_NewWrapper(PyTypeObject *type, struct wrapperbase *base, void *wrapped)
+{
+    return PyDescr_NewWrapper_Ex(type, base, wrapped, 0);
 }
 
 int
@@ -1491,6 +1503,7 @@ PyTypeObject _PyMethodWrapper_Type = {
     0,                                          /* tp_descr_get */
     0,                                          /* tp_descr_set */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 PyObject *
@@ -2076,6 +2089,7 @@ PyTypeObject PyDictProxy_Type = {
     0,                                          /* tp_alloc */
     mappingproxy_new,                           /* tp_new */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 PyTypeObject PyProperty_Type = {

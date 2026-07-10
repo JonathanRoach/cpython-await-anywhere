@@ -368,6 +368,7 @@ PyTypeObject PyMethod_Type = {
     .tp_new = method_new,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 /* ------------------------------------------------------------------------
@@ -568,4 +569,5 @@ PyTypeObject PyInstanceMethod_Type = {
     .tp_descr_get = instancemethod_descr_get,
     .tp_new = instancemethod_new,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };

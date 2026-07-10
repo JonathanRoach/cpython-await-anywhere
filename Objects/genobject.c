@@ -991,6 +991,7 @@ PyTypeObject PyGen_Type = {
     0,                                          /* tp_version_tag */
     _PyGen_Finalize,                            /* tp_finalize */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *
@@ -1729,6 +1730,7 @@ PyTypeObject PyCoro_Type = {
     0,                                          /* tp_version_tag */
     _PyGen_Finalize,                            /* tp_finalize */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 static void
@@ -2183,6 +2185,7 @@ PyTypeObject PyAsyncGen_Type = {
     0,                                          /* tp_version_tag */
     _PyGen_Finalize,                            /* tp_finalize */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 

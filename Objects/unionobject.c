@@ -526,6 +526,7 @@ PyTypeObject _PyUnion_Type = {
     .tp_as_mapping = &union_as_mapping,
     .tp_as_number = &union_as_number,
     .tp_repr = union_repr,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_getset = union_properties,
     .tp_weaklistoffset = offsetof(unionobject, weakreflist),
 };

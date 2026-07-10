@@ -469,6 +469,7 @@ PyTypeObject PyStdPrinter_Type = {
     PyType_GenericAlloc,                        /* tp_alloc */
     0,                                          /* tp_new */
     PyObject_Free,                              /* tp_free */
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 

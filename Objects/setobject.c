@@ -2614,6 +2614,7 @@ PyTypeObject PySet_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_vectorcall] = Py_FNFLAGS_FRUGAL,
     .tp_version_tag = _Py_TYPE_VERSION_SET,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 /* frozenset object ********************************************************/
@@ -2707,6 +2708,7 @@ PyTypeObject PyFrozenSet_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_vectorcall] = Py_FNFLAGS_FRUGAL,
     .tp_version_tag = _Py_TYPE_VERSION_FROZEN_SET,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -2889,6 +2891,7 @@ static PyTypeObject _PySetDummy_Type = {
     0,                  /*tp_as_buffer */
     Py_TPFLAGS_DEFAULT, /*tp_flags */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject _dummy_struct = _PyObject_HEAD_INIT(&_PySetDummy_Type);

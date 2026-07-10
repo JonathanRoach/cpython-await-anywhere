@@ -4978,6 +4978,7 @@ PyTypeObject PyDict_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_vectorcall] = Py_FNFLAGS_FRUGAL,
     .tp_version_tag = _Py_TYPE_VERSION_DICT,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 /* For backward compatibility with old dictionary interface */
@@ -6510,6 +6511,7 @@ PyTypeObject PyDictKeys_Type = {
     dictkeys_methods,                           /* tp_methods */
     .tp_getset = dictview_getset,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 /*[clinic input]
@@ -6624,6 +6626,7 @@ PyTypeObject PyDictItems_Type = {
     dictitems_methods,                          /* tp_methods */
     .tp_getset = dictview_getset,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 /*[clinic input]
@@ -6716,6 +6719,7 @@ PyTypeObject PyDictValues_Type = {
     dictvalues_methods,                         /* tp_methods */
     .tp_getset = dictview_getset,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 /*[clinic input]

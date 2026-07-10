@@ -414,6 +414,7 @@ PyTypeObject PyCFunction_Type = {
     0,                                          /* tp_base */
     0,                                          /* tp_dict */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 PyTypeObject PyCMethod_Type = {

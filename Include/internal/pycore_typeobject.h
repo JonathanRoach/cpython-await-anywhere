@@ -229,3 +229,7 @@ _PyType_CallFunction(PyTypeObject *tp, Coroutine_Start fn, void *param, unsigned
 }
 #endif
 #endif /* !Py_INTERNAL_TYPEOBJECT_H */
+
+PyObject *_PyType_Call_tp_vectorcall(PyTypeObject *tp, PyObject *callable, PyObject *const *args, size_t nargsf, PyObject *kwnames);
+PyObject *_PyType_Call_tp_getattr(PyTypeObject *tp, PyObject *callable, char *name);
+int _PyType_Call_tp_setattr(PyTypeObject *tp, PyObject *callable, char *name, PyObject *value);

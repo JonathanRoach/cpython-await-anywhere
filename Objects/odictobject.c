@@ -1580,6 +1580,7 @@ PyTypeObject PyODict_Type = {
     0,                                          /* tp_new */
     0,                                          /* tp_free */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
 
 
