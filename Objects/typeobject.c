@@ -8306,6 +8306,7 @@ PyTypeObject PyBaseObject_Type = {
     PyObject_Free,                              /* tp_free */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -9108,6 +9109,7 @@ type_ready_set_hash(PyTypeObject *type)
         return -1;
     }
     type->tp_hash = PyObject_HashNotImplemented;
+    type->tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL;
     return 0;
 }
 

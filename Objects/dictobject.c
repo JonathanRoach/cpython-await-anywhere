@@ -2471,7 +2471,7 @@ PyObject *
 _PyDict_GetItemWithError(PyObject *dp, PyObject *kv)
 {
     assert(PyUnicode_CheckExact(kv));
-    Py_hash_t hash = Py_TYPE(kv)->tp_hash(kv);
+    Py_hash_t hash = (Py_hash_t)PYTYPE_CALLFUNCTION(Py_TYPE(kv), tp, hash, kv);
     if (hash == -1) {
         return NULL;
     }
@@ -4979,6 +4979,7 @@ PyTypeObject PyDict_Type = {
     .tp_version_tag = _Py_TYPE_VERSION_DICT,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
 };
 
 /* For backward compatibility with old dictionary interface */

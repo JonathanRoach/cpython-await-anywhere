@@ -779,6 +779,7 @@ PyTypeObject PyContext_Type = {
     .tp_new = context_tp_new,
     .tp_weaklistoffset = offsetof(PyContext, ctx_weakreflist),
     .tp_hash = PyObject_HashNotImplemented,
+    .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -1130,6 +1131,7 @@ PyTypeObject PyContextVar_Type = {
     .tp_new = contextvar_tp_new,
     .tp_free = PyObject_GC_Del,
     .tp_hash = contextvar_tp_hash,
+    .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
     .tp_repr = contextvar_tp_repr,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };
@@ -1302,6 +1304,7 @@ PyTypeObject PyContextToken_Type = {
     .tp_new = token_tp_new,
     .tp_free = PyObject_GC_Del,
     .tp_hash = PyObject_HashNotImplemented,
+    .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
     .tp_repr = token_tp_repr,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };

@@ -3122,6 +3122,7 @@ static PyTypeObject PyDateTime_DeltaType = {
     delta_new,                                          /* tp_new */
     0,                                                  /* tp_free */
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
 };
 
 // XXX Can we make this const?
@@ -4036,6 +4037,7 @@ static PyTypeObject PyDateTime_DateType = {
     date_new,                                           /* tp_new */
     0,                                                  /* tp_free */
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
 };
 
 /*
@@ -4507,6 +4509,7 @@ static PyTypeObject PyDateTime_TimeZoneType = {
     timezone_new,                     /* tp_new */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
 };
 
 // XXX Can we make this const?
@@ -7181,6 +7184,7 @@ static PyTypeObject PyDateTime_DateTimeType = {
     0,                                          /* tp_free */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
 };
 
 /* ---------------------------------------------------------------------------

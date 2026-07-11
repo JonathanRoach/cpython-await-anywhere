@@ -1154,7 +1154,7 @@ PyObject_Hash(PyObject *v)
 {
     PyTypeObject *tp = Py_TYPE(v);
     if (tp->tp_hash != NULL)
-        return (*tp->tp_hash)(v);
+        return (Py_hash_t)PYTYPE_CALLFUNCTION(tp, tp, hash, v);
     /* To keep to the general practice that inheriting
      * solely from object in C code should work without
      * an explicit call to PyType_Ready, we implicitly call
@@ -1164,7 +1164,7 @@ PyObject_Hash(PyObject *v)
         if (PyType_Ready(tp) < 0)
             return -1;
         if (tp->tp_hash != NULL)
-            return (*tp->tp_hash)(v);
+            return (Py_hash_t)PYTYPE_CALLFUNCTION(tp, tp, hash, v);
     }
     /* Otherwise, the object can't be hashed */
     return PyObject_HashNotImplemented(v);
@@ -2365,6 +2365,7 @@ PyTypeObject _PyNone_Type = {
     none_new,           /*tp_new */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
 };
 
 PyObject _Py_NoneStruct = _PyObject_HEAD_INIT(&_PyNone_Type);
