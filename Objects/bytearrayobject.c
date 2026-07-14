@@ -2877,6 +2877,7 @@ PyTypeObject PyByteArray_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_str] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
 };
 
 /*********************** Bytearray Iterator ****************************/
@@ -3042,6 +3043,7 @@ PyTypeObject PyByteArrayIter_Type = {
     bytearrayiter_methods,             /* tp_methods */
     0,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *

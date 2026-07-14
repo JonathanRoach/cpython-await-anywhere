@@ -1319,7 +1319,7 @@ _PyObject_GetAttrInlinable(PyObject *v, PyObject *name, _PyInterpreterFrame **in
             // covers the remaining __getattr__ and __getattribute__ cases
             result = _PyType_Slot_tp_getattro_inlinable(v, name, inlined);
         } else {
-            result = getattro(v, name);
+            result = _PyType_Call_tp_getattro(tp, v, name);
         }
     }
     else if (tp->tp_getattr != NULL) {
@@ -1390,7 +1390,7 @@ PyObject_GetOptionalAttr(PyObject *v, PyObject *name, PyObject **result)
         return 0;
     }
     else if (tp->tp_getattro != NULL) {
-        *result = (*tp->tp_getattro)(v, name);
+        *result = _PyType_Call_tp_getattro(tp, v, name);
     }
     else if (tp->tp_getattr != NULL) {
         const char *name_str = PyUnicode_AsUTF8(name);

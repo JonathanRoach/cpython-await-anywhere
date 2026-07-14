@@ -488,4 +488,5 @@ PyTypeObject _PyInstructionSequence_Type = {
     0,                                      /* tp_alloc */
     inst_seq_new,                           /* tp_new */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
 };

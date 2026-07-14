@@ -923,6 +923,7 @@ PyTypeObject PyFrameLocalsProxy_Type = {
     .tp_as_sequence = &framelocalsproxy_as_sequence,
     .tp_as_mapping = &framelocalsproxy_as_mapping,
     .tp_getattro = PyObject_GenericGetAttr,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_setattro = PyObject_GenericSetAttr,
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_MAPPING,
     .tp_traverse = framelocalsproxy_visit,
@@ -2112,6 +2113,7 @@ PyTypeObject PyFrame_Type = {
     0,                                          /* tp_dict */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
 };
 
 static void

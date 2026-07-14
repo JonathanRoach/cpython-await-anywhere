@@ -521,6 +521,7 @@ PyTypeObject _PyUnion_Type = {
     .tp_hash = union_hash,
     .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
     .tp_getattro = union_getattro,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_members = union_members,
     .tp_methods = union_methods,
     .tp_richcompare = union_richcompare,

@@ -985,13 +985,17 @@ PyTypeObject Py_GenericAliasType = {
     .tp_doc = genericalias__doc__,
     .tp_basicsize = sizeof(gaobject),
     .tp_dealloc = ga_dealloc,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_repr = ga_repr,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_as_number = &ga_as_number,  // allow X | Y of GenericAlias objs
     .tp_as_mapping = &ga_as_mapping,
     .tp_hash = ga_hash,
+    .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
     .tp_call = ga_call,
     .tp_functionflags[_PyFunctionIndex_tp_call] = Py_FNFLAGS_FRUGAL,
     .tp_getattro = ga_getattro,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_VECTORCALL,
     .tp_traverse = ga_traverse,
     .tp_richcompare = ga_richcompare,
@@ -1005,9 +1009,6 @@ PyTypeObject Py_GenericAliasType = {
     .tp_iter = ga_iter,
     .tp_vectorcall_offset = offsetof(gaobject, vectorcall),
     .tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset] = Py_FNFLAGS_FRUGAL,
-    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
-    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
-    .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
 };
 
 PyObject *

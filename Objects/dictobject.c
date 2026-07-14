@@ -4980,6 +4980,7 @@ PyTypeObject PyDict_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
 };
 
 /* For backward compatibility with old dictionary interface */
@@ -5290,6 +5291,7 @@ PyTypeObject PyDictIterKey_Type = {
     dictiter_methods,                           /* tp_methods */
     0,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
 };
 
 #ifndef Py_GIL_DISABLED
@@ -5414,6 +5416,7 @@ PyTypeObject PyDictIterValue_Type = {
     dictiter_methods,                           /* tp_methods */
     0,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
 };
 
 static int
@@ -5724,6 +5727,7 @@ PyTypeObject PyDictIterItem_Type = {
     dictiter_methods,                           /* tp_methods */
     0,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -6513,6 +6517,7 @@ PyTypeObject PyDictKeys_Type = {
     .tp_getset = dictview_getset,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
 };
 
 /*[clinic input]
@@ -6628,6 +6633,7 @@ PyTypeObject PyDictItems_Type = {
     .tp_getset = dictview_getset,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
 };
 
 /*[clinic input]
@@ -6721,6 +6727,7 @@ PyTypeObject PyDictValues_Type = {
     .tp_getset = dictview_getset,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
 };
 
 /*[clinic input]

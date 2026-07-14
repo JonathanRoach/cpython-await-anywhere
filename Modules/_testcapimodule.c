@@ -212,6 +212,7 @@ static PyTypeObject _HashInheritanceTester_Type = {
     0,                          /* tp_alloc */
     PyType_GenericNew,                  /* tp_new */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject*
@@ -2747,6 +2748,7 @@ static PyTypeObject matmulType = {
     PyType_GenericNew,                  /* tp_new */
     PyObject_Free,                      /* tp_free */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
 };
 
 typedef struct {
@@ -2863,6 +2865,7 @@ static PyTypeObject awaitType = {
     awaitObject_new,                    /* tp_new */
     PyObject_Free,                      /* tp_free */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
 };
 
 

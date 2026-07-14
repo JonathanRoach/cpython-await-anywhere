@@ -15837,6 +15837,7 @@ PyTypeObject PyUnicode_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_str] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
 };
 
 /* Initialize the Unicode implementation */
@@ -16418,6 +16419,7 @@ PyTypeObject PyUnicodeIter_Type = {
     unicodeiter_methods,            /* tp_methods */
     0,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
 };
 
 PyTypeObject _PyUnicodeASCIIIter_Type = {
@@ -16427,6 +16429,7 @@ PyTypeObject _PyUnicodeASCIIIter_Type = {
     .tp_dealloc = unicodeiter_dealloc,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_getattro = PyObject_GenericGetAttr,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
     .tp_traverse = unicodeiter_traverse,
     .tp_iter = PyObject_SelfIter,

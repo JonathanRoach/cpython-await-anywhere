@@ -193,6 +193,7 @@ static PyTypeObject test_structmembersType_OldAPI= {
     0,
     test_structmembers_new,             /* tp_new */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
 };
 
 

@@ -145,6 +145,7 @@ static PyTypeObject Xxo_Type = {
     0,                          /*tp_is_gc*/
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_setattr] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
 };
 /* --------------------------------------------------------------------- */
 

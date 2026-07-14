@@ -1849,6 +1849,7 @@ PyTypeObject PyODictIter_Type = {
     odictiter_methods,                        /* tp_methods */
     0,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *

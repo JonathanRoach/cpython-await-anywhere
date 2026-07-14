@@ -7063,6 +7063,7 @@ PyTypeObject PyType_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_call] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -8309,6 +8310,7 @@ PyTypeObject PyBaseObject_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_str] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -10850,6 +10852,7 @@ _PyType_Slot_tp_getattr_hook_inlinable(PyObject *self, PyObject *name,
     if (getattr == NULL) {
         /* No __getattr__ hook: use a simpler dispatcher */
         tp->tp_getattro = _PyType_Slot_tp_getattro;
+        tp->tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL;
         return _PyType_Slot_tp_getattro_inlinable(self, name, inlined);
     }
     /* speed hack: we could use lookup_maybe, but that would resolve the
@@ -13070,6 +13073,7 @@ PyTypeObject PySuper_Type = {
     .tp_vectorcall = super_vectorcall,
     .tp_functionflags[_PyFunctionIndex_tp_vectorcall] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
 };
 
 #define PyType_CallTypeFunction2(RT, KIND, SLOT, T0, T1) \
@@ -13189,3 +13193,4 @@ RT _PyType_Call_##KIND##_##SLOT( \
 PyType_CallTypeFunction4(PyObject *, tp, vectorcall, PyObject *, PyObject *const *, size_t, PyObject *)
 PyType_CallTypeFunction2(PyObject *, tp, getattr, PyObject *, char *)
 PyType_CallTypeFunction3(int, tp, setattr, PyObject *, char *, PyObject *)
+PyType_CallTypeFunction2(PyObject *, tp, getattro, PyObject *, char *)

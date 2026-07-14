@@ -822,6 +822,7 @@ PyTypeObject PyRange_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
 };
 
 /*********************** range Iterator **************************/
@@ -950,6 +951,7 @@ PyTypeObject PyRangeIter_Type = {
     rangeiter_methods,                      /* tp_methods */
     0,                                      /* tp_members */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
 };
 
 /* Return number of items in range (lo, hi, step).  step != 0
@@ -1155,6 +1157,7 @@ PyTypeObject PyLongRangeIter_Type = {
     longrangeiter_methods,                  /* tp_methods */
     0,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *
