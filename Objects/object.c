@@ -1487,7 +1487,7 @@ _PyObject_SetAttrInlinable(PyObject *v, PyObject *name, PyObject *value,
         else if (inlined && tp->tp_setattro == _PyType_Slot_tp_setattro){
             err = _PyType_Slot_tp_setattro_inlinable(v, name, value, inlined);
         } else {
-            err = (*tp->tp_setattro)(v, name, value);
+            err = _PyType_Call_tp_setattro(tp, v, name, value);
         }
         Py_DECREF(name);
         return err;

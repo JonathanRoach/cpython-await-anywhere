@@ -361,6 +361,7 @@ PyTypeObject PyMethod_Type = {
     .tp_getattro = method_getattro,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_setattro = PyObject_GenericSetAttr,
+    .tp_functionflags[_PyFunctionIndex_tp_setattro] = Py_FNFLAGS_FRUGAL,
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
                 Py_TPFLAGS_HAVE_VECTORCALL,
     .tp_doc = method_new__doc__,
@@ -567,6 +568,7 @@ PyTypeObject PyInstanceMethod_Type = {
     .tp_getattro = instancemethod_getattro,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_setattro = PyObject_GenericSetAttr,
+    .tp_functionflags[_PyFunctionIndex_tp_setattro] = Py_FNFLAGS_FRUGAL,
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
     .tp_doc = instancemethod_new__doc__,
     .tp_traverse = instancemethod_traverse,

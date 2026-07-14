@@ -7064,6 +7064,7 @@ PyTypeObject PyType_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_call] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_setattro] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -8311,6 +8312,7 @@ PyTypeObject PyBaseObject_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_str] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_setattro] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -13193,4 +13195,5 @@ RT _PyType_Call_##KIND##_##SLOT( \
 PyType_CallTypeFunction4(PyObject *, tp, vectorcall, PyObject *, PyObject *const *, size_t, PyObject *)
 PyType_CallTypeFunction2(PyObject *, tp, getattr, PyObject *, char *)
 PyType_CallTypeFunction3(int, tp, setattr, PyObject *, char *, PyObject *)
-PyType_CallTypeFunction2(PyObject *, tp, getattro, PyObject *, char *)
+PyType_CallTypeFunction2(PyObject *, tp, getattro, PyObject *, PyObject *)
+PyType_CallTypeFunction3(int, tp, setattro, PyObject *, PyObject *, PyObject *)
