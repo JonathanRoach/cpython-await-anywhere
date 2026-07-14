@@ -15836,6 +15836,7 @@ PyTypeObject PyUnicode_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_str] = Py_FNFLAGS_FRUGAL,
 };
 
 /* Initialize the Unicode implementation */

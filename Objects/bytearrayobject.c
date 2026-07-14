@@ -2876,6 +2876,7 @@ PyTypeObject PyByteArray_Type = {
     .tp_version_tag = _Py_TYPE_VERSION_BYTEARRAY,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_str] = Py_FNFLAGS_FRUGAL,
 };
 
 /*********************** Bytearray Iterator ****************************/

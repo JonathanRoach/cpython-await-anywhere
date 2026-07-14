@@ -105,6 +105,7 @@ static PyTypeObject PyCodeLike_Type = {
     .tp_flags = Py_TPFLAGS_DEFAULT,
     .tp_new = CodeLike_new,
     .tp_dealloc = CodeLike_dealloc,
+    .tp_functionflags[_PyFunctionIndex_tp_str] = Py_FNFLAGS_FRUGAL,
     .tp_str = CodeLike_str,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
