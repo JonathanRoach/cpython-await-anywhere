@@ -990,6 +990,7 @@ PyTypeObject Py_GenericAliasType = {
     .tp_as_mapping = &ga_as_mapping,
     .tp_hash = ga_hash,
     .tp_call = ga_call,
+    .tp_functionflags[_PyFunctionIndex_tp_call] = Py_FNFLAGS_FRUGAL,
     .tp_getattro = ga_getattro,
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_VECTORCALL,
     .tp_traverse = ga_traverse,

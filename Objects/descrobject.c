@@ -324,6 +324,7 @@ method_vectorcall_VARARGS(
         return NULL;
     }
     PyObject *result = _PyCFunction_TrampolineCall(
+        ((PyMethodDescrObject *)func)->d_method->ml_flags & METH_C_STACK_FRUGAL,
         meth, args[0], argstuple);
     Py_DECREF(argstuple);
     _Py_LeaveRecursiveCallTstate(tstate);
@@ -358,6 +359,7 @@ method_vectorcall_VARARGS_KEYWORDS(
         goto exit;
     }
     result = _PyCFunctionWithKeywords_TrampolineCall(
+        ((PyMethodDescrObject *)func)->d_method->ml_flags & METH_C_STACK_FRUGAL,
         meth, args[0], argstuple, kwdict);
     _Py_LeaveRecursiveCallTstate(tstate);
 exit:
@@ -446,7 +448,9 @@ method_vectorcall_NOARGS(
     if (meth == NULL) {
         return NULL;
     }
-    PyObject *result = _PyCFunction_TrampolineCall(meth, args[0], NULL);
+    PyObject *result = _PyCFunction_TrampolineCall(
+        ((PyMethodDescrObject *)func)->d_method->ml_flags & METH_C_STACK_FRUGAL,
+        meth, args[0], NULL);
     _Py_LeaveRecursiveCallTstate(tstate);
     return result;
 }
@@ -474,7 +478,9 @@ method_vectorcall_O(
     if (meth == NULL) {
         return NULL;
     }
-    PyObject *result = _PyCFunction_TrampolineCall(meth, args[0], args[1]);
+    PyObject *result = _PyCFunction_TrampolineCall(
+        ((PyMethodDescrObject *)func)->d_method->ml_flags & METH_C_STACK_FRUGAL,
+        meth, args[0], args[1]);
     _Py_LeaveRecursiveCallTstate(tstate);
     return result;
 }
@@ -755,6 +761,7 @@ PyTypeObject PyMethodDescr_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_call] = Py_FNFLAGS_FRUGAL,
 };
 
 /* This is for METH_CLASS in C, not for "f = classmethod(f)" in Python! */
@@ -795,6 +802,7 @@ PyTypeObject PyClassMethodDescr_Type = {
     0,                                          /* tp_descr_set */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_call] = Py_FNFLAGS_FRUGAL,
 };
 
 PyTypeObject PyMemberDescr_Type = {
@@ -913,6 +921,7 @@ PyTypeObject PyWrapperDescr_Type = {
     0,                                          /* tp_descr_set */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_call] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyDescrObject *
@@ -1505,6 +1514,7 @@ PyTypeObject _PyMethodWrapper_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_call] = Py_FNFLAGS_FRUGAL,
 };
 
 PyObject *

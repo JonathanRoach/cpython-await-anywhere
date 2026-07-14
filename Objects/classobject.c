@@ -349,10 +349,15 @@ PyTypeObject PyMethod_Type = {
     .tp_name = "method",
     .tp_basicsize = sizeof(PyMethodObject),
     .tp_dealloc = method_dealloc,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_vectorcall_offset = offsetof(PyMethodObject, vectorcall),
+    .tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset] = Py_FNFLAGS_FRUGAL,
     .tp_repr = method_repr,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_hash = method_hash,
+    .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
     .tp_call = PyVectorcall_Call,
+    .tp_functionflags[_PyFunctionIndex_tp_call] = Py_FNFLAGS_FRUGAL,
     .tp_getattro = method_getattro,
     .tp_setattro = PyObject_GenericSetAttr,
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
@@ -366,10 +371,6 @@ PyTypeObject PyMethod_Type = {
     .tp_getset = method_getset,
     .tp_descr_get = method_descr_get,
     .tp_new = method_new,
-    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
-    .tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset] = Py_FNFLAGS_FRUGAL,
-    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
-    .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
 };
 
 /* ------------------------------------------------------------------------
@@ -557,8 +558,11 @@ PyTypeObject PyInstanceMethod_Type = {
     .tp_name = "instancemethod",
     .tp_basicsize = sizeof(PyInstanceMethodObject),
     .tp_dealloc = instancemethod_dealloc,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_repr = instancemethod_repr,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_call = instancemethod_call,
+    .tp_functionflags[_PyFunctionIndex_tp_call] = Py_FNFLAGS_FRUGAL,
     .tp_getattro = instancemethod_getattro,
     .tp_setattro = PyObject_GenericSetAttr,
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
@@ -569,6 +573,4 @@ PyTypeObject PyInstanceMethod_Type = {
     .tp_getset = instancemethod_getset,
     .tp_descr_get = instancemethod_descr_get,
     .tp_new = instancemethod_new,
-    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
-    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
 };

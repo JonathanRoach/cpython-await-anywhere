@@ -218,7 +218,8 @@ _PyObject_MakeTpCall(PyThreadState *tstate, PyObject *callable,
 
     /* Slow path: build a temporary tuple for positional arguments and a
      * temporary dictionary for keyword arguments (if any) */
-    ternaryfunc call = Py_TYPE(callable)->tp_call;
+    PyTypeObject *tp = Py_TYPE(callable);
+    ternaryfunc call = tp->tp_call;
     if (call == NULL) {
         object_is_not_callable(tstate, callable);
         return NULL;
@@ -250,7 +251,7 @@ _PyObject_MakeTpCall(PyThreadState *tstate, PyObject *callable,
     PyObject *result = NULL;
     if (_Py_EnterRecursiveCallTstate(tstate, " while calling a Python object") == 0)
     {
-        result = _PyCFunctionWithKeywords_TrampolineCall(
+        result = _PyCFunctionWithKeywords_TrampolineCall(PYTYPE_SLOTISFRUGAL(tp, tp, call),
             (PyCFunctionWithKeywords)call, callable, argstuple, kwdict);
         _Py_LeaveRecursiveCallTstate(tstate);
     }
@@ -383,12 +384,9 @@ PyObject_Vectorcall(PyObject *callable, PyObject *const *args,
 }
 
 
-_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(static, PyObject *, doternarycall, ternaryfunc, PyObject *, PyObject *, PyObject *)
-static inline PyObject *doternarycall(ternaryfunc call, PyObject *callable, PyObject *args, PyObject *kwargs){
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(NULL, PyObject *, doternarycall, call, callable, args, kwargs)
+_PY_MAX_STACK_FOR_CALL_IF_4(static, PyObject *, doternarycall, ternaryfunc, call, PyObject *, callable, PyObject *, args, PyObject *, kwargs)
     return (*call)(callable, args, kwargs);
 }
-
 
 PyObject *
 _PyObject_Call(PyThreadState *tstate, PyObject *callable,
@@ -409,7 +407,8 @@ _PyObject_Call(PyThreadState *tstate, PyObject *callable,
         return _PyVectorcall_Call(vector_func, callable, args, kwargs);
     }
     else {
-        call = Py_TYPE(callable)->tp_call;
+        PyTypeObject *tp = Py_TYPE(callable);
+        call = tp->tp_call;
         if (call == NULL) {
             object_is_not_callable(tstate, callable);
             return NULL;
@@ -419,7 +418,7 @@ _PyObject_Call(PyThreadState *tstate, PyObject *callable,
             return NULL;
         }
 
-        result = doternarycall(call, callable, args, kwargs);
+        result = doternarycall(PYTYPE_SLOTISFRUGAL(tp, tp, call), call, callable, args, kwargs);
 
         _Py_LeaveRecursiveCallTstate(tstate);
 

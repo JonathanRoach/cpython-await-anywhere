@@ -325,6 +325,7 @@ static PyTypeObject MethodDescriptorBase_Type = {
     sizeof(MethodDescriptorObject),
     .tp_new = MethodDescriptor_new,
     .tp_call = PyVectorcall_Call,
+    .tp_functionflags[_PyFunctionIndex_tp_call] = Py_FNFLAGS_FRUGAL,
     .tp_vectorcall_offset = offsetof(MethodDescriptorObject, vectorcall),
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE |
                 Py_TPFLAGS_METHOD_DESCRIPTOR | Py_TPFLAGS_HAVE_VECTORCALL,
@@ -343,6 +344,7 @@ static PyTypeObject MethodDescriptorNopGet_Type = {
     "MethodDescriptorNopGet",
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
     .tp_call = call_return_args,
+    .tp_functionflags[_PyFunctionIndex_tp_call] = Py_FNFLAGS_FRUGAL,
     .tp_descr_get = nop_descr_get,
 };
 
@@ -369,6 +371,7 @@ static PyTypeObject MethodDescriptor2_Type = {
     sizeof(MethodDescriptor2Object),
     .tp_new = MethodDescriptor2_new,
     .tp_call = PyVectorcall_Call,
+    .tp_functionflags[_PyFunctionIndex_tp_call] = Py_FNFLAGS_FRUGAL,
     .tp_vectorcall_offset = offsetof(MethodDescriptor2Object, vectorcall),
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE | Py_TPFLAGS_HAVE_VECTORCALL,
     .tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset] = Py_FNFLAGS_FRUGAL,

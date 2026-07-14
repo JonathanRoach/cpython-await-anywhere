@@ -5729,7 +5729,9 @@
             PyCFunction cfunc = PyCFunction_GET_FUNCTION(callable_o);
             _PyStackRef arg = args[0];
             _PyFrame_SetStackPointer(frame, stack_pointer);
-            PyObject *res_o = _PyCFunction_TrampolineCall(cfunc, PyCFunction_GET_SELF(callable_o), PyStackRef_AsPyObjectBorrow(arg));
+            PyObject *res_o = _PyCFunction_TrampolineCall(
+                PyCFunction_GET_FLAGS(callable_o) & METH_C_STACK_FRUGAL,
+                cfunc, PyCFunction_GET_SELF(callable_o), PyStackRef_AsPyObjectBorrow(arg));
             stack_pointer = _PyFrame_GetStackPointer(frame);
             _Py_LeaveRecursiveCallTstate(tstate);
             assert((res_o != NULL) ^ (_PyErr_Occurred(tstate) != NULL));
@@ -6123,7 +6125,9 @@
             STAT_INC(CALL, hit);
             PyCFunction cfunc = meth->ml_meth;
             _PyFrame_SetStackPointer(frame, stack_pointer);
-            PyObject *res_o = _PyCFunction_TrampolineCall(cfunc,
+            PyObject *res_o = _PyCFunction_TrampolineCall(
+                meth->ml_flags & METH_C_STACK_FRUGAL,
+                cfunc,
                 PyStackRef_AsPyObjectBorrow(self_stackref),
                 PyStackRef_AsPyObjectBorrow(arg_stackref));
             stack_pointer = _PyFrame_GetStackPointer(frame);
@@ -6296,7 +6300,9 @@
             STAT_INC(CALL, hit);
             PyCFunction cfunc = meth->ml_meth;
             _PyFrame_SetStackPointer(frame, stack_pointer);
-            PyObject *res_o = _PyCFunction_TrampolineCall(cfunc, self, NULL);
+            PyObject *res_o = _PyCFunction_TrampolineCall(
+                meth->ml_flags & METH_C_STACK_FRUGAL,
+                cfunc, self, NULL);
             stack_pointer = _PyFrame_GetStackPointer(frame);
             _Py_LeaveRecursiveCallTstate(tstate);
             assert((res_o != NULL) ^ (_PyErr_Occurred(tstate) != NULL));

@@ -513,4 +513,80 @@ static void *Do_##fn(void *_params) { \
 } \
 static r_t Actual_##fn(p0_t p0, p1_t p1, p2_t p2, p3_t p3, p4_t p4, p5_t p5, p6_t p6) {
 
+#define _PY_MAX_STACK_FOR_CALL_IF_3(decl, r_t, fn, p0_t, p0, p1_t, p1, p2_t, p2) \
+struct Do_Call_Params_##fn { \
+    p0_t v0; \
+    p1_t v1; \
+    p2_t v2; \
+}; \
+static r_t Do_##fn(struct Do_Call_Params_##fn *params); \
+decl r_t fn(bool frugal, p0_t v0, p1_t v1, p2_t v2) { \
+    void *ret; \
+ \
+    struct Do_Call_Params_##fn params = { v0, v1, v2 }; \
+    if (frugal || \
+        _Py_Coroutine_CallWithMaxStack((Coroutine_Start)Do_##fn, &params, &ret)){ \
+        ret = (void *)(uintptr_t)Do_##fn(&params); \
+    } \
+    return (r_t)(uintptr_t)ret; \
+} \
+static r_t Do_##fn(struct Do_Call_Params_##fn *params) { \
+    p0_t p0 = params->v0; \
+    p1_t p1 = params->v1; \
+    p2_t p2 = params->v2;
+
+#define _PY_MAX_STACK_FOR_CALL_IF_4(decl, r_t, fn, p0_t, p0, p1_t, p1, p2_t, p2, p3_t, p3) \
+struct Do_Call_Params_##fn { \
+    p0_t v0; \
+    p1_t v1; \
+    p2_t v2; \
+    p3_t v3; \
+}; \
+static r_t Do_##fn(struct Do_Call_Params_##fn *params); \
+decl r_t fn(bool frugal, p0_t v0, p1_t v1, p2_t v2, p3_t v3) { \
+    void *ret; \
+ \
+    struct Do_Call_Params_##fn params = { v0, v1, v2, v3 }; \
+    if (frugal || \
+        _Py_Coroutine_CallWithMaxStack((Coroutine_Start)Do_##fn, &params, &ret)){ \
+        ret = (void *)(uintptr_t)Do_##fn(&params); \
+    } \
+    return (r_t)(uintptr_t)ret; \
+} \
+static r_t Do_##fn(struct Do_Call_Params_##fn *params) { \
+    p0_t p0 = params->v0; \
+    p1_t p1 = params->v1; \
+    p2_t p2 = params->v2; \
+    p3_t p3 = params->v3;
+
+#define _PY_MAX_STACK_FOR_CALL_IF_7(decl, r_t, fn, p0_t, p0, p1_t, p1, p2_t, p2, p3_t, p3, p4_t, p4, p5_t, p5, p6_t, p6) \
+struct Do_Call_Params_##fn { \
+    p0_t v0; \
+    p1_t v1; \
+    p2_t v2; \
+    p3_t v3; \
+    p4_t v4; \
+    p5_t v5; \
+    p6_t v6; \
+}; \
+static r_t Do_##fn(struct Do_Call_Params_##fn *params); \
+decl r_t fn(bool frugal, p0_t v0, p1_t v1, p2_t v2, p3_t v3, p4_t v4, p5_t v5, p6_t v6) { \
+    void *ret; \
+ \
+    struct Do_Call_Params_##fn params = { v0, v1, v2, v3, v4, v5, v6 }; \
+    if (frugal || \
+        _Py_Coroutine_CallWithMaxStack((Coroutine_Start)Do_##fn, &params, &ret)){ \
+        ret = (void *)(uintptr_t)Do_##fn(&params); \
+    } \
+    return (r_t)(uintptr_t)ret; \
+} \
+static r_t Do_##func(struct Do_Call_Params_##fn *params) { \
+    p0_t p0 = params->v0; \
+    p1_t p1 = params->v1; \
+    p2_t p2 = params->v2; \
+    p3_t p3 = params->v3; \
+    p4_t p4 = params->v4; \
+    p5_t p5 = params->v5; \
+    p6_t p6 = params->v6;
+
 #endif

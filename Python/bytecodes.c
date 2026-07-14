@@ -4317,7 +4317,9 @@ dummy_func(
             STAT_INC(CALL, hit);
             PyCFunction cfunc = PyCFunction_GET_FUNCTION(callable_o);
             _PyStackRef arg = args[0];
-            PyObject *res_o = _PyCFunction_TrampolineCall(cfunc, PyCFunction_GET_SELF(callable_o), PyStackRef_AsPyObjectBorrow(arg));
+            PyObject *res_o = _PyCFunction_TrampolineCall(
+                PyCFunction_GET_FLAGS(callable_o) & METH_C_STACK_FRUGAL,
+                cfunc, PyCFunction_GET_SELF(callable_o), PyStackRef_AsPyObjectBorrow(arg));
             _Py_LeaveRecursiveCallTstate(tstate);
             assert((res_o != NULL) ^ (_PyErr_Occurred(tstate) != NULL));
 
@@ -4530,9 +4532,11 @@ dummy_func(
                                  method->d_common.d_type));
             STAT_INC(CALL, hit);
             PyCFunction cfunc = meth->ml_meth;
-            PyObject *res_o = _PyCFunction_TrampolineCall(cfunc,
-                                  PyStackRef_AsPyObjectBorrow(self_stackref),
-                                  PyStackRef_AsPyObjectBorrow(arg_stackref));
+            PyObject *res_o = _PyCFunction_TrampolineCall(
+                                meth->ml_flags & METH_C_STACK_FRUGAL,
+                                cfunc,
+                                PyStackRef_AsPyObjectBorrow(self_stackref),
+                                PyStackRef_AsPyObjectBorrow(arg_stackref));
             _Py_LeaveRecursiveCallTstate(tstate);
             assert((res_o != NULL) ^ (_PyErr_Occurred(tstate) != NULL));
             DECREF_INPUTS();
@@ -4609,7 +4613,9 @@ dummy_func(
             EXIT_IF(_Py_ReachedRecursionLimit(tstate));
             STAT_INC(CALL, hit);
             PyCFunction cfunc = meth->ml_meth;
-            PyObject *res_o = _PyCFunction_TrampolineCall(cfunc, self, NULL);
+            PyObject *res_o = _PyCFunction_TrampolineCall(
+                meth->ml_flags & METH_C_STACK_FRUGAL,
+                cfunc, self, NULL);
             _Py_LeaveRecursiveCallTstate(tstate);
             assert((res_o != NULL) ^ (_PyErr_Occurred(tstate) != NULL));
             PyStackRef_CLOSE(self_stackref);

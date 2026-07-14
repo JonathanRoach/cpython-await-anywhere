@@ -224,6 +224,8 @@ _PyType_CallFunction(PyTypeObject *tp, Coroutine_Start fn, void *param, unsigned
         (tp)->PYTYPE_SLOTLOC_##KIND KIND##_functionflags, \
         _PyFunctionIndex_##KIND##_##SLOT)
 
+#define PYTYPE_SLOTISFRUGAL(tp, KIND, SLOT) \
+        ((((tp)->tp_flags & Py_TPFLAGS_IS_EXTENDED ? (tp)->PYTYPE_SLOTLOC_##KIND KIND##_functionflags[_PyFunctionIndex_##KIND##_##SLOT] : 0) & Py_FNFLAGS_FRUGAL) != 0)
 
 #ifdef __cplusplus
 }

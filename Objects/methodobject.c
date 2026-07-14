@@ -416,6 +416,7 @@ PyTypeObject PyCFunction_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_call] = Py_FNFLAGS_FRUGAL,
 };
 
 PyTypeObject PyCMethod_Type = {
@@ -593,29 +594,12 @@ cfunction_vectorcall_FASTCALL_KEYWORDS_METHOD(
     return result;
 }
 
-_PY_ENSURE_STACK_FOR_FN2_A(PyObject *, docfunction_vectorcall_NOARGS, PyCFunction, PyObject*)
 static inline PyObject *docfunction_vectorcall_NOARGS(
     PyCFunction meth, PyObject *func_obj)
 {
-    PyCFunctionObject *func = _PyCFunctionObject_CAST(func_obj);
-    size_t stack_needed;
-    if (func->m_ml->ml_flags & METH_C_STACK_FRUGAL) {
-        stack_needed = PYOS_STACK_MARGIN_BYTES;
-    } else {
-#ifndef NDEBUG
-        if (func->m_ml->ml_flags & METH_C_STACK_MEASURE){
-            stack_needed = 1024*1024;
-        } else {
-            stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
-        }
-#else
-        stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
-#endif
-    }
-    _PY_ENSURE_STACK_FOR_FN2_B(stack_needed, NULL, PyObject *, docfunction_vectorcall_NOARGS,
-        PyCFunction, meth, PyObject *, func_obj)
     PyObject *ret;
     MeasureCStackUsage(_PyCFunctionObject_CAST(func_obj)->m_ml->ml_flags, _PyCFunctionObject_CAST(func_obj)->m_ml->ml_name, _PyCFunction_TrampolineCall(
+        PyCFunction_GET_FLAGS(func_obj) & METH_C_STACK_FRUGAL,
         meth, PyCFunction_GET_SELF(func_obj), NULL));
     CheckCoroutineIntegrity(func_obj);
     return ret;
@@ -648,29 +632,12 @@ cfunction_vectorcall_NOARGS(
     return result;
 }
 
-_PY_ENSURE_STACK_FOR_FN3_A(PyObject *, docfunction_vectorcall_O, PyCFunction, PyObject*, PyObject*)
 static inline PyObject *docfunction_vectorcall_O(
     PyCFunction meth, PyObject *func_obj, PyObject *arg)
 {
-    PyCFunctionObject *func = _PyCFunctionObject_CAST(func_obj);
-    size_t stack_needed;
-    if (func->m_ml->ml_flags & METH_C_STACK_FRUGAL) {
-        stack_needed = PYOS_STACK_MARGIN_BYTES;
-    } else {
-#ifndef NDEBUG
-        if (func->m_ml->ml_flags & METH_C_STACK_MEASURE){
-            stack_needed = 1024*1024;
-        } else {
-            stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
-        }
-#else
-        stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
-#endif
-    }
-    _PY_ENSURE_STACK_FOR_FN3_B(stack_needed, NULL, PyObject *, docfunction_vectorcall_O,
-        PyCFunction, meth, PyObject *, func_obj, PyObject *, arg)
     PyObject *ret;
     MeasureCStackUsage(_PyCFunctionObject_CAST(func_obj)->m_ml->ml_flags, _PyCFunctionObject_CAST(func_obj)->m_ml->ml_name, _PyCFunction_TrampolineCall(
+        PyCFunction_GET_FLAGS(func_obj) & METH_C_STACK_FRUGAL,
         meth, PyCFunction_GET_SELF(func_obj), arg));
     CheckCoroutineIntegrity(func_obj);
     return ret;
@@ -770,6 +737,7 @@ Do_cfunction_call(void *_params)
     PyObject *ret;
     if (flags & METH_KEYWORDS) {
         MeasureCStackUsage(flags, _PyCFunctionObject_CAST(func)->m_ml->ml_name, _PyCFunctionWithKeywords_TrampolineCall(
+            flags & METH_C_STACK_FRUGAL,
             *_PyCFunctionWithKeywords_CAST(meth),
             self, args, kwargs));
     }
@@ -780,7 +748,9 @@ Do_cfunction_call(void *_params)
                           ((PyCFunctionObject*)func)->m_ml->ml_name);
             return NULL;
         }
-        MeasureCStackUsage(flags, _PyCFunctionObject_CAST(func)->m_ml->ml_name, _PyCFunction_TrampolineCall(meth, self, args));
+        MeasureCStackUsage(flags, _PyCFunctionObject_CAST(func)->m_ml->ml_name, _PyCFunction_TrampolineCall(
+            flags & METH_C_STACK_FRUGAL,
+            meth, self, args));
     }
     CheckCoroutineIntegrity(func);
     return _Py_CheckFunctionResult(tstate, func, ret, NULL);

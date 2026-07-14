@@ -504,6 +504,7 @@ _PyWeakref_RefType = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_vectorcall_offset = offsetof(PyWeakReference, vectorcall),
     .tp_call = PyVectorcall_Call,
+    .tp_functionflags[_PyFunctionIndex_tp_call] = Py_FNFLAGS_FRUGAL,
     .tp_repr = weakref_repr,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_hash = weakref_hash,
@@ -920,6 +921,7 @@ _PyWeakref_CallableProxyType = {
     proxy_iternext,                     /* tp_iternext */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_call] = Py_FNFLAGS_FRUGAL,
 };
 
 PyObject *
