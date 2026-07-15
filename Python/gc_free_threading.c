@@ -1670,7 +1670,7 @@ delete_garbage(struct collection_state *state)
         else {
             inquiry clear = Py_TYPE(op)->tp_clear;
             if (clear != NULL) {
-                (void) clear(op);
+                (void) PYTYPE_CALLFUNCTION(Py_Type(op), tp, clear, op);
                 if (_PyErr_Occurred(tstate)) {
                     PyErr_FormatUnraisable("Exception ignored in tp_clear of %s",
                                            Py_TYPE(op)->tp_name);

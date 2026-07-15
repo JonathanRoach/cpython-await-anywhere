@@ -2512,6 +2512,7 @@ hamt_baseiter_new(PyTypeObject *type, binaryfunc yield, PyHamtObject *o)
     .tp_traverse = hamt_baseiter_tp_traverse,                   \
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL, \
     .tp_clear = hamt_baseiter_tp_clear,                         \
+    .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL, \
     .tp_iter = PyObject_SelfIter,                               \
     .tp_iternext = hamt_baseiter_tp_iternext,
 
@@ -2825,6 +2826,7 @@ PyTypeObject _PyHamt_Type = {
     .tp_traverse = hamt_tp_traverse,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_clear = hamt_tp_clear,
+    .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
     .tp_new = hamt_tp_new,
     .tp_weaklistoffset = offsetof(PyHamtObject, h_weakreflist),
     .tp_hash = PyObject_HashNotImplemented,

@@ -1880,7 +1880,7 @@ FutureIter_dealloc(PyObject *it)
     assert(_PyType_HasFeature(tp, Py_TPFLAGS_HEAPTYPE));
 
     PyObject_GC_UnTrack(it);
-    tp->tp_clear(it);
+    PYTYPE_CALLFUNCTION(tp, tp, clear, it);
 
     if (!_Py_FREELIST_PUSH(futureiters, it, Py_futureiters_MAXFREELIST)) {
         PyObject_GC_Del(it);

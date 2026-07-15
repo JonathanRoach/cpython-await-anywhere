@@ -31,6 +31,7 @@
 #include "util.h"
 
 #include "pycore_pyerrors.h"      // _PyErr_FormatFromCause()
+#include "pycore_typeobject.h"
 
 typedef enum {
     TYPE_LONG,
@@ -189,7 +190,7 @@ cursor_dealloc(PyObject *op)
     if (self->in_weakreflist != NULL) {
         PyObject_ClearWeakRefs(op);
     }
-    (void)tp->tp_clear(op);
+    (void)PYTYPE_CALLFUNCTION(tp, tp, clear, op);
     tp->tp_free(self);
     Py_DECREF(tp);
 }

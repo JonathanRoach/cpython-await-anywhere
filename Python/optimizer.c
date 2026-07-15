@@ -423,6 +423,7 @@ PyTypeObject _PyUOpExecutor_Type = {
     .tp_traverse = executor_traverse,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_clear = executor_clear,
+    .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
     .tp_is_gc = executor_is_gc,
 };
 

@@ -961,9 +961,10 @@ PyTypeObject _Py_GenericAliasIterType = {
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_methods = ga_iter_methods,
     .tp_dealloc = ga_iter_dealloc,
-    .tp_clear = ga_iter_clear,
-    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_clear = ga_iter_clear,
+    .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
+    .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
 };
 
 static PyObject *

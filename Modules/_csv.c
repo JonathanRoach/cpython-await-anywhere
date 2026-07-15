@@ -18,6 +18,7 @@ module instead.
 
 #include <stddef.h>               // offsetof()
 #include <stdbool.h>
+#include "pycore_typeobject.h"
 
 /*[clinic input]
 module _csv
@@ -393,7 +394,7 @@ Dialect_dealloc(PyObject *self)
 {
     PyTypeObject *tp = Py_TYPE(self);
     PyObject_GC_UnTrack(self);
-    tp->tp_clear((PyObject *)self);
+    PYTYPE_CALLFUNCTION(tp, tp, clear, (PyObject *)self);
     PyObject_GC_Del(self);
     Py_DECREF(tp);
 }
@@ -1001,7 +1002,7 @@ Reader_dealloc(PyObject *op)
     ReaderObj *self = _ReaderObj_CAST(op);
     PyTypeObject *tp = Py_TYPE(self);
     PyObject_GC_UnTrack(self);
-    (void)tp->tp_clear(op);
+    (void)PYTYPE_CALLFUNCTION(tp, tp, clear, op);
     if (self->field != NULL) {
         PyMem_Free(self->field);
         self->field = NULL;
@@ -1506,7 +1507,7 @@ Writer_dealloc(PyObject *op)
     WriterObj *self = _WriterObj_CAST(op);
     PyTypeObject *tp = Py_TYPE(self);
     PyObject_GC_UnTrack(self);
-    tp->tp_clear(op);
+    PYTYPE_CALLFUNCTION(tp, tp, clear, op);
     if (self->rec != NULL) {
         PyMem_Free(self->rec);
     }

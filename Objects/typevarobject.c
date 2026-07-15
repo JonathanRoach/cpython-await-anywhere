@@ -2255,6 +2255,7 @@ PyTypeObject _PyTypeAlias_Type = {
     .tp_iter = unpack_iter,
     .tp_traverse = typealias_traverse,
     .tp_clear = typealias_clear,
+    .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
     .tp_repr = typealias_repr,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_as_number = &typealias_as_number,

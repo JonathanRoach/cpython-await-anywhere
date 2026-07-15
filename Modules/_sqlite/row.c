@@ -31,6 +31,7 @@
 #define clinic_state() (pysqlite_get_state_by_type(type))
 #include "clinic/row.c.h"
 #undef clinic_state
+#include "pycore_typeobject.h"
 
 #define _pysqlite_Row_CAST(op)  ((pysqlite_Row *)(op))
 
@@ -64,7 +65,7 @@ pysqlite_row_dealloc(PyObject *self)
 {
     PyTypeObject *tp = Py_TYPE(self);
     PyObject_GC_UnTrack(self);
-    (void)tp->tp_clear(self);
+    (void)PYTYPE_CALLFUNCTION(tp, tp, clear, self);
     tp->tp_free(self);
     Py_DECREF(tp);
 }

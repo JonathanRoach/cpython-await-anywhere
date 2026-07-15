@@ -1139,7 +1139,7 @@ delete_garbage(PyThreadState *tstate, GCState *gcstate,
             inquiry clear;
             if ((clear = Py_TYPE(op)->tp_clear) != NULL) {
                 Py_INCREF(op);
-                (void) clear(op);
+                (void)PYTYPE_CALLFUNCTION(Py_TYPE(op), tp, clear, op);
                 if (_PyErr_Occurred(tstate)) {
                     PyErr_FormatUnraisable("Exception ignored in tp_clear of %s",
                                            Py_TYPE(op)->tp_name);

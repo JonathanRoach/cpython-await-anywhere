@@ -4,6 +4,7 @@
 #include "pycore_interpolation.h" // _PyInterpolation_CheckExact()
 #include "pycore_runtime.h"       // _Py_STR()
 #include "pycore_template.h"
+#include "pycore_typeobject.h"
 
 typedef struct {
     PyObject_HEAD
@@ -41,7 +42,7 @@ static void
 templateiter_dealloc(PyObject *op)
 {
     PyObject_GC_UnTrack(op);
-    Py_TYPE(op)->tp_clear(op);
+    PYTYPE_CALLFUNCTION(Py_TYPE(op), tp, clear, op);
     Py_TYPE(op)->tp_free(op);
 }
 
@@ -74,6 +75,7 @@ PyTypeObject _PyTemplateIter_Type = {
     .tp_dealloc = templateiter_dealloc,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_clear = templateiter_clear,
+    .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
     .tp_free = PyObject_GC_Del,
     .tp_traverse = templateiter_traverse,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
@@ -186,7 +188,7 @@ static void
 template_dealloc(PyObject *op)
 {
     PyObject_GC_UnTrack(op);
-    Py_TYPE(op)->tp_clear(op);
+    PYTYPE_CALLFUNCTION(Py_TYPE(op), tp, clear, op);
     Py_TYPE(op)->tp_free(op);
 }
 
@@ -467,6 +469,7 @@ PyTypeObject _PyTemplate_Type = {
     .tp_dealloc = template_dealloc,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_clear = template_clear,
+    .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
     .tp_free = PyObject_GC_Del,
     .tp_repr = template_repr,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,

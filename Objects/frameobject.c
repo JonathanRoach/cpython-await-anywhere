@@ -918,7 +918,9 @@ PyTypeObject PyFrameLocalsProxy_Type = {
     .tp_name = "FrameLocalsProxy",
     .tp_basicsize = sizeof(PyFrameLocalsProxyObject),
     .tp_dealloc = framelocalsproxy_dealloc,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_repr = &framelocalsproxy_repr,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_as_number = &framelocalsproxy_as_number,
     .tp_as_sequence = &framelocalsproxy_as_sequence,
     .tp_as_mapping = &framelocalsproxy_as_mapping,
@@ -928,16 +930,15 @@ PyTypeObject PyFrameLocalsProxy_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_setattro] = Py_FNFLAGS_FRUGAL,
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC | Py_TPFLAGS_MAPPING,
     .tp_traverse = framelocalsproxy_visit,
+    .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_clear = framelocalsproxy_tp_clear,
+    .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
     .tp_richcompare = framelocalsproxy_richcompare,
     .tp_iter = framelocalsproxy_iter,
     .tp_methods = framelocalsproxy_methods,
     .tp_alloc = PyType_GenericAlloc,
     .tp_new = framelocalsproxy_new,
     .tp_free = PyObject_GC_Del,
-    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
-    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
-    .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
 };
 
 PyObject *
@@ -2118,6 +2119,7 @@ PyTypeObject PyFrame_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_setattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
 };
 
 static void

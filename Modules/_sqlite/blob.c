@@ -8,6 +8,7 @@
 #define clinic_state() (pysqlite_get_state_by_type(Py_TYPE(self)))
 #include "clinic/blob.c.h"
 #undef clinic_state
+#include "pycore_typeobject.h"
 
 #define _pysqlite_Blob_CAST(op) ((pysqlite_Blob *)(op))
 
@@ -59,7 +60,7 @@ blob_dealloc(PyObject *op)
     if (self->in_weakreflist != NULL) {
         PyObject_ClearWeakRefs(op);
     }
-    (void)tp->tp_clear(op);
+    (void)PYTYPE_CALLFUNCTION(tp, tp, clear, op);
     tp->tp_free(self);
     Py_DECREF(tp);
 }

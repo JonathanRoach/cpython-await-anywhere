@@ -220,6 +220,7 @@ PyTypeObject PyPickleBuffer_Type = {
     .tp_traverse = picklebuf_traverse,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_clear = picklebuf_clear,
+    .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
     .tp_weaklistoffset = offsetof(PyPickleBufferObject, weakreflist),
     .tp_as_buffer = &picklebuf_as_buffer,
     .tp_methods = picklebuf_methods,

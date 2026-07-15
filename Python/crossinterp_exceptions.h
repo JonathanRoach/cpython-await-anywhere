@@ -150,7 +150,9 @@ init_static_exctypes(exceptions_t *state, PyInterpreterState *interp)
     // PyExc_InterpreterError
     _PyExc_InterpreterError.tp_base = base;
     _PyExc_InterpreterError.tp_traverse = base->tp_traverse;
+    _PyExc_InterpreterError.tp_functionflags[_PyFunctionIndex_tp_traverse] = base->tp_functionflags[_PyFunctionIndex_tp_traverse];
     _PyExc_InterpreterError.tp_clear = base->tp_clear;
+    _PyExc_InterpreterError.tp_functionflags[_PyFunctionIndex_tp_clear] = base->tp_functionflags[_PyFunctionIndex_tp_clear];
     if (_PyStaticType_InitBuiltin(interp, &_PyExc_InterpreterError) < 0) {
         goto error;
     }
@@ -158,7 +160,9 @@ init_static_exctypes(exceptions_t *state, PyInterpreterState *interp)
 
     // PyExc_InterpreterNotFoundError
     _PyExc_InterpreterNotFoundError.tp_traverse = base->tp_traverse;
+    _PyExc_InterpreterNotFoundError.tp_functionflags[_PyFunctionIndex_tp_traverse] = base->tp_functionflags[_PyFunctionIndex_tp_traverse];
     _PyExc_InterpreterNotFoundError.tp_clear = base->tp_clear;
+    _PyExc_InterpreterNotFoundError.tp_functionflags[_PyFunctionIndex_tp_clear] = base->tp_functionflags[_PyFunctionIndex_tp_clear];
     if (_PyStaticType_InitBuiltin(interp, &_PyExc_InterpreterNotFoundError) < 0) {
         goto error;
     }

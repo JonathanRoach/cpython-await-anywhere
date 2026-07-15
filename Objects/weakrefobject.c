@@ -514,6 +514,7 @@ _PyWeakref_RefType = {
     .tp_traverse = gc_traverse,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_clear = gc_clear,
+    .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
     .tp_richcompare = weakref_richcompare,
     .tp_methods = weakref_methods,
     .tp_members = weakref_members,
@@ -891,6 +892,7 @@ _PyWeakref_ProxyType = {
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_setattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -931,6 +933,7 @@ _PyWeakref_CallableProxyType = {
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_setattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
 };
 
 PyObject *

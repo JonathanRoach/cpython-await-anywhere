@@ -4430,6 +4430,7 @@ type_new_alloc(type_new_ctx *ctx)
     type->tp_traverse = subtype_traverse;
     type->tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL;
     type->tp_clear = subtype_clear;
+    type->tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL;
 
     et->ht_name = Py_NewRef(ctx->name);
     et->ht_module = NULL;
@@ -7067,6 +7068,7 @@ PyTypeObject PyType_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_setattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -8466,7 +8468,7 @@ inherit_special(PyTypeObject *type, PyTypeObject *base)
         }
         if (type->tp_clear == NULL) {
             type->tp_clear = base->tp_clear;
-            type->tp_functionflags[_PyFunctionIndex_tp_traverse] = base->tp_functionflags[_PyFunctionIndex_tp_traverse];
+            type->tp_functionflags[_PyFunctionIndex_tp_clear] = base->tp_functionflags[_PyFunctionIndex_tp_clear];
 
         }
     }

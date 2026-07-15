@@ -364,6 +364,7 @@ PyTypeObject PyCapsule_Type = {
     .tp_traverse = capsule_traverse,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_clear = capsule_clear,
+    .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
 };
 
 
