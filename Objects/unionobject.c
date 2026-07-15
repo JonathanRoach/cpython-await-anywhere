@@ -518,6 +518,7 @@ PyTypeObject _PyUnion_Type = {
     .tp_free = PyObject_GC_Del,
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
     .tp_traverse = union_traverse,
+    .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_hash = union_hash,
     .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
     .tp_getattro = union_getattro,

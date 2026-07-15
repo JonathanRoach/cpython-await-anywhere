@@ -993,6 +993,7 @@ PyTypeObject PyGen_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *
@@ -1733,6 +1734,7 @@ PyTypeObject PyCoro_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
 };
 
 static void
@@ -1830,6 +1832,7 @@ PyTypeObject _PyCoroWrapper_Type = {
     0,                                          /* tp_free */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *
@@ -2190,6 +2193,7 @@ PyTypeObject PyAsyncGen_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -2476,6 +2480,7 @@ PyTypeObject _PyAsyncGenASend_Type = {
     .tp_finalize = async_gen_asend_finalize,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -2563,6 +2568,7 @@ PyTypeObject _PyAsyncGenWrappedValue_Type = {
     0,                                          /* tp_new */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -2924,6 +2930,7 @@ PyTypeObject _PyAsyncGenAThrow_Type = {
     .tp_finalize = async_gen_athrow_finalize,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
 };
 
 

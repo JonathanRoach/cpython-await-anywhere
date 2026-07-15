@@ -1254,6 +1254,7 @@ PyTypeObject PyFunction_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_call] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -1636,6 +1637,7 @@ PyTypeObject PyClassMethod_Type = {
     PyObject_GC_Del,                            /* tp_free */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
 };
 
 PyObject *
@@ -1874,6 +1876,7 @@ PyTypeObject PyStaticMethod_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_call] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
 };
 
 PyObject *

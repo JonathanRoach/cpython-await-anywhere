@@ -153,14 +153,15 @@ PyTypeObject _PyInterpolation_Type = {
     .tp_new = interpolation_new,
     .tp_alloc = PyType_GenericAlloc,
     .tp_dealloc = interpolation_dealloc,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_clear = interpolation_clear,
     .tp_free = PyObject_GC_Del,
     .tp_repr = interpolation_repr,
+    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_members = interpolation_members,
     .tp_methods = interpolation_methods,
     .tp_traverse = interpolation_traverse,
-    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
-    .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
 };
 
 PyStatus

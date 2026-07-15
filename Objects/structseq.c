@@ -586,6 +586,7 @@ initialize_static_fields(PyTypeObject *type, PyStructSequence_Desc *desc,
     type->tp_new = structseq_new;
     type->tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC | tp_flags;
     type->tp_traverse = structseq_traverse;
+    type->tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL;
     type->tp_members = tp_members;
 }
 

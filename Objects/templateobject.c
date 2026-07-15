@@ -76,6 +76,7 @@ PyTypeObject _PyTemplateIter_Type = {
     .tp_clear = templateiter_clear,
     .tp_free = PyObject_GC_Del,
     .tp_traverse = templateiter_traverse,
+    .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_iter = PyObject_SelfIter,
     .tp_iternext = templateiter_next,
 };
@@ -474,6 +475,7 @@ PyTypeObject _PyTemplate_Type = {
     .tp_getset = template_getset,
     .tp_iter = template_iter,
     .tp_traverse = template_traverse,
+    .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
 };
 
 PyObject *

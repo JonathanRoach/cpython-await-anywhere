@@ -216,10 +216,11 @@ PyTypeObject PyPickleBuffer_Type = {
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
     .tp_new = picklebuf_new,
     .tp_dealloc = picklebuf_dealloc,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_traverse = picklebuf_traverse,
+    .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_clear = picklebuf_clear,
     .tp_weaklistoffset = offsetof(PyPickleBufferObject, weakreflist),
     .tp_as_buffer = &picklebuf_as_buffer,
     .tp_methods = picklebuf_methods,
-    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };

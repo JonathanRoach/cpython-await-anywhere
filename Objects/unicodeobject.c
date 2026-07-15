@@ -16420,6 +16420,7 @@ PyTypeObject PyUnicodeIter_Type = {
     0,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
 };
 
 PyTypeObject _PyUnicodeASCIIIter_Type = {
@@ -16432,6 +16433,7 @@ PyTypeObject _PyUnicodeASCIIIter_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
     .tp_traverse = unicodeiter_traverse,
+    .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_iter = PyObject_SelfIter,
     .tp_iternext = unicode_ascii_iter_next,
     .tp_methods = unicodeiter_methods,

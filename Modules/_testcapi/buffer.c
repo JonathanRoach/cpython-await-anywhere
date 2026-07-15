@@ -92,11 +92,12 @@ static PyTypeObject testBufType = {
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
     .tp_new = testbuf_new,
     .tp_dealloc = testbuf_dealloc,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_traverse = testbuf_traverse,
+    .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_clear = testbuf_clear,
     .tp_as_buffer = &testbuf_as_buffer,
     .tp_members = testbuf_members,
-    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
 int

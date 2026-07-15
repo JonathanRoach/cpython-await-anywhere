@@ -577,12 +577,12 @@ _PyGC_VisitFrameStack(_PyInterpreterFrame *frame, visitproc visit, void *arg)
 static void
 subtract_refs(PyGC_Head *containers)
 {
-    traverseproc traverse;
     PyGC_Head *gc = GC_NEXT(containers);
     for (; gc != containers; gc = GC_NEXT(gc)) {
         PyObject *op = FROM_GC(gc);
-        traverse = Py_TYPE(op)->tp_traverse;
-        (void) traverse(op,
+        (void)_PyType_Call_tp_traverse(
+                        Py_TYPE(op),
+                        op,
                         visit_decref,
                         op);
     }
@@ -694,12 +694,13 @@ move_unreachable(PyGC_Head *young, PyGC_Head *unreachable)
              * the next object to visit.
              */
             PyObject *op = FROM_GC(gc);
-            traverseproc traverse = Py_TYPE(op)->tp_traverse;
             _PyObject_ASSERT_WITH_MSG(op, gc_get_refs(gc) > 0,
                                       "refcount is too small");
             // NOTE: visit_reachable may change gc->_gc_next when
             // young->_gc_prev == gc.  Don't do gc = GC_NEXT(gc) before!
-            (void) traverse(op,
+            (void) _PyType_Call_tp_traverse(
+                    Py_TYPE(op),
+                    op,
                     visit_reachable,
                     (void *)young);
             // relink gc_prev to prev element.
@@ -847,12 +848,12 @@ visit_move(PyObject *op, void *arg)
 static void
 move_legacy_finalizer_reachable(PyGC_Head *finalizers)
 {
-    traverseproc traverse;
     PyGC_Head *gc = GC_NEXT(finalizers);
     for (; gc != finalizers; gc = GC_NEXT(gc)) {
         /* Note that the finalizers list may grow during this. */
-        traverse = Py_TYPE(FROM_GC(gc))->tp_traverse;
-        (void) traverse(FROM_GC(gc),
+        (void) _PyType_Call_tp_traverse(
+                        Py_TYPE(FROM_GC(gc)),
+                        FROM_GC(gc),
                         visit_move,
                         (void *)finalizers);
     }
@@ -1398,8 +1399,9 @@ expand_region_transitively_reachable(PyGC_Head *container, PyGC_Head *gc, GCStat
             gc = next;
             continue;
         }
-        traverseproc traverse = Py_TYPE(op)->tp_traverse;
-        (void) traverse(op,
+        (void) _PyType_Call_tp_traverse(
+                        Py_TYPE(op),
+                        op,
                         visit_add_to_container,
                         &arg);
         gc = GC_NEXT(gc);
@@ -1465,8 +1467,9 @@ mark_all_reachable(PyGC_Head *reachable, PyGC_Head *visited, int visited_space)
         assert(gc_old_space(gc) == visited_space);
         gc_list_move(gc, visited);
         PyObject *op = FROM_GC(gc);
-        traverseproc traverse = Py_TYPE(op)->tp_traverse;
-        (void) traverse(op,
+        (void) _PyType_Call_tp_traverse(
+                        Py_TYPE(op),
+                        op,
                         visit_add_to_container,
                         &arg);
     }
@@ -1853,14 +1856,12 @@ gc_referrers_for(PyObject *objs, PyGC_Head *list, PyObject *resultlist)
 {
     PyGC_Head *gc;
     PyObject *obj;
-    traverseproc traverse;
     for (gc = GC_NEXT(list); gc != list; gc = GC_NEXT(gc)) {
         obj = FROM_GC(gc);
-        traverse = Py_TYPE(obj)->tp_traverse;
         if (obj == objs || obj == resultlist) {
             continue;
         }
-        if (traverse(obj, referrersvisit, objs)) {
+        if (_PyType_Call_tp_traverse(Py_TYPE(obj), obj, referrersvisit, objs)) {
             if (PyList_Append(resultlist, obj) < 0) {
                 return 0; /* error */
             }
@@ -2063,11 +2064,22 @@ _PyGC_Collect(PyThreadState *tstate, int generation, _PyGC_Reason reason)
     return stats.uncollectable + stats.collected;
 }
 
+static inline void *
+Do_PyGC_Collect(void *param)
+{
+    (void)param;
+    return (void *)(uintptr_t)_PyGC_Collect(_PyThreadState_GET(), 2, _Py_GC_REASON_MANUAL);
+}
+
 /* Public API to invoke gc.collect() from C */
 Py_ssize_t
 PyGC_Collect(void)
 {
-    return _PyGC_Collect(_PyThreadState_GET(), 2, _Py_GC_REASON_MANUAL);
+    void *res;
+    if (_PyThreadStack_CallInsideCoroutine(Do_PyGC_Collect, NULL, &res)){
+        return 1;
+    }
+    return (Py_ssize_t)res;
 }
 
 void
@@ -2199,8 +2211,7 @@ PyObject_GC_Track(void *op_raw)
 #ifdef Py_DEBUG
     /* Check that the object is valid: validate objects traversed
        by tp_traverse() */
-    traverseproc traverse = Py_TYPE(op)->tp_traverse;
-    (void)traverse(op, visit_validate, op);
+    (void)_PyType_Call_tp_traverse(Py_TYPE(op), op, visit_validate, op);
 #endif
 }
 

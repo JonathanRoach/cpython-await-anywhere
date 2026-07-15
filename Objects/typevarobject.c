@@ -2259,6 +2259,7 @@ PyTypeObject _PyTypeAlias_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_as_number = &typealias_as_number,
     .tp_as_mapping = &typealias_as_mapping,
+    .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
 };
 
 PyObject *

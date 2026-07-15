@@ -4428,6 +4428,7 @@ type_new_alloc(type_new_ctx *ctx)
     type->tp_free = PyObject_GC_Del;
 
     type->tp_traverse = subtype_traverse;
+    type->tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL;
     type->tp_clear = subtype_clear;
 
     et->ht_name = Py_NewRef(ctx->name);
@@ -7065,6 +7066,7 @@ PyTypeObject PyType_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_call] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_setattro] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -8457,10 +8459,16 @@ inherit_special(PyTypeObject *type, PyTypeObject *base)
         (base->tp_flags & Py_TPFLAGS_HAVE_GC) &&
         (!type->tp_traverse && !type->tp_clear)) {
         type_add_flags(type, Py_TPFLAGS_HAVE_GC, 0);
-        if (type->tp_traverse == NULL)
+        if (type->tp_traverse == NULL) {
             type->tp_traverse = base->tp_traverse;
-        if (type->tp_clear == NULL)
+            type->tp_functionflags[_PyFunctionIndex_tp_traverse] = base->tp_functionflags[_PyFunctionIndex_tp_traverse];
+
+        }
+        if (type->tp_clear == NULL) {
             type->tp_clear = base->tp_clear;
+            type->tp_functionflags[_PyFunctionIndex_tp_traverse] = base->tp_functionflags[_PyFunctionIndex_tp_traverse];
+
+        }
     }
     type_add_flags(type, base->tp_flags & Py_TPFLAGS_PREHEADER, 0);
 
@@ -11212,6 +11220,7 @@ PyTypeObject _PyBufferWrapper_Type = {
     .tp_alloc = PyType_GenericAlloc,
     .tp_free = PyObject_GC_Del,
     .tp_traverse = bufferwrapper_traverse,
+    .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_dealloc = bufferwrapper_dealloc,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
@@ -13076,6 +13085,7 @@ PyTypeObject PySuper_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_vectorcall] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
 };
 
 #define PyType_CallTypeFunction2(RT, KIND, SLOT, T0, T1) \
@@ -13197,3 +13207,4 @@ PyType_CallTypeFunction2(PyObject *, tp, getattr, PyObject *, char *)
 PyType_CallTypeFunction3(int, tp, setattr, PyObject *, char *, PyObject *)
 PyType_CallTypeFunction2(PyObject *, tp, getattro, PyObject *, PyObject *)
 PyType_CallTypeFunction3(int, tp, setattro, PyObject *, PyObject *, PyObject *)
+PyType_CallTypeFunction3(int, tp, traverse, PyObject *, visitproc, void *)

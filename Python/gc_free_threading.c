@@ -1017,7 +1017,7 @@ update_refs(const mi_heap_t *heap, const mi_heap_area_t *area,
     // Subtract internal references from ob_tid. Objects with ob_tid > 0
     // are directly reachable from outside containers, and so can't be
     // collected.
-    Py_TYPE(op)->tp_traverse(op, visit_decref, NULL);
+    _PyType_Call_tp_traverse(Py_TYPE(op), op, visit_decref, NULL);
     return true;
 }
 
@@ -1038,8 +1038,7 @@ mark_reachable(PyObject *op)
 {
     _PyObjectStack stack = { NULL };
     do {
-        traverseproc traverse = Py_TYPE(op)->tp_traverse;
-        if (traverse(op, visit_clear_unreachable, &stack) < 0) {
+        if (_PyType_Call_tp_traverse(Py_TYPE(op), op, visit_clear_unreachable, &stack) < 0) {
             _PyObjectStack_Clear(&stack);
             return -1;
         }
@@ -1309,7 +1308,7 @@ gc_propagate_alive_prefetch(gc_mark_args_t *args)
                 return -1;
             }
         }
-        else if (traverse(op, gc_mark_enqueue_buffer_visitproc, args) < 0) {
+        else if (_PyType_Call_tp_traverse(Py_TYPE(op), op, gc_mark_enqueue_buffer_visitproc, args) < 0) {
             return -1;
         }
     }
@@ -1329,8 +1328,7 @@ gc_propagate_alive(gc_mark_args_t *args)
             }
             assert(_PyObject_GC_IS_TRACKED(op));
             assert(gc_is_alive(op));
-            traverseproc traverse = Py_TYPE(op)->tp_traverse;
-            if (traverse(op, gc_mark_enqueue_no_buffer_visitproc, args) < 0) {
+            if (_PyType_Call_tp_traverse(Py_TYPE(op), op, gc_mark_enqueue_no_buffer_visitproc, args) < 0) {
                 return -1;
             }
         }
@@ -1787,8 +1785,7 @@ handle_resurrected_objects(struct collection_state *state)
         // Subtract one to account for the reference from the worklist.
         op->ob_ref_local -= 1;
 
-        traverseproc traverse = Py_TYPE(op)->tp_traverse;
-        (void)traverse(op, visit_decref_unreachable, NULL);
+        (void)_PyType_Call_tp_traverse(Py_TYPE(op), op, visit_decref_unreachable, NULL);
     }
 
     // Find resurrected objects
@@ -2426,7 +2423,7 @@ visit_get_referrers(const mi_heap_t *heap, const mi_heap_area_t *area,
         // Don't include the tuple itself in the referrers list.
         return true;
     }
-    if (Py_TYPE(op)->tp_traverse(op, referrersvisit, arg->objs)) {
+    if (_PyType_Call_tp_traverse(Py_TYPE(op), op, referrersvisit, arg->objs)) {
         if (_PyObjectStack_Push(&arg->results, Py_NewRef(op)) < 0) {
             return false;
         }
@@ -2717,8 +2714,7 @@ PyObject_GC_Track(void *op_raw)
 #ifdef Py_DEBUG
     /* Check that the object is valid: validate objects traversed
        by tp_traverse() */
-    traverseproc traverse = Py_TYPE(op)->tp_traverse;
-    (void)traverse(op, visit_validate, op);
+    (void)_PyType_Call_tp_traverse(Py_TYPE(op), op, visit_validate, op);
 #endif
 }
 
