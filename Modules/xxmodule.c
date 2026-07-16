@@ -316,6 +316,7 @@ static PyTypeObject Null_Type = {
     PyType_GenericNew,          /*tp_new*/
     0,                          /*tp_free*/
     0,                          /*tp_is_gc*/
+    .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
 };
 
 

@@ -74,7 +74,13 @@ internal_bisect_right(PyObject *list, PyObject *item, Py_ssize_t lo, Py_ssize_t 
         return -1;
     }
     PyTypeObject *tp = Py_TYPE(item);
-    richcmpfunc compare = tp->tp_richcompare;
+    richcmpfunc compare;
+    if ((tp->tp_flags & Py_TPFLAGS_IS_EXTENDED) &&
+         (tp->tp_functionflags[_PyFunctionIndex_tp_richcompare] & Py_FNFLAGS_FRUGAL)) {
+        compare = tp->tp_richcompare;
+    } else {
+        compare = NULL;
+    }
     while (lo < hi) {
         /* The (size_t)cast ensures that the addition and subsequent division
            are performed as unsigned operations, avoiding difficulties from

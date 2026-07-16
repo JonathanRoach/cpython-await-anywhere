@@ -1040,11 +1040,9 @@ static const char * const opstrings[] = {"<", "<=", "==", "!=", ">", ">="};
 
 /* Perform a rich comparison, raising TypeError when the requested comparison
    operator is not supported. */
-_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(static, PyObject *, do_richcompare, PyThreadState *, PyObject*, PyObject*, int)
 static PyObject *
 do_richcompare(PyThreadState *tstate, PyObject *v, PyObject *w, int op)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(NULL, PyObject *, do_richcompare, tstate, v, w, op)
     richcmpfunc f;
     PyObject *res;
     int checked_reverse_op = 0;
@@ -1053,19 +1051,19 @@ do_richcompare(PyThreadState *tstate, PyObject *v, PyObject *w, int op)
         PyType_IsSubtype(Py_TYPE(w), Py_TYPE(v)) &&
         (f = Py_TYPE(w)->tp_richcompare) != NULL) {
         checked_reverse_op = 1;
-        res = (*f)(w, v, _Py_SwappedOp[op]);
+        res = _PyType_Call_tp_richcompare(Py_TYPE(w), w, v, _Py_SwappedOp[op]);
         if (res != Py_NotImplemented)
             return res;
         Py_DECREF(res);
     }
     if ((f = Py_TYPE(v)->tp_richcompare) != NULL) {
-        res = (*f)(v, w, op);
+        res = _PyType_Call_tp_richcompare(Py_TYPE(v), v, w, op);
         if (res != Py_NotImplemented)
             return res;
         Py_DECREF(res);
     }
     if (!checked_reverse_op && (f = Py_TYPE(w)->tp_richcompare) != NULL) {
-        res = (*f)(w, v, _Py_SwappedOp[op]);
+        res = _PyType_Call_tp_richcompare(Py_TYPE(w), w, v, _Py_SwappedOp[op]);
         if (res != Py_NotImplemented)
             return res;
         Py_DECREF(res);
@@ -2366,6 +2364,7 @@ PyTypeObject _PyNone_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
 };
 
 PyObject _Py_NoneStruct = _PyObject_HEAD_INIT(&_PyNone_Type);

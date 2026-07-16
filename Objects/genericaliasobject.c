@@ -1002,6 +1002,7 @@ PyTypeObject Py_GenericAliasType = {
     .tp_traverse = ga_traverse,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_richcompare = ga_richcompare,
+    .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
     .tp_weaklistoffset = offsetof(gaobject, weakreflist),
     .tp_methods = ga_methods,
     .tp_members = ga_members,

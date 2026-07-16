@@ -7279,7 +7279,7 @@ object_richcompare(PyObject *self, PyObject *other, int op)
             res = Py_NewRef(Py_NotImplemented);
             break;
         }
-        res = (*Py_TYPE(self)->tp_richcompare)(self, other, Py_EQ);
+        res = _PyType_Call_tp_richcompare(Py_TYPE(self), self, other, Py_EQ);
         if (res != NULL && res != Py_NotImplemented) {
             int ok = PyObject_IsTrue(res);
             Py_DECREF(res);
@@ -8317,6 +8317,7 @@ PyTypeObject PyBaseObject_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_str] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_setattro] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -13210,3 +13211,4 @@ PyType_CallTypeFunction3(int, tp, setattr, PyObject *, char *, PyObject *)
 PyType_CallTypeFunction2(PyObject *, tp, getattro, PyObject *, PyObject *)
 PyType_CallTypeFunction3(int, tp, setattro, PyObject *, PyObject *, PyObject *)
 PyType_CallTypeFunction3(int, tp, traverse, PyObject *, visitproc, void *)
+PyType_CallTypeFunction3(PyObject *, tp, richcompare, PyObject *, PyObject *, int)

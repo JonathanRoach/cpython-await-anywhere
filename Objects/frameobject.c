@@ -934,6 +934,7 @@ PyTypeObject PyFrameLocalsProxy_Type = {
     .tp_clear = framelocalsproxy_tp_clear,
     .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
     .tp_richcompare = framelocalsproxy_richcompare,
+    .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
     .tp_iter = framelocalsproxy_iter,
     .tp_methods = framelocalsproxy_methods,
     .tp_alloc = PyType_GenericAlloc,
