@@ -190,7 +190,7 @@ cursor_dealloc(PyObject *op)
     if (self->in_weakreflist != NULL) {
         PyObject_ClearWeakRefs(op);
     }
-    (void)PYTYPE_CALLFUNCTION(tp, tp, clear, op);
+    (void)PYTYPE_CallFunction(tp, tp, clear, op);
     tp->tp_free(self);
     Py_DECREF(tp);
 }

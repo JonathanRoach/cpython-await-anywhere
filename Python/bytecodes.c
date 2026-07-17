@@ -1292,7 +1292,7 @@ dummy_func(
                 DISPATCH_INLINED(resume_frame);
             }
             if (PyStackRef_IsNone(v) && PyIter_Check(receiver_o)) {
-                retval_o = Py_TYPE(receiver_o)->tp_iternext(receiver_o);
+                retval_o = PYTYPE_CallFunction(Py_TYPE(receiver_o), tp, iternext, receiver_o);
             }
             else {
                 retval_o = PyObject_CallMethodOneArg(receiver_o,
@@ -3247,7 +3247,7 @@ dummy_func(
                 null_or_index = PyStackRef_IncrementTaggedIntNoOverflow(null_or_index);
             }
             else {
-                PyObject *next_o = (*Py_TYPE(iter_o)->tp_iternext)(iter_o);
+                PyObject *next_o = PYTYPE_CallFunction(Py_TYPE(iter_o), tp, iternext, iter_o);
                 if (next_o == NULL) {
                     if (_PyErr_Occurred(tstate)) {
                         int matches = _PyErr_ExceptionMatches(tstate, PyExc_StopIteration);
@@ -3272,7 +3272,7 @@ dummy_func(
             /* before: [iter]; after: [iter, iter()] *or* [] (and jump over END_FOR.) */
             PyObject *iter_o = PyStackRef_AsPyObjectBorrow(iter);
             EXIT_IF(!PyStackRef_IsNull(null_or_index));
-            PyObject *next_o = (*Py_TYPE(iter_o)->tp_iternext)(iter_o);
+            PyObject *next_o = PYTYPE_CallFunction(Py_TYPE(iter_o), tp, iternext, iter_o);
             if (next_o == NULL) {
                 if (_PyErr_Occurred(tstate)) {
                     int matches = _PyErr_ExceptionMatches(tstate, PyExc_StopIteration);
@@ -3305,7 +3305,7 @@ dummy_func(
                 INSTRUMENTED_JUMP(this_instr, next_instr, PY_MONITORING_EVENT_BRANCH_LEFT);
             }
             else {
-                PyObject *next_o = (*Py_TYPE(iter_o)->tp_iternext)(iter_o);
+                PyObject *next_o = PYTYPE_CallFunction(Py_TYPE(iter_o), tp, iternext, iter_o);
                 if (next_o != NULL) {
                     next = PyStackRef_FromPyObjectSteal(next_o);
                     INSTRUMENTED_JUMP(this_instr, next_instr, PY_MONITORING_EVENT_BRANCH_LEFT);

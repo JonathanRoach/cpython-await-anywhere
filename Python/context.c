@@ -769,6 +769,7 @@ PyTypeObject PyContext_Type = {
     .tp_as_mapping = &PyContext_as_mapping,
     .tp_as_sequence = &PyContext_as_sequence,
     .tp_iter = context_tp_iter,
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
     .tp_dealloc = context_tp_dealloc,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_getattro = PyObject_GenericGetAttr,

@@ -249,7 +249,7 @@ pysqlite_connection_init_impl(pysqlite_Connection *self, PyObject *database,
         self->initialized = 0;
 
         PyTypeObject *tp = Py_TYPE(self);
-        PYTYPE_CALLFUNCTION(tp, tp, clear, (PyObject *)self);
+        PYTYPE_CallFunction(tp, tp, clear, (PyObject *)self);
         if (connection_close(self) < 0) {
             return -1;
         }
@@ -526,7 +526,7 @@ connection_dealloc(PyObject *self)
     }
     PyTypeObject *tp = Py_TYPE(self);
     PyObject_GC_UnTrack(self);
-    (void)PYTYPE_CALLFUNCTION(tp, tp, clear, self);
+    (void)PYTYPE_CallFunction(tp, tp, clear, self);
     tp->tp_free(self);
     Py_DECREF(tp);
 }

@@ -247,7 +247,7 @@ enum_next(PyObject *op)
     PyObject *old_index;
     PyObject *old_item;
 
-    next_item = (*Py_TYPE(it)->tp_iternext)(it);
+    next_item = PYTYPE_CallFunction(Py_TYPE(it), tp, iternext, it);
     if (next_item == NULL)
         return NULL;
 
@@ -356,6 +356,8 @@ PyTypeObject PyEnum_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
 };
 
 /* Reversed Object ***************************************************************/
@@ -592,4 +594,6 @@ PyTypeObject PyReversed_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
 };

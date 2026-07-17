@@ -894,7 +894,6 @@ bytearray___init___impl(PyByteArrayObject *self, PyObject *arg,
 {
     Py_ssize_t count;
     PyObject *it;
-    PyObject *(*iternext)(PyObject *);
 
     if (Py_SIZE(self) != 0) {
         /* Empty previous contents (yes, do this first of all!) */
@@ -1020,7 +1019,7 @@ slowpath:
         }
         return -1;
     }
-    iternext = *Py_TYPE(it)->tp_iternext;
+    PyTypeObject *tp = Py_TYPE(it);
 
     /* Run the iterator to exhaustion */
     for (;;) {
@@ -1028,7 +1027,7 @@ slowpath:
         int rc, value;
 
         /* Get the next item */
-        item = iternext(it);
+        item = PYTYPE_CallFunction(tp, tp, iternext, it);
         if (item == NULL) {
             if (PyErr_Occurred()) {
                 if (!PyErr_ExceptionMatches(PyExc_StopIteration))
@@ -2879,6 +2878,7 @@ PyTypeObject PyByteArray_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_str] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
 };
 
 /*********************** Bytearray Iterator ****************************/
@@ -3046,6 +3046,8 @@ PyTypeObject PyByteArrayIter_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *

@@ -42,7 +42,7 @@ static void
 templateiter_dealloc(PyObject *op)
 {
     PyObject_GC_UnTrack(op);
-    PYTYPE_CALLFUNCTION(Py_TYPE(op), tp, clear, op);
+    PYTYPE_CallFunction(Py_TYPE(op), tp, clear, op);
     Py_TYPE(op)->tp_free(op);
 }
 
@@ -80,7 +80,9 @@ PyTypeObject _PyTemplateIter_Type = {
     .tp_traverse = templateiter_traverse,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_iter = PyObject_SelfIter,
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
     .tp_iternext = templateiter_next,
+    .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
 };
 
 typedef struct {
@@ -188,7 +190,7 @@ static void
 template_dealloc(PyObject *op)
 {
     PyObject_GC_UnTrack(op);
-    PYTYPE_CALLFUNCTION(Py_TYPE(op), tp, clear, op);
+    PYTYPE_CallFunction(Py_TYPE(op), tp, clear, op);
     Py_TYPE(op)->tp_free(op);
 }
 
@@ -477,6 +479,7 @@ PyTypeObject _PyTemplate_Type = {
     .tp_methods = template_methods,
     .tp_getset = template_getset,
     .tp_iter = template_iter,
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
     .tp_traverse = template_traverse,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
 };

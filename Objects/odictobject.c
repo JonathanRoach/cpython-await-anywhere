@@ -1400,7 +1400,7 @@ odict_dealloc(PyObject *op)
         PyObject_ClearWeakRefs((PyObject *)self);
 
     _odict_clear_nodes(self);
-    PYTYPE_CALLFUNCTION(&PyDict_Type, tp, dealloc, op);
+    PYTYPE_CallFunction(&PyDict_Type, tp, dealloc, op);
 }
 
 /* tp_repr */
@@ -1584,6 +1584,7 @@ PyTypeObject PyODict_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -1854,6 +1855,8 @@ PyTypeObject PyODictIter_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *
@@ -1950,6 +1953,7 @@ PyTypeObject PyODictKeys_Type = {
     0,                                        /* tp_members */
     0,                                        /* tp_getset */
     &PyDictKeys_Type,                         /* tp_base */
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *
@@ -2019,6 +2023,7 @@ PyTypeObject PyODictItems_Type = {
     0,                                        /* tp_members */
     0,                                        /* tp_getset */
     &PyDictItems_Type,                        /* tp_base */
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *
@@ -2088,6 +2093,7 @@ PyTypeObject PyODictValues_Type = {
     0,                                        /* tp_members */
     0,                                        /* tp_getset */
     &PyDictValues_Type,                       /* tp_base */
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *

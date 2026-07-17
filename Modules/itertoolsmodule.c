@@ -204,10 +204,10 @@ batched_next(PyObject *op)
     if (result == NULL) {
         return NULL;
     }
-    iternextfunc iternext = *Py_TYPE(it)->tp_iternext;
+    PyTypeObject *tp = Py_TYPE(it);
     PyObject **items = _PyTuple_ITEMS(result);
     for (i=0 ; i < n ; i++) {
-        item = iternext(it);
+        item = PYTYPE_CallFunction(tp, tp, iternext, it);
         if (item == NULL) {
             goto null_item;
         }
@@ -368,8 +368,9 @@ pairwise_next(PyObject *op)
     if (it == NULL) {
         return NULL;
     }
+    PyTypeObject *tp = Py_TYPE(it);
     if (old == NULL) {
-        old = (*Py_TYPE(it)->tp_iternext)(it);
+        old = PYTYPE_CallFunction(tp, tp, iternext, it);
         Py_XSETREF(po->old, old);
         if (old == NULL) {
             Py_CLEAR(po->it);
@@ -382,7 +383,7 @@ pairwise_next(PyObject *op)
         }
     }
     Py_INCREF(old);
-    new = (*Py_TYPE(it)->tp_iternext)(it);
+    new = PYTYPE_CallFunction(tp, tp, iternext, it);
     if (new == NULL) {
         Py_CLEAR(po->it);
         Py_CLEAR(po->old);
@@ -1420,11 +1421,10 @@ dropwhile_next(PyObject *op)
     PyObject *item, *good;
     PyObject *it = lz->it;
     long ok;
-    PyObject *(*iternext)(PyObject *);
 
-    iternext = *Py_TYPE(it)->tp_iternext;
+    PyTypeObject *tp = Py_TYPE(it);
     for (;;) {
-        item = iternext(it);
+        item = PYTYPE_CallFunction(tp, tp, iternext, it);
         if (item == NULL)
             return NULL;
         if (lz->start == 1)
@@ -1559,7 +1559,7 @@ takewhile_next(PyObject *op)
     if (lz->stop == 1)
         return NULL;
 
-    item = (*Py_TYPE(it)->tp_iternext)(it);
+    item = PYTYPE_CallFunction(Py_TYPE(it), tp, iternext, it);
     if (item == NULL)
         return NULL;
 
@@ -1739,14 +1739,13 @@ islice_next(PyObject *op)
     PyObject *it = lz->it;
     Py_ssize_t stop = lz->stop;
     Py_ssize_t oldnext;
-    PyObject *(*iternext)(PyObject *);
 
     if (it == NULL)
         return NULL;
 
-    iternext = *Py_TYPE(it)->tp_iternext;
+    PyTypeObject *tp = Py_TYPE(it);
     while (lz->cnt < lz->next) {
-        item = iternext(it);
+        item = PYTYPE_CallFunction(tp, tp, iternext, it);
         if (item == NULL)
             goto empty;
         Py_DECREF(item);
@@ -1754,7 +1753,7 @@ islice_next(PyObject *op)
     }
     if (stop != -1 && lz->cnt >= stop)
         goto empty;
-    item = iternext(it);
+    item = PYTYPE_CallFunction(tp, tp, iternext, it);
     if (item == NULL)
         goto empty;
     lz->cnt++;
@@ -1889,7 +1888,7 @@ starmap_next(PyObject *op)
     PyObject *result;
     PyObject *it = lz->it;
 
-    args = (*Py_TYPE(it)->tp_iternext)(it);
+    args = PYTYPE_CallFunction(Py_TYPE(it), tp, iternext, it);
     if (args == NULL)
         return NULL;
     if (!PyTuple_CheckExact(args)) {
@@ -2048,7 +2047,7 @@ chain_next(PyObject *op)
                 return NULL;            /* input not iterable */
             }
         }
-        item = (*Py_TYPE(lz->active)->tp_iternext)(lz->active);
+        item = PYTYPE_CallFunction(Py_TYPE(lz->active), tp, iternext, lz->active);
         if (item != NULL)
             return item;
         if (PyErr_Occurred()) {
@@ -3238,7 +3237,7 @@ accumulate_next(PyObject *op)
         lz->initial = Py_NewRef(Py_None);
         return Py_NewRef(lz->total);
     }
-    val = (*Py_TYPE(lz->it)->tp_iternext)(lz->it);
+    val = PYTYPE_CallFunction(Py_TYPE(lz->it), tp, iternext, lz->it);
     if (val == NULL)
         return NULL;
 
@@ -3378,8 +3377,8 @@ compress_next(PyObject *op)
     compressobject *lz = compressobject_CAST(op);
     PyObject *data = lz->data, *selectors = lz->selectors;
     PyObject *datum, *selector;
-    PyObject *(*datanext)(PyObject *) = *Py_TYPE(data)->tp_iternext;
-    PyObject *(*selectornext)(PyObject *) = *Py_TYPE(selectors)->tp_iternext;
+    PyTypeObject *datatp = Py_TYPE(data);
+    PyTypeObject *selectorstp = Py_TYPE(selectors);
     int ok;
 
     while (1) {
@@ -3389,11 +3388,11 @@ compress_next(PyObject *op)
            exception first).
         */
 
-        datum = datanext(data);
+        datum = PYTYPE_CallFunction(datatp, tp, iternext, data);
         if (datum == NULL)
             return NULL;
 
-        selector = selectornext(selectors);
+        selector = PYTYPE_CallFunction(selectorstp, tp, iternext, selectors);
         if (selector == NULL) {
             Py_DECREF(datum);
             return NULL;
@@ -3517,11 +3516,10 @@ filterfalse_next(PyObject *op)
     PyObject *item;
     PyObject *it = lz->it;
     long ok;
-    PyObject *(*iternext)(PyObject *);
 
-    iternext = *Py_TYPE(it)->tp_iternext;
+    PyTypeObject *tp = Py_TYPE(it);
     for (;;) {
-        item = iternext(it);
+        item = PYTYPE_CallFunction(tp, tp, iternext, it);
         if (item == NULL)
             return NULL;
 

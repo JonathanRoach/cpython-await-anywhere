@@ -3673,7 +3673,7 @@ PyObject_GetIter(PyObject *o)
         return type_error("'%.200s' object is not iterable", o);
     }
     else {
-        PyObject *res = (*f)(o);
+        PyObject *res = PYTYPE_CallFunction(t, tp, iter, o);
         if (res != NULL && !PyIter_Check(res)) {
             PyErr_Format(PyExc_TypeError,
                          "iter() returned non-iterator "
@@ -3724,8 +3724,7 @@ PyAIter_Check(PyObject *obj)
 static int
 iternext(PyObject *iter, PyObject **item)
 {
-    iternextfunc tp_iternext = Py_TYPE(iter)->tp_iternext;
-    if ((*item = tp_iternext(iter))) {
+    if ((*item = PYTYPE_CallFunction(Py_TYPE(iter), tp, iternext, iter))) {
         return 1;
     }
 
@@ -3790,7 +3789,7 @@ PyIter_Send(PyObject *iter, PyObject *arg, PyObject **result)
         return res;
     }
     if (arg == Py_None && PyIter_Check(iter)) {
-        *result = Py_TYPE(iter)->tp_iternext(iter);
+        *result = PYTYPE_CallFunction(Py_TYPE(iter), tp, iternext, iter);
     }
     else {
         *result = PyObject_CallMethodOneArg(iter, &_Py_ID(send), arg);

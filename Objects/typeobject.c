@@ -2713,7 +2713,7 @@ subtype_dealloc(PyObject *self)
 
         /* Call the base tp_dealloc() */
         assert(basedealloc);
-        PYTYPE_CALLFUNCTION(base, tp, dealloc, self);
+        PYTYPE_CallFunction(base, tp, dealloc, self);
 
         /* Can't reference self beyond this point. It's possible tp_del switched
            our type from a HEAPTYPE to a non-HEAPTYPE, so be careful about
@@ -2822,7 +2822,7 @@ subtype_dealloc(PyObject *self)
                              && !(base->tp_flags & Py_TPFLAGS_HEAPTYPE));
 
     assert(basedealloc);
-    PYTYPE_CALLFUNCTION(base, tp, dealloc, self);
+    PYTYPE_CallFunction(base, tp, dealloc, self);
 
     /* Can't reference self beyond this point. It's possible tp_del switched
        our type from a HEAPTYPE to a non-HEAPTYPE, so be careful about
@@ -7253,7 +7253,7 @@ static PyObject *
 object_str(PyObject *self)
 {
     if (Py_TYPE(self)->tp_repr){
-        return PYTYPE_CALLFUNCTION(Py_TYPE(self), tp, repr, self);
+        return PYTYPE_CallFunction(Py_TYPE(self), tp, repr, self);
     }
     return object_repr(self);
 }

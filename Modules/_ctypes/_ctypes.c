@@ -556,7 +556,7 @@ CType_Type_dealloc(PyObject *self)
     }
 
     PyTypeObject *tp = Py_TYPE(self);
-    PYTYPE_CALLFUNCTION(&PyType_Type, tp, dealloc, self);
+    PYTYPE_CallFunction(&PyType_Type, tp, dealloc, self);
     Py_DECREF(tp);
 }
 

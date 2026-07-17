@@ -2790,7 +2790,6 @@ math_sumprod_impl(PyObject *module, PyObject *p, PyObject *q)
 {
     PyObject *p_i = NULL, *q_i = NULL, *term_i = NULL, *new_total = NULL;
     PyObject *p_it, *q_it, *total;
-    iternextfunc p_next, q_next;
     bool p_stopped = false, q_stopped = false;
     bool int_path_enabled = true, int_total_in_use = false;
     bool flt_path_enabled = true, flt_total_in_use = false;
@@ -2812,8 +2811,8 @@ math_sumprod_impl(PyObject *module, PyObject *p, PyObject *q)
         Py_DECREF(q_it);
         return NULL;
     }
-    p_next = *Py_TYPE(p_it)->tp_iternext;
-    q_next = *Py_TYPE(q_it)->tp_iternext;
+    PyTypeObject *p_tp = Py_TYPE(p_it);
+    PyTypeObject *q_tp = Py_TYPE(q_it);
     while (1) {
         bool finished;
 
@@ -2826,7 +2825,7 @@ math_sumprod_impl(PyObject *module, PyObject *p, PyObject *q)
         assert (q_it != NULL);
         assert (total != NULL);
 
-        p_i = p_next(p_it);
+        p_i = PYTYPE_CallFunction(p_tp, tp, iternext, p_it);
         if (p_i == NULL) {
             if (PyErr_Occurred()) {
                 if (!PyErr_ExceptionMatches(PyExc_StopIteration)) {
@@ -2836,7 +2835,7 @@ math_sumprod_impl(PyObject *module, PyObject *p, PyObject *q)
             }
             p_stopped = true;
         }
-        q_i = q_next(q_it);
+        q_i = PYTYPE_CallFunction(q_tp, tp, iternext, q_it);
         if (q_i == NULL) {
             if (PyErr_Occurred()) {
                 if (!PyErr_ExceptionMatches(PyExc_StopIteration)) {

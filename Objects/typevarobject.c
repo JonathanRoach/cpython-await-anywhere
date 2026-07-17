@@ -2253,6 +2253,7 @@ PyTypeObject _PyTypeAlias_Type = {
     .tp_new = typealias_new,
     .tp_free = PyObject_GC_Del,
     .tp_iter = unpack_iter,
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
     .tp_traverse = typealias_traverse,
     .tp_clear = typealias_clear,
     .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,

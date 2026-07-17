@@ -1093,6 +1093,10 @@ static PyTypeObject PyFormatterIter_Type = {
     formatteriter_next,                 /* tp_iternext */
     formatteriter_methods,              /* tp_methods */
     0,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
 };
 
 /* unicode_formatter_parser is used to implement
@@ -1226,7 +1230,12 @@ static PyTypeObject PyFieldNameIter_Type = {
     PyObject_SelfIter,                  /* tp_iter */
     fieldnameiter_next,                 /* tp_iternext */
     fieldnameiter_methods,              /* tp_methods */
-    0};
+    0,
+    .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
+};
 
 /* unicode_formatter_field_name_split is used to implement
    string.Formatter.vformat.  it takes a PEP 3101 "field name", and

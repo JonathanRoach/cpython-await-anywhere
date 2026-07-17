@@ -90,7 +90,7 @@ bool trace_now = false;
         _Py_DECREF_STAT_INC(); \
         if (--op->ob_refcnt == 0) { \
             _PyReftracerTrack(op, PyRefTracer_DESTROY); \
-            PYTYPE_CALLFUNCTION(Py_TYPE(op), tp, dealloc, op); \
+            PYTYPE_CallFunction(Py_TYPE(op), tp, dealloc, op); \
         } \
     } while (0)
 

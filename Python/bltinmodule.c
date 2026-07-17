@@ -321,16 +321,15 @@ builtin_all(PyObject *module, PyObject *iterable)
 /*[clinic end generated code: output=ca2a7127276f79b3 input=75c102f2b5401ff6]*/
 {
     PyObject *it, *item;
-    PyObject *(*iternext)(PyObject *);
     int cmp;
 
     it = PyObject_GetIter(iterable);
     if (it == NULL)
         return NULL;
-    iternext = *Py_TYPE(it)->tp_iternext;
+    PyTypeObject *tp = Py_TYPE(it);
 
     for (;;) {
-        item = iternext(it);
+        item = PYTYPE_CallFunction(tp, tp, iternext, it);
         if (item == NULL)
             break;
         cmp = PyObject_IsTrue(item);
@@ -371,16 +370,15 @@ builtin_any(PyObject *module, PyObject *iterable)
 /*[clinic end generated code: output=fa65684748caa60e input=f457ad1085f4b30b]*/
 {
     PyObject *it, *item;
-    PyObject *(*iternext)(PyObject *);
     int cmp;
 
     it = PyObject_GetIter(iterable);
     if (it == NULL)
         return NULL;
-    iternext = *Py_TYPE(it)->tp_iternext;
+    PyTypeObject *tp = Py_TYPE(it);
 
     for (;;) {
-        item = iternext(it);
+        item = PYTYPE_CallFunction(tp, tp, iternext, it);
         if (item == NULL)
             break;
         cmp = PyObject_IsTrue(item);
@@ -593,12 +591,11 @@ filter_next(PyObject *self)
     PyObject *item;
     PyObject *it = lz->it;
     long ok;
-    PyObject *(*iternext)(PyObject *);
     int checktrue = lz->func == Py_None || lz->func == (PyObject *)&PyBool_Type;
 
-    iternext = *Py_TYPE(it)->tp_iternext;
+    PyTypeObject *tp = Py_TYPE(it);
     for (;;) {
-        item = iternext(it);
+        item = PYTYPE_CallFunction(tp, tp, iternext, it);
         if (item == NULL)
             return NULL;
 
@@ -690,6 +687,8 @@ PyTypeObject PyFilter_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -1485,7 +1484,7 @@ map_next(PyObject *self)
     Py_ssize_t nargs = 0;
     for (i=0; i < niters; i++) {
         PyObject *it = PyTuple_GET_ITEM(lz->iters, i);
-        PyObject *val = Py_TYPE(it)->tp_iternext(it);
+        PyObject *val = PYTYPE_CallFunction(Py_TYPE(it), tp, iternext, it);
         if (val == NULL) {
             if (lz->strict) {
                 goto check;
@@ -1524,7 +1523,7 @@ check:
     }
     for (i = 1; i < niters; i++) {
         PyObject *it = PyTuple_GET_ITEM(lz->iters, i);
-        PyObject *val = (*Py_TYPE(it)->tp_iternext)(it);
+        PyObject *val = PYTYPE_CallFunction(Py_TYPE(it), tp, iternext, it);
         if (val) {
             Py_DECREF(val);
             const char* plural = i == 1 ? " " : "s 1-";
@@ -1644,6 +1643,8 @@ PyTypeObject PyMap_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -1664,7 +1665,7 @@ builtin_next(PyObject *self, PyObject *const *args, Py_ssize_t nargs)
         return NULL;
     }
 
-    res = (*Py_TYPE(it)->tp_iternext)(it);
+    res = PYTYPE_CallFunction(Py_TYPE(it), tp, iternext, it);
     if (res != NULL) {
         return res;
     } else if (nargs > 1) {
@@ -3147,7 +3148,7 @@ zip_next(PyObject *self)
         Py_INCREF(result);
         for (i=0 ; i < tuplesize ; i++) {
             it = PyTuple_GET_ITEM(lz->ittuple, i);
-            item = (*Py_TYPE(it)->tp_iternext)(it);
+            item = PYTYPE_CallFunction(Py_TYPE(it), tp, iternext, it);
             if (item == NULL) {
                 Py_DECREF(result);
                 if (lz->strict) {
@@ -3168,7 +3169,7 @@ zip_next(PyObject *self)
             return NULL;
         for (i=0 ; i < tuplesize ; i++) {
             it = PyTuple_GET_ITEM(lz->ittuple, i);
-            item = (*Py_TYPE(it)->tp_iternext)(it);
+            item = PYTYPE_CallFunction(Py_TYPE(it), tp, iternext, it);
             if (item == NULL) {
                 Py_DECREF(result);
                 if (lz->strict) {
@@ -3198,7 +3199,7 @@ check:
     }
     for (i = 1; i < tuplesize; i++) {
         it = PyTuple_GET_ITEM(lz->ittuple, i);
-        item = (*Py_TYPE(it)->tp_iternext)(it);
+        item = PYTYPE_CallFunction(Py_TYPE(it), tp, iternext, it);
         if (item) {
             Py_DECREF(item);
             const char* plural = i == 1 ? " " : "s 1-";
@@ -3308,6 +3309,8 @@ PyTypeObject PyZip_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
 };
 
 

@@ -1231,7 +1231,7 @@ list_extend_iter_lock_held(PyListObject *self, PyObject *iterable)
     if (it == NULL) {
         return -1;
     }
-    PyObject *(*iternext)(PyObject *) = *Py_TYPE(it)->tp_iternext;
+    PyTypeObject *tp = Py_TYPE(it);
 
     /* Guess a result list size. */
     Py_ssize_t n = PyObject_LengthHint(iterable, 8);
@@ -1263,7 +1263,7 @@ list_extend_iter_lock_held(PyListObject *self, PyObject *iterable)
 
     /* Run iterator to exhaustion. */
     for (;;) {
-        PyObject *item = iternext(it);
+        PyObject *item = PYTYPE_CallFunction(tp, tp, iternext, it);
         if (item == NULL) {
             if (PyErr_Occurred()) {
                 if (PyErr_ExceptionMatches(PyExc_StopIteration))
@@ -3934,6 +3934,7 @@ PyTypeObject PyList_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
 };
 
 /*********************** List Iterator **************************/
@@ -3991,6 +3992,8 @@ PyTypeObject PyListIter_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -4148,6 +4151,8 @@ PyTypeObject PyListRevIter_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
 };
 
 /*[clinic input]

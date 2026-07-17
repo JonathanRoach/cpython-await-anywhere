@@ -65,7 +65,7 @@ pysqlite_row_dealloc(PyObject *self)
 {
     PyTypeObject *tp = Py_TYPE(self);
     PyObject_GC_UnTrack(self);
-    (void)PYTYPE_CALLFUNCTION(tp, tp, clear, self);
+    (void)PYTYPE_CallFunction(tp, tp, clear, self);
     tp->tp_free(self);
     Py_DECREF(tp);
 }

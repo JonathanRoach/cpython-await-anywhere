@@ -2514,7 +2514,9 @@ hamt_baseiter_new(PyTypeObject *type, binaryfunc yield, PyHamtObject *o)
     .tp_clear = hamt_baseiter_tp_clear,                         \
     .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL, \
     .tp_iter = PyObject_SelfIter,                               \
-    .tp_iternext = hamt_baseiter_tp_iternext,
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL, \
+    .tp_iternext = hamt_baseiter_tp_iternext,                   \
+    .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
 
 
 /////////////////////////////////// _PyHamtItems_Type
@@ -2817,6 +2819,7 @@ PyTypeObject _PyHamt_Type = {
     .tp_as_mapping = &PyHamt_as_mapping,
     .tp_as_sequence = &PyHamt_as_sequence,
     .tp_iter = hamt_tp_iter,
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
     .tp_dealloc = hamt_tp_dealloc,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_getattro = PyObject_GenericGetAttr,

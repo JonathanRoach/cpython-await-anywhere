@@ -956,7 +956,9 @@ PyTypeObject _Py_GenericAliasIterType = {
     .tp_name = "generic_alias_iterator",
     .tp_basicsize = sizeof(gaiterobject),
     .tp_iter = PyObject_SelfIter,
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
     .tp_iternext = ga_iternext,
+    .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
     .tp_traverse = ga_iter_traverse,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_methods = ga_iter_methods,
@@ -1011,6 +1013,7 @@ PyTypeObject Py_GenericAliasType = {
     .tp_free = PyObject_GC_Del,
     .tp_getset = ga_properties,
     .tp_iter = ga_iter,
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
     .tp_vectorcall_offset = offsetof(gaobject, vectorcall),
     .tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset] = Py_FNFLAGS_FRUGAL,
 };

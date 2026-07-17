@@ -216,7 +216,7 @@ _PyType_CallFunction(PyTypeObject *tp, Coroutine_Start fn, void *param, unsigned
 #define PYTYPE_SLOTLOC_mp tp_as_mapping->
 #define PYTYPE_SLOTLOC_bf tp_as_buffer->
 
-#define PYTYPE_CALLFUNCTION(tp, KIND, SLOT, param) \
+#define PYTYPE_CallFunction(tp, KIND, SLOT, param) \
     _PyType_CallFunction( \
         (tp), \
         (Coroutine_Start)(void *)(tp)->PYTYPE_SLOTLOC_##KIND KIND##_##SLOT, \

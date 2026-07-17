@@ -1434,6 +1434,8 @@ PyTypeObject _PyLineIterator = {
     0,                                  /* tp_new */
     PyObject_Free,                      /* tp_free */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
 };
 
 static lineiterator *
@@ -1528,6 +1530,8 @@ PyTypeObject _PyPositionsIterator = {
     0,                                  /* tp_new */
     PyObject_Free,                      /* tp_free */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject*
