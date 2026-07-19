@@ -239,3 +239,4 @@ PyObject *_PyType_Call_tp_getattro(PyTypeObject *tp, PyObject *callable, PyObjec
 int _PyType_Call_tp_setattro(PyTypeObject *tp, PyObject *callable, PyObject *name, PyObject *value);
 int _PyType_Call_tp_traverse(PyTypeObject *tp, PyObject *callable, visitproc visit, void *param);
 PyObject *_PyType_Call_tp_richcompare(PyTypeObject *tp, PyObject *, PyObject *, int);
+PyObject *_PyType_Call_tp_descr_get(PyTypeObject *tp, PyObject *, PyObject *, PyObject *);

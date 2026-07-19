@@ -764,6 +764,7 @@ PyTypeObject PyMethodDescr_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_call] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_descr_get] = Py_FNFLAGS_FRUGAL,
 };
 
 /* This is for METH_CLASS in C, not for "f = classmethod(f)" in Python! */
@@ -807,6 +808,7 @@ PyTypeObject PyClassMethodDescr_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_call] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_descr_get] = Py_FNFLAGS_FRUGAL,
 };
 
 PyTypeObject PyMemberDescr_Type = {
@@ -848,6 +850,7 @@ PyTypeObject PyMemberDescr_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_descr_get] = Py_FNFLAGS_FRUGAL,
 };
 
 PyTypeObject PyGetSetDescr_Type = {
@@ -889,6 +892,7 @@ PyTypeObject PyGetSetDescr_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_descr_get] = Py_FNFLAGS_FRUGAL,
 };
 
 PyTypeObject PyWrapperDescr_Type = {
@@ -932,6 +936,7 @@ PyTypeObject PyWrapperDescr_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_call] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_descr_get] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyDescrObject *
@@ -2168,4 +2173,5 @@ PyTypeObject PyProperty_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_descr_get] = Py_FNFLAGS_FRUGAL,
 };

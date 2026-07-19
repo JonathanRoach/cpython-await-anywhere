@@ -1649,7 +1649,7 @@ _PyObject_GetMethod(PyObject *obj, PyObject *name, PyObject **method)
         else {
             f = Py_TYPE(descr)->tp_descr_get;
             if (f != NULL && PyDescr_IsData(descr)) {
-                *method = f(descr, obj, (PyObject *)Py_TYPE(obj));
+                *method = _PyType_Call_tp_descr_get(Py_TYPE(descr), descr, obj, (PyObject *)Py_TYPE(obj));
                 Py_DECREF(descr);
                 return 0;
             }
@@ -1746,7 +1746,7 @@ _PyObject_GetMethodStackRef(PyThreadState *ts, PyObject *obj,
         else {
             f = Py_TYPE(descr)->tp_descr_get;
             if (f != NULL && PyDescr_IsData(descr)) {
-                PyObject *value = f(descr, obj, (PyObject *)Py_TYPE(obj));
+                PyObject *value = _PyType_Call_tp_descr_get(Py_TYPE(descr), descr, obj, (PyObject *)Py_TYPE(obj));
                 PyStackRef_CLEAR(*method);
                 if (value != NULL) {
                     *method = PyStackRef_FromPyObjectSteal(value);
@@ -1873,7 +1873,7 @@ _PyObject_GenericGetAttrWithDict(PyObject *obj, PyObject *name,
             } else if (f == _PyProperty_Slot_tp_descr_get) {
                 res = _PyProperty_Slot_tp_descr_get_inlinable(descr, obj, (PyObject *)Py_TYPE(obj), inlined);
             } else {
-                res = f(descr, obj, (PyObject *)Py_TYPE(obj));
+                res = _PyType_Call_tp_descr_get(Py_TYPE(descr), descr, obj, (PyObject *)Py_TYPE(obj));
             }
             if (res == NULL && suppress &&
                     PyErr_ExceptionMatches(PyExc_AttributeError)) {
@@ -1933,7 +1933,7 @@ _PyObject_GenericGetAttrWithDict(PyObject *obj, PyObject *name,
         if (f == _PyType_Slot_tp_descr_get) {
             res = _PyType_Slot_tp_descr_get_inlinable(descr, obj, (PyObject *)Py_TYPE(obj), inlined);
         } else {
-            res = f(descr, obj, (PyObject *)Py_TYPE(obj));
+            res = _PyType_Call_tp_descr_get(Py_TYPE(descr), descr, obj, (PyObject *)Py_TYPE(obj));
         }
         if (res == NULL && suppress &&
                 PyErr_ExceptionMatches(PyExc_AttributeError)) {

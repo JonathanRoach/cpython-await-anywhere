@@ -2009,7 +2009,7 @@ type_get_doc(PyObject *tp, void *Py_UNUSED(closure))
     else if (result) {
         descrgetfunc descr_get = Py_TYPE(result)->tp_descr_get;
         if (descr_get) {
-            Py_SETREF(result, descr_get(result, NULL, (PyObject *)type));
+            Py_SETREF(result, _PyType_Call_tp_descr_get(Py_TYPE(result), result, NULL, (PyObject *)type));
         }
     }
     return result;
@@ -2058,7 +2058,7 @@ type_get_annotate(PyObject *tp, void *Py_UNUSED(closure))
     if (annotate) {
         descrgetfunc get = Py_TYPE(annotate)->tp_descr_get;
         if (get) {
-            Py_SETREF(annotate, get(annotate, NULL, (PyObject *)type));
+            Py_SETREF(annotate, _PyType_Call_tp_descr_get(Py_TYPE(annotate), annotate, NULL, (PyObject *)type));
         }
     }
     else {
@@ -2138,7 +2138,7 @@ type_get_annotations(PyObject *tp, void *Py_UNUSED(closure))
     if (annotations) {
         descrgetfunc get = Py_TYPE(annotations)->tp_descr_get;
         if (get) {
-            Py_SETREF(annotations, get(annotations, NULL, tp));
+            Py_SETREF(annotations, _PyType_Call_tp_descr_get(Py_TYPE(annotations), annotations, NULL, tp));
         }
     }
     else {
@@ -2904,7 +2904,7 @@ _PyObject_LookupSpecial(PyObject *self, PyObject *attr)
     if (res != NULL) {
         descrgetfunc f;
         if ((f = Py_TYPE(res)->tp_descr_get) != NULL) {
-            Py_SETREF(res, f(res, self, (PyObject *)(Py_TYPE(self))));
+            Py_SETREF(res, _PyType_Call_tp_descr_get(Py_TYPE(res), res, self, (PyObject *)(Py_TYPE(self))));
         }
     }
     return res;
@@ -2932,7 +2932,7 @@ _PyObject_LookupSpecialMethod(PyObject *attr, _PyStackRef *method_and_self)
 
     descrgetfunc f = Py_TYPE(method_o)->tp_descr_get;
     if (f != NULL) {
-        PyObject *func = f(method_o, self, (PyObject *)(Py_TYPE(self)));
+        PyObject *func = _PyType_Call_tp_descr_get(Py_TYPE(method_o), method_o, self, (PyObject *)(Py_TYPE(self)));
         if (func == NULL) {
             return -1;
         }
@@ -2963,7 +2963,7 @@ lookup_method_ex(PyObject *self, PyObject *attr, _PyStackRef *out,
 
     descrgetfunc f = Py_TYPE(value)->tp_descr_get;
     if (f != NULL) {
-        value = f(value, self, (PyObject *)(Py_TYPE(self)));
+        value = _PyType_Call_tp_descr_get(Py_TYPE(value), value, self, (PyObject *)(Py_TYPE(self)));
         PyStackRef_CLEAR(*out);
         if (value == NULL) {
             if (!raise_attribute_error &&
@@ -3961,7 +3961,7 @@ subtype_dict(PyObject *obj, void *context)
             raise_dict_descr_error(obj);
             return NULL;
         }
-        return func(descr, obj, (PyObject *)(Py_TYPE(obj)));
+        return _PyType_Call_tp_descr_get(Py_TYPE(descr), descr, obj, (PyObject *)(Py_TYPE(obj)));
     }
     return PyObject_GenericGetDict(obj, context);
 }
@@ -6396,7 +6396,7 @@ _Py_type_getattro_impl(PyTypeObject *type, PyObject *name, int * suppress_missin
              * writes. Assume the attribute is not overridden in
              * type's tp_dict (and bases): call the descriptor now.
              */
-            res = meta_get(meta_attribute, (PyObject *)type,
+            res = _PyType_Call_tp_descr_get(Py_TYPE(meta_attribute), meta_attribute, (PyObject *)type,
                            (PyObject *)metatype);
             Py_DECREF(meta_attribute);
             return res;
@@ -6415,7 +6415,7 @@ _Py_type_getattro_impl(PyTypeObject *type, PyObject *name, int * suppress_missin
         if (local_get != NULL) {
             /* NULL 2nd argument indicates the descriptor was
              * found on the target object itself (or a base)  */
-            res = local_get(attribute, (PyObject *)NULL,
+            res = _PyType_Call_tp_descr_get(Py_TYPE(attribute), attribute, (PyObject *)NULL,
                             (PyObject *)type);
             Py_DECREF(attribute);
             return res;
@@ -10799,7 +10799,7 @@ call_attribute(PyObject *self, PyObject *attr, PyObject *name,
     descrgetfunc f = Py_TYPE(attr)->tp_descr_get;
 
     if (f != NULL) {
-        descr = f(attr, self, (PyObject *)(Py_TYPE(self)));
+        descr = _PyType_Call_tp_descr_get(Py_TYPE(attr), attr, self, (PyObject *)(Py_TYPE(self)));
         if (descr == NULL)
             return NULL;
         else
@@ -12674,7 +12674,7 @@ do_super_lookup(superobject *su, PyTypeObject *su_type, PyObject *su_obj,
             descrgetfunc f = Py_TYPE(res)->tp_descr_get;
             if (f != NULL) {
                 PyObject *res2;
-                res2 = f(res,
+                res2 = _PyType_Call_tp_descr_get(Py_TYPE(res), res,
                     /* Only pass 'obj' param if this is instance-mode super
                     (See SF ID #743627)  */
                     (su_obj == (PyObject *)su_obj_type) ? NULL : su_obj,
@@ -13089,6 +13089,7 @@ PyTypeObject PySuper_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_descr_get] = Py_FNFLAGS_FRUGAL,
 };
 
 #define PyType_CallTypeFunction2(RT, KIND, SLOT, T0, T1) \
@@ -13212,3 +13213,4 @@ PyType_CallTypeFunction2(PyObject *, tp, getattro, PyObject *, PyObject *)
 PyType_CallTypeFunction3(int, tp, setattro, PyObject *, PyObject *, PyObject *)
 PyType_CallTypeFunction3(int, tp, traverse, PyObject *, visitproc, void *)
 PyType_CallTypeFunction3(PyObject *, tp, richcompare, PyObject *, PyObject *, int)
+PyType_CallTypeFunction3(PyObject *, tp, descr_get, PyObject *, PyObject *, PyObject *)

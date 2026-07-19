@@ -12,7 +12,6 @@
 #include "clinic/classobject.c.h"
 
 #define _PyMethodObject_CAST(op) _Py_CAST(PyMethodObject*, (op))
-#define TP_DESCR_GET(t) ((t)->tp_descr_get)
 
 /*[clinic input]
 class method "PyMethodObject *" "&PyMethod_Type"
@@ -199,9 +198,9 @@ method_getattro(PyObject *obj, PyObject *name)
     }
 
     if (descr != NULL) {
-        descrgetfunc f = TP_DESCR_GET(Py_TYPE(descr));
-        if (f != NULL) {
-            PyObject *res = f(descr, obj, (PyObject *)Py_TYPE(obj));
+        PyTypeObject *tp_descr = Py_TYPE(descr);
+        if (tp_descr->tp_descr_get != NULL) {
+            PyObject *res = _PyType_Call_tp_descr_get(tp_descr, descr, obj, (PyObject *)tp);
             Py_DECREF(descr);
             return res;
         }
@@ -374,6 +373,7 @@ PyTypeObject PyMethod_Type = {
     .tp_members = method_memberlist,
     .tp_getset = method_getset,
     .tp_descr_get = method_descr_get,
+    .tp_functionflags[_PyFunctionIndex_tp_descr_get] = Py_FNFLAGS_FRUGAL,
     .tp_new = method_new,
 };
 
@@ -440,9 +440,9 @@ instancemethod_getattro(PyObject *self, PyObject *name)
     descr = _PyType_LookupRef(tp, name);
 
     if (descr != NULL) {
-        descrgetfunc f = TP_DESCR_GET(Py_TYPE(descr));
-        if (f != NULL) {
-            PyObject *res = f(descr, self, (PyObject *)Py_TYPE(self));
+        PyTypeObject *tp_descr = Py_TYPE(descr);
+        if (tp_descr->tp_descr_get != NULL) {
+            PyObject *res = _PyType_Call_tp_descr_get(tp_descr, descr, self, (PyObject *)tp);
             Py_DECREF(descr);
             return res;
         }
@@ -580,5 +580,6 @@ PyTypeObject PyInstanceMethod_Type = {
     .tp_members = instancemethod_memberlist,
     .tp_getset = instancemethod_getset,
     .tp_descr_get = instancemethod_descr_get,
+    .tp_functionflags[_PyFunctionIndex_tp_descr_get] = Py_FNFLAGS_FRUGAL,
     .tp_new = instancemethod_new,
 };

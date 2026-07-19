@@ -656,6 +656,19 @@ _lsprof_Profiler__pyreturn_callback_impl(ProfilerObject *self,
     Py_RETURN_NONE;
 }
 
+struct call_tp_descr_get_params {
+    PyObject *descr;
+    PyObject *obj;
+    PyObject *obj_type;
+};
+
+static void *
+call_tp_descr_get(void *_params)
+{
+    struct call_tp_descr_get_params *params = (struct call_tp_descr_get_params *)_params;
+    return Py_TYPE(params->descr)->tp_descr_get(params->descr, params->obj, params->obj_type);
+}
+
 PyObject* get_cfunc_from_callable(PyObject* callable, PyObject* self_arg, PyObject* missing)
 {
     // return a new reference
@@ -663,7 +676,9 @@ PyObject* get_cfunc_from_callable(PyObject* callable, PyObject* self_arg, PyObje
         Py_INCREF(callable);
         return (PyObject*)((PyCFunctionObject *)callable);
     }
-    if (Py_TYPE(callable) == &PyMethodDescr_Type) {
+
+    PyTypeObject *tp = Py_TYPE(callable);
+    if (tp == &PyMethodDescr_Type) {
         /* For backwards compatibility need to
          * convert to builtin method */
 
@@ -671,8 +686,18 @@ PyObject* get_cfunc_from_callable(PyObject* callable, PyObject* self_arg, PyObje
         if (self_arg == missing) {
             return NULL;
         }
-        PyObject *meth = Py_TYPE(callable)->tp_descr_get(
-            callable, self_arg, (PyObject*)Py_TYPE(self_arg));
+
+        struct call_tp_descr_get_params params = {callable, self_arg, (PyObject*)Py_TYPE(self_arg)};
+        PyObject *meth;
+        // If (the type is extended and the function is frugal)
+        //     or if the non-frugal call wasn't possible
+        if (((tp->tp_flags & Py_TPFLAGS_IS_EXTENDED) &&
+            (tp->tp_functionflags[_PyFunctionIndex_tp_descr_get] & Py_FNFLAGS_FRUGAL)) ||
+            _Py_Coroutine_CallWithMaxStack(call_tp_descr_get, &params, (void **)&meth)){
+            // then do a (frugal) dealloc with what stack we have
+            meth = call_tp_descr_get(&params);
+        }
+
         if (meth == NULL) {
             PyErr_Clear();
             return NULL;
