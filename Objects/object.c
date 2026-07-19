@@ -2021,7 +2021,7 @@ _PyObject_GenericSetAttrWithDict(PyObject *obj, PyObject *name,
             } else if (f == _PyProperty_Slot_tp_descr_set) {
                 res = _PyProperty_Slot_tp_descr_set_inlinable(descr, obj, value, inlined);
             } else {
-                res = f(descr, obj, value);
+                res = _PyType_Call_tp_descr_set(Py_TYPE(descr), descr, obj, value);
             }
             goto done;
         }

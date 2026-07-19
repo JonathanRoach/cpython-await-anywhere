@@ -240,3 +240,4 @@ int _PyType_Call_tp_setattro(PyTypeObject *tp, PyObject *callable, PyObject *nam
 int _PyType_Call_tp_traverse(PyTypeObject *tp, PyObject *callable, visitproc visit, void *param);
 PyObject *_PyType_Call_tp_richcompare(PyTypeObject *tp, PyObject *, PyObject *, int);
 PyObject *_PyType_Call_tp_descr_get(PyTypeObject *tp, PyObject *, PyObject *, PyObject *);
+int _PyType_Call_tp_descr_set(PyTypeObject *tp, PyObject *, PyObject *, PyObject *);

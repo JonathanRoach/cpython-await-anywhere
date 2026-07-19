@@ -851,6 +851,7 @@ PyTypeObject PyMemberDescr_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_descr_get] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_descr_set] = Py_FNFLAGS_FRUGAL,
 };
 
 PyTypeObject PyGetSetDescr_Type = {
@@ -893,6 +894,7 @@ PyTypeObject PyGetSetDescr_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_descr_get] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_descr_set] = Py_FNFLAGS_FRUGAL,
 };
 
 PyTypeObject PyWrapperDescr_Type = {
@@ -2174,4 +2176,5 @@ PyTypeObject PyProperty_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_descr_get] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_descr_set] = Py_FNFLAGS_FRUGAL,
 };

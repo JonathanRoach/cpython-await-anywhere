@@ -4014,7 +4014,7 @@ subtype_setdict(PyObject *obj, PyObject *value, void *context)
             raise_dict_descr_error(obj);
             return -1;
         }
-        return func(descr, obj, value);
+        return _PyType_Call_tp_descr_set(Py_TYPE(descr), descr, obj, value);
     }
     return _PyObject_SetDict(obj, value);
 }
@@ -6565,7 +6565,7 @@ type_setattro(PyObject *self, PyObject *name, PyObject *value)
     if (descr != NULL) {
         descrsetfunc f = Py_TYPE(descr)->tp_descr_set;
         if (f != NULL) {
-            res = f(descr, (PyObject *)type, value);
+            res = _PyType_Call_tp_descr_set(Py_TYPE(descr), descr, (PyObject *)type, value);
             goto done;
         }
     }
@@ -13214,3 +13214,4 @@ PyType_CallTypeFunction3(int, tp, setattro, PyObject *, PyObject *, PyObject *)
 PyType_CallTypeFunction3(int, tp, traverse, PyObject *, visitproc, void *)
 PyType_CallTypeFunction3(PyObject *, tp, richcompare, PyObject *, PyObject *, int)
 PyType_CallTypeFunction3(PyObject *, tp, descr_get, PyObject *, PyObject *, PyObject *)
+PyType_CallTypeFunction3(int, tp, descr_set, PyObject *, PyObject *, PyObject *)
