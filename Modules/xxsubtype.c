@@ -146,6 +146,7 @@ static PyTypeObject spamlist_type = {
     spamlist_init,                              /* tp_init */
     0,                                          /* tp_alloc */
     0,                                          /* tp_new */
+    .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
 };
 
 /* spamdict -- a dict subtype */
@@ -244,6 +245,7 @@ static PyTypeObject spamdict_type = {
     spamdict_init,                              /* tp_init */
     0,                                          /* tp_alloc */
     0,                                          /* tp_new */
+    .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *

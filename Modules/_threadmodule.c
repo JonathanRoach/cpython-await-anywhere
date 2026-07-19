@@ -1720,7 +1720,7 @@ _ldict(localobject *self, thread_module_state *state)
 
     /* run __init__ if we're a subtype of `threading.local` */
     if (Py_TYPE(self)->tp_init != PyBaseObject_Type.tp_init &&
-        Py_TYPE(self)->tp_init((PyObject *)self, self->args, self->kw) < 0) {
+        _PyType_Call_tp_init(Py_TYPE(self), (PyObject *)self, self->args, self->kw) < 0) {
         /* we need to get rid of ldict from thread so
            we create a new one the next time we do an attr
            access */

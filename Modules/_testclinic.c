@@ -1809,6 +1809,7 @@ static PyTypeObject DeprStarInit = {
     .tp_basicsize = sizeof(PyObject),
     .tp_new = PyType_GenericNew,
     .tp_init = depr_star_init,
+    .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
     .tp_flags = Py_TPFLAGS_DEFAULT,
     .tp_methods = depr_star_init_methods,
 };
@@ -1840,6 +1841,7 @@ static PyTypeObject DeprStarInitNoInline = {
     .tp_basicsize = sizeof(PyObject),
     .tp_new = PyType_GenericNew,
     .tp_init = depr_star_init_noinline,
+    .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
     .tp_flags = Py_TPFLAGS_DEFAULT,
 };
 
@@ -1890,6 +1892,7 @@ static PyTypeObject DeprKwdInit = {
     .tp_basicsize = sizeof(PyObject),
     .tp_new = PyType_GenericNew,
     .tp_init = depr_kwd_init,
+    .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
     .tp_flags = Py_TPFLAGS_DEFAULT,
 };
 
@@ -1920,6 +1923,7 @@ static PyTypeObject DeprKwdInitNoInline = {
     .tp_basicsize = sizeof(PyObject),
     .tp_new = PyType_GenericNew,
     .tp_init = depr_kwd_init_noinline,
+    .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
     .tp_flags = Py_TPFLAGS_DEFAULT,
 };
 

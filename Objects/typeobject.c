@@ -2430,7 +2430,7 @@ type_call(PyObject *self, PyObject *args, PyObject *kwds)
 
     type = Py_TYPE(obj);
     if (type->tp_init != NULL) {
-        int res = type->tp_init(obj, args, kwds);
+        int res = _PyType_Call_tp_init(type, obj, args, kwds);
         if (res < 0) {
             assert(_PyErr_Occurred(tstate));
             Py_SETREF(obj, NULL);
@@ -7069,6 +7069,7 @@ PyTypeObject PyType_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_setattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -8318,6 +8319,7 @@ PyTypeObject PyBaseObject_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_setattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -13090,6 +13092,7 @@ PyTypeObject PySuper_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_descr_get] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
 };
 
 #define PyType_CallTypeFunction2(RT, KIND, SLOT, T0, T1) \
@@ -13215,3 +13218,4 @@ PyType_CallTypeFunction3(int, tp, traverse, PyObject *, visitproc, void *)
 PyType_CallTypeFunction3(PyObject *, tp, richcompare, PyObject *, PyObject *, int)
 PyType_CallTypeFunction3(PyObject *, tp, descr_get, PyObject *, PyObject *, PyObject *)
 PyType_CallTypeFunction3(int, tp, descr_set, PyObject *, PyObject *, PyObject *)
+PyType_CallTypeFunction3(int, tp, init, PyObject *, PyObject *, PyObject *)

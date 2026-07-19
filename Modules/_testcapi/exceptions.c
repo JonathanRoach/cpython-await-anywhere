@@ -553,6 +553,7 @@ static PyTypeObject PyRecursingInfinitelyError_Type = {
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
     .tp_doc = PyDoc_STR("Instantiating this exception starts infinite recursion."),
     .tp_init = recurse_infinitely_error_init,
+    .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyMethodDef test_methods[] = {

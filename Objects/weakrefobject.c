@@ -520,6 +520,7 @@ _PyWeakref_RefType = {
     .tp_methods = weakref_methods,
     .tp_members = weakref_members,
     .tp_init = weakref___init__,
+    .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
     .tp_alloc = PyType_GenericAlloc,
     .tp_new = weakref___new__,
     .tp_free = PyObject_GC_Del,
