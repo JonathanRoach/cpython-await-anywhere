@@ -153,6 +153,7 @@ with_tp_del(PyObject *self, PyObject *args)
         return NULL;
     }
     tp->tp_del = slot_tp_del;
+    tp->tp_functionflags[_PyFunctionIndex_tp_del] = Py_FNFLAGS_FRUGAL;
     return Py_NewRef(obj);
 }
 

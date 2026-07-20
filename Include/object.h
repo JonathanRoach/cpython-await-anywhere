@@ -871,6 +871,7 @@ PyAPI_FUNC(PyObject *) PyType_Call_tp_alloc(PyTypeObject *tp, PyTypeObject *, Py
 PyAPI_FUNC(PyObject *) PyType_Call_tp_new(PyTypeObject *tp, PyTypeObject *, PyObject *, PyObject *);
 PyAPI_FUNC(void) PyType_Call_tp_free(PyTypeObject *tp, void *);
 PyAPI_FUNC(int) PyType_Call_tp_is_gc(PyTypeObject *tp, PyObject *);
+PyAPI_FUNC(void) PyType_Call_tp_del(PyTypeObject *tp, PyObject *);
 
 #ifdef __cplusplus
 }

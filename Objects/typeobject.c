@@ -2688,7 +2688,7 @@ subtype_dealloc(PyObject *self)
                 return;
         }
         if (type->tp_del) {
-            type->tp_del(self);
+            PyType_Call_tp_del(type, self);
             if (Py_REFCNT(self) > 0) {
                 return;
             }
@@ -2765,7 +2765,7 @@ subtype_dealloc(PyObject *self)
 
     if (type->tp_del) {
         _PyObject_GC_TRACK(self);
-        type->tp_del(self);
+        PyType_Call_tp_del(type, self);
         if (Py_REFCNT(self) > 0) {
             /* Resurrected */
             return;
@@ -13290,3 +13290,4 @@ PyType_DefineCallTypeFunction2(R, PyObject *, tp, alloc, PyTypeObject *, Py_ssiz
 PyType_DefineCallTypeFunction3(R, PyObject *, tp, new, PyTypeObject *, PyObject *, PyObject *)
 PyType_DefineCallTypeFunction1(V, void, tp, free, void *)
 PyType_DefineCallTypeFunction1(R, int, tp, is_gc, PyObject *)
+PyType_DefineCallTypeFunction1(V, void, tp, del, PyObject *)
