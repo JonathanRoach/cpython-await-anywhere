@@ -145,6 +145,7 @@ static PyTypeObject DocStringNoSignatureTest = {
     .tp_flags = Py_TPFLAGS_DEFAULT,
     .tp_methods = DocStringNoSignatureTest_methods,
     .tp_new = PyType_GenericNew,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyMethodDef DocStringUnrepresentableSignatureTest_methods[] = {
@@ -186,6 +187,7 @@ static PyTypeObject DocStringUnrepresentableSignatureTest = {
     .tp_flags = Py_TPFLAGS_DEFAULT,
     .tp_methods = DocStringUnrepresentableSignatureTest_methods,
     .tp_new = PyType_GenericNew,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
 };
 
 int

@@ -3168,6 +3168,7 @@ PyTypeObject PyBytes_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
 };
 
 void

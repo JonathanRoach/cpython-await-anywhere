@@ -2832,6 +2832,7 @@ PyTypeObject _PyHamt_Type = {
     .tp_clear = hamt_tp_clear,
     .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
     .tp_new = hamt_tp_new,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_weaklistoffset = offsetof(PyHamtObject, h_weakreflist),
     .tp_hash = PyObject_HashNotImplemented,
     .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,

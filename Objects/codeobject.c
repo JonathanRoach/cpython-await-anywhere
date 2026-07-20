@@ -2918,6 +2918,7 @@ PyTypeObject PyCode_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
 #endif
     .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
 };
 
 

@@ -375,6 +375,7 @@ PyTypeObject PyMethod_Type = {
     .tp_descr_get = method_descr_get,
     .tp_functionflags[_PyFunctionIndex_tp_descr_get] = Py_FNFLAGS_FRUGAL,
     .tp_new = method_new,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
 };
 
 /* ------------------------------------------------------------------------
@@ -582,4 +583,5 @@ PyTypeObject PyInstanceMethod_Type = {
     .tp_descr_get = instancemethod_descr_get,
     .tp_functionflags[_PyFunctionIndex_tp_descr_get] = Py_FNFLAGS_FRUGAL,
     .tp_new = instancemethod_new,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
 };

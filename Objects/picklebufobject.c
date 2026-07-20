@@ -215,6 +215,7 @@ PyTypeObject PyPickleBuffer_Type = {
     .tp_basicsize = sizeof(PyPickleBufferObject),
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
     .tp_new = picklebuf_new,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_dealloc = picklebuf_dealloc,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_traverse = picklebuf_traverse,

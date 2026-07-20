@@ -6093,7 +6093,7 @@ load_newobj(PickleState *state, UnpicklerObject *self, int use_kwargs)
         goto error;
     }
 
-    obj = ((PyTypeObject *)cls)->tp_new((PyTypeObject *)cls, args, kwargs);
+    obj = PyType_Call_tp_new((PyTypeObject *)cls, (PyTypeObject *)cls, args, kwargs);
     if (obj == NULL) {
         goto error;
     }

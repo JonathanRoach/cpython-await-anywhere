@@ -868,6 +868,7 @@ PyAPI_FUNC(PyObject *) PyType_Call_tp_descr_get(PyTypeObject *tp, PyObject *, Py
 PyAPI_FUNC(int) PyType_Call_tp_descr_set(PyTypeObject *tp, PyObject *, PyObject *, PyObject *);
 PyAPI_FUNC(int) PyType_Call_tp_init(PyTypeObject *tp, PyObject *, PyObject *, PyObject *);
 PyAPI_FUNC(PyObject *) PyType_Call_tp_alloc(PyTypeObject *tp, PyTypeObject *, Py_ssize_t);
+PyAPI_FUNC(PyObject *) PyType_Call_tp_new(PyTypeObject *tp, PyTypeObject *, PyObject *, PyObject *);
 
 #ifdef __cplusplus
 }

@@ -690,6 +690,7 @@ PyTypeObject PyFilter_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -1647,6 +1648,7 @@ PyTypeObject PyMap_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -3314,6 +3316,7 @@ PyTypeObject PyZip_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
 };
 
 

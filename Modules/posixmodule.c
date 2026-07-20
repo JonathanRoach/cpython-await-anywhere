@@ -18387,6 +18387,7 @@ posixmodule_exec(PyObject *m)
     }
     state->statresult_new_orig = ((PyTypeObject *)state->StatResultType)->tp_new;
     ((PyTypeObject *)state->StatResultType)->tp_new = statresult_new;
+    ((PyTypeObject *)state->StatResultType)->tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL;
 
     statvfs_result_desc.name = "os.statvfs_result"; /* see issue #19209 */
     state->StatVFSResultType = (PyObject *)PyStructSequence_NewType(&statvfs_result_desc);
@@ -18401,6 +18402,7 @@ posixmodule_exec(PyObject *m)
         return -1;
     }
     ((PyTypeObject *)state->SchedParamType)->tp_new = os_sched_param;
+    ((PyTypeObject *)state->StatResultType)->tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL;
     if (_PyType_AddMethod((PyTypeObject *)state->SchedParamType,
                           &os_sched_param_reduce_method) < 0)
     {

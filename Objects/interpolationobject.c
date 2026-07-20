@@ -151,6 +151,7 @@ PyTypeObject _PyInterpolation_Type = {
     .tp_itemsize = 0,
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
     .tp_new = interpolation_new,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_alloc = PyType_GenericAlloc,
     .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
     .tp_dealloc = interpolation_dealloc,

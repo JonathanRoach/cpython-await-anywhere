@@ -91,6 +91,7 @@ static PyTypeObject testBufType = {
     .tp_basicsize = sizeof(testBufObject),
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
     .tp_new = testbuf_new,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_dealloc = testbuf_dealloc,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_traverse = testbuf_traverse,

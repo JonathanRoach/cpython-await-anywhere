@@ -121,6 +121,7 @@ PyTypeObject _PyNoDefault_Type = {
     .tp_doc = nodefault_doc,
     .tp_methods = nodefault_methods,
     .tp_new = nodefault_new,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
 };
 
 PyObject _Py_NoDefaultStruct = _PyObject_HEAD_INIT(&_PyNoDefault_Type);
@@ -2252,6 +2253,7 @@ PyTypeObject _PyTypeAlias_Type = {
     .tp_dealloc = typealias_dealloc,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_new = typealias_new,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_free = PyObject_GC_Del,
     .tp_iter = unpack_iter,
     .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,

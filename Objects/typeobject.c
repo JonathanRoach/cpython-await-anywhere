@@ -2418,7 +2418,7 @@ type_call(PyObject *self, PyObject *args, PyObject *kwds)
         return NULL;
     }
 
-    obj = type->tp_new(type, args, kwds);
+    obj = PyType_Call_tp_new(type, type, args, kwds);
     obj = _Py_CheckFunctionResult(tstate, (PyObject*)type, obj, NULL);
     if (obj == NULL)
         return NULL;
@@ -4958,7 +4958,7 @@ type_new_get_bases(type_new_ctx *ctx, PyObject **type)
     if (winner != ctx->metatype) {
         if (winner->tp_new != type_new) {
             /* Pass it to the winner */
-            *type = winner->tp_new(winner, ctx->args, ctx->kwds);
+            *type = PyType_Call_tp_new(winner, winner, ctx->args, ctx->kwds);
             if (*type == NULL) {
                 return -1;
             }
@@ -7072,6 +7072,7 @@ PyTypeObject PyType_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -8323,6 +8324,7 @@ PyTypeObject PyBaseObject_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -9188,11 +9190,13 @@ type_ready_set_new(PyTypeObject *type, int initial)
         else {
             // tp_new is NULL: inherit tp_new from base
             type->tp_new = base->tp_new;
+            type->tp_functionflags[_PyFunctionIndex_tp_new] = base->tp_functionflags[_PyFunctionIndex_tp_new];
         }
     }
     else {
         // Py_TPFLAGS_DISALLOW_INSTANTIATION sets tp_new to NULL
         type->tp_new = NULL;
+        type->tp_functionflags[_PyFunctionIndex_tp_new] = 0;
     }
     return 0;
 }
@@ -10196,7 +10200,7 @@ tp_new_wrapper(PyObject *self, PyObject *args, PyObject *kwds)
     args = PyTuple_GetSlice(args, 1, PyTuple_GET_SIZE(args));
     if (args == NULL)
         return NULL;
-    res = type->tp_new(subtype, args, kwds);
+    res = PyType_Call_tp_new(type, subtype, args, kwds);
     Py_DECREF(args);
     return res;
 }
@@ -13099,6 +13103,7 @@ PyTypeObject PySuper_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_descr_get] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
 };
 
 #define PyType_DefineCallTypeFunction2(RT, KIND, SLOT, T0, T1) \
@@ -13226,3 +13231,4 @@ PyType_DefineCallTypeFunction3(PyObject *, tp, descr_get, PyObject *, PyObject *
 PyType_DefineCallTypeFunction3(int, tp, descr_set, PyObject *, PyObject *, PyObject *)
 PyType_DefineCallTypeFunction3(int, tp, init, PyObject *, PyObject *, PyObject *)
 PyType_DefineCallTypeFunction2(PyObject *, tp, alloc, PyTypeObject *, Py_ssize_t)
+PyType_DefineCallTypeFunction3(PyObject *, tp, new, PyTypeObject *, PyObject *, PyObject *)

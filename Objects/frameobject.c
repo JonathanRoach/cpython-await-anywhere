@@ -941,6 +941,7 @@ PyTypeObject PyFrameLocalsProxy_Type = {
     .tp_alloc = PyType_GenericAlloc,
     .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
     .tp_new = framelocalsproxy_new,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_free = PyObject_GC_Del,
 };
 

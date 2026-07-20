@@ -1705,6 +1705,7 @@ static PyTypeObject TestClass = {
     .tp_basicsize = sizeof(PyObject),
     .tp_flags = Py_TPFLAGS_DEFAULT,
     .tp_new = PyType_GenericNew,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_methods = test_class_methods,
 };
 
@@ -1767,6 +1768,7 @@ static PyTypeObject DeprStarNew = {
     .tp_name = "_testclinic.DeprStarNew",
     .tp_basicsize = sizeof(PyObject),
     .tp_new = depr_star_new,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_flags = Py_TPFLAGS_DEFAULT,
     .tp_methods = depr_star_new_methods,
 };
@@ -1808,6 +1810,7 @@ static PyTypeObject DeprStarInit = {
     .tp_name = "_testclinic.DeprStarInit",
     .tp_basicsize = sizeof(PyObject),
     .tp_new = PyType_GenericNew,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_init = depr_star_init,
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
     .tp_flags = Py_TPFLAGS_DEFAULT,
@@ -1840,6 +1843,7 @@ static PyTypeObject DeprStarInitNoInline = {
     .tp_name = "_testclinic.DeprStarInitNoInline",
     .tp_basicsize = sizeof(PyObject),
     .tp_new = PyType_GenericNew,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_init = depr_star_init_noinline,
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
     .tp_flags = Py_TPFLAGS_DEFAULT,
@@ -1867,6 +1871,7 @@ static PyTypeObject DeprKwdNew = {
     .tp_name = "_testclinic.DeprKwdNew",
     .tp_basicsize = sizeof(PyObject),
     .tp_new = depr_kwd_new,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_flags = Py_TPFLAGS_DEFAULT,
 };
 
@@ -1891,6 +1896,7 @@ static PyTypeObject DeprKwdInit = {
     .tp_name = "_testclinic.DeprKwdInit",
     .tp_basicsize = sizeof(PyObject),
     .tp_new = PyType_GenericNew,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_init = depr_kwd_init,
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
     .tp_flags = Py_TPFLAGS_DEFAULT,
@@ -1922,6 +1928,7 @@ static PyTypeObject DeprKwdInitNoInline = {
     .tp_name = "_testclinic.DeprKwdInitNoInline",
     .tp_basicsize = sizeof(PyObject),
     .tp_new = PyType_GenericNew,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_init = depr_kwd_init_noinline,
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
     .tp_flags = Py_TPFLAGS_DEFAULT,

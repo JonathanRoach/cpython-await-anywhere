@@ -213,6 +213,7 @@ static PyTypeObject _HashInheritanceTester_Type = {
     PyType_GenericNew,                  /* tp_new */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject*
@@ -2750,6 +2751,7 @@ static PyTypeObject matmulType = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_setattro] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
 };
 
 typedef struct {
@@ -2771,7 +2773,8 @@ static PyTypeObject ipowType = {
     .tp_name = "ipowType",
     .tp_basicsize = sizeof(ipowObject),
     .tp_as_number = &ipowType_as_number,
-    .tp_new = PyType_GenericNew
+    .tp_new = PyType_GenericNew,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
 };
 
 typedef struct {
@@ -2868,6 +2871,7 @@ static PyTypeObject awaitType = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_setattro] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -2940,6 +2944,7 @@ static PyTypeObject MyList_Type = {
     0,                                          /* tp_alloc */
     MyList_new,                                 /* tp_new */
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
 };
 
 /* Test PEP 560 */
@@ -3031,6 +3036,7 @@ static PyTypeObject MethInstance_Type = {
     "MethInstance",
     sizeof(PyObject),
     .tp_new = PyType_GenericNew,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_flags = Py_TPFLAGS_DEFAULT,
     .tp_methods = meth_instance_methods,
     .tp_doc = (char*)PyDoc_STR(
@@ -3053,6 +3059,7 @@ static PyTypeObject MethClass_Type = {
     "MethClass",
     sizeof(PyObject),
     .tp_new = PyType_GenericNew,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_flags = Py_TPFLAGS_DEFAULT,
     .tp_methods = meth_class_methods,
     .tp_doc = PyDoc_STR(
@@ -3075,6 +3082,7 @@ static PyTypeObject MethStatic_Type = {
     "MethStatic",
     sizeof(PyObject),
     .tp_new = PyType_GenericNew,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_flags = Py_TPFLAGS_DEFAULT,
     .tp_methods = meth_static_methods,
     .tp_doc = PyDoc_STR(
@@ -3127,6 +3135,7 @@ static PyTypeObject ContainerNoGC_type = {
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
     .tp_members = ContainerNoGC_members,
     .tp_new = ContainerNoGC_new,
+    .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
 };
 
@@ -3169,6 +3178,7 @@ create_manual_heap_type(void)
     type->tp_basicsize = sizeof(ManualHeapType);
     type->tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HEAPTYPE | Py_TPFLAGS_HAVE_GC;
     type->tp_new = PyType_GenericNew;
+    type->tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL;
     type->tp_name = "ManualHeapType";
     type->tp_dictoffset = offsetof(ManualHeapType, dict);
     type->tp_traverse = ManualHeapType_traverse;
