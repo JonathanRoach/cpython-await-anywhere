@@ -1104,7 +1104,7 @@ finalize_garbage(PyThreadState *tstate, PyGC_Head *collectable)
         {
             _PyGC_SET_FINALIZED(op);
             Py_INCREF(op);
-            finalize(op);
+            PyType_Call_tp_finalize(Py_TYPE(op), op);
             assert(!_PyErr_Occurred(tstate));
             Py_DECREF(op);
         }

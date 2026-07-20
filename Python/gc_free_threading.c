@@ -1626,7 +1626,7 @@ finalize_garbage(struct collection_state *state)
             destructor finalize = Py_TYPE(op)->tp_finalize;
             if (finalize != NULL) {
                 _PyGC_SET_FINALIZED(op);
-                finalize(op);
+                PyType_Call_tp_finalize(Py_TYPE(op), op);
                 assert(!_PyErr_Occurred(_PyThreadState_GET()));
             }
         }

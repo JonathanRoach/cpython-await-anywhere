@@ -13291,3 +13291,4 @@ PyType_DefineCallTypeFunction3(R, PyObject *, tp, new, PyTypeObject *, PyObject 
 PyType_DefineCallTypeFunction1(V, void, tp, free, void *)
 PyType_DefineCallTypeFunction1(R, int, tp, is_gc, PyObject *)
 PyType_DefineCallTypeFunction1(V, void, tp, del, PyObject *)
+PyType_DefineCallTypeFunction1(V, void, tp, finalize, PyObject *)
