@@ -425,6 +425,7 @@ PyTypeObject _PyUOpExecutor_Type = {
     .tp_clear = executor_clear,
     .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
     .tp_is_gc = executor_is_gc,
+    .tp_functionflags[_PyFunctionIndex_tp_is_gc] = Py_FNFLAGS_FRUGAL,
 };
 
 /* TO DO -- Generate these tables */

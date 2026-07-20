@@ -837,7 +837,7 @@ _PyObject_IS_GC(PyObject *obj)
 {
     PyTypeObject *type = Py_TYPE(obj);
     return (_PyType_IS_GC(type)
-            && (type->tp_is_gc == NULL || type->tp_is_gc(obj)));
+            && (type->tp_is_gc == NULL || PyType_Call_tp_is_gc(type, obj)));
 }
 
 // Fast inlined version of PyObject_Hash()

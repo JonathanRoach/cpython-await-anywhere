@@ -7074,6 +7074,7 @@ PyTypeObject PyType_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_is_gc] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -13288,3 +13289,4 @@ PyType_DefineCallTypeFunction3(R, int, tp, init, PyObject *, PyObject *, PyObjec
 PyType_DefineCallTypeFunction2(R, PyObject *, tp, alloc, PyTypeObject *, Py_ssize_t)
 PyType_DefineCallTypeFunction3(R, PyObject *, tp, new, PyTypeObject *, PyObject *, PyObject *)
 PyType_DefineCallTypeFunction1(V, void, tp, free, void *)
+PyType_DefineCallTypeFunction1(R, int, tp, is_gc, PyObject *)
