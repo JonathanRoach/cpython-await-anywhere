@@ -5944,7 +5944,7 @@ long_subtype_new(PyTypeObject *type, PyObject *x, PyObject *obase)
     if (n == 0) {
         n = 1;
     }
-    newobj = (PyLongObject *)type->tp_alloc(type, n);
+    newobj = (PyLongObject *)PyType_Call_tp_alloc(type, type, n);
     if (newobj == NULL) {
         Py_DECREF(tmp);
         return NULL;

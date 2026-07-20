@@ -870,7 +870,7 @@ ga_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
     }
     PyObject *origin = PyTuple_GET_ITEM(args, 0);
     PyObject *arguments = PyTuple_GET_ITEM(args, 1);
-    gaobject *self = (gaobject *)type->tp_alloc(type, 0);
+    gaobject *self = (gaobject *)PyType_Call_tp_alloc(type, type, 0);
     if (self == NULL) {
         return NULL;
     }
@@ -1009,6 +1009,7 @@ PyTypeObject Py_GenericAliasType = {
     .tp_methods = ga_methods,
     .tp_members = ga_members,
     .tp_alloc = PyType_GenericAlloc,
+    .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
     .tp_new = ga_new,
     .tp_free = PyObject_GC_Del,
     .tp_getset = ga_properties,

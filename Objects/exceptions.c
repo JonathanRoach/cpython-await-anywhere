@@ -61,7 +61,7 @@ BaseException_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
 {
     PyBaseExceptionObject *self;
 
-    self = (PyBaseExceptionObject *)type->tp_alloc(type, 0);
+    self = (PyBaseExceptionObject *)PyType_Call_tp_alloc(type, type, 0);
     if (!self)
         return NULL;
     /* the dict is created on the fly in PyObject_GenericSetAttr */
@@ -106,7 +106,7 @@ BaseException_vectorcall(PyObject *type_obj, PyObject * const*args,
     }
 
     PyBaseExceptionObject *self;
-    self = (PyBaseExceptionObject *)type->tp_alloc(type, 0);
+    self = (PyBaseExceptionObject *)PyType_Call_tp_alloc(type, type, 0);
     if (!self) {
         return NULL;
     }
@@ -2129,7 +2129,7 @@ OSError_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
         }
     }
 
-    self = (PyOSErrorObject *) type->tp_alloc(type, 0);
+    self = (PyOSErrorObject *)PyType_Call_tp_alloc(type, type, 0);
     if (!self)
         goto error;
 

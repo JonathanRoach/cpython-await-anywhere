@@ -4287,7 +4287,7 @@ dummy_func(
                 DECREF_INPUTS();
                 ERROR_IF(true);
             }
-            PyObject *res_o = _PyType_Call_tp_vectorcall(tp, (PyObject *)tp, args_o, total_args, NULL);
+            PyObject *res_o = PyType_Call_tp_vectorcall(tp, (PyObject *)tp, args_o, total_args, NULL);
             STACKREFS_TO_PYOBJECTS_CLEANUP(args_o);
             DECREF_INPUTS();
             ERROR_IF(res_o == NULL);

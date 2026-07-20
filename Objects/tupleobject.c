@@ -749,7 +749,7 @@ tuple_subtype_new(PyTypeObject *type, PyObject *iterable)
         return NULL;
     assert(PyTuple_Check(tmp));
     /* This may allocate an empty tuple that is not the global one. */
-    newobj = type->tp_alloc(type, n = PyTuple_GET_SIZE(tmp));
+    newobj = PyType_Call_tp_alloc(type, type, n = PyTuple_GET_SIZE(tmp));
     if (newobj == NULL) {
         Py_DECREF(tmp);
         return NULL;

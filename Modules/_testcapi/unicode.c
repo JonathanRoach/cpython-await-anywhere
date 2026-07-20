@@ -232,7 +232,7 @@ typedef struct {
 static PyObject *
 writer_new(PyTypeObject *type, PyObject *args, PyObject *kwargs)
 {
-    WriterObject *self = (WriterObject *)type->tp_alloc(type, 0);
+    WriterObject *self = (WriterObject *)PyType_Call_tp_alloc(type, type, 0);
     if (!self) {
         return NULL;
     }

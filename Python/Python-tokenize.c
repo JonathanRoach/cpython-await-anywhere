@@ -58,7 +58,7 @@ tokenizeriter_new_impl(PyTypeObject *type, PyObject *readline,
                        int extra_tokens, const char *encoding)
 /*[clinic end generated code: output=7501a1211683ce16 input=1cd99ab38e9a9868]*/
 {
-    tokenizeriterobject *self = (tokenizeriterobject *)type->tp_alloc(type, 0);
+    tokenizeriterobject *self = (tokenizeriterobject *)PyType_Call_tp_alloc(type, type, 0);
     if (self == NULL) {
         return NULL;
     }

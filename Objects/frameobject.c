@@ -437,7 +437,7 @@ framelocalsproxy_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
         return 0;
     }
 
-    PyFrameLocalsProxyObject *self = (PyFrameLocalsProxyObject *)type->tp_alloc(type, 0);
+    PyFrameLocalsProxyObject *self = (PyFrameLocalsProxyObject *)PyType_Call_tp_alloc(type, type, 0);
     if (self == NULL) {
         return NULL;
     }
@@ -939,6 +939,7 @@ PyTypeObject PyFrameLocalsProxy_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
     .tp_methods = framelocalsproxy_methods,
     .tp_alloc = PyType_GenericAlloc,
+    .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
     .tp_new = framelocalsproxy_new,
     .tp_free = PyObject_GC_Del,
 };

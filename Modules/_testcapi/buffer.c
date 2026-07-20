@@ -20,7 +20,7 @@ testbuf_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
     if (obj == NULL) {
         return NULL;
     }
-    testBufObject *self = (testBufObject *)type->tp_alloc(type, 0);
+    testBufObject *self = (testBufObject *)PyType_Call_tp_alloc(type, type, 0);
     if (self == NULL) {
         Py_DECREF(obj);
         return NULL;

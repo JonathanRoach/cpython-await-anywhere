@@ -28,7 +28,7 @@ CodeLike_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
     if (states == NULL) {
         return NULL;
     }
-    PyCodeLikeObject *self = (PyCodeLikeObject *) type->tp_alloc(type, 0);
+    PyCodeLikeObject *self = (PyCodeLikeObject *)PyType_Call_tp_alloc(type, type, 0);
     if (self != NULL) {
         self->version = 0;
         self->monitoring_states = states;

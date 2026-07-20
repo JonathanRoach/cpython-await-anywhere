@@ -121,7 +121,7 @@ sys_profile_call_or_return(
         if (self_arg == &_PyInstrumentation_MISSING) {
             Py_RETURN_NONE;
         }
-        PyObject *meth = _PyType_Call_tp_descr_get(Py_TYPE(callable),
+        PyObject *meth = PyType_Call_tp_descr_get(Py_TYPE(callable),
             callable, self_arg, (PyObject*)Py_TYPE(self_arg));
         if (meth == NULL) {
             return NULL;

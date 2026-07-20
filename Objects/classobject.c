@@ -200,7 +200,7 @@ method_getattro(PyObject *obj, PyObject *name)
     if (descr != NULL) {
         PyTypeObject *tp_descr = Py_TYPE(descr);
         if (tp_descr->tp_descr_get != NULL) {
-            PyObject *res = _PyType_Call_tp_descr_get(tp_descr, descr, obj, (PyObject *)tp);
+            PyObject *res = PyType_Call_tp_descr_get(tp_descr, descr, obj, (PyObject *)tp);
             Py_DECREF(descr);
             return res;
         }
@@ -442,7 +442,7 @@ instancemethod_getattro(PyObject *self, PyObject *name)
     if (descr != NULL) {
         PyTypeObject *tp_descr = Py_TYPE(descr);
         if (tp_descr->tp_descr_get != NULL) {
-            PyObject *res = _PyType_Call_tp_descr_get(tp_descr, descr, self, (PyObject *)tp);
+            PyObject *res = PyType_Call_tp_descr_get(tp_descr, descr, self, (PyObject *)tp);
             Py_DECREF(descr);
             return res;
         }

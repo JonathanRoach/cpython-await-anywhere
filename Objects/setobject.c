@@ -1138,7 +1138,7 @@ make_new_set(PyTypeObject *type, PyObject *iterable)
     assert(PyType_Check(type));
     PySetObject *so;
 
-    so = (PySetObject *)type->tp_alloc(type, 0);
+    so = (PySetObject *)PyType_Call_tp_alloc(type, type, 0);
     if (so == NULL)
         return NULL;
 
@@ -2626,6 +2626,7 @@ PyTypeObject PySet_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
 };
 
 /* frozenset object ********************************************************/
@@ -2726,6 +2727,7 @@ PyTypeObject PyFrozenSet_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
 };
 
 

@@ -1097,7 +1097,7 @@ test_pep3118_obsolete_write_locks(PyObject* self, PyObject *Py_UNUSED(ignored))
     if (type == NULL) {
         return NULL;
     }
-    b = type->tp_alloc(type, 0);
+    b = PyType_Call_tp_alloc(type, type, 0);
     Py_DECREF(type);
     if (b == NULL) {
         return NULL;
@@ -2790,7 +2790,7 @@ awaitObject_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
     if (!PyArg_UnpackTuple(args, "awaitObject", 1, 1, &v))
         return NULL;
 
-    ao = (awaitObject *)type->tp_alloc(type, 0);
+    ao = (awaitObject *)PyType_Call_tp_alloc(type, type, 0);
     if (ao == NULL) {
         return NULL;
     }
@@ -3096,7 +3096,7 @@ ContainerNoGC_new(PyTypeObject *type, PyObject *args, PyObject *kwargs)
     if (!PyArg_ParseTupleAndKeywords(args, kwargs, "O", names, &value)) {
         return NULL;
     }
-    PyObject *self = type->tp_alloc(type, 0);
+    PyObject *self = PyType_Call_tp_alloc(type, type, 0);
     if (self == NULL) {
         return NULL;
     }

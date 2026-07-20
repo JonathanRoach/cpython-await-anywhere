@@ -401,7 +401,7 @@ complex_subtype_from_c_complex(PyTypeObject *type, Py_complex cval)
 {
     PyObject *op;
 
-    op = type->tp_alloc(type, 0);
+    op = PyType_Call_tp_alloc(type, type, 0);
     if (op != NULL)
         ((PyComplexObject *)op)->cval = cval;
     return op;
@@ -1429,4 +1429,5 @@ PyTypeObject PyComplex_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
 };

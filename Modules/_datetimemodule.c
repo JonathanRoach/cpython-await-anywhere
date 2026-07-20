@@ -1160,7 +1160,7 @@ new_date_ex(int year, int month, int day, PyTypeObject *type)
         return NULL;
     }
 
-    self = (PyDateTime_Date *)(type->tp_alloc(type, 0));
+    self = (PyDateTime_Date *)PyType_Call_tp_alloc(type, type, 0);
     if (self != NULL)
         set_date_fields(self, year, month, day);
     return (PyObject *)self;
@@ -1211,7 +1211,7 @@ new_datetime_ex2(int year, int month, int day, int hour, int minute,
         return NULL;
     }
 
-    self = (PyDateTime_DateTime *) (type->tp_alloc(type, aware));
+    self = (PyDateTime_DateTime *)PyType_Call_tp_alloc(type, type, aware);
     if (self != NULL) {
         self->hastzinfo = aware;
         set_date_fields((PyDateTime_Date *)self, year, month, day);
@@ -1316,7 +1316,7 @@ new_time_ex2(int hour, int minute, int second, int usecond,
         return NULL;
     }
 
-    self = (PyDateTime_Time *) (type->tp_alloc(type, aware));
+    self = (PyDateTime_Time *)PyType_Call_tp_alloc(type, type, aware);
     if (self != NULL) {
         self->hastzinfo = aware;
         self->hashcode = -1;
@@ -1388,7 +1388,7 @@ new_delta_ex(int days, int seconds, int microseconds, int normalize,
     }
     assert(!PyErr_Occurred());
 
-    self = (PyDateTime_Delta *) (type->tp_alloc(type, 0));
+    self = (PyDateTime_Delta *)PyType_Call_tp_alloc(type, type, 0);
     if (self != NULL) {
         self->hashcode = -1;
         SET_TD_DAYS(self, days);
@@ -1431,7 +1431,7 @@ create_timezone(PyObject *offset, PyObject *name)
     }
     assert(!PyErr_Occurred());
 
-    self = (PyDateTime_TimeZone *)(type->tp_alloc(type, 0));
+    self = (PyDateTime_TimeZone *)PyType_Call_tp_alloc(type, type, 0);
     if (self == NULL) {
         return NULL;
     }
@@ -3190,7 +3190,7 @@ date_from_pickle(PyTypeObject *type, PyObject *state)
 {
     PyDateTime_Date *me;
 
-    me = (PyDateTime_Date *) (type->tp_alloc(type, 0));
+    me = (PyDateTime_Date *)PyType_Call_tp_alloc(type, type, 0);
     if (me != NULL) {
         const char *pdata = PyBytes_AS_STRING(state);
         memcpy(me->data, pdata, _PyDateTime_DATE_DATASIZE);
@@ -3764,7 +3764,7 @@ iso_calendar_date_new_impl(PyTypeObject *type, int year, int week,
 
 {
     PyDateTime_IsoCalendarDate *self;
-    self = (PyDateTime_IsoCalendarDate *) type->tp_alloc(type, 3);
+    self = (PyDateTime_IsoCalendarDate *)PyType_Call_tp_alloc(type, type, 3);
     if (self == NULL) {
         return NULL;
     }
@@ -4617,7 +4617,7 @@ time_from_pickle(PyTypeObject *type, PyObject *state, PyObject *tzinfo)
         return NULL;
     }
 
-    me = (PyDateTime_Time *) (type->tp_alloc(type, aware));
+    me = (PyDateTime_Time *)PyType_Call_tp_alloc(type, type, aware);
     if (me != NULL) {
         const char *pdata = PyBytes_AS_STRING(state);
 
@@ -5268,6 +5268,7 @@ static PyTypeObject PyDateTime_TimeType = {
     .tp_functionflags[_PyFunctionIndex_tp_str] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
 };
 
 /*
@@ -5351,7 +5352,7 @@ datetime_from_pickle(PyTypeObject *type, PyObject *state, PyObject *tzinfo)
         return NULL;
     }
 
-    me = (PyDateTime_DateTime *) (type->tp_alloc(type , aware));
+    me = (PyDateTime_DateTime *)PyType_Call_tp_alloc(type, type, aware);
     if (me != NULL) {
         const char *pdata = PyBytes_AS_STRING(state);
 
@@ -7200,6 +7201,7 @@ static PyTypeObject PyDateTime_DateTimeType = {
     .tp_functionflags[_PyFunctionIndex_tp_str] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
 };
 
 /* ---------------------------------------------------------------------------

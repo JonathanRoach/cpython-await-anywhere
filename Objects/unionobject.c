@@ -515,6 +515,7 @@ PyTypeObject _PyUnion_Type = {
     .tp_dealloc = unionobject_dealloc,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_alloc = PyType_GenericAlloc,
+    .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
     .tp_free = PyObject_GC_Del,
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
     .tp_traverse = union_traverse,

@@ -2009,7 +2009,7 @@ type_get_doc(PyObject *tp, void *Py_UNUSED(closure))
     else if (result) {
         descrgetfunc descr_get = Py_TYPE(result)->tp_descr_get;
         if (descr_get) {
-            Py_SETREF(result, _PyType_Call_tp_descr_get(Py_TYPE(result), result, NULL, (PyObject *)type));
+            Py_SETREF(result, PyType_Call_tp_descr_get(Py_TYPE(result), result, NULL, (PyObject *)type));
         }
     }
     return result;
@@ -2058,7 +2058,7 @@ type_get_annotate(PyObject *tp, void *Py_UNUSED(closure))
     if (annotate) {
         descrgetfunc get = Py_TYPE(annotate)->tp_descr_get;
         if (get) {
-            Py_SETREF(annotate, _PyType_Call_tp_descr_get(Py_TYPE(annotate), annotate, NULL, (PyObject *)type));
+            Py_SETREF(annotate, PyType_Call_tp_descr_get(Py_TYPE(annotate), annotate, NULL, (PyObject *)type));
         }
     }
     else {
@@ -2138,7 +2138,7 @@ type_get_annotations(PyObject *tp, void *Py_UNUSED(closure))
     if (annotations) {
         descrgetfunc get = Py_TYPE(annotations)->tp_descr_get;
         if (get) {
-            Py_SETREF(annotations, _PyType_Call_tp_descr_get(Py_TYPE(annotations), annotations, NULL, tp));
+            Py_SETREF(annotations, PyType_Call_tp_descr_get(Py_TYPE(annotations), annotations, NULL, tp));
         }
     }
     else {
@@ -2430,7 +2430,7 @@ type_call(PyObject *self, PyObject *args, PyObject *kwds)
 
     type = Py_TYPE(obj);
     if (type->tp_init != NULL) {
-        int res = _PyType_Call_tp_init(type, obj, args, kwds);
+        int res = PyType_Call_tp_init(type, obj, args, kwds);
         if (res < 0) {
             assert(_PyErr_Occurred(tstate));
             Py_SETREF(obj, NULL);
@@ -2519,7 +2519,7 @@ PyType_GenericAlloc(PyTypeObject *type, Py_ssize_t nitems)
 PyObject *
 PyType_GenericNew(PyTypeObject *type, PyObject *args, PyObject *kwds)
 {
-    return type->tp_alloc(type, 0);
+    return PyType_Call_tp_alloc(type, type, 0);
 }
 
 /* Helpers for subtyping */
@@ -2904,7 +2904,7 @@ _PyObject_LookupSpecial(PyObject *self, PyObject *attr)
     if (res != NULL) {
         descrgetfunc f;
         if ((f = Py_TYPE(res)->tp_descr_get) != NULL) {
-            Py_SETREF(res, _PyType_Call_tp_descr_get(Py_TYPE(res), res, self, (PyObject *)(Py_TYPE(self))));
+            Py_SETREF(res, PyType_Call_tp_descr_get(Py_TYPE(res), res, self, (PyObject *)(Py_TYPE(self))));
         }
     }
     return res;
@@ -2932,7 +2932,7 @@ _PyObject_LookupSpecialMethod(PyObject *attr, _PyStackRef *method_and_self)
 
     descrgetfunc f = Py_TYPE(method_o)->tp_descr_get;
     if (f != NULL) {
-        PyObject *func = _PyType_Call_tp_descr_get(Py_TYPE(method_o), method_o, self, (PyObject *)(Py_TYPE(self)));
+        PyObject *func = PyType_Call_tp_descr_get(Py_TYPE(method_o), method_o, self, (PyObject *)(Py_TYPE(self)));
         if (func == NULL) {
             return -1;
         }
@@ -2963,7 +2963,7 @@ lookup_method_ex(PyObject *self, PyObject *attr, _PyStackRef *out,
 
     descrgetfunc f = Py_TYPE(value)->tp_descr_get;
     if (f != NULL) {
-        value = _PyType_Call_tp_descr_get(Py_TYPE(value), value, self, (PyObject *)(Py_TYPE(self)));
+        value = PyType_Call_tp_descr_get(Py_TYPE(value), value, self, (PyObject *)(Py_TYPE(self)));
         PyStackRef_CLEAR(*out);
         if (value == NULL) {
             if (!raise_attribute_error &&
@@ -3961,7 +3961,7 @@ subtype_dict(PyObject *obj, void *context)
             raise_dict_descr_error(obj);
             return NULL;
         }
-        return _PyType_Call_tp_descr_get(Py_TYPE(descr), descr, obj, (PyObject *)(Py_TYPE(obj)));
+        return PyType_Call_tp_descr_get(Py_TYPE(descr), descr, obj, (PyObject *)(Py_TYPE(obj)));
     }
     return PyObject_GenericGetDict(obj, context);
 }
@@ -4014,7 +4014,7 @@ subtype_setdict(PyObject *obj, PyObject *value, void *context)
             raise_dict_descr_error(obj);
             return -1;
         }
-        return _PyType_Call_tp_descr_set(Py_TYPE(descr), descr, obj, value);
+        return PyType_Call_tp_descr_set(Py_TYPE(descr), descr, obj, value);
     }
     return _PyObject_SetDict(obj, value);
 }
@@ -4391,7 +4391,7 @@ type_new_alloc(type_new_ctx *ctx)
     PyTypeObject *type;
 
     // Allocate the type object
-    type = (PyTypeObject *)metatype->tp_alloc(metatype, ctx->nslot);
+    type = (PyTypeObject *)PyType_Call_tp_alloc(metatype, metatype, ctx->nslot);
     if (type == NULL) {
         return NULL;
     }
@@ -4425,7 +4425,9 @@ type_new_alloc(type_new_ctx *ctx)
     type->tp_functionflags[_PyFunctionIndex_tp_dealloc] |= Py_FNFLAGS_FRUGAL;
     /* Always override allocation strategy to use regular heap */
     type->tp_alloc = PyType_GenericAlloc;
+    type->tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL;
     type->tp_free = PyObject_GC_Del;
+    type->tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL;
 
     type->tp_traverse = subtype_traverse;
     type->tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL;
@@ -5442,7 +5444,7 @@ PyType_FromMetaclass(
      * - memory allocations
      */
 
-    res = (PyHeapTypeObject*)metaclass->tp_alloc(metaclass, nmembers);
+    res = (PyHeapTypeObject*)PyType_Call_tp_alloc(metaclass, metaclass, nmembers);
     if (res == NULL) {
         goto finally;
     }
@@ -6396,7 +6398,7 @@ _Py_type_getattro_impl(PyTypeObject *type, PyObject *name, int * suppress_missin
              * writes. Assume the attribute is not overridden in
              * type's tp_dict (and bases): call the descriptor now.
              */
-            res = _PyType_Call_tp_descr_get(Py_TYPE(meta_attribute), meta_attribute, (PyObject *)type,
+            res = PyType_Call_tp_descr_get(Py_TYPE(meta_attribute), meta_attribute, (PyObject *)type,
                            (PyObject *)metatype);
             Py_DECREF(meta_attribute);
             return res;
@@ -6415,7 +6417,7 @@ _Py_type_getattro_impl(PyTypeObject *type, PyObject *name, int * suppress_missin
         if (local_get != NULL) {
             /* NULL 2nd argument indicates the descriptor was
              * found on the target object itself (or a base)  */
-            res = _PyType_Call_tp_descr_get(Py_TYPE(attribute), attribute, (PyObject *)NULL,
+            res = PyType_Call_tp_descr_get(Py_TYPE(attribute), attribute, (PyObject *)NULL,
                             (PyObject *)type);
             Py_DECREF(attribute);
             return res;
@@ -6565,7 +6567,7 @@ type_setattro(PyObject *self, PyObject *name, PyObject *value)
     if (descr != NULL) {
         descrsetfunc f = Py_TYPE(descr)->tp_descr_set;
         if (f != NULL) {
-            res = _PyType_Call_tp_descr_set(Py_TYPE(descr), descr, (PyObject *)type, value);
+            res = PyType_Call_tp_descr_set(Py_TYPE(descr), descr, (PyObject *)type, value);
             goto done;
         }
     }
@@ -7209,7 +7211,7 @@ object_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
         Py_DECREF(joined);
         return NULL;
     }
-    PyObject *obj = type->tp_alloc(type, 0);
+    PyObject *obj = PyType_Call_tp_alloc(type, type, 0);
     if (obj == NULL) {
         return NULL;
     }
@@ -7280,7 +7282,7 @@ object_richcompare(PyObject *self, PyObject *other, int op)
             res = Py_NewRef(Py_NotImplemented);
             break;
         }
-        res = _PyType_Call_tp_richcompare(Py_TYPE(self), self, other, Py_EQ);
+        res = PyType_Call_tp_richcompare(Py_TYPE(self), self, other, Py_EQ);
         if (res != NULL && res != Py_NotImplemented) {
             int ok = PyObject_IsTrue(res);
             Py_DECREF(res);
@@ -8320,6 +8322,7 @@ PyTypeObject PyBaseObject_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_setattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -10801,7 +10804,7 @@ call_attribute(PyObject *self, PyObject *attr, PyObject *name,
     descrgetfunc f = Py_TYPE(attr)->tp_descr_get;
 
     if (f != NULL) {
-        descr = _PyType_Call_tp_descr_get(Py_TYPE(attr), attr, self, (PyObject *)(Py_TYPE(self)));
+        descr = PyType_Call_tp_descr_get(Py_TYPE(attr), attr, self, (PyObject *)(Py_TYPE(self)));
         if (descr == NULL)
             return NULL;
         else
@@ -11223,7 +11226,9 @@ PyTypeObject _PyBufferWrapper_Type = {
     .tp_name = "_buffer_wrapper",
     .tp_basicsize = sizeof(PyBufferWrapper),
     .tp_alloc = PyType_GenericAlloc,
+    .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
     .tp_free = PyObject_GC_Del,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
     .tp_traverse = bufferwrapper_traverse,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_dealloc = bufferwrapper_dealloc,
@@ -12676,7 +12681,7 @@ do_super_lookup(superobject *su, PyTypeObject *su_type, PyObject *su_obj,
             descrgetfunc f = Py_TYPE(res)->tp_descr_get;
             if (f != NULL) {
                 PyObject *res2;
-                res2 = _PyType_Call_tp_descr_get(Py_TYPE(res), res,
+                res2 = PyType_Call_tp_descr_get(Py_TYPE(res), res,
                     /* Only pass 'obj' param if this is instance-mode super
                     (See SF ID #743627)  */
                     (su_obj == (PyObject *)su_obj_type) ? NULL : su_obj,
@@ -13018,7 +13023,7 @@ super_vectorcall(PyObject *self, PyObject *const *args,
     PyTypeObject *type = NULL;
     PyObject *obj = NULL;
     PyTypeObject *self_type = (PyTypeObject *)self;
-    PyObject *su = self_type->tp_alloc(self_type, 0);
+    PyObject *su = PyType_Call_tp_alloc(self_type, self_type, 0);
     if (su == NULL) {
         return NULL;
     }
@@ -13093,9 +13098,10 @@ PyTypeObject PySuper_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_descr_get] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
 };
 
-#define PyType_CallTypeFunction2(RT, KIND, SLOT, T0, T1) \
+#define PyType_DefineCallTypeFunction2(RT, KIND, SLOT, T0, T1) \
 struct Do_PyType_Call_##KIND##_##SLOT##_Params { \
     PyTypeObject *tp; \
     T0 v0; \
@@ -13110,7 +13116,7 @@ void *Do_PyType_Call_##KIND##_##SLOT(void *_params){ \
     ); \
 } \
  \
-RT _PyType_Call_##KIND##_##SLOT( \
+RT PyType_Call_##KIND##_##SLOT( \
     PyTypeObject *tp, \
     T0 v0, \
     T1 v1 \
@@ -13129,7 +13135,7 @@ RT _PyType_Call_##KIND##_##SLOT( \
         _PyFunctionIndex_##KIND##_##SLOT); \
 }
 
-#define PyType_CallTypeFunction3(RT, KIND, SLOT, T0, T1, T2) \
+#define PyType_DefineCallTypeFunction3(RT, KIND, SLOT, T0, T1, T2) \
 struct Do_PyType_Call_##KIND##_##SLOT##_Params { \
     PyTypeObject *tp; \
     T0 v0; \
@@ -13146,7 +13152,7 @@ void *Do_PyType_Call_##KIND##_##SLOT(void *_params){ \
     ); \
 } \
  \
-RT _PyType_Call_##KIND##_##SLOT( \
+RT PyType_Call_##KIND##_##SLOT( \
     PyTypeObject *tp, \
     T0 v0, \
     T1 v1, \
@@ -13167,7 +13173,7 @@ RT _PyType_Call_##KIND##_##SLOT( \
         _PyFunctionIndex_##KIND##_##SLOT); \
 }
 
-#define PyType_CallTypeFunction4(RT, KIND, SLOT, T0, T1, T2, T3) \
+#define PyType_DefineCallTypeFunction4(RT, KIND, SLOT, T0, T1, T2, T3) \
 struct Do_PyType_Call_##KIND##_##SLOT##_Params { \
     PyTypeObject *tp; \
     T0 v0; \
@@ -13186,7 +13192,7 @@ void *Do_PyType_Call_##KIND##_##SLOT(void *_params){ \
     ); \
 } \
  \
-RT _PyType_Call_##KIND##_##SLOT( \
+RT PyType_Call_##KIND##_##SLOT( \
     PyTypeObject *tp, \
     T0 v0, \
     T1 v1, \
@@ -13209,13 +13215,14 @@ RT _PyType_Call_##KIND##_##SLOT( \
         _PyFunctionIndex_##KIND##_##SLOT); \
 }
 
-PyType_CallTypeFunction4(PyObject *, tp, vectorcall, PyObject *, PyObject *const *, size_t, PyObject *)
-PyType_CallTypeFunction2(PyObject *, tp, getattr, PyObject *, char *)
-PyType_CallTypeFunction3(int, tp, setattr, PyObject *, char *, PyObject *)
-PyType_CallTypeFunction2(PyObject *, tp, getattro, PyObject *, PyObject *)
-PyType_CallTypeFunction3(int, tp, setattro, PyObject *, PyObject *, PyObject *)
-PyType_CallTypeFunction3(int, tp, traverse, PyObject *, visitproc, void *)
-PyType_CallTypeFunction3(PyObject *, tp, richcompare, PyObject *, PyObject *, int)
-PyType_CallTypeFunction3(PyObject *, tp, descr_get, PyObject *, PyObject *, PyObject *)
-PyType_CallTypeFunction3(int, tp, descr_set, PyObject *, PyObject *, PyObject *)
-PyType_CallTypeFunction3(int, tp, init, PyObject *, PyObject *, PyObject *)
+PyType_DefineCallTypeFunction4(PyObject *, tp, vectorcall, PyObject *, PyObject *const *, size_t, PyObject *)
+PyType_DefineCallTypeFunction2(PyObject *, tp, getattr, PyObject *, char *)
+PyType_DefineCallTypeFunction3(int, tp, setattr, PyObject *, char *, PyObject *)
+PyType_DefineCallTypeFunction2(PyObject *, tp, getattro, PyObject *, PyObject *)
+PyType_DefineCallTypeFunction3(int, tp, setattro, PyObject *, PyObject *, PyObject *)
+PyType_DefineCallTypeFunction3(int, tp, traverse, PyObject *, visitproc, void *)
+PyType_DefineCallTypeFunction3(PyObject *, tp, richcompare, PyObject *, PyObject *, int)
+PyType_DefineCallTypeFunction3(PyObject *, tp, descr_get, PyObject *, PyObject *, PyObject *)
+PyType_DefineCallTypeFunction3(int, tp, descr_set, PyObject *, PyObject *, PyObject *)
+PyType_DefineCallTypeFunction3(int, tp, init, PyObject *, PyObject *, PyObject *)
+PyType_DefineCallTypeFunction2(PyObject *, tp, alloc, PyTypeObject *, Py_ssize_t)

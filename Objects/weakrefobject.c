@@ -399,7 +399,7 @@ insert_weakref(PyWeakReference *newref, PyWeakReference **list)
 static PyWeakReference *
 allocate_weakref(PyTypeObject *type, PyObject *obj, PyObject *callback)
 {
-    PyWeakReference *newref = (PyWeakReference *) type->tp_alloc(type, 0);
+    PyWeakReference *newref = (PyWeakReference *)PyType_Call_tp_alloc(type, type, 0);
     if (newref == NULL) {
         return NULL;
     }
@@ -522,6 +522,7 @@ _PyWeakref_RefType = {
     .tp_init = weakref___init__,
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
     .tp_alloc = PyType_GenericAlloc,
+    .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
     .tp_new = weakref___new__,
     .tp_free = PyObject_GC_Del,
 };

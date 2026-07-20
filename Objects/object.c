@@ -1051,19 +1051,19 @@ do_richcompare(PyThreadState *tstate, PyObject *v, PyObject *w, int op)
         PyType_IsSubtype(Py_TYPE(w), Py_TYPE(v)) &&
         (f = Py_TYPE(w)->tp_richcompare) != NULL) {
         checked_reverse_op = 1;
-        res = _PyType_Call_tp_richcompare(Py_TYPE(w), w, v, _Py_SwappedOp[op]);
+        res = PyType_Call_tp_richcompare(Py_TYPE(w), w, v, _Py_SwappedOp[op]);
         if (res != Py_NotImplemented)
             return res;
         Py_DECREF(res);
     }
     if ((f = Py_TYPE(v)->tp_richcompare) != NULL) {
-        res = _PyType_Call_tp_richcompare(Py_TYPE(v), v, w, op);
+        res = PyType_Call_tp_richcompare(Py_TYPE(v), v, w, op);
         if (res != Py_NotImplemented)
             return res;
         Py_DECREF(res);
     }
     if (!checked_reverse_op && (f = Py_TYPE(w)->tp_richcompare) != NULL) {
-        res = _PyType_Call_tp_richcompare(Py_TYPE(w), w, v, _Py_SwappedOp[op]);
+        res = PyType_Call_tp_richcompare(Py_TYPE(w), w, v, _Py_SwappedOp[op]);
         if (res != Py_NotImplemented)
             return res;
         Py_DECREF(res);
@@ -1174,7 +1174,7 @@ PyObject_GetAttrString(PyObject *v, const char *name)
     PyObject *w, *res;
 
     if (Py_TYPE(v)->tp_getattr != NULL)
-        return _PyType_Call_tp_getattr(Py_TYPE(v), v, (char *)name);
+        return PyType_Call_tp_getattr(Py_TYPE(v), v, (char *)name);
     w = PyUnicode_FromString(name);
     if (w == NULL)
         return NULL;
@@ -1214,7 +1214,7 @@ PyObject_SetAttrString(PyObject *v, const char *name, PyObject *w)
     int res;
 
     if (Py_TYPE(v)->tp_setattr != NULL)
-        return _PyType_Call_tp_setattr(Py_TYPE(v), v, (char *)name, w);
+        return PyType_Call_tp_setattr(Py_TYPE(v), v, (char *)name, w);
     s = PyUnicode_InternFromString(name);
     if (s == NULL)
         return -1;
@@ -1317,7 +1317,7 @@ _PyObject_GetAttrInlinable(PyObject *v, PyObject *name, _PyInterpreterFrame **in
             // covers the remaining __getattr__ and __getattribute__ cases
             result = _PyType_Slot_tp_getattro_inlinable(v, name, inlined);
         } else {
-            result = _PyType_Call_tp_getattro(tp, v, name);
+            result = PyType_Call_tp_getattro(tp, v, name);
         }
     }
     else if (tp->tp_getattr != NULL) {
@@ -1325,7 +1325,7 @@ _PyObject_GetAttrInlinable(PyObject *v, PyObject *name, _PyInterpreterFrame **in
         if (name_str == NULL) {
             return NULL;
         }
-        result = _PyType_Call_tp_getattr(tp, v, (char *)name_str);
+        result = PyType_Call_tp_getattr(tp, v, (char *)name_str);
     }
     else {
         PyErr_Format(PyExc_AttributeError,
@@ -1388,7 +1388,7 @@ PyObject_GetOptionalAttr(PyObject *v, PyObject *name, PyObject **result)
         return 0;
     }
     else if (tp->tp_getattro != NULL) {
-        *result = _PyType_Call_tp_getattro(tp, v, name);
+        *result = PyType_Call_tp_getattro(tp, v, name);
     }
     else if (tp->tp_getattr != NULL) {
         const char *name_str = PyUnicode_AsUTF8(name);
@@ -1396,7 +1396,7 @@ PyObject_GetOptionalAttr(PyObject *v, PyObject *name, PyObject **result)
             *result = NULL;
             return -1;
         }
-        *result = _PyType_Call_tp_getattr(tp, v, (char *)name_str);
+        *result = PyType_Call_tp_getattr(tp, v, (char *)name_str);
     }
     else {
         *result = NULL;
@@ -1427,7 +1427,7 @@ PyObject_GetOptionalAttrString(PyObject *obj, const char *name, PyObject **resul
         return rc;
     }
 
-    *result = _PyType_Call_tp_getattr(Py_TYPE(obj), obj, (char *)name);
+    *result = PyType_Call_tp_getattr(Py_TYPE(obj), obj, (char *)name);
     if (*result != NULL) {
         return 1;
     }
@@ -1485,7 +1485,7 @@ _PyObject_SetAttrInlinable(PyObject *v, PyObject *name, PyObject *value,
         else if (inlined && tp->tp_setattro == _PyType_Slot_tp_setattro){
             err = _PyType_Slot_tp_setattro_inlinable(v, name, value, inlined);
         } else {
-            err = _PyType_Call_tp_setattro(tp, v, name, value);
+            err = PyType_Call_tp_setattro(tp, v, name, value);
         }
         Py_DECREF(name);
         return err;
@@ -1496,7 +1496,7 @@ _PyObject_SetAttrInlinable(PyObject *v, PyObject *name, PyObject *value,
             Py_DECREF(name);
             return -1;
         }
-        err = _PyType_Call_tp_setattr(tp, v, (char *)name_str, value);
+        err = PyType_Call_tp_setattr(tp, v, (char *)name_str, value);
         Py_DECREF(name);
         return err;
     }
@@ -1649,7 +1649,7 @@ _PyObject_GetMethod(PyObject *obj, PyObject *name, PyObject **method)
         else {
             f = Py_TYPE(descr)->tp_descr_get;
             if (f != NULL && PyDescr_IsData(descr)) {
-                *method = _PyType_Call_tp_descr_get(Py_TYPE(descr), descr, obj, (PyObject *)Py_TYPE(obj));
+                *method = PyType_Call_tp_descr_get(Py_TYPE(descr), descr, obj, (PyObject *)Py_TYPE(obj));
                 Py_DECREF(descr);
                 return 0;
             }
@@ -1746,7 +1746,7 @@ _PyObject_GetMethodStackRef(PyThreadState *ts, PyObject *obj,
         else {
             f = Py_TYPE(descr)->tp_descr_get;
             if (f != NULL && PyDescr_IsData(descr)) {
-                PyObject *value = _PyType_Call_tp_descr_get(Py_TYPE(descr), descr, obj, (PyObject *)Py_TYPE(obj));
+                PyObject *value = PyType_Call_tp_descr_get(Py_TYPE(descr), descr, obj, (PyObject *)Py_TYPE(obj));
                 PyStackRef_CLEAR(*method);
                 if (value != NULL) {
                     *method = PyStackRef_FromPyObjectSteal(value);
@@ -1873,7 +1873,7 @@ _PyObject_GenericGetAttrWithDict(PyObject *obj, PyObject *name,
             } else if (f == _PyProperty_Slot_tp_descr_get) {
                 res = _PyProperty_Slot_tp_descr_get_inlinable(descr, obj, (PyObject *)Py_TYPE(obj), inlined);
             } else {
-                res = _PyType_Call_tp_descr_get(Py_TYPE(descr), descr, obj, (PyObject *)Py_TYPE(obj));
+                res = PyType_Call_tp_descr_get(Py_TYPE(descr), descr, obj, (PyObject *)Py_TYPE(obj));
             }
             if (res == NULL && suppress &&
                     PyErr_ExceptionMatches(PyExc_AttributeError)) {
@@ -1933,7 +1933,7 @@ _PyObject_GenericGetAttrWithDict(PyObject *obj, PyObject *name,
         if (f == _PyType_Slot_tp_descr_get) {
             res = _PyType_Slot_tp_descr_get_inlinable(descr, obj, (PyObject *)Py_TYPE(obj), inlined);
         } else {
-            res = _PyType_Call_tp_descr_get(Py_TYPE(descr), descr, obj, (PyObject *)Py_TYPE(obj));
+            res = PyType_Call_tp_descr_get(Py_TYPE(descr), descr, obj, (PyObject *)Py_TYPE(obj));
         }
         if (res == NULL && suppress &&
                 PyErr_ExceptionMatches(PyExc_AttributeError)) {
@@ -2021,7 +2021,7 @@ _PyObject_GenericSetAttrWithDict(PyObject *obj, PyObject *name,
             } else if (f == _PyProperty_Slot_tp_descr_set) {
                 res = _PyProperty_Slot_tp_descr_set_inlinable(descr, obj, value, inlined);
             } else {
-                res = _PyType_Call_tp_descr_set(Py_TYPE(descr), descr, obj, value);
+                res = PyType_Call_tp_descr_set(Py_TYPE(descr), descr, obj, value);
             }
             goto done;
         }

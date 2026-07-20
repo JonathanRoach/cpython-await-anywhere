@@ -1628,7 +1628,7 @@ float_subtype_new(PyTypeObject *type, PyObject *x)
     if (tmp == NULL)
         return NULL;
     assert(PyFloat_Check(tmp));
-    newobj = type->tp_alloc(type, 0);
+    newobj = PyType_Call_tp_alloc(type, type, 0);
     if (newobj == NULL) {
         Py_DECREF(tmp);
         return NULL;

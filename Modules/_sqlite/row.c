@@ -90,7 +90,7 @@ pysqlite_row_new_impl(PyTypeObject *type, pysqlite_Cursor *cursor,
 
     assert(type != NULL && type->tp_alloc != NULL);
 
-    self = (pysqlite_Row *) type->tp_alloc(type, 0);
+    self = (pysqlite_Row *)PyType_Call_tp_alloc(type, type, 0);
     if (self == NULL)
         return NULL;
 

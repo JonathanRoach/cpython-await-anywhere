@@ -521,7 +521,7 @@ filter_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
         return NULL;
 
     /* create filterobject structure */
-    lz = (filterobject *)type->tp_alloc(type, 0);
+    lz = (filterobject *)PyType_Call_tp_alloc(type, type, 0);
     if (lz == NULL) {
         Py_DECREF(it);
         return NULL;
@@ -552,7 +552,7 @@ filter_vectorcall(PyObject *type, PyObject * const*args,
         return NULL;
     }
 
-    filterobject *lz = (filterobject *)tp->tp_alloc(tp, 0);
+    filterobject *lz = (filterobject *)PyType_Call_tp_alloc(tp, tp, 0);
 
     if (lz == NULL) {
         Py_DECREF(it);
@@ -689,6 +689,7 @@ PyTypeObject PyFilter_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -1382,7 +1383,7 @@ map_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
     }
 
     /* create mapobject structure */
-    lz = (mapobject *)type->tp_alloc(type, 0);
+    lz = (mapobject *)PyType_Call_tp_alloc(type, type, 0);
     if (lz == NULL) {
         Py_DECREF(iters);
         return NULL;
@@ -1428,7 +1429,7 @@ map_vectorcall(PyObject *type, PyObject * const*args,
         PyTuple_SET_ITEM(iters, i-1, it);
     }
 
-    mapobject *lz = (mapobject *)tp->tp_alloc(tp, 0);
+    mapobject *lz = (mapobject *)PyType_Call_tp_alloc(tp, tp, 0);
     if (lz == NULL) {
         Py_DECREF(iters);
         return NULL;
@@ -1645,6 +1646,7 @@ PyTypeObject PyMap_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -3096,7 +3098,7 @@ zip_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
     }
 
     /* create zipobject structure */
-    lz = (zipobject *)type->tp_alloc(type, 0);
+    lz = (zipobject *)PyType_Call_tp_alloc(type, type, 0);
     if (lz == NULL) {
         Py_DECREF(ittuple);
         Py_DECREF(result);
@@ -3311,6 +3313,7 @@ PyTypeObject PyZip_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
 };
 
 

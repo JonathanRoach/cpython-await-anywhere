@@ -2248,6 +2248,7 @@ PyTypeObject _PyTypeAlias_Type = {
     .tp_methods = typealias_methods,
     .tp_getset = typealias_getset,
     .tp_alloc = PyType_GenericAlloc,
+    .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
     .tp_dealloc = typealias_dealloc,
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_new = typealias_new,

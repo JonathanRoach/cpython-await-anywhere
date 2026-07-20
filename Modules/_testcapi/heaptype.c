@@ -1367,7 +1367,7 @@ HeapCCollection_new(PyTypeObject *subtype, PyObject *args, PyObject *kwds)
     PyObject *result = NULL;
 
     Py_ssize_t size = PyTuple_GET_SIZE(args);
-    self = subtype->tp_alloc(subtype, size);
+    self = PyType_Call_tp_alloc(subtype, subtype, size);
     if (!self) {
         goto finally;
     }

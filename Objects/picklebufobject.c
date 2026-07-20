@@ -18,7 +18,7 @@ PyPickleBuffer_FromObject(PyObject *base)
     PyTypeObject *type = &PyPickleBuffer_Type;
     PyPickleBufferObject *self;
 
-    self = (PyPickleBufferObject *) type->tp_alloc(type, 0);
+    self = (PyPickleBufferObject *)PyType_Call_tp_alloc(type, type, 0);
     if (self == NULL) {
         return NULL;
     }
@@ -77,7 +77,7 @@ picklebuf_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
         return NULL;
     }
 
-    self = (PyPickleBufferObject *) type->tp_alloc(type, 0);
+    self = (PyPickleBufferObject *)PyType_Call_tp_alloc(type, type, 0);
     if (self == NULL) {
         return NULL;
     }

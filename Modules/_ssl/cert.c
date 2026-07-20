@@ -22,7 +22,7 @@ newCertificate(PyTypeObject *type, X509 *cert, int upref)
     assert(type != NULL && type->tp_alloc != NULL);
     assert(cert != NULL);
 
-    self = (PySSLCertificate *) type->tp_alloc(type, 0);
+    self = (PySSLCertificate *)PyType_Call_tp_alloc(type, type, 0);
     if (self == NULL) {
         return NULL;
     }

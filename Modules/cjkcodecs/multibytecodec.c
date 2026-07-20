@@ -1105,7 +1105,7 @@ mbiencoder_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
                                      incnewkwarglist, &errors))
         return NULL;
 
-    self = (MultibyteIncrementalEncoderObject *)type->tp_alloc(type, 0);
+    self = (MultibyteIncrementalEncoderObject *)PyType_Call_tp_alloc(type, type, 0);
     if (self == NULL)
         return NULL;
 
@@ -1403,7 +1403,7 @@ mbidecoder_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
                                      incnewkwarglist, &errors))
         return NULL;
 
-    self = (MultibyteIncrementalDecoderObject *)type->tp_alloc(type, 0);
+    self = (MultibyteIncrementalDecoderObject *)PyType_Call_tp_alloc(type, type, 0);
     if (self == NULL)
         return NULL;
 
@@ -1734,7 +1734,7 @@ mbstreamreader_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
                             streamkwarglist, &stream, &errors))
         return NULL;
 
-    self = (MultibyteStreamReaderObject *)type->tp_alloc(type, 0);
+    self = (MultibyteStreamReaderObject *)PyType_Call_tp_alloc(type, type, 0);
     if (self == NULL)
         return NULL;
 
@@ -1972,7 +1972,7 @@ mbstreamwriter_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
                             streamkwarglist, &stream, &errors))
         return NULL;
 
-    self = (MultibyteStreamWriterObject *)type->tp_alloc(type, 0);
+    self = (MultibyteStreamWriterObject *)PyType_Call_tp_alloc(type, type, 0);
     if (self == NULL)
         return NULL;
 

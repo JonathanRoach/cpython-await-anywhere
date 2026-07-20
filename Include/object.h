@@ -857,6 +857,18 @@ PyAPI_FUNC(PyObject *) PyType_GetModuleByDef(PyTypeObject *, PyModuleDef *);
 PyAPI_FUNC(int) PyType_Freeze(PyTypeObject *type);
 #endif
 
+PyAPI_FUNC(PyObject *) PyType_Call_tp_vectorcall(PyTypeObject *tp, PyObject *callable, PyObject *const *args, size_t nargsf, PyObject *kwnames);
+PyAPI_FUNC(PyObject *) PyType_Call_tp_getattr(PyTypeObject *tp, PyObject *callable, char *name);
+PyAPI_FUNC(int) PyType_Call_tp_setattr(PyTypeObject *tp, PyObject *callable, char *name, PyObject *value);
+PyAPI_FUNC(PyObject *) PyType_Call_tp_getattro(PyTypeObject *tp, PyObject *callable, PyObject *name);
+PyAPI_FUNC(int) PyType_Call_tp_setattro(PyTypeObject *tp, PyObject *callable, PyObject *name, PyObject *value);
+PyAPI_FUNC(int) PyType_Call_tp_traverse(PyTypeObject *tp, PyObject *callable, visitproc visit, void *param);
+PyAPI_FUNC(PyObject *) PyType_Call_tp_richcompare(PyTypeObject *tp, PyObject *, PyObject *, int);
+PyAPI_FUNC(PyObject *) PyType_Call_tp_descr_get(PyTypeObject *tp, PyObject *, PyObject *, PyObject *);
+PyAPI_FUNC(int) PyType_Call_tp_descr_set(PyTypeObject *tp, PyObject *, PyObject *, PyObject *);
+PyAPI_FUNC(int) PyType_Call_tp_init(PyTypeObject *tp, PyObject *, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_tp_alloc(PyTypeObject *tp, PyTypeObject *, Py_ssize_t);
+
 #ifdef __cplusplus
 }
 #endif

@@ -15702,7 +15702,7 @@ unicode_subtype_new(PyTypeObject *type, PyObject *unicode)
     assert(PyType_IsSubtype(type, &PyUnicode_Type));
     assert(_PyUnicode_CHECK(unicode));
 
-    self = type->tp_alloc(type, 0);
+    self = PyType_Call_tp_alloc(type, type, 0);
     if (self == NULL) {
         return NULL;
     }

@@ -29,7 +29,7 @@ namespace_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
     PyObject *self;
 
     assert(type != NULL && type->tp_alloc != NULL);
-    self = type->tp_alloc(type, 0);
+    self = PyType_Call_tp_alloc(type, type, 0);
     if (self != NULL) {
         _PyNamespaceObject *ns = (_PyNamespaceObject *)self;
         ns->ns_dict = PyDict_New();
@@ -309,6 +309,7 @@ PyTypeObject _PyNamespace_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
 };
 
 

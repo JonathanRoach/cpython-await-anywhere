@@ -4858,7 +4858,7 @@ dict_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
     // dict subclasses must implement the GC protocol
     assert(_PyType_IS_GC(type));
 
-    PyObject *self = type->tp_alloc(type, 0);
+    PyObject *self = PyType_Call_tp_alloc(type, type, 0);
     if (self == NULL) {
         return NULL;
     }
@@ -4986,6 +4986,7 @@ PyTypeObject PyDict_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
 };
 
 /* For backward compatibility with old dictionary interface */

@@ -662,13 +662,6 @@ struct call_tp_descr_get_params {
     PyObject *obj_type;
 };
 
-static void *
-call_tp_descr_get(void *_params)
-{
-    struct call_tp_descr_get_params *params = (struct call_tp_descr_get_params *)_params;
-    return Py_TYPE(params->descr)->tp_descr_get(params->descr, params->obj, params->obj_type);
-}
-
 PyObject* get_cfunc_from_callable(PyObject* callable, PyObject* self_arg, PyObject* missing)
 {
     // return a new reference
@@ -687,16 +680,7 @@ PyObject* get_cfunc_from_callable(PyObject* callable, PyObject* self_arg, PyObje
             return NULL;
         }
 
-        struct call_tp_descr_get_params params = {callable, self_arg, (PyObject*)Py_TYPE(self_arg)};
-        PyObject *meth;
-        // If (the type is extended and the function is frugal)
-        //     or if the non-frugal call wasn't possible
-        if (((tp->tp_flags & Py_TPFLAGS_IS_EXTENDED) &&
-            (tp->tp_functionflags[_PyFunctionIndex_tp_descr_get] & Py_FNFLAGS_FRUGAL)) ||
-            _Py_Coroutine_CallWithMaxStack(call_tp_descr_get, &params, (void **)&meth)){
-            // then do a (frugal) dealloc with what stack we have
-            meth = call_tp_descr_get(&params);
-        }
+        PyObject *meth = PyType_Call_tp_descr_get(tp, callable, self_arg, (PyObject*)Py_TYPE(self_arg));
 
         if (meth == NULL) {
             PyErr_Clear();

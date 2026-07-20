@@ -231,14 +231,3 @@ _PyType_CallFunction(PyTypeObject *tp, Coroutine_Start fn, void *param, unsigned
 }
 #endif
 #endif /* !Py_INTERNAL_TYPEOBJECT_H */
-
-PyObject *_PyType_Call_tp_vectorcall(PyTypeObject *tp, PyObject *callable, PyObject *const *args, size_t nargsf, PyObject *kwnames);
-PyObject *_PyType_Call_tp_getattr(PyTypeObject *tp, PyObject *callable, char *name);
-int _PyType_Call_tp_setattr(PyTypeObject *tp, PyObject *callable, char *name, PyObject *value);
-PyObject *_PyType_Call_tp_getattro(PyTypeObject *tp, PyObject *callable, PyObject *name);
-int _PyType_Call_tp_setattro(PyTypeObject *tp, PyObject *callable, PyObject *name, PyObject *value);
-int _PyType_Call_tp_traverse(PyTypeObject *tp, PyObject *callable, visitproc visit, void *param);
-PyObject *_PyType_Call_tp_richcompare(PyTypeObject *tp, PyObject *, PyObject *, int);
-PyObject *_PyType_Call_tp_descr_get(PyTypeObject *tp, PyObject *, PyObject *, PyObject *);
-int _PyType_Call_tp_descr_set(PyTypeObject *tp, PyObject *, PyObject *, PyObject *);
-int _PyType_Call_tp_init(PyTypeObject *tp, PyObject *, PyObject *, PyObject *);

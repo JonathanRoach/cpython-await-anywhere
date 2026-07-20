@@ -3092,7 +3092,7 @@ bytes_subtype_new(PyTypeObject *type, PyObject *tmp)
     assert(PyType_IsSubtype(type, &PyBytes_Type));
     assert(PyBytes_Check(tmp));
     n = PyBytes_GET_SIZE(tmp);
-    pnew = type->tp_alloc(type, n);
+    pnew = PyType_Call_tp_alloc(type, type, n);
     if (pnew != NULL) {
         memcpy(PyBytes_AS_STRING(pnew),
                   PyBytes_AS_STRING(tmp), n+1);
@@ -3167,6 +3167,7 @@ PyTypeObject PyBytes_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
 };
 
 void
