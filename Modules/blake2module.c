@@ -1028,7 +1028,7 @@ py_blake2_dealloc(PyObject *self)
     PyTypeObject *type = Py_TYPE(self);
     PyObject_GC_UnTrack(self);
     (void)py_blake2_clear(self);
-    type->tp_free(self);
+    PyType_Call_tp_free(type, self);
     Py_DECREF(type);
 }
 

@@ -629,7 +629,7 @@ scanner_dealloc(PyObject *self)
     /* bpo-31095: UnTrack is needed before calling any callbacks */
     PyObject_GC_UnTrack(self);
     (void)scanner_clear(self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 
@@ -1847,7 +1847,7 @@ encoder_dealloc(PyObject *self)
     /* bpo-31095: UnTrack is needed before calling any callbacks */
     PyObject_GC_UnTrack(self);
     (void)encoder_clear(self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 

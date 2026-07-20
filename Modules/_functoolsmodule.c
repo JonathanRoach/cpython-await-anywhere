@@ -80,7 +80,7 @@ placeholder_dealloc(PyObject* self)
 {
     PyObject_GC_UnTrack(self);
     PyTypeObject *tp = Py_TYPE(self);
-    tp->tp_free((PyObject*)self);
+    PyType_Call_tp_free(tp, (PyObject*)self);
     Py_DECREF(tp);
 }
 
@@ -364,7 +364,7 @@ partial_dealloc(PyObject *self)
         PyObject_ClearWeakRefs(self);
     }
     (void)partial_clear(self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 
@@ -837,7 +837,7 @@ keyobject_dealloc(PyObject *ko)
     PyTypeObject *tp = Py_TYPE(ko);
     PyObject_GC_UnTrack(ko);
     (void)keyobject_clear(ko);
-    tp->tp_free(ko);
+    PyType_Call_tp_free(tp, ko);
     Py_DECREF(tp);
 }
 
@@ -1120,7 +1120,7 @@ lru_list_elem_dealloc(PyObject *op)
     PyTypeObject *tp = Py_TYPE(link);
     Py_XDECREF(link->key);
     Py_XDECREF(link->result);
-    tp->tp_free(link);
+    PyType_Call_tp_free(tp, link);
     Py_DECREF(tp);
 }
 
@@ -1671,7 +1671,7 @@ lru_cache_dealloc(PyObject *op)
     }
 
     (void)lru_cache_tp_clear(op);
-    tp->tp_free(obj);
+    PyType_Call_tp_free(tp, obj);
     Py_DECREF(tp);
 }
 

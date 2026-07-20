@@ -47,7 +47,7 @@ CodeLike_dealloc(PyObject *op)
     if (self->monitoring_states) {
         PyMem_Free(self->monitoring_states);
     }
-    Py_TYPE(self)->tp_free((PyObject *) self);
+    PyType_Call_tp_free(Py_TYPE(self), (PyObject *) self);
 }
 
 static PyObject *

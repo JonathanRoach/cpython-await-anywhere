@@ -675,7 +675,7 @@ PyThreadHandleObject_dealloc(PyObject *op)
     PyObject_GC_UnTrack(self);
     PyTypeObject *tp = Py_TYPE(self);
     ThreadHandle_decref(self->handle);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 
@@ -803,7 +803,7 @@ lock_dealloc(PyObject *self)
     PyObject_GC_UnTrack(self);
     PyObject_ClearWeakRefs(self);
     PyTypeObject *tp = Py_TYPE(self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 
@@ -1079,7 +1079,7 @@ rlock_dealloc(PyObject *self)
     PyObject_GC_UnTrack(self);
     PyObject_ClearWeakRefs(self);
     PyTypeObject *tp = Py_TYPE(self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 
@@ -1420,7 +1420,7 @@ localdummy_dealloc(PyObject *op)
         PyObject_ClearWeakRefs(op);
     }
     PyTypeObject *tp = Py_TYPE(self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 
@@ -1600,7 +1600,7 @@ local_dealloc(PyObject *op)
     PyObject_GC_UnTrack(self);
     (void)local_clear(op);
     PyTypeObject *tp = Py_TYPE(self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 

@@ -851,7 +851,7 @@ module_dealloc(PyObject *self)
     Py_XDECREF(m->md_name);
     if (m->md_state != NULL)
         PyMem_Free(m->md_state);
-    Py_TYPE(m)->tp_free((PyObject *)m);
+    PyType_Call_tp_free(Py_TYPE(m), (PyObject *)m);
 }
 
 static PyObject *
@@ -1517,4 +1517,5 @@ PyTypeObject PyModule_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };

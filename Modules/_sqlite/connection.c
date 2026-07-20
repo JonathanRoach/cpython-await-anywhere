@@ -527,7 +527,7 @@ connection_dealloc(PyObject *self)
     PyTypeObject *tp = Py_TYPE(self);
     PyObject_GC_UnTrack(self);
     (void)PYTYPE_CallFunction(tp, tp, clear, self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 

@@ -5531,7 +5531,7 @@ sock_dealloc(PyObject *s)
     }
     PyTypeObject *tp = Py_TYPE(s);
     PyObject_GC_UnTrack(s);
-    tp->tp_free(s);
+    PyType_Call_tp_free(tp, s);
     Py_DECREF(tp);
 }
 

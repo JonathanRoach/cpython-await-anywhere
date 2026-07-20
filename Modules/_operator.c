@@ -1146,7 +1146,7 @@ itemgetter_dealloc(PyObject *op)
     PyTypeObject *tp = Py_TYPE(op);
     PyObject_GC_UnTrack(op);
     (void)itemgetter_clear(op);
-    tp->tp_free(op);
+    PyType_Call_tp_free(tp, op);
     Py_DECREF(tp);
 }
 
@@ -1447,7 +1447,7 @@ attrgetter_dealloc(PyObject *op)
     PyTypeObject *tp = Py_TYPE(op);
     PyObject_GC_UnTrack(op);
     (void)attrgetter_clear(op);
-    tp->tp_free(op);
+    PyType_Call_tp_free(tp, op);
     Py_DECREF(tp);
 }
 
@@ -1837,7 +1837,7 @@ methodcaller_dealloc(PyObject *op)
     PyTypeObject *tp = Py_TYPE(op);
     PyObject_GC_UnTrack(op);
     (void)methodcaller_clear(op);
-    tp->tp_free(op);
+    PyType_Call_tp_free(tp, op);
     Py_DECREF(tp);
 }
 

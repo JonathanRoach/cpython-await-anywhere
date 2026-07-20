@@ -114,7 +114,7 @@ picklebuf_dealloc(PyObject *op)
     if (self->weakreflist != NULL)
         PyObject_ClearWeakRefs((PyObject *) self);
     PyBuffer_Release(&self->view);
-    Py_TYPE(self)->tp_free((PyObject *) self);
+    PyType_Call_tp_free(Py_TYPE(self), (PyObject *) self);
 }
 
 /* Buffer API */

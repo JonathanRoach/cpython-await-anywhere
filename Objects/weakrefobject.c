@@ -142,7 +142,7 @@ weakref_dealloc(PyObject *self)
 {
     PyObject_GC_UnTrack(self);
     clear_weakref(self);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 
@@ -526,6 +526,7 @@ _PyWeakref_RefType = {
     .tp_new = weakref___new__,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_free = PyObject_GC_Del,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };
 
 

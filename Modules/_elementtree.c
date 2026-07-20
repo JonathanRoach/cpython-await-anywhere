@@ -697,7 +697,7 @@ element_dealloc(PyObject *op)
     */
     (void)element_gc_clear(op);
 
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 
@@ -2182,7 +2182,7 @@ elementiter_dealloc(PyObject *op)
     Py_XDECREF(it->sought_tag);
     Py_XDECREF(it->root_element);
 
-    tp->tp_free(it);
+    PyType_Call_tp_free(tp, it);
     Py_DECREF(tp);
 }
 
@@ -2570,7 +2570,7 @@ treebuilder_dealloc(PyObject *self)
     PyTypeObject *tp = Py_TYPE(self);
     PyObject_GC_UnTrack(self);
     (void)treebuilder_gc_clear(self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 
@@ -3902,7 +3902,7 @@ xmlparser_dealloc(PyObject *self)
     PyTypeObject *tp = Py_TYPE(self);
     PyObject_GC_UnTrack(self);
     (void)xmlparser_gc_clear(self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 

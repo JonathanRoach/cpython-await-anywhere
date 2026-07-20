@@ -390,7 +390,7 @@ BZ2Compressor_dealloc(PyObject *op)
         PyThread_free_lock(self->lock);
     }
     PyTypeObject *tp = Py_TYPE(self);
-    tp->tp_free((PyObject *)self);
+    PyType_Call_tp_free(tp, (PyObject *)self);
     Py_DECREF(tp);
 }
 
@@ -711,7 +711,7 @@ BZ2Decompressor_dealloc(PyObject *op)
     }
 
     PyTypeObject *tp = Py_TYPE(self);
-    tp->tp_free((PyObject *)self);
+    PyType_Call_tp_free(tp, (PyObject *)self);
     Py_DECREF(tp);
 }
 

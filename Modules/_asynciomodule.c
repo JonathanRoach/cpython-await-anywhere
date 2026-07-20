@@ -1859,7 +1859,7 @@ FutureObj_dealloc(PyObject *self)
     PyObject_ClearWeakRefs(self);
 
     (void)FutureObj_clear(self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 
@@ -2174,7 +2174,7 @@ TaskStepMethWrapper_dealloc(PyObject *op)
     PyTypeObject *tp = Py_TYPE(o);
     PyObject_GC_UnTrack(o);
     (void)TaskStepMethWrapper_clear(op);
-    Py_TYPE(o)->tp_free(o);
+    PyType_Call_tp_free(Py_TYPE(o), o);
     Py_DECREF(tp);
 }
 
@@ -3128,7 +3128,7 @@ TaskObj_dealloc(PyObject *self)
     PyObject_ClearWeakRefs(self);
 
     (void)TaskObj_clear(self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 

@@ -176,7 +176,7 @@ _DictRemover_dealloc(PyObject *myself)
     PyTypeObject *tp = Py_TYPE(myself);
     PyObject_GC_UnTrack(myself);
     (void)_DictRemover_clear(myself);
-    tp->tp_free(myself);
+    PyType_Call_tp_free(tp, myself);
     Py_DECREF(tp);
 }
 
@@ -445,7 +445,7 @@ StructParam_dealloc(PyObject *myself)
     PyObject_GC_UnTrack(myself);
     (void)StructParam_clear(myself);
     PyMem_Free(self->ptr);
-    tp->tp_free(myself);
+    PyType_Call_tp_free(tp, myself);
     Py_DECREF(tp);
 }
 
@@ -3146,7 +3146,7 @@ PyCData_dealloc(PyObject *self)
     PyTypeObject *type = Py_TYPE(self);
     PyObject_GC_UnTrack(self);
     (void)PyCData_clear(self);
-    type->tp_free(self);
+    PyType_Call_tp_free(type, self);
     Py_DECREF(type);
 }
 
@@ -4869,7 +4869,7 @@ PyCFuncPtr_dealloc(PyObject *self)
     PyObject_GC_UnTrack(self);
     (void)PyCFuncPtr_clear(self);
     PyTypeObject *type = Py_TYPE(self);
-    type->tp_free(self);
+    PyType_Call_tp_free(type, self);
     Py_DECREF(type);
 }
 
@@ -6229,7 +6229,7 @@ comerror_dealloc(PyObject *self)
     PyTypeObject *tp = Py_TYPE(self);
     PyObject_GC_UnTrack(self);
     (void)comerror_clear(self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 

@@ -3383,7 +3383,7 @@ context_dealloc(PyObject *op)
     (void)context_clear(op);
     SSL_CTX_free(self->ctx);
     PyMem_FREE(self->alpn_protocols);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 
@@ -5437,7 +5437,7 @@ memory_bio_dealloc(PyObject *op)
     PyTypeObject *tp = Py_TYPE(self);
     PyObject_GC_UnTrack(self);
     (void)BIO_free(self->bio);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 

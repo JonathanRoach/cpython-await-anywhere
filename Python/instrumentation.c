@@ -3172,6 +3172,7 @@ static PyTypeObject _PyBranchesIterator = {
     .tp_iternext = branchesiter_next,
     .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
     .tp_free = PyObject_Del,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };
 
 PyObject *

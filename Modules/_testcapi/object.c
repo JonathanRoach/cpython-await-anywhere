@@ -149,7 +149,7 @@ MyObject_dealloc(PyObject *op)
     assert(Py_REFCNT(op) == 0);
 
     MyObject_dealloc_called++;
-    Py_TYPE(op)->tp_free(op);
+    PyType_Call_tp_free(Py_TYPE(op), op);
 }
 
 static PyTypeObject MyType = {

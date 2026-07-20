@@ -246,7 +246,7 @@ float_dealloc(PyObject *op)
     if (PyFloat_CheckExact(op))
         _PyFloat_ExactDealloc(op);
     else
-        Py_TYPE(op)->tp_free(op);
+        PyType_Call_tp_free(Py_TYPE(op), op);
 }
 
 double

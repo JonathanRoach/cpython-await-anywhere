@@ -1126,7 +1126,7 @@ hamt_node_bitmap_dealloc(PyObject *self)
         }
     }
 
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 #ifdef Py_DEBUG
@@ -1512,7 +1512,7 @@ hamt_node_collision_dealloc(PyObject *self)
             Py_XDECREF(node->c_array[len]);
         }
     }
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 #ifdef Py_DEBUG
@@ -1878,7 +1878,7 @@ hamt_node_array_dealloc(PyObject *self)
     for (Py_ssize_t i = 0; i < HAMT_ARRAY_NODE_SIZE; i++) {
         Py_XDECREF(obj->a_array[i]);
     }
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 #ifdef Py_DEBUG
@@ -2640,7 +2640,7 @@ hamt_tp_dealloc(PyObject *self)
         PyObject_ClearWeakRefs(self);
     }
     (void)hamt_tp_clear(self);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 
@@ -2855,6 +2855,7 @@ PyTypeObject _PyHamt_ArrayNode_Type = {
     .tp_traverse = hamt_node_array_traverse,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_free = PyObject_GC_Del,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
     .tp_hash = PyObject_HashNotImplemented,
     .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
 };
@@ -2872,6 +2873,7 @@ PyTypeObject _PyHamt_BitmapNode_Type = {
     .tp_traverse = hamt_node_bitmap_traverse,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_free = PyObject_GC_Del,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
     .tp_hash = PyObject_HashNotImplemented,
     .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
 };
@@ -2889,6 +2891,7 @@ PyTypeObject _PyHamt_CollisionNode_Type = {
     .tp_traverse = hamt_node_collision_traverse,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_free = PyObject_GC_Del,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
     .tp_hash = PyObject_HashNotImplemented,
     .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
 };

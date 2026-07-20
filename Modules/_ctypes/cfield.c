@@ -427,7 +427,7 @@ PyCField_dealloc(PyObject *self)
     PyTypeObject *tp = Py_TYPE(self);
     PyObject_GC_UnTrack(self);
     (void)PyCField_clear(self);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
     Py_DECREF(tp);
 }
 

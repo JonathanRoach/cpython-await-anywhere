@@ -547,7 +547,7 @@ set_dealloc(PyObject *self)
     }
     if (so->table != so->smalltable)
         PyMem_Free(so->table);
-    Py_TYPE(so)->tp_free(so);
+    PyType_Call_tp_free(Py_TYPE(so), so);
 }
 
 static PyObject *
@@ -2628,6 +2628,7 @@ PyTypeObject PySet_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };
 
 /* frozenset object ********************************************************/
@@ -2730,6 +2731,7 @@ PyTypeObject PyFrozenSet_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };
 
 

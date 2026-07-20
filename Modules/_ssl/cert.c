@@ -224,7 +224,7 @@ certificate_dealloc(PyObject *op)
     PySSLCertificate *self = PySSLCertificate_CAST(op);
     PyTypeObject *tp = Py_TYPE(self);
     X509_free(self->cert);
-    (void)Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
     Py_DECREF(tp);
 }
 

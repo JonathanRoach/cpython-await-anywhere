@@ -968,7 +968,7 @@ profiler_dealloc(PyObject *op)
     clearEntries(self);
     Py_XDECREF(self->externalTimer);
     PyTypeObject *tp = Py_TYPE(self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 

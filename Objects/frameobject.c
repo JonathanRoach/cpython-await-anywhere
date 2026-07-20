@@ -411,7 +411,7 @@ framelocalsproxy_dealloc(PyObject *self)
     PyFrameLocalsProxyObject *proxy = PyFrameLocalsProxyObject_CAST(self);
     PyObject_GC_UnTrack(self);
     Py_CLEAR(proxy->frame);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 static PyObject *
@@ -943,6 +943,7 @@ PyTypeObject PyFrameLocalsProxy_Type = {
     .tp_new = framelocalsproxy_new,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_free = PyObject_GC_Del,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };
 
 PyObject *

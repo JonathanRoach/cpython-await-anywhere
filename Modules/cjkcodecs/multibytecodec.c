@@ -764,7 +764,7 @@ multibytecodec_dealloc(PyObject *self)
     PyObject_GC_UnTrack(self);
     PyTypeObject *tp = Py_TYPE(self);
     (void)multibytecodec_clear(self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 
@@ -1160,7 +1160,7 @@ mbiencoder_dealloc(PyObject *op)
     PyObject_GC_UnTrack(self);
     ERROR_DECREF(self->errors);
     Py_CLEAR(self->pending);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 
@@ -1457,7 +1457,7 @@ mbidecoder_dealloc(PyObject *op)
     PyTypeObject *tp = Py_TYPE(self);
     PyObject_GC_UnTrack(self);
     ERROR_DECREF(self->errors);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 
@@ -1791,7 +1791,7 @@ mbstreamreader_dealloc(PyObject *op)
     PyObject_GC_UnTrack(self);
     ERROR_DECREF(self->errors);
     Py_XDECREF(self->stream);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 
@@ -2029,7 +2029,7 @@ mbstreamwriter_dealloc(PyObject *op)
     PyObject_GC_UnTrack(self);
     ERROR_DECREF(self->errors);
     Py_XDECREF(self->stream);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 

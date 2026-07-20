@@ -968,7 +968,7 @@ contextvar_tp_dealloc(PyObject *self)
 {
     PyObject_GC_UnTrack(self);
     (void)contextvar_tp_clear(self);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 static Py_hash_t
@@ -1140,6 +1140,7 @@ PyTypeObject PyContextVar_Type = {
     .tp_new = contextvar_tp_new,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_free = PyObject_GC_Del,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
     .tp_hash = contextvar_tp_hash,
     .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
     .tp_repr = contextvar_tp_repr,
@@ -1194,7 +1195,7 @@ token_tp_dealloc(PyObject *self)
 {
     PyObject_GC_UnTrack(self);
     (void)token_tp_clear(self);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 static PyObject *
@@ -1317,6 +1318,7 @@ PyTypeObject PyContextToken_Type = {
     .tp_new = token_tp_new,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_free = PyObject_GC_Del,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
     .tp_hash = PyObject_HashNotImplemented,
     .tp_functionflags[_PyFunctionIndex_tp_hash] = Py_FNFLAGS_FRUGAL,
     .tp_repr = token_tp_repr,

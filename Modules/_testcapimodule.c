@@ -2666,7 +2666,7 @@ matmulType_imatmul(PyObject *self, PyObject *other)
 static void
 matmulType_dealloc(PyObject *self)
 {
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 static PyNumberMethods matmulType_as_number = {
@@ -2752,6 +2752,7 @@ static PyTypeObject matmulType = {
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_setattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };
 
 typedef struct {
@@ -2809,7 +2810,7 @@ awaitObject_dealloc(PyObject *op)
 {
     awaitObject *ao = awaitObject_CAST(op);
     Py_CLEAR(ao->ao_iterator);
-    Py_TYPE(ao)->tp_free(ao);
+    PyType_Call_tp_free(Py_TYPE(ao), ao);
 }
 
 
@@ -2872,6 +2873,7 @@ static PyTypeObject awaitType = {
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_setattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -2959,7 +2961,7 @@ generic_alias_dealloc(PyObject *op)
 {
     PyGenericAliasObject *self = (PyGenericAliasObject*)op;
     Py_CLEAR(self->item);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 static PyObject *
@@ -3118,7 +3120,7 @@ ContainerNoGC_dealloc(PyObject *op)
 {
     ContainerNoGCobject *self = (ContainerNoGCobject*)op;
     Py_DECREF(self->value);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 static PyMemberDef ContainerNoGC_members[] = {
@@ -3161,7 +3163,7 @@ ManualHeapType_dealloc(PyObject *self)
     PyObject_GC_UnTrack(self);
     Py_XDECREF(mht->dict);
     PyTypeObject *type = Py_TYPE(self);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
     Py_DECREF(type);
 }
 

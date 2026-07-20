@@ -438,7 +438,7 @@ buffered_dealloc(PyObject *op)
         self->lock = NULL;
     }
     (void)buffered_clear(op);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 
@@ -2348,7 +2348,7 @@ bufferedrwpair_dealloc(PyObject *op)
     if (self->weakreflist != NULL)
         PyObject_ClearWeakRefs(op);
     (void)bufferedrwpair_clear(op);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 

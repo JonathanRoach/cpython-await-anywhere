@@ -52,7 +52,7 @@ testbuf_dealloc(PyObject *op)
     testBufObject *self = testBufObject_CAST(op);
     PyObject_GC_UnTrack(self);
     Py_XDECREF(self->obj);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 static int

@@ -916,7 +916,7 @@ free_object(void *obj)
 {
     PyObject *op = (PyObject *)obj;
     PyTypeObject *tp = Py_TYPE(op);
-    tp->tp_free(op);
+    PyType_Call_tp_free(tp, op);
     Py_DECREF(tp);
 }
 

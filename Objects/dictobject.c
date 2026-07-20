@@ -3308,7 +3308,7 @@ dict_dealloc(PyObject *self)
         _Py_FREELIST_FREE(dicts, mp, Py_TYPE(mp)->tp_free);
     }
     else {
-        Py_TYPE(mp)->tp_free((PyObject *)mp);
+        PyType_Call_tp_free(Py_TYPE(mp), (PyObject *)mp);
     }
 }
 
@@ -4988,6 +4988,7 @@ PyTypeObject PyDict_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };
 
 /* For backward compatibility with old dictionary interface */

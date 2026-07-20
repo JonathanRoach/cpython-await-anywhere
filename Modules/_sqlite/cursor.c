@@ -191,7 +191,7 @@ cursor_dealloc(PyObject *op)
         PyObject_ClearWeakRefs(op);
     }
     (void)PYTYPE_CallFunction(tp, tp, clear, op);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 

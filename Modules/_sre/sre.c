@@ -746,7 +746,7 @@ pattern_dealloc(PyObject *self)
         PyObject_ClearWeakRefs(self);
     }
     (void)pattern_clear(self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 
@@ -2309,7 +2309,7 @@ match_dealloc(PyObject *self)
     PyTypeObject *tp = Py_TYPE(self);
     PyObject_GC_UnTrack(self);
     (void)match_clear(self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 
@@ -2857,7 +2857,7 @@ scanner_dealloc(PyObject *self)
     ScannerObject *scanner = _ScannerObject_CAST(self);
     state_fini(&scanner->state);
     (void)scanner_clear(self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 
@@ -3042,7 +3042,7 @@ template_dealloc(PyObject *self)
     PyTypeObject *tp = Py_TYPE(self);
     PyObject_GC_UnTrack(self);
     (void)template_clear(self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 

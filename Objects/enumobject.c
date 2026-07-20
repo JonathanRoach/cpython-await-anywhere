@@ -161,7 +161,7 @@ enum_dealloc(PyObject *op)
     Py_XDECREF(en->en_sit);
     Py_XDECREF(en->en_result);
     Py_XDECREF(en->en_longindex);
-    Py_TYPE(en)->tp_free(en);
+    PyType_Call_tp_free(Py_TYPE(en), en);
 }
 
 static int
@@ -360,6 +360,7 @@ PyTypeObject PyEnum_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };
 
 /* Reversed Object ***************************************************************/
@@ -449,7 +450,7 @@ reversed_dealloc(PyObject *op)
     reversedobject *ro = _reversedobject_CAST(op);
     PyObject_GC_UnTrack(ro);
     Py_XDECREF(ro->seq);
-    Py_TYPE(ro)->tp_free(ro);
+    PyType_Call_tp_free(Py_TYPE(ro), ro);
 }
 
 static int
@@ -600,4 +601,5 @@ PyTypeObject PyReversed_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };

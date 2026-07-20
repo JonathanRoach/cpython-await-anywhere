@@ -757,7 +757,7 @@ signaldict_dealloc(PyObject *self)
 {
     PyTypeObject *tp = Py_TYPE(self);
     PyObject_GC_UnTrack(self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 
@@ -1485,7 +1485,7 @@ context_dealloc(PyObject *self)
     PyTypeObject *tp = Py_TYPE(self);
     PyObject_GC_UnTrack(self);
     (void)context_clear(self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 
@@ -2018,7 +2018,7 @@ ctxmanager_dealloc(PyObject *self)
     PyTypeObject *tp = Py_TYPE(self);
     PyObject_GC_UnTrack(self);
     (void)ctxmanager_clear(self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 
@@ -2133,7 +2133,7 @@ dec_dealloc(PyObject *dec)
     PyTypeObject *tp = Py_TYPE(dec);
     PyObject_GC_UnTrack(dec);
     mpd_del(MPD(dec));
-    tp->tp_free(dec);
+    PyType_Call_tp_free(tp, dec);
     Py_DECREF(tp);
 }
 

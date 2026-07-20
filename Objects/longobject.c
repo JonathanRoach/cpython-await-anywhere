@@ -3588,7 +3588,7 @@ long_dealloc(PyObject *self)
         _Py_FREELIST_FREE(ints, self, PyObject_Free);
         return;
     }
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 static Py_hash_t
@@ -6601,6 +6601,7 @@ PyTypeObject PyLong_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyTypeObject Int_InfoType;

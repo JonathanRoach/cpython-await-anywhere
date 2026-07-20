@@ -356,7 +356,7 @@ tokenizeriter_dealloc(PyObject *op)
     PyTypeObject *tp = Py_TYPE(it);
     Py_XDECREF(it->last_line);
     _PyTokenizer_Free(it->tok);
-    tp->tp_free(it);
+    PyType_Call_tp_free(tp, it);
     Py_DECREF(tp);
 }
 

@@ -592,7 +592,7 @@ semlock_dealloc(PyObject *op)
     if (self->handle != SEM_FAILED)
         SEM_CLOSE(self->handle);
     PyMem_Free(self->name);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 

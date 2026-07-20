@@ -214,7 +214,7 @@ tuple_dealloc(PyObject *self)
     }
     // This will abort on the empty singleton (if there is one).
     if (!maybe_freelist_push(op)) {
-        Py_TYPE(op)->tp_free((PyObject *)op);
+        PyType_Call_tp_free(Py_TYPE(op), (PyObject *)op);
     }
 }
 
@@ -917,6 +917,7 @@ PyTypeObject PyTuple_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };
 
 /* The following function breaks the notion that tuples are immutable:

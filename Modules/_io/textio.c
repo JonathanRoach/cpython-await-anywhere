@@ -305,7 +305,7 @@ incrementalnewlinedecoder_dealloc(PyObject *op)
     PyTypeObject *tp = Py_TYPE(self);
     _PyObject_GC_UNTRACK(self);
     (void)incrementalnewlinedecoder_clear(op);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 
@@ -1492,7 +1492,7 @@ textiowrapper_dealloc(PyObject *op)
     if (self->weakreflist != NULL)
         PyObject_ClearWeakRefs(op);
     (void)textiowrapper_clear(op);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 

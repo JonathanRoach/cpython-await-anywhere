@@ -734,7 +734,7 @@ array_dealloc(PyObject *op)
     if (self->ob_item != NULL) {
         PyMem_Free(self->ob_item);
     }
-    tp->tp_free(op);
+    PyType_Call_tp_free(tp, op);
     Py_DECREF(tp);
 }
 

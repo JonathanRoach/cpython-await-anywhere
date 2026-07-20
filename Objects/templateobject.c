@@ -43,7 +43,7 @@ templateiter_dealloc(PyObject *op)
 {
     PyObject_GC_UnTrack(op);
     PYTYPE_CallFunction(Py_TYPE(op), tp, clear, op);
-    Py_TYPE(op)->tp_free(op);
+    PyType_Call_tp_free(Py_TYPE(op), op);
 }
 
 static int
@@ -78,6 +78,7 @@ PyTypeObject _PyTemplateIter_Type = {
     .tp_clear = templateiter_clear,
     .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
     .tp_free = PyObject_GC_Del,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
     .tp_traverse = templateiter_traverse,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_iter = PyObject_SelfIter,
@@ -192,7 +193,7 @@ template_dealloc(PyObject *op)
 {
     PyObject_GC_UnTrack(op);
     PYTYPE_CallFunction(Py_TYPE(op), tp, clear, op);
-    Py_TYPE(op)->tp_free(op);
+    PyType_Call_tp_free(Py_TYPE(op), op);
 }
 
 static int
@@ -476,6 +477,7 @@ PyTypeObject _PyTemplate_Type = {
     .tp_clear = template_clear,
     .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
     .tp_free = PyObject_GC_Del,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
     .tp_repr = template_repr,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_members = template_members,

@@ -1693,7 +1693,7 @@ property_dealloc(PyObject *self)
     Py_XDECREF(gs->prop_del);
     Py_XDECREF(gs->prop_doc);
     Py_XDECREF(gs->prop_name);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 static int

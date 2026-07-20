@@ -112,7 +112,7 @@ dbm_dealloc(PyObject *self)
         dbm_close(dp->di_dbm);
     }
     PyTypeObject *tp = Py_TYPE(dp);
-    tp->tp_free(dp);
+    PyType_Call_tp_free(tp, dp);
     Py_DECREF(tp);
 }
 

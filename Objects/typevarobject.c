@@ -143,7 +143,7 @@ constevaluator_dealloc(PyObject *self)
 
     Py_XDECREF(ce->value);
 
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
     Py_DECREF(tp);
 }
 
@@ -497,7 +497,7 @@ typevar_dealloc(PyObject *self)
     PyObject_ClearManagedDict(self);
     PyObject_ClearWeakRefs(self);
 
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
     Py_DECREF(tp);
 }
 
@@ -986,7 +986,7 @@ paramspecattr_dealloc(PyObject *self)
 
     Py_XDECREF(psa->__origin__);
 
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
     Py_DECREF(tp);
 }
 
@@ -1240,7 +1240,7 @@ paramspec_dealloc(PyObject *self)
     PyObject_ClearManagedDict(self);
     PyObject_ClearWeakRefs(self);
 
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
     Py_DECREF(tp);
 }
 
@@ -1606,7 +1606,7 @@ typevartuple_dealloc(PyObject *self)
     PyObject_ClearManagedDict(self);
     PyObject_ClearWeakRefs(self);
 
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
     Py_DECREF(tp);
 }
 
@@ -1942,7 +1942,7 @@ typealias_dealloc(PyObject *self)
     Py_XDECREF(ta->compute_value);
     Py_XDECREF(ta->value);
     Py_XDECREF(ta->module);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
     Py_DECREF(tp);
 }
 
@@ -2255,6 +2255,7 @@ PyTypeObject _PyTypeAlias_Type = {
     .tp_new = typealias_new,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_free = PyObject_GC_Del,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
     .tp_iter = unpack_iter,
     .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
     .tp_traverse = typealias_traverse,
@@ -2395,7 +2396,7 @@ generic_dealloc(PyObject *self)
 {
     PyTypeObject *tp = Py_TYPE(self);
     _PyObject_GC_UNTRACK(self);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
     Py_DECREF(tp);
 }
 

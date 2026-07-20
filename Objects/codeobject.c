@@ -1359,7 +1359,7 @@ lineiter_dealloc(PyObject *self)
 {
     lineiterator *li = (lineiterator*)self;
     Py_DECREF(li->li_code);
-    Py_TYPE(li)->tp_free(li);
+    PyType_Call_tp_free(Py_TYPE(li), li);
 }
 
 static PyObject *
@@ -1436,6 +1436,7 @@ PyTypeObject _PyLineIterator = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };
 
 static lineiterator *
@@ -1466,7 +1467,7 @@ positionsiter_dealloc(PyObject *self)
 {
     positionsiterator *pi = (positionsiterator*)self;
     Py_DECREF(pi->pi_code);
-    Py_TYPE(pi)->tp_free(pi);
+    PyType_Call_tp_free(Py_TYPE(pi), pi);
 }
 
 static PyObject*
@@ -1532,6 +1533,7 @@ PyTypeObject _PyPositionsIterator = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject*

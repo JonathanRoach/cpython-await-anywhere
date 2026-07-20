@@ -521,7 +521,7 @@ winconsoleio_dealloc(PyObject *op)
     if (self->weakreflist != NULL)
         PyObject_ClearWeakRefs(op);
     Py_CLEAR(self->dict);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 

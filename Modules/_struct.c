@@ -1802,7 +1802,7 @@ s_dealloc(PyObject *op)
         PyMem_Free(s->s_codes);
     }
     Py_XDECREF(s->s_format);
-    tp->tp_free(s);
+    PyType_Call_tp_free(tp, s);
     Py_DECREF(tp);
 }
 

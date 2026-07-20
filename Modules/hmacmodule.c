@@ -1191,7 +1191,7 @@ HMACObject_dealloc(PyObject *op)
     PyTypeObject *type = Py_TYPE(op);
     PyObject_GC_UnTrack(op);
     (void)HMACObject_clear(op);
-    type->tp_free(op);
+    PyType_Call_tp_free(type, op);
     Py_DECREF(type);
 }
 

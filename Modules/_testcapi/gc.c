@@ -73,8 +73,11 @@ without_gc(PyObject *Py_UNUSED(self), PyObject *obj)
         // Don't try this at home, kids:
         tp->tp_flags -= Py_TPFLAGS_HAVE_GC;
         tp->tp_free = PyObject_Free;
+        tp->tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL;
         tp->tp_traverse = NULL;
+        tp->tp_functionflags[_PyFunctionIndex_tp_traverse] = 0;
         tp->tp_clear = NULL;
+        tp->tp_functionflags[_PyFunctionIndex_tp_clear] = 0;
     }
     assert(!PyType_IS_GC(tp));
     return Py_NewRef(obj);
@@ -292,7 +295,7 @@ obj_extra_data_dealloc(PyObject *self)
     PyTypeObject *tp = Py_TYPE(self);
     PyObject_GC_UnTrack(self);
     obj_extra_data_clear(self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 

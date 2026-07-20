@@ -138,7 +138,7 @@ gdbm_dealloc(PyObject *op)
     if (dp->di_dbm) {
         gdbm_close(dp->di_dbm);
     }
-    tp->tp_free(dp);
+    PyType_Call_tp_free(tp, dp);
     Py_DECREF(tp);
 }
 

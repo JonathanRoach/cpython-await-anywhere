@@ -1453,7 +1453,7 @@ cm_dealloc(PyObject *self)
     _PyObject_GC_UNTRACK((PyObject *)cm);
     Py_XDECREF(cm->cm_callable);
     Py_XDECREF(cm->cm_dict);
-    Py_TYPE(cm)->tp_free((PyObject *)cm);
+    PyType_Call_tp_free(Py_TYPE(cm), (PyObject *)cm);
 }
 
 static int
@@ -1646,6 +1646,7 @@ PyTypeObject PyClassMethod_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };
 
 PyObject *
@@ -1695,7 +1696,7 @@ sm_dealloc(PyObject *self)
     _PyObject_GC_UNTRACK((PyObject *)sm);
     Py_XDECREF(sm->sm_callable);
     Py_XDECREF(sm->sm_dict);
-    Py_TYPE(sm)->tp_free((PyObject *)sm);
+    PyType_Call_tp_free(Py_TYPE(sm), (PyObject *)sm);
 }
 
 static int
@@ -1890,6 +1891,7 @@ PyTypeObject PyStaticMethod_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };
 
 PyObject *

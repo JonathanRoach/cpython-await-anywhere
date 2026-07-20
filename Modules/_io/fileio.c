@@ -578,7 +578,7 @@ fileio_dealloc(PyObject *op)
     (void)fileio_clear(op);
 
     PyTypeObject *tp = Py_TYPE(op);
-    tp->tp_free(op);
+    PyType_Call_tp_free(tp, op);
     Py_DECREF(tp);
 }
 

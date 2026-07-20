@@ -112,7 +112,7 @@ stmt_dealloc(PyObject *op)
         Py_END_ALLOW_THREADS
         self->st = 0;
     }
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 

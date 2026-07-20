@@ -404,7 +404,7 @@ zoneinfo_dealloc(PyObject *obj_self)
     free_tzrule(&(self->tzrule_after));
 
     (void)zoneinfo_clear(obj_self);
-    tp->tp_free(obj_self);
+    PyType_Call_tp_free(tp, obj_self);
     Py_DECREF(tp);
 }
 

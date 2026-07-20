@@ -572,7 +572,7 @@ filter_dealloc(PyObject *self)
     PyObject_GC_UnTrack(lz);
     Py_XDECREF(lz->func);
     Py_XDECREF(lz->it);
-    Py_TYPE(lz)->tp_free(lz);
+    PyType_Call_tp_free(Py_TYPE(lz), lz);
 }
 
 static int
@@ -691,6 +691,7 @@ PyTypeObject PyFilter_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -1449,7 +1450,7 @@ map_dealloc(PyObject *self)
     PyObject_GC_UnTrack(lz);
     Py_XDECREF(lz->iters);
     Py_XDECREF(lz->func);
-    Py_TYPE(lz)->tp_free(lz);
+    PyType_Call_tp_free(Py_TYPE(lz), lz);
 }
 
 static int
@@ -1649,6 +1650,7 @@ PyTypeObject PyMap_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -3121,7 +3123,7 @@ zip_dealloc(PyObject *self)
     PyObject_GC_UnTrack(lz);
     Py_XDECREF(lz->ittuple);
     Py_XDECREF(lz->result);
-    Py_TYPE(lz)->tp_free(lz);
+    PyType_Call_tp_free(Py_TYPE(lz), lz);
 }
 
 static int
@@ -3317,6 +3319,7 @@ PyTypeObject PyZip_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_iternext] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };
 
 

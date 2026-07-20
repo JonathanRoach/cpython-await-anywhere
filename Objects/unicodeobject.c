@@ -1798,7 +1798,7 @@ unicode_dealloc(PyObject *unicode)
         PyMem_Free(_PyUnicode_DATA_ANY(unicode));
     }
 
-    Py_TYPE(unicode)->tp_free(unicode);
+    PyType_Call_tp_free(Py_TYPE(unicode), unicode);
 }
 
 #ifdef Py_DEBUG
@@ -15841,6 +15841,7 @@ PyTypeObject PyUnicode_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };
 
 /* Initialize the Unicode implementation */

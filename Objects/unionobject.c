@@ -29,7 +29,7 @@ unionobject_dealloc(PyObject *self)
     Py_XDECREF(alias->hashable_args);
     Py_XDECREF(alias->unhashable_args);
     Py_XDECREF(alias->parameters);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 static int
@@ -517,6 +517,7 @@ PyTypeObject _PyUnion_Type = {
     .tp_alloc = PyType_GenericAlloc,
     .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
     .tp_free = PyObject_GC_Del,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC,
     .tp_traverse = union_traverse,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,

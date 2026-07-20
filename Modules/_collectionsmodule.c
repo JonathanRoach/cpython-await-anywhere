@@ -1557,7 +1557,7 @@ deque_dealloc(PyObject *self)
     for (i=0 ; i < deque->numfreeblocks ; i++) {
         PyMem_Free(deque->freeblocks[i]);
     }
-    tp->tp_free(deque);
+    PyType_Call_tp_free(tp, deque);
     Py_DECREF(tp);
 }
 
@@ -2809,7 +2809,7 @@ tuplegetter_dealloc(PyObject *self)
     PyTypeObject *tp = Py_TYPE(self);
     PyObject_GC_UnTrack(self);
     (void)tuplegetter_clear(self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 

@@ -151,7 +151,7 @@ BaseException_dealloc(PyObject *op)
     // long chains of exceptions. For example, exceptions can be chained
     // through the __context__ attributes or the __traceback__ attribute.
     (void)BaseException_clear(op);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 static int
@@ -803,7 +803,7 @@ StopIteration_dealloc(PyObject *self)
 {
     PyObject_GC_UnTrack(self);
     (void)StopIteration_clear(self);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 static int
@@ -870,7 +870,7 @@ SystemExit_dealloc(PyObject *self)
 {
     _PyObject_GC_UNTRACK(self);
     (void)SystemExit_clear(self);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 static int
@@ -1060,7 +1060,7 @@ BaseExceptionGroup_dealloc(PyObject *self)
 {
     _PyObject_GC_UNTRACK(self);
     (void)BaseExceptionGroup_clear(self);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 static int
@@ -1821,7 +1821,7 @@ ImportError_dealloc(PyObject *self)
 {
     _PyObject_GC_UNTRACK(self);
     (void)ImportError_clear(self);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 static int
@@ -2219,7 +2219,7 @@ OSError_dealloc(PyObject *self)
 {
     _PyObject_GC_UNTRACK(self);
     (void)OSError_clear(self);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 static int
@@ -2503,7 +2503,7 @@ NameError_dealloc(PyObject *self)
 {
     _PyObject_GC_UNTRACK(self);
     (void)NameError_clear(self);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 static int
@@ -2589,7 +2589,7 @@ AttributeError_dealloc(PyObject *self)
 {
     _PyObject_GC_UNTRACK(self);
     (void)AttributeError_clear(self);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 static int
@@ -2741,7 +2741,7 @@ SyntaxError_dealloc(PyObject *self)
 {
     _PyObject_GC_UNTRACK(self);
     (void)SyntaxError_clear(self);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 static int
@@ -3564,7 +3564,7 @@ UnicodeError_dealloc(PyObject *self)
     PyTypeObject *type = Py_TYPE(self);
     _PyObject_GC_UNTRACK(self);
     (void)UnicodeError_clear(self);
-    type->tp_free(self);
+    PyType_Call_tp_free(type, self);
 }
 
 static int
@@ -4061,7 +4061,7 @@ MemoryError_dealloc(PyObject *op)
     /* If this is a subclass of MemoryError, we don't need to
      * do anything in the free-list*/
     if (!Py_IS_TYPE(self, (PyTypeObject *) PyExc_MemoryError)) {
-        Py_TYPE(self)->tp_free(op);
+        PyType_Call_tp_free(Py_TYPE(self), op);
         return;
     }
 
@@ -4076,7 +4076,7 @@ MemoryError_dealloc(PyObject *op)
     }
     MEMERRORS_UNLOCK(state);
 
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    PyType_Call_tp_free(Py_TYPE(self), (PyObject *)self);
 }
 
 static int
@@ -4106,7 +4106,7 @@ free_preallocated_memerrors(struct _Py_exc_state *state)
     while (state->memerrors_freelist != NULL) {
         PyObject *self = (PyObject *) state->memerrors_freelist;
         state->memerrors_freelist = (PyBaseExceptionObject *)state->memerrors_freelist->dict;
-        Py_TYPE(self)->tp_free(self);
+        PyType_Call_tp_free(Py_TYPE(self), self);
     }
 }
 

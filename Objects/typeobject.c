@@ -6769,7 +6769,7 @@ type_dealloc(PyObject *self)
     assert(et->unique_id == _Py_INVALID_UNIQUE_ID);
 #endif
     et->ht_token = NULL;
-    Py_TYPE(type)->tp_free((PyObject *)type);
+    PyType_Call_tp_free(Py_TYPE(type), (PyObject *)type);
 }
 
 
@@ -7073,6 +7073,7 @@ PyTypeObject PyType_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -7222,7 +7223,7 @@ object_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
 static void
 object_dealloc(PyObject *self)
 {
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 static PyObject *
@@ -8325,6 +8326,7 @@ PyTypeObject PyBaseObject_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -8765,6 +8767,7 @@ COPYSLOT_INNER(PYTYPE_SLOTLOC_##KIND, KIND##_##SLOT, KIND##_functionflags, _PyFu
              * default non-gc tp_free.
              */
             type->tp_free = PyObject_GC_Del;
+            type->tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL;
         }
         /* else they didn't agree about gc, and there isn't something
          * obvious to be done -- the type is on its own.
@@ -11190,7 +11193,7 @@ bufferwrapper_dealloc(PyObject *self)
     _PyObject_GC_UNTRACK(self);
     Py_XDECREF(bw->mv);
     Py_XDECREF(bw->obj);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 static void
@@ -12591,7 +12594,7 @@ super_dealloc(PyObject *self)
     Py_XDECREF(su->obj);
     Py_XDECREF(su->type);
     Py_XDECREF(su->obj_type);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 static PyObject *
@@ -13104,9 +13107,51 @@ PyTypeObject PySuper_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };
 
-#define PyType_DefineCallTypeFunction2(RT, KIND, SLOT, T0, T1) \
+#define PyType_DefineCallTypeFunction_DoCall_Part0_R void *ret = (void *)(uintptr_t)
+#define PyType_DefineCallTypeFunction_DoCall_Part0_V
+#define PyType_DefineCallTypeFunction_DoCall_Part1_R return ret;
+#define PyType_DefineCallTypeFunction_DoCall_Part1_V return NULL;
+#define PyType_DefineCallTypeFunction_DoCall_Part2_R void *ret = 
+#define PyType_DefineCallTypeFunction_DoCall_Part2_V
+#define PyType_DefineCallTypeFunction_DoCall_Part3_R(RT) return (RT)(uintptr_t)ret;
+#define PyType_DefineCallTypeFunction_DoCall_Part3_V(RT)
+
+#define PyType_DefineCallTypeFunction1(RET, RT, KIND, SLOT, T0) \
+struct Do_PyType_Call_##KIND##_##SLOT##_Params { \
+    PyTypeObject *tp; \
+    T0 v0; \
+}; \
+ \
+void *Do_PyType_Call_##KIND##_##SLOT(void *_params){ \
+    struct Do_PyType_Call_##KIND##_##SLOT##_Params *params = (struct Do_PyType_Call_##KIND##_##SLOT##_Params *)_params; \
+    PyType_DefineCallTypeFunction_DoCall_Part0_##RET params->tp->PYTYPE_SLOTLOC_##KIND KIND##_##SLOT( \
+        params->v0 \
+    ); \
+    PyType_DefineCallTypeFunction_DoCall_Part1_##RET \
+} \
+ \
+RT PyType_Call_##KIND##_##SLOT( \
+    PyTypeObject *tp, \
+    T0 v0 \
+) \
+{ \
+    struct Do_PyType_Call_##KIND##_##SLOT##_Params params = { \
+        .tp = tp, \
+        .v0 = v0, \
+    }; \
+    PyType_DefineCallTypeFunction_DoCall_Part2_##RET _PyType_CallFunction( \
+        tp, \
+        Do_PyType_Call_##KIND##_##SLOT, \
+        &params, \
+        tp->tp_functionflags, \
+        _PyFunctionIndex_##KIND##_##SLOT); \
+    PyType_DefineCallTypeFunction_DoCall_Part3_##RET(RT) \
+}
+
+#define PyType_DefineCallTypeFunction2(RET, RT, KIND, SLOT, T0, T1) \
 struct Do_PyType_Call_##KIND##_##SLOT##_Params { \
     PyTypeObject *tp; \
     T0 v0; \
@@ -13115,10 +13160,11 @@ struct Do_PyType_Call_##KIND##_##SLOT##_Params { \
  \
 void *Do_PyType_Call_##KIND##_##SLOT(void *_params){ \
     struct Do_PyType_Call_##KIND##_##SLOT##_Params *params = (struct Do_PyType_Call_##KIND##_##SLOT##_Params *)_params; \
-    return (void *)(uintptr_t)params->tp->PYTYPE_SLOTLOC_##KIND KIND##_##SLOT( \
+    PyType_DefineCallTypeFunction_DoCall_Part0_##RET params->tp->PYTYPE_SLOTLOC_##KIND KIND##_##SLOT( \
         params->v0, \
         params->v1 \
     ); \
+    PyType_DefineCallTypeFunction_DoCall_Part1_##RET \
 } \
  \
 RT PyType_Call_##KIND##_##SLOT( \
@@ -13132,15 +13178,16 @@ RT PyType_Call_##KIND##_##SLOT( \
         .v0 = v0, \
         .v1 = v1, \
     }; \
-    return (RT)(uintptr_t)_PyType_CallFunction( \
+    PyType_DefineCallTypeFunction_DoCall_Part2_##RET _PyType_CallFunction( \
         tp, \
         Do_PyType_Call_##KIND##_##SLOT, \
         &params, \
         tp->tp_functionflags, \
         _PyFunctionIndex_##KIND##_##SLOT); \
+        PyType_DefineCallTypeFunction_DoCall_Part3_##RET(RT) \
 }
 
-#define PyType_DefineCallTypeFunction3(RT, KIND, SLOT, T0, T1, T2) \
+#define PyType_DefineCallTypeFunction3(RET, RT, KIND, SLOT, T0, T1, T2) \
 struct Do_PyType_Call_##KIND##_##SLOT##_Params { \
     PyTypeObject *tp; \
     T0 v0; \
@@ -13150,11 +13197,12 @@ struct Do_PyType_Call_##KIND##_##SLOT##_Params { \
  \
 void *Do_PyType_Call_##KIND##_##SLOT(void *_params){ \
     struct Do_PyType_Call_##KIND##_##SLOT##_Params *params = (struct Do_PyType_Call_##KIND##_##SLOT##_Params *)_params; \
-    return (void *)(uintptr_t)params->tp->PYTYPE_SLOTLOC_##KIND KIND##_##SLOT( \
+    PyType_DefineCallTypeFunction_DoCall_Part0_##RET params->tp->PYTYPE_SLOTLOC_##KIND KIND##_##SLOT( \
         params->v0, \
         params->v1, \
         params->v2 \
     ); \
+    PyType_DefineCallTypeFunction_DoCall_Part1_##RET \
 } \
  \
 RT PyType_Call_##KIND##_##SLOT( \
@@ -13170,15 +13218,16 @@ RT PyType_Call_##KIND##_##SLOT( \
         .v1 = v1, \
         .v2 = v2, \
     }; \
-    return (RT)(uintptr_t)_PyType_CallFunction( \
+    PyType_DefineCallTypeFunction_DoCall_Part2_##RET _PyType_CallFunction( \
         tp, \
         Do_PyType_Call_##KIND##_##SLOT, \
         &params, \
         tp->tp_functionflags, \
         _PyFunctionIndex_##KIND##_##SLOT); \
+    PyType_DefineCallTypeFunction_DoCall_Part3_##RET(RT) \
 }
 
-#define PyType_DefineCallTypeFunction4(RT, KIND, SLOT, T0, T1, T2, T3) \
+#define PyType_DefineCallTypeFunction4(RET, RT, KIND, SLOT, T0, T1, T2, T3) \
 struct Do_PyType_Call_##KIND##_##SLOT##_Params { \
     PyTypeObject *tp; \
     T0 v0; \
@@ -13189,12 +13238,13 @@ struct Do_PyType_Call_##KIND##_##SLOT##_Params { \
  \
 void *Do_PyType_Call_##KIND##_##SLOT(void *_params){ \
     struct Do_PyType_Call_##KIND##_##SLOT##_Params *params = (struct Do_PyType_Call_##KIND##_##SLOT##_Params *)_params; \
-    return (void *)(uintptr_t)params->tp->PYTYPE_SLOTLOC_##KIND KIND##_##SLOT( \
+    PyType_DefineCallTypeFunction_DoCall_Part0_##RET params->tp->PYTYPE_SLOTLOC_##KIND KIND##_##SLOT( \
         params->v0, \
         params->v1, \
         params->v2, \
         params->v3 \
     ); \
+    PyType_DefineCallTypeFunction_DoCall_Part1_##RET \
 } \
  \
 RT PyType_Call_##KIND##_##SLOT( \
@@ -13212,23 +13262,29 @@ RT PyType_Call_##KIND##_##SLOT( \
         .v2 = v2, \
         .v3 = v3, \
     }; \
-    return (RT)(uintptr_t)_PyType_CallFunction( \
+    PyType_DefineCallTypeFunction_DoCall_Part2_##RET _PyType_CallFunction( \
         tp, \
         Do_PyType_Call_##KIND##_##SLOT, \
         &params, \
         tp->tp_functionflags, \
         _PyFunctionIndex_##KIND##_##SLOT); \
+    PyType_DefineCallTypeFunction_DoCall_Part3_##RET(RT) \
 }
 
-PyType_DefineCallTypeFunction4(PyObject *, tp, vectorcall, PyObject *, PyObject *const *, size_t, PyObject *)
-PyType_DefineCallTypeFunction2(PyObject *, tp, getattr, PyObject *, char *)
-PyType_DefineCallTypeFunction3(int, tp, setattr, PyObject *, char *, PyObject *)
-PyType_DefineCallTypeFunction2(PyObject *, tp, getattro, PyObject *, PyObject *)
-PyType_DefineCallTypeFunction3(int, tp, setattro, PyObject *, PyObject *, PyObject *)
-PyType_DefineCallTypeFunction3(int, tp, traverse, PyObject *, visitproc, void *)
-PyType_DefineCallTypeFunction3(PyObject *, tp, richcompare, PyObject *, PyObject *, int)
-PyType_DefineCallTypeFunction3(PyObject *, tp, descr_get, PyObject *, PyObject *, PyObject *)
-PyType_DefineCallTypeFunction3(int, tp, descr_set, PyObject *, PyObject *, PyObject *)
-PyType_DefineCallTypeFunction3(int, tp, init, PyObject *, PyObject *, PyObject *)
-PyType_DefineCallTypeFunction2(PyObject *, tp, alloc, PyTypeObject *, Py_ssize_t)
-PyType_DefineCallTypeFunction3(PyObject *, tp, new, PyTypeObject *, PyObject *, PyObject *)
+// First parameter: R - it returns a value; V - it returns void
+// Second parameter: return type
+// 3rd & 4th parameters: the method, eg tp, getattr for tp_getattr or np, add for nb_add
+// 5th+ parameters are the method parameter types
+PyType_DefineCallTypeFunction4(R, PyObject *, tp, vectorcall, PyObject *, PyObject *const *, size_t, PyObject *)
+PyType_DefineCallTypeFunction2(R, PyObject *, tp, getattr, PyObject *, char *)
+PyType_DefineCallTypeFunction3(R, int, tp, setattr, PyObject *, char *, PyObject *)
+PyType_DefineCallTypeFunction2(R, PyObject *, tp, getattro, PyObject *, PyObject *)
+PyType_DefineCallTypeFunction3(R, int, tp, setattro, PyObject *, PyObject *, PyObject *)
+PyType_DefineCallTypeFunction3(R, int, tp, traverse, PyObject *, visitproc, void *)
+PyType_DefineCallTypeFunction3(R, PyObject *, tp, richcompare, PyObject *, PyObject *, int)
+PyType_DefineCallTypeFunction3(R, PyObject *, tp, descr_get, PyObject *, PyObject *, PyObject *)
+PyType_DefineCallTypeFunction3(R, int, tp, descr_set, PyObject *, PyObject *, PyObject *)
+PyType_DefineCallTypeFunction3(R, int, tp, init, PyObject *, PyObject *, PyObject *)
+PyType_DefineCallTypeFunction2(R, PyObject *, tp, alloc, PyTypeObject *, Py_ssize_t)
+PyType_DefineCallTypeFunction3(R, PyObject *, tp, new, PyTypeObject *, PyObject *, PyObject *)
+PyType_DefineCallTypeFunction1(V, void, tp, free, void *)

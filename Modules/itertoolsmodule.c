@@ -174,7 +174,7 @@ batched_dealloc(PyObject *op)
     PyTypeObject *tp = Py_TYPE(bo);
     PyObject_GC_UnTrack(bo);
     Py_XDECREF(bo->it);
-    tp->tp_free(bo);
+    PyType_Call_tp_free(tp, bo);
     Py_DECREF(tp);
 }
 
@@ -342,7 +342,7 @@ pairwise_dealloc(PyObject *op)
     Py_XDECREF(po->it);
     Py_XDECREF(po->old);
     Py_XDECREF(po->result);
-    tp->tp_free(po);
+    PyType_Call_tp_free(tp, po);
     Py_DECREF(tp);
 }
 
@@ -517,7 +517,7 @@ groupby_dealloc(PyObject *op)
     Py_XDECREF(gbo->tgtkey);
     Py_XDECREF(gbo->currkey);
     Py_XDECREF(gbo->currvalue);
-    tp->tp_free(gbo);
+    PyType_Call_tp_free(tp, gbo);
     Py_DECREF(tp);
 }
 
@@ -1259,7 +1259,7 @@ cycle_dealloc(PyObject *op)
     PyObject_GC_UnTrack(lz);
     Py_XDECREF(lz->it);
     Py_XDECREF(lz->saved);
-    tp->tp_free(lz);
+    PyType_Call_tp_free(tp, lz);
     Py_DECREF(tp);
 }
 
@@ -1400,7 +1400,7 @@ dropwhile_dealloc(PyObject *op)
     PyObject_GC_UnTrack(lz);
     Py_XDECREF(lz->func);
     Py_XDECREF(lz->it);
-    tp->tp_free(lz);
+    PyType_Call_tp_free(tp, lz);
     Py_DECREF(tp);
 }
 
@@ -1534,7 +1534,7 @@ takewhile_dealloc(PyObject *op)
     PyObject_GC_UnTrack(lz);
     Py_XDECREF(lz->func);
     Py_XDECREF(lz->it);
-    tp->tp_free(lz);
+    PyType_Call_tp_free(tp, lz);
     Py_DECREF(tp);
 }
 
@@ -1718,7 +1718,7 @@ islice_dealloc(PyObject *op)
     PyTypeObject *tp = Py_TYPE(lz);
     PyObject_GC_UnTrack(lz);
     Py_XDECREF(lz->it);
-    tp->tp_free(lz);
+    PyType_Call_tp_free(tp, lz);
     Py_DECREF(tp);
 }
 
@@ -1866,7 +1866,7 @@ starmap_dealloc(PyObject *op)
     PyObject_GC_UnTrack(lz);
     Py_XDECREF(lz->func);
     Py_XDECREF(lz->it);
-    tp->tp_free(lz);
+    PyType_Call_tp_free(tp, lz);
     Py_DECREF(tp);
 }
 
@@ -2010,7 +2010,7 @@ chain_dealloc(PyObject *op)
     PyObject_GC_UnTrack(lz);
     Py_XDECREF(lz->active);
     Py_XDECREF(lz->source);
-    tp->tp_free(lz);
+    PyType_Call_tp_free(tp, lz);
     Py_DECREF(tp);
 }
 
@@ -2216,7 +2216,7 @@ product_dealloc(PyObject *op)
     Py_XDECREF(lz->pools);
     Py_XDECREF(lz->result);
     PyMem_Free(lz->indices);
-    tp->tp_free(lz);
+    PyType_Call_tp_free(tp, lz);
     Py_DECREF(tp);
 }
 
@@ -2464,7 +2464,7 @@ combinations_dealloc(PyObject *op)
     Py_XDECREF(co->pool);
     Py_XDECREF(co->result);
     PyMem_Free(co->indices);
-    tp->tp_free(co);
+    PyType_Call_tp_free(tp, co);
     Py_DECREF(tp);
 }
 
@@ -2721,7 +2721,7 @@ cwr_dealloc(PyObject *op)
     Py_XDECREF(co->pool);
     Py_XDECREF(co->result);
     PyMem_Free(co->indices);
-    tp->tp_free(co);
+    PyType_Call_tp_free(tp, co);
     Py_DECREF(tp);
 }
 
@@ -2992,7 +2992,7 @@ permutations_dealloc(PyObject *op)
     Py_XDECREF(po->result);
     PyMem_Free(po->indices);
     PyMem_Free(po->cycles);
-    tp->tp_free(po);
+    PyType_Call_tp_free(tp, po);
     Py_DECREF(tp);
 }
 
@@ -3210,7 +3210,7 @@ accumulate_dealloc(PyObject *op)
     Py_XDECREF(lz->total);
     Py_XDECREF(lz->it);
     Py_XDECREF(lz->initial);
-    tp->tp_free(lz);
+    PyType_Call_tp_free(tp, lz);
     Py_DECREF(tp);
 }
 
@@ -3357,7 +3357,7 @@ compress_dealloc(PyObject *op)
     PyObject_GC_UnTrack(lz);
     Py_XDECREF(lz->data);
     Py_XDECREF(lz->selectors);
-    tp->tp_free(lz);
+    PyType_Call_tp_free(tp, lz);
     Py_DECREF(tp);
 }
 
@@ -3495,7 +3495,7 @@ filterfalse_dealloc(PyObject *op)
     PyObject_GC_UnTrack(lz);
     Py_XDECREF(lz->func);
     Py_XDECREF(lz->it);
-    tp->tp_free(lz);
+    PyType_Call_tp_free(tp, lz);
     Py_DECREF(tp);
 }
 
@@ -3706,7 +3706,7 @@ count_dealloc(PyObject *op)
     PyObject_GC_UnTrack(lz);
     Py_XDECREF(lz->long_cnt);
     Py_XDECREF(lz->long_step);
-    tp->tp_free(lz);
+    PyType_Call_tp_free(tp, lz);
     Py_DECREF(tp);
 }
 
@@ -3875,7 +3875,7 @@ repeat_dealloc(PyObject *op)
     PyTypeObject *tp = Py_TYPE(ro);
     PyObject_GC_UnTrack(ro);
     Py_XDECREF(ro->element);
-    tp->tp_free(ro);
+    PyType_Call_tp_free(tp, ro);
     Py_DECREF(tp);
 }
 
@@ -4065,7 +4065,7 @@ zip_longest_dealloc(PyObject *op)
     Py_XDECREF(lz->ittuple);
     Py_XDECREF(lz->result);
     Py_XDECREF(lz->fillvalue);
-    tp->tp_free(lz);
+    PyType_Call_tp_free(tp, lz);
     Py_DECREF(tp);
 }
 

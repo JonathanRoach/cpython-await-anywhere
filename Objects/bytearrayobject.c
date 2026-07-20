@@ -1243,7 +1243,7 @@ bytearray_dealloc(PyObject *op)
     if (self->ob_bytes != 0) {
         PyMem_Free(self->ob_bytes);
     }
-    Py_TYPE(self)->tp_free((PyObject *)self);
+    PyType_Call_tp_free(Py_TYPE(self), (PyObject *)self);
 }
 
 
@@ -2882,6 +2882,7 @@ PyTypeObject PyByteArray_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };
 
 /*********************** Bytearray Iterator ****************************/

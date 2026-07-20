@@ -941,7 +941,7 @@ PyCursesWindow_dealloc(PyObject *self)
         PyMem_Free(wo->encoding);
     }
     Py_XDECREF(wo->orig);
-    window_type->tp_free(self);
+    PyType_Call_tp_free(window_type, self);
     Py_DECREF(window_type);
 }
 

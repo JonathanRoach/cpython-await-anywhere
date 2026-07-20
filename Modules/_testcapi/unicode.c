@@ -271,7 +271,7 @@ writer_dealloc(PyObject *self_raw)
     if (self->writer) {
         PyUnicodeWriter_Discard(self->writer);
     }
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 

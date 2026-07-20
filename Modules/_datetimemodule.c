@@ -4296,7 +4296,7 @@ timezone_dealloc(PyObject *op)
     PyDateTime_TimeZone *self = PyTimeZone_CAST(op);
     Py_CLEAR(self->offset);
     Py_CLEAR(self->name);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 static PyObject *
@@ -4730,7 +4730,7 @@ time_dealloc(PyObject *op)
     if (HASTZINFO(self)) {
         Py_XDECREF(self->tzinfo);
     }
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 /*
@@ -6048,7 +6048,7 @@ datetime_dealloc(PyObject *op)
     if (HASTZINFO(self)) {
         Py_XDECREF(self->tzinfo);
     }
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 /*

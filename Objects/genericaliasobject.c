@@ -39,7 +39,7 @@ ga_dealloc(PyObject *self)
     Py_XDECREF(alias->origin);
     Py_XDECREF(alias->args);
     Py_XDECREF(alias->parameters);
-    Py_TYPE(self)->tp_free(self);
+    PyType_Call_tp_free(Py_TYPE(self), self);
 }
 
 static int
@@ -1013,6 +1013,7 @@ PyTypeObject Py_GenericAliasType = {
     .tp_new = ga_new,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_free = PyObject_GC_Del,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
     .tp_getset = ga_properties,
     .tp_iter = ga_iter,
     .tp_functionflags[_PyFunctionIndex_tp_iter] = Py_FNFLAGS_FRUGAL,

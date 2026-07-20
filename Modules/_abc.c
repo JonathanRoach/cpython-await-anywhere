@@ -116,7 +116,7 @@ abc_data_dealloc(PyObject *self)
     PyObject_GC_UnTrack(self);
     PyTypeObject *tp = Py_TYPE(self);
     (void)abc_data_clear(self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     Py_DECREF(tp);
 }
 

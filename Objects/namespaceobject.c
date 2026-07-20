@@ -84,7 +84,7 @@ namespace_dealloc(PyObject *op)
     _PyNamespaceObject *ns = _PyNamespace_CAST(op);
     PyObject_GC_UnTrack(ns);
     Py_CLEAR(ns->ns_dict);
-    Py_TYPE(ns)->tp_free((PyObject *)ns);
+    PyType_Call_tp_free(Py_TYPE(ns), (PyObject *)ns);
 }
 
 
@@ -311,6 +311,7 @@ PyTypeObject _PyNamespace_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
 };
 
 

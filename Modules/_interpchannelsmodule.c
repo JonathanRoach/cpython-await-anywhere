@@ -2419,7 +2419,7 @@ channelid_dealloc(PyObject *op)
     _channels *channels = self->channels;
 
     PyTypeObject *tp = Py_TYPE(self);
-    tp->tp_free(self);
+    PyType_Call_tp_free(tp, self);
     /* "Instances of heap-allocated types hold a reference to their type."
      * See: https://docs.python.org/3.11/howto/isolating-extensions.html#garbage-collection-protocol
      * See: https://docs.python.org/3.11/c-api/typeobj.html#c.PyTypeObject.tp_traverse

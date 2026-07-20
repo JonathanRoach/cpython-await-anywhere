@@ -166,7 +166,7 @@ mmap_object_dealloc(PyObject *op)
     if (m_obj->weakreflist != NULL)
         PyObject_ClearWeakRefs(op);
 
-    tp->tp_free(m_obj);
+    PyType_Call_tp_free(tp, m_obj);
     Py_DECREF(tp);
 }
 

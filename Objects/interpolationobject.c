@@ -84,7 +84,7 @@ interpolation_dealloc(PyObject *op)
 {
     PyObject_GC_UnTrack(op);
     PYTYPE_CallFunction(Py_TYPE(op), tp, clear, op);
-    Py_TYPE(op)->tp_free(op);
+    PyType_Call_tp_free(Py_TYPE(op), op);
 }
 
 static int
@@ -159,6 +159,7 @@ PyTypeObject _PyInterpolation_Type = {
     .tp_clear = interpolation_clear,
     .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
     .tp_free = PyObject_GC_Del,
+    .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
     .tp_repr = interpolation_repr,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_members = interpolation_members,
