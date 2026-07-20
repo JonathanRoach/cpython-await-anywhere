@@ -404,7 +404,7 @@ anextawaitable_iternext(PyObject *op)
     if (awaitable == NULL) {
         return NULL;
     }
-    PyObject *result = PYTYPE_CallFunction(Py_TYPE(awaitable), tp, iternext, awaitable);
+    PyObject *result = PyType_Call_tp_iternext(Py_TYPE(awaitable), awaitable);
     Py_DECREF(awaitable);
     if (result != NULL) {
         return result;

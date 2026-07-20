@@ -207,7 +207,7 @@ batched_next(PyObject *op)
     PyTypeObject *tp = Py_TYPE(it);
     PyObject **items = _PyTuple_ITEMS(result);
     for (i=0 ; i < n ; i++) {
-        item = PYTYPE_CallFunction(tp, tp, iternext, it);
+        item = PyType_Call_tp_iternext(tp, it);
         if (item == NULL) {
             goto null_item;
         }
@@ -370,7 +370,7 @@ pairwise_next(PyObject *op)
     }
     PyTypeObject *tp = Py_TYPE(it);
     if (old == NULL) {
-        old = PYTYPE_CallFunction(tp, tp, iternext, it);
+        old = PyType_Call_tp_iternext(tp, it);
         Py_XSETREF(po->old, old);
         if (old == NULL) {
             Py_CLEAR(po->it);
@@ -383,7 +383,7 @@ pairwise_next(PyObject *op)
         }
     }
     Py_INCREF(old);
-    new = PYTYPE_CallFunction(tp, tp, iternext, it);
+    new = PyType_Call_tp_iternext(tp, it);
     if (new == NULL) {
         Py_CLEAR(po->it);
         Py_CLEAR(po->old);
@@ -1424,7 +1424,7 @@ dropwhile_next(PyObject *op)
 
     PyTypeObject *tp = Py_TYPE(it);
     for (;;) {
-        item = PYTYPE_CallFunction(tp, tp, iternext, it);
+        item = PyType_Call_tp_iternext(tp, it);
         if (item == NULL)
             return NULL;
         if (lz->start == 1)
@@ -1559,7 +1559,7 @@ takewhile_next(PyObject *op)
     if (lz->stop == 1)
         return NULL;
 
-    item = PYTYPE_CallFunction(Py_TYPE(it), tp, iternext, it);
+    item = PyType_Call_tp_iternext(Py_TYPE(it), it);
     if (item == NULL)
         return NULL;
 
@@ -1745,7 +1745,7 @@ islice_next(PyObject *op)
 
     PyTypeObject *tp = Py_TYPE(it);
     while (lz->cnt < lz->next) {
-        item = PYTYPE_CallFunction(tp, tp, iternext, it);
+        item = PyType_Call_tp_iternext(tp, it);
         if (item == NULL)
             goto empty;
         Py_DECREF(item);
@@ -1753,7 +1753,7 @@ islice_next(PyObject *op)
     }
     if (stop != -1 && lz->cnt >= stop)
         goto empty;
-    item = PYTYPE_CallFunction(tp, tp, iternext, it);
+    item = PyType_Call_tp_iternext(tp, it);
     if (item == NULL)
         goto empty;
     lz->cnt++;
@@ -1888,7 +1888,7 @@ starmap_next(PyObject *op)
     PyObject *result;
     PyObject *it = lz->it;
 
-    args = PYTYPE_CallFunction(Py_TYPE(it), tp, iternext, it);
+    args = PyType_Call_tp_iternext(Py_TYPE(it), it);
     if (args == NULL)
         return NULL;
     if (!PyTuple_CheckExact(args)) {
@@ -2047,7 +2047,7 @@ chain_next(PyObject *op)
                 return NULL;            /* input not iterable */
             }
         }
-        item = PYTYPE_CallFunction(Py_TYPE(lz->active), tp, iternext, lz->active);
+        item = PyType_Call_tp_iternext(Py_TYPE(lz->active), lz->active);
         if (item != NULL)
             return item;
         if (PyErr_Occurred()) {
@@ -3237,7 +3237,7 @@ accumulate_next(PyObject *op)
         lz->initial = Py_NewRef(Py_None);
         return Py_NewRef(lz->total);
     }
-    val = PYTYPE_CallFunction(Py_TYPE(lz->it), tp, iternext, lz->it);
+    val = PyType_Call_tp_iternext(Py_TYPE(lz->it), lz->it);
     if (val == NULL)
         return NULL;
 
@@ -3388,11 +3388,11 @@ compress_next(PyObject *op)
            exception first).
         */
 
-        datum = PYTYPE_CallFunction(datatp, tp, iternext, data);
+        datum = PyType_Call_tp_iternext(datatp, data);
         if (datum == NULL)
             return NULL;
 
-        selector = PYTYPE_CallFunction(selectorstp, tp, iternext, selectors);
+        selector = PyType_Call_tp_iternext(selectorstp, selectors);
         if (selector == NULL) {
             Py_DECREF(datum);
             return NULL;
@@ -3519,7 +3519,7 @@ filterfalse_next(PyObject *op)
 
     PyTypeObject *tp = Py_TYPE(it);
     for (;;) {
-        item = PYTYPE_CallFunction(tp, tp, iternext, it);
+        item = PyType_Call_tp_iternext(tp, it);
         if (item == NULL)
             return NULL;
 

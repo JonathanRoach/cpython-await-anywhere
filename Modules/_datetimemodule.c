@@ -3715,7 +3715,7 @@ static void
 iso_calendar_date_dealloc(PyObject *self)
 {
     PyTypeObject *tp = Py_TYPE(self);
-    PYTYPE_CallFunction(&PyTuple_Type, tp, dealloc, self);  // delegate GC-untrack as well
+    PyType_Call_tp_dealloc(&PyTuple_Type, self);  // delegate GC-untrack as well
     Py_DECREF(tp);
 }
 

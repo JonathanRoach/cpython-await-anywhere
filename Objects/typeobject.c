@@ -2713,7 +2713,7 @@ subtype_dealloc(PyObject *self)
 
         /* Call the base tp_dealloc() */
         assert(basedealloc);
-        PYTYPE_CallFunction(base, tp, dealloc, self);
+        PyType_Call_tp_dealloc(base, self);
 
         /* Can't reference self beyond this point. It's possible tp_del switched
            our type from a HEAPTYPE to a non-HEAPTYPE, so be careful about
@@ -2822,7 +2822,7 @@ subtype_dealloc(PyObject *self)
                              && !(base->tp_flags & Py_TPFLAGS_HEAPTYPE));
 
     assert(basedealloc);
-    PYTYPE_CallFunction(base, tp, dealloc, self);
+    PyType_Call_tp_dealloc(base, self);
 
     /* Can't reference self beyond this point. It's possible tp_del switched
        our type from a HEAPTYPE to a non-HEAPTYPE, so be careful about
@@ -7259,7 +7259,7 @@ static PyObject *
 object_str(PyObject *self)
 {
     if (Py_TYPE(self)->tp_repr){
-        return PYTYPE_CallFunction(Py_TYPE(self), tp, repr, self);
+        return PyType_Call_tp_repr(Py_TYPE(self), self);
     }
     return object_repr(self);
 }
@@ -13276,13 +13276,19 @@ RT PyType_Call_##KIND##_##SLOT( \
 // Second parameter: return type
 // 3rd & 4th parameters: the method, eg tp, getattr for tp_getattr or np, add for nb_add
 // 5th+ parameters are the method parameter types
-PyType_DefineCallTypeFunction4(R, PyObject *, tp, vectorcall, PyObject *, PyObject *const *, size_t, PyObject *)
+PyType_DefineCallTypeFunction1(V, void, tp, dealloc, PyObject *)
 PyType_DefineCallTypeFunction2(R, PyObject *, tp, getattr, PyObject *, char *)
 PyType_DefineCallTypeFunction3(R, int, tp, setattr, PyObject *, char *, PyObject *)
+PyType_DefineCallTypeFunction1(R, PyObject *, tp, repr, PyObject *)
+PyType_DefineCallTypeFunction1(R, PyObject *, tp, hash, PyObject *)
+PyType_DefineCallTypeFunction1(R, PyObject *, tp, str, PyObject *)
 PyType_DefineCallTypeFunction2(R, PyObject *, tp, getattro, PyObject *, PyObject *)
 PyType_DefineCallTypeFunction3(R, int, tp, setattro, PyObject *, PyObject *, PyObject *)
 PyType_DefineCallTypeFunction3(R, int, tp, traverse, PyObject *, visitproc, void *)
+PyType_DefineCallTypeFunction1(V, void, tp, clear, PyObject *)
 PyType_DefineCallTypeFunction3(R, PyObject *, tp, richcompare, PyObject *, PyObject *, int)
+PyType_DefineCallTypeFunction1(R, PyObject *, tp, iter, PyObject *)
+PyType_DefineCallTypeFunction1(R, PyObject *, tp, iternext, PyObject *)
 PyType_DefineCallTypeFunction3(R, PyObject *, tp, descr_get, PyObject *, PyObject *, PyObject *)
 PyType_DefineCallTypeFunction3(R, int, tp, descr_set, PyObject *, PyObject *, PyObject *)
 PyType_DefineCallTypeFunction3(R, int, tp, init, PyObject *, PyObject *, PyObject *)
@@ -13292,3 +13298,4 @@ PyType_DefineCallTypeFunction1(V, void, tp, free, void *)
 PyType_DefineCallTypeFunction1(R, int, tp, is_gc, PyObject *)
 PyType_DefineCallTypeFunction1(V, void, tp, del, PyObject *)
 PyType_DefineCallTypeFunction1(V, void, tp, finalize, PyObject *)
+PyType_DefineCallTypeFunction4(R, PyObject *, tp, vectorcall, PyObject *, PyObject *const *, size_t, PyObject *)

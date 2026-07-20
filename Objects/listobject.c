@@ -1263,7 +1263,7 @@ list_extend_iter_lock_held(PyListObject *self, PyObject *iterable)
 
     /* Run iterator to exhaustion. */
     for (;;) {
-        PyObject *item = PYTYPE_CallFunction(tp, tp, iternext, it);
+        PyObject *item = PyType_Call_tp_iternext(tp, it);
         if (item == NULL) {
             if (PyErr_Occurred()) {
                 if (PyErr_ExceptionMatches(PyExc_StopIteration))

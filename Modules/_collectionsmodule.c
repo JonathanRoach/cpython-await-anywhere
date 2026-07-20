@@ -456,7 +456,7 @@ consume_iterator(PyObject *it)
     PyTypeObject *tp = Py_TYPE(it);
     PyObject *item;
 
-    while ((item = PYTYPE_CallFunction(tp, tp, iternext, it)) != NULL) {
+    while ((item = PyType_Call_tp_iternext(tp, it)) != NULL) {
         Py_DECREF(item);
     }
     return finalize_iterator(it);
@@ -508,7 +508,7 @@ deque_extend_impl(dequeobject *deque, PyObject *iterable)
     }
 
     PyTypeObject *tp = Py_TYPE(it);
-    while ((item = PYTYPE_CallFunction(tp, tp, iternext, it)) != NULL) {
+    while ((item = PyType_Call_tp_iternext(tp, it)) != NULL) {
         if (deque_append_lock_held(deque, item, maxlen) == -1) {
             Py_DECREF(item);
             Py_DECREF(it);
@@ -564,7 +564,7 @@ deque_extendleft_impl(dequeobject *deque, PyObject *iterable)
     }
 
     PyTypeObject *tp = Py_TYPE(it);
-    while ((item = PYTYPE_CallFunction(tp, tp, iternext, it)) != NULL) {
+    while ((item = PyType_Call_tp_iternext(tp, it)) != NULL) {
         if (deque_appendleft_lock_held(deque, item, maxlen) == -1) {
             Py_DECREF(item);
             Py_DECREF(it);
@@ -2411,7 +2411,7 @@ defdict_dealloc(PyObject *op)
     PyObject_GC_UnTrack(dd);
     Py_CLEAR(dd->default_factory);
 
-    PYTYPE_CallFunction(&PyDict_Type, tp, dealloc, op);
+    PyType_Call_tp_dealloc(&PyDict_Type, op);
     Py_DECREF(tp);
 }
 
@@ -2422,7 +2422,7 @@ defdict_repr(PyObject *op)
     PyObject *baserepr;
     PyObject *defrepr;
     PyObject *result;
-    baserepr = PYTYPE_CallFunction(&PyDict_Type, tp, repr, op);
+    baserepr = PyType_Call_tp_repr(&PyDict_Type, op);
     if (baserepr == NULL)
         return NULL;
     if (dd->default_factory == NULL)

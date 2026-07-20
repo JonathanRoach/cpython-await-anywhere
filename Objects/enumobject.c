@@ -247,7 +247,7 @@ enum_next(PyObject *op)
     PyObject *old_index;
     PyObject *old_item;
 
-    next_item = PYTYPE_CallFunction(Py_TYPE(it), tp, iternext, it);
+    next_item = PyType_Call_tp_iternext(Py_TYPE(it), it);
     if (next_item == NULL)
         return NULL;
 

@@ -4377,7 +4377,7 @@
                 JUMP_TO_JUMP_TARGET();
             }
             _PyFrame_SetStackPointer(frame, stack_pointer);
-            PyObject *next_o = PYTYPE_CallFunction(Py_TYPE(iter_o), tp, iternext, iter_o);
+            PyObject *next_o = PyType_Call_tp_iternext(Py_TYPE(iter_o), iter_o);
             stack_pointer = _PyFrame_GetStackPointer(frame);
             if (next_o == NULL) {
                 if (_PyErr_Occurred(tstate)) {

@@ -394,7 +394,7 @@ Dialect_dealloc(PyObject *self)
 {
     PyTypeObject *tp = Py_TYPE(self);
     PyObject_GC_UnTrack(self);
-    PYTYPE_CallFunction(tp, tp, clear, (PyObject *)self);
+    PyType_Call_tp_clear(tp, (PyObject *)self);
     PyObject_GC_Del(self);
     Py_DECREF(tp);
 }
@@ -1002,7 +1002,7 @@ Reader_dealloc(PyObject *op)
     ReaderObj *self = _ReaderObj_CAST(op);
     PyTypeObject *tp = Py_TYPE(self);
     PyObject_GC_UnTrack(self);
-    (void)PYTYPE_CallFunction(tp, tp, clear, op);
+    (void)PyType_Call_tp_clear(tp, op);
     if (self->field != NULL) {
         PyMem_Free(self->field);
         self->field = NULL;
@@ -1507,7 +1507,7 @@ Writer_dealloc(PyObject *op)
     WriterObj *self = _WriterObj_CAST(op);
     PyTypeObject *tp = Py_TYPE(self);
     PyObject_GC_UnTrack(self);
-    PYTYPE_CallFunction(tp, tp, clear, op);
+    PyType_Call_tp_clear(tp, op);
     if (self->rec != NULL) {
         PyMem_Free(self->rec);
     }

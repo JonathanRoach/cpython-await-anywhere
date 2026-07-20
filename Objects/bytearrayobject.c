@@ -1027,7 +1027,7 @@ slowpath:
         int rc, value;
 
         /* Get the next item */
-        item = PYTYPE_CallFunction(tp, tp, iternext, it);
+        item = PyType_Call_tp_iternext(tp, it);
         if (item == NULL) {
             if (PyErr_Occurred()) {
                 if (!PyErr_ExceptionMatches(PyExc_StopIteration))

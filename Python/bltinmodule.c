@@ -329,7 +329,7 @@ builtin_all(PyObject *module, PyObject *iterable)
     PyTypeObject *tp = Py_TYPE(it);
 
     for (;;) {
-        item = PYTYPE_CallFunction(tp, tp, iternext, it);
+        item = PyType_Call_tp_iternext(tp, it);
         if (item == NULL)
             break;
         cmp = PyObject_IsTrue(item);
@@ -378,7 +378,7 @@ builtin_any(PyObject *module, PyObject *iterable)
     PyTypeObject *tp = Py_TYPE(it);
 
     for (;;) {
-        item = PYTYPE_CallFunction(tp, tp, iternext, it);
+        item = PyType_Call_tp_iternext(tp, it);
         if (item == NULL)
             break;
         cmp = PyObject_IsTrue(item);
@@ -595,7 +595,7 @@ filter_next(PyObject *self)
 
     PyTypeObject *tp = Py_TYPE(it);
     for (;;) {
-        item = PYTYPE_CallFunction(tp, tp, iternext, it);
+        item = PyType_Call_tp_iternext(tp, it);
         if (item == NULL)
             return NULL;
 
@@ -1487,7 +1487,7 @@ map_next(PyObject *self)
     Py_ssize_t nargs = 0;
     for (i=0; i < niters; i++) {
         PyObject *it = PyTuple_GET_ITEM(lz->iters, i);
-        PyObject *val = PYTYPE_CallFunction(Py_TYPE(it), tp, iternext, it);
+        PyObject *val = PyType_Call_tp_iternext(Py_TYPE(it), it);
         if (val == NULL) {
             if (lz->strict) {
                 goto check;
@@ -1526,7 +1526,7 @@ check:
     }
     for (i = 1; i < niters; i++) {
         PyObject *it = PyTuple_GET_ITEM(lz->iters, i);
-        PyObject *val = PYTYPE_CallFunction(Py_TYPE(it), tp, iternext, it);
+        PyObject *val = PyType_Call_tp_iternext(Py_TYPE(it), it);
         if (val) {
             Py_DECREF(val);
             const char* plural = i == 1 ? " " : "s 1-";
@@ -1671,7 +1671,7 @@ builtin_next(PyObject *self, PyObject *const *args, Py_ssize_t nargs)
         return NULL;
     }
 
-    res = PYTYPE_CallFunction(Py_TYPE(it), tp, iternext, it);
+    res = PyType_Call_tp_iternext(Py_TYPE(it), it);
     if (res != NULL) {
         return res;
     } else if (nargs > 1) {
@@ -3154,7 +3154,7 @@ zip_next(PyObject *self)
         Py_INCREF(result);
         for (i=0 ; i < tuplesize ; i++) {
             it = PyTuple_GET_ITEM(lz->ittuple, i);
-            item = PYTYPE_CallFunction(Py_TYPE(it), tp, iternext, it);
+            item = PyType_Call_tp_iternext(Py_TYPE(it), it);
             if (item == NULL) {
                 Py_DECREF(result);
                 if (lz->strict) {
@@ -3175,7 +3175,7 @@ zip_next(PyObject *self)
             return NULL;
         for (i=0 ; i < tuplesize ; i++) {
             it = PyTuple_GET_ITEM(lz->ittuple, i);
-            item = PYTYPE_CallFunction(Py_TYPE(it), tp, iternext, it);
+            item = PyType_Call_tp_iternext(Py_TYPE(it), it);
             if (item == NULL) {
                 Py_DECREF(result);
                 if (lz->strict) {
@@ -3205,7 +3205,7 @@ check:
     }
     for (i = 1; i < tuplesize; i++) {
         it = PyTuple_GET_ITEM(lz->ittuple, i);
-        item = PYTYPE_CallFunction(Py_TYPE(it), tp, iternext, it);
+        item = PyType_Call_tp_iternext(Py_TYPE(it), it);
         if (item) {
             Py_DECREF(item);
             const char* plural = i == 1 ? " " : "s 1-";

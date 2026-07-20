@@ -777,7 +777,7 @@ PyObject_Repr(PyObject *v)
                                      " while getting the repr of an object")) {
         return NULL;
     }
-    res = PYTYPE_CallFunction(Py_TYPE(v), tp, repr, v);
+    res = PyType_Call_tp_repr(Py_TYPE(v), v);
     _Py_LeaveRecursiveCallTstate(tstate);
 
     if (res == NULL) {
@@ -820,7 +820,7 @@ PyObject_Str(PyObject *v)
     if (_Py_EnterRecursiveCallTstate(tstate, " while getting the str of an object")) {
         return NULL;
     }
-    res = PYTYPE_CallFunction(Py_TYPE(v), tp, str, v);
+    res = PyType_Call_tp_str(Py_TYPE(v), v);
     _Py_LeaveRecursiveCallTstate(tstate);
 
     if (res == NULL) {
@@ -1152,7 +1152,7 @@ PyObject_Hash(PyObject *v)
 {
     PyTypeObject *tp = Py_TYPE(v);
     if (tp->tp_hash != NULL)
-        return (Py_hash_t)PYTYPE_CallFunction(tp, tp, hash, v);
+        return (Py_hash_t)PyType_Call_tp_hash(tp, v);
     /* To keep to the general practice that inheriting
      * solely from object in C code should work without
      * an explicit call to PyType_Ready, we implicitly call
@@ -1162,7 +1162,7 @@ PyObject_Hash(PyObject *v)
         if (PyType_Ready(tp) < 0)
             return -1;
         if (tp->tp_hash != NULL)
-            return (Py_hash_t)PYTYPE_CallFunction(tp, tp, hash, v);
+            return (Py_hash_t)PyType_Call_tp_hash(tp, v);
     }
     /* Otherwise, the object can't be hashed */
     return PyObject_HashNotImplemented(v);
@@ -3197,7 +3197,7 @@ _PyTrash_thread_destroy_chain(PyThreadState *tstate)
          * up distorting allocation statistics.
          */
         _PyObject_ASSERT(op, Py_REFCNT(op) == 0);
-        PYTYPE_CallFunction(Py_TYPE(op), tp, dealloc, op);
+        PyType_Call_tp_dealloc(Py_TYPE(op), op);
     }
 }
 
@@ -3305,7 +3305,7 @@ _Py_Dealloc_Now(void *_op)
     _Py_ForgetReference(op);
 #endif
     _PyReftracerTrack(op, PyRefTracer_DESTROY);
-    PYTYPE_CallFunction(Py_TYPE(op), tp, dealloc, op);
+    PyType_Call_tp_dealloc(Py_TYPE(op), op);
 
 #ifdef Py_DEBUG
     // gh-89373: The tp_dealloc function must leave the current exception

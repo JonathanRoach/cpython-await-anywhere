@@ -1496,7 +1496,7 @@ check_pyobject_freed_is_freed(PyObject *self, PyObject *Py_UNUSED(args))
         return NULL;
     }
 
-    PYTYPE_CallFunction(Py_TYPE(op), tp, dealloc, op);
+    PyType_Call_tp_dealloc(Py_TYPE(op), op);
 
     /* Reset reference count to avoid early crash in ceval or GC */
     Py_SET_REFCNT(op, 1);

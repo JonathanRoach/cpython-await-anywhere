@@ -2825,7 +2825,7 @@ math_sumprod_impl(PyObject *module, PyObject *p, PyObject *q)
         assert (q_it != NULL);
         assert (total != NULL);
 
-        p_i = PYTYPE_CallFunction(p_tp, tp, iternext, p_it);
+        p_i = PyType_Call_tp_iternext(p_tp, p_it);
         if (p_i == NULL) {
             if (PyErr_Occurred()) {
                 if (!PyErr_ExceptionMatches(PyExc_StopIteration)) {
@@ -2835,7 +2835,7 @@ math_sumprod_impl(PyObject *module, PyObject *p, PyObject *q)
             }
             p_stopped = true;
         }
-        q_i = PYTYPE_CallFunction(q_tp, tp, iternext, q_it);
+        q_i = PyType_Call_tp_iternext(q_tp, q_it);
         if (q_i == NULL) {
             if (PyErr_Occurred()) {
                 if (!PyErr_ExceptionMatches(PyExc_StopIteration)) {

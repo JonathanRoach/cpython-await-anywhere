@@ -5825,7 +5825,7 @@
                 }
                 else {
                     _PyFrame_SetStackPointer(frame, stack_pointer);
-                    PyObject *next_o = PYTYPE_CallFunction(Py_TYPE(iter_o), tp, iternext, iter_o);
+                    PyObject *next_o = PyType_Call_tp_iternext(Py_TYPE(iter_o), iter_o);
                     stack_pointer = _PyFrame_GetStackPointer(frame);
                     if (next_o == NULL) {
                         if (_PyErr_Occurred(tstate)) {
@@ -7134,7 +7134,7 @@
             }
             else {
                 _PyFrame_SetStackPointer(frame, stack_pointer);
-                PyObject *next_o = PYTYPE_CallFunction(Py_TYPE(iter_o), tp, iternext, iter_o);
+                PyObject *next_o = PyType_Call_tp_iternext(Py_TYPE(iter_o), iter_o);
                 stack_pointer = _PyFrame_GetStackPointer(frame);
                 if (next_o != NULL) {
                     next = PyStackRef_FromPyObjectSteal(next_o);
@@ -10787,7 +10787,7 @@
                 }
                 if (PyStackRef_IsNone(v) && PyIter_Check(receiver_o)) {
                     _PyFrame_SetStackPointer(frame, stack_pointer);
-                    retval_o = PYTYPE_CallFunction(Py_TYPE(receiver_o), tp, iternext, receiver_o);
+                    retval_o = PyType_Call_tp_iternext(Py_TYPE(receiver_o), receiver_o);
                     stack_pointer = _PyFrame_GetStackPointer(frame);
                 }
                 else {

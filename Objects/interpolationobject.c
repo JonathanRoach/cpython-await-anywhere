@@ -83,7 +83,7 @@ static void
 interpolation_dealloc(PyObject *op)
 {
     PyObject_GC_UnTrack(op);
-    PYTYPE_CallFunction(Py_TYPE(op), tp, clear, op);
+    PyType_Call_tp_clear(Py_TYPE(op), op);
     PyType_Call_tp_free(Py_TYPE(op), op);
 }
 

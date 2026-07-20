@@ -216,14 +216,6 @@ _PyType_CallFunction(PyTypeObject *tp, Coroutine_Start fn, void *param, unsigned
 #define PYTYPE_SLOTLOC_mp tp_as_mapping->
 #define PYTYPE_SLOTLOC_bf tp_as_buffer->
 
-#define PYTYPE_CallFunction(tp, KIND, SLOT, param) \
-    _PyType_CallFunction( \
-        (tp), \
-        (Coroutine_Start)(void *)(tp)->PYTYPE_SLOTLOC_##KIND KIND##_##SLOT, \
-        (param), \
-        (tp)->PYTYPE_SLOTLOC_##KIND KIND##_functionflags, \
-        _PyFunctionIndex_##KIND##_##SLOT)
-
 #define PYTYPE_SLOTISFRUGAL(tp, KIND, SLOT) \
         ((((tp)->tp_flags & Py_TPFLAGS_IS_EXTENDED ? (tp)->PYTYPE_SLOTLOC_##KIND KIND##_functionflags[_PyFunctionIndex_##KIND##_##SLOT] : 0) & Py_FNFLAGS_FRUGAL) != 0)
 

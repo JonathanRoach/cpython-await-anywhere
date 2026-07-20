@@ -857,13 +857,19 @@ PyAPI_FUNC(PyObject *) PyType_GetModuleByDef(PyTypeObject *, PyModuleDef *);
 PyAPI_FUNC(int) PyType_Freeze(PyTypeObject *type);
 #endif
 
-PyAPI_FUNC(PyObject *) PyType_Call_tp_vectorcall(PyTypeObject *tp, PyObject *callable, PyObject *const *args, size_t nargsf, PyObject *kwnames);
+PyAPI_FUNC(void) PyType_Call_tp_dealloc(PyTypeObject *tp, PyObject *);
 PyAPI_FUNC(PyObject *) PyType_Call_tp_getattr(PyTypeObject *tp, PyObject *callable, char *name);
 PyAPI_FUNC(int) PyType_Call_tp_setattr(PyTypeObject *tp, PyObject *callable, char *name, PyObject *value);
+PyAPI_FUNC(PyObject *) PyType_Call_tp_repr(PyTypeObject *tp, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_tp_hash(PyTypeObject *tp, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_tp_str(PyTypeObject *tp, PyObject *);
 PyAPI_FUNC(PyObject *) PyType_Call_tp_getattro(PyTypeObject *tp, PyObject *callable, PyObject *name);
 PyAPI_FUNC(int) PyType_Call_tp_setattro(PyTypeObject *tp, PyObject *callable, PyObject *name, PyObject *value);
 PyAPI_FUNC(int) PyType_Call_tp_traverse(PyTypeObject *tp, PyObject *callable, visitproc visit, void *param);
+PyAPI_FUNC(void) PyType_Call_tp_clear(PyTypeObject *tp, PyObject *);
 PyAPI_FUNC(PyObject *) PyType_Call_tp_richcompare(PyTypeObject *tp, PyObject *, PyObject *, int);
+PyAPI_FUNC(PyObject *) PyType_Call_tp_iter(PyTypeObject *tp, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_tp_iternext(PyTypeObject *tp, PyObject *);
 PyAPI_FUNC(PyObject *) PyType_Call_tp_descr_get(PyTypeObject *tp, PyObject *, PyObject *, PyObject *);
 PyAPI_FUNC(int) PyType_Call_tp_descr_set(PyTypeObject *tp, PyObject *, PyObject *, PyObject *);
 PyAPI_FUNC(int) PyType_Call_tp_init(PyTypeObject *tp, PyObject *, PyObject *, PyObject *);
@@ -873,6 +879,7 @@ PyAPI_FUNC(void) PyType_Call_tp_free(PyTypeObject *tp, void *);
 PyAPI_FUNC(int) PyType_Call_tp_is_gc(PyTypeObject *tp, PyObject *);
 PyAPI_FUNC(void) PyType_Call_tp_del(PyTypeObject *tp, PyObject *);
 PyAPI_FUNC(void) PyType_Call_tp_finalize(PyTypeObject *tp, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_tp_vectorcall(PyTypeObject *tp, PyObject *callable, PyObject *const *args, size_t nargsf, PyObject *kwnames);
 
 #ifdef __cplusplus
 }

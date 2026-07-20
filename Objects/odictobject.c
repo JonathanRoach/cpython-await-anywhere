@@ -1400,7 +1400,7 @@ odict_dealloc(PyObject *op)
         PyObject_ClearWeakRefs((PyObject *)self);
 
     _odict_clear_nodes(self);
-    PYTYPE_CallFunction(&PyDict_Type, tp, dealloc, op);
+    PyType_Call_tp_dealloc(&PyDict_Type, op);
 }
 
 /* tp_repr */

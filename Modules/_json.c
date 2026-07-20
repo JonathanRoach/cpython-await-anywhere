@@ -1443,7 +1443,7 @@ encoder_encode_float(PyEncoderObject *s, PyObject *obj)
             return PyUnicode_FromString("NaN");
         }
     }
-    return PYTYPE_CallFunction(&PyFloat_Type, tp, repr, obj);
+    return PyType_Call_tp_repr(&PyFloat_Type, obj);
 }
 
 static PyObject *
@@ -1506,7 +1506,7 @@ encoder_listencode_obj(PyEncoderObject *s, PyUnicodeWriter *writer,
             // Fast-path for exact integers
             return PyUnicodeWriter_WriteRepr(writer, obj);
         }
-        PyObject *encoded = PYTYPE_CallFunction(&PyLong_Type, tp, repr, obj);
+        PyObject *encoded = PyType_Call_tp_repr(&PyLong_Type, obj);
         if (encoded == NULL)
             return -1;
         return _steal_accumulate(writer, encoded);
@@ -1602,7 +1602,7 @@ encoder_encode_key_value(PyEncoderObject *s, PyUnicodeWriter *writer, bool *firs
         keystr = _encoded_const(key);
     }
     else if (PyLong_Check(key)) {
-        keystr = PYTYPE_CallFunction(&PyLong_Type, tp, repr, key);
+        keystr = PyType_Call_tp_repr(&PyLong_Type, key);
     }
     else if (s->skipkeys) {
         return 0;

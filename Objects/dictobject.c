@@ -2471,7 +2471,7 @@ PyObject *
 _PyDict_GetItemWithError(PyObject *dp, PyObject *kv)
 {
     assert(PyUnicode_CheckExact(kv));
-    Py_hash_t hash = (Py_hash_t)PYTYPE_CallFunction(Py_TYPE(kv), tp, hash, kv);
+    Py_hash_t hash = (Py_hash_t)PyType_Call_tp_hash(Py_TYPE(kv), kv);
     if (hash == -1) {
         return NULL;
     }
