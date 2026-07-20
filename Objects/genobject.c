@@ -936,6 +936,7 @@ static PyAsyncMethods gen_as_async = {
     0,                                          /* am_aiter */
     0,                                          /* am_anext */
     PyGen_am_send,                              /* am_send  */
+    .am_functionflags[_PyFunctionIndex_am_send] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -1210,7 +1211,7 @@ _PyCoro_GetAwaitableIter(PyObject *o)
         getter = ot->tp_as_async->am_await;
     }
     if (getter != NULL) {
-        PyObject *res = (*getter)(o);
+        PyObject *res = PyType_Call_am_await(ot, o);
         if (res != NULL) {
             if (PyCoro_CheckExact(res) || gen_is_coroutine(res)) {
                 /* __await__ must return an *iterator*, not
@@ -1682,6 +1683,8 @@ static PyAsyncMethods coro_as_async = {
     0,                                          /* am_aiter */
     0,                                          /* am_anext */
     PyCoro_am_send,                             /* am_send  */
+    .am_functionflags[_PyFunctionIndex_am_await] = Py_FNFLAGS_FRUGAL,
+    .am_functionflags[_PyFunctionIndex_am_send] = Py_FNFLAGS_FRUGAL,
 };
 
 PyTypeObject PyCoro_Type = {
@@ -2143,6 +2146,9 @@ static PyAsyncMethods async_gen_as_async = {
     PyObject_SelfIter,                          /* am_aiter */
     async_gen_anext,                            /* am_anext */
     PyAGen_am_send,                             /* am_send  */
+    .am_functionflags[_PyFunctionIndex_am_aiter] = Py_FNFLAGS_FRUGAL,
+    .am_functionflags[_PyFunctionIndex_am_anext] = Py_FNFLAGS_FRUGAL,
+    .am_functionflags[_PyFunctionIndex_am_send] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -2441,6 +2447,7 @@ static PyAsyncMethods async_gen_asend_as_async = {
     0,                                          /* am_aiter */
     0,                                          /* am_anext */
     0,                                          /* am_send  */
+    .am_functionflags[_PyFunctionIndex_am_await] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -2894,6 +2901,7 @@ static PyAsyncMethods async_gen_athrow_as_async = {
     0,                                          /* am_aiter */
     0,                                          /* am_anext */
     0,                                          /* am_send  */
+    .am_functionflags[_PyFunctionIndex_am_await] = Py_FNFLAGS_FRUGAL,
 };
 
 

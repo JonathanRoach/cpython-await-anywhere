@@ -2826,6 +2826,7 @@ static PyAsyncMethods awaitType_as_async = {
     0,                                      /* am_aiter */
     0,                                      /* am_anext */
     0,                                      /* am_send  */
+    .am_functionflags[_PyFunctionIndex_am_await] = Py_FNFLAGS_FRUGAL,
 };
 
 

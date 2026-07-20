@@ -1853,7 +1853,7 @@
                 JUMP_TO_ERROR();
             }
             _PyFrame_SetStackPointer(frame, stack_pointer);
-            iter_o = (*getter)(obj_o);
+            iter_o = PyType_Call_am_aiter(type, obj_o);
             stack_pointer = _PyFrame_GetStackPointer(frame);
             stack_pointer += -1;
             assert(WITHIN_STACK_BOUNDS());

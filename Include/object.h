@@ -881,6 +881,13 @@ PyAPI_FUNC(void) PyType_Call_tp_del(PyTypeObject *tp, PyObject *);
 PyAPI_FUNC(void) PyType_Call_tp_finalize(PyTypeObject *tp, PyObject *);
 PyAPI_FUNC(PyObject *) PyType_Call_tp_vectorcall(PyTypeObject *tp, PyObject *callable, PyObject *const *args, size_t nargsf, PyObject *kwnames);
 
+PyAPI_FUNC(PyObject *) PyType_Call_am_await(PyTypeObject *tp, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_am_aiter(PyTypeObject *tp, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_am_anext(PyTypeObject *tp, PyObject *);
+#if !defined(Py_LIMITED_API) || Py_LIMITED_API+0 >= 0x030A0000
+ PyAPI_FUNC(PySendResult) PyType_Call_am_send(PyTypeObject *tp, PyObject *, PyObject *, PyObject **);
+#endif
+
 #ifdef __cplusplus
 }
 #endif

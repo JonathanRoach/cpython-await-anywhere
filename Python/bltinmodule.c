@@ -1871,7 +1871,7 @@ builtin_anext_impl(PyObject *module, PyObject *aiterator,
         return NULL;
     }
 
-    awaitable = (*t->tp_as_async->am_anext)(aiterator);
+    awaitable = PyType_Call_am_anext(t, aiterator);
     if (awaitable == NULL) {
         return NULL;
     }

@@ -1216,7 +1216,7 @@ dummy_func(
                 ERROR_IF(true);
             }
 
-            iter_o = (*getter)(obj_o);
+            iter_o = PyType_Call_am_aiter(type, obj_o);
             PyStackRef_CLOSE(obj);
             ERROR_IF(iter_o == NULL);
 

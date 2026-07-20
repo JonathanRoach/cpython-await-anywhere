@@ -359,8 +359,7 @@ anextawaitable_getiter(anextawaitableobject *obj)
          * or an iterator. Of these, only coroutines lack tp_iternext.
          */
         assert(PyCoro_CheckExact(awaitable));
-        unaryfunc getter = Py_TYPE(awaitable)->tp_as_async->am_await;
-        PyObject *new_awaitable = getter(awaitable);
+        PyObject *new_awaitable = PyType_Call_am_await(Py_TYPE(awaitable), awaitable);
         if (new_awaitable == NULL) {
             Py_DECREF(awaitable);
             return NULL;
@@ -502,6 +501,7 @@ static PyAsyncMethods anextawaitable_as_async = {
     0,                                          /* am_aiter */
     0,                                          /* am_anext */
     0,                                          /* am_send  */
+    .am_functionflags[_PyFunctionIndex_am_await] = Py_FNFLAGS_FRUGAL,
 };
 
 PyTypeObject _PyAnextAwaitable_Type = {

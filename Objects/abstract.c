@@ -3688,13 +3688,11 @@ PyObject_GetIter(PyObject *o)
 PyObject *
 PyObject_GetAIter(PyObject *o) {
     PyTypeObject *t = Py_TYPE(o);
-    unaryfunc f;
 
     if (t->tp_as_async == NULL || t->tp_as_async->am_aiter == NULL) {
         return type_error("'%.200s' object is not an async iterable", o);
     }
-    f = t->tp_as_async->am_aiter;
-    PyObject *it = (*f)(o);
+    PyObject *it = PyType_Call_am_aiter(t, o);
     if (it != NULL && !PyAIter_Check(it)) {
         PyErr_Format(PyExc_TypeError,
                      "aiter() returned not an async iterator of type '%.100s'",
@@ -3784,7 +3782,7 @@ PyIter_Send(PyObject *iter, PyObject *arg, PyObject **result)
     assert(arg != NULL);
     assert(result != NULL);
     if (Py_TYPE(iter)->tp_as_async && Py_TYPE(iter)->tp_as_async->am_send) {
-        PySendResult res = Py_TYPE(iter)->tp_as_async->am_send(iter, arg, result);
+        PySendResult res = PyType_Call_am_send(Py_TYPE(iter), iter, arg, result);
         assert(_Py_CheckSlotResult(iter, "am_send", res != PYGEN_ERROR));
         return res;
     }

@@ -3545,14 +3545,14 @@ _PyEval_GetANext(PyObject *aiter)
     PyObject *next_iter = NULL;
     PyTypeObject *type = Py_TYPE(aiter);
     if (PyAsyncGen_CheckExact(aiter)) {
-        return type->tp_as_async->am_anext(aiter);
+        return PyType_Call_am_anext(type, aiter);
     }
     if (type->tp_as_async != NULL){
         getter = type->tp_as_async->am_anext;
     }
 
     if (getter != NULL) {
-        next_iter = (*getter)(aiter);
+        next_iter = PyType_Call_am_anext(type, aiter);
         if (next_iter == NULL) {
             return NULL;
         }

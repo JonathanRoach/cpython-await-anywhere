@@ -13299,3 +13299,10 @@ PyType_DefineCallTypeFunction1(R, int, tp, is_gc, PyObject *)
 PyType_DefineCallTypeFunction1(V, void, tp, del, PyObject *)
 PyType_DefineCallTypeFunction1(V, void, tp, finalize, PyObject *)
 PyType_DefineCallTypeFunction4(R, PyObject *, tp, vectorcall, PyObject *, PyObject *const *, size_t, PyObject *)
+
+PyType_DefineCallTypeFunction1(R, PyObject *, am, await, PyObject *)
+PyType_DefineCallTypeFunction1(R, PyObject *, am, aiter, PyObject *)
+PyType_DefineCallTypeFunction1(R, PyObject *, am, anext, PyObject *)
+#if !defined(Py_LIMITED_API) || Py_LIMITED_API+0 >= 0x030A0000
+ PyType_DefineCallTypeFunction3(R, PySendResult, am, send, PyObject *, PyObject *, PyObject **)
+#endif
