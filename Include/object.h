@@ -333,11 +333,18 @@ NB: the methods for certain type groups are now contained in separate
 method blocks.
 */
 
+struct _PyInterpreterFrame;
+
 typedef PyObject * (*unaryfunc)(PyObject *);
+typedef PyObject * (*unaryfunc_inlineable)(PyObject *, struct _PyInterpreterFrame **);
 typedef PyObject * (*binaryfunc)(PyObject *, PyObject *);
+typedef PyObject * (*binaryfunc_inlineable)(PyObject *, PyObject *, struct _PyInterpreterFrame **);
 typedef PyObject * (*ternaryfunc)(PyObject *, PyObject *, PyObject *);
+typedef PyObject * (*ternaryfunc_inlineable)(PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **);
 typedef int (*inquiry)(PyObject *);
+typedef int (*inquiry_inlineable)(PyObject *, struct _PyInterpreterFrame **);
 typedef Py_ssize_t (*lenfunc)(PyObject *);
+typedef Py_ssize_t (*lenfunc_inlineable)(PyObject *, struct _PyInterpreterFrame **);
 typedef PyObject *(*ssizeargfunc)(PyObject *, Py_ssize_t);
 typedef PyObject *(*ssizessizeargfunc)(PyObject *, Py_ssize_t, Py_ssize_t);
 typedef int(*ssizeobjargproc)(PyObject *, Py_ssize_t, PyObject *);
@@ -887,6 +894,78 @@ PyAPI_FUNC(PyObject *) PyType_Call_am_anext(PyTypeObject *tp, PyObject *);
 #if !defined(Py_LIMITED_API) || Py_LIMITED_API+0 >= 0x030A0000
  PyAPI_FUNC(PySendResult) PyType_Call_am_send(PyTypeObject *tp, PyObject *, PyObject *, PyObject **);
 #endif
+
+PyAPI_FUNC(PyObject *) PyType_Call_nb_add(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_subtract(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_multiply(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_remainder(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_divmod(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_power(PyTypeObject *tp, PyObject *, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_negative(PyTypeObject *tp, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_positive(PyTypeObject *tp, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_absolute(PyTypeObject *tp, PyObject *);
+PyAPI_FUNC(int) PyType_Call_nb_bool(PyTypeObject *tp, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_invert(PyTypeObject *tp, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_lshift(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_rshift(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_and(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_xor(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_or(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_int(PyTypeObject *tp, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_float(PyTypeObject *tp, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_add(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_subtract(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_multiply(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_remainder(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_power(PyTypeObject *tp, PyObject *, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_lshift(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_rshift(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_and(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_xor(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_or(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_floor_divide(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_true_divide(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_floor_divide(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_true_divide(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_index(PyTypeObject *tp, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_matrix_multiply(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_matrix_multiply(PyTypeObject *tp, PyObject *, PyObject *);
+
+PyAPI_FUNC(PyObject *) PyType_Call_nb_add_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_subtract_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_multiply_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_remainder_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_divmod_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_power_inlineable(PyTypeObject *tp, PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_negative_inlineable(PyTypeObject *tp, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_positive_inlineable(PyTypeObject *tp, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_absolute_inlineable(PyTypeObject *tp, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(int) PyType_Call_nb_bool_inlineable(PyTypeObject *tp, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_invert_inlineable(PyTypeObject *tp, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_lshift_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_rshift_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_and_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_xor_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_or_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_int_inlineable(PyTypeObject *tp, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_float_inlineable(PyTypeObject *tp, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_add_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_subtract_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_multiply_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_remainder_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_power_inlineable(PyTypeObject *tp, PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_lshift_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_rshift_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_and_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_xor_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_or_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_floor_divide_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_true_divide_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_floor_divide_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_true_divide_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_index_inlineable(PyTypeObject *tp, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_matrix_multiply_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_matrix_multiply_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
 
 #ifdef __cplusplus
 }

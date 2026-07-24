@@ -940,10 +940,106 @@ PyNumber_Check(PyObject *o)
 /* Binary operators */
 
 #define NB_SLOT(x) offsetof(PyNumberMethods, x)
-#define NB_BINOP(nb_methods, slot) \
-        (*(binaryfunc*)(& ((char*)nb_methods)[slot]))
-#define NB_TERNOP(nb_methods, slot) \
-        (*(ternaryfunc*)(& ((char*)nb_methods)[slot]))
+
+typedef struct {
+    ptrdiff_t slot;
+    ptrdiff_t slot_inlineable;
+    int (*call)(PyTypeObject *tp, PyObject *);
+    int (*call_inlineable)(PyTypeObject *tp, PyObject *, struct _PyInterpreterFrame **);
+} InquirySlotDetails;
+typedef struct {
+    ptrdiff_t slot;
+    ptrdiff_t slot_inlineable;
+    PyObject * (*call)(PyTypeObject *tp, PyObject *);
+    PyObject * (*call_inlineable)(PyTypeObject *tp, PyObject *, struct _PyInterpreterFrame **);
+} UnarySlotDetails;
+typedef struct {
+    ptrdiff_t slot;
+    ptrdiff_t slot_inlineable;
+    PyObject * (*call)(PyTypeObject *tp, PyObject *, PyObject *);
+    PyObject * (*call_inlineable)(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+} BinarySlotDetails;
+typedef struct {
+    ptrdiff_t slot;
+    ptrdiff_t slot_inlineable;
+    PyObject * (*call)(PyTypeObject *tp, PyObject *, PyObject *, PyObject *);
+    PyObject * (*call_inlineable)(PyTypeObject *tp, PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+} TernarySlotDetails;
+
+static inline binaryfunc
+Nb_BinOp(PyTypeObject *tp, BinarySlotDetails const *slot)
+{
+    return *(binaryfunc*)((char*)tp->tp_as_number + slot->slot);
+}
+
+static inline binaryfunc_inlineable
+Nb_BinOp_Inlineable(PyTypeObject *tp, BinarySlotDetails const *slot)
+{
+    if (tp->tp_flags & Py_TPFLAGS_IS_EXTENDED){
+        return *(binaryfunc_inlineable*)((char*)tp->tp_as_number + slot->slot_inlineable);
+    }
+    return NULL;
+}
+
+static inline ternaryfunc
+Nb_TernOp(PyTypeObject *tp, TernarySlotDetails const *slot)
+{
+    return *(ternaryfunc*)((char*)tp->tp_as_number + slot->slot);
+}
+
+static inline ternaryfunc_inlineable
+Nb_TernOp_Inlineable(PyTypeObject *tp, TernarySlotDetails const *slot)
+{
+    if (tp->tp_flags & Py_TPFLAGS_IS_EXTENDED){
+        return *(ternaryfunc_inlineable*)((char*)tp->tp_as_number + slot->slot_inlineable);
+    }
+    return NULL;
+}
+
+#define NB_DEFINE_INQSLOTDETAILS(slot) \
+    static InquirySlotDetails SlotDetails_nb_##slot = {NB_SLOT(nb_##slot), NB_SLOT(nb_##slot##_inlineable), PyType_Call_nb_##slot, PyType_Call_nb_##slot##_inlineable,};
+#define NB_DEFINE_UNSLOTDETAILS(slot) \
+    static UnarySlotDetails SlotDetails_nb_##slot = {NB_SLOT(nb_##slot), NB_SLOT(nb_##slot##_inlineable), PyType_Call_nb_##slot, PyType_Call_nb_##slot##_inlineable,};
+#define NB_DEFINE_BINSLOTDETAILS(slot) \
+    static BinarySlotDetails SlotDetails_nb_##slot = {NB_SLOT(nb_##slot), NB_SLOT(nb_##slot##_inlineable), PyType_Call_nb_##slot, PyType_Call_nb_##slot##_inlineable,};
+#define NB_DEFINE_TERNSLOTDETAILS(slot) \
+    static TernarySlotDetails SlotDetails_nb_##slot = {NB_SLOT(nb_##slot), NB_SLOT(nb_##slot##_inlineable), PyType_Call_nb_##slot, PyType_Call_nb_##slot##_inlineable,};
+
+NB_DEFINE_BINSLOTDETAILS(add)
+NB_DEFINE_BINSLOTDETAILS(subtract)
+NB_DEFINE_BINSLOTDETAILS(multiply)
+NB_DEFINE_BINSLOTDETAILS(remainder)
+NB_DEFINE_BINSLOTDETAILS(divmod)
+NB_DEFINE_TERNSLOTDETAILS(power)
+//NB_DEFINE_UNSLOTDETAILS(negative)
+//NB_DEFINE_UNSLOTDETAILS(positive)
+//NB_DEFINE_UNSLOTDETAILS(absolute)
+//NB_DEFINE_INQSLOTDETAILS(bool)
+//NB_DEFINE_UNSLOTDETAILS(invert)
+NB_DEFINE_BINSLOTDETAILS(lshift)
+NB_DEFINE_BINSLOTDETAILS(rshift)
+NB_DEFINE_BINSLOTDETAILS(and)
+NB_DEFINE_BINSLOTDETAILS(xor)
+NB_DEFINE_BINSLOTDETAILS(or)
+//NB_DEFINE_UNSLOTDETAILS(int)
+//NB_DEFINE_UNSLOTDETAILS(float)
+NB_DEFINE_BINSLOTDETAILS(inplace_add)
+NB_DEFINE_BINSLOTDETAILS(inplace_subtract)
+NB_DEFINE_BINSLOTDETAILS(inplace_multiply)
+NB_DEFINE_BINSLOTDETAILS(inplace_remainder)
+NB_DEFINE_TERNSLOTDETAILS(inplace_power)
+NB_DEFINE_BINSLOTDETAILS(inplace_lshift)
+NB_DEFINE_BINSLOTDETAILS(inplace_rshift)
+NB_DEFINE_BINSLOTDETAILS(inplace_and)
+NB_DEFINE_BINSLOTDETAILS(inplace_xor)
+NB_DEFINE_BINSLOTDETAILS(inplace_or)
+NB_DEFINE_BINSLOTDETAILS(floor_divide)
+NB_DEFINE_BINSLOTDETAILS(true_divide)
+NB_DEFINE_BINSLOTDETAILS(inplace_floor_divide)
+NB_DEFINE_BINSLOTDETAILS(inplace_true_divide)
+//NB_DEFINE_UNSLOTDETAILS(index)
+NB_DEFINE_BINSLOTDETAILS(matrix_multiply)
+NB_DEFINE_BINSLOTDETAILS(inplace_matrix_multiply)
 
 RETURNACTION_STDMETHODDECL(binaryop1_returnaction_trysecondmethod)
 
@@ -951,8 +1047,7 @@ struct binaryop1_returnaction_trysecondmethod {
     _PyReturnAction base;
     PyObject *v;
     PyObject *w;
-    binaryfunc slotw;
-    binaryfunc_inlinable slotw_inlinable;
+    BinarySlotDetails const *slot;
     bool switched;
 #ifndef NDEBUG
     char const* op_name;
@@ -960,7 +1055,7 @@ struct binaryop1_returnaction_trysecondmethod {
 };
 
 _PyReturnAction *binaryop1_returnaction_trysecondmethod_new(PyObject *v, PyObject *w,
-    binaryfunc slotw, binaryfunc_inlinable slotw_inlinable, bool switched
+    BinarySlotDetails const *slot, bool switched
 #ifndef NDEBUG
     , char const *op_name
 #endif
@@ -969,8 +1064,7 @@ _PyReturnAction *binaryop1_returnaction_trysecondmethod_new(PyObject *v, PyObjec
     me->v = Py_NewRef(v);
     me->w = Py_NewRef(w);
     me->switched = switched;
-    me->slotw = slotw;
-    me->slotw_inlinable = slotw_inlinable;
+    me->slot = slot;
 #ifndef NDEBUG
     me->op_name = op_name;
 #endif
@@ -984,8 +1078,43 @@ static void binaryop1_returnaction_trysecondmethod_dtor(binaryop1_returnaction_t
     _PyReturnAction_dtor(&me->base);
 }
 
+static inline PyObject *
+Call_BinOp(
+    PyObject *focus,
+    BinarySlotDetails const *op_slot,
+    PyObject *v,
+    PyObject *w,
+    struct _PyInterpreterFrame **inlined
+){
+    PyTypeObject *tp = Py_TYPE(focus);
+    if (Nb_BinOp_Inlineable(tp, op_slot)){
+        return op_slot->call_inlineable(tp, v, w, inlined);
+    } else {
+        return op_slot->call(tp, v, w);
+    }
+}
+
+static inline PyObject *
+Call_TernOp(
+    PyObject *focus,
+    TernarySlotDetails const *op_slot,
+    PyObject *v,
+    PyObject *w,
+    PyObject *z,
+    struct _PyInterpreterFrame **inlined
+){
+    PyTypeObject *tp = Py_TYPE(focus);
+    if (Nb_TernOp_Inlineable(tp, op_slot)){
+        return op_slot->call_inlineable(tp, v, w, z, inlined);
+    } else {
+        return op_slot->call(tp, v, w, z);
+    }
+}
+
 static PyObject *binaryop1_returnaction_trysecondmethod_AdaptExit(binaryop1_returnaction_trysecondmethod *me, PyObject *res, struct _PyInterpreterFrame **inlined)
 {
+    // When we're here op(v, w) has returned its result
+    // me->switched indicates if we tried w->op(v, w) first, rather than v->op(v, w)
     if (res != Py_NotImplemented) {
         return res ? Py_NewRef(res) : NULL;
     }
@@ -993,8 +1122,9 @@ static PyObject *binaryop1_returnaction_trysecondmethod_AdaptExit(binaryop1_retu
 #ifndef NDEBUG
     struct _PyInterpreterFrame *frame = *inlined;
 #endif
-    res = (me->slotw_inlinable ? me->slotw_inlinable(me->v, me->w, inlined) : me->slotw(me->v, me->w));
-    assert(CHECKIMMEDIATESLOTRESULT(frame, inlined, me->switched ? me->v : me->w, res, me->op_name));
+    PyObject *second = me->switched ? me->v : me->w;
+    res = Call_BinOp(second, me->slot, me->v, me->w, inlined);
+    assert(CHECKIMMEDIATESLOTRESULT(frame, inlined, second, res, me->op_name));
     return res;
 }
 
@@ -1009,18 +1139,19 @@ static PyObject *binaryop1_returnaction_trysecondmethod_AdaptExit(binaryop1_retu
  */
 
 static PyObject *
-binary_op1(PyObject *v, PyObject *w, const int op_slot,
-           struct _PyInterpreterFrame **inlined,
-           binaryfunc inlinable_func,
-           binaryfunc_inlinable func_inlinable
+binary_op1(
+    PyObject *v,
+    PyObject *w,
+    BinarySlotDetails const *op_slot,
+    struct _PyInterpreterFrame **inlined
 #ifndef NDEBUG
-           , const char *op_name
+    , const char *op_name
 #endif
-           )
+)
 {
     binaryfunc slotv;
     if (Py_TYPE(v)->tp_as_number != NULL) {
-        slotv = NB_BINOP(Py_TYPE(v)->tp_as_number, op_slot);
+        slotv = Nb_BinOp(Py_TYPE(v), op_slot);
     }
     else {
         slotv = NULL;
@@ -1028,12 +1159,11 @@ binary_op1(PyObject *v, PyObject *w, const int op_slot,
 
     binaryfunc slotw;
     if (!Py_IS_TYPE(w, Py_TYPE(v)) && Py_TYPE(w)->tp_as_number != NULL) {
-        slotw = NB_BINOP(Py_TYPE(w)->tp_as_number, op_slot);
+        slotw = Nb_BinOp(Py_TYPE(w), op_slot);
         if (slotw == slotv) {
             slotw = NULL;
         }
-    }
-    else {
+    } else {
         slotw = NULL;
     }
 
@@ -1042,38 +1172,43 @@ binary_op1(PyObject *v, PyObject *w, const int op_slot,
     if (slotv){
         if (slotw){
             // Have slotv and slotw
-            bool switched = false;
+            bool switched;
+            PyObject *first;
+            PyObject *second;
             if (PyType_IsSubtype(Py_TYPE(w), Py_TYPE(v))){
                 // do subtype slot? first
-                binaryfunc slott = slotv;
-                slotv = slotw;
-                slotw = slott;
+                first = w;
+                second = v;
                 switched = true;
+            } else {
+                first = v;
+                second = w;
+                switched = false;
             }
-            PyObject *x = (slotv == inlinable_func ? func_inlinable(v, w, inlined) : slotv(v, w));
+            PyObject *x = Call_BinOp(first, op_slot, v, w, inlined);
             if (inlined && frame != *inlined){
                 _PyFrame_AddReturnAction(*inlined, binaryop1_returnaction_trysecondmethod_new(
-                    v, w, slotw, slotw == inlinable_func ? func_inlinable : NULL, switched
+                    v, w, op_slot, switched
 #ifndef NDEBUG
                     , op_name
 #endif
                 ));
             } else if (x == Py_NotImplemented) {
-                // need to try slotw
-                x = (slotw == inlinable_func ? func_inlinable(v, w, inlined) : slotw(v, w));
+                // need to try second option
+                x = Call_BinOp(second, op_slot, v, w, inlined);
                 assert(CHECKIMMEDIATESLOTRESULT(frame, inlined, switched ? v : w, x, op_name));
             }
             return x;
         } else {
             // slotv only
-            PyObject *x = (slotv == inlinable_func ? func_inlinable(v, w, inlined) : slotv(v, w));
+            PyObject *x = Call_BinOp(v, op_slot, v, w, inlined);
             assert(CHECKIMMEDIATESLOTRESULT(frame, inlined, v, x, op_name));
             return x;
         }
     } else {
         if (slotw) {
             // slotw only
-            PyObject *x = (slotw == inlinable_func ? func_inlinable(v, w, inlined) : slotw(v, w));
+            PyObject *x = Call_BinOp(w, op_slot, v, w, inlined);
             assert(CHECKIMMEDIATESLOTRESULT(frame, inlined, w, x, op_name));
             return x;
         } else {
@@ -1084,11 +1219,11 @@ binary_op1(PyObject *v, PyObject *w, const int op_slot,
 }
 
 #ifdef NDEBUG
-#  define BINARY_OP1(v, w, op_slot, inlined, inlinable_func, func_inlinable, op_name) \
-    binary_op1(v, w, op_slot, inlined, inlinable_func, func_inlinable)
+#  define BINARY_OP1(v, w, op_slot, inlined, op_name) \
+    binary_op1(v, w, op_slot, inlined)
 #else
-#  define BINARY_OP1(v, w, op_slot, inlined, inlinable_func, func_inlinable, op_name) \
-    binary_op1(v, w, op_slot, inlined, inlinable_func, func_inlinable, op_name)
+#  define BINARY_OP1(v, w, op_slot, inlined, op_name) \
+    binary_op1(v, w, op_slot, inlined, op_name)
 #endif
 
 static PyObject *
@@ -1137,12 +1272,16 @@ static PyObject *binaryop_returnaction_AdaptExit(binaryop_returnaction *me, PyOb
 }
 
 static PyObject *
-binary_op(PyObject *v, PyObject *w, const int op_slot, const char *op_name, struct _PyInterpreterFrame **inlined,
-          binaryfunc inlinable_func, binaryfunc_inlinable func_inlinable
+binary_op(
+    PyObject *v,
+    PyObject *w,
+    BinarySlotDetails const *op_slot,
+    const char *op_name,
+    struct _PyInterpreterFrame **inlined
 )
 {
     struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
-    PyObject *result = BINARY_OP1(v, w, op_slot, inlined, inlinable_func, func_inlinable, op_name);
+    PyObject *result = BINARY_OP1(v, w, op_slot, inlined, op_name);
     if (inlined && *inlined != frame)
     {
         _PyFrame_AddReturnAction(*inlined, binaryop_returnaction_new(v, w, op_name));
@@ -1158,7 +1297,7 @@ binary_op(PyObject *v, PyObject *w, const int op_slot, const char *op_name, stru
 RETURNACTION_STDMETHODDECL(ternaryop_returnaction1)
 
 static _PyReturnAction *ternaryop_returnaction2_new(PyObject *v, PyObject *w, PyObject *z, bool vwastried,
-    ternaryfunc inlinable_func, ternaryfunc_inlinable func_inlinable, int op_slot, char const *op_name);
+    TernarySlotDetails const *op_slot, char const *op_name);
 static _PyReturnAction *ternaryop_returnaction3_new(PyObject *v, PyObject *w, PyObject *z, char const *op_name);
 
 struct ternaryop_returnaction1 {
@@ -1167,9 +1306,7 @@ struct ternaryop_returnaction1 {
     PyObject *w;
     PyObject *z;
     bool tryvnext;
-    ternaryfunc inlinable_func;
-    ternaryfunc_inlinable func_inlinable;
-    int op_slot;
+    TernarySlotDetails const *op_slot;
     char const* op_name;
 };
 
@@ -1178,9 +1315,7 @@ static _PyReturnAction *ternaryop_returnaction1_new(
     PyObject *w,
     PyObject *z,
     bool tryvnext,
-    ternaryfunc inlinable_func,
-    ternaryfunc_inlinable func_inlinable,
-    int op_slot,
+    TernarySlotDetails const *op_slot,
     char const *op_name
 ){
     RETURNACTION_NEWPREAMBLE(ternaryop_returnaction1)
@@ -1188,8 +1323,6 @@ static _PyReturnAction *ternaryop_returnaction1_new(
     me->w = Py_NewRef(w);
     me->z = Py_NewRef(z);
     me->tryvnext = tryvnext;
-    me->inlinable_func = inlinable_func;
-    me->func_inlinable = func_inlinable;
     me->op_slot = op_slot;
     me->op_name = op_name;
     return (_PyReturnAction *)me;
@@ -1211,20 +1344,20 @@ static PyObject *ternaryop_returnaction1_AdaptExit(ternaryop_returnaction1 *me, 
 
     PyNumberMethods *mv = Py_TYPE(me->v)->tp_as_number;
     PyNumberMethods *mw = Py_TYPE(me->w)->tp_as_number;
-    ternaryfunc slotv = mv ? NB_TERNOP(mv, me->op_slot) : NULL;
-    ternaryfunc slotw = mw ? NB_TERNOP(mw, me->op_slot) : NULL;
-    ternaryfunc trynext;
+    ternaryfunc slotv = mv ? Nb_TernOp(Py_TYPE(me->v), me->op_slot) : NULL;
+    ternaryfunc slotw = mw ? Nb_TernOp(Py_TYPE(me->w), me->op_slot) : NULL;
+    PyObject *trynext;
     if (me->tryvnext){
-        trynext = slotv != slotw ? slotv : NULL;
+        trynext = slotv != slotw ? me->v : NULL;
     } else {
-        trynext = slotw != slotv ? slotw : NULL;
+        trynext = slotw != slotv ? me->w : NULL;
     }
     if (trynext) {
         struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
-        res = trynext == me->inlinable_func ? me->func_inlinable(me->v, me->w, me->z, inlined) : trynext(me->v, me->w, me->z);
+        res = Call_TernOp(trynext, me->op_slot, me->v, me->w, me->z, inlined);
         if (inlined && *inlined != frame)
         {
-            _PyFrame_AddReturnAction(*inlined, ternaryop_returnaction2_new(me->v, me->w, me->z, me->tryvnext, me->inlinable_func, me->func_inlinable, me->op_slot, me->op_name));
+            _PyFrame_AddReturnAction(*inlined, ternaryop_returnaction2_new(me->v, me->w, me->z, me->tryvnext, me->op_slot, me->op_name));
             return res;
         }
         assert(_Py_CheckSlotResult(me->tryvnext ? me->v : me->w, me->op_name, res != NULL));
@@ -1234,10 +1367,10 @@ static PyObject *ternaryop_returnaction1_AdaptExit(ternaryop_returnaction1 *me, 
     }
 
     PyNumberMethods *mz = Py_TYPE(me->z)->tp_as_number;
-    ternaryfunc slotz = mz ? NB_TERNOP(mz, me->op_slot) : NULL;
+    ternaryfunc slotz = mz ? Nb_TernOp(Py_TYPE(me->z), me->op_slot) : NULL;
     if (slotz && slotz != slotv && slotz != slotw){
         struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
-        res = slotz == me->inlinable_func ? me->func_inlinable(me->v, me->w, me->z, inlined) : slotz(me->v, me->w, me->z);
+        res = Call_TernOp(me->z, me->op_slot, me->v, me->w, me->z, inlined);
         if (inlined && *inlined != frame)
         {
             _PyFrame_AddReturnAction(*inlined, ternaryop_returnaction3_new(me->v, me->w, me->z, me->op_name));
@@ -1279,9 +1412,7 @@ struct ternaryop_returnaction2 {
     PyObject *w;
     PyObject *z;
     bool vwastried;
-    ternaryfunc inlinable_func;
-    ternaryfunc_inlinable func_inlinable;
-    int op_slot;
+    TernarySlotDetails const *op_slot;
     char const* op_name;
 };
 
@@ -1290,9 +1421,7 @@ static _PyReturnAction *ternaryop_returnaction2_new(
     PyObject *w,
     PyObject *z,
     bool vwastried,
-    ternaryfunc inlinable_func,
-    ternaryfunc_inlinable func_inlinable,
-    int op_slot,
+    TernarySlotDetails const *op_slot,
     char const *op_name
 ){
     RETURNACTION_NEWPREAMBLE(ternaryop_returnaction2)
@@ -1300,8 +1429,6 @@ static _PyReturnAction *ternaryop_returnaction2_new(
     me->w = Py_NewRef(w);
     me->z = Py_NewRef(z);
     me->vwastried = vwastried;
-    me->inlinable_func = inlinable_func;
-    me->func_inlinable = func_inlinable;
     me->op_slot = op_slot;
     me->op_name = op_name;
     return (_PyReturnAction *)me;
@@ -1322,14 +1449,14 @@ static PyObject *ternaryop_returnaction2_AdaptExit(ternaryop_returnaction2 *me, 
     }
 
     PyNumberMethods *mv = Py_TYPE(me->v)->tp_as_number;
-    ternaryfunc slotv = mv ? NB_TERNOP(mv, me->op_slot) : NULL;
+    ternaryfunc slotv = mv ? Nb_TernOp(Py_TYPE(me->v), me->op_slot) : NULL;
     PyNumberMethods *mw = Py_TYPE(me->w)->tp_as_number;
-    ternaryfunc slotw = mw ? NB_TERNOP(mw, me->op_slot) : NULL;
+    ternaryfunc slotw = mw ? Nb_TernOp(Py_TYPE(me->w), me->op_slot) : NULL;
     PyNumberMethods *mz = Py_TYPE(me->z)->tp_as_number;
-    ternaryfunc slotz = mz ? NB_TERNOP(mz, me->op_slot) : NULL;
+    ternaryfunc slotz = mz ? Nb_TernOp(Py_TYPE(me->z), me->op_slot) : NULL;
     if (slotz && slotz != slotv && slotz != slotw){
         struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
-        res = slotz == me->inlinable_func ? me->func_inlinable(me->v, me->w, me->z, inlined) : slotz(me->v, me->w, me->z);
+        res = Call_TernOp(me->z, me->op_slot, me->v, me->w, me->z, inlined);
         if (inlined && *inlined != frame)
         {
             _PyFrame_AddReturnAction(*inlined, ternaryop_returnaction3_new(me->v, me->w, me->z, me->op_name));
@@ -1435,32 +1562,22 @@ ternary_op(
     PyObject *v,
     PyObject *w,
     PyObject *z,
-    const int op_slot,
+    TernarySlotDetails const *op_slot,
     struct _PyInterpreterFrame **inlined,
-    ternaryfunc inlinable_func,
-    ternaryfunc_inlinable func_inlinable,
     const char *op_name
 )
 {
     PyNumberMethods *mv = Py_TYPE(v)->tp_as_number;
+    ternaryfunc slotv = mv ? Nb_TernOp(Py_TYPE(v), op_slot) : NULL;
     PyNumberMethods *mw = Py_TYPE(w)->tp_as_number;
-
-    ternaryfunc slotv;
-    if (mv != NULL) {
-        slotv = NB_TERNOP(mv, op_slot);
-    }
-    else {
-        slotv = NULL;
-    }
 
     ternaryfunc slotw;
     if (!Py_IS_TYPE(w, Py_TYPE(v)) && mw != NULL) {
-        slotw = NB_TERNOP(mw, op_slot);
+        slotw = Nb_TernOp(Py_TYPE(w), op_slot);
         if (slotw == slotv) {
             slotw = NULL;
         }
-    }
-    else {
+    } else {
         slotw = NULL;
     }
 
@@ -1468,10 +1585,10 @@ ternary_op(
     if (slotv) {
         PyObject *x;
         if (slotw && PyType_IsSubtype(Py_TYPE(w), Py_TYPE(v))) {
-            x = slotw == inlinable_func ? func_inlinable(v, w, z, inlined) : slotw(v, w, z);
+            x = Call_TernOp(w, op_slot, v, w, z, inlined);
             if (inlined && *inlined != frame)
             {
-                _PyFrame_AddReturnAction(*inlined, ternaryop_returnaction1_new(v, w, z, true, inlinable_func, func_inlinable, op_slot, op_name));
+                _PyFrame_AddReturnAction(*inlined, ternaryop_returnaction1_new(v, w, z, true, op_slot, op_name));
                 return x;
             }
             if (x != Py_NotImplemented) {
@@ -1481,13 +1598,13 @@ ternary_op(
             Py_DECREF(x); /* can't do it */
             slotw = NULL;
         }
-        x = slotv == inlinable_func ? func_inlinable(v, w, z, inlined) : slotv(v, w, z);
+        x = Call_TernOp(v, op_slot, v, w, z, inlined);
         if (inlined && *inlined != frame)
         {
             if (slotw == NULL) {
-                _PyFrame_AddReturnAction(*inlined, ternaryop_returnaction2_new(v, w, z, true, inlinable_func, func_inlinable, op_slot, op_name));
+                _PyFrame_AddReturnAction(*inlined, ternaryop_returnaction2_new(v, w, z, true, op_slot, op_name));
             } else {
-                _PyFrame_AddReturnAction(*inlined, ternaryop_returnaction1_new(v, w, z, false, inlinable_func, func_inlinable, op_slot, op_name));
+                _PyFrame_AddReturnAction(*inlined, ternaryop_returnaction1_new(v, w, z, false, op_slot, op_name));
             }
             return x;
         }
@@ -1498,10 +1615,10 @@ ternary_op(
         Py_DECREF(x); /* can't do it */
     }
     if (slotw) {
-        PyObject *x = slotw == inlinable_func ? func_inlinable(v, w, z, inlined) : slotw(v, w, z);
+        PyObject *x = Call_TernOp(w, op_slot, v, w, z, inlined);
         if (inlined && *inlined != frame)
         {
-            _PyFrame_AddReturnAction(*inlined, ternaryop_returnaction2_new(v, w, z, false, inlinable_func, func_inlinable, op_slot, op_name));
+            _PyFrame_AddReturnAction(*inlined, ternaryop_returnaction2_new(v, w, z, false, op_slot, op_name));
             return x;
         }
         assert(_Py_CheckSlotResult(w, op_name, x != NULL));
@@ -1513,12 +1630,12 @@ ternary_op(
 
     PyNumberMethods *mz = Py_TYPE(z)->tp_as_number;
     if (mz != NULL) {
-        ternaryfunc slotz = NB_TERNOP(mz, op_slot);
+        ternaryfunc slotz = Nb_TernOp(Py_TYPE(z), op_slot);
         if (slotz == slotv || slotz == slotw) {
             slotz = NULL;
         }
         if (slotz) {
-            PyObject *x = slotz == inlinable_func ? func_inlinable(v, w, z, inlined) : slotz(v, w, z);
+            PyObject *x = Call_TernOp(z, op_slot, v, w, z, inlined);
             if (inlined && *inlined != frame)
             {
                 _PyFrame_AddReturnAction(*inlined, ternaryop_returnaction3_new(v, w, z, op_name));
@@ -1557,7 +1674,7 @@ ternary_op(
 #define BINARY_FUNC(func, op, op_name) \
     PyObject * \
     _##func##_Inlinable(PyObject *v, PyObject *w, struct _PyInterpreterFrame **inlined) { \
-        return binary_op(v, w, NB_SLOT(op), op_name, inlined, _PyType_Slot_##op, _PyType_Slot_##op##_Inlinable); \
+        return binary_op(v, w, &SlotDetails_##op, op_name, inlined); \
     } \
     PyObject * \
     func(PyObject *v, PyObject *w) { \
@@ -1616,7 +1733,7 @@ PyObject *
 _PyNumber_Add_Inlinable(PyObject *v, PyObject *w, struct _PyInterpreterFrame **inlined)
 {
     struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
-    PyObject *result = BINARY_OP1(v, w, NB_SLOT(nb_add), inlined, _PyType_Slot_nb_add, _PyType_Slot_nb_add_Inlinable, "+");
+    PyObject *result = BINARY_OP1(v, w, &SlotDetails_nb_add, inlined, "+");
     if (inlined && frame != *inlined){
         _PyFrame_AddReturnAction(*inlined, add_returnaction_new(v, w));
         return result;
@@ -1712,7 +1829,7 @@ PyObject *
 _PyNumber_Multiply_Inlinable(PyObject *v, PyObject *w, struct _PyInterpreterFrame **inlined)
 {
     struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
-    PyObject *result = BINARY_OP1(v, w, NB_SLOT(nb_multiply), inlined, _PyType_Slot_nb_multiply, _PyType_Slot_nb_multiply_Inlinable, "*");
+    PyObject *result = BINARY_OP1(v, w, &SlotDetails_nb_multiply, inlined, "*");
     if (inlined && frame != *inlined){
         _PyFrame_AddReturnAction(*inlined, multiply_returnaction_new(v, w));
     } else {
@@ -1746,7 +1863,7 @@ BINARY_FUNC(PyNumber_Remainder, nb_remainder, "%")
 PyObject *
 _PyNumber_Power_Inlinable(PyObject *v, PyObject *w, PyObject *z, struct _PyInterpreterFrame **inlined)
 {
-    return ternary_op(v, w, z, NB_SLOT(nb_power), inlined, _PyType_Slot_nb_power, _PyType_Slot_nb_power_Inlinable, "** or pow()");
+    return ternary_op(v, w, z, &SlotDetails_nb_power, inlined, "** or pow()");
 }
 
 PyObject *
@@ -1783,26 +1900,25 @@ typedef struct binaryiop1_returnaction {
     _PyReturnAction base;
     PyObject *v;
     PyObject *w;
-    int op_slot;
-    binaryfunc inlinable_func;
-    binaryfunc_inlinable func_inlinable;
+    BinarySlotDetails const *op_slot;
 #ifndef NDEBUG
     char const* op_name;
 #endif
 } binaryiop1_returnaction;
 
-_PyReturnAction *binaryiop1_returnaction_new(PyObject *v, PyObject *w, const int op_slot,
-          binaryfunc inlinable_func, binaryfunc_inlinable func_inlinable
+_PyReturnAction *
+binaryiop1_returnaction_new(
+    PyObject *v,
+    PyObject *w,
+    BinarySlotDetails const *op_slot
 #ifndef NDEBUG
-          , char const *op_name
+    , char const *op_name
 #endif
 ){
     RETURNACTION_NEWPREAMBLE(binaryiop1_returnaction)
     me->v = Py_NewRef(v);
     me->w = Py_NewRef(w);
     me->op_slot = op_slot;
-    me->inlinable_func = inlinable_func;
-    me->func_inlinable = func_inlinable;
 #ifndef NDEBUG
     me->op_name = op_name;
 #endif
@@ -1824,31 +1940,34 @@ static PyObject *binaryiop1_returnaction_AdaptExit(binaryiop1_returnaction *me, 
 
     // need to try slotv binary_op1
 #ifdef NDEBUG
-    return binary_op1(me->v, me->w, me->op_slot, inlined, me->inlinable_func, me->func_inlinable);
+    return binary_op1(me->v, me->w, me->op_slot, inlined);
 #else
-    return binary_op1(me->v, me->w, me->op_slot, inlined, me->inlinable_func, me->func_inlinable, me->op_name);
+    return binary_op1(me->v, me->w, me->op_slot, inlined, me->op_name);
 #endif
 }
 
 static PyObject *
-binary_iop1(PyObject *v, PyObject *w, const int iop_slot, const int op_slot, struct _PyInterpreterFrame **inlined,
-          binaryfunc iinlinable_func, binaryfunc_inlinable ifunc_inlinable,
-          binaryfunc inlinable_func, binaryfunc_inlinable func_inlinable
+binary_iop1(
+    PyObject *v,
+    PyObject *w,
+    BinarySlotDetails const *iop_slot,
+    BinarySlotDetails const *op_slot,
+    struct _PyInterpreterFrame **inlined
 #ifndef NDEBUG
-            , const char *op_name
+    , const char *op_name
 #endif
             )
 {
     PyNumberMethods *mv = Py_TYPE(v)->tp_as_number;
     if (mv != NULL) {
-        binaryfunc slot = NB_BINOP(mv, iop_slot);
+        binaryfunc slot = Nb_BinOp(Py_TYPE(v), iop_slot);
         if (slot) {
             // TBD: hanlding inlined function properly
             struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
-            PyObject *x = slot == iinlinable_func ? ifunc_inlinable(v, w, inlined) : slot(v, w);
+            PyObject *x = Call_BinOp(v, iop_slot, v, w, inlined);
             if (inlined && *inlined != frame)
             {
-                _PyFrame_AddReturnAction(*inlined, binaryiop1_returnaction_new(v, w, op_slot, inlinable_func, func_inlinable
+                _PyFrame_AddReturnAction(*inlined, binaryiop1_returnaction_new(v, w, op_slot
 #ifndef NDEBUG
                     , op_name
 #endif
@@ -1863,28 +1982,31 @@ binary_iop1(PyObject *v, PyObject *w, const int iop_slot, const int op_slot, str
         }
     }
 #ifdef NDEBUG
-    return binary_op1(v, w, op_slot, inlined, inlinable_func, func_inlinable);
+    return binary_op1(v, w, op_slot, inlined);
 #else
-    return binary_op1(v, w, op_slot, inlined, inlinable_func, func_inlinable, op_name);
+    return binary_op1(v, w, op_slot, inlined, op_name);
 #endif
 }
 
 #ifdef NDEBUG
-#  define BINARY_IOP1(v, w, iop_slot, op_slot, inlined, iinlinable_func, ifunc_inlinable, inlinable_func, func_inlinable, op_name) \
-    binary_iop1(v, w, iop_slot, op_slot, inlined, iinlinable_func, ifunc_inlinable, inlinable_func, func_inlinable)
+#  define BINARY_IOP1(v, w, iop_slot, op_slot, inlined, op_name) \
+    binary_iop1(v, w, iop_slot, op_slot, inlined)
 #else
-#  define BINARY_IOP1(v, w, iop_slot, op_slot, inlined, iinlinable_func, ifunc_inlinable, inlinable_func, func_inlinable, op_name) \
-    binary_iop1(v, w, iop_slot, op_slot, inlined, iinlinable_func, ifunc_inlinable, inlinable_func, func_inlinable, op_name)
+#  define BINARY_IOP1(v, w, iop_slot, op_slot, inlined, op_name) \
+    binary_iop1(v, w, iop_slot, op_slot, inlined, op_name)
 #endif
 
 static PyObject *
-binary_iop(PyObject *v, PyObject *w, const int iop_slot, const int op_slot, struct _PyInterpreterFrame **inlined,
-          binaryfunc iinlinable_func, binaryfunc_inlinable ifunc_inlinable,
-          binaryfunc inlinable_func, binaryfunc_inlinable func_inlinable,
-          const char *op_name)
+binary_iop(
+    PyObject *v,
+    PyObject *w,
+    BinarySlotDetails const *iop_slot,
+    BinarySlotDetails const *op_slot,
+    struct _PyInterpreterFrame **inlined,
+    const char *op_name)
 {
     struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
-    PyObject *result = BINARY_IOP1(v, w, iop_slot, op_slot, inlined, iinlinable_func, ifunc_inlinable, inlinable_func, func_inlinable, op_name);
+    PyObject *result = BINARY_IOP1(v, w, iop_slot, op_slot, inlined, op_name);
     if (inlined && *inlined != frame) {
         _PyFrame_AddReturnAction(*inlined, binaryop_returnaction_new(v, w, op_name));
     } else {
@@ -1903,9 +2025,7 @@ struct ternary_iop_returnaction {
     PyObject *v;
     PyObject *w;
     PyObject *z;
-    int op_slot;
-    ternaryfunc inlinable_func;
-    ternaryfunc_inlinable func_inlinable;
+    TernarySlotDetails const *op_slot;
     char const* op_name;
 };
 
@@ -1913,9 +2033,7 @@ _PyReturnAction *ternary_iop_returnaction_new(
     PyObject *v,
     PyObject *w,
     PyObject *z,
-    int op_slot,
-    ternaryfunc inlinable_func,
-    ternaryfunc_inlinable func_inlinable,
+    TernarySlotDetails const *op_slot,
     char const *op_name
 ){
     RETURNACTION_NEWPREAMBLE(ternary_iop_returnaction)
@@ -1924,8 +2042,6 @@ _PyReturnAction *ternary_iop_returnaction_new(
     me->z = Py_NewRef(z);
     me->op_slot = op_slot;
     me->op_name = op_name;
-    me->inlinable_func = inlinable_func;
-    me->func_inlinable = func_inlinable;
     return (_PyReturnAction *)me;
 }
 
@@ -1942,7 +2058,7 @@ static PyObject *ternary_iop_returnaction_AdaptExit(ternary_iop_returnaction *me
     if (res != Py_NotImplemented) {
         return res ? Py_NewRef(res) : NULL;
     }
-    return ternary_op(me->v, me->w, me->z, me->op_slot, inlined, me->inlinable_func, me->func_inlinable, me->op_name);
+    return ternary_op(me->v, me->w, me->z, me->op_slot, inlined, me->op_name);
 }
 
 static PyObject *
@@ -1951,23 +2067,20 @@ ternary_iop(
     PyObject *w,
     PyObject *z,
     struct _PyInterpreterFrame **inlined,
-    const int iop_slot,
-    ternaryfunc iinlinable_func,
-    ternaryfunc_inlinable ifunc_inlinable,
-    const int op_slot,
-    ternaryfunc inlinable_func,
-    ternaryfunc_inlinable func_inlinable,
+    TernarySlotDetails const *iop_slot,
+    TernarySlotDetails const *op_slot,
     const char *op_name
 )
 {
     PyNumberMethods *mv = Py_TYPE(v)->tp_as_number;
     if (mv != NULL) {
-        ternaryfunc slot = NB_TERNOP(mv, iop_slot);
+        ternaryfunc slot = Nb_TernOp(Py_TYPE(v), iop_slot);
+        ternaryfunc_inlineable slot_inlineable = Nb_TernOp_Inlineable(Py_TYPE(v), iop_slot);
         if (slot) {
             struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
-            PyObject *x = slot == iinlinable_func ? ifunc_inlinable(v, w, z, inlined) : slot(v, w, z);
+            PyObject *x = slot_inlineable ? slot_inlineable(v, w, z, inlined) : slot(v, w, z);
             if (inlined && *inlined != frame) {
-                _PyFrame_AddReturnAction(*inlined, ternary_iop_returnaction_new(v, w, z, op_slot, inlinable_func, func_inlinable, op_name));
+                _PyFrame_AddReturnAction(*inlined, ternary_iop_returnaction_new(v, w, z, op_slot, op_name));
                 return x;
             }
             assert(_Py_CheckSlotResult(v, op_name, x != NULL));
@@ -1977,13 +2090,13 @@ ternary_iop(
             Py_DECREF(x);
         }
     }
-    return ternary_op(v, w, z, op_slot, inlined, inlinable_func, func_inlinable, op_name);
+    return ternary_op(v, w, z, op_slot, inlined, op_name);
 }
 
 #define INPLACE_BINOP(func, iop, op, op_name) \
     PyObject * \
     _##func##_Inlinable(PyObject *v, PyObject *w, struct _PyInterpreterFrame **inlined) { \
-        return binary_iop(v, w, NB_SLOT(iop), NB_SLOT(op), inlined, _PyType_Slot_##iop, _PyType_Slot_##iop##_Inlinable, _PyType_Slot_##op, _PyType_Slot_##op##_Inlinable, op_name); \
+        return binary_iop(v, w, &SlotDetails_##iop, &SlotDetails_##op, inlined, op_name); \
     } \
     PyObject * \
     func(PyObject *v, PyObject *w) { \
@@ -2050,12 +2163,12 @@ PyObject *
 _PyNumber_InPlaceAdd_Inlinable(PyObject *v, PyObject *w, struct _PyInterpreterFrame **inlined)
 {
     struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
-    PyObject *result = BINARY_IOP1(v, w, NB_SLOT(nb_inplace_add),
-                                   NB_SLOT(nb_add),
-                                   inlined,
-                                   _PyType_Slot_nb_inplace_add, _PyType_Slot_nb_inplace_add_Inlinable,
-                                   _PyType_Slot_nb_add, _PyType_Slot_nb_add_Inlinable,
-                                   "+=");
+    PyObject *result = BINARY_IOP1(
+        v, w,
+        &SlotDetails_nb_inplace_add,
+        &SlotDetails_nb_add,
+        inlined,
+        "+=");
     if (inlined && *inlined != frame) {
         _PyFrame_AddReturnAction(*inlined, inplaceadd_returnaction_new(v, w));
         return result;
@@ -2139,12 +2252,12 @@ PyObject *
 _PyNumber_InPlaceMultiply_Inlinable(PyObject *v, PyObject *w, struct _PyInterpreterFrame **inlined)
 {
     struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
-    PyObject *result = BINARY_IOP1(v, w, NB_SLOT(nb_inplace_multiply),
-                                   NB_SLOT(nb_multiply),
-                                   inlined,
-                                   _PyType_Slot_nb_inplace_multiply, _PyType_Slot_nb_inplace_multiply_Inlinable,
-                                   _PyType_Slot_nb_multiply, _PyType_Slot_nb_multiply_Inlinable,
-                                   "*=");
+    PyObject *result = BINARY_IOP1(
+        v, w,
+        &SlotDetails_nb_inplace_multiply,
+        &SlotDetails_nb_multiply,
+        inlined,
+        "*=");
     if (inlined && *inlined != frame) {
         _PyFrame_AddReturnAction(*inlined, inplacemultiply_returnaction_new(v, w));
         return result;
@@ -2183,16 +2296,10 @@ PyObject *
 _PyNumber_InPlacePower_Inlinable(PyObject *v, PyObject *w, PyObject *z, struct _PyInterpreterFrame **inlined)
 {
     return ternary_iop(
-        v,
-        w,
-        z,
+        v, w, z,
         inlined,
-        NB_SLOT(nb_inplace_power),
-        _PyType_Slot_nb_inplace_power,
-        _PyType_Slot_nb_inplace_power_Inlinable,
-        NB_SLOT(nb_power),
-        _PyType_Slot_nb_power,
-        _PyType_Slot_nb_power_Inlinable,
+        &SlotDetails_nb_inplace_power,
+        &SlotDetails_nb_power,
         "**="
     );
 }
@@ -2264,7 +2371,7 @@ _PyNumber_Index(PyObject *item)
         return NULL;
     }
 
-    PyObject *result = Py_TYPE(item)->tp_as_number->nb_index(item);
+    PyObject *result = PyType_Call_nb_index(Py_TYPE(item), item);
     assert(_Py_CheckSlotResult(item, "__index__", result != NULL));
     if (!result || PyLong_CheckExact(result)) {
         return result;
@@ -2374,7 +2481,7 @@ PyNumber_Long(PyObject *o)
     if (m && m->nb_int) { /* This should include subclasses of int */
         /* Convert using the nb_int slot, which should return something
            of exact type int. */
-        result = m->nb_int(o);
+        result = PyType_Call_nb_int(Py_TYPE(o), o);
         assert(_Py_CheckSlotResult(o, "__int__", result != NULL));
         if (!result || PyLong_CheckExact(result)) {
             return result;
@@ -2452,7 +2559,7 @@ PyNumber_Float(PyObject *o)
 
     PyNumberMethods *m = Py_TYPE(o)->tp_as_number;
     if (m && m->nb_float) { /* This should include subclasses of float */
-        PyObject *res = m->nb_float(o);
+        PyObject *res = PyType_Call_nb_float(Py_TYPE(o), o);
         assert(_Py_CheckSlotResult(o, "__float__", res != NULL));
         if (!res || PyFloat_CheckExact(res)) {
             return res;
@@ -2577,7 +2684,7 @@ PySequence_Concat(PyObject *s, PyObject *o)
        have an nb_add slot, not an sq_concat slot.      So we fall back
        to nb_add if both arguments appear to be sequences. */
     if (PySequence_Check(s) && PySequence_Check(o)) {
-        PyObject *result = BINARY_OP1(s, o, NB_SLOT(nb_add), NULL, NULL, NULL, "+");
+        PyObject *result = BINARY_OP1(s, o, &SlotDetails_nb_add, NULL, "+");
         if (result != Py_NotImplemented)
             return result;
         Py_DECREF(result);
@@ -2607,7 +2714,7 @@ PySequence_Repeat(PyObject *o, Py_ssize_t count)
         n = PyLong_FromSsize_t(count);
         if (n == NULL)
             return NULL;
-        result = BINARY_OP1(o, n, NB_SLOT(nb_multiply), NULL, NULL, NULL, "*");
+        result = BINARY_OP1(o, n, &SlotDetails_nb_multiply, NULL, "*");
         Py_DECREF(n);
         if (result != Py_NotImplemented)
             return result;
@@ -2636,8 +2743,11 @@ PySequence_InPlaceConcat(PyObject *s, PyObject *o)
     }
 
     if (PySequence_Check(s) && PySequence_Check(o)) {
-        PyObject *result = BINARY_IOP1(s, o, NB_SLOT(nb_inplace_add),
-                                       NB_SLOT(nb_add), NULL, NULL, NULL, NULL, NULL, "+=");
+        PyObject *result = BINARY_IOP1(
+            s, o,
+            &SlotDetails_nb_inplace_add,
+            &SlotDetails_nb_add,
+            NULL, "+=");
         if (result != Py_NotImplemented)
             return result;
         Py_DECREF(result);
@@ -2669,8 +2779,11 @@ PySequence_InPlaceRepeat(PyObject *o, Py_ssize_t count)
         n = PyLong_FromSsize_t(count);
         if (n == NULL)
             return NULL;
-        result = BINARY_IOP1(o, n, NB_SLOT(nb_inplace_multiply),
-                             NB_SLOT(nb_multiply), NULL, NULL, NULL, NULL, NULL, "*=");
+        result = BINARY_IOP1(
+            o, n,
+            &SlotDetails_nb_inplace_multiply,
+            &SlotDetails_nb_multiply,
+            NULL, "*=");
         Py_DECREF(n);
         if (result != Py_NotImplemented)
             return result;

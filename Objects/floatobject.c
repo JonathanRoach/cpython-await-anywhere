@@ -281,7 +281,7 @@ PyFloat_AsDouble(PyObject *op)
         return -1;
     }
 
-    res = (*nb->nb_float) (op);
+    res = PyType_Call_nb_float(Py_TYPE(op), op);
     if (res == NULL) {
         return -1;
     }

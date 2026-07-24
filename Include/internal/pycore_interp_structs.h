@@ -666,7 +666,11 @@ struct callable_cache {
    appropriate to declare fixed-size arrays for this. */
 #define MAX_EQUIV 10
 
-typedef struct wrapperbase pytype_slotdef;
+typedef struct {
+    struct wrapperbase base;
+    int offset_inlineable;
+    void *function_inlineable;
+} pytype_slotdef;
 
 
 struct _Py_interp_cached_objects {

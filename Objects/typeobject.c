@@ -3738,6 +3738,12 @@ solid_base(PyTypeObject *type)
     }
 }
 
+struct SlotPtrInfo {
+    void **func;
+    char *flags;
+    void **func_inlineable;
+};
+
 #ifdef Py_GIL_DISABLED
 
 // The structures and functions below are used in the free-threaded build
@@ -3760,10 +3766,10 @@ solid_base(PyTypeObject *type)
 
 typedef struct {
     PyTypeObject *type;
-    void **slot_ptr;
+    struct SlotPtrInfo ptr;
     void *slot_value;
-    char *slot_flags_ptr;
     char slot_flags;
+    void *slot_value_inlineable;
 } slot_update_item_t;
 
 // The number of slot updates performed is based on the number of changed
@@ -3811,9 +3817,14 @@ slot_update_free_chunks(slot_update_t *updates)
 }
 
 static int
-queue_slot_update(slot_update_t *updates, PyTypeObject *type,
-                  void **slot_ptr, void *slot_value,
-                  char *slot_flags_ptr, char slot_flags)
+queue_slot_update(
+    slot_update_t *updates,
+    PyTypeObject *type,
+    struct SlotPtrInfo *ptr,
+    void *slot_value,
+    char slot_flags,
+    void *slot_value_inlineable
+)
 {
     if (*slot_ptr == slot_value) {
         return 0; // slot pointer not actually changed, don't queue update
@@ -3828,10 +3839,10 @@ queue_slot_update(slot_update_t *updates, PyTypeObject *type,
     }
     slot_update_item_t *item = &updates->head->updates[updates->head->n];
     item->type = type;
-    item->slot_ptr = slot_ptr;
+    item->ptr = *ptr;
     item->slot_value = slot_value;
-    item->slot_flags_ptr = slot_flags_ptr;
     item->slot_flags = slot_flags;
+    item->slot_value_inlineable = slot_value_inlineable;
     updates->head->n++;
     assert(updates->head->n <= SLOT_UPDATE_CHUNK_SIZE);
     return 0;
@@ -3845,8 +3856,11 @@ apply_slot_updates(slot_update_t *updates)
     while (chunk != NULL) {
         for (Py_ssize_t i = 0; i < chunk->n; i++) {
             slot_update_item_t *item = &chunk->updates[i];
-            *(item->slot_ptr) = item->slot_value;
-            *(item->slot_flags_ptr) = item->slot_flags;
+            *(item->ptr.func) = item->slot_value;
+            *(item->ptr.flags) = item->slot_flags;
+            if (item.ptr.func_inlineable){
+                *item.ptr.func_inlineable = item->slot_value_inlineable;
+            }
             if (item->slot_value == slot_tp_call) {
                 /* A generic __call__ is incompatible with vectorcall */
                 type_clear_flags(item->type, Py_TPFLAGS_HAVE_VECTORCALL, 0);
@@ -11473,14 +11487,18 @@ an all-zero entry.
 #undef RBINSLOT
 
 #define TPSLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
-    {#NAME, offsetof(PyTypeObject, SLOT), (void *)(FUNCTION), WRAPPER, \
-     PyDoc_STR(DOC), .name_strobj = &_Py_ID(NAME)}
+    {{#NAME, offsetof(PyTypeObject, SLOT), (void *)(FUNCTION), WRAPPER, \
+     PyDoc_STR(DOC), .name_strobj = &_Py_ID(NAME)}}
 #define FLSLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC, FLAGS) \
-    {#NAME, offsetof(PyTypeObject, SLOT), (void *)(FUNCTION), WRAPPER, \
-     PyDoc_STR(DOC), FLAGS, .name_strobj = &_Py_ID(NAME) }
+    {{#NAME, offsetof(PyTypeObject, SLOT), (void *)(FUNCTION), WRAPPER, \
+     PyDoc_STR(DOC), FLAGS, .name_strobj = &_Py_ID(NAME) }}
 #define ETSLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
-    {#NAME, offsetof(PyHeapTypeObject, SLOT), (void *)(FUNCTION), WRAPPER, \
-     PyDoc_STR(DOC), .name_strobj = &_Py_ID(NAME) }
+    {{#NAME, offsetof(PyHeapTypeObject, SLOT), (void *)(FUNCTION), WRAPPER, \
+     PyDoc_STR(DOC), .name_strobj = &_Py_ID(NAME) }}
+#define ETISLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
+    {{#NAME, offsetof(PyHeapTypeObject, SLOT), (void *)(FUNCTION), WRAPPER, \
+     PyDoc_STR(DOC), .name_strobj = &_Py_ID(NAME) }, \
+     offsetof(PyHeapTypeObject, SLOT##_inlineable), (void *)(FUNCTION##_Inlinable) }
 #define BUFSLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
     ETSLOT(NAME, as_buffer.SLOT, FUNCTION, WRAPPER, DOC)
 #define AMSLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
@@ -11491,6 +11509,8 @@ an all-zero entry.
     ETSLOT(NAME, as_mapping.SLOT, FUNCTION, WRAPPER, DOC)
 #define NBSLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
     ETSLOT(NAME, as_number.SLOT, FUNCTION, WRAPPER, DOC)
+#define NBISLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
+    ETISLOT(NAME, as_number.SLOT, FUNCTION, WRAPPER, DOC)
 #define UNSLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
     ETSLOT(NAME, as_number.SLOT, FUNCTION, WRAPPER, \
            #NAME "($self, /)\n--\n\n" DOC)
@@ -11498,16 +11518,16 @@ an all-zero entry.
     ETSLOT(NAME, as_number.SLOT, FUNCTION, WRAPPER, \
            #NAME "($self, value, /)\n--\n\nReturn self" DOC "value.")
 #define BINSLOT(NAME, SLOT, FUNCTION, DOC) \
-    ETSLOT(NAME, as_number.SLOT, FUNCTION, wrap_binaryfunc_l, \
+    ETISLOT(NAME, as_number.SLOT, FUNCTION, wrap_binaryfunc_l, \
            #NAME "($self, value, /)\n--\n\nReturn self" DOC "value.")
 #define RBINSLOT(NAME, SLOT, FUNCTION, DOC) \
-    ETSLOT(NAME, as_number.SLOT, FUNCTION, wrap_binaryfunc_r, \
+    ETISLOT(NAME, as_number.SLOT, FUNCTION, wrap_binaryfunc_r, \
            #NAME "($self, value, /)\n--\n\nReturn value" DOC "self.")
 #define BINSLOTNOTINFIX(NAME, SLOT, FUNCTION, DOC) \
-    ETSLOT(NAME, as_number.SLOT, FUNCTION, wrap_binaryfunc_l, \
+    ETISLOT(NAME, as_number.SLOT, FUNCTION, wrap_binaryfunc_l, \
            #NAME "($self, value, /)\n--\n\n" DOC)
 #define RBINSLOTNOTINFIX(NAME, SLOT, FUNCTION, DOC) \
-    ETSLOT(NAME, as_number.SLOT, FUNCTION, wrap_binaryfunc_r, \
+    ETISLOT(NAME, as_number.SLOT, FUNCTION, wrap_binaryfunc_r, \
            #NAME "($self, value, /)\n--\n\n" DOC)
 
 static pytype_slotdef slotdefs[] = {
@@ -11603,9 +11623,9 @@ static pytype_slotdef slotdefs[] = {
            "Return divmod(self, value)."),
     RBINSLOTNOTINFIX(__rdivmod__, nb_divmod, _PyType_Slot_nb_divmod,
            "Return divmod(value, self)."),
-    NBSLOT(__pow__, nb_power, _PyType_Slot_nb_power, wrap_ternaryfunc,
+    NBISLOT(__pow__, nb_power, _PyType_Slot_nb_power, wrap_ternaryfunc,
            "__pow__($self, value, mod=None, /)\n--\n\nReturn pow(self, value, mod)."),
-    NBSLOT(__rpow__, nb_power, _PyType_Slot_nb_power, wrap_ternaryfunc_r,
+    NBISLOT(__rpow__, nb_power, _PyType_Slot_nb_power, wrap_ternaryfunc_r,
            "__rpow__($self, value, mod=None, /)\n--\n\nReturn pow(value, self, mod)."),
     UNSLOT(__neg__, nb_negative, slot_nb_negative, wrap_unaryfunc, "-self"),
     UNSLOT(__pos__, nb_positive, slot_nb_positive, wrap_unaryfunc, "+self"),
@@ -11706,13 +11726,14 @@ static pytype_slotdef slotdefs[] = {
            wrap_indexargfunc,
            "__imul__($self, value, /)\n--\n\nImplement self*=value."),
 
-    {NULL}
+    {{NULL}}
 };
 
 struct SlotInfo {
     ptrdiff_t group;
     ptrdiff_t fn;
-    int fnflags;
+    ptrdiff_t fn_inlineable;
+    ptrdiff_t fnflags;
     int fnindex;
 };
 
@@ -11743,6 +11764,16 @@ struct SlotInfo {
         { \
             offsetof(PyHeapTypeObject, SLOTINFO_SLOTLOCP_##KIND), \
             offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##_##SLOT), \
+            0, \
+            offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##_functionflags[_PyFunctionIndex_##KIND##_##SLOT]), \
+            _PyFunctionIndex_##KIND##_##SLOT, \
+        },
+#define SLOTIINFO(KIND, SLOT) \
+    .i[offsetof(PyHeapTypeObject, SLOTINFO_SLOTLOC_##KIND.KIND##_##SLOT)] = \
+        { \
+            offsetof(PyHeapTypeObject, SLOTINFO_SLOTLOCP_##KIND), \
+            offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##_##SLOT), \
+            offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##_##SLOT##_inlineable), \
             offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##_functionflags[_PyFunctionIndex_##KIND##_##SLOT]), \
             _PyFunctionIndex_##KIND##_##SLOT, \
         },
@@ -11780,41 +11811,41 @@ static struct SlotInfos {
     SLOTINFO(am,anext)
     SLOTINFO(am,send)
 
-    SLOTINFO(nb,add)
-    SLOTINFO(nb,subtract)
-    SLOTINFO(nb,multiply)
-    SLOTINFO(nb,remainder)
-    SLOTINFO(nb,divmod)
-    SLOTINFO(nb,power)
-    SLOTINFO(nb,negative)
-    SLOTINFO(nb,positive)
-    SLOTINFO(nb,absolute)
-    SLOTINFO(nb,bool)
-    SLOTINFO(nb,invert)
-    SLOTINFO(nb,lshift)
-    SLOTINFO(nb,rshift)
-    SLOTINFO(nb,and)
-    SLOTINFO(nb,xor)
-    SLOTINFO(nb,or)
-    SLOTINFO(nb,int)
-    SLOTINFO(nb,float)
-    SLOTINFO(nb,inplace_add)
-    SLOTINFO(nb,inplace_subtract)
-    SLOTINFO(nb,inplace_multiply)
-    SLOTINFO(nb,inplace_remainder)
-    SLOTINFO(nb,inplace_power)
-    SLOTINFO(nb,inplace_lshift)
-    SLOTINFO(nb,inplace_rshift)
-    SLOTINFO(nb,inplace_and)
-    SLOTINFO(nb,inplace_xor)
-    SLOTINFO(nb,inplace_or)
-    SLOTINFO(nb,floor_divide)
-    SLOTINFO(nb,true_divide)
-    SLOTINFO(nb,inplace_floor_divide)
-    SLOTINFO(nb,inplace_true_divide)
+    SLOTIINFO(nb,add)
+    SLOTIINFO(nb,subtract)
+    SLOTIINFO(nb,multiply)
+    SLOTIINFO(nb,remainder)
+    SLOTIINFO(nb,divmod)
+    SLOTIINFO(nb,power)
+    SLOTIINFO(nb,negative)
+    SLOTIINFO(nb,positive)
+    SLOTIINFO(nb,absolute)
+    SLOTIINFO(nb,bool)
+    SLOTIINFO(nb,invert)
+    SLOTIINFO(nb,lshift)
+    SLOTIINFO(nb,rshift)
+    SLOTIINFO(nb,and)
+    SLOTIINFO(nb,xor)
+    SLOTIINFO(nb,or)
+    SLOTIINFO(nb,int)
+    SLOTIINFO(nb,float)
+    SLOTIINFO(nb,inplace_add)
+    SLOTIINFO(nb,inplace_subtract)
+    SLOTIINFO(nb,inplace_multiply)
+    SLOTIINFO(nb,inplace_remainder)
+    SLOTIINFO(nb,inplace_power)
+    SLOTIINFO(nb,inplace_lshift)
+    SLOTIINFO(nb,inplace_rshift)
+    SLOTIINFO(nb,inplace_and)
+    SLOTIINFO(nb,inplace_xor)
+    SLOTIINFO(nb,inplace_or)
+    SLOTIINFO(nb,floor_divide)
+    SLOTIINFO(nb,true_divide)
+    SLOTIINFO(nb,inplace_floor_divide)
+    SLOTIINFO(nb,inplace_true_divide)
     SLOTINFO(nb,index)
-    SLOTINFO(nb,matrix_multiply)
-    SLOTINFO(nb,inplace_matrix_multiply)
+    SLOTIINFO(nb,matrix_multiply)
+    SLOTIINFO(nb,inplace_matrix_multiply)
 
     SLOTINFO(sq,length)
     SLOTINFO(sq,concat)
@@ -11833,20 +11864,15 @@ static struct SlotInfos {
      SLOTINFO(bf,releasebuffer)
 };
 
-struct slotptrinfo {
-    void **func;
-    char *flags;
-};
-
 /* Given a type pointer and an offset gotten from a slotdef entry, return a
    pointer to the actual slot.  This is not quite the same as simply adding
    the offset to the type pointer, since it takes care to indirect through the
    proper indirection pointer (as_buffer, etc.); it returns NULL if the
    indirection pointer is NULL. */
-struct slotptrinfo
+struct SlotPtrInfo
 slotptr(PyTypeObject *type, int ioffset)
 {
-    struct slotptrinfo result;
+    struct SlotPtrInfo result;
 
     struct SlotInfo *info = &offset_to_info.i[ioffset];
     assert(info->fnflags);
@@ -11859,9 +11885,11 @@ slotptr(PyTypeObject *type, int ioffset)
     if (base){
         result.func = (void **)((char *)base + info->fn);
         result.flags = (char *)((char *)base + info->fnflags);
+        result.func_inlineable = info->fn_inlineable ? (void **)((char *)base + info->fn_inlineable) : NULL;
     } else {
         result.func = NULL;
         result.flags = NULL;
+        result.func_inlineable = NULL;
     }
 
     return result;
@@ -11869,7 +11897,7 @@ slotptr(PyTypeObject *type, int ioffset)
 
 /* Return a slot pointer for a given name, but ONLY if the attribute has
    exactly one slot function.  The name must be an interned string. */
-static struct slotptrinfo
+static struct SlotPtrInfo
 resolve_slotdups(PyTypeObject *type, PyObject *name)
 {
     /* XXX Maybe this could be optimized more -- but is it worth it? */
@@ -11894,8 +11922,8 @@ resolve_slotdups(PyTypeObject *type, PyObject *name)
         /* Collect all slotdefs that match name into ptrs. */
         pname = name;
         pp = ptrs;
-        for (p = slotdefs; p->name_strobj; p++) {
-            if (p->name_strobj == name)
+        for (p = slotdefs; p->base.name_strobj; p++) {
+            if (p->base.name_strobj == name)
                 *pp++ = p;
         }
         *pp = NULL;
@@ -11905,13 +11933,13 @@ resolve_slotdups(PyTypeObject *type, PyObject *name)
     /* Look in all slots of the type matching the name. If exactly one of these
        has a filled-in slot, return a pointer to that slot.
        Otherwise, return NULL. */
-    struct slotptrinfo res = {
+    struct SlotPtrInfo res = {
         .func = NULL,
         .flags = NULL,
     };
-    struct slotptrinfo ptr;
+    struct SlotPtrInfo ptr;
     for (pp = ptrs; *pp; pp++) {
-        ptr = slotptr(type, (*pp)->offset);
+        ptr = slotptr(type, (*pp)->base.offset);
         if (ptr.func == NULL || *ptr.func == NULL)
             continue;
         if (res.func != NULL)
@@ -11935,8 +11963,8 @@ resolve_slotdups(PyTypeObject *type, PyObject *name)
 static bool
 has_slotdef(PyObject *name)
 {
-    for (pytype_slotdef *p = slotdefs; p->name_strobj; p++) {
-        if (p->name_strobj == name) {
+    for (pytype_slotdef *p = slotdefs; p->base.name_strobj; p++) {
+        if (p->base.name_strobj == name) {
             return true;
         }
     }
@@ -12017,23 +12045,25 @@ update_one_slot(PyTypeObject *type, pytype_slotdef *p, pytype_slotdef **next_p,
     // The correct specialized C function, like "tp_repr of str" in the
     // example above
     void *specific = NULL;
+    void *specific_inlineable = NULL;
     unsigned char specific_flags = 0;
 
     // A generic wrapper that uses method lookup (safe but slow)
     void *generic = NULL;
+    void *generic_inlineable = NULL;
     unsigned char generic_flags = 0;
 
     // Set to 1 if the generic wrapper is necessary
     int use_generic = 0;
 
-    int offset = p->offset;
+    int offset = p->base.offset;
     int error;
-    struct slotptrinfo ptr = slotptr(type, offset);
+    struct SlotPtrInfo ptr = slotptr(type, offset);
 
     if (ptr.func == NULL) {
         do {
             ++p;
-        } while (p->offset == offset);
+        } while (p->base.offset == offset);
         if (next_p != NULL) {
             *next_p = p;
         }
@@ -12043,7 +12073,7 @@ update_one_slot(PyTypeObject *type, pytype_slotdef *p, pytype_slotdef **next_p,
     assert(!PyErr_Occurred());
     do {
         /* Use faster uncached lookup as we won't get any cache hits during type setup. */
-        descr = find_name_in_mro(type, p->name_strobj, &error);
+        descr = find_name_in_mro(type, p->base.name_strobj, &error);
         if (descr == NULL) {
             if (error == -1) {
                 /* It is unlikely but not impossible that there has been an exception
@@ -12053,24 +12083,27 @@ update_one_slot(PyTypeObject *type, pytype_slotdef *p, pytype_slotdef **next_p,
             }
             if (ptr.func == (void**)&type->tp_iternext) {
                 specific = (void *)_PyObject_NextNotImplemented;
+                specific_inlineable = NULL;
                 specific_flags = Py_FNFLAGS_FRUGAL;
             }
             continue;
         }
         if (Py_IS_TYPE(descr, &PyWrapperDescr_Type) &&
-            ((PyWrapperDescrObject *)descr)->d_base->name_strobj == p->name_strobj) {
-            struct slotptrinfo tptr = resolve_slotdups(type, p->name_strobj);
+            ((PyWrapperDescrObject *)descr)->d_base->name_strobj == p->base.name_strobj) {
+            struct SlotPtrInfo tptr = resolve_slotdups(type, p->base.name_strobj);
             if (tptr.func == NULL || tptr.func == ptr.func)
             {
-                generic = p->function;
+                generic = p->base.function;
+                generic_inlineable = p->function_inlineable;
                 generic_flags = Py_FNFLAGS_FRUGAL;
             }
             d = (PyWrapperDescrObject *)descr;
             if ((specific == NULL || specific == d->d_wrapped) &&
-                d->d_base->wrapper == p->wrapper &&
+                d->d_base->wrapper == p->base.wrapper &&
                 is_subtype_with_mro(lookup_tp_mro(type), type, PyDescr_TYPE(d)))
             {
                 specific = d->d_wrapped;
+                specific_inlineable = d->d_wrapped_inlineable;
                 specific_flags = d->d_flags;
             }
             else {
@@ -12101,6 +12134,7 @@ update_one_slot(PyTypeObject *type, pytype_slotdef *p, pytype_slotdef **next_p,
                list.  Cut all that nonsense short -- this speeds
                up instance creation tremendously. */
             specific = (void *)type->tp_new;
+            specific_inlineable = NULL;
             specific_flags = (type->tp_flags & Py_TPFLAGS_IS_EXTENDED) ? type->tp_functionflags[_PyFunctionIndex_tp_new] : 0;
             /* XXX I'm not 100% sure that there isn't a hole
                in this reasoning that requires additional
@@ -12113,6 +12147,7 @@ update_one_slot(PyTypeObject *type, pytype_slotdef *p, pytype_slotdef **next_p,
                to prevent inheritance of the default
                implementation from object.__hash__ */
             specific = (void *)PyObject_HashNotImplemented;
+            specific_inlineable = NULL;
             specific_flags = Py_FNFLAGS_FRUGAL;
         }
         else {
@@ -12121,13 +12156,15 @@ update_one_slot(PyTypeObject *type, pytype_slotdef *p, pytype_slotdef **next_p,
                 *ptr.func == ((PyMethodDescrObject *)descr)->d_method->ml_meth)
             {
                 generic = *ptr.func;
+                generic_inlineable = ptr.func_inlineable ? *ptr.func_inlineable : NULL;
                 generic_flags = *ptr.flags;
             }
             else {
-                generic = p->function;
+                generic = p->base.function;
+                generic_inlineable = p->function_inlineable;
                 generic_flags = Py_FNFLAGS_FRUGAL;
             }
-            if (p->function == slot_tp_call) {
+            if (p->base.function == slot_tp_call) {
                 /* A generic __call__ is incompatible with vectorcall */
                 if (queued_updates == NULL) {
                     type_clear_flags(type, Py_TPFLAGS_HAVE_VECTORCALL, 0);
@@ -12135,34 +12172,43 @@ update_one_slot(PyTypeObject *type, pytype_slotdef *p, pytype_slotdef **next_p,
             }
         }
         Py_DECREF(descr);
-    } while ((++p)->offset == offset);
+    } while ((++p)->base.offset == offset);
 
     void *slot_value;
+    void *slot_value_inlineable;
     unsigned char slot_flags;
     if (specific && !use_generic) {
         slot_value = specific;
+        slot_value_inlineable = specific_inlineable;
         slot_flags = specific_flags;
     } else {
         slot_value = generic;
+        slot_value_inlineable = generic_inlineable;
         slot_flags = generic_flags;
     }
 
 #ifdef Py_GIL_DISABLED
     if (queued_updates != NULL) {
         // queue the update to perform later, while world is stopped
-        if (queue_slot_update(queued_updates, type, ptr.func, slot_value, ptr.flags, slot_flags) < 0) {
+        if (queue_slot_update(queued_updates, type, &ptr, slot_value, slot_flags, slot_value_inlineable) < 0) {
             return -1;
         }
     } else {
         // do the update to the type structure now
         *ptr.func = slot_value;
         *ptr.flags = slot_flags;
+        if (ptr.func_inlineable){
+            *ptr_func_inlineable = slot_value_inlineable;
+        }
     }
 #else
     // always do the update immediately
     assert(queued_updates == NULL);
     *ptr.func = slot_value;
     *ptr.flags = slot_flags;
+    if (ptr.func_inlineable){
+        *ptr.func_inlineable = slot_value_inlineable;
+    }
 #endif
 
     if (next_p != NULL) {
@@ -12202,20 +12248,20 @@ update_slot(PyTypeObject *type, PyObject *name, slot_update_t *queued_updates)
     assert(PyUnicode_CHECK_INTERNED(name));
 
     pp = ptrs;
-    for (p = slotdefs; p->name; p++) {
-        assert(PyUnicode_CheckExact(p->name_strobj));
-        assert(PyUnicode_CHECK_INTERNED(p->name_strobj));
+    for (p = slotdefs; p->base.name; p++) {
+        assert(PyUnicode_CheckExact(p->base.name_strobj));
+        assert(PyUnicode_CHECK_INTERNED(p->base.name_strobj));
         assert(PyUnicode_CheckExact(name));
         /* bpo-40521: Using interned strings. */
-        if (p->name_strobj == name) {
+        if (p->base.name_strobj == name) {
             *pp++ = p;
         }
     }
     *pp = NULL;
     for (pp = ptrs; *pp; pp++) {
         p = *pp;
-        offset = p->offset;
-        while (p > slotdefs && (p-1)->offset == offset)
+        offset = p->base.offset;
+        while (p > slotdefs && (p-1)->base.offset == offset)
             --p;
         *pp = p;
     }
@@ -12236,7 +12282,7 @@ static void
 fixup_slot_dispatchers(PyTypeObject *type)
 {
     assert(!PyErr_Occurred());
-    for (pytype_slotdef *p = slotdefs; p->name; ) {
+    for (pytype_slotdef *p = slotdefs; p->base.name; ) {
         update_one_slot(type, p, &p, NULL);
     }
 }
@@ -12276,9 +12322,9 @@ static int
 update_all_slots(PyTypeObject* type)
 {
     pytype_slotdef *p;
-    for (p = slotdefs; p->name; p++) {
+    for (p = slotdefs; p->base.name; p++) {
         /* update_slot returns int but can't actually fail in this case*/
-        update_slot(type, p->name_strobj, NULL);
+        update_slot(type, p->base.name_strobj, NULL);
     }
     return 0;
 }
@@ -12294,11 +12340,11 @@ _PyType_GetSlotWrapperNames(void)
     if (names == NULL) {
         return NULL;
     }
-    assert(slotdefs[len].name == NULL);
+    assert(slotdefs[len].base.name == NULL);
     for (size_t i = 0; i < len; i++) {
         pytype_slotdef *slotdef = &slotdefs[i];
-        assert(slotdef->name != NULL);
-        PyList_SET_ITEM(names, i, Py_NewRef(slotdef->name_strobj));
+        assert(slotdef->base.name != NULL);
+        PyList_SET_ITEM(names, i, Py_NewRef(slotdef->base.name_strobj));
     }
     return names;
 }
@@ -12440,7 +12486,7 @@ recurse_down_subclasses(PyTypeObject *type, PyObject *attr_name,
 static int
 slot_inherited(PyTypeObject *type, pytype_slotdef *slotdef, void **slot)
 {
-    struct slotptrinfo slot_base = slotptr(type->tp_base, slotdef->offset);
+    struct SlotPtrInfo slot_base = slotptr(type->tp_base, slotdef->base.offset);
     if (slot_base.func == NULL || *slot != *slot_base.func) {
         return 0;
     }
@@ -12493,12 +12539,12 @@ add_operators(PyTypeObject *type)
     PyObject *dict = lookup_tp_dict(type);
     pytype_slotdef *p;
     PyObject *descr;
-    struct slotptrinfo ptr;
+    struct SlotPtrInfo ptr;
 
-    for (p = slotdefs; p->name; p++) {
-        if (p->wrapper == NULL)
+    for (p = slotdefs; p->base.name; p++) {
+        if (p->base.wrapper == NULL)
             continue;
-        ptr = slotptr(type, p->offset);
+        ptr = slotptr(type, p->base.offset);
         if (!ptr.func || !*ptr.func)
             continue;
         /* Also ignore when the type slot has been inherited. */
@@ -12508,7 +12554,7 @@ add_operators(PyTypeObject *type)
         {
             continue;
         }
-        int r = PyDict_Contains(dict, p->name_strobj);
+        int r = PyDict_Contains(dict, p->base.name_strobj);
         if (r > 0)
             continue;
         if (r < 0) {
@@ -12518,14 +12564,14 @@ add_operators(PyTypeObject *type)
             /* Classes may prevent the inheritance of the tp_hash
                slot by storing PyObject_HashNotImplemented in it. Make it
                visible as a None value for the __hash__ attribute. */
-            if (PyDict_SetItem(dict, p->name_strobj, Py_None) < 0)
+            if (PyDict_SetItem(dict, p->base.name_strobj, Py_None) < 0)
                 return -1;
         }
         else {
-            descr = PyDescr_NewWrapper_Ex(type, p, *ptr.func, *ptr.flags);
+            descr = PyDescr_NewWrapper_Ex(type, &p->base, *ptr.func, *ptr.flags, ptr.func_inlineable ? *ptr.func_inlineable : NULL);
             if (descr == NULL)
                 return -1;
-            if (PyDict_SetItem(dict, p->name_strobj, descr) < 0) {
+            if (PyDict_SetItem(dict, p->base.name_strobj, descr) < 0) {
                 Py_DECREF(descr);
                 return -1;
             }
@@ -13306,3 +13352,75 @@ PyType_DefineCallTypeFunction1(R, PyObject *, am, anext, PyObject *)
 #if !defined(Py_LIMITED_API) || Py_LIMITED_API+0 >= 0x030A0000
  PyType_DefineCallTypeFunction3(R, PySendResult, am, send, PyObject *, PyObject *, PyObject **)
 #endif
+
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, add, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, subtract, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, multiply, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, remainder, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, divmod, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, power, PyObject *, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction1(R, PyObject *, nb, negative, PyObject *);
+PyType_DefineCallTypeFunction1(R, PyObject *, nb, positive, PyObject *);
+PyType_DefineCallTypeFunction1(R, PyObject *, nb, absolute, PyObject *);
+PyType_DefineCallTypeFunction1(R, int, nb, bool, PyObject *);
+PyType_DefineCallTypeFunction1(R, PyObject *, nb, invert, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, lshift, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, rshift, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, and, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, xor, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, or, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction1(R, PyObject *, nb, int, PyObject *);
+PyType_DefineCallTypeFunction1(R, PyObject *, nb, float, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, inplace_add, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, inplace_subtract, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, inplace_multiply, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, inplace_remainder, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_power, PyObject *, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, inplace_lshift, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, inplace_rshift, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, inplace_and, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, inplace_xor, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, inplace_or, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, floor_divide, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, true_divide, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, inplace_floor_divide, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, inplace_true_divide, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction1(R, PyObject *, nb, index, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, matrix_multiply, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, inplace_matrix_multiply, PyObject *, PyObject *);
+
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, add_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, subtract_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, multiply_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, remainder_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, divmod_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction4(R, PyObject *, nb, power_inlineable, PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, negative_inlineable, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, positive_inlineable, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, absolute_inlineable, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction2(R, int, nb, bool_inlineable, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, invert_inlineable, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, lshift_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, rshift_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, and_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, xor_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, or_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, int_inlineable, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, float_inlineable, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_add_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_subtract_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_multiply_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_remainder_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction4(R, PyObject *, nb, inplace_power_inlineable, PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_lshift_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_rshift_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_and_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_xor_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_or_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, floor_divide_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, true_divide_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_floor_divide_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_true_divide_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction2(R, PyObject *, nb, index_inlineable, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, matrix_multiply_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_matrix_multiply_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);

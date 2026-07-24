@@ -1601,7 +1601,7 @@ class SizeofTest(unittest.TestCase):
         import collections
         check(collections.defaultdict.default_factory, size('3PP'))
         # wrapper_descriptor (descriptor object)
-        check(int.__add__, size('3P2PB'))
+        check(int.__add__, size('3P2PBP'))
         # method-wrapper (descriptor object)
         check({}.__iter__, size('2P'))
         # empty dict
@@ -1771,7 +1771,7 @@ class SizeofTest(unittest.TestCase):
         # class
         s = vsize(fmt +                 # PyTypeObject
                   '4P4s'                # PyAsyncMethods
-                  '36P36s'              # PyNumberMethods
+                  '36P71s35P'           # PyNumberMethods
                   '3P3s'                # PyMappingMethods
                   '10P10s'              # PySequenceMethods
                   '2P2s'                # PyBufferProcs

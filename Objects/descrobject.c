@@ -1050,7 +1050,13 @@ PyDescr_NewGetSet(PyTypeObject *type, PyGetSetDef *getset)
 }
 
 PyObject *
-PyDescr_NewWrapper_Ex(PyTypeObject *type, struct wrapperbase *base, void *wrapped, unsigned char flags)
+PyDescr_NewWrapper_Ex(
+    PyTypeObject *type,
+    struct wrapperbase *base,
+    void *wrapped,
+    unsigned char flags,
+    void *wrapped_inlineable
+)
 {
     PyWrapperDescrObject *descr;
 
@@ -1060,6 +1066,7 @@ PyDescr_NewWrapper_Ex(PyTypeObject *type, struct wrapperbase *base, void *wrappe
         descr->d_base = base;
         descr->d_wrapped = wrapped;
         descr->d_flags = flags;
+        descr->d_wrapped_inlineable = wrapped_inlineable;
     }
     return (PyObject *)descr;
 }
@@ -1067,7 +1074,7 @@ PyDescr_NewWrapper_Ex(PyTypeObject *type, struct wrapperbase *base, void *wrappe
 PyObject *
 PyDescr_NewWrapper(PyTypeObject *type, struct wrapperbase *base, void *wrapped)
 {
-    return PyDescr_NewWrapper_Ex(type, base, wrapped, 0);
+    return PyDescr_NewWrapper_Ex(type, base, wrapped, 0, NULL);
 }
 
 int

@@ -56,10 +56,11 @@ typedef struct {
     struct wrapperbase *d_base;
     void *d_wrapped; /* This can be any function pointer */
     unsigned char d_flags;
+    void *d_wrapped_inlineable; /* This can be any function pointer */
 } PyWrapperDescrObject;
 
 PyAPI_FUNC(PyObject *) PyDescr_NewWrapper(PyTypeObject *,
                                                 struct wrapperbase *, void *);
 PyAPI_FUNC(PyObject *) PyDescr_NewWrapper_Ex(PyTypeObject *,
-                                                struct wrapperbase *, void *, unsigned char flags);
+                                                struct wrapperbase *, void *, unsigned char flags, void *);
 PyAPI_FUNC(int) PyDescr_IsData(PyObject *);

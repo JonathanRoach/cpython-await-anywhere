@@ -95,6 +95,42 @@ enum {
     _PyFunctionIndex_nb_matrix_multiply,
     _PyFunctionIndex_nb_inplace_matrix_multiply,
 
+    _PyFunctionIndex_nb_add_inlineable,
+    _PyFunctionIndex_nb_subtract_inlineable,
+    _PyFunctionIndex_nb_multiply_inlineable,
+    _PyFunctionIndex_nb_remainder_inlineable,
+    _PyFunctionIndex_nb_divmod_inlineable,
+    _PyFunctionIndex_nb_power_inlineable,
+    _PyFunctionIndex_nb_negative_inlineable,
+    _PyFunctionIndex_nb_positive_inlineable,
+    _PyFunctionIndex_nb_absolute_inlineable,
+    _PyFunctionIndex_nb_bool_inlineable,
+    _PyFunctionIndex_nb_invert_inlineable,
+    _PyFunctionIndex_nb_lshift_inlineable,
+    _PyFunctionIndex_nb_rshift_inlineable,
+    _PyFunctionIndex_nb_and_inlineable,
+    _PyFunctionIndex_nb_xor_inlineable,
+    _PyFunctionIndex_nb_or_inlineable,
+    _PyFunctionIndex_nb_int_inlineable,
+    _PyFunctionIndex_nb_float_inlineable,
+    _PyFunctionIndex_nb_inplace_add_inlineable,
+    _PyFunctionIndex_nb_inplace_subtract_inlineable,
+    _PyFunctionIndex_nb_inplace_multiply_inlineable,
+    _PyFunctionIndex_nb_inplace_remainder_inlineable,
+    _PyFunctionIndex_nb_inplace_power_inlineable,
+    _PyFunctionIndex_nb_inplace_lshift_inlineable,
+    _PyFunctionIndex_nb_inplace_rshift_inlineable,
+    _PyFunctionIndex_nb_inplace_and_inlineable,
+    _PyFunctionIndex_nb_inplace_xor_inlineable,
+    _PyFunctionIndex_nb_inplace_or_inlineable,
+    _PyFunctionIndex_nb_floor_divide_inlineable,
+    _PyFunctionIndex_nb_true_divide_inlineable,
+    _PyFunctionIndex_nb_inplace_floor_divide_inlineable,
+    _PyFunctionIndex_nb_inplace_true_divide_inlineable,
+    _PyFunctionIndex_nb_index_inlineable,
+    _PyFunctionIndex_nb_matrix_multiply_inlineable,
+    _PyFunctionIndex_nb_inplace_matrix_multiply_inlineable,
+
     _PyFunctionIndex_nb_COUNT
 };
 
@@ -147,6 +183,42 @@ typedef struct {
 //
 // Fields below here only present if Py_TPFLAGS_IS_EXTENDED
 //
+
+    binaryfunc_inlineable nb_add_inlineable;
+    binaryfunc_inlineable nb_subtract_inlineable;
+    binaryfunc_inlineable nb_multiply_inlineable;
+    binaryfunc_inlineable nb_remainder_inlineable;
+    binaryfunc_inlineable nb_divmod_inlineable;
+    ternaryfunc_inlineable nb_power_inlineable;
+    unaryfunc_inlineable nb_negative_inlineable;
+    unaryfunc_inlineable nb_positive_inlineable;
+    unaryfunc_inlineable nb_absolute_inlineable;
+    inquiry_inlineable nb_bool_inlineable;
+    unaryfunc_inlineable nb_invert_inlineable;
+    binaryfunc_inlineable nb_lshift_inlineable;
+    binaryfunc_inlineable nb_rshift_inlineable;
+    binaryfunc_inlineable nb_and_inlineable;
+    binaryfunc_inlineable nb_xor_inlineable;
+    binaryfunc_inlineable nb_or_inlineable;
+    unaryfunc_inlineable nb_int_inlineable;
+    unaryfunc_inlineable nb_float_inlineable;
+    binaryfunc_inlineable nb_inplace_add_inlineable;
+    binaryfunc_inlineable nb_inplace_subtract_inlineable;
+    binaryfunc_inlineable nb_inplace_multiply_inlineable;
+    binaryfunc_inlineable nb_inplace_remainder_inlineable;
+    ternaryfunc_inlineable nb_inplace_power_inlineable;
+    binaryfunc_inlineable nb_inplace_lshift_inlineable;
+    binaryfunc_inlineable nb_inplace_rshift_inlineable;
+    binaryfunc_inlineable nb_inplace_and_inlineable;
+    binaryfunc_inlineable nb_inplace_xor_inlineable;
+    binaryfunc_inlineable nb_inplace_or_inlineable;
+    binaryfunc_inlineable nb_floor_divide_inlineable;
+    binaryfunc_inlineable nb_true_divide_inlineable;
+    binaryfunc_inlineable nb_inplace_floor_divide_inlineable;
+    binaryfunc_inlineable nb_inplace_true_divide_inlineable;
+    unaryfunc_inlineable nb_index_inlineable;
+    binaryfunc_inlineable nb_matrix_multiply_inlineable;
+    binaryfunc_inlineable nb_inplace_matrix_multiply_inlineable;
 
     unsigned char nb_functionflags[_PyFunctionIndex_nb_COUNT];
 } PyNumberMethods;

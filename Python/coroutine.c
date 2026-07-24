@@ -342,6 +342,8 @@ struct Coroutine {
     void *entry_param;          // to pass to start
     void *value;                // yielded/returned
     unsigned char *stack_top;   // recorded at yield
+    struct Coroutine *chain_root; // The root (entry) of a series of chained coroutines
+    struct Coroutine *chain_tip; // The tip (yielder) of a series of chained coroutines
     Coroutine_State state;
 
     int sequence;
@@ -744,6 +746,8 @@ Coroutines_ctor(
     cor->sequence = cors->sequence++;
     cor->state = Coroutine_Running;
     cor->base = (unsigned char *)&cor;
+    cor->chain_root = cor;
+    cor->chain_tip = cor;
     if (cors->stack_limit){
         cor->limit = cors->stack_limit;
         cor->guard = StackPointerAdd(cor->limit, -GUARD_PATTERN_SIZE);
@@ -976,6 +980,8 @@ static Coroutine *Coroutine_New_Lock_Assumed(
     cor->state = Coroutine_Idle;
     cor->start = start;
     cor->value = NULL;
+    cor->chain_root = cor;
+    cor->chain_tip = cor;
     Link_Remove(&cor->link);
     List_AddHead(&g_c->inactive, &cor->link);
 
@@ -1187,6 +1193,7 @@ Coroutine_Continue_(
     void *value,
     bool early
 ){
+    cor = cor->chain_tip;
     if (cor->state == Coroutine_Running){
         // already running
         return Coroutine_OK;
@@ -1237,7 +1244,9 @@ Coroutine_Yield(
     Coroutines *cors = me->coroutines;
     MyAssert(me && me->state == Coroutine_Running && cors == g_c);
     me->stack_top = (unsigned char *)StackTopNow();
-    me->value = value;
+    me->value = NULL;
+    me->chain_root->value = value;
+    me->chain_root->chain_tip = me;
     me->state = Coroutine_Waiting;
 
     TrimActiveIfPossible();
@@ -1284,7 +1293,7 @@ Coroutine *
 Coroutine_GetActive(
     void
 ){
-    return g_c ? g_c->active : NULL;
+    return g_c ? g_c->active->chain_root : NULL;
 }
 
 
@@ -1491,9 +1500,10 @@ static void *
 Coroutine_ChainFn(
     void *param
 ){
-    struct Coroutine_ChainParam *params = (struct Coroutine_ChainParam *)param;
-    void *res = params->start(params->value);
-    return (void *)(uintptr_t)Coroutine_Continue(params->ret, res, true);
+    struct Coroutine_ChainParam params = *(struct Coroutine_ChainParam *)param;
+    void *res = params.start(params.value);
+    params.ret->chain_tip = params.ret;
+    return (void *)(uintptr_t)Coroutine_Continue(params.ret, res, true);
 }
 
 
@@ -1519,10 +1529,12 @@ Coroutine_Chain(
         // failed
         return Coroutine_Err_NoStack;
     }
+    cor->chain_root = g_c->active->chain_root;
+    g_c->active->chain_tip = cor;
     struct Coroutine_ChainParam params = {
         start,
         value,
-        Coroutine_GetActive()
+        g_c->active,
     };
     Coroutine_Err err = Coroutine_Continue(cor, &params, true);
     if (!err){
@@ -1580,6 +1592,9 @@ Coroutine_CallWithMaxStack(
             cor->state = Coroutine_Idle;
             cor->start = Coroutine_ChainFn;
             cor->value = NULL;
+            cor->chain_root = g_c->active->chain_root;
+            cor->chain_tip = cor;
+            g_c->active->chain_tip = cor;
             Link_Remove(&cor->link);
             List_AddHead(&g_c->inactive, &cor->link);
             g_c->report.coroutines_created += 1;
@@ -1620,7 +1635,7 @@ bool
 Coroutine_IsRunning(
     Coroutine *cor
 ){
-    int state = cor->state;
+    int state = cor->chain_tip->state;
     return state == Coroutine_Running || state == Coroutine_Waiting;
 }
 
@@ -1628,7 +1643,7 @@ Coroutine_IsRunning(
 bool Coroutine_IsComplete(
     Coroutine *cor
 ){
-    int state = cor->state;
+    int state = cor->chain_tip->state;
     return state == Coroutine_Complete;
 }
 
