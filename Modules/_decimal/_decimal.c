@@ -32,8 +32,6 @@
 #include <Python.h>
 #include "pycore_pystate.h"       // _PyThreadState_GET()
 #include "pycore_typeobject.h"
-#include "pycore_coroutine.h"
-#include "pycore_cor_tools.h"
 #include "complexobject.h"
 
 #include <mpdecimal.h>
@@ -59,10 +57,6 @@
 #else
   #define _PY_DEC_ROUND_GUARD (MPD_ROUND_GUARD-1)
 #endif
-
-// Any function using mpd_qmul, needs to ensure this amount of stack is available.
-// sizeof(mpd_uint_t)*128*128*2 for squaretrans_pow2() deep instide mpd_qmul, and 512 void*'s for workings
-#define STACK_SPACE_FOR_A_mpd_qmul_USER (sizeof(mpd_uint_t)*128*128*2 + 512 * sizeof(void *))
 
 struct PyDecContextObject;
 struct DecCondMap;
@@ -2482,12 +2476,10 @@ PyDecType_FromLongExact(PyTypeObject *type, PyObject *v,
 
 /* Return a PyDecObject or a subtype from a PyFloatObject.
    Conversion is exact. */
-_PY_ENSURE_STACK_FOR_FN3_A(PyObject *, PyDecType_FromFloatExact, PyTypeObject *, PyObject *, PyObject *)
 static PyObject *
 PyDecType_FromFloatExact(PyTypeObject *type, PyObject *v,
                          PyObject *context)
 {
-    _PY_ENSURE_STACK_FOR_FN3_B(STACK_SPACE_FOR_A_mpd_qmul_USER, NULL, PyObject *, PyDecType_FromFloatExact, PyTypeObject *, type, PyObject *, v, PyObject *, context)
     PyObject *dec, *tmp;
     PyObject *n, *d, *n_d;
     mpd_ssize_t k;
@@ -3215,11 +3207,9 @@ convert_op(int type_err, PyObject **conv, PyObject *v, PyObject *context)
 /*              Implicit conversions to Decimal for comparison                */
 /******************************************************************************/
 
-_PY_ENSURE_STACK_FOR_FN3_A(PyObject *, multiply_by_denominator, PyObject *, PyObject *, PyObject *)
 static PyObject *
 multiply_by_denominator(PyObject *v, PyObject *r, PyObject *context)
 {
-    _PY_ENSURE_STACK_FOR_FN3_B(STACK_SPACE_FOR_A_mpd_qmul_USER, NULL, PyObject *, multiply_by_denominator, PyObject *, v, PyObject *, r, PyObject *, context)
     PyObject *result;
     PyObject *tmp = NULL;
     PyObject *denom = NULL;
@@ -4208,39 +4198,6 @@ nm_##MPDFUNC(PyObject *self, PyObject *other)                    \
     return result;                                               \
 }
 
-/* Binary number method that uses default module context. */
-#define Dec_BinaryNumberMethod_BigStack(MPDFUNC, STACKREQUIRED) \
-_PY_ENSURE_STACK_FOR_FN2_A(PyObject *, nm_##MPDFUNC, PyObject *, PyObject *) \
-static PyObject *                                                \
-nm_##MPDFUNC(PyObject *self, PyObject *other)                    \
-{                                                                \
-    _PY_ENSURE_STACK_FOR_FN2_B(STACKREQUIRED, NULL, PyObject *, nm_##MPDFUNC, PyObject *, self, PyObject *, other) \
-    PyObject *a, *b;                                             \
-    PyObject *result;                                            \
-    PyObject *context;                                           \
-    uint32_t status = 0;                                         \
-                                                                 \
-    decimal_state *state = find_state_left_or_right(self, other);  \
-    CURRENT_CONTEXT(state, context) ;                            \
-    CONVERT_BINOP(&a, &b, self, other, context);                 \
-                                                                 \
-    if ((result = dec_alloc(state)) == NULL) {                   \
-        Py_DECREF(a);                                            \
-        Py_DECREF(b);                                            \
-        return NULL;                                             \
-    }                                                            \
-                                                                 \
-    MPDFUNC(MPD(result), MPD(a), MPD(b), CTX(context), &status); \
-    Py_DECREF(a);                                                \
-    Py_DECREF(b);                                                \
-    if (dec_addstatus(context, status)) {                        \
-        Py_DECREF(result);                                       \
-        return NULL;                                             \
-    }                                                            \
-                                                                 \
-    return result;                                               \
-}
-
 /* Boolean function without a context arg. */
 #define Dec_BoolFunc(MPDFUNC) \
 static PyObject *                                           \
@@ -4421,7 +4378,7 @@ Dec_UnaryNumberMethod(mpd_qabs)
 
 Dec_BinaryNumberMethod(mpd_qadd)
 Dec_BinaryNumberMethod(mpd_qsub)
-Dec_BinaryNumberMethod_BigStack(mpd_qmul, STACK_SPACE_FOR_A_mpd_qmul_USER)
+Dec_BinaryNumberMethod(mpd_qmul)
 Dec_BinaryNumberMethod(mpd_qdiv)
 Dec_BinaryNumberMethod(mpd_qrem)
 Dec_BinaryNumberMethod(mpd_qdivint)
@@ -4945,11 +4902,9 @@ dec_floor(PyObject *self, PyObject *Py_UNUSED(dummy))
 }
 
 /* Always uses the module context */
-_PY_ENSURE_STACK_FOR_FN1_A(Py_hash_t, _dec_hash, PyDecObject *)
 static Py_hash_t
 _dec_hash(PyDecObject *v)
 {
-    _PY_ENSURE_STACK_FOR_FN1_B(STACK_SPACE_FOR_A_mpd_qmul_USER, -1, Py_hash_t, _dec_hash, PyDecObject *, v)
 #if defined(CONFIG_64) && _PyHASH_BITS == 61
     /* 2**61 - 1 */
     mpd_uint_t p_data[1] = {2305843009213693951ULL};
@@ -5215,8 +5170,8 @@ static PyMethodDef dec_methods [] =
   { "shift", _PyCFunction_CAST(dec_mpd_qshift), METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, doc_shift },
 
   /* Miscellaneous */
-  { "from_float", dec_from_float, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, doc_from_float },
-  { "from_number", dec_from_number, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, doc_from_number },
+  { "from_float", dec_from_float, METH_O|METH_CLASS, doc_from_float },
+  { "from_number", dec_from_number, METH_O|METH_CLASS, doc_from_number },
   { "as_tuple", PyDec_AsTuple, METH_NOARGS|METH_C_STACK_FRUGAL, doc_as_tuple },
   { "as_integer_ratio", dec_as_integer_ratio, METH_NOARGS|METH_C_STACK_FRUGAL, doc_as_integer_ratio },
 
@@ -5273,14 +5228,14 @@ static PyType_Slot_Extra dec_slots_ex[] = {
     {Py_tp_getattro, Py_FNFLAGS_FRUGAL},
     {Py_tp_traverse, Py_FNFLAGS_FRUGAL},
     {Py_tp_repr, Py_FNFLAGS_FRUGAL},
-    {Py_tp_hash, Py_FNFLAGS_FRUGAL},
+    {Py_tp_hash, 0},
     {Py_tp_str, Py_FNFLAGS_FRUGAL},
-    {Py_tp_richcompare, Py_FNFLAGS_FRUGAL},
+    {Py_tp_richcompare, 0},
     {Py_tp_getset, Py_FNFLAGS_FRUGAL},
-    {Py_tp_new, Py_FNFLAGS_FRUGAL},
+    {Py_tp_new, 0},
     {Py_nb_add, Py_FNFLAGS_FRUGAL},
     {Py_nb_subtract, Py_FNFLAGS_FRUGAL},
-    {Py_nb_multiply, Py_FNFLAGS_FRUGAL},
+    {Py_nb_multiply, 0},
     {Py_nb_remainder, Py_FNFLAGS_FRUGAL},
     {Py_nb_divmod, Py_FNFLAGS_FRUGAL},
     {Py_nb_power, Py_FNFLAGS_FRUGAL},
@@ -5405,42 +5360,6 @@ ctx_##MPDFUNC(PyObject *context, PyObject *args)                 \
     return result;                                               \
 }
 
-/* Binary context method when a big stack is needed. */
-#define DecCtx_BinaryFunc_BigStack(MPDFUNC, STACKNEEDED) \
-_PY_ENSURE_STACK_FOR_FN2_A(PyObject *, ctx_##MPDFUNC, PyObject *, PyObject *) \
-static PyObject *                                                \
-ctx_##MPDFUNC(PyObject *context, PyObject *args)                 \
-{                                                                \
-    _PY_ENSURE_STACK_FOR_FN2_B(STACKNEEDED, NULL, PyObject *, ctx_##MPDFUNC, PyObject *, context, PyObject *, args) \
-    PyObject *v, *w;                                             \
-    PyObject *a, *b;                                             \
-    PyObject *result;                                            \
-    uint32_t status = 0;                                         \
-                                                                 \
-    if (!PyArg_ParseTuple(args, "OO", &v, &w)) {                 \
-        return NULL;                                             \
-    }                                                            \
-                                                                 \
-    CONVERT_BINOP_RAISE(&a, &b, v, w, context);                  \
-    decimal_state *state =                                       \
-        get_module_state_from_ctx(context);                      \
-    if ((result = dec_alloc(state)) == NULL) {                   \
-        Py_DECREF(a);                                            \
-        Py_DECREF(b);                                            \
-        return NULL;                                             \
-    }                                                            \
-                                                                 \
-    MPDFUNC(MPD(result), MPD(a), MPD(b), CTX(context), &status); \
-    Py_DECREF(a);                                                \
-    Py_DECREF(b);                                                \
-    if (dec_addstatus(context, status)) {                        \
-        Py_DECREF(result);                                       \
-        return NULL;                                             \
-    }                                                            \
-                                                                 \
-    return result;                                               \
-}
-
 /*
  * Binary context method. The context is only used for conversion.
  * The actual MPDFUNC does NOT take a context arg.
@@ -5533,7 +5452,7 @@ DecCtx_BinaryFunc(mpd_qmax)
 DecCtx_BinaryFunc(mpd_qmax_mag)
 DecCtx_BinaryFunc(mpd_qmin)
 DecCtx_BinaryFunc(mpd_qmin_mag)
-DecCtx_BinaryFunc_BigStack(mpd_qmul, STACK_SPACE_FOR_A_mpd_qmul_USER)
+DecCtx_BinaryFunc(mpd_qmul)
 DecCtx_BinaryFunc(mpd_qnext_toward)
 DecCtx_BinaryFunc(mpd_qquantize)
 DecCtx_BinaryFunc(mpd_qrem)
@@ -5911,7 +5830,7 @@ static PyMethodDef context_methods [] =
   { "max_mag", ctx_mpd_qmax_mag, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_max_mag },
   { "min", ctx_mpd_qmin, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_min },
   { "min_mag", ctx_mpd_qmin_mag, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_min_mag },
-  { "multiply", ctx_mpd_qmul, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_multiply },
+  { "multiply", ctx_mpd_qmul, METH_VARARGS, doc_ctx_multiply },
   { "next_toward", ctx_mpd_qnext_toward, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_next_toward },
   { "quantize", ctx_mpd_qquantize, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_quantize },
   { "remainder", ctx_mpd_qrem, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_remainder },
@@ -5983,8 +5902,8 @@ static PyMethodDef context_methods [] =
   { "__copy__", context_copy, METH_NOARGS|METH_C_STACK_FRUGAL, NULL },
   { "__reduce__", context_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, NULL },
   { "copy", context_copy, METH_NOARGS|METH_C_STACK_FRUGAL, doc_ctx_copy },
-  { "create_decimal", ctx_create_decimal, METH_VARARGS|METH_C_STACK_FRUGAL, doc_ctx_create_decimal },
-  { "create_decimal_from_float", ctx_from_float, METH_O|METH_C_STACK_FRUGAL, doc_ctx_create_decimal_from_float },
+  { "create_decimal", ctx_create_decimal, METH_VARARGS, doc_ctx_create_decimal },
+  { "create_decimal_from_float", ctx_from_float, METH_O, doc_ctx_create_decimal_from_float },
 
   { NULL, NULL, 1 }
 };
