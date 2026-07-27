@@ -2812,6 +2812,7 @@ static PyNumberMethods bytearray_as_number = {
     0,              /*nb_subtract*/
     0,              /*nb_multiply*/
     bytearray_mod,  /*nb_remainder*/
+    .nb_functionflags[_PyFunctionIndex_nb_remainder] = Py_FNFLAGS_FRUGAL,
 };
 
 PyDoc_STRVAR(bytearray_doc,

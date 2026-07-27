@@ -2315,6 +2315,7 @@ static PyNumberMethods none_as_number = {
     0,                          /* nb_inplace_floor_divide */
     0,                          /* nb_inplace_true_divide */
     0,                          /* nb_index */
+    .nb_functionflags[_PyFunctionIndex_nb_bool] = Py_FNFLAGS_FRUGAL,
 };
 
 PyDoc_STRVAR(none_doc,

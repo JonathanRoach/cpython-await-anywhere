@@ -2563,6 +2563,14 @@ static PyNumberMethods set_as_number = {
     set_iand,                           /*nb_inplace_and*/
     set_ixor,                           /*nb_inplace_xor*/
     set_ior,                            /*nb_inplace_or*/
+    .nb_functionflags[_PyFunctionIndex_nb_subtract] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_and] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_xor] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_or] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_inplace_subtract] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_inplace_and] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_inplace_xor] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_inplace_or] = Py_FNFLAGS_FRUGAL,
 };
 
 PyDoc_STRVAR(set_doc,
@@ -2667,6 +2675,10 @@ static PyNumberMethods frozenset_as_number = {
     set_and,                            /*nb_and*/
     set_xor,                            /*nb_xor*/
     set_or,                             /*nb_or*/
+    .nb_functionflags[_PyFunctionIndex_nb_subtract] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_and] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_xor] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_or] = Py_FNFLAGS_FRUGAL,
 };
 
 PyDoc_STRVAR(frozenset_doc,

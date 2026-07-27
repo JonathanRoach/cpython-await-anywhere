@@ -6441,6 +6441,9 @@ static PyNumberMethods dictviews_as_number = {
     _PyDictView_Intersect,              /*nb_and*/
     dictviews_xor,                      /*nb_xor*/
     dictviews_or,                       /*nb_or*/
+    .nb_functionflags[_PyFunctionIndex_nb_subtract] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_and] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_or] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject*

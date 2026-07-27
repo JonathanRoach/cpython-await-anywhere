@@ -154,6 +154,10 @@ static PyNumberMethods bool_as_number = {
     0,                          /* nb_inplace_floor_divide */
     0,                          /* nb_inplace_true_divide */
     0,                          /* nb_index */
+    .nb_functionflags[_PyFunctionIndex_nb_invert] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_and] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_xor] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_or] = Py_FNFLAGS_FRUGAL,
 };
 
 static void

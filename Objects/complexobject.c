@@ -1382,6 +1382,14 @@ static PyNumberMethods complex_as_number = {
     complex_div,                                /* nb_true_divide */
     0,                                          /* nb_inplace_floor_divide */
     0,                                          /* nb_inplace_true_divide */
+    .nb_functionflags[_PyFunctionIndex_nb_add] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_subtract] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_multiply] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_power] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_negative] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_positive] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_absolute] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_bool] = Py_FNFLAGS_FRUGAL,
 };
 
 PyTypeObject PyComplex_Type = {

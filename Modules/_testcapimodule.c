@@ -2704,8 +2704,10 @@ static PyNumberMethods matmulType_as_number = {
     0,                          /* nb_inplace_floor_divide */
     0,                          /* nb_inplace_true_divide */
     0,                          /* nb_index */
-    matmulType_matmul,        /* nb_matrix_multiply */
-    matmulType_imatmul        /* nb_matrix_inplace_multiply */
+    matmulType_matmul,          /* nb_matrix_multiply */
+    matmulType_imatmul,         /* nb_inplace_matrix_multiply */
+    .nb_functionflags[_PyFunctionIndex_nb_matrix_multiply] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_inplace_matrix_multiply] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyTypeObject matmulType = {

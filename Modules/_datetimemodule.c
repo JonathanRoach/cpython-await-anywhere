@@ -3079,6 +3079,15 @@ static PyNumberMethods delta_as_number = {
     delta_truedivide,                           /* nb_true_divide */
     0,                                          /* nb_inplace_floor_divide */
     0,                                          /* nb_inplace_true_divide */
+    .nb_functionflags[_PyFunctionIndex_nb_add] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_subtract] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_multiply] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_remainder] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_divmod] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_negative] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_positive] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_absolute] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_bool] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyTypeObject PyDateTime_DeltaType = {
@@ -3998,6 +4007,8 @@ static PyNumberMethods date_as_number = {
     0,                                                  /* nb_positive */
     0,                                                  /* nb_absolute */
     0,                                                  /* nb_bool */
+    .nb_functionflags[_PyFunctionIndex_nb_add] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_subtract] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyTypeObject PyDateTime_DateType = {
@@ -7157,6 +7168,8 @@ static PyNumberMethods datetime_as_number = {
     0,                                          /* nb_positive */
     0,                                          /* nb_absolute */
     0,                                          /* nb_bool */
+    .nb_functionflags[_PyFunctionIndex_nb_add] = Py_FNFLAGS_FRUGAL,
+    .nb_functionflags[_PyFunctionIndex_nb_subtract] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyTypeObject PyDateTime_DateTimeType = {

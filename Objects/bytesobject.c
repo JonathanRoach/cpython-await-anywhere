@@ -2758,6 +2758,7 @@ static PyNumberMethods bytes_as_number = {
     0,              /*nb_subtract*/
     0,              /*nb_multiply*/
     bytes_mod,      /*nb_remainder*/
+    .nb_functionflags[_PyFunctionIndex_nb_remainder] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *

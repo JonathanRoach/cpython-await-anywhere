@@ -14564,6 +14564,7 @@ static PyNumberMethods unicode_as_number = {
     0,              /*nb_subtract*/
     0,              /*nb_multiply*/
     unicode_mod,            /*nb_remainder*/
+    .nb_functionflags[_PyFunctionIndex_nb_remainder] = Py_FNFLAGS_FRUGAL,
 };
 
 static PySequenceMethods unicode_as_sequence = {
