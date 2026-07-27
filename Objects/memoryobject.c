@@ -2776,6 +2776,8 @@ static PySequenceMethods memory_as_sequence = {
         0,                                /* sq_concat */
         0,                                /* sq_repeat */
         memory_item,                      /* sq_item */
+    .sq_functionflags[_PyFunctionIndex_sq_length] = Py_FNFLAGS_FRUGAL,
+    .sq_functionflags[_PyFunctionIndex_sq_item] = Py_FNFLAGS_FRUGAL,
 };
 
 

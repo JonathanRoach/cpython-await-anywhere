@@ -14576,6 +14576,11 @@ static PySequenceMethods unicode_as_sequence = {
     0,                  /* sq_ass_item */
     0,                  /* sq_ass_slice */
     PyUnicode_Contains, /* sq_contains */
+    .sq_functionflags[_PyFunctionIndex_sq_length] = Py_FNFLAGS_FRUGAL,
+    .sq_functionflags[_PyFunctionIndex_sq_concat] = Py_FNFLAGS_FRUGAL,
+    .sq_functionflags[_PyFunctionIndex_sq_repeat] = Py_FNFLAGS_FRUGAL,
+    .sq_functionflags[_PyFunctionIndex_sq_item] = Py_FNFLAGS_FRUGAL,
+    .sq_functionflags[_PyFunctionIndex_sq_contains] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject*

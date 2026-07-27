@@ -88,7 +88,7 @@ internal_bisect_right(PyObject *list, PyObject *item, Py_ssize_t lo, Py_ssize_t 
         mid = ((size_t)lo + hi) / 2;
         assert(mid >= 0);
         // PySequence_GetItem, but we already checked the types.
-        litem = sq_item(list, mid);
+        litem = PyType_Call_sq_item(Py_TYPE(list), list, mid);
         assert((PyErr_Occurred() == NULL) ^ (litem == NULL));
         if (litem == NULL) {
             goto error;
@@ -274,7 +274,7 @@ internal_bisect_left(PyObject *list, PyObject *item, Py_ssize_t lo, Py_ssize_t h
         mid = ((size_t)lo + hi) / 2;
         assert(mid >= 0);
         // PySequence_GetItem, but we already checked the types.
-        litem = sq_item(list, mid);
+        litem = PyType_Call_sq_item(Py_TYPE(list), list, mid);
         assert((PyErr_Occurred() == NULL) ^ (litem == NULL));
         if (litem == NULL) {
             goto error;

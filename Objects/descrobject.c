@@ -1158,6 +1158,7 @@ static PySequenceMethods mappingproxy_as_sequence = {
     mappingproxy_contains,                      /* sq_contains */
     0,                                          /* sq_inplace_concat */
     0,                                          /* sq_inplace_repeat */
+    .sq_functionflags[_PyFunctionIndex_sq_contains] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *

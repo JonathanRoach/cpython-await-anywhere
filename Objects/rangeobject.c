@@ -678,6 +678,9 @@ static PySequenceMethods range_as_sequence = {
     0,                          /* sq_ass_item */
     0,                          /* sq_ass_slice */
     range_contains,             /* sq_contains */
+    .sq_functionflags[_PyFunctionIndex_sq_length] = Py_FNFLAGS_FRUGAL,
+    .sq_functionflags[_PyFunctionIndex_sq_item] = Py_FNFLAGS_FRUGAL,
+    .sq_functionflags[_PyFunctionIndex_sq_contains] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *

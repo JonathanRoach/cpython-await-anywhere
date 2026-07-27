@@ -428,6 +428,7 @@ static PyGetSetDef template_getset[] = {
 
 static PySequenceMethods template_as_sequence = {
     .sq_concat = _PyTemplate_Concat,
+    .sq_functionflags[_PyFunctionIndex_sq_concat] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject*

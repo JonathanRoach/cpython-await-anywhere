@@ -2135,7 +2135,7 @@ PyObject_IsTrue(PyObject *v)
         res = (*Py_TYPE(v)->tp_as_mapping->mp_length)(v);
     else if (Py_TYPE(v)->tp_as_sequence != NULL &&
              Py_TYPE(v)->tp_as_sequence->sq_length != NULL)
-        res = (*Py_TYPE(v)->tp_as_sequence->sq_length)(v);
+        res = PyType_Call_sq_length(Py_TYPE(v), v);
     else
         return 1;
     /* if it is negative, it should be either -1 or -2 */

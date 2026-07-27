@@ -4843,6 +4843,7 @@ static PySequenceMethods dict_as_sequence = {
     PyDict_Contains,            /* sq_contains */
     0,                          /* sq_inplace_concat */
     0,                          /* sq_inplace_repeat */
+    .sq_functionflags[_PyFunctionIndex_sq_contains] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyNumberMethods dict_as_number = {
@@ -6161,6 +6162,8 @@ static PySequenceMethods dictkeys_as_sequence = {
     0,                                  /* sq_ass_item */
     0,                                  /* sq_ass_slice */
     dictkeys_contains,                  /* sq_contains */
+    .sq_functionflags[_PyFunctionIndex_sq_length] = Py_FNFLAGS_FRUGAL,
+    .sq_functionflags[_PyFunctionIndex_sq_contains] = Py_FNFLAGS_FRUGAL,
 };
 
 // Create a set object from dictviews object.
@@ -6617,6 +6620,8 @@ static PySequenceMethods dictitems_as_sequence = {
     0,                                  /* sq_ass_item */
     0,                                  /* sq_ass_slice */
     dictitems_contains,                 /* sq_contains */
+    .sq_functionflags[_PyFunctionIndex_sq_length] = Py_FNFLAGS_FRUGAL,
+    .sq_functionflags[_PyFunctionIndex_sq_contains] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject* dictitems_reversed(PyObject *dv, PyObject *Py_UNUSED(ignored));
@@ -6716,6 +6721,7 @@ static PySequenceMethods dictvalues_as_sequence = {
     0,                                  /* sq_ass_item */
     0,                                  /* sq_ass_slice */
     0,                                  /* sq_contains */
+    .sq_functionflags[_PyFunctionIndex_sq_length] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject* dictvalues_reversed(PyObject *dv, PyObject *Py_UNUSED(ignored));

@@ -2804,6 +2804,7 @@ static PyMethodDef PyHamt_methods[] = {
 
 static PySequenceMethods PyHamt_as_sequence = {
     .sq_contains = hamt_tp_contains,
+    .sq_functionflags[_PyFunctionIndex_sq_contains] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyMappingMethods PyHamt_as_mapping = {

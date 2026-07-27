@@ -885,6 +885,7 @@ static PyNumberMethods framelocalsproxy_as_number = {
 
 static PySequenceMethods framelocalsproxy_as_sequence = {
     .sq_contains = framelocalsproxy_contains,
+    .sq_functionflags[_PyFunctionIndex_sq_contains] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyMappingMethods framelocalsproxy_as_mapping = {

@@ -967,6 +967,16 @@ PyAPI_FUNC(PyObject *) PyType_Call_nb_index_inlineable(PyTypeObject *tp, PyObjec
 PyAPI_FUNC(PyObject *) PyType_Call_nb_matrix_multiply_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
 PyAPI_FUNC(PyObject *) PyType_Call_nb_inplace_matrix_multiply_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
 
+PyAPI_FUNC(Py_ssize_t) PyType_Call_sq_length(PyTypeObject *tp, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_sq_concat(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_sq_repeat(PyTypeObject *tp, PyObject *, Py_ssize_t);
+PyAPI_FUNC(PyObject *) PyType_Call_sq_item(PyTypeObject *tp, PyObject *, Py_ssize_t);
+PyAPI_FUNC(int) PyType_Call_sq_ass_item(PyTypeObject *tp, PyObject *, Py_ssize_t, PyObject *);
+PyAPI_FUNC(int) PyType_Call_sq_contains(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_sq_inplace_concat(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_sq_inplace_repeat(PyTypeObject *tp, PyObject *, Py_ssize_t);
+
+
 #ifdef __cplusplus
 }
 #endif

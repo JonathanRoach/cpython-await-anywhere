@@ -885,6 +885,8 @@ static PySequenceMethods proxy_as_sequence = {
     0,                          /*sq_ass_item*/
     0,                          /*sq_ass_slice*/
     proxy_contains,             /* sq_contains */
+    .sq_functionflags[_PyFunctionIndex_sq_length] = Py_FNFLAGS_FRUGAL,
+    .sq_functionflags[_PyFunctionIndex_sq_contains] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyMappingMethods proxy_as_mapping = {

@@ -2705,6 +2705,14 @@ static PySequenceMethods bytearray_as_sequence = {
     bytearray_contains,                     /* sq_contains */
     bytearray_iconcat,                      /* sq_inplace_concat */
     bytearray_irepeat,                      /* sq_inplace_repeat */
+    .sq_functionflags[_PyFunctionIndex_sq_length] = Py_FNFLAGS_FRUGAL,
+    .sq_functionflags[_PyFunctionIndex_sq_concat] = Py_FNFLAGS_FRUGAL,
+    .sq_functionflags[_PyFunctionIndex_sq_repeat] = Py_FNFLAGS_FRUGAL,
+    .sq_functionflags[_PyFunctionIndex_sq_item] = Py_FNFLAGS_FRUGAL,
+    .sq_functionflags[_PyFunctionIndex_sq_ass_item] = Py_FNFLAGS_FRUGAL,
+    .sq_functionflags[_PyFunctionIndex_sq_contains] = Py_FNFLAGS_FRUGAL,
+    .sq_functionflags[_PyFunctionIndex_sq_inplace_concat] = Py_FNFLAGS_FRUGAL,
+    .sq_functionflags[_PyFunctionIndex_sq_inplace_repeat] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyMappingMethods bytearray_as_mapping = {

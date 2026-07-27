@@ -9746,7 +9746,7 @@ getindex(PyObject *self, PyObject *arg)
     if (i < 0) {
         PySequenceMethods *sq = Py_TYPE(self)->tp_as_sequence;
         if (sq && sq->sq_length) {
-            Py_ssize_t n = (*sq->sq_length)(self);
+            Py_ssize_t n = PyType_Call_sq_length(Py_TYPE(self), self);
             if (n < 0) {
                 assert(PyErr_Occurred());
                 return -1;
@@ -13424,3 +13424,12 @@ PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_true_divide_inlineable
 PyType_DefineCallTypeFunction2(R, PyObject *, nb, index_inlineable, PyObject *, struct _PyInterpreterFrame **);
 PyType_DefineCallTypeFunction3(R, PyObject *, nb, matrix_multiply_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
 PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_matrix_multiply_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+
+PyType_DefineCallTypeFunction1(R, Py_ssize_t, sq, length, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, sq, concat, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, sq, repeat, PyObject *, Py_ssize_t);
+PyType_DefineCallTypeFunction2(R, PyObject *, sq, item, PyObject *, Py_ssize_t);
+PyType_DefineCallTypeFunction3(R, int, sq, ass_item, PyObject *, Py_ssize_t, PyObject *);
+PyType_DefineCallTypeFunction2(R, int, sq, contains, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, sq, inplace_concat, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, sq, inplace_repeat, PyObject *, Py_ssize_t);

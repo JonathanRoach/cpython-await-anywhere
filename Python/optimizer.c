@@ -368,7 +368,9 @@ uop_item(PyObject *op, Py_ssize_t index)
 
 PySequenceMethods uop_as_sequence = {
     .sq_length = uop_len,
+    .sq_functionflags[_PyFunctionIndex_sq_length] = Py_FNFLAGS_FRUGAL,
     .sq_item = uop_item,
+    .sq_functionflags[_PyFunctionIndex_sq_ass_item] = Py_FNFLAGS_FRUGAL,
 };
 
 static int

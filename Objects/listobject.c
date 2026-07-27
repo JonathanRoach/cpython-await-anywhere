@@ -3589,6 +3589,14 @@ static PySequenceMethods list_as_sequence = {
     list_contains,                              /* sq_contains */
     list_inplace_concat,                        /* sq_inplace_concat */
     list_inplace_repeat,                        /* sq_inplace_repeat */
+    .sq_functionflags[_PyFunctionIndex_sq_length] = Py_FNFLAGS_FRUGAL,
+    .sq_functionflags[_PyFunctionIndex_sq_concat] = Py_FNFLAGS_FRUGAL,
+    .sq_functionflags[_PyFunctionIndex_sq_repeat] = Py_FNFLAGS_FRUGAL,
+    .sq_functionflags[_PyFunctionIndex_sq_item] = Py_FNFLAGS_FRUGAL,
+    .sq_functionflags[_PyFunctionIndex_sq_ass_item] = Py_FNFLAGS_FRUGAL,
+    .sq_functionflags[_PyFunctionIndex_sq_contains] = Py_FNFLAGS_FRUGAL,
+    .sq_functionflags[_PyFunctionIndex_sq_inplace_concat] = Py_FNFLAGS_FRUGAL,
+    .sq_functionflags[_PyFunctionIndex_sq_inplace_repeat] = Py_FNFLAGS_FRUGAL,
 };
 
 static inline PyObject *

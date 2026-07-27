@@ -1971,6 +1971,7 @@ static PySequenceMethods ndarray_as_sequence = {
     0,              /* sq_concat */
     0,              /* sq_repeat */
     ndarray_item,   /* sq_item */
+    .sq_functionflags[_PyFunctionIndex_sq_item] = Py_FNFLAGS_FRUGAL,
 };
 
 

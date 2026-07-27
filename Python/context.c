@@ -753,7 +753,8 @@ static PyMethodDef PyContext_methods[] = {
 };
 
 static PySequenceMethods PyContext_as_sequence = {
-    .sq_contains = context_tp_contains
+    .sq_contains = context_tp_contains,
+    .sq_functionflags[_PyFunctionIndex_sq_contains] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyMappingMethods PyContext_as_mapping = {
