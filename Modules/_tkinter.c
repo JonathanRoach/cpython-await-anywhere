@@ -587,31 +587,11 @@ static void EnableEventHook(void); /* Forward */
 static void DisableEventHook(void); /* Forward */
 
 
-struct Tkapp_New_Params {
-    const char *screenName;
-    const char *className;
-    int interactive;
-    int wantobjects;
-    int wantTk;
-    int sync;
-    const char *use;
-};
-
-static void *Do_Tkapp_New(void *_params);
-
-_PY_ENSURE_STACK_FOR_FN7_A(TkappObject *, Tkapp_New, const char *, const char *, int, int, int, int, const char *)
 static TkappObject *
 Tkapp_New(const char *screenName, const char *className,
           int interactive, int wantobjects, int wantTk, int sync,
           const char *use)
 {
-    // Ensure we have enough stack
-    // 12000 * sizeof(void *) is based on intel macos (72k, ie 9k * sizeof(void *)) used by Tk_Init())
-    _PY_ENSURE_STACK_FOR_FN7_B((12000*sizeof(void *)), NULL, TkappObject *, Tkapp_New,
-        const char *, screenName, const char *, className,
-        int,  interactive, int, wantobjects, int, wantTk, int, sync,
-        const char *, use)
-
     TkappObject *v;
     char *argv0;
 
@@ -1508,12 +1488,9 @@ done:
       interpreter thread, so we ship the PyObject* args to the target thread,
       and perform processing there. */
 
-_PY_ENSURE_STACK_FOR_FN2_A(PyObject *, Tkapp_Call, PyObject *, PyObject *)
 static PyObject *
 Tkapp_Call(PyObject *selfptr, PyObject *args)
 {
-    _PY_ENSURE_STACK_FOR_FN2_B((12000*sizeof(void *)), NULL, PyObject *, Tkapp_Call,
-        PyObject *, selfptr, PyObject *, args)
     Tcl_Obj *objStore[ARGSZ];
     Tcl_Obj **objv = NULL;
     Tcl_Size objc;
