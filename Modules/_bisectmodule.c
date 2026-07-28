@@ -75,7 +75,7 @@ internal_bisect_right(PyObject *list, PyObject *item, Py_ssize_t lo, Py_ssize_t 
     }
     PyTypeObject *tp = Py_TYPE(item);
     richcmpfunc compare;
-    if ((tp->tp_flags & Py_TPFLAGS_IS_EXTENDED) &&
+    if (PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) &&
          (tp->tp_functionflags[_PyFunctionIndex_tp_richcompare] & Py_FNFLAGS_FRUGAL)) {
         compare = tp->tp_richcompare;
     } else {

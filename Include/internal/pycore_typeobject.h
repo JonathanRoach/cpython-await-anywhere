@@ -200,7 +200,7 @@ _PyType_CallFunction(PyTypeObject *tp, Coroutine_Start fn, void *param, unsigned
 
     // If (the type is extended and the function is frugal)
     //     or if the non-frugal call wasn't possible
-    if (((tp->tp_flags & Py_TPFLAGS_IS_EXTENDED) &&
+    if ((PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) &&
          (functionflags[fnindex] & Py_FNFLAGS_FRUGAL)) ||
         _Py_Coroutine_CallWithMaxStack(fn, param, &ret)){
         // then do a (frugal) dealloc with what stack we have
@@ -217,7 +217,7 @@ _PyType_CallFunction(PyTypeObject *tp, Coroutine_Start fn, void *param, unsigned
 #define PYTYPE_SLOTLOC_bf tp_as_buffer->
 
 #define PYTYPE_SLOTISFRUGAL(tp, KIND, SLOT) \
-        ((((tp)->tp_flags & Py_TPFLAGS_IS_EXTENDED ? (tp)->PYTYPE_SLOTLOC_##KIND KIND##_functionflags[_PyFunctionIndex_##KIND##_##SLOT] : 0) & Py_FNFLAGS_FRUGAL) != 0)
+        (((PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) ? (tp)->PYTYPE_SLOTLOC_##KIND KIND##_functionflags[_PyFunctionIndex_##KIND##_##SLOT] : 0) & Py_FNFLAGS_FRUGAL) != 0)
 
 #ifdef __cplusplus
 }

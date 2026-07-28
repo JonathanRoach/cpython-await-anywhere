@@ -319,7 +319,7 @@ _PyVectorcall_Call(vectorcallfunc func,
                    PyObject *callable, PyObject *tuple, PyObject *kwargs)
 {
     PyTypeObject *tp = Py_TYPE(callable);
-    unsigned flags = (tp->tp_flags & Py_TPFLAGS_IS_EXTENDED) ? tp->tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset] : 0;
+    unsigned flags = PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) ? tp->tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset] : 0;
 
     struct _PyVectorcall_Call_params params = {
         .func = func,

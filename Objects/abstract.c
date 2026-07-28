@@ -182,7 +182,7 @@ _PyObject_GetItem_Inlinable(PyObject *o, PyObject *key, struct _PyInterpreterFra
         struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
 #endif
         PyObject *item;
-        if ((Py_TYPE(o)->tp_flags & Py_TPFLAGS_IS_EXTENDED) && m->mp_subscript_inlineable){
+        if (PyType_HasFeature(Py_TYPE(o), Py_TPFLAGS_IS_EXTENDED) && m->mp_subscript_inlineable){
             item = PyType_Call_mp_subscript_inlineable(Py_TYPE(o), o, key, inlined);
         } else {
             item = PyType_Call_mp_subscript(Py_TYPE(o), o, key);
@@ -980,7 +980,7 @@ Nb_BinOp(PyTypeObject *tp, BinarySlotDetails const *slot)
 static inline binaryfunc_inlineable
 Nb_BinOp_Inlineable(PyTypeObject *tp, BinarySlotDetails const *slot)
 {
-    if (tp->tp_flags & Py_TPFLAGS_IS_EXTENDED){
+    if (PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED)){
         return *(binaryfunc_inlineable*)((char*)tp->tp_as_number + slot->slot_inlineable);
     }
     return NULL;
@@ -995,7 +995,7 @@ Nb_TernOp(PyTypeObject *tp, TernarySlotDetails const *slot)
 static inline ternaryfunc_inlineable
 Nb_TernOp_Inlineable(PyTypeObject *tp, TernarySlotDetails const *slot)
 {
-    if (tp->tp_flags & Py_TPFLAGS_IS_EXTENDED){
+    if (PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED)){
         return *(ternaryfunc_inlineable*)((char*)tp->tp_as_number + slot->slot_inlineable);
     }
     return NULL;

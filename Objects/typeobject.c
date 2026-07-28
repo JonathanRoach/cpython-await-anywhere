@@ -8584,7 +8584,7 @@ inherit_slots(PyTypeObject *type, PyTypeObject *base)
 #define COPYSLOT_INNER_FN(LOC, SLOT, FLAGS, FNIDX) \
             do { \
                 type->LOC SLOT = base->LOC SLOT; \
-                if (base->tp_flags & Py_TPFLAGS_IS_EXTENDED) { \
+                if (PyType_HasFeature(base, Py_TPFLAGS_IS_EXTENDED)) { \
                     type->LOC FLAGS[FNIDX] = base->LOC FLAGS[FNIDX]; \
                 } else { \
                     type->LOC FLAGS[FNIDX] = 0; \
@@ -12143,7 +12143,7 @@ update_one_slot(PyTypeObject *type, pytype_slotdef *p, pytype_slotdef **next_p,
                up instance creation tremendously. */
             specific = (void *)type->tp_new;
             specific_inlineable = NULL;
-            specific_flags = (type->tp_flags & Py_TPFLAGS_IS_EXTENDED) ? type->tp_functionflags[_PyFunctionIndex_tp_new] : 0;
+            specific_flags = PyType_HasFeature(type, Py_TPFLAGS_IS_EXTENDED) ? type->tp_functionflags[_PyFunctionIndex_tp_new] : 0;
             /* XXX I'm not 100% sure that there isn't a hole
                in this reasoning that requires additional
                sanity checks.  I'll buy the first person to
