@@ -181,7 +181,12 @@ _PyObject_GetItem_Inlinable(PyObject *o, PyObject *key, struct _PyInterpreterFra
 #ifndef NDEBUG
         struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
 #endif
-        PyObject *item = m->mp_subscript == _PyType_Slot_mp_subscript ? _PyType_Slot_mp_subscript_Inlinable(o, key, inlined) : m->mp_subscript(o, key);
+        PyObject *item;
+        if ((Py_TYPE(o)->tp_flags & Py_TPFLAGS_IS_EXTENDED) && m->mp_subscript_inlineable){
+            item = PyType_Call_mp_subscript_inlineable(Py_TYPE(o), o, key, inlined);
+        } else {
+            item = PyType_Call_mp_subscript(Py_TYPE(o), o, key);
+        }
         assert(CHECKIMMEDIATESLOTRESULT(frame, inlined, o, item, "__getitem__"));
         return item;
     }
@@ -261,7 +266,7 @@ PyObject_SetItem(PyObject *o, PyObject *key, PyObject *value)
 
     PyMappingMethods *m = Py_TYPE(o)->tp_as_mapping;
     if (m && m->mp_ass_subscript) {
-        int res = m->mp_ass_subscript(o, key, value);
+        int res = PyType_Call_mp_ass_subscript(Py_TYPE(o), o, key, value);
         assert(_Py_CheckSlotResult(o, "__setitem__", res >= 0));
         return res;
     }
@@ -295,7 +300,7 @@ PyObject_DelItem(PyObject *o, PyObject *key)
 
     PyMappingMethods *m = Py_TYPE(o)->tp_as_mapping;
     if (m && m->mp_ass_subscript) {
-        int res = m->mp_ass_subscript(o, key, (PyObject*)NULL);
+        int res = PyType_Call_mp_ass_subscript(Py_TYPE(o), o, key, (PyObject*)NULL);
         assert(_Py_CheckSlotResult(o, "__delitem__", res >= 0));
         return res;
     }
@@ -365,7 +370,7 @@ PyObject_CheckReadBuffer(PyObject *obj)
     if (pb == NULL ||
         pb->bf_getbuffer == NULL)
         return 0;
-    if ((*pb->bf_getbuffer)(obj, &view, PyBUF_SIMPLE) == -1) {
+    if (PyType_Call_bf_getbuffer(Py_TYPE(obj), obj, &view, PyBUF_SIMPLE) == -1) {
         PyErr_Clear();
         return 0;
     }
@@ -440,7 +445,7 @@ PyObject_AsWriteBuffer(PyObject *obj,
     pb = Py_TYPE(obj)->tp_as_buffer;
     if (pb == NULL ||
         pb->bf_getbuffer == NULL ||
-        ((*pb->bf_getbuffer)(obj, &view, PyBUF_WRITABLE) != 0)) {
+        (PyType_Call_bf_getbuffer(Py_TYPE(obj), obj, &view, PyBUF_WRITABLE) != 0)) {
         PyErr_SetString(PyExc_TypeError,
                         "expected a writable bytes-like object");
         return -1;
@@ -471,7 +476,7 @@ PyObject_GetBuffer(PyObject *obj, Py_buffer *view, int flags)
                      Py_TYPE(obj)->tp_name);
         return -1;
     }
-    int res = (*pb->bf_getbuffer)(obj, view, flags);
+    int res = PyType_Call_bf_getbuffer(Py_TYPE(obj), obj, view, flags);
     assert(_Py_CheckSlotResult(obj, "getbuffer", res >= 0));
     return res;
 }
@@ -841,7 +846,7 @@ PyBuffer_Release(Py_buffer *view)
         return;
     pb = Py_TYPE(obj)->tp_as_buffer;
     if (pb && pb->bf_releasebuffer) {
-        pb->bf_releasebuffer(obj, view);
+        PyType_Call_bf_releasebuffer(Py_TYPE(obj), obj, view);
     }
     view->obj = NULL;
     Py_DECREF(obj);
@@ -2836,7 +2841,7 @@ PySequence_GetSlice(PyObject *s, Py_ssize_t i1, Py_ssize_t i2)
         if (!slice) {
             return NULL;
         }
-        PyObject *res = mp->mp_subscript(s, slice);
+        PyObject *res = PyType_Call_mp_subscript(Py_TYPE(s), s, slice);
         assert(_Py_CheckSlotResult(s, "__getitem__", res != NULL));
         Py_DECREF(slice);
         return res;
@@ -2924,7 +2929,7 @@ PySequence_SetSlice(PyObject *s, Py_ssize_t i1, Py_ssize_t i2, PyObject *o)
         PyObject *slice = _PySlice_FromIndices(i1, i2);
         if (!slice)
             return -1;
-        int res = mp->mp_ass_subscript(s, slice, o);
+        int res = PyType_Call_mp_ass_subscript(Py_TYPE(s), s, slice, o);
         assert(_Py_CheckSlotResult(s, "__setitem__", res >= 0));
         Py_DECREF(slice);
         return res;
@@ -2948,7 +2953,7 @@ PySequence_DelSlice(PyObject *s, Py_ssize_t i1, Py_ssize_t i2)
         if (!slice) {
             return -1;
         }
-        int res = mp->mp_ass_subscript(s, slice, NULL);
+        int res = PyType_Call_mp_ass_subscript(Py_TYPE(s), s, slice, NULL);
         assert(_Py_CheckSlotResult(s, "__delitem__", res >= 0));
         Py_DECREF(slice);
         return res;
@@ -3238,7 +3243,7 @@ PyMapping_Size(PyObject *o)
 
     PyMappingMethods *m = Py_TYPE(o)->tp_as_mapping;
     if (m && m->mp_length) {
-        Py_ssize_t len = m->mp_length(o);
+        Py_ssize_t len = PyType_Call_mp_length(Py_TYPE(o), o);
         assert(_Py_CheckSlotResult(o, "__len__", len >= 0));
         return len;
     }

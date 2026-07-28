@@ -2132,7 +2132,7 @@ PyObject_IsTrue(PyObject *v)
         res = PyType_Call_nb_bool(Py_TYPE(v), v);
     else if (Py_TYPE(v)->tp_as_mapping != NULL &&
              Py_TYPE(v)->tp_as_mapping->mp_length != NULL)
-        res = (*Py_TYPE(v)->tp_as_mapping->mp_length)(v);
+        res = PyType_Call_mp_length(Py_TYPE(v), v);
     else if (Py_TYPE(v)->tp_as_sequence != NULL &&
              Py_TYPE(v)->tp_as_sequence->sq_length != NULL)
         res = PyType_Call_sq_length(Py_TYPE(v), v);

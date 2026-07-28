@@ -740,6 +740,8 @@ static PyMappingMethods range_as_mapping = {
         range_length,                /* mp_length */
         range_subscript,             /* mp_subscript */
         0,                           /* mp_ass_subscript */
+    .mp_functionflags[_PyFunctionIndex_mp_length] = Py_FNFLAGS_FRUGAL,
+    .mp_functionflags[_PyFunctionIndex_mp_subscript] = Py_FNFLAGS_FRUGAL,
 };
 
 static int

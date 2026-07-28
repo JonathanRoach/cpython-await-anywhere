@@ -892,6 +892,9 @@ static PyMappingMethods framelocalsproxy_as_mapping = {
     .mp_length = framelocalsproxy_length,
     .mp_subscript = framelocalsproxy_getitem,
     .mp_ass_subscript = framelocalsproxy_setitem,
+    .mp_functionflags[_PyFunctionIndex_mp_length] = Py_FNFLAGS_FRUGAL,
+    .mp_functionflags[_PyFunctionIndex_mp_subscript] = Py_FNFLAGS_FRUGAL,
+    .mp_functionflags[_PyFunctionIndex_mp_ass_subscript] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyMethodDef framelocalsproxy_methods[] = {

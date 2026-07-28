@@ -350,6 +350,7 @@ typedef PyObject *(*ssizessizeargfunc)(PyObject *, Py_ssize_t, Py_ssize_t);
 typedef int(*ssizeobjargproc)(PyObject *, Py_ssize_t, PyObject *);
 typedef int(*ssizessizeobjargproc)(PyObject *, Py_ssize_t, Py_ssize_t, PyObject *);
 typedef int(*objobjargproc)(PyObject *, PyObject *, PyObject *);
+typedef int(*objobjargproc_inlineable)(PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **);
 
 typedef int (*objobjproc)(PyObject *, PyObject *);
 typedef int (*visitproc)(PyObject *, void *);
@@ -976,6 +977,16 @@ PyAPI_FUNC(int) PyType_Call_sq_contains(PyTypeObject *tp, PyObject *, PyObject *
 PyAPI_FUNC(PyObject *) PyType_Call_sq_inplace_concat(PyTypeObject *tp, PyObject *, PyObject *);
 PyAPI_FUNC(PyObject *) PyType_Call_sq_inplace_repeat(PyTypeObject *tp, PyObject *, Py_ssize_t);
 
+PyAPI_FUNC(Py_ssize_t) PyType_Call_mp_length(PyTypeObject *tp, PyObject *);
+PyAPI_FUNC(PyObject *) PyType_Call_mp_subscript(PyTypeObject *tp, PyObject *, PyObject *);
+PyAPI_FUNC(int) PyType_Call_mp_ass_subscript(PyTypeObject *tp, PyObject *, PyObject *, PyObject *);
+PyAPI_FUNC(Py_ssize_t) PyType_Call_mp_length_inlineable(PyTypeObject *tp, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(PyObject *) PyType_Call_mp_subscript_inlineable(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyAPI_FUNC(int) PyType_Call_mp_ass_subscript_inlineable(PyTypeObject *tp, PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+
+typedef struct Py_buffer Py_buffer;
+PyAPI_FUNC(int) PyType_Call_bf_getbuffer(PyTypeObject *tp, PyObject *, Py_buffer *, int);
+PyAPI_FUNC(void) PyType_Call_bf_releasebuffer(PyTypeObject *tp, PyObject *, Py_buffer *);
 
 #ifdef __cplusplus
 }

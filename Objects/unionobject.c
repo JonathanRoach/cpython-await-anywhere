@@ -358,6 +358,7 @@ union_getitem(PyObject *self, PyObject *item)
 
 static PyMappingMethods union_as_mapping = {
     .mp_subscript = union_getitem,
+    .mp_functionflags[_PyFunctionIndex_mp_subscript] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *

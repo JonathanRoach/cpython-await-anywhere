@@ -3464,6 +3464,9 @@ static PyMappingMethods dict_as_mapping = {
     dict_length, /*mp_length*/
     dict_subscript, /*mp_subscript*/
     dict_ass_sub, /*mp_ass_subscript*/
+    .mp_functionflags[_PyFunctionIndex_mp_length] = Py_FNFLAGS_FRUGAL,
+    .mp_functionflags[_PyFunctionIndex_mp_subscript] = Py_FNFLAGS_FRUGAL,
+    .mp_functionflags[_PyFunctionIndex_mp_ass_subscript] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyObject *

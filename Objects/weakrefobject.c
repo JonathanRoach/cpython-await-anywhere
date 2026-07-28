@@ -893,6 +893,9 @@ static PyMappingMethods proxy_as_mapping = {
     proxy_length,                 /*mp_length*/
     proxy_getitem,                /*mp_subscript*/
     proxy_setitem,                /*mp_ass_subscript*/
+    .mp_functionflags[_PyFunctionIndex_mp_length] = Py_FNFLAGS_FRUGAL,
+    .mp_functionflags[_PyFunctionIndex_mp_subscript] = Py_FNFLAGS_FRUGAL,
+    .mp_functionflags[_PyFunctionIndex_mp_ass_subscript] = Py_FNFLAGS_FRUGAL,
 };
 
 

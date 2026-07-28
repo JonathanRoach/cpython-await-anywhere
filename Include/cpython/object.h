@@ -262,6 +262,9 @@ enum {
     _PyFunctionIndex_mp_length,
     _PyFunctionIndex_mp_subscript,
     _PyFunctionIndex_mp_ass_subscript,
+    _PyFunctionIndex_mp_length_inlineable,
+    _PyFunctionIndex_mp_subscript_inlineable,
+    _PyFunctionIndex_mp_ass_subscript_inlineable,
 
     _PyFunctionIndex_mp_COUNT
 };
@@ -274,6 +277,10 @@ typedef struct {
 //
 // Fields below here only present if Py_TPFLAGS_IS_EXTENDED
 //
+
+    lenfunc_inlineable mp_length_inlineable;
+    binaryfunc_inlineable mp_subscript_inlineable;
+    objobjargproc_inlineable mp_ass_subscript_inlineable;
 
     unsigned char mp_functionflags[_PyFunctionIndex_mp_COUNT];
 } PyMappingMethods;

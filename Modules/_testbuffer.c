@@ -1545,6 +1545,8 @@ ndarray_releasebuf(PyObject *op, Py_buffer *view)
 static PyBufferProcs ndarray_as_buffer = {
     ndarray_getbuf,         /* bf_getbuffer */
     ndarray_releasebuf,     /* bf_releasebuffer */
+    .bf_functionflags[_PyFunctionIndex_bf_getbuffer] = Py_FNFLAGS_FRUGAL,
+    .bf_functionflags[_PyFunctionIndex_bf_releasebuffer] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -1963,7 +1965,9 @@ error:
 static PyMappingMethods ndarray_as_mapping = {
     NULL,                                 /* mp_length */
     ndarray_subscript,                    /* mp_subscript */
-    ndarray_ass_subscript                 /* mp_ass_subscript */
+    ndarray_ass_subscript,                /* mp_ass_subscript */
+    .mp_functionflags[_PyFunctionIndex_mp_subscript] = Py_FNFLAGS_FRUGAL,
+    .mp_functionflags[_PyFunctionIndex_mp_ass_subscript] = Py_FNFLAGS_FRUGAL,
 };
 
 static PySequenceMethods ndarray_as_sequence = {
@@ -2775,6 +2779,7 @@ staticarray_getbuf(PyObject *op, Py_buffer *view, int flags)
 static PyBufferProcs staticarray_as_buffer = {
     staticarray_getbuf,                /* bf_getbuffer */
     NULL,                              /* bf_releasebuffer */
+    .bf_functionflags[_PyFunctionIndex_bf_getbuffer] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyTypeObject StaticArray_Type = {

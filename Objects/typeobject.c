@@ -10544,7 +10544,7 @@ slot_sq_contains(PyObject *self, PyObject *value)
 SLOT1(_PyType_Slot_mp_subscript, __getitem__, PyObject *)
 
 static int
-slot_mp_ass_subscript(PyObject *self, PyObject *key, PyObject *value)
+slot_mp_ass_subscript_Inlinable(PyObject *self, PyObject *key, PyObject *value, struct _PyInterpreterFrame **inlined)
 {
     PyObject *stack[3];
     PyObject *res;
@@ -10552,17 +10552,23 @@ slot_mp_ass_subscript(PyObject *self, PyObject *key, PyObject *value)
     stack[0] = self;
     stack[1] = key;
     if (value == NULL) {
-        res = vectorcall_method(&_Py_ID(__delitem__), stack, 2, NULL);
+        res = vectorcall_method(&_Py_ID(__delitem__), stack, 2, inlined);
     }
     else {
         stack[2] = value;
-        res = vectorcall_method(&_Py_ID(__setitem__), stack, 3, NULL);
+        res = vectorcall_method(&_Py_ID(__setitem__), stack, 3, inlined);
     }
 
     if (res == NULL)
         return -1;
     Py_DECREF(res);
     return 0;
+}
+
+static int
+slot_mp_ass_subscript(PyObject *self, PyObject *key, PyObject *value)
+{
+    return slot_mp_ass_subscript_Inlinable(self, key, value, NULL);
 }
 
 SLOT1BIN(_PyType_Slot_nb_add, nb_add, __add__, __radd__)
@@ -11225,7 +11231,7 @@ bufferwrapper_releasebuf(PyObject *self, Py_buffer *view)
     PyObject *obj = bw->obj;
 
     assert(PyMemoryView_Check(mv));
-    Py_TYPE(mv)->tp_as_buffer->bf_releasebuffer(mv, view);
+    PyType_Call_bf_releasebuffer(Py_TYPE(mv), mv, view);
     // We only need to call bf_releasebuffer if it's a Python function. If it's a C
     // bf_releasebuf, it will be called when the memoryview is released.
     if (((PyMemoryViewObject *)mv)->view.obj != obj
@@ -11303,7 +11309,7 @@ fail:
     return -1;
 }
 
-static releasebufferproc
+static PyTypeObject *
 releasebuffer_maybe_call_super_unlocked(PyObject *self, Py_buffer *buffer)
 {
     PyTypeObject *self_type = Py_TYPE(self);
@@ -11334,7 +11340,7 @@ releasebuffer_maybe_call_super_unlocked(PyObject *self, Py_buffer *buffer)
         if (base_type->tp_as_buffer != NULL
             && base_type->tp_as_buffer->bf_releasebuffer != NULL
             && base_type->tp_as_buffer->bf_releasebuffer != slot_bf_releasebuffer) {
-            return base_type->tp_as_buffer->bf_releasebuffer;
+            return base_type;
         }
     }
 
@@ -11344,14 +11350,14 @@ releasebuffer_maybe_call_super_unlocked(PyObject *self, Py_buffer *buffer)
 static void
 releasebuffer_maybe_call_super(PyObject *self, Py_buffer *buffer)
 {
-    releasebufferproc base_releasebuffer;
+    PyTypeObject *base_tp;
 
     BEGIN_TYPE_LOCK();
-    base_releasebuffer = releasebuffer_maybe_call_super_unlocked(self, buffer);
+    base_tp = releasebuffer_maybe_call_super_unlocked(self, buffer);
     END_TYPE_LOCK();
 
-    if (base_releasebuffer != NULL) {
-        base_releasebuffer(self, buffer);
+    if (base_tp != NULL) {
+        PyType_Call_bf_releasebuffer(base_tp, self, buffer);
     }
 }
 
@@ -11507,6 +11513,8 @@ an all-zero entry.
     ETSLOT(NAME, as_sequence.SLOT, FUNCTION, WRAPPER, DOC)
 #define MPSLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
     ETSLOT(NAME, as_mapping.SLOT, FUNCTION, WRAPPER, DOC)
+#define MPISLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
+    ETISLOT(NAME, as_mapping.SLOT, FUNCTION, WRAPPER, DOC)
 #define NBSLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
     ETSLOT(NAME, as_number.SLOT, FUNCTION, WRAPPER, DOC)
 #define NBISLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
@@ -11688,13 +11696,13 @@ static pytype_slotdef slotdefs[] = {
            wrap_binaryfunc, "@="),
     MPSLOT(__len__, mp_length, slot_mp_length, wrap_lenfunc,
            "__len__($self, /)\n--\n\nReturn len(self)."),
-    MPSLOT(__getitem__, mp_subscript, _PyType_Slot_mp_subscript,
+    MPISLOT(__getitem__, mp_subscript, _PyType_Slot_mp_subscript,
            wrap_binaryfunc,
            "__getitem__($self, key, /)\n--\n\nReturn self[key]."),
-    MPSLOT(__setitem__, mp_ass_subscript, slot_mp_ass_subscript,
+    MPISLOT(__setitem__, mp_ass_subscript, slot_mp_ass_subscript,
            wrap_objobjargproc,
            "__setitem__($self, key, value, /)\n--\n\nSet self[key] to value."),
-    MPSLOT(__delitem__, mp_ass_subscript, slot_mp_ass_subscript,
+    MPISLOT(__delitem__, mp_ass_subscript, slot_mp_ass_subscript,
            wrap_delitem,
            "__delitem__($self, key, /)\n--\n\nDelete self[key]."),
 
@@ -13433,3 +13441,13 @@ PyType_DefineCallTypeFunction3(R, int, sq, ass_item, PyObject *, Py_ssize_t, PyO
 PyType_DefineCallTypeFunction2(R, int, sq, contains, PyObject *, PyObject *);
 PyType_DefineCallTypeFunction2(R, PyObject *, sq, inplace_concat, PyObject *, PyObject *);
 PyType_DefineCallTypeFunction2(R, PyObject *, sq, inplace_repeat, PyObject *, Py_ssize_t);
+
+PyType_DefineCallTypeFunction1(R, Py_ssize_t, mp, length, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, mp, subscript, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction3(R, int, mp, ass_subscript, PyObject *, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, Py_ssize_t, mp, length_inlineable, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction3(R, PyObject *, mp, subscript_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction4(R, int, mp, ass_subscript_inlineable, PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+
+PyType_DefineCallTypeFunction3(R, int, bf, getbuffer, PyObject *, Py_buffer *, int);
+PyType_DefineCallTypeFunction2(V, void, bf, releasebuffer, PyObject *, Py_buffer *);

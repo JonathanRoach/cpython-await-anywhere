@@ -1635,6 +1635,8 @@ memory_releasebuf(PyObject *_self, Py_buffer *view)
 static PyBufferProcs memory_as_buffer = {
     memory_getbuf,         /* bf_getbuffer */
     memory_releasebuf,                    /* bf_releasebuffer */
+    .bf_functionflags[_PyFunctionIndex_bf_getbuffer] = Py_FNFLAGS_FRUGAL,
+    .bf_functionflags[_PyFunctionIndex_bf_releasebuffer] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -2768,6 +2770,9 @@ static PyMappingMethods memory_as_mapping = {
     memory_length,                        /* mp_length */
     memory_subscript,                     /* mp_subscript */
     memory_ass_sub,                       /* mp_ass_subscript */
+    .mp_functionflags[_PyFunctionIndex_mp_length] = Py_FNFLAGS_FRUGAL,
+    .mp_functionflags[_PyFunctionIndex_mp_subscript] = Py_FNFLAGS_FRUGAL,
+    .mp_functionflags[_PyFunctionIndex_mp_ass_subscript] = Py_FNFLAGS_FRUGAL,
 };
 
 /* As sequence */

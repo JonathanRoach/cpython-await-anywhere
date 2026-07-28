@@ -2810,6 +2810,8 @@ static PySequenceMethods PyHamt_as_sequence = {
 static PyMappingMethods PyHamt_as_mapping = {
     .mp_length = hamt_tp_len,
     .mp_subscript = hamt_tp_subscript,
+    .mp_functionflags[_PyFunctionIndex_mp_length] = Py_FNFLAGS_FRUGAL,
+    .mp_functionflags[_PyFunctionIndex_mp_subscript] = Py_FNFLAGS_FRUGAL,
 };
 
 PyTypeObject _PyHamt_Type = {

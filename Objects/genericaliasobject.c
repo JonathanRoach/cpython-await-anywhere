@@ -583,6 +583,7 @@ ga_getitem(PyObject *self, PyObject *item)
 
 static PyMappingMethods ga_as_mapping = {
     .mp_subscript = ga_getitem,
+    .mp_functionflags[_PyFunctionIndex_mp_subscript] = Py_FNFLAGS_FRUGAL,
 };
 
 static Py_hash_t

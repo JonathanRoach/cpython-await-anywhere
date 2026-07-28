@@ -14657,6 +14657,8 @@ static PyMappingMethods unicode_as_mapping = {
     unicode_length,     /* mp_length */
     unicode_subscript,  /* mp_subscript */
     0,                  /* mp_ass_subscript */
+    .mp_functionflags[_PyFunctionIndex_mp_length] = Py_FNFLAGS_FRUGAL,
+    .mp_functionflags[_PyFunctionIndex_mp_subscript] = Py_FNFLAGS_FRUGAL,
 };
 
 

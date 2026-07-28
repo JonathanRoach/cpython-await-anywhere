@@ -759,7 +759,9 @@ static PySequenceMethods PyContext_as_sequence = {
 
 static PyMappingMethods PyContext_as_mapping = {
     .mp_length = context_tp_len,
-    .mp_subscript = context_tp_subscript
+    .mp_subscript = context_tp_subscript,
+    .mp_functionflags[_PyFunctionIndex_mp_length] = Py_FNFLAGS_FRUGAL,
+    .mp_functionflags[_PyFunctionIndex_mp_subscript] = Py_FNFLAGS_FRUGAL,
 };
 
 PyTypeObject PyContext_Type = {

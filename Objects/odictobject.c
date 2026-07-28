@@ -874,6 +874,7 @@ static PyMappingMethods odict_as_mapping = {
     0,                                  /*mp_length*/
     0,                                  /*mp_subscript*/
     odict_mp_ass_sub,                   /*mp_ass_subscript*/
+    .mp_functionflags[_PyFunctionIndex_mp_ass_subscript] = Py_FNFLAGS_FRUGAL,
 };
 
 

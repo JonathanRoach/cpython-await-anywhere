@@ -1772,7 +1772,7 @@ class SizeofTest(unittest.TestCase):
         s = vsize(fmt +                 # PyTypeObject
                   '4P4s'                # PyAsyncMethods
                   '36P71s35P'           # PyNumberMethods
-                  '3P3s'                # PyMappingMethods
+                  '3P3P3s'                # PyMappingMethods
                   '10P10s'              # PySequenceMethods
                   '2P2s'                # PyBufferProcs
                   '7P'

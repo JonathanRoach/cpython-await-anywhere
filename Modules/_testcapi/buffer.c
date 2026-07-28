@@ -78,6 +78,8 @@ testbuf_releasebuf(PyObject *op, Py_buffer *Py_UNUSED(view))
 static PyBufferProcs testbuf_as_buffer = {
     .bf_getbuffer = testbuf_getbuf,
     .bf_releasebuffer = testbuf_releasebuf,
+    .bf_functionflags[_PyFunctionIndex_bf_getbuffer] = Py_FNFLAGS_FRUGAL,
+    .bf_functionflags[_PyFunctionIndex_bf_releasebuffer] = Py_FNFLAGS_FRUGAL,
 };
 
 static struct PyMemberDef testbuf_members[] = {

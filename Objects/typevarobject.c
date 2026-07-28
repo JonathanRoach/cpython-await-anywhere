@@ -2237,6 +2237,7 @@ static PyNumberMethods typealias_as_number = {
 
 static PyMappingMethods typealias_as_mapping = {
     .mp_subscript = typealias_subscript,
+    .mp_functionflags[_PyFunctionIndex_mp_subscript] = Py_FNFLAGS_FRUGAL,
 };
 
 PyTypeObject _PyTypeAlias_Type = {
