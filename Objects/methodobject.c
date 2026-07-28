@@ -465,30 +465,20 @@ cfunction_enter_call(PyThreadState *tstate, PyObject *func)
 }
 
 
+struct dovectorcall_FASTCALL_Params {
+    PyCFunctionFast meth;
+    PyObject *func_obj;
+    PyObject *const *args;
+    Py_ssize_t nargs;
+};
+
 /* Now the actual vectorcall functions */
-_PY_ENSURE_STACK_FOR_FN4_A(PyObject *, dovectorcall_FASTCALL, PyCFunctionFast, PyObject*, PyObject *const *, Py_ssize_t)
 static inline PyObject *dovectorcall_FASTCALL(
-    PyCFunctionFast meth, PyObject *func_obj, PyObject *const *args, Py_ssize_t nargs)
-{
-    PyCFunctionObject *func = _PyCFunctionObject_CAST(func_obj);
-    size_t stack_needed;
-    if (func->m_ml->ml_flags & METH_C_STACK_FRUGAL) {
-        stack_needed = PYOS_STACK_MARGIN_BYTES;
-    } else {
-#ifndef NDEBUG
-        if (func->m_ml->ml_flags & METH_C_STACK_MEASURE){
-            stack_needed = 1024*1024;
-        } else {
-            stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
-        }
-#else
-        stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
-#endif
-    }
-    _PY_ENSURE_STACK_FOR_FN4_B(stack_needed, NULL, PyObject *, dovectorcall_FASTCALL,
-        PyCFunctionFast, meth, PyObject *, func_obj, PyObject *const *, args, Py_ssize_t, nargs)
+    struct dovectorcall_FASTCALL_Params *params
+){
+    PyCFunctionObject *func = _PyCFunctionObject_CAST(params->func_obj);
     PyObject *ret;
-    MeasureCStackUsage(_PyCFunctionObject_CAST(func_obj)->m_ml->ml_flags, _PyCFunctionObject_CAST(func_obj)->m_ml->ml_name, meth(PyCFunction_GET_SELF(func_obj), args, nargs));
+    MeasureCStackUsage(func->m_ml->ml_flags, func->m_ml->ml_name, params->meth(PyCFunction_GET_SELF(params->func_obj), params->args, params->nargs));
     return ret;
 }
 
@@ -506,36 +496,32 @@ cfunction_vectorcall_FASTCALL(
     if (meth == NULL) {
         return NULL;
     }
-    PyObject *result = dovectorcall_FASTCALL(meth, func, args, nargs);
+    PyCFunctionObject *func_func = _PyCFunctionObject_CAST(func);
+    struct dovectorcall_FASTCALL_Params params = {meth, func, args, nargs};
+    PyObject *result;
+    if (func_func->m_ml->ml_flags & METH_C_STACK_FRUGAL){
+        result = dovectorcall_FASTCALL(&params);
+    } else {
+        _Py_Coroutine_CallWithMaxStack((Coroutine_Start)dovectorcall_FASTCALL, &params, (void **)&result);
+    }
     _Py_LeaveRecursiveCallTstate(tstate);
     return result;
 }
 
-_PY_ENSURE_STACK_FOR_FN5_A(PyObject *, docfunction_vectorcall_FASTCALL_KEYWORDS, PyCFunctionFastWithKeywords, PyObject*, PyObject*const *, Py_ssize_t, PyObject *)
+struct docfunction_vectorcall_FASTCALL_KEYWORDS_Params {
+    PyCFunctionFastWithKeywords meth;
+    PyObject *func_obj;
+    PyObject *const *args;
+    Py_ssize_t nargs;
+    PyObject *kwnames;
+};
+
 static inline PyObject *docfunction_vectorcall_FASTCALL_KEYWORDS(
-    PyCFunctionFastWithKeywords meth, PyObject *func_obj, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
-{
-    PyCFunctionObject *func = _PyCFunctionObject_CAST(func_obj);
-    size_t stack_needed;
-    if (func->m_ml->ml_flags & METH_C_STACK_FRUGAL) {
-        stack_needed = PYOS_STACK_MARGIN_BYTES;
-    } else {
-#ifndef NDEBUG
-        if (func->m_ml->ml_flags & METH_C_STACK_MEASURE){
-            stack_needed = 1024*1024;
-        } else {
-#endif
-            stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
-#ifndef NDEBUG
-        }
-#else
-        stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
-#endif
-    }
-    _PY_ENSURE_STACK_FOR_FN5_B(stack_needed, NULL, PyObject *, docfunction_vectorcall_FASTCALL_KEYWORDS,
-        PyCFunctionFastWithKeywords, meth, PyObject *, func_obj, PyObject *const *, args, Py_ssize_t, nargs, PyObject *, kwnames)
+    struct docfunction_vectorcall_FASTCALL_KEYWORDS_Params *params
+){
+    PyCFunctionObject *func = _PyCFunctionObject_CAST(params->func_obj);
     PyObject *ret;
-    MeasureCStackUsage(_PyCFunctionObject_CAST(func_obj)->m_ml->ml_flags, _PyCFunctionObject_CAST(func_obj)->m_ml->ml_name, meth(PyCFunction_GET_SELF(func_obj), args, nargs, kwnames));
+    MeasureCStackUsage(func->m_ml->ml_flags, func->m_ml->ml_name, params->meth(PyCFunction_GET_SELF(params->func_obj), params->args, params->nargs, params->kwnames));
     return ret;
 }
 
@@ -550,34 +536,33 @@ cfunction_vectorcall_FASTCALL_KEYWORDS(
     if (meth == NULL) {
         return NULL;
     }
-    PyObject *result = docfunction_vectorcall_FASTCALL_KEYWORDS(meth, func, args, nargs, kwnames);
+    PyCFunctionObject *func_func = _PyCFunctionObject_CAST(func);
+    struct docfunction_vectorcall_FASTCALL_KEYWORDS_Params params = {meth, func, args, nargs, kwnames};
+    PyObject *result;
+    if (func_func->m_ml->ml_flags & METH_C_STACK_FRUGAL){
+        result = docfunction_vectorcall_FASTCALL_KEYWORDS(&params);
+    } else {
+        _Py_Coroutine_CallWithMaxStack((Coroutine_Start)docfunction_vectorcall_FASTCALL_KEYWORDS, &params, (void **)&result);
+    }
     _Py_LeaveRecursiveCallTstate(tstate);
     return result;
 }
 
-_PY_ENSURE_STACK_FOR_FN6_A(PyObject *, docfunction_vectorcall_FASTCALL_KEYWORDS_METHOD, PyCMethod, PyObject*, PyTypeObject *, PyObject*const *, Py_ssize_t, PyObject *)
+struct docfunction_vectorcall_FASTCALL_KEYWORDS_METHOD_Params {
+    PyCMethod meth;
+    PyObject *func_obj;
+    PyTypeObject *cls;
+    PyObject *const *args;
+    Py_ssize_t nargs;
+    PyObject *kwnames;
+};
+
 static inline PyObject *docfunction_vectorcall_FASTCALL_KEYWORDS_METHOD(
-    PyCMethod meth, PyObject *func_obj, PyTypeObject *cls, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
-{
-    PyCFunctionObject *func = _PyCFunctionObject_CAST(func_obj);
-    size_t stack_needed;
-    if (func->m_ml->ml_flags & METH_C_STACK_FRUGAL) {
-        stack_needed = PYOS_STACK_MARGIN_BYTES;
-    } else {
-#ifndef NDEBUG
-        if (func->m_ml->ml_flags & METH_C_STACK_MEASURE){
-            stack_needed = 1024*1024;
-        } else {
-            stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
-        }
-#else
-        stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
-#endif
-    }
-    _PY_ENSURE_STACK_FOR_FN6_B(stack_needed, NULL, PyObject *, docfunction_vectorcall_FASTCALL_KEYWORDS_METHOD,
-        PyCMethod, meth, PyObject *, func_obj, PyTypeObject *, cls, PyObject *const *, args, Py_ssize_t, nargs, PyObject *, kwnames)
+    struct docfunction_vectorcall_FASTCALL_KEYWORDS_METHOD_Params *params
+){
+    PyCFunctionObject *func = _PyCFunctionObject_CAST(params->func_obj);
     PyObject *ret;
-    MeasureCStackUsage(_PyCFunctionObject_CAST(func_obj)->m_ml->ml_flags, _PyCFunctionObject_CAST(func_obj)->m_ml->ml_name, meth(PyCFunction_GET_SELF(func_obj), cls, args, nargs, kwnames));
+    MeasureCStackUsage(func->m_ml->ml_flags, func->m_ml->ml_name, params->meth(PyCFunction_GET_SELF(params->func_obj), params->cls, params->args, params->nargs, params->kwnames));
     return ret;
 }
 
@@ -592,7 +577,14 @@ cfunction_vectorcall_FASTCALL_KEYWORDS_METHOD(
     if (meth == NULL) {
         return NULL;
     }
-    PyObject *result = docfunction_vectorcall_FASTCALL_KEYWORDS_METHOD(meth, func, cls, args, nargs, kwnames);
+    PyCFunctionObject *func_func = _PyCFunctionObject_CAST(func);
+    struct docfunction_vectorcall_FASTCALL_KEYWORDS_METHOD_Params params = {meth, func, cls, args, nargs, kwnames};
+    PyObject *result;
+    if (func_func->m_ml->ml_flags & METH_C_STACK_FRUGAL){
+        result = docfunction_vectorcall_FASTCALL_KEYWORDS_METHOD(&params);
+    } else {
+        _Py_Coroutine_CallWithMaxStack((Coroutine_Start)docfunction_vectorcall_FASTCALL_KEYWORDS_METHOD, &params, (void **)&result);
+    }
     _Py_LeaveRecursiveCallTstate(tstate);
     return result;
 }
