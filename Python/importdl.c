@@ -415,24 +415,26 @@ _PyImport_GetModInitFunc(struct _Py_ext_module_loader_info *info,
 
 #define MEASURE_STACK_USED 0
 
-#if MEASURE_STACK_USED
-struct MeasureParams {
+struct Do_PyImport_RunModInitFunc_Params {
     PyModInitFunction p0;
     struct _Py_ext_module_loader_info *info;
 };
 
 static void *
-DoMeasure(void *_params)
+Do_PyImport_RunModInitFunc(struct Do_PyImport_RunModInitFunc_Params *params)
 {
-    struct MeasureParams *params = _params;
+#if MEASURE_STACK_USED
     _Py_Coroutine_ClearStackForHWM();
     char *start = _Py_Coroutine_GetStackHWM();
+#endif
     void *ret = params->p0();
+#if MEASURE_STACK_USED
     char *end = _Py_Coroutine_GetStackHWM();
     printf("Module %s init took %ld bytes of stack\n", PyUnicode_AsUTF8(params->info->name), start - end);
+#endif
     return ret;
 }
-#endif
+#undef MEASURE_STACK_USED
 
 int
 _PyImport_RunModInitFunc(PyModInitFunction p0,
@@ -447,14 +449,11 @@ _PyImport_RunModInitFunc(PyModInitFunction p0,
 
     /* Package context is needed for single-phase init */
     const char *oldcontext = _PyImport_SwapPackageContext(info->newcontext);
-#if MEASURE_STACK_USED
-    struct MeasureParams params = {p0, info};
+    struct Do_PyImport_RunModInitFunc_Params params = {p0, info};
     PyObject *m;
-    _Py_Coroutine_Chain(1*1024*1024, DoMeasure, &params, (void **)&m);
-#else
-    PyObject *m = p0();
-#endif
-#undef MEASURE_STACK_USED
+    if (_Py_Coroutine_CallWithMaxStack((Coroutine_Start)Do_PyImport_RunModInitFunc, &params, (void **)&m)){
+        m = p0();
+    }
 #ifndef NDEBUG
     if (_Py_Coroutine_CheckIntegrity()){
         printf("Stack corrupt after module init of %s (%s)\n", PyUnicode_AsUTF8(info->name), PyUnicode_AsUTF8(info->filename));
