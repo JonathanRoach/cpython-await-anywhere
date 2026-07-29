@@ -70,13 +70,6 @@ struct argument {
     union result value;
 };
 
-// see _ctypes_callproc_inner(): each argument needs:
-// struct argument to prepare an argument
-// void * to point to the value
-// void * to point to the value's type
-// void * to point to a pointer to the value if it's a ref argument
-#define CTYPES_ARGUMENT_WORKSPACE (sizeof(struct argument) * 3*sizeof(void *))
-
 /*
  * bpo-13097: Max number of arguments CFuncPtr._argtypes_ and
  * _ctypes_callproc() will accept.
