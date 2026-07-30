@@ -683,29 +683,12 @@ cfunction_call(PyObject *func, PyObject *args, PyObject *kwargs)
     int flags = PyCFunction_GET_FLAGS(func);
 
     struct Do_Call_Params_cfunction_call params = {func, args, kwargs};
-    if ((flags & METH_C_STACK_FRUGAL) == 0){
-        // Ensure enough stack headroom
-        size_t stack_needed;
-#ifndef NDEBUG
-        if (_PyCFunctionObject_CAST(func)->m_ml->ml_flags & METH_C_STACK_MEASURE){
-            stack_needed = 1024*1024;
-        } else {
-            stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
-        }
-#else
-        stack_needed = 2*PYOS_STACK_MARGIN_BYTES;
-#endif
-        if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)stack_needed){
-            // Chain with a new stack
-            void *result;
-            if ( !_Py_Coroutine_Chain(stack_needed, PYOS_COSTACK_CHAIN_HEADROOM, Do_cfunction_call, &params, &result)) {
-                return (PyObject *)result;
-            } else {
-                return PyErr_NoMemory();
-            }
-        }
+    PyObject *res;
+    if ((flags & METH_C_STACK_FRUGAL) ||
+        _Py_Coroutine_CallWithMaxStack(Do_cfunction_call, &params, (void **)&res)){
+        res = Do_cfunction_call(&params);
     }
-    return (PyObject *)Do_cfunction_call(&params);
+    return res;
 }
 
 static void *
