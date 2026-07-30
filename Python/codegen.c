@@ -3011,11 +3011,11 @@ codegen_stmt_expr(compiler *c, location loc, expr_ty value)
         return result; \
     } while(0)
 
-_PY_ENSURE_STACK_FOR_FN2_A(int, codegen_visit_stmt, compiler *, stmt_ty)
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(static, int, codegen_visit_stmt, compiler *, stmt_ty)
 static int
 codegen_visit_stmt(compiler *c, stmt_ty s)
 {
-    _PY_ENSURE_STACK_FOR_FN2_B(PYOS_STACK_MARGIN_BYTES, ERROR, int, codegen_visit_stmt, compiler *, c, stmt_ty, s)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(ERROR, int, codegen_visit_stmt, c, s)
 
     switch (s->kind) {
     case FunctionDef_kind:
@@ -5184,11 +5184,11 @@ codegen_with(compiler *c, stmt_ty s)
 }
 
 
-_PY_ENSURE_STACK_FOR_FN2_A(int, codegen_visit_expr, compiler *, expr_ty)
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(static, int, codegen_visit_expr, compiler *, expr_ty)
 static int
 codegen_visit_expr(compiler *c, expr_ty e)
 {
-    _PY_ENSURE_STACK_FOR_FN2_B(PYOS_STACK_MARGIN_BYTES, ERROR, int, codegen_visit_expr, compiler *, c, expr_ty, e)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(ERROR, int, codegen_visit_expr, c, e)
     if (Py_EnterRecursiveCall(" during compilation")) {
         return ERROR;
     }
@@ -6368,11 +6368,11 @@ codegen_pattern_singleton(compiler *c, pattern_ty p, pattern_context *pc)
     return SUCCESS;
 }
 
-_PY_ENSURE_STACK_FOR_FN3_A(int, codegen_pattern, compiler *, pattern_ty, pattern_context *)
+_PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_A(static, int, codegen_pattern, compiler *, pattern_ty, pattern_context *)
 static int
 codegen_pattern(compiler *c, pattern_ty p, pattern_context *pc)
 {
-    _PY_ENSURE_STACK_FOR_FN3_B(PYOS_STACK_MARGIN_BYTES, ERROR, int, codegen_pattern, compiler *, c, pattern_ty, p, pattern_context *, pc)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(ERROR, int, codegen_pattern, c, p, pc)
     switch (p->kind) {
         case MatchValue_kind:
             return codegen_pattern_value(c, p, pc);
