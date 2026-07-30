@@ -480,7 +480,7 @@ struct PyObject_CallOneArg_params {
 _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, co_PyObject_CallOneArg, void *)
 static void *
 co_PyObject_CallOneArg(void *_params){
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, co_PyObject_CallOneArg, _params)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(PyErr_NoMemory(), void *, co_PyObject_CallOneArg, _params)
     struct PyObject_CallOneArg_params *params = (struct PyObject_CallOneArg_params *)_params;
     return _PyObject_CallOneArg_Inlinable(params->func, params->arg, NULL);
 }

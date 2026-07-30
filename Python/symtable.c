@@ -1822,7 +1822,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(static, int, symtable_visit_stmt, struct s
 static int
 symtable_visit_stmt(struct symtable *st, stmt_ty s)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(0, int, symtable_visit_stmt, st, s)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B((PyErr_NoMemory(), 0), int, symtable_visit_stmt, st, s)
     ENTER_RECURSIVE();
     switch (s->kind) {
     case FunctionDef_kind: {
@@ -2378,7 +2378,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(static, int, symtable_visit_expr, struct s
 static int
 symtable_visit_expr(struct symtable *st, expr_ty e)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(0, int, symtable_visit_expr, st, e)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B((PyErr_NoMemory(), 0), int, symtable_visit_expr, st, e)
     ENTER_RECURSIVE();
     switch (e->kind) {
     case NamedExpr_kind:
@@ -2595,7 +2595,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(static, int, symtable_visit_type_param, st
 static int
 symtable_visit_type_param(struct symtable *st, type_param_ty tp)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(0, int, symtable_visit_type_param, st, tp)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B((PyErr_NoMemory(), 0), int, symtable_visit_type_param, st, tp)
     ENTER_RECURSIVE();
     switch(tp->kind) {
     case TypeVar_kind:
@@ -2653,7 +2653,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_A(static, int, symtable_visit_pattern, struc
 static int
 symtable_visit_pattern(struct symtable *st, pattern_ty p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(0, int, symtable_visit_pattern, st, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B((PyErr_NoMemory(), 0), int, symtable_visit_pattern, st, p)
     ENTER_RECURSIVE();
     switch (p->kind) {
     case MatchValue_kind:

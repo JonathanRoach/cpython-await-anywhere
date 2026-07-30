@@ -1132,7 +1132,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, PyObject *, r_object, RFILE *)
 static PyObject *
 r_object(RFILE *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, PyObject *, r_object, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(PyErr_NoMemory(), PyObject *, r_object, p)
     /* NULL is a valid return value, it does not necessarily means that
        an exception is set. */
     PyObject *v, *v2;

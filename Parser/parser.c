@@ -978,7 +978,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, mod_ty, file_rule, Parser *)
 static mod_ty
 file_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, mod_ty, file_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), mod_ty, file_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -1026,7 +1026,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, mod_ty, interactive_rule, Parser *
 static mod_ty
 interactive_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, mod_ty, interactive_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), mod_ty, interactive_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -1071,7 +1071,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, mod_ty, eval_rule, Parser *)
 static mod_ty
 eval_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, mod_ty, eval_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), mod_ty, eval_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -1122,7 +1122,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, mod_ty, func_type_rule, Parser *)
 static mod_ty
 func_type_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, mod_ty, func_type_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), mod_ty, func_type_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -1185,7 +1185,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_stmt_seq*, statements_rule, P
 static asdl_stmt_seq*
 statements_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_stmt_seq*, statements_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_stmt_seq*, statements_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -1230,7 +1230,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_stmt_seq*, statement_rule, Pa
 static asdl_stmt_seq*
 statement_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_stmt_seq*, statement_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_stmt_seq*, statement_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -1299,7 +1299,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_stmt_seq*, single_compound_st
 static asdl_stmt_seq*
 single_compound_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_stmt_seq*, single_compound_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_stmt_seq*, single_compound_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -1344,7 +1344,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_stmt_seq*, statement_newline_
 static asdl_stmt_seq*
 statement_newline_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_stmt_seq*, statement_newline_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_stmt_seq*, statement_newline_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -1477,7 +1477,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_stmt_seq*, simple_stmts_rule,
 static asdl_stmt_seq*
 simple_stmts_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_stmt_seq*, simple_stmts_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_stmt_seq*, simple_stmts_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -1572,7 +1572,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, simple_stmt_rule, Parser 
 static stmt_ty
 simple_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, simple_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, simple_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -1919,7 +1919,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, compound_stmt_rule, Parse
 static stmt_ty
 compound_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, compound_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, compound_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -2111,7 +2111,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, assignment_rule, Parser *
 static stmt_ty
 assignment_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, assignment_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, assignment_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -2331,7 +2331,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, annotated_rhs_rule, Parse
 static expr_ty
 annotated_rhs_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, annotated_rhs_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, annotated_rhs_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -2403,7 +2403,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, AugOperator*, augassign_rule, Pars
 static AugOperator*
 augassign_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, AugOperator*, augassign_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), AugOperator*, augassign_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -2736,7 +2736,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, return_stmt_rule, Parser 
 static stmt_ty
 return_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, return_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, return_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -2802,7 +2802,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, raise_stmt_rule, Parser *
 static stmt_ty
 raise_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, raise_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, raise_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -2904,7 +2904,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, pass_stmt_rule, Parser *)
 static stmt_ty
 pass_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, pass_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, pass_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -2967,7 +2967,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, break_stmt_rule, Parser *
 static stmt_ty
 break_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, break_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, break_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -3030,7 +3030,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, continue_stmt_rule, Parse
 static stmt_ty
 continue_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, continue_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, continue_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -3093,7 +3093,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, global_stmt_rule, Parser 
 static stmt_ty
 global_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, global_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, global_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -3159,7 +3159,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, nonlocal_stmt_rule, Parse
 static stmt_ty
 nonlocal_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, nonlocal_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, nonlocal_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -3225,7 +3225,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, del_stmt_rule, Parser *)
 static stmt_ty
 del_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, del_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, del_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -3312,7 +3312,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, yield_stmt_rule, Parser *
 static stmt_ty
 yield_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, yield_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, yield_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -3375,7 +3375,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, assert_stmt_rule, Parser 
 static stmt_ty
 assert_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, assert_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, assert_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -3444,7 +3444,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, import_stmt_rule, Parser 
 static stmt_ty
 import_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, import_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, import_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -3522,7 +3522,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, import_name_rule, Parser 
 static stmt_ty
 import_name_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, import_name_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, import_name_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -3590,7 +3590,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, import_from_rule, Parser 
 static stmt_ty
 import_from_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, import_from_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, import_from_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -3711,7 +3711,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_alias_seq*, import_from_targe
 static asdl_alias_seq*
 import_from_targets_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_alias_seq*, import_from_targets_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_alias_seq*, import_from_targets_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -3848,7 +3848,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_alias_seq*, import_from_as_na
 static asdl_alias_seq*
 import_from_as_names_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_alias_seq*, import_from_as_names_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_alias_seq*, import_from_as_names_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -3893,7 +3893,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, alias_ty, import_from_as_name_rule
 static alias_ty
 import_from_as_name_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, alias_ty, import_from_as_name_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), alias_ty, import_from_as_name_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -3978,7 +3978,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_alias_seq*, dotted_as_names_r
 static asdl_alias_seq*
 dotted_as_names_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_alias_seq*, dotted_as_names_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_alias_seq*, dotted_as_names_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -4023,7 +4023,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, alias_ty, dotted_as_name_rule, Par
 static alias_ty
 dotted_as_name_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, alias_ty, dotted_as_name_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), alias_ty, dotted_as_name_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -4110,7 +4110,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, dotted_name_rule, Parser 
 static expr_ty
 dotted_name_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, dotted_name_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, dotted_name_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -4146,7 +4146,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, dotted_name_raw, Parser *
 static expr_ty
 dotted_name_raw(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, dotted_name_raw, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, dotted_name_raw, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -4216,7 +4216,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_stmt_seq*, block_rule, Parser
 static asdl_stmt_seq*
 block_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_stmt_seq*, block_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_stmt_seq*, block_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -4313,7 +4313,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_expr_seq*, decorators_rule, P
 static asdl_expr_seq*
 decorators_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_expr_seq*, decorators_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_expr_seq*, decorators_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -4358,7 +4358,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, class_def_rule, Parser *)
 static stmt_ty
 class_def_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, class_def_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, class_def_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -4427,7 +4427,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, class_def_raw_rule, Parse
 static stmt_ty
 class_def_raw_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, class_def_raw_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, class_def_raw_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -4524,7 +4524,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, function_def_rule, Parser
 static stmt_ty
 function_def_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, function_def_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, function_def_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -4594,7 +4594,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, function_def_raw_rule, Pa
 static stmt_ty
 function_def_raw_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, function_def_raw_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, function_def_raw_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -4766,7 +4766,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, arguments_ty, params_rule, Parser 
 static arguments_ty
 params_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, arguments_ty, params_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), arguments_ty, params_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -4830,7 +4830,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, arguments_ty, parameters_rule, Par
 static arguments_ty
 parameters_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, arguments_ty, parameters_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), arguments_ty, parameters_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -4995,7 +4995,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_arg_seq*, slash_no_default_ru
 static asdl_arg_seq*
 slash_no_default_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_arg_seq*, slash_no_default_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_arg_seq*, slash_no_default_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -5077,7 +5077,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, SlashWithDefault*, slash_with_defa
 static SlashWithDefault*
 slash_with_default_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, SlashWithDefault*, slash_with_default_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), SlashWithDefault*, slash_with_default_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -5168,7 +5168,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, StarEtc*, star_etc_rule, Parser *)
 static StarEtc*
 star_etc_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, StarEtc*, star_etc_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), StarEtc*, star_etc_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -5331,7 +5331,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, arg_ty, kwds_rule, Parser *)
 static arg_ty
 kwds_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, arg_ty, kwds_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), arg_ty, kwds_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -5398,7 +5398,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, arg_ty, param_no_default_rule, Par
 static arg_ty
 param_no_default_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, arg_ty, param_no_default_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), arg_ty, param_no_default_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -5480,7 +5480,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, arg_ty, param_no_default_star_anno
 static arg_ty
 param_no_default_star_annotation_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, arg_ty, param_no_default_star_annotation_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), arg_ty, param_no_default_star_annotation_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -5560,7 +5560,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, NameDefaultPair*, param_with_defau
 static NameDefaultPair*
 param_with_default_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, NameDefaultPair*, param_with_default_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), NameDefaultPair*, param_with_default_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -5648,7 +5648,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, NameDefaultPair*, param_maybe_defa
 static NameDefaultPair*
 param_maybe_default_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, NameDefaultPair*, param_maybe_default_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), NameDefaultPair*, param_maybe_default_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -5734,7 +5734,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, arg_ty, param_rule, Parser *)
 static arg_ty
 param_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, arg_ty, param_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), arg_ty, param_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -5800,7 +5800,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, arg_ty, param_star_annotation_rule
 static arg_ty
 param_star_annotation_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, arg_ty, param_star_annotation_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), arg_ty, param_star_annotation_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -5866,7 +5866,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, annotation_rule, Parser *
 static expr_ty
 annotation_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, annotation_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, annotation_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -5914,7 +5914,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, star_annotation_rule, Par
 static expr_ty
 star_annotation_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, star_annotation_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, star_annotation_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -5962,7 +5962,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, default_rule, Parser *)
 static expr_ty
 default_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, default_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, default_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -6032,7 +6032,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, if_stmt_rule, Parser *)
 static stmt_ty
 if_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, if_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, if_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -6174,7 +6174,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, elif_stmt_rule, Parser *)
 static stmt_ty
 elif_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, elif_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, elif_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -6313,7 +6313,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_stmt_seq*, else_block_rule, P
 static asdl_stmt_seq*
 else_block_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_stmt_seq*, else_block_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_stmt_seq*, else_block_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -6383,7 +6383,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, while_stmt_rule, Parser *
 static stmt_ty
 while_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, while_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, while_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -6481,7 +6481,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, for_stmt_rule, Parser *)
 static stmt_ty
 for_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, for_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, for_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -6680,7 +6680,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, with_stmt_rule, Parser *)
 static stmt_ty
 with_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, with_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, with_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -6954,7 +6954,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, withitem_ty, with_item_rule, Parse
 static withitem_ty
 with_item_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, withitem_ty, with_item_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), withitem_ty, with_item_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -7054,7 +7054,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, try_stmt_rule, Parser *)
 static stmt_ty
 try_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, try_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, try_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -7247,7 +7247,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, excepthandler_ty, except_block_rul
 static excepthandler_ty
 except_block_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, excepthandler_ty, except_block_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), excepthandler_ty, except_block_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -7491,7 +7491,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, excepthandler_ty, except_star_bloc
 static excepthandler_ty
 except_star_block_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, excepthandler_ty, except_star_block_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), excepthandler_ty, except_star_block_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -7700,7 +7700,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_stmt_seq*, finally_block_rule
 static asdl_stmt_seq*
 finally_block_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_stmt_seq*, finally_block_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_stmt_seq*, finally_block_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -7772,7 +7772,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, match_stmt_rule, Parser *
 static stmt_ty
 match_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, match_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, match_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -7872,7 +7872,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, subject_expr_rule, Parser
 static expr_ty
 subject_expr_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, subject_expr_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, subject_expr_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -7960,7 +7960,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, match_case_ty, case_block_rule, Pa
 static match_case_ty
 case_block_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, match_case_ty, case_block_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), match_case_ty, case_block_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -8036,7 +8036,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, guard_rule, Parser *)
 static expr_ty
 guard_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, guard_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, guard_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -8084,7 +8084,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, pattern_ty, patterns_rule, Parser 
 static pattern_ty
 patterns_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, pattern_ty, patterns_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), pattern_ty, patterns_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -8166,7 +8166,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, pattern_ty, pattern_rule, Parser *
 static pattern_ty
 pattern_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, pattern_ty, pattern_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), pattern_ty, pattern_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -8225,7 +8225,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, pattern_ty, as_pattern_rule, Parse
 static pattern_ty
 as_pattern_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, pattern_ty, as_pattern_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), pattern_ty, as_pattern_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -8313,7 +8313,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, pattern_ty, or_pattern_rule, Parse
 static pattern_ty
 or_pattern_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, pattern_ty, or_pattern_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), pattern_ty, or_pattern_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -8384,7 +8384,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, pattern_ty, closed_pattern_rule, P
 static pattern_ty
 closed_pattern_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, pattern_ty, closed_pattern_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), pattern_ty, closed_pattern_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -8568,7 +8568,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, pattern_ty, literal_pattern_rule, 
 static pattern_ty
 literal_pattern_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, pattern_ty, literal_pattern_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), pattern_ty, literal_pattern_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -8804,7 +8804,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, literal_expr_rule, Parser
 static expr_ty
 literal_expr_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, literal_expr_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, literal_expr_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -8996,7 +8996,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, complex_number_rule, Pars
 static expr_ty
 complex_number_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, complex_number_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, complex_number_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -9104,7 +9104,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, signed_number_rule, Parse
 static expr_ty
 signed_number_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, signed_number_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, signed_number_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -9189,7 +9189,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, signed_real_number_rule, 
 static expr_ty
 signed_real_number_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, signed_real_number_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, signed_real_number_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -9274,7 +9274,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, real_number_rule, Parser 
 static expr_ty
 real_number_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, real_number_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, real_number_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -9319,7 +9319,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, imaginary_number_rule, Pa
 static expr_ty
 imaginary_number_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, imaginary_number_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, imaginary_number_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -9364,7 +9364,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, pattern_ty, capture_pattern_rule, 
 static pattern_ty
 capture_pattern_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, pattern_ty, capture_pattern_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), pattern_ty, capture_pattern_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -9427,7 +9427,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, pattern_capture_target_ru
 static expr_ty
 pattern_capture_target_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, pattern_capture_target_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, pattern_capture_target_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -9476,7 +9476,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, pattern_ty, wildcard_pattern_rule,
 static pattern_ty
 wildcard_pattern_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, pattern_ty, wildcard_pattern_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), pattern_ty, wildcard_pattern_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -9539,7 +9539,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, pattern_ty, value_pattern_rule, Pa
 static pattern_ty
 value_pattern_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, pattern_ty, value_pattern_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), pattern_ty, value_pattern_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -9606,7 +9606,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, attr_rule, Parser *)
 static expr_ty
 attr_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, attr_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, attr_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -9642,7 +9642,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, attr_raw, Parser *)
 static expr_ty
 attr_raw(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, attr_raw, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, attr_raw, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -9712,7 +9712,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, name_or_attr_rule, Parser
 static expr_ty
 name_or_attr_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, name_or_attr_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, name_or_attr_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -9771,7 +9771,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, pattern_ty, group_pattern_rule, Pa
 static pattern_ty
 group_pattern_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, pattern_ty, group_pattern_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), pattern_ty, group_pattern_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -9822,7 +9822,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, pattern_ty, sequence_pattern_rule,
 static pattern_ty
 sequence_pattern_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, pattern_ty, sequence_pattern_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), pattern_ty, sequence_pattern_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -9930,7 +9930,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq*, open_sequence_pattern_r
 static asdl_seq*
 open_sequence_pattern_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq*, open_sequence_pattern_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq*, open_sequence_pattern_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -9981,7 +9981,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq*, maybe_sequence_pattern_
 static asdl_seq*
 maybe_sequence_pattern_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq*, maybe_sequence_pattern_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq*, maybe_sequence_pattern_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -10030,7 +10030,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, pattern_ty, maybe_star_pattern_rul
 static pattern_ty
 maybe_star_pattern_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, pattern_ty, maybe_star_pattern_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), pattern_ty, maybe_star_pattern_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -10089,7 +10089,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, pattern_ty, star_pattern_rule, Par
 static pattern_ty
 star_pattern_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, pattern_ty, star_pattern_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), pattern_ty, star_pattern_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -10200,7 +10200,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, pattern_ty, mapping_pattern_rule, 
 static pattern_ty
 mapping_pattern_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, pattern_ty, mapping_pattern_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), pattern_ty, mapping_pattern_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -10401,7 +10401,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq*, items_pattern_rule, Par
 static asdl_seq*
 items_pattern_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq*, items_pattern_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq*, items_pattern_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -10441,7 +10441,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, KeyPatternPair*, key_value_pattern
 static KeyPatternPair*
 key_value_pattern_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, KeyPatternPair*, key_value_pattern_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), KeyPatternPair*, key_value_pattern_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -10492,7 +10492,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, double_star_pattern_rule,
 static expr_ty
 double_star_pattern_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, double_star_pattern_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, double_star_pattern_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -10545,7 +10545,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, pattern_ty, class_pattern_rule, Pa
 static pattern_ty
 class_pattern_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, pattern_ty, class_pattern_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), pattern_ty, class_pattern_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -10777,7 +10777,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_pattern_seq*, positional_patt
 static asdl_pattern_seq*
 positional_patterns_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_pattern_seq*, positional_patterns_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_pattern_seq*, positional_patterns_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -10822,7 +10822,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq*, keyword_patterns_rule, 
 static asdl_seq*
 keyword_patterns_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq*, keyword_patterns_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq*, keyword_patterns_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -10862,7 +10862,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, KeyPatternPair*, keyword_pattern_r
 static KeyPatternPair*
 keyword_pattern_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, KeyPatternPair*, keyword_pattern_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), KeyPatternPair*, keyword_pattern_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -10913,7 +10913,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, stmt_ty, type_alias_rule, Parser *
 static stmt_ty
 type_alias_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, stmt_ty, type_alias_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), stmt_ty, type_alias_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -10988,7 +10988,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_type_param_seq*, type_params_
 static asdl_type_param_seq*
 type_params_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_type_param_seq*, type_params_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_type_param_seq*, type_params_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -11058,7 +11058,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_type_param_seq*, type_param_s
 static asdl_type_param_seq*
 type_param_seq_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_type_param_seq*, type_param_seq_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_type_param_seq*, type_param_seq_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -11111,7 +11111,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, type_param_ty, type_param_rule, Pa
 static type_param_ty
 type_param_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, type_param_ty, type_param_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), type_param_ty, type_param_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -11282,7 +11282,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, type_param_bound_rule, Pa
 static expr_ty
 type_param_bound_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, type_param_bound_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, type_param_bound_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -11330,7 +11330,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, type_param_default_rule, 
 static expr_ty
 type_param_default_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, type_param_default_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, type_param_default_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -11378,7 +11378,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, type_param_starred_defaul
 static expr_ty
 type_param_starred_default_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, type_param_starred_default_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, type_param_starred_default_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -11426,7 +11426,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, expressions_rule, Parser 
 static expr_ty
 expressions_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, expressions_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, expressions_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -11556,7 +11556,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, expression_rule, Parser *
 static expr_ty
 expression_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, expression_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, expression_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -11712,7 +11712,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, yield_expr_rule, Parser *
 static expr_ty
 yield_expr_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, yield_expr_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, yield_expr_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -11820,7 +11820,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, star_expressions_rule, Pa
 static expr_ty
 star_expressions_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, star_expressions_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, star_expressions_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -11945,7 +11945,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, star_expression_rule, Par
 static expr_ty
 star_expression_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, star_expression_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, star_expression_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -12035,7 +12035,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_expr_seq*, star_named_express
 static asdl_expr_seq*
 star_named_expressions_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_expr_seq*, star_named_expressions_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_expr_seq*, star_named_expressions_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -12084,7 +12084,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, star_named_expression_rul
 static expr_ty
 star_named_expression_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, star_named_expression_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, star_named_expression_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -12169,7 +12169,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, assignment_expression_rul
 static expr_ty
 assignment_expression_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, assignment_expression_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, assignment_expression_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -12245,7 +12245,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, named_expression_rule, Pa
 static expr_ty
 named_expression_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, named_expression_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, named_expression_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -12325,7 +12325,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, disjunction_rule, Parser 
 static expr_ty
 disjunction_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, disjunction_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, disjunction_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -12415,7 +12415,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, conjunction_rule, Parser 
 static expr_ty
 conjunction_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, conjunction_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, conjunction_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -12505,7 +12505,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, inversion_rule, Parser *)
 static expr_ty
 inversion_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, inversion_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, inversion_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -12595,7 +12595,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, comparison_rule, Parser *
 static expr_ty
 comparison_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, comparison_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, comparison_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -12690,7 +12690,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, CmpopExprPair*, compare_op_bitwise
 static CmpopExprPair*
 compare_op_bitwise_or_pair_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, CmpopExprPair*, compare_op_bitwise_or_pair_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), CmpopExprPair*, compare_op_bitwise_or_pair_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -12901,7 +12901,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, CmpopExprPair*, eq_bitwise_or_rule
 static CmpopExprPair*
 eq_bitwise_or_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, CmpopExprPair*, eq_bitwise_or_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), CmpopExprPair*, eq_bitwise_or_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -12949,7 +12949,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, CmpopExprPair*, noteq_bitwise_or_r
 static CmpopExprPair*
 noteq_bitwise_or_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, CmpopExprPair*, noteq_bitwise_or_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), CmpopExprPair*, noteq_bitwise_or_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -12997,7 +12997,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, CmpopExprPair*, lte_bitwise_or_rul
 static CmpopExprPair*
 lte_bitwise_or_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, CmpopExprPair*, lte_bitwise_or_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), CmpopExprPair*, lte_bitwise_or_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -13045,7 +13045,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, CmpopExprPair*, lt_bitwise_or_rule
 static CmpopExprPair*
 lt_bitwise_or_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, CmpopExprPair*, lt_bitwise_or_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), CmpopExprPair*, lt_bitwise_or_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -13093,7 +13093,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, CmpopExprPair*, gte_bitwise_or_rul
 static CmpopExprPair*
 gte_bitwise_or_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, CmpopExprPair*, gte_bitwise_or_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), CmpopExprPair*, gte_bitwise_or_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -13141,7 +13141,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, CmpopExprPair*, gt_bitwise_or_rule
 static CmpopExprPair*
 gt_bitwise_or_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, CmpopExprPair*, gt_bitwise_or_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), CmpopExprPair*, gt_bitwise_or_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -13189,7 +13189,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, CmpopExprPair*, notin_bitwise_or_r
 static CmpopExprPair*
 notin_bitwise_or_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, CmpopExprPair*, notin_bitwise_or_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), CmpopExprPair*, notin_bitwise_or_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -13240,7 +13240,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, CmpopExprPair*, in_bitwise_or_rule
 static CmpopExprPair*
 in_bitwise_or_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, CmpopExprPair*, in_bitwise_or_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), CmpopExprPair*, in_bitwise_or_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -13288,7 +13288,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, CmpopExprPair*, isnot_bitwise_or_r
 static CmpopExprPair*
 isnot_bitwise_or_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, CmpopExprPair*, isnot_bitwise_or_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), CmpopExprPair*, isnot_bitwise_or_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -13339,7 +13339,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, CmpopExprPair*, is_bitwise_or_rule
 static CmpopExprPair*
 is_bitwise_or_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, CmpopExprPair*, is_bitwise_or_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), CmpopExprPair*, is_bitwise_or_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -13389,7 +13389,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, bitwise_or_rule, Parser *
 static expr_ty
 bitwise_or_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, bitwise_or_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, bitwise_or_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -13425,7 +13425,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, bitwise_or_raw, Parser *)
 static expr_ty
 bitwise_or_raw(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, bitwise_or_raw, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, bitwise_or_raw, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -13515,7 +13515,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, bitwise_xor_rule, Parser 
 static expr_ty
 bitwise_xor_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, bitwise_xor_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, bitwise_xor_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -13551,7 +13551,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, bitwise_xor_raw, Parser *
 static expr_ty
 bitwise_xor_raw(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, bitwise_xor_raw, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, bitwise_xor_raw, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -13641,7 +13641,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, bitwise_and_rule, Parser 
 static expr_ty
 bitwise_and_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, bitwise_and_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, bitwise_and_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -13677,7 +13677,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, bitwise_and_raw, Parser *
 static expr_ty
 bitwise_and_raw(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, bitwise_and_raw, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, bitwise_and_raw, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -13767,7 +13767,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, shift_expr_rule, Parser *
 static expr_ty
 shift_expr_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, shift_expr_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, shift_expr_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -13803,7 +13803,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, shift_expr_raw, Parser *)
 static expr_ty
 shift_expr_raw(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, shift_expr_raw, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, shift_expr_raw, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -13951,7 +13951,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, sum_rule, Parser *)
 static expr_ty
 sum_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, sum_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, sum_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -13987,7 +13987,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, sum_raw, Parser *)
 static expr_ty
 sum_raw(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, sum_raw, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, sum_raw, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -14123,7 +14123,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, term_rule, Parser *)
 static expr_ty
 term_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, term_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, term_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -14159,7 +14159,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, term_raw, Parser *)
 static expr_ty
 term_raw(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, term_raw, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, term_raw, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -14422,7 +14422,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, factor_rule, Parser *)
 static expr_ty
 factor_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, factor_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, factor_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -14584,7 +14584,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, power_rule, Parser *)
 static expr_ty
 power_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, power_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, power_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -14672,7 +14672,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, await_primary_rule, Parse
 static expr_ty
 await_primary_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, await_primary_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, await_primary_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -14769,7 +14769,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, primary_rule, Parser *)
 static expr_ty
 primary_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, primary_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, primary_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -14805,7 +14805,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, primary_raw, Parser *)
 static expr_ty
 primary_raw(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, primary_raw, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, primary_raw, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -15013,7 +15013,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, slices_rule, Parser *)
 static expr_ty
 slices_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, slices_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, slices_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -15106,7 +15106,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, slice_rule, Parser *)
 static expr_ty
 slice_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, slice_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, slice_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -15212,7 +15212,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, atom_rule, Parser *)
 static expr_ty
 atom_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, atom_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, atom_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -15496,7 +15496,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, group_rule, Parser *)
 static expr_ty
 group_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, group_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, group_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -15566,7 +15566,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, lambdef_rule, Parser *)
 static expr_ty
 lambdef_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, lambdef_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, lambdef_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -15638,7 +15638,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, arguments_ty, lambda_params_rule, 
 static arguments_ty
 lambda_params_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, arguments_ty, lambda_params_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), arguments_ty, lambda_params_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -15702,7 +15702,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, arguments_ty, lambda_parameters_ru
 static arguments_ty
 lambda_parameters_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, arguments_ty, lambda_parameters_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), arguments_ty, lambda_parameters_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -15869,7 +15869,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_arg_seq*, lambda_slash_no_def
 static asdl_arg_seq*
 lambda_slash_no_default_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_arg_seq*, lambda_slash_no_default_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_arg_seq*, lambda_slash_no_default_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -15951,7 +15951,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, SlashWithDefault*, lambda_slash_wi
 static SlashWithDefault*
 lambda_slash_with_default_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, SlashWithDefault*, lambda_slash_with_default_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), SlashWithDefault*, lambda_slash_with_default_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -16041,7 +16041,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, StarEtc*, lambda_star_etc_rule, Pa
 static StarEtc*
 lambda_star_etc_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, StarEtc*, lambda_star_etc_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), StarEtc*, lambda_star_etc_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -16171,7 +16171,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, arg_ty, lambda_kwds_rule, Parser *
 static arg_ty
 lambda_kwds_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, arg_ty, lambda_kwds_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), arg_ty, lambda_kwds_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -16238,7 +16238,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, arg_ty, lambda_param_no_default_ru
 static arg_ty
 lambda_param_no_default_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, arg_ty, lambda_param_no_default_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), arg_ty, lambda_param_no_default_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -16312,7 +16312,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, NameDefaultPair*, lambda_param_wit
 static NameDefaultPair*
 lambda_param_with_default_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, NameDefaultPair*, lambda_param_with_default_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), NameDefaultPair*, lambda_param_with_default_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -16392,7 +16392,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, NameDefaultPair*, lambda_param_may
 static NameDefaultPair*
 lambda_param_maybe_default_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, NameDefaultPair*, lambda_param_maybe_default_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), NameDefaultPair*, lambda_param_maybe_default_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -16472,7 +16472,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, arg_ty, lambda_param_rule, Parser 
 static arg_ty
 lambda_param_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, arg_ty, lambda_param_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), arg_ty, lambda_param_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -16535,7 +16535,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, fstring_middle_rule, Pars
 static expr_ty
 fstring_middle_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, fstring_middle_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, fstring_middle_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -16601,7 +16601,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, fstring_replacement_field
 static expr_ty
 fstring_replacement_field_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, fstring_replacement_field_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, fstring_replacement_field_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -16698,7 +16698,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, ResultTokenWithMetadata*, fstring_
 static ResultTokenWithMetadata*
 fstring_conversion_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, ResultTokenWithMetadata*, fstring_conversion_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), ResultTokenWithMetadata*, fstring_conversion_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -16746,7 +16746,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, ResultTokenWithMetadata*, fstring_
 static ResultTokenWithMetadata*
 fstring_full_format_spec_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, ResultTokenWithMetadata*, fstring_full_format_spec_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), ResultTokenWithMetadata*, fstring_full_format_spec_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -16812,7 +16812,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, fstring_format_spec_rule,
 static expr_ty
 fstring_format_spec_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, fstring_format_spec_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, fstring_format_spec_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -16876,7 +16876,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, fstring_rule, Parser *)
 static expr_ty
 fstring_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, fstring_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, fstring_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -16929,7 +16929,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, tstring_format_spec_repla
 static expr_ty
 tstring_format_spec_replacement_field_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, tstring_format_spec_replacement_field_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, tstring_format_spec_replacement_field_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -17026,7 +17026,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, tstring_format_spec_rule,
 static expr_ty
 tstring_format_spec_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, tstring_format_spec_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, tstring_format_spec_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -17090,7 +17090,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, ResultTokenWithMetadata*, tstring_
 static ResultTokenWithMetadata*
 tstring_full_format_spec_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, ResultTokenWithMetadata*, tstring_full_format_spec_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), ResultTokenWithMetadata*, tstring_full_format_spec_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -17158,7 +17158,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, tstring_replacement_field
 static expr_ty
 tstring_replacement_field_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, tstring_replacement_field_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, tstring_replacement_field_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -17255,7 +17255,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, tstring_middle_rule, Pars
 static expr_ty
 tstring_middle_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, tstring_middle_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, tstring_middle_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -17319,7 +17319,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, tstring_rule, Parser *)
 static expr_ty
 tstring_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, tstring_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, tstring_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -17375,7 +17375,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, string_rule, Parser *)
 static expr_ty
 string_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, string_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, string_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -17420,7 +17420,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, strings_rule, Parser *)
 static expr_ty
 strings_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, strings_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, strings_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -17488,7 +17488,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, list_rule, Parser *)
 static expr_ty
 list_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, list_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, list_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -17557,7 +17557,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, tuple_rule, Parser *)
 static expr_ty
 tuple_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, tuple_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, tuple_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -17626,7 +17626,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, set_rule, Parser *)
 static expr_ty
 set_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, set_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, set_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -17695,7 +17695,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, dict_rule, Parser *)
 static expr_ty
 dict_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, dict_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, dict_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -17789,7 +17789,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq*, double_starred_kvpairs_
 static asdl_seq*
 double_starred_kvpairs_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq*, double_starred_kvpairs_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq*, double_starred_kvpairs_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -17838,7 +17838,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, KeyValuePair*, double_starred_kvpa
 static KeyValuePair*
 double_starred_kvpair_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, KeyValuePair*, double_starred_kvpair_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), KeyValuePair*, double_starred_kvpair_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -17905,7 +17905,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, KeyValuePair*, kvpair_rule, Parser
 static KeyValuePair*
 kvpair_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, KeyValuePair*, kvpair_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), KeyValuePair*, kvpair_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -17956,7 +17956,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_comprehension_seq*, for_if_cl
 static asdl_comprehension_seq*
 for_if_clauses_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_comprehension_seq*, for_if_clauses_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_comprehension_seq*, for_if_clauses_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -18005,7 +18005,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, comprehension_ty, for_if_clause_ru
 static comprehension_ty
 for_if_clause_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, comprehension_ty, for_if_clause_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), comprehension_ty, for_if_clause_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -18153,7 +18153,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, listcomp_rule, Parser *)
 static expr_ty
 listcomp_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, listcomp_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, listcomp_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -18244,7 +18244,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, setcomp_rule, Parser *)
 static expr_ty
 setcomp_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, setcomp_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, setcomp_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -18337,7 +18337,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, genexp_rule, Parser *)
 static expr_ty
 genexp_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, genexp_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, genexp_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -18428,7 +18428,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, dictcomp_rule, Parser *)
 static expr_ty
 dictcomp_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, dictcomp_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, dictcomp_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -18519,7 +18519,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, arguments_rule, Parser *)
 static expr_ty
 arguments_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, arguments_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, arguments_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -18596,7 +18596,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, args_rule, Parser *)
 static expr_ty
 args_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, args_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, args_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -18698,7 +18698,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq*, kwargs_rule, Parser *)
 static asdl_seq*
 kwargs_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq*, kwargs_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq*, kwargs_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -18790,7 +18790,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, starred_expression_rule, 
 static expr_ty
 starred_expression_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, starred_expression_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, starred_expression_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -18894,7 +18894,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, KeywordOrStarred*, kwarg_or_starre
 static KeywordOrStarred*
 kwarg_or_starred_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, KeywordOrStarred*, kwarg_or_starred_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), KeywordOrStarred*, kwarg_or_starred_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -19006,7 +19006,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, KeywordOrStarred*, kwarg_or_double
 static KeywordOrStarred*
 kwarg_or_double_starred_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, KeywordOrStarred*, kwarg_or_double_starred_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), KeywordOrStarred*, kwarg_or_double_starred_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -19130,7 +19130,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, star_targets_rule, Parser
 static expr_ty
 star_targets_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, star_targets_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, star_targets_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -19226,7 +19226,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_expr_seq*, star_targets_list_
 static asdl_expr_seq*
 star_targets_list_seq_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_expr_seq*, star_targets_list_seq_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_expr_seq*, star_targets_list_seq_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -19275,7 +19275,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_expr_seq*, star_targets_tuple
 static asdl_expr_seq*
 star_targets_tuple_seq_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_expr_seq*, star_targets_tuple_seq_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_expr_seq*, star_targets_tuple_seq_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -19354,7 +19354,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, star_target_rule, Parser 
 static expr_ty
 star_target_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, star_target_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, star_target_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -19447,7 +19447,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, target_with_star_atom_rul
 static expr_ty
 target_with_star_atom_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, target_with_star_atom_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, target_with_star_atom_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -19590,7 +19590,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, star_atom_rule, Parser *)
 static expr_ty
 star_atom_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, star_atom_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, star_atom_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -19752,7 +19752,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, single_target_rule, Parse
 static expr_ty
 single_target_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, single_target_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, single_target_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -19848,7 +19848,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, single_subscript_attribut
 static expr_ty
 single_subscript_attribute_target_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, single_subscript_attribute_target_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, single_subscript_attribute_target_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -19970,7 +19970,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, t_primary_rule, Parser *)
 static expr_ty
 t_primary_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, t_primary_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, t_primary_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -20006,7 +20006,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, t_primary_raw, Parser *)
 static expr_ty
 t_primary_raw(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, t_primary_raw, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, t_primary_raw, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -20229,7 +20229,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, t_lookahead_rule, Parser *
 static void *
 t_lookahead_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, t_lookahead_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, t_lookahead_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -20307,7 +20307,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_expr_seq*, del_targets_rule, 
 static asdl_expr_seq*
 del_targets_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_expr_seq*, del_targets_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_expr_seq*, del_targets_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -20359,7 +20359,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, del_target_rule, Parser *
 static expr_ty
 del_target_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, del_target_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, del_target_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -20498,7 +20498,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, del_t_atom_rule, Parser *
 static expr_ty
 del_t_atom_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, del_t_atom_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, del_t_atom_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -20667,7 +20667,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_expr_seq*, type_expressions_r
 static asdl_expr_seq*
 type_expressions_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_expr_seq*, type_expressions_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_expr_seq*, type_expressions_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -20913,7 +20913,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, Token*, func_type_comment_rule, Pa
 static Token*
 func_type_comment_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, Token*, func_type_comment_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), Token*, func_type_comment_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -21008,7 +21008,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_arguments_rule, Pa
 static void *
 invalid_arguments_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_arguments_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_arguments_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -21253,7 +21253,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_kwarg_rule, Parser
 static void *
 invalid_kwarg_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_kwarg_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_kwarg_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -21399,7 +21399,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, expression_without_invali
 static expr_ty
 expression_without_invalid_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, expression_without_invalid_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, expression_without_invalid_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -21522,7 +21522,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_legacy_expression_
 static void *
 invalid_legacy_expression_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_legacy_expression_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_legacy_expression_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -21572,7 +21572,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_type_param_rule, P
 static void *
 invalid_type_param_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_type_param_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_type_param_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -21666,7 +21666,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_expression_rule, P
 static void *
 invalid_expression_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_expression_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_expression_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -21918,7 +21918,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_named_expression_r
 static void *
 invalid_named_expression_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_named_expression_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_named_expression_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -22046,7 +22046,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_assignment_rule, P
 static void *
 invalid_assignment_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_assignment_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_assignment_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -22253,7 +22253,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, expr_ty, invalid_ann_assign_target
 static expr_ty
 invalid_ann_assign_target_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, expr_ty, invalid_ann_assign_target_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), expr_ty, invalid_ann_assign_target_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -22342,7 +22342,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_del_stmt_rule, Par
 static void *
 invalid_del_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_del_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_del_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -22390,7 +22390,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_block_rule, Parser
 static void *
 invalid_block_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_block_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_block_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -22440,7 +22440,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_comprehension_rule
 static void *
 invalid_comprehension_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_comprehension_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_comprehension_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -22560,7 +22560,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_dict_comprehension
 static void *
 invalid_dict_comprehension_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_dict_comprehension_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_dict_comprehension_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -22623,7 +22623,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_parameters_rule, P
 static void *
 invalid_parameters_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_parameters_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_parameters_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -22842,7 +22842,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_default_rule, Pars
 static void *
 invalid_default_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_default_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_default_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -22893,7 +22893,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_star_etc_rule, Par
 static void *
 invalid_star_etc_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_star_etc_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_star_etc_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -23037,7 +23037,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_kwds_rule, Parser 
 static void *
 invalid_kwds_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_kwds_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_kwds_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -23154,7 +23154,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_parameters_helper_
 static void *
 invalid_parameters_helper_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_parameters_helper_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_parameters_helper_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -23224,7 +23224,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_lambda_parameters_
 static void *
 invalid_lambda_parameters_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_lambda_parameters_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_lambda_parameters_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -23445,7 +23445,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_lambda_parameters_
 static void *
 invalid_lambda_parameters_helper_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_lambda_parameters_helper_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_lambda_parameters_helper_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -23512,7 +23512,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_lambda_star_etc_ru
 static void *
 invalid_lambda_star_etc_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_lambda_star_etc_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_lambda_star_etc_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -23629,7 +23629,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_lambda_kwds_rule, 
 static void *
 invalid_lambda_kwds_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_lambda_kwds_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_lambda_kwds_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -23746,7 +23746,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_double_type_commen
 static void *
 invalid_double_type_comments_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_double_type_comments_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_double_type_comments_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -23803,7 +23803,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_with_item_rule, Pa
 static void *
 invalid_with_item_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_with_item_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_with_item_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -23856,7 +23856,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_for_if_clause_rule
 static void *
 invalid_for_if_clause_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_for_if_clause_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_for_if_clause_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -23910,7 +23910,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_for_target_rule, P
 static void *
 invalid_for_target_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_for_target_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_for_target_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -23962,7 +23962,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_group_rule, Parser
 static void *
 invalid_group_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_group_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_group_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -24046,7 +24046,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_import_rule, Parse
 static void *
 invalid_import_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_import_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_import_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -24127,7 +24127,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_dotted_as_name_rul
 static void *
 invalid_dotted_as_name_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_dotted_as_name_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_dotted_as_name_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -24180,7 +24180,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_import_from_as_nam
 static void *
 invalid_import_from_as_name_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_import_from_as_name_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_import_from_as_name_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -24233,7 +24233,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_import_from_target
 static void *
 invalid_import_from_targets_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_import_from_targets_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_import_from_targets_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -24310,7 +24310,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_with_stmt_rule, Pa
 static void *
 invalid_with_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_with_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_with_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -24411,7 +24411,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_with_stmt_indent_r
 static void *
 invalid_with_stmt_indent_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_with_stmt_indent_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_with_stmt_indent_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -24524,7 +24524,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_try_stmt_rule, Par
 static void *
 invalid_try_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_try_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_try_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -24705,7 +24705,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_except_stmt_rule, 
 static void *
 invalid_except_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_except_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_except_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -24872,7 +24872,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_except_star_stmt_r
 static void *
 invalid_except_star_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_except_star_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_except_star_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -25047,7 +25047,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_finally_stmt_rule,
 static void *
 invalid_finally_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_finally_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_finally_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -25102,7 +25102,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_except_stmt_indent
 static void *
 invalid_except_stmt_indent_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_except_stmt_indent_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_except_stmt_indent_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -25195,7 +25195,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_except_star_stmt_i
 static void *
 invalid_except_star_stmt_indent_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_except_star_stmt_indent_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_except_star_stmt_indent_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -25260,7 +25260,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_match_stmt_rule, P
 static void *
 invalid_match_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_match_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_match_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -25348,7 +25348,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_case_block_rule, P
 static void *
 invalid_case_block_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_case_block_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_case_block_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -25442,7 +25442,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_as_pattern_rule, P
 static void *
 invalid_as_pattern_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_as_pattern_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_as_pattern_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -25523,7 +25523,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_class_pattern_rule
 static void *
 invalid_class_pattern_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_class_pattern_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_class_pattern_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -25575,7 +25575,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_pattern_seq*, invalid_class_a
 static asdl_pattern_seq*
 invalid_class_argument_pattern_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_pattern_seq*, invalid_class_argument_pattern_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_pattern_seq*, invalid_class_argument_pattern_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -25632,7 +25632,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_if_stmt_rule, Pars
 static void *
 invalid_if_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_if_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_if_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -25720,7 +25720,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_elif_stmt_rule, Pa
 static void *
 invalid_elif_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_elif_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_elif_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -25806,7 +25806,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_else_stmt_rule, Pa
 static void *
 invalid_else_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_else_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_else_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -25894,7 +25894,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_while_stmt_rule, P
 static void *
 invalid_while_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_while_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_while_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -25982,7 +25982,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_for_stmt_rule, Par
 static void *
 invalid_for_stmt_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_for_stmt_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_for_stmt_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -26090,7 +26090,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_def_raw_rule, Pars
 static void *
 invalid_def_raw_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_def_raw_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_def_raw_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -26224,7 +26224,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_class_def_raw_rule
 static void *
 invalid_class_def_raw_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_class_def_raw_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_class_def_raw_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -26329,7 +26329,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_double_starred_kvp
 static void *
 invalid_double_starred_kvpairs_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_double_starred_kvpairs_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_double_starred_kvpairs_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -26440,7 +26440,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_kvpair_rule, Parse
 static void *
 invalid_kvpair_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_kvpair_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_kvpair_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -26549,7 +26549,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_starred_expression
 static void *
 invalid_starred_expression_unpacking_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_starred_expression_unpacking_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_starred_expression_unpacking_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -26603,7 +26603,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_starred_expression
 static void *
 invalid_starred_expression_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_starred_expression_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_starred_expression_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -26659,7 +26659,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_fstring_replacemen
 static void *
 invalid_fstring_replacement_field_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_fstring_replacement_field_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_fstring_replacement_field_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -27021,7 +27021,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_fstring_conversion
 static void *
 invalid_fstring_conversion_character_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_fstring_conversion_character_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_fstring_conversion_character_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -27105,7 +27105,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_tstring_replacemen
 static void *
 invalid_tstring_replacement_field_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_tstring_replacement_field_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_tstring_replacement_field_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -27467,7 +27467,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_tstring_conversion
 static void *
 invalid_tstring_conversion_character_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_tstring_conversion_character_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_tstring_conversion_character_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -27540,7 +27540,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_arithmetic_rule, P
 static void *
 invalid_arithmetic_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_arithmetic_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_arithmetic_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -27594,7 +27594,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_factor_rule, Parse
 static void *
 invalid_factor_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_factor_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_factor_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -27645,7 +27645,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, invalid_type_params_rule, 
 static void *
 invalid_type_params_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, invalid_type_params_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, invalid_type_params_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -27693,7 +27693,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_1_rule, Parser 
 static asdl_seq *
 _loop0_1_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_1_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_1_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -27762,7 +27762,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop1_2_rule, Parser 
 static asdl_seq *
 _loop1_2_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop1_2_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop1_2_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -27836,7 +27836,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_3_rule, Parser 
 static asdl_seq *
 _loop0_3_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_3_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_3_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -27914,7 +27914,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _gather_4_rule, Parser
 static asdl_seq *
 _gather_4_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _gather_4_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _gather_4_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -27957,7 +27957,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_5_rule, Parser *)
 static void *
 _tmp_5_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_5_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_5_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -28016,7 +28016,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_6_rule, Parser *)
 static void *
 _tmp_6_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_6_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_6_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -28094,7 +28094,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_7_rule, Parser *)
 static void *
 _tmp_7_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_7_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_7_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -28153,7 +28153,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_8_rule, Parser *)
 static void *
 _tmp_8_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_8_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_8_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -28212,7 +28212,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_9_rule, Parser *)
 static void *
 _tmp_9_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_9_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_9_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -28271,7 +28271,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_10_rule, Parser *)
 static void *
 _tmp_10_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_10_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_10_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -28319,7 +28319,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_11_rule, Parser *)
 static void *
 _tmp_11_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_11_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_11_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -28389,7 +28389,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop1_12_rule, Parser
 static asdl_seq *
 _loop1_12_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop1_12_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop1_12_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -28463,7 +28463,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_13_rule, Parser *)
 static void *
 _tmp_13_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_13_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_13_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -28511,7 +28511,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_14_rule, Parser
 static asdl_seq *
 _loop0_14_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_14_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_14_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -28589,7 +28589,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _gather_15_rule, Parse
 static asdl_seq *
 _gather_15_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _gather_15_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _gather_15_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -28632,7 +28632,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_16_rule, Parser *)
 static void *
 _tmp_16_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_16_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_16_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -28691,7 +28691,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_17_rule, Parser *)
 static void *
 _tmp_17_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_17_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_17_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -28739,7 +28739,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_18_rule, Parser
 static asdl_seq *
 _loop0_18_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_18_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_18_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -28808,7 +28808,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop1_19_rule, Parser
 static asdl_seq *
 _loop1_19_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop1_19_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop1_19_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -28882,7 +28882,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_20_rule, Parser
 static asdl_seq *
 _loop0_20_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_20_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_20_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -28960,7 +28960,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _gather_21_rule, Parse
 static asdl_seq *
 _gather_21_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _gather_21_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _gather_21_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -29003,7 +29003,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_22_rule, Parser *)
 static void *
 _tmp_22_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_22_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_22_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -29051,7 +29051,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_23_rule, Parser
 static asdl_seq *
 _loop0_23_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_23_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_23_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -29129,7 +29129,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _gather_24_rule, Parse
 static asdl_seq *
 _gather_24_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _gather_24_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _gather_24_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -29172,7 +29172,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop1_25_rule, Parser
 static asdl_seq *
 _loop1_25_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop1_25_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop1_25_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -29246,7 +29246,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_26_rule, Parser *)
 static void *
 _tmp_26_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_26_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_26_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -29297,7 +29297,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_27_rule, Parser *)
 static void *
 _tmp_27_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_27_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_27_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -29345,7 +29345,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_28_rule, Parser
 static asdl_seq *
 _loop0_28_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_28_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_28_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -29414,7 +29414,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_29_rule, Parser
 static asdl_seq *
 _loop0_29_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_29_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_29_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -29483,7 +29483,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop1_30_rule, Parser
 static asdl_seq *
 _loop1_30_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop1_30_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop1_30_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -29557,7 +29557,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop1_31_rule, Parser
 static asdl_seq *
 _loop1_31_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop1_31_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop1_31_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -29631,7 +29631,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_32_rule, Parser
 static asdl_seq *
 _loop0_32_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_32_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_32_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -29700,7 +29700,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop1_33_rule, Parser
 static asdl_seq *
 _loop1_33_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop1_33_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop1_33_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -29774,7 +29774,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_34_rule, Parser
 static asdl_seq *
 _loop0_34_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_34_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_34_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -29852,7 +29852,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _gather_35_rule, Parse
 static asdl_seq *
 _gather_35_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _gather_35_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _gather_35_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -29895,7 +29895,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_36_rule, Parser *)
 static void *
 _tmp_36_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_36_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_36_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -29973,7 +29973,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop1_37_rule, Parser
 static asdl_seq *
 _loop1_37_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop1_37_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop1_37_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -30047,7 +30047,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop1_38_rule, Parser
 static asdl_seq *
 _loop1_38_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop1_38_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop1_38_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -30121,7 +30121,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop1_39_rule, Parser
 static asdl_seq *
 _loop1_39_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop1_39_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop1_39_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -30195,7 +30195,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_40_rule, Parser
 static asdl_seq *
 _loop0_40_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_40_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_40_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -30273,7 +30273,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _gather_41_rule, Parse
 static asdl_seq *
 _gather_41_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _gather_41_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _gather_41_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -30316,7 +30316,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_42_rule, Parser *)
 static void *
 _tmp_42_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_42_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_42_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -30375,7 +30375,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_43_rule, Parser *)
 static void *
 _tmp_43_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_43_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_43_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -30453,7 +30453,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_44_rule, Parser *)
 static void *
 _tmp_44_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_44_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_44_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -30531,7 +30531,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_45_rule, Parser
 static asdl_seq *
 _loop0_45_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_45_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_45_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -30609,7 +30609,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _gather_46_rule, Parse
 static asdl_seq *
 _gather_46_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _gather_46_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _gather_46_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -30652,7 +30652,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_47_rule, Parser
 static asdl_seq *
 _loop0_47_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_47_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_47_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -30730,7 +30730,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _gather_48_rule, Parse
 static asdl_seq *
 _gather_48_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _gather_48_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _gather_48_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -30773,7 +30773,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_49_rule, Parser *)
 static void *
 _tmp_49_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_49_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_49_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -30832,7 +30832,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_50_rule, Parser
 static asdl_seq *
 _loop0_50_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_50_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_50_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -30910,7 +30910,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _gather_51_rule, Parse
 static asdl_seq *
 _gather_51_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _gather_51_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _gather_51_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -30953,7 +30953,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_52_rule, Parser
 static asdl_seq *
 _loop0_52_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_52_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_52_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -31031,7 +31031,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _gather_53_rule, Parse
 static asdl_seq *
 _gather_53_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _gather_53_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _gather_53_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -31074,7 +31074,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_54_rule, Parser
 static asdl_seq *
 _loop0_54_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_54_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_54_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -31152,7 +31152,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _gather_55_rule, Parse
 static asdl_seq *
 _gather_55_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _gather_55_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _gather_55_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -31195,7 +31195,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop1_56_rule, Parser
 static asdl_seq *
 _loop1_56_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop1_56_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop1_56_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -31269,7 +31269,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop1_57_rule, Parser
 static asdl_seq *
 _loop1_57_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop1_57_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop1_57_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -31343,7 +31343,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_58_rule, Parser
 static asdl_seq *
 _loop0_58_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_58_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_58_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -31421,7 +31421,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _gather_59_rule, Parse
 static asdl_seq *
 _gather_59_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _gather_59_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _gather_59_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -31464,7 +31464,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop1_60_rule, Parser
 static asdl_seq *
 _loop1_60_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop1_60_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop1_60_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -31538,7 +31538,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop1_61_rule, Parser
 static asdl_seq *
 _loop1_61_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop1_61_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop1_61_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -31612,7 +31612,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop1_62_rule, Parser
 static asdl_seq *
 _loop1_62_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop1_62_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop1_62_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -31686,7 +31686,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_63_rule, Parser *)
 static void *
 _tmp_63_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_63_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_63_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -31731,7 +31731,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_64_rule, Parser
 static asdl_seq *
 _loop0_64_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_64_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_64_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -31809,7 +31809,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _gather_65_rule, Parse
 static asdl_seq *
 _gather_65_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _gather_65_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _gather_65_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -31852,7 +31852,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_66_rule, Parser *)
 static void *
 _tmp_66_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_66_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_66_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -31900,7 +31900,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_67_rule, Parser *)
 static void *
 _tmp_67_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_67_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_67_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -31978,7 +31978,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_68_rule, Parser *)
 static void *
 _tmp_68_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_68_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_68_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -32037,7 +32037,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_69_rule, Parser *)
 static void *
 _tmp_69_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_69_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_69_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -32134,7 +32134,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_70_rule, Parser *)
 static void *
 _tmp_70_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_70_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_70_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -32193,7 +32193,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_71_rule, Parser
 static asdl_seq *
 _loop0_71_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_71_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_71_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -32262,7 +32262,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_72_rule, Parser
 static asdl_seq *
 _loop0_72_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_72_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_72_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -32331,7 +32331,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop1_73_rule, Parser
 static asdl_seq *
 _loop1_73_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop1_73_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop1_73_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -32405,7 +32405,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop1_74_rule, Parser
 static asdl_seq *
 _loop1_74_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop1_74_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop1_74_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -32479,7 +32479,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_75_rule, Parser
 static asdl_seq *
 _loop0_75_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_75_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_75_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -32548,7 +32548,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop1_76_rule, Parser
 static asdl_seq *
 _loop1_76_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop1_76_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop1_76_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -32622,7 +32622,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_77_rule, Parser
 static asdl_seq *
 _loop0_77_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_77_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_77_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -32691,7 +32691,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_78_rule, Parser
 static asdl_seq *
 _loop0_78_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_78_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_78_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -32760,7 +32760,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_79_rule, Parser
 static asdl_seq *
 _loop0_79_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_79_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_79_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -32829,7 +32829,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_80_rule, Parser
 static asdl_seq *
 _loop0_80_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_80_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_80_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -32898,7 +32898,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop1_81_rule, Parser
 static asdl_seq *
 _loop1_81_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop1_81_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop1_81_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -32972,7 +32972,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_82_rule, Parser *)
 static void *
 _tmp_82_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_82_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_82_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -33023,7 +33023,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_83_rule, Parser
 static asdl_seq *
 _loop0_83_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_83_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_83_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -33101,7 +33101,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _gather_84_rule, Parse
 static asdl_seq *
 _gather_84_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _gather_84_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _gather_84_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -33144,7 +33144,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop1_85_rule, Parser
 static asdl_seq *
 _loop1_85_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop1_85_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop1_85_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -33218,7 +33218,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_86_rule, Parser
 static asdl_seq *
 _loop0_86_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_86_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_86_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -33287,7 +33287,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_87_rule, Parser *)
 static void *
 _tmp_87_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_87_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_87_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -33348,7 +33348,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_88_rule, Parser
 static asdl_seq *
 _loop0_88_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_88_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_88_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -33427,7 +33427,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _gather_89_rule, Parse
 static asdl_seq *
 _gather_89_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _gather_89_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _gather_89_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -33470,7 +33470,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_90_rule, Parser *)
 static void *
 _tmp_90_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_90_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_90_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -33518,7 +33518,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_91_rule, Parser
 static asdl_seq *
 _loop0_91_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_91_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_91_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -33596,7 +33596,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _gather_92_rule, Parse
 static asdl_seq *
 _gather_92_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _gather_92_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _gather_92_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -33639,7 +33639,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_93_rule, Parser
 static asdl_seq *
 _loop0_93_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_93_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_93_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -33717,7 +33717,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _gather_94_rule, Parse
 static asdl_seq *
 _gather_94_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _gather_94_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _gather_94_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -33760,7 +33760,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_95_rule, Parser
 static asdl_seq *
 _loop0_95_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_95_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_95_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -33829,7 +33829,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_96_rule, Parser
 static asdl_seq *
 _loop0_96_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_96_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_96_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -33907,7 +33907,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _gather_97_rule, Parse
 static asdl_seq *
 _gather_97_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _gather_97_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _gather_97_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -33950,7 +33950,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop1_98_rule, Parser
 static asdl_seq *
 _loop1_98_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop1_98_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop1_98_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -34024,7 +34024,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_99_rule, Parser *)
 static void *
 _tmp_99_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_99_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_99_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -34066,7 +34066,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_100_rule, Parse
 static asdl_seq *
 _loop0_100_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_100_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_100_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -34144,7 +34144,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _gather_101_rule, Pars
 static asdl_seq *
 _gather_101_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _gather_101_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _gather_101_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -34187,7 +34187,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_102_rule, Parse
 static asdl_seq *
 _loop0_102_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_102_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_102_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -34265,7 +34265,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _gather_103_rule, Pars
 static asdl_seq *
 _gather_103_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _gather_103_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _gather_103_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -34308,7 +34308,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_104_rule, Parser *)
 static void *
 _tmp_104_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_104_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_104_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -34353,7 +34353,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_105_rule, Parser *)
 static void *
 _tmp_105_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_105_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_105_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -34412,7 +34412,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_106_rule, Parse
 static asdl_seq *
 _loop0_106_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_106_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_106_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -34490,7 +34490,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _gather_107_rule, Pars
 static asdl_seq *
 _gather_107_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _gather_107_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _gather_107_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -34533,7 +34533,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_108_rule, Parser *)
 static void *
 _tmp_108_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_108_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_108_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -34595,7 +34595,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_109_rule, Parser *)
 static void *
 _tmp_109_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_109_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_109_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -34638,7 +34638,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_110_rule, Parser *)
 static void *
 _tmp_110_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_110_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_110_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -34697,7 +34697,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_111_rule, Parser *)
 static void *
 _tmp_111_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_111_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_111_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -34775,7 +34775,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_112_rule, Parser *)
 static void *
 _tmp_112_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_112_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_112_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -34818,7 +34818,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop1_113_rule, Parse
 static asdl_seq *
 _loop1_113_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop1_113_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop1_113_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -34892,7 +34892,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_114_rule, Parser *)
 static void *
 _tmp_114_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_114_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_114_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -34954,7 +34954,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_115_rule, Parser *)
 static void *
 _tmp_115_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_115_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_115_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -35013,7 +35013,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_116_rule, Parser *)
 static void *
 _tmp_116_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_116_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_116_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -35091,7 +35091,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_117_rule, Parser *)
 static void *
 _tmp_117_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_117_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_117_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -35150,7 +35150,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_118_rule, Parser *)
 static void *
 _tmp_118_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_118_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_118_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -35285,7 +35285,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_119_rule, Parse
 static asdl_seq *
 _loop0_119_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_119_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_119_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -35354,7 +35354,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_120_rule, Parse
 static asdl_seq *
 _loop0_120_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_120_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_120_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -35423,7 +35423,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_121_rule, Parser *)
 static void *
 _tmp_121_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_121_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_121_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -35501,7 +35501,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_122_rule, Parser *)
 static void *
 _tmp_122_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_122_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_122_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -35560,7 +35560,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_123_rule, Parser *)
 static void *
 _tmp_123_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_123_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_123_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -35619,7 +35619,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_124_rule, Parser *)
 static void *
 _tmp_124_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_124_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_124_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -35678,7 +35678,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_125_rule, Parser *)
 static void *
 _tmp_125_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_125_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_125_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -35737,7 +35737,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_126_rule, Parser *)
 static void *
 _tmp_126_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_126_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_126_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -35799,7 +35799,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_127_rule, Parser *)
 static void *
 _tmp_127_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_127_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_127_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -35858,7 +35858,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_128_rule, Parser *)
 static void *
 _tmp_128_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_128_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_128_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -35936,7 +35936,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_129_rule, Parser *)
 static void *
 _tmp_129_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_129_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_129_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -35995,7 +35995,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_130_rule, Parse
 static asdl_seq *
 _loop0_130_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_130_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_130_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -36073,7 +36073,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _gather_131_rule, Pars
 static asdl_seq *
 _gather_131_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _gather_131_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _gather_131_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -36116,7 +36116,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_132_rule, Parser *)
 static void *
 _tmp_132_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_132_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_132_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -36175,7 +36175,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_133_rule, Parser *)
 static void *
 _tmp_133_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_133_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_133_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -36237,7 +36237,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_134_rule, Parser *)
 static void *
 _tmp_134_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_134_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_134_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -36296,7 +36296,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_135_rule, Parser *)
 static void *
 _tmp_135_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_135_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_135_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -36343,7 +36343,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_136_rule, Parse
 static asdl_seq *
 _loop0_136_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_136_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_136_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -36421,7 +36421,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _gather_137_rule, Pars
 static asdl_seq *
 _gather_137_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _gather_137_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _gather_137_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -36464,7 +36464,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_138_rule, Parser *)
 static void *
 _tmp_138_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_138_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_138_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -36507,7 +36507,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_139_rule, Parse
 static asdl_seq *
 _loop0_139_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_139_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_139_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -36585,7 +36585,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _gather_140_rule, Pars
 static asdl_seq *
 _gather_140_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _gather_140_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _gather_140_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -36628,7 +36628,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_141_rule, Parse
 static asdl_seq *
 _loop0_141_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_141_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_141_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -36706,7 +36706,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _gather_142_rule, Pars
 static asdl_seq *
 _gather_142_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _gather_142_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _gather_142_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -36749,7 +36749,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_143_rule, Parser *)
 static void *
 _tmp_143_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_143_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_143_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -36808,7 +36808,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_144_rule, Parse
 static asdl_seq *
 _loop0_144_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_144_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_144_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -36877,7 +36877,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_145_rule, Parser *)
 static void *
 _tmp_145_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_145_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_145_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -36921,7 +36921,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_146_rule, Parser *)
 static void *
 _tmp_146_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_146_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_146_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -36980,7 +36980,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_147_rule, Parser *)
 static void *
 _tmp_147_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_147_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_147_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -37023,7 +37023,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_148_rule, Parser *)
 static void *
 _tmp_148_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_148_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_148_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -37082,7 +37082,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_149_rule, Parser *)
 static void *
 _tmp_149_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_149_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_149_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -37179,7 +37179,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_150_rule, Parser *)
 static void *
 _tmp_150_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_150_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_150_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -37257,7 +37257,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_151_rule, Parser *)
 static void *
 _tmp_151_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_151_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_151_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -37300,7 +37300,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_152_rule, Parser *)
 static void *
 _tmp_152_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_152_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_152_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -37359,7 +37359,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_153_rule, Parser *)
 static void *
 _tmp_153_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_153_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_153_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -37513,7 +37513,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_154_rule, Parser *)
 static void *
 _tmp_154_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_154_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_154_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -37591,7 +37591,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_155_rule, Parser *)
 static void *
 _tmp_155_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_155_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_155_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -37639,7 +37639,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_156_rule, Parser *)
 static void *
 _tmp_156_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_156_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_156_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -37698,7 +37698,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_157_rule, Parser *)
 static void *
 _tmp_157_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_157_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_157_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -37749,7 +37749,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_158_rule, Parser *)
 static void *
 _tmp_158_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_158_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_158_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -37797,7 +37797,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_159_rule, Parser *)
 static void *
 _tmp_159_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_159_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_159_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -37845,7 +37845,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_160_rule, Parser *)
 static void *
 _tmp_160_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_160_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_160_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -37893,7 +37893,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_161_rule, Parser *)
 static void *
 _tmp_161_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_161_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_161_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -37952,7 +37952,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_162_rule, Parser *)
 static void *
 _tmp_162_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_162_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_162_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -38030,7 +38030,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_163_rule, Parser *)
 static void *
 _tmp_163_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_163_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_163_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -38078,7 +38078,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_164_rule, Parser *)
 static void *
 _tmp_164_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_164_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_164_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -38139,7 +38139,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_165_rule, Parser *)
 static void *
 _tmp_165_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_165_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_165_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -38188,7 +38188,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_166_rule, Parser *)
 static void *
 _tmp_166_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_166_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_166_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -38234,7 +38234,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_167_rule, Parser *)
 static void *
 _tmp_167_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_167_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_167_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -38276,7 +38276,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_168_rule, Parser *)
 static void *
 _tmp_168_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_168_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_168_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -38318,7 +38318,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_169_rule, Parser *)
 static void *
 _tmp_169_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_169_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_169_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -38377,7 +38377,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_170_rule, Parser *)
 static void *
 _tmp_170_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_170_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_170_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -38436,7 +38436,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, asdl_seq *, _loop0_171_rule, Parse
 static asdl_seq *
 _loop0_171_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, asdl_seq *, _loop0_171_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), asdl_seq *, _loop0_171_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -38505,7 +38505,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_172_rule, Parser *)
 static void *
 _tmp_172_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_172_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_172_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -38583,7 +38583,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_173_rule, Parser *)
 static void *
 _tmp_173_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_173_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_173_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -38627,7 +38627,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_174_rule, Parser *)
 static void *
 _tmp_174_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_174_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_174_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -38671,7 +38671,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_175_rule, Parser *)
 static void *
 _tmp_175_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_175_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_175_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }
@@ -38714,7 +38714,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_A(static, void *, _tmp_176_rule, Parser *)
 static void *
 _tmp_176_rule(Parser *p)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(NULL, void *, _tmp_176_rule, p)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B((PyErr_NoMemory(), NULL), void *, _tmp_176_rule, p)
     if (p->level++ == MAXSTACK || _Py_ReachedRecursionLimitWithMargin(PyThreadState_Get(), 1)) {
         _Pypegen_stack_overflow(p);
     }

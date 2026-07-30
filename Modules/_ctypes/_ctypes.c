@@ -1139,7 +1139,7 @@ static PyObject *
 CDataType_from_param_impl(PyObject *type, PyTypeObject *cls, PyObject *value)
 /*[clinic end generated code: output=8da9e34263309f9e input=20bc0307a205e8ca]*/
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(NULL, PyObject *, CDataType_from_param_impl, type, cls, value)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(PyErr_NoMemory(), PyObject *, CDataType_from_param_impl, type, cls, value)
     PyObject *as_parameter;
     int res = PyObject_IsInstance(value, type);
     if (res == -1)
@@ -1992,7 +1992,7 @@ static PyObject *
 c_wchar_p_from_param_impl(PyObject *type, PyTypeObject *cls, PyObject *value)
 /*[clinic end generated code: output=e453949a2f725a4c input=9f8b877e523fdb19]*/
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(NULL, PyObject *, c_wchar_p_from_param_impl, type, cls, value)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(PyErr_NoMemory(), PyObject *, c_wchar_p_from_param_impl, type, cls, value)
     PyObject *as_parameter;
     int res;
     if (value == Py_None) {
@@ -2084,7 +2084,7 @@ static PyObject *
 c_char_p_from_param_impl(PyObject *type, PyTypeObject *cls, PyObject *value)
 /*[clinic end generated code: output=219652ab7c174aa1 input=a44bdc7936c30953]*/
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(NULL, PyObject *, c_char_p_from_param_impl, type, cls, value)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(PyErr_NoMemory(), PyObject *, c_char_p_from_param_impl, type, cls, value)
     PyObject *as_parameter;
     int res;
     if (value == Py_None) {
@@ -2176,7 +2176,7 @@ static PyObject *
 c_void_p_from_param_impl(PyObject *type, PyTypeObject *cls, PyObject *value)
 /*[clinic end generated code: output=984d0075b6038cc7 input=c0294ec91163b1da]*/
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(NULL, PyObject *, c_void_p_from_param_impl, type, cls, value)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(PyErr_NoMemory(), PyObject *, c_void_p_from_param_impl, type, cls, value)
     PyObject *as_parameter;
     int res;
 
@@ -2616,7 +2616,7 @@ PyCSimpleType_from_param_impl(PyObject *type, PyTypeObject *cls,
                               PyObject *value)
 /*[clinic end generated code: output=8a8453d9663e3a2e input=5b3a69c9256443c2]*/
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(NULL, PyObject *, PyCSimpleType_from_param_impl, type, cls, value)
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN3_B(PyErr_NoMemory(), PyObject *, PyCSimpleType_from_param_impl, type, cls, value)
     const char *fmt;
     PyCArgObject *parg;
     struct fielddesc *fd;

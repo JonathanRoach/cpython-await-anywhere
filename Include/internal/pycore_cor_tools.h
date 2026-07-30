@@ -28,7 +28,6 @@ static void *Do_Call_##fn(void *param) { \
         if (!_Py_Coroutine_Chain(PYOS_COSTACK_STD_SIZE, PYOS_COSTACK_CHAIN_HEADROOM, Do_Call_##fn, NULL, &res)) { \
             return (r_t)(uintptr_t)res; \
         } else { \
-            PyErr_NoMemory(); \
             return nomemret; \
         } \
     }
@@ -49,7 +48,6 @@ static void *Do_Call_##fn(void *param) { \
         if (!_Py_Coroutine_Chain(PYOS_COSTACK_STD_SIZE, PYOS_COSTACK_CHAIN_HEADROOM, Do_Call_##fn, (void *)&params, &res)) { \
             return (r_t)(uintptr_t)res; \
         } else { \
-            PyErr_NoMemory(); \
             return nomemret; \
         } \
     }
@@ -71,7 +69,6 @@ static void *Do_Call_##fn(void *param) { \
         if (!_Py_Coroutine_Chain(PYOS_COSTACK_STD_SIZE, PYOS_COSTACK_CHAIN_HEADROOM, Do_Call_##fn, (void *)&params, &res)) { \
             return (r_t)(uintptr_t)res; \
         } else { \
-            PyErr_NoMemory(); \
             return nomemret; \
         } \
     }
@@ -94,7 +91,6 @@ static void *Do_Call_##fn(void *param) { \
         if (!_Py_Coroutine_Chain(PYOS_COSTACK_STD_SIZE, PYOS_COSTACK_CHAIN_HEADROOM, Do_Call_##fn, (void *)&params, &res)) { \
             return (r_t)(uintptr_t)res; \
         } else { \
-            PyErr_NoMemory(); \
             return nomemret; \
         } \
     }
@@ -118,7 +114,6 @@ static void *Do_Call_##fn(void *param) { \
         if (!_Py_Coroutine_Chain(PYOS_COSTACK_STD_SIZE, PYOS_COSTACK_CHAIN_HEADROOM, Do_Call_##fn, (void *)&params, &res)) { \
             return (r_t)(uintptr_t)res; \
         } else { \
-            PyErr_NoMemory(); \
             return nomemret; \
         } \
     }
@@ -143,7 +138,6 @@ static void *Do_Call_##fn(void *param) { \
         if (!_Py_Coroutine_Chain(PYOS_COSTACK_STD_SIZE, PYOS_COSTACK_CHAIN_HEADROOM, Do_Call_##fn, (void *)&params, &res)) { \
             return (r_t)(uintptr_t)res; \
         } else { \
-            PyErr_NoMemory(); \
             return nomemret; \
         } \
     }

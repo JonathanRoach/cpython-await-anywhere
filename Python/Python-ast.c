@@ -8913,7 +8913,7 @@ ast2obj_mod(struct ast_state *state, void* _o)
     if (!o) {
         Py_RETURN_NONE;
     }
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(NULL, PyObject*, ast2obj_mod, state,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(PyErr_NoMemory(), PyObject*, ast2obj_mod, state,
                                           o)
     if (Py_EnterRecursiveCall("during  ast construction")) {
         return NULL;
@@ -8993,7 +8993,7 @@ ast2obj_stmt(struct ast_state *state, void* _o)
     if (!o) {
         Py_RETURN_NONE;
     }
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(NULL, PyObject*, ast2obj_stmt, state,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(PyErr_NoMemory(), PyObject*, ast2obj_stmt, state,
                                           o)
     if (Py_EnterRecursiveCall("during  ast construction")) {
         return NULL;
@@ -9601,7 +9601,7 @@ ast2obj_expr(struct ast_state *state, void* _o)
     if (!o) {
         Py_RETURN_NONE;
     }
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(NULL, PyObject*, ast2obj_expr, state,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(PyErr_NoMemory(), PyObject*, ast2obj_expr, state,
                                           o)
     if (Py_EnterRecursiveCall("during  ast construction")) {
         return NULL;
@@ -10217,7 +10217,7 @@ ast2obj_comprehension(struct ast_state *state, void* _o)
     if (!o) {
         Py_RETURN_NONE;
     }
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(NULL, PyObject*,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(PyErr_NoMemory(), PyObject*,
                                           ast2obj_comprehension, state, o)
     if (Py_EnterRecursiveCall("during  ast construction")) {
         return NULL;
@@ -10265,7 +10265,7 @@ ast2obj_excepthandler(struct ast_state *state, void* _o)
     if (!o) {
         Py_RETURN_NONE;
     }
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(NULL, PyObject*,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(PyErr_NoMemory(), PyObject*,
                                           ast2obj_excepthandler, state, o)
     if (Py_EnterRecursiveCall("during  ast construction")) {
         return NULL;
@@ -10333,7 +10333,7 @@ ast2obj_arguments(struct ast_state *state, void* _o)
     if (!o) {
         Py_RETURN_NONE;
     }
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(NULL, PyObject*, ast2obj_arguments,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(PyErr_NoMemory(), PyObject*, ast2obj_arguments,
                                           state, o)
     if (Py_EnterRecursiveCall("during  ast construction")) {
         return NULL;
@@ -10396,7 +10396,7 @@ ast2obj_arg(struct ast_state *state, void* _o)
     if (!o) {
         Py_RETURN_NONE;
     }
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(NULL, PyObject*, ast2obj_arg, state,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(PyErr_NoMemory(), PyObject*, ast2obj_arg, state,
                                           o)
     if (Py_EnterRecursiveCall("during  ast construction")) {
         return NULL;
@@ -10459,7 +10459,7 @@ ast2obj_keyword(struct ast_state *state, void* _o)
     if (!o) {
         Py_RETURN_NONE;
     }
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(NULL, PyObject*, ast2obj_keyword,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(PyErr_NoMemory(), PyObject*, ast2obj_keyword,
                                           state, o)
     if (Py_EnterRecursiveCall("during  ast construction")) {
         return NULL;
@@ -10517,7 +10517,7 @@ ast2obj_alias(struct ast_state *state, void* _o)
     if (!o) {
         Py_RETURN_NONE;
     }
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(NULL, PyObject*, ast2obj_alias,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(PyErr_NoMemory(), PyObject*, ast2obj_alias,
                                           state, o)
     if (Py_EnterRecursiveCall("during  ast construction")) {
         return NULL;
@@ -10575,7 +10575,7 @@ ast2obj_withitem(struct ast_state *state, void* _o)
     if (!o) {
         Py_RETURN_NONE;
     }
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(NULL, PyObject*, ast2obj_withitem,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(PyErr_NoMemory(), PyObject*, ast2obj_withitem,
                                           state, o)
     if (Py_EnterRecursiveCall("during  ast construction")) {
         return NULL;
@@ -10613,7 +10613,7 @@ ast2obj_match_case(struct ast_state *state, void* _o)
     if (!o) {
         Py_RETURN_NONE;
     }
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(NULL, PyObject*, ast2obj_match_case,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(PyErr_NoMemory(), PyObject*, ast2obj_match_case,
                                           state, o)
     if (Py_EnterRecursiveCall("during  ast construction")) {
         return NULL;
@@ -10656,7 +10656,7 @@ ast2obj_pattern(struct ast_state *state, void* _o)
     if (!o) {
         Py_RETURN_NONE;
     }
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(NULL, PyObject*, ast2obj_pattern,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(PyErr_NoMemory(), PyObject*, ast2obj_pattern,
                                           state, o)
     if (Py_EnterRecursiveCall("during  ast construction")) {
         return NULL;
@@ -10820,7 +10820,7 @@ ast2obj_type_ignore(struct ast_state *state, void* _o)
     if (!o) {
         Py_RETURN_NONE;
     }
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(NULL, PyObject*, ast2obj_type_ignore,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(PyErr_NoMemory(), PyObject*, ast2obj_type_ignore,
                                           state, o)
     if (Py_EnterRecursiveCall("during  ast construction")) {
         return NULL;
@@ -10862,7 +10862,7 @@ ast2obj_type_param(struct ast_state *state, void* _o)
     if (!o) {
         Py_RETURN_NONE;
     }
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(NULL, PyObject*, ast2obj_type_param,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(PyErr_NoMemory(), PyObject*, ast2obj_type_param,
                                           state, o)
     if (Py_EnterRecursiveCall("during  ast construction")) {
         return NULL;
@@ -10954,7 +10954,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(extern, int, obj2ast_mod, struct
 int
 obj2ast_mod(struct ast_state *state, PyObject* obj, mod_ty* out, PyArena* arena)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(-1, int, obj2ast_mod, state, obj,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B((PyErr_NoMemory(), -1), int, obj2ast_mod, state, obj,
                                           out, arena)
     int isinstance;
 
@@ -11215,7 +11215,7 @@ int
 obj2ast_stmt(struct ast_state *state, PyObject* obj, stmt_ty* out, PyArena*
              arena)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(-1, int, obj2ast_stmt, state, obj,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B((PyErr_NoMemory(), -1), int, obj2ast_stmt, state, obj,
                                           out, arena)
     int isinstance;
 
@@ -13877,7 +13877,7 @@ int
 obj2ast_expr(struct ast_state *state, PyObject* obj, expr_ty* out, PyArena*
              arena)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(-1, int, obj2ast_expr, state, obj,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B((PyErr_NoMemory(), -1), int, obj2ast_expr, state, obj,
                                           out, arena)
     int isinstance;
 
@@ -16105,7 +16105,7 @@ int
 obj2ast_comprehension(struct ast_state *state, PyObject* obj, comprehension_ty*
                       out, PyArena* arena)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(-1, int, obj2ast_comprehension,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B((PyErr_NoMemory(), -1), int, obj2ast_comprehension,
                                           state, obj, out, arena)
     PyObject* tmp = NULL;
     expr_ty target;
@@ -16217,7 +16217,7 @@ int
 obj2ast_excepthandler(struct ast_state *state, PyObject* obj, excepthandler_ty*
                       out, PyArena* arena)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(-1, int, obj2ast_excepthandler,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B((PyErr_NoMemory(), -1), int, obj2ast_excepthandler,
                                           state, obj, out, arena)
     int isinstance;
 
@@ -16401,7 +16401,7 @@ int
 obj2ast_arguments(struct ast_state *state, PyObject* obj, arguments_ty* out,
                   PyArena* arena)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(-1, int, obj2ast_arguments, state,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B((PyErr_NoMemory(), -1), int, obj2ast_arguments, state,
                                           obj, out, arena)
     PyObject* tmp = NULL;
     asdl_arg_seq* posonlyargs;
@@ -16650,7 +16650,7 @@ _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(extern, int, obj2ast_arg, struct
 int
 obj2ast_arg(struct ast_state *state, PyObject* obj, arg_ty* out, PyArena* arena)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(-1, int, obj2ast_arg, state, obj,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B((PyErr_NoMemory(), -1), int, obj2ast_arg, state, obj,
                                           out, arena)
     PyObject* tmp = NULL;
     identifier arg;
@@ -16796,7 +16796,7 @@ int
 obj2ast_keyword(struct ast_state *state, PyObject* obj, keyword_ty* out,
                 PyArena* arena)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(-1, int, obj2ast_keyword, state, obj,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B((PyErr_NoMemory(), -1), int, obj2ast_keyword, state, obj,
                                           out, arena)
     PyObject* tmp = NULL;
     identifier arg;
@@ -16924,7 +16924,7 @@ int
 obj2ast_alias(struct ast_state *state, PyObject* obj, alias_ty* out, PyArena*
               arena)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(-1, int, obj2ast_alias, state, obj,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B((PyErr_NoMemory(), -1), int, obj2ast_alias, state, obj,
                                           out, arena)
     PyObject* tmp = NULL;
     identifier name;
@@ -17052,7 +17052,7 @@ int
 obj2ast_withitem(struct ast_state *state, PyObject* obj, withitem_ty* out,
                  PyArena* arena)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(-1, int, obj2ast_withitem, state,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B((PyErr_NoMemory(), -1), int, obj2ast_withitem, state,
                                           obj, out, arena)
     PyObject* tmp = NULL;
     expr_ty context_expr;
@@ -17107,7 +17107,7 @@ int
 obj2ast_match_case(struct ast_state *state, PyObject* obj, match_case_ty* out,
                    PyArena* arena)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(-1, int, obj2ast_match_case, state,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B((PyErr_NoMemory(), -1), int, obj2ast_match_case, state,
                                           obj, out, arena)
     PyObject* tmp = NULL;
     pattern_ty pattern;
@@ -17201,7 +17201,7 @@ int
 obj2ast_pattern(struct ast_state *state, PyObject* obj, pattern_ty* out,
                 PyArena* arena)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(-1, int, obj2ast_pattern, state, obj,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B((PyErr_NoMemory(), -1), int, obj2ast_pattern, state, obj,
                                           out, arena)
     int isinstance;
 
@@ -17794,7 +17794,7 @@ int
 obj2ast_type_ignore(struct ast_state *state, PyObject* obj, type_ignore_ty*
                     out, PyArena* arena)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(-1, int, obj2ast_type_ignore, state,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B((PyErr_NoMemory(), -1), int, obj2ast_type_ignore, state,
                                           obj, out, arena)
     int isinstance;
 
@@ -17866,7 +17866,7 @@ int
 obj2ast_type_param(struct ast_state *state, PyObject* obj, type_param_ty* out,
                    PyArena* arena)
 {
-    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(-1, int, obj2ast_type_param, state,
+    _PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B((PyErr_NoMemory(), -1), int, obj2ast_type_param, state,
                                           obj, out, arena)
     int isinstance;
 

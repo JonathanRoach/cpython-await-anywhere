@@ -516,7 +516,7 @@ class Obj2ModVisitor(PickleVisitor):
         self.emit("obj2ast_%s(struct ast_state *state, PyObject* obj, %s* out, PyArena* arena)" % (name, ctype), 0)
         self.emit("{", 0)
         if recursive:
-            self.emit(f"_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(-1, int, obj2ast_{name}, state, obj, out, arena)", 1)
+            self.emit(f"_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B((PyErr_NoMemory(), -1), int, obj2ast_{name}, state, obj, out, arena)", 1)
         self.emit("int isinstance;", 1)
         self.emit("", 0)
 
@@ -600,7 +600,7 @@ class Obj2ModVisitor(PickleVisitor):
         self.emit("int", 0)
         self.emit("obj2ast_%s(struct ast_state *state, PyObject* obj, %s* out, PyArena* arena)" % (name, ctype), 0)
         self.emit("{", 0)
-        self.emit(f"_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B(-1, int, obj2ast_{name}, state, obj, out, arena)", 1)
+        self.emit(f"_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_B((PyErr_NoMemory(), -1), int, obj2ast_{name}, state, obj, out, arena)", 1)
         self.emit("PyObject* tmp = NULL;", 1)
         for f in prod.fields:
             self.visitFieldDeclaration(f, name, prod=prod, depth=1)
@@ -2071,7 +2071,7 @@ class ObjVisitor(PickleVisitor):
         self.emit('if (!o) {', 1)
         self.emit("Py_RETURN_NONE;", 2)
         self.emit("}", 1)
-        self.emit(f"_PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(NULL, PyObject*, ast2obj_{name}, state, o)", 1)
+        self.emit(f"_PY_ENSURE_COSTACK_HEADROOM_FOR_FN2_B(PyErr_NoMemory(), PyObject*, ast2obj_{name}, state, o)", 1)
         self.emit('if (Py_EnterRecursiveCall("during  ast construction")) {', 1)
         self.emit("return NULL;", 2)
         self.emit("}", 1)
