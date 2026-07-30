@@ -51,25 +51,20 @@ const char *_PyImport_DynLoadFiletab[] = {
     NULL,
 };
 
+struct Do_PyImport_FindSharedFuncptr_Params {
+    const char *prefix;
+    const char *shortname;
+    const char *pathname;
+    FILE *fp;
+};
 
-_PY_ENSURE_COSTACK_HEADROOM_FOR_FN4_A(extern, dl_funcptr, _PyImport_FindSharedFuncptr, const char *, const char *, const char *, FILE *)
-dl_funcptr
-_PyImport_FindSharedFuncptr(const char *prefix,
-                            const char *shortname,
-                            const char *pathname, FILE *fp)
+static dl_funcptr
+Do_PyImport_FindSharedFuncptr(struct Do_PyImport_FindSharedFuncptr_Params *params)
 {
-    // After metering the stack usage of dlopen(), 26k on MacOS was seen, so check a margin of 32k (ie 4096 'void *'s)
-#define NECESSARY_dlopen_STACK (4096*sizeof(void *))
-    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)NECESSARY_dlopen_STACK) {
-        struct Do_Call_Params__PyImport_FindSharedFuncptr params = {prefix, shortname, pathname, fp};
-        void *result;
-        if (_Py_Coroutine_Chain(NECESSARY_dlopen_STACK, PYOS_COSTACK_CHAIN_HEADROOM, Do_Call__PyImport_FindSharedFuncptr, (void *)&params, &result)){
-            // not enough stack ot load dll
-            PyErr_NoMemory();
-            return NULL;
-        }
-        return (dl_funcptr)result;
-    }
+    const char *prefix = params->prefix;
+    const char *shortname = params->shortname;
+    const char *pathname = params->pathname;
+    FILE *fp = params->fp;
 
     dl_funcptr p;
     void *handle;
@@ -125,4 +120,18 @@ _PyImport_FindSharedFuncptr(const char *prefix,
     }
     p = (dl_funcptr) dlsym(handle, funcname);
     return p;
+}
+
+dl_funcptr
+_PyImport_FindSharedFuncptr(const char *prefix,
+                            const char *shortname,
+                            const char *pathname, FILE *fp)
+{
+    // load with max stack - MacOS has been seen to use a fair chunk (26k)
+    struct Do_PyImport_FindSharedFuncptr_Params params = {prefix, shortname, pathname, fp};
+    dl_funcptr res;
+    if (_Py_Coroutine_CallWithMaxStack((Coroutine_Start)Do_PyImport_FindSharedFuncptr, &params, (void **)&res)){
+        res = Do_PyImport_FindSharedFuncptr(&params);
+    }
+    return res;
 }
