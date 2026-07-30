@@ -37,7 +37,11 @@
             ret = (CALL); \
         }
 #else
-#define MeasureCStackUsage(FLAGS, NAME, CALL) ret = (CALL)
+#define MeasureCStackUsage(FLAGS, NAME, CALL) do { \
+        (void)(FLAGS); \
+        (void)(NAME); \
+        ret = (CALL); \
+    } while(0)
 #endif
 
 /* Forward declarations */

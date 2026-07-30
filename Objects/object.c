@@ -3300,6 +3300,8 @@ _Py_Dealloc_Now(void *_op)
     Py_XINCREF(old_exc);
     // Make sure that type->tp_name remains valid
     Py_INCREF(type);
+#else
+    (void)type;
 #endif
 
 #ifdef Py_TRACE_REFS
