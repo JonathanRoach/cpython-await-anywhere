@@ -2590,9 +2590,10 @@ PyGC_IsEnabled(void)
 }
 
 /* Public API to invoke gc.collect() from C */
-Py_ssize_t
-PyGC_Collect(void)
+static void *
+Do_PyGC_Collect(void *params)
 {
+    (void)params;
     PyThreadState *tstate = _PyThreadState_GET();
     GCState *gcstate = &tstate->interp->gc;
 
@@ -2605,7 +2606,18 @@ PyGC_Collect(void)
     n = gc_collect_main(tstate, NUM_GENERATIONS - 1, _Py_GC_REASON_MANUAL);
     _PyErr_SetRaisedException(tstate, exc);
 
-    return n;
+    return (void *)(uintptr_t)n;
+}
+
+/* Public API to invoke gc.collect() from C */
+Py_ssize_t
+PyGC_Collect(void)
+{
+    void *res;
+    if (_PyThreadStack_CallInsideCoroutine(Do_PyGC_Collect, NULL, &res)){
+        return 1;
+    }
+    return (Py_ssize_t)res;
 }
 
 Py_ssize_t
