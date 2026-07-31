@@ -3826,7 +3826,7 @@ queue_slot_update(
     void *slot_value_inlineable
 )
 {
-    if (*slot_ptr == slot_value) {
+    if (*ptr->func == slot_value) {
         return 0; // slot pointer not actually changed, don't queue update
     }
     if (updates->head == NULL || updates->head->n == SLOT_UPDATE_CHUNK_SIZE) {
@@ -3858,8 +3858,8 @@ apply_slot_updates(slot_update_t *updates)
             slot_update_item_t *item = &chunk->updates[i];
             *(item->ptr.func) = item->slot_value;
             *(item->ptr.flags) = item->slot_flags;
-            if (item.ptr.func_inlineable){
-                *item.ptr.func_inlineable = item->slot_value_inlineable;
+            if (item->ptr.func_inlineable){
+                *item->ptr.func_inlineable = item->slot_value_inlineable;
             }
             if (item->slot_value == slot_tp_call) {
                 /* A generic __call__ is incompatible with vectorcall */
@@ -11914,8 +11914,8 @@ resolve_slotdups(PyTypeObject *type, PyObject *name)
     pytype_slotdef *ptrs[MAX_EQUIV];
     pytype_slotdef **pp = ptrs;
     /* Collect all slotdefs that match name into ptrs. */
-    for (pytype_slotdef *p = slotdefs; p->name_strobj; p++) {
-        if (p->name_strobj == name)
+    for (pytype_slotdef *p = slotdefs; p->base.name_strobj; p++) {
+        if (p->base.name_strobj == name)
             *pp++ = p;
     }
     *pp = NULL;
@@ -12206,7 +12206,7 @@ update_one_slot(PyTypeObject *type, pytype_slotdef *p, pytype_slotdef **next_p,
         *ptr.func = slot_value;
         *ptr.flags = slot_flags;
         if (ptr.func_inlineable){
-            *ptr_func_inlineable = slot_value_inlineable;
+            *ptr.func_inlineable = slot_value_inlineable;
         }
     }
 #else
@@ -12307,8 +12307,8 @@ update_all_slots(PyTypeObject* type)
     // can fail internally for other reasons (a lookup fails) but those
     // errors are suppressed.
     slot_update_t queued_updates = {0};
-    for (pytype_slotdef *p = slotdefs; p->name; p++) {
-        if (update_slot(type, p->name_strobj, &queued_updates) < 0) {
+    for (pytype_slotdef *p = slotdefs; p->base.name; p++) {
+        if (update_slot(type, p->base.name_strobj, &queued_updates) < 0) {
             if (queued_updates.head) {
                 slot_update_free_chunks(&queued_updates);
             }
