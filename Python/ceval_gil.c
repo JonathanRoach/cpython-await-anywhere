@@ -50,6 +50,8 @@
      (Note: this mechanism is enabled with FORCE_SWITCHING above)
 */
 
+#ifdef Py_GIL_DISABLED
+#else
 // Atomically copy the bits indicated by mask between two values.
 static inline void
 copy_eval_breaker_bits(uintptr_t *from, uintptr_t *to, uintptr_t mask)
@@ -66,6 +68,7 @@ copy_eval_breaker_bits(uintptr_t *from, uintptr_t *to, uintptr_t mask)
         new_value = (old_value & ~mask) | from_bits;
     } while (!_Py_atomic_compare_exchange_uintptr(to, &old_value, new_value));
 }
+#endif
 
 // When attaching a thread, set the global instrumentation version and
 // _PY_CALLS_TO_DO_BIT from the current state of the interpreter.
@@ -76,7 +79,7 @@ update_eval_breaker_for_thread(PyInterpreterState *interp, PyThreadState *tstate
     // Free-threaded builds eagerly update the eval_breaker on *all* threads as
     // needed, so this function doesn't apply.
     return;
-#endif
+#else
 
     int32_t npending = _Py_atomic_load_int32_relaxed(
         &interp->ceval.pending.npending);
@@ -96,6 +99,7 @@ update_eval_breaker_for_thread(PyInterpreterState *interp, PyThreadState *tstate
     copy_eval_breaker_bits(&interp->ceval.instrumentation_version,
                            &tstate->eval_breaker,
                            ~_PY_EVAL_EVENTS_MASK);
+#endif
 }
 
 /*
