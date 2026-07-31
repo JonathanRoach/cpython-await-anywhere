@@ -3775,7 +3775,7 @@ Return a WindowObject which represents the whole screen.
 
 static PyObject *
 _curses_initscr_impl(PyObject *module)
-/*[clinic end generated code: output=619fb68443810b7b input=041d3d675ca935d3]*/
+/*[clinic end generated code: output=619fb68443810b7b input=514f4bce1821f6b5]*/
 {
     // seen using 103808 bytes on Fedora 43 x86 64 bit
     WINDOW *win;
@@ -3913,7 +3913,7 @@ Initialize the terminal.
 
 static PyObject *
 _curses_setupterm_impl(PyObject *module, const char *term, int fd)
-/*[clinic end generated code: output=4584e587350f2848 input=4a11ae3b572c04e6]*/
+/*[clinic end generated code: output=4584e587350f2848 input=4511472766af0c12]*/
 {
     // Seen using 103616 on Fedora 43 x86 64 bit
     int err;

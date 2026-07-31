@@ -2643,7 +2643,7 @@ PyDoc_STRVAR(_curses_initscr__doc__,
 "Return a WindowObject which represents the whole screen.");
 
 #define _CURSES_INITSCR_METHODDEF    \
-    {"initscr", (PyCFunction)_curses_initscr, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_initscr__doc__},
+    {"initscr", (PyCFunction)_curses_initscr, METH_NOARGS, _curses_initscr__doc__},
 
 static PyObject *
 _curses_initscr_impl(PyObject *module);
@@ -2668,7 +2668,7 @@ PyDoc_STRVAR(_curses_setupterm__doc__,
 "    If not supplied, the file descriptor for sys.stdout will be used.");
 
 #define _CURSES_SETUPTERM_METHODDEF    \
-    {"setupterm", _PyCFunction_CAST(_curses_setupterm), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _curses_setupterm__doc__},
+    {"setupterm", _PyCFunction_CAST(_curses_setupterm), METH_FASTCALL|METH_KEYWORDS, _curses_setupterm__doc__},
 
 static PyObject *
 _curses_setupterm_impl(PyObject *module, const char *term, int fd);
@@ -4420,4 +4420,4 @@ _curses_has_extended_color_support(PyObject *module, PyObject *Py_UNUSED(ignored
 #ifndef _CURSES_ASSUME_DEFAULT_COLORS_METHODDEF
     #define _CURSES_ASSUME_DEFAULT_COLORS_METHODDEF
 #endif /* !defined(_CURSES_ASSUME_DEFAULT_COLORS_METHODDEF) */
-/*[clinic end generated code: output=bd530f5d47dac9a5 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=ef77302e636107a8 input=a9049054013a1b77]*/
