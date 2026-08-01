@@ -258,4 +258,5 @@ static PyType_Spec PySSLCertificate_spec = {
     0,
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_DISALLOW_INSTANTIATION | Py_TPFLAGS_IMMUTABLETYPE,
     PySSLCertificate_slots,
+    .slot_extras = PySSLCertificate_slots_ex,
 };

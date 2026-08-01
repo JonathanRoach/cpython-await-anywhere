@@ -69,7 +69,7 @@ STRINGLIB(find_char)(const STRINGLIB_CHAR* s, Py_ssize_t n, STRINGLIB_CHAR ch)
            and UCS4 representations. */
         if (needle != 0) {
             do {
-                void *candidate = memchr(p, needle,
+                void const *candidate = memchr(p, needle,
                                          (e - p) * sizeof(STRINGLIB_CHAR));
                 if (candidate == NULL)
                     return -1;

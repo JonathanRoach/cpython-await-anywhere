@@ -670,8 +670,6 @@ search_linux_map_for_section(proc_handle_t *handle, const char* secname, const c
     }
 
     uintptr_t retval = 0;
-    int lines_processed = 0;
-    int matches_found = 0;
 
     while (fgets(line + linelen, linesz - linelen, maps_file) != NULL) {
         linelen = strlen(line);
@@ -696,7 +694,6 @@ search_linux_map_for_section(proc_handle_t *handle, const char* secname, const c
         line[linelen - 1] = '\0';
         // and prepare to read the next line into the start of the buffer.
         linelen = 0;
-        lines_processed++;
 
         unsigned long start = 0;
         unsigned long path_pos = 0;
@@ -717,7 +714,6 @@ search_linux_map_for_section(proc_handle_t *handle, const char* secname, const c
         }
 
         if (strstr(filename, substr)) {
-            matches_found++;
             retval = search_elf_file_for_section(handle, secname, start, path);
             if (retval) {
                 break;

@@ -615,7 +615,7 @@ preconfig_init_utf8_mode(PyPreConfig *config, const _PyPreCmdline *cmdline)
     const wchar_t *xopt;
     xopt = _Py_get_xoption(&cmdline->xoptions, L"utf8");
     if (xopt) {
-        wchar_t *sep = wcschr(xopt, L'=');
+        wchar_t const *sep = wcschr(xopt, L'=');
         if (sep) {
             xopt = sep + 1;
             if (wcscmp(xopt, L"1") == 0) {

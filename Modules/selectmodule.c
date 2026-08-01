@@ -2590,7 +2590,8 @@ static PyType_Spec pyEpoll_Type_spec = {
     sizeof(pyEpoll_Object),
     0,
     Py_TPFLAGS_DEFAULT,
-    pyEpoll_Type_slots
+    pyEpoll_Type_slots,
+    .slot_extras = pyEpoll_Type_slots_ex,
 };
 
 #endif /* HAVE_EPOLL */
