@@ -244,10 +244,21 @@ HAVE_SOCKET_QIPCRTR = _have_socket_qipcrtr()
 
 HAVE_SOCKET_VSOCK = _have_socket_vsock()
 
+def CanMakeUDPLightSocket():
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDPLITE)
+    except OSError as err:
+        if err.errno == 93:
+            # Likely a Linux where UDPLite has actually been removed
+            return False
+        raise
+    return True
+
 # Older Android versions block UDPLITE with SELinux.
 HAVE_SOCKET_UDPLITE = (
     hasattr(socket, "IPPROTO_UDPLITE")
-    and not (support.is_android and platform.android_ver().api_level < 29))
+    and not (support.is_android and platform.android_ver().api_level < 29)
+    and CanMakeUDPLightSocket())
 
 HAVE_SOCKET_BLUETOOTH = _have_socket_bluetooth()
 
