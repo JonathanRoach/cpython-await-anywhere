@@ -76,6 +76,19 @@ _Py_thread_local PyThreadState *_Py_tss_tstate = NULL;
    also known as a "gilstate." */
 _Py_thread_local PyThreadState *_Py_tss_gilstate = NULL;
 
+// In this:
+// .base is the first writable address at the base end of the stack
+// .limit is the first non-writeable address at the limit end of the stack
+//    |(base here)...stack grows--->(   unused stack space   )|   
+//     ^                                                       ^
+//     base                                                    limit
+// often blocks of memory are defined with
+// start (low address, first usuable byte)
+// end (high address, first unusable byte)
+// For upwards growing stacks:
+// base = start and limit = end
+// For downward growing stacks:
+// base = end-1 and limit = start-1
 _Py_thread_local _PyThreadStack_Assigned _Py_assigned_stack = {0,0};
 #endif
 
