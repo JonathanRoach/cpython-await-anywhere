@@ -166,8 +166,13 @@ _PyThreadStack_SetAssigned(size_t size)
         err |= pthread_attr_destroy(&attr);
     }
     if (err == 0) {
+  #if defined(_Py_STACK_GROWS_DOWN) && !_Py_STACK_GROWS_DOWN
         _Py_assigned_stack.base = ((uintptr_t)stack_addr) + guard_size;
         _Py_assigned_stack.limit = _Py_assigned_stack.base + stack_size_as_read;
+  #else
+        _Py_assigned_stack.base = ((uintptr_t)stack_addr) - guard_size;
+        _Py_assigned_stack.limit = _Py_assigned_stack.base - stack_size_as_read;
+  #endif
         return;
     }
   #endif
