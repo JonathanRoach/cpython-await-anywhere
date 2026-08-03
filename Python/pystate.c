@@ -167,11 +167,11 @@ _PyThreadStack_SetAssigned(size_t size)
     }
     if (err == 0) {
   #if defined(_Py_STACK_GROWS_DOWN) && !_Py_STACK_GROWS_DOWN
-        _Py_assigned_stack.base = ((uintptr_t)stack_addr) + guard_size;
-        _Py_assigned_stack.limit = _Py_assigned_stack.base + stack_size_as_read;
+        _Py_assigned_stack.base = ((uintptr_t)stack_addr);
+        _Py_assigned_stack.limit = ((uintptr_t)stack_addr) + stack_size_as_read - guard_size;
   #else
-        _Py_assigned_stack.base = ((uintptr_t)stack_addr) - guard_size;
-        _Py_assigned_stack.limit = _Py_assigned_stack.base - stack_size_as_read;
+        _Py_assigned_stack.base = ((uintptr_t)stack_addr) + stack_size_as_read - 1;
+        _Py_assigned_stack.limit = ((uintptr_t)stack_addr) + guard_size - 1;
   #endif
         return;
     }
@@ -184,7 +184,7 @@ _PyThreadStack_SetAssigned(size_t size)
     _Py_assigned_stack.base = _Py_SIZE_ROUND_DOWN(here_addr, 4096);
     _Py_assigned_stack.limit = _Py_assigned_stack.base + size;
   #else
-    _Py_assigned_stack.base = _Py_SIZE_ROUND_UP(here_addr, 4096);
+    _Py_assigned_stack.base = _Py_SIZE_ROUND_UP(here_addr, 4096) - 1;
     _Py_assigned_stack.limit = _Py_assigned_stack.base - size;
   #endif
  #endif
