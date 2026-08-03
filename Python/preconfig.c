@@ -584,7 +584,7 @@ _Py_get_xoption(const PyWideStringList *xoptions, const wchar_t *name)
     for (Py_ssize_t i=0; i < xoptions->length; i++) {
         const wchar_t *option = xoptions->items[i];
         size_t len;
-        wchar_t *sep = wcschr(option, L'=');
+        wchar_t const *sep = wcschr(option, L'=');
         if (sep != NULL) {
             len = (sep - option);
         }
