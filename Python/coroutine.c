@@ -574,7 +574,7 @@ ReserveStackSpace(
     unsigned char *guard = StackPointerAdd(limit, -GUARD_PATTERN_SIZE);
 #if COROUTINE_RECORD_LOWEST_HEADROOM
     for (size_t i = 0; i <= chunk_size-GUARD_PATTERN_SIZE; i += GUARD_PATTERN_SIZE){
-        Apply_Guard(StackPointerAdd(guard, -i));
+        Apply_Guard(StackPointerAdd(guard, -(ptrdiff_t)i));
     }
 #else
     Apply_Guard(guard);
@@ -854,7 +854,7 @@ Coroutine_UpdateMinimumHeadroom(
         if (cor->guard){
             size_t chunk_size = Coroutine_Size(cor);
             for (size_t i = 0; i <= chunk_size-GUARD_PATTERN_SIZE; i += GUARD_PATTERN_SIZE){
-                if (!Guard_Pattern_OK(StackPointerAdd(cor->guard, -i))){
+                if (!Guard_Pattern_OK(StackPointerAdd(cor->guard, -(ptrdiff_t)i))){
                     headroom = i < headroom ? i : headroom;
                     break;
                 }
@@ -1246,6 +1246,7 @@ Coroutine_Yield(
     me->stack_top = (unsigned char *)StackTopNow();
     me->value = NULL;
     me->chain_root->value = value;
+    Coroutine *prev_tip = me->chain_root->chain_tip;
     me->chain_root->chain_tip = me;
     me->state = Coroutine_Waiting;
 
@@ -1272,6 +1273,7 @@ Coroutine_Yield(
         // when we return here - we are running again
         MyAssert(me->state == Coroutine_Running);
         EnlargeActiveIfPossible();
+        me->chain_root->chain_tip = prev_tip;
         void *res = me->entry_param;
         _Cor_Mutex_Unlock(&cors->mutex);
         return res;
