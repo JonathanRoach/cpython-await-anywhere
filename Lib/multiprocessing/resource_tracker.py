@@ -20,6 +20,7 @@ import signal
 import sys
 import threading
 import warnings
+import gc
 
 from . import spawn
 from . import util
@@ -132,69 +133,73 @@ class ResourceTracker(object):
 
         This can be run from any process.  Usually a child process will use
         the resource created by its parent.'''
-        with self._lock:
-            if self._lock._recursion_count() > 1:
-                # The code below is certainly not reentrant-safe, so bail out
-                return self._reentrant_call_error()
-            if self._fd is not None:
-                # resource tracker was launched before, is it still running?
-                if self._check_alive():
-                    # => still alive
-                    return
-                # => dead, launch it again
-                os.close(self._fd)
+        gc.disable()
+        try:
+            with self._lock:
+                if self._lock._recursion_count() > 1:
+                    # The code below is certainly not reentrant-safe, so bail out
+                    return self._reentrant_call_error()
+                if self._fd is not None:
+                    # resource tracker was launched before, is it still running?
+                    if self._check_alive():
+                        # => still alive
+                        return
+                    # => dead, launch it again
+                    os.close(self._fd)
 
-                # Clean-up to avoid dangling processes.
+                    # Clean-up to avoid dangling processes.
+                    try:
+                        # _pid can be None if this process is a child from another
+                        # python process, which has started the resource_tracker.
+                        if self._pid is not None:
+                            os.waitpid(self._pid, 0)
+                    except ChildProcessError:
+                        # The resource_tracker has already been terminated.
+                        pass
+                    self._fd = None
+                    self._pid = None
+                    self._exitcode = None
+
+                    warnings.warn('resource_tracker: process died unexpectedly, '
+                                'relaunching.  Some resources might leak.')
+
+                fds_to_pass = []
                 try:
-                    # _pid can be None if this process is a child from another
-                    # python process, which has started the resource_tracker.
-                    if self._pid is not None:
-                        os.waitpid(self._pid, 0)
-                except ChildProcessError:
-                    # The resource_tracker has already been terminated.
+                    fds_to_pass.append(sys.stderr.fileno())
+                except Exception:
                     pass
-                self._fd = None
-                self._pid = None
-                self._exitcode = None
-
-                warnings.warn('resource_tracker: process died unexpectedly, '
-                              'relaunching.  Some resources might leak.')
-
-            fds_to_pass = []
-            try:
-                fds_to_pass.append(sys.stderr.fileno())
-            except Exception:
-                pass
-            cmd = 'from multiprocessing.resource_tracker import main;main(%d)'
-            r, w = os.pipe()
-            try:
-                fds_to_pass.append(r)
-                # process will out live us, so no need to wait on pid
-                exe = spawn.get_executable()
-                args = [exe] + util._args_from_interpreter_flags()
-                args += ['-c', cmd % r]
-                # bpo-33613: Register a signal mask that will block the signals.
-                # This signal mask will be inherited by the child that is going
-                # to be spawned and will protect the child from a race condition
-                # that can make the child die before it registers signal handlers
-                # for SIGINT and SIGTERM. The mask is unregistered after spawning
-                # the child.
-                prev_sigmask = None
+                cmd = 'from multiprocessing.resource_tracker import main;main(%d)'
+                r, w = os.pipe()
                 try:
-                    if _HAVE_SIGMASK:
-                        prev_sigmask = signal.pthread_sigmask(signal.SIG_BLOCK, _IGNORED_SIGNALS)
-                    pid = util.spawnv_passfds(exe, args, fds_to_pass)
+                    fds_to_pass.append(r)
+                    # process will out live us, so no need to wait on pid
+                    exe = spawn.get_executable()
+                    args = [exe] + util._args_from_interpreter_flags()
+                    args += ['-c', cmd % r]
+                    # bpo-33613: Register a signal mask that will block the signals.
+                    # This signal mask will be inherited by the child that is going
+                    # to be spawned and will protect the child from a race condition
+                    # that can make the child die before it registers signal handlers
+                    # for SIGINT and SIGTERM. The mask is unregistered after spawning
+                    # the child.
+                    prev_sigmask = None
+                    try:
+                        if _HAVE_SIGMASK:
+                            prev_sigmask = signal.pthread_sigmask(signal.SIG_BLOCK, _IGNORED_SIGNALS)
+                        pid = util.spawnv_passfds(exe, args, fds_to_pass)
+                    finally:
+                        if prev_sigmask is not None:
+                            signal.pthread_sigmask(signal.SIG_SETMASK, prev_sigmask)
+                except:
+                    os.close(w)
+                    raise
+                else:
+                    self._fd = w
+                    self._pid = pid
                 finally:
-                    if prev_sigmask is not None:
-                        signal.pthread_sigmask(signal.SIG_SETMASK, prev_sigmask)
-            except:
-                os.close(w)
-                raise
-            else:
-                self._fd = w
-                self._pid = pid
-            finally:
-                os.close(r)
+                    os.close(r)
+        finally:
+            gc.enable()
 
     def _check_alive(self):
         '''Check that the pipe has not been closed by sending a probe.'''
