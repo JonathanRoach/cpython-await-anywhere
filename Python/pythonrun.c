@@ -707,7 +707,7 @@ _PY_ENSURE_COSTACK_FOR_FN2_A(_PyErr_PrintEx, PyThreadState *, tstate, int, set_s
 static void
 _PyErr_PrintEx(PyThreadState *tstate, int set_sys_last_vars)
 {
-    _PY_ENSURE_COSTACK_FOR_FN2_B(, void, _PyErr_PrintEx, tstate, set_sys_last_vars)
+    _PY_ENSURE_COSTACK_FOR_FN2_BV(_PyErr_PrintEx, tstate, set_sys_last_vars)
     PyObject *typ = NULL, *tb = NULL, *hook = NULL;
     handle_system_exit();
 
@@ -1220,7 +1220,7 @@ _PY_ENSURE_COSTACK_FOR_FN3_A(PyErr_Display, PyObject *, unused, PyObject *, valu
 void
 PyErr_Display(PyObject *unused, PyObject *value, PyObject *tb)
 {
-    _PY_ENSURE_COSTACK_FOR_FN3_B(, void, PyErr_Display, unused, value, tb)
+    _PY_ENSURE_COSTACK_FOR_FN3_BV(PyErr_Display, unused, value, tb)
     PyObject *file;
     if (PySys_GetOptionalAttr(&_Py_ID(stderr), &file) < 0) {
         PyObject *exc = PyErr_GetRaisedException();
@@ -1247,7 +1247,7 @@ PyErr_Display(PyObject *unused, PyObject *value, PyObject *tb)
 _PY_ENSURE_COSTACK_FOR_FN2_A(_PyErr_DisplayException, PyObject *, file, PyObject *, exc)
 void _PyErr_DisplayException(PyObject *file, PyObject *exc)
 {
-    _PY_ENSURE_COSTACK_FOR_FN2_B(, void, _PyErr_DisplayException, file, exc)
+    _PY_ENSURE_COSTACK_FOR_FN2_BV(_PyErr_DisplayException, file, exc)
     _PyErr_Display(params->file, NULL, params->exc, NULL);
     return NULL;
 }

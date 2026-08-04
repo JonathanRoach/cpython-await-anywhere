@@ -170,6 +170,12 @@ static void *Do_Call_##fn(void *param);
 } \
 static void *Do_Call_##fn(void *_params){ \
     struct Do_Call_Params_##fn *params = (struct Do_Call_Params_##fn *)_params;
+#define _PY_ENSURE_COSTACK_FOR_FN2_BV(fn, p0, p1) \
+    struct Do_Call_Params_##fn params = {p0, p1}; \
+    _PyThreadStack_CallInsideCoroutine(Do_Call_##fn, (void *)&params, NULL); \
+} \
+static void *Do_Call_##fn(void *_params){ \
+    struct Do_Call_Params_##fn *params = (struct Do_Call_Params_##fn *)_params;
 
 #define _PY_ENSURE_COSTACK_FOR_FN3_A(fn, p0_t, p0, p1_t, p1, p2_t, p2) \
 struct Do_Call_Params_##fn { \
@@ -185,6 +191,12 @@ static void *Do_Call_##fn(void *param);
         return nonmemret; \
     } \
     return (r_t)(uintptr_t)res; \
+} \
+static void *Do_Call_##fn(void *_params){ \
+    struct Do_Call_Params_##fn *params = (struct Do_Call_Params_##fn *)_params;
+#define _PY_ENSURE_COSTACK_FOR_FN3_BV(fn, p0, p1, p2) \
+    struct Do_Call_Params_##fn params = {p0, p1, p2}; \
+    _PyThreadStack_CallInsideCoroutine(Do_Call_##fn, (void *)&params, NULL); \
 } \
 static void *Do_Call_##fn(void *_params){ \
     struct Do_Call_Params_##fn *params = (struct Do_Call_Params_##fn *)_params;

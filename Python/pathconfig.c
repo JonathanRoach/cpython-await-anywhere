@@ -445,7 +445,7 @@ _PyPathConfig_ComputeSysPath0(const PyWideStringList *argv, PyObject **path0_p)
         /* Replace the first element in argv with the full path. */
         wchar_t *ptemp;
         if (GetFullPathNameW(path0,
-                           fullpath_len,
+                           (DWORD)fullpath_len,
                            fullpath,
                            &ptemp)) {
             path0 = fullpath;
@@ -490,7 +490,9 @@ _PyPathConfig_ComputeSysPath0(const PyWideStringList *argv, PyObject **path0_p)
         *path0_p = path0_obj;
         result = 1;
     }
+#ifdef HAVE_READLINK
 done:
+#endif
 #if defined(HAVE_REALPATH) || defined(MS_WINDOWS)
     PyMem_RawFree(fullpath);
 #endif
