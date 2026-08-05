@@ -413,6 +413,10 @@ TrimmableSize(
     }
 
     if (cor->limit){
+        // If this coroutine's stack chunk does not have enough space for:
+        // * itself (min_size)
+        // * a potential new coroutine (COROUTINE_MINIMUM_STACK_SIZE)
+        // then return 0, ie not trimable
         if (Coroutine_Size(cor) < min_size + COROUTINE_MINIMUM_STACK_SIZE){
             return 0;
         }
@@ -750,8 +754,12 @@ Coroutines_ctor(
     cor->chain_tip = cor;
     if (cors->stack_limit){
         cor->limit = cors->stack_limit;
+#if COROUTINE_GUARD_AT_C_STACK_LIMIT
         cor->guard = StackPointerAdd(cor->limit, -GUARD_PATTERN_SIZE);
         Apply_Guard(cor->guard);
+#else
+        cor->guard = NULL;
+#endif
     } else {
         cor->limit = cor->guard = NULL;
     }
@@ -836,8 +844,12 @@ Coroutine_SetStackLimit(
         g_c->stack_limit = limit;
         if (g_c->tip){
             g_c->tip->limit = limit;
+#if COROUTINE_GUARD_AT_C_STACK_LIMIT
             g_c->tip->guard = StackPointerAdd(limit, -GUARD_PATTERN_SIZE);
             Apply_Guard(g_c->tip->guard);
+#else
+            g_c->tip->guard = NULL;
+#endif
         }
     }
 }
@@ -1304,23 +1316,21 @@ Coroutine_GetStackHeadroom(
     void
 ){
     Coroutine *me = g_c ? g_c->active : NULL;
-    if (!me){
+    if (me){
+        // active coroutine
+        if (me->guard){
+            return StackPointerDiff(me->guard, (unsigned char *)StackTopNow());
+        } else if (me->limit) {
+            return StackPointerDiff(me->limit, (unsigned char *)StackTopNow());
+        }
+    } else {
         // no active coroutine
         if (g_stack_limit){
             return StackPointerDiff(g_stack_limit, (unsigned char *)StackTopNow());
-        } else {
-            // no information where the stack ends - return something
-            // The biggest ptrdiff_t possible
-            return PTRDIFF_MAX;
-        }
-    } else {
-        if (me->guard){
-            return StackPointerDiff(me->guard, (unsigned char *)StackTopNow());
-        } else {
-            // The biggest ptrdiff_t possible
-            return PTRDIFF_MAX;
         }
     }
+    // The biggest ptrdiff_t possible
+    return PTRDIFF_MAX;
 }
 
 

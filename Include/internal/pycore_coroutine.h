@@ -111,6 +111,22 @@
     #define COROUTINE_MINIMUM_STACK_SIZE (4096 * sizeof(void *))
 #endif
 
+// A guard pattern is placed at the end of every stack chunk to detect stack overruns.
+// The initial stack chunk ends at the C stack's limit, and is the only chunk not created
+// by calling a routine and using alloca().
+// On Windows, the OS assigns real memory pages for the used stack only (not unusual), but
+// restricts when new pages are assigned. My guess is that it assumes read/write of an
+// unassigned page which is also beyond the stack pointer is probably a bug. The consequence
+// is that you can't write a guard pattern at the C stack's limit, hence this configuration
+// control exists.
+#ifndef COROUTINE_GUARD_AT_C_STACK_LIMIT
+    #if defined(MS_WIN32)
+        #define COROUTINE_GUARD_AT_C_STACK_LIMIT 0
+    #else
+        #define COROUTINE_GUARD_AT_C_STACK_LIMIT 1
+    #endif
+#endif
+
 // When Coroutine is started, an amount of stack is set aside to give
 // the caller of Coroutine_StartSystem a bit of room to work before calling
 // Coroutine_Run(), that is this amount:
