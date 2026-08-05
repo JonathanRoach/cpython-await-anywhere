@@ -385,8 +385,8 @@ struct Coroutines {
 _Cor_thread_local Coroutines *g_c;
 _Cor_thread_local unsigned char *g_stack_limit;
 
-static void ReserveStackSpace(Coroutines *cors, Coroutine *parent, size_t chunk_size, unsigned char *childs_limit);
-static void stack_chunk_base(Coroutines *cors, Coroutine *parent, unsigned char *prev_limit, unsigned char *limit);
+static void ReserveStackSpace(Coroutines *cors, Coroutine *parent, size_t chunk_size, unsigned char *childs_limit, unsigned char *childs_guard);
+static void stack_chunk_base(Coroutines *cors, Coroutine *parent, unsigned char *prev_limit, unsigned char *limit, unsigned char *guard);
 
 
 static size_t
@@ -571,7 +571,8 @@ ReserveStackSpace(
     Coroutines *cors,
     Coroutine *parent,
     size_t chunk_size,
-    unsigned char *childs_limit
+    unsigned char *childs_limit,
+    unsigned char *childs_guard
 ){
     unsigned char *chunk_of_stack = alloca(chunk_size);
     unsigned char *limit = StackLimitEnd(chunk_of_stack, chunk_of_stack+chunk_size);
@@ -587,7 +588,7 @@ ReserveStackSpace(
         parent->limit = limit;
         parent->guard = guard;
     }
-    stack_chunk_base(cors, parent, limit, childs_limit);
+    stack_chunk_base(cors, parent, limit, childs_limit, childs_guard);
 }
 
 
@@ -596,7 +597,8 @@ stack_chunk_base(
     Coroutines *cors,
     Coroutine *parent,
     unsigned char *prev_limit,
-    unsigned char *limit
+    unsigned char *limit,
+    unsigned char *guard
 ){
     MyAssert(cors->spare);
     Coroutine *here = cors->spare;
@@ -606,13 +608,8 @@ stack_chunk_base(
     here->state = Coroutine_Free;
     here->base = prev_limit;
     here->limit = limit;
+    here->guard = guard;
     here->stack_top = (unsigned char *)StackTopNow();
-    if (limit){
-        here->guard = StackPointerAdd(limit, -GUARD_PATTERN_SIZE);
-        Apply_Guard(here->guard);
-    } else {
-        here->guard = NULL;
-    }
 
     // insert into all list
     if (parent){
@@ -651,7 +648,7 @@ stack_chunk_base(
         case Chunk_Split:
             // Request to split this idle block into two
             // g_c->size_to_retain will be set to our shorter size
-            ReserveStackSpace(here->coroutines, here, g_c->size_to_retain, here->limit);
+            ReserveStackSpace(here->coroutines, here, g_c->size_to_retain, here->limit, here->guard);
             MyAssert(false);
             break;
         case Chunk_Enter:
@@ -1040,7 +1037,7 @@ TrimActiveIfPossible
     // enough space for a second coroutine so free the unused stack space from active
     if (!setjmp(g_c->chunk_allocated)){
         ready_jmp_buf(g_c->chunk_allocated);
-        ReserveStackSpace(g_c, active, timmablesize - StackPointerDiff(active->stack_top, active->base), active->limit);
+        ReserveStackSpace(g_c, active, timmablesize - StackPointerDiff(active->stack_top, active->base), active->limit, active->guard);
         MyAssert(false);
     }
 }
