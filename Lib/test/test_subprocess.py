@@ -3672,8 +3672,7 @@ class Win32ProcessTestCase(BaseTestCase):
 
     def test_call_string(self):
         # call() function with string argument on Windows
-        rc = subprocess.call(sys.executable +
-                             ' -c "import sys; sys.exit(47)"')
+        rc = subprocess.call(f'"{sys.executable}" -c "import sys; sys.exit(47)"')
         self.assertEqual(rc, 47)
 
     def _kill_process(self, method, *args):
