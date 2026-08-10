@@ -1508,8 +1508,6 @@ class InitConfigTests(EmbeddingTestsMixin, unittest.TestCase):
         env['NEGATIVE_ISPYTHONBUILD'] = '0'
         config['_is_python_build'] = 1
         exedir = os.path.dirname(sys.executable)
-        print(exedir)
-        print(os.path.join(exedir, 'pybuilddir.txt'))
         with open(os.path.join(exedir, 'pybuilddir.txt'), encoding='utf8') as f:
             expected_paths[1 if MS_WINDOWS else 2] = os.path.normpath(
                 os.path.join(exedir, f'{f.read()}\n$'.splitlines()[0]))
