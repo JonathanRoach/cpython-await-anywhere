@@ -3549,8 +3549,7 @@ class Win32ProcessTestCase(BaseTestCase):
         # creationflags argument
         CREATE_NEW_CONSOLE = 16
         sys.stderr.write("    a DOS box should flash briefly ...\n")
-        subprocess.call(sys.executable +
-                        ' -c "import time; time.sleep(0.25)"',
+        subprocess.call(f'"{sys.executable}" -c "import time; time.sleep(0.25)"',
                         creationflags=CREATE_NEW_CONSOLE)
 
     def test_invalid_args(self):
