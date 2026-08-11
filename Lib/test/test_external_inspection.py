@@ -509,7 +509,8 @@ class TestGetStackTrace(unittest.TestCase):
     )
     def test_async_global_awaited_by(self):
         # Note: with stackful coroutines, theres a limit to the number of concurrent coroutines a default stack can handle
-        num_tasks_in_test = 50
+        # This number is tuned for Release Windows
+        num_tasks_in_test = 30
         port = find_unused_port()
         script = textwrap.dedent(
             f"""\
