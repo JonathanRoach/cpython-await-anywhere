@@ -3320,19 +3320,37 @@ _Py_Dealloc(PyObject *op)
 
     int condition = tstate->delete_condition;
     PyTypeObject *tp = Py_TYPE(op);
-    bool op_reenters = tp->tp_finalize || tp->tp_del;
+
+    // We avoid deep recursion into tp_dealloc's by storing objects ready to dealloc
+    // on singly-linked lists. Objects are divided into two groups based on which
+    // reenter the interpreter on dealloc.
+    
+    // Those which don't reenter the interpreter are assumed to have a small requirement
+    // of stack for tp_dealloc, and so are deleted regardless of how much stack remains.
+    // Also, as they don't reenter the interpreter there won't be a gc.collect(), and
+    // so the non-GIL garbage collector won't wreck the linked list which uses ob_tid.
+
+    // Reasons an object's dealloc may reenter the interpreter:
+    // tp_finalize and tp_del: __del__() method
+    // weakrefs: weakref callback
+    bool op_reenters = tp->tp_finalize || tp->tp_del || _PyType_SUPPORTS_WEAKREFS(tp);
+
     if (op_reenters){
+        // Untrack the object while its waiting to be tp_dealloc()'ed so gc.collect()
+        // doesn't mess with it. 
         if (PyType_HasFeature(tp, Py_TPFLAGS_HAVE_GC)){
             PyObject_GC_UnTrack(op);
         }
         _PyTrash_thread_deposit_object(&tstate->delete_later, op);
     } else {
+        // Don't untrack the object - we assume gc won't run
         _PyTrash_thread_deposit_object(&tstate->delete_now, op);
     }
 
     if (!(condition & (op_reenters ? 3 : 1))){
         _PyThreadStack_CallInsideCoroutine(_Py_Dealloc_Now, NULL, NULL);
     }
+    assert((condition&1) || tstate->delete_now == NULL);
 }
 
 static void *
