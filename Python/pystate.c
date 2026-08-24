@@ -1601,6 +1601,8 @@ init_threadstate(_PyThreadStateImpl *_tstate,
     _tstate->asyncio_running_loop = NULL;
     _tstate->asyncio_running_task = NULL;
 
+    tstate->delete_condition = 0;
+    tstate->delete_now = NULL;
     tstate->delete_later = NULL;
 
     llist_init(&_tstate->mem_free_queue);

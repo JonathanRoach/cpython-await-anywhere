@@ -163,6 +163,21 @@ struct _ts {
      */
     unsigned long native_thread_id;
 
+    /*
+      bit 0 - deleting shallow objects
+      bit 1 - deleting reentrant objects (those with tp_del or tp_finalize)
+      Py_Dealloc puts the object on a list: delete_now (shallow) or delete_later (reentrant)
+      Then, if bit 0 is clear,
+         bit 0 is set
+         The delete_now list is tp_dealloc'ed
+         bit 0 is cleared
+      Then, if bit 1 is clear and there's enough stack
+         bit 1 is set
+         The delete_later list is tp_dealloc'ed
+         bit 1 is cleared
+      */
+    int delete_condition;
+    PyObject *delete_now;
     PyObject *delete_later;
 
     /* Tagged pointer to top-most critical section, or zero if there is no

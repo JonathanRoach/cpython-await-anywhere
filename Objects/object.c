@@ -3156,38 +3156,43 @@ safe_refcount_to_pointer(uintptr_t refcnt)
  * call-stack depth gets large.  op must be a currently untracked gc'ed
  * object, with refcount 0.  Py_DECREF must already have been called on it.
  */
-void
-_PyTrash_thread_deposit_object(PyThreadState *tstate, PyObject *op)
+static void
+_PyTrash_thread_deposit_object(PyObject **list, PyObject *op)
 {
     _PyObject_ASSERT(op, Py_REFCNT(op) == 0);
 #ifdef Py_GIL_DISABLED
-    op->ob_tid = (uintptr_t)tstate->delete_later;
+    op->ob_tid = (uintptr_t)*list;
 #else
     /* Store the delete_later pointer in the refcnt field. */
-    uintptr_t refcnt = pointer_to_safe_refcount(tstate->delete_later);
+    uintptr_t refcnt = pointer_to_safe_refcount(*list);
     *((uintptr_t*)op) = refcnt;
     assert(!_Py_IsImmortal(op));
 #endif
-    tstate->delete_later = op;
+    *list = op;
 }
 
 /* Deallocate all the objects in the gcstate->trash_delete_later list.
  * Called when the call-stack unwinds again. */
 void
-_PyTrash_thread_destroy_chain(PyThreadState *tstate)
+_PyTrash_thread_destroy_chain(PyObject **list, bool retrack)
 {
-    while (tstate->delete_later) {
-        PyObject *op = tstate->delete_later;
+#ifdef Py_DEBUG
+    PyThreadState *tstate = _PyThreadState_GET();
+    assert(tstate);
+#endif
+
+    while (*list) {
+        PyObject *op = *list;
 
 #ifdef Py_GIL_DISABLED
-        tstate->delete_later = (PyObject*) op->ob_tid;
+        *list = (PyObject*) op->ob_tid;
         op->ob_tid = 0;
         _Py_atomic_store_ssize_relaxed(&op->ob_ref_shared, _Py_REF_MERGED);
 #else
         /* Get the delete_later pointer from the refcnt field.
          * See _PyTrash_thread_deposit_object(). */
         uintptr_t refcnt = *((uintptr_t*)op);
-        tstate->delete_later = safe_refcount_to_pointer(refcnt);
+        *list = safe_refcount_to_pointer(refcnt);
         op->ob_refcnt = 0;
 #endif
 
@@ -3198,7 +3203,53 @@ _PyTrash_thread_destroy_chain(PyThreadState *tstate)
          * up distorting allocation statistics.
          */
         _PyObject_ASSERT(op, Py_REFCNT(op) == 0);
-        PyType_Call_tp_dealloc(Py_TYPE(op), op);
+        PyTypeObject *type = Py_TYPE(op);
+#ifdef Py_DEBUG
+#if !defined(Py_GIL_DISABLED) && !defined(Py_STACKREF_DEBUG)
+        /* This assertion doesn't hold for the free-threading build, as
+        * PyStackRef_CLOSE_SPECIALIZED is not implemented */
+        assert(tstate->current_frame == NULL || tstate->current_frame->stackpointer != NULL);
+#endif
+        PyObject *old_exc = tstate != NULL ? tstate->current_exception : NULL;
+        // Keep the old exception type alive to prevent undefined behavior
+        // on (tstate->curexc_type != old_exc_type) below
+        Py_XINCREF(old_exc);
+        // Make sure that type->tp_name remains valid
+        Py_INCREF(type);
+#endif
+
+        if (retrack && PyType_HasFeature(type, Py_TPFLAGS_HAVE_GC)){
+            PyObject_GC_Track(op);
+        }
+
+#ifdef Py_TRACE_REFS
+        _Py_ForgetReference(op);
+#endif
+        _PyReftracerTrack(op, PyRefTracer_DESTROY);
+        PyType_Call_tp_dealloc(type, op);
+
+#ifdef Py_DEBUG
+        // gh-89373: The tp_dealloc function must leave the current exception
+        // unchanged.
+        if (tstate->current_exception != old_exc) {
+            const char *err;
+            if (old_exc == NULL) {
+                err = "Deallocator of type '%s' raised an exception";
+            }
+            else if (tstate->current_exception == NULL) {
+                err = "Deallocator of type '%s' cleared the current exception";
+            }
+            else {
+                // It can happen if dealloc() normalized the current exception.
+                // A deallocator function must not change the current exception,
+                // not even normalize it.
+                err = "Deallocator of type '%s' overrode the current exception";
+            }
+            _Py_FatalErrorFormat(__func__, err, type->tp_name);
+        }
+        Py_XDECREF(old_exc);
+        Py_DECREF(type);
+#endif
     }
 }
 
@@ -3266,74 +3317,38 @@ void
 _Py_Dealloc(PyObject *op)
 {
     PyThreadState *tstate = _PyThreadState_GET();
-    if (_PyThreadStack_IsStackFull(2)) {
-        _PyTrash_thread_deposit_object(tstate, (PyObject *)op);
-        return;
+
+    int condition = tstate->delete_condition;
+    PyTypeObject *tp = Py_TYPE(op);
+    bool op_reenters = tp->tp_finalize || tp->tp_del;
+    if (op_reenters){
+        if (PyType_HasFeature(tp, Py_TPFLAGS_HAVE_GC)){
+            PyObject_GC_UnTrack(op);
+        }
+        _PyTrash_thread_deposit_object(&tstate->delete_later, op);
+    } else {
+        _PyTrash_thread_deposit_object(&tstate->delete_now, op);
     }
-    _PyThreadStack_CallInsideCoroutine(_Py_Dealloc_Now, op, NULL);
+
+    if (!(condition & (op_reenters ? 3 : 1))){
+        _PyThreadStack_CallInsideCoroutine(_Py_Dealloc_Now, NULL, NULL);
+    }
 }
 
 static void *
 _Py_Dealloc_Now(void *_op)
 {
-    if (_Py_Coroutine_GetStackHeadroom() < (intptr_t)(PYOS_COSTACK_MIN_HEADROOM)) {
-        // This should always succeed, given the pre-conditioning above
-        if (!_Py_Coroutine_Chain(PYOS_COSTACK_STD_SIZE, PYOS_COSTACK_CHAIN_HEADROOM, _Py_Dealloc_Now, _op, NULL)){
-            return NULL;
-        }
-        // If we're here, margin would have been 2 in _Py_Dealloc, but have
-        // less than 2*PYOS_STACK_MARGIN_BYTES of stack headroom, and unable
-        // to chain. There should be enough stack headroom to continue...
-    }
-    PyObject *op = (PyObject *)_op;
     PyThreadState *tstate = _PyThreadState_GET();
-    PyTypeObject *type = Py_TYPE(op);
-#ifdef Py_DEBUG
-#if !defined(Py_GIL_DISABLED) && !defined(Py_STACKREF_DEBUG)
-    /* This assertion doesn't hold for the free-threading build, as
-     * PyStackRef_CLOSE_SPECIALIZED is not implemented */
-    assert(tstate->current_frame == NULL || tstate->current_frame->stackpointer != NULL);
-#endif
-    PyObject *old_exc = tstate != NULL ? tstate->current_exception : NULL;
-    // Keep the old exception type alive to prevent undefined behavior
-    // on (tstate->curexc_type != old_exc_type) below
-    Py_XINCREF(old_exc);
-    // Make sure that type->tp_name remains valid
-    Py_INCREF(type);
-#else
-    (void)type;
-#endif
-
-#ifdef Py_TRACE_REFS
-    _Py_ForgetReference(op);
-#endif
-    _PyReftracerTrack(op, PyRefTracer_DESTROY);
-    PyType_Call_tp_dealloc(Py_TYPE(op), op);
-
-#ifdef Py_DEBUG
-    // gh-89373: The tp_dealloc function must leave the current exception
-    // unchanged.
-    if (tstate != NULL && tstate->current_exception != old_exc) {
-        const char *err;
-        if (old_exc == NULL) {
-            err = "Deallocator of type '%s' raised an exception";
-        }
-        else if (tstate->current_exception == NULL) {
-            err = "Deallocator of type '%s' cleared the current exception";
-        }
-        else {
-            // It can happen if dealloc() normalized the current exception.
-            // A deallocator function must not change the current exception,
-            // not even normalize it.
-            err = "Deallocator of type '%s' overrode the current exception";
-        }
-        _Py_FatalErrorFormat(__func__, err, type->tp_name);
+    int condition = tstate->delete_condition;
+    if (!(condition & 1)){
+        tstate->delete_condition = condition | 1;
+        _PyTrash_thread_destroy_chain(&tstate->delete_now, false);
+        tstate->delete_condition = condition;
     }
-    Py_XDECREF(old_exc);
-    Py_DECREF(type);
-#endif
-    if (tstate->delete_later && !_PyThreadStack_IsStackFull(4)) {
-        _PyTrash_thread_destroy_chain(tstate);
+    if (!(condition & 3) && !_PyThreadStack_IsStackFull(2)){
+        tstate->delete_condition = condition | 2;
+        _PyTrash_thread_destroy_chain(&tstate->delete_later, true);
+        tstate->delete_condition = condition;
     }
     return NULL;
 }
