@@ -1158,6 +1158,39 @@ PyObject_ClearWeakRefs(PyObject *object)
     PyErr_SetRaisedException(exc);
 }
 
+
+// Return whether this object has a weakref callback
+bool
+_PyObject_HasWeakrefCallback(PyObject *obj)
+{
+    if (obj == NULL
+        || !_PyType_SUPPORTS_WEAKREFS(Py_TYPE(obj))
+        || Py_REFCNT(obj) != 0)
+    {
+        return false;
+    }
+    PyWeakReference **list = GET_WEAKREFS_LISTPTR(obj);
+    if (FT_ATOMIC_LOAD_PTR(*list) == NULL) {
+        // Fast path for the common case
+        return false;
+    }
+
+    bool any = false;
+    LOCK_WEAKREFS(obj);
+    PyWeakReference *item = *list;
+    while (item != NULL) {
+        if (item->wr_callback){
+            any = true;
+            break;
+        }
+        item = item->wr_next;
+    }
+    UNLOCK_WEAKREFS(obj);
+
+    return any;
+}
+
+
 void
 PyUnstable_Object_ClearWeakRefsNoCallbacks(PyObject *obj)
 {

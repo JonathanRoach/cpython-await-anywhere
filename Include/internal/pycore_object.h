@@ -878,6 +878,9 @@ static inline int _PyType_SUPPORTS_WEAKREFS(PyTypeObject *type) {
     return (type->tp_weaklistoffset != 0);
 }
 
+// Return whether this object has a weakref callback
+extern bool _PyObject_HasWeakrefCallback(PyObject *obj);
+
 extern PyObject* _PyType_AllocNoTrack(PyTypeObject *type, Py_ssize_t nitems);
 PyAPI_FUNC(PyObject *) _PyType_NewManagedObject(PyTypeObject *type);
 

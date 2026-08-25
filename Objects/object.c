@@ -3333,7 +3333,7 @@ _Py_Dealloc(PyObject *op)
     // Reasons an object's dealloc may reenter the interpreter:
     // tp_finalize and tp_del: __del__() method
     // weakrefs: weakref callback
-    bool op_reenters = tp->tp_finalize || tp->tp_del || _PyType_SUPPORTS_WEAKREFS(tp);
+    bool op_reenters = tp->tp_finalize || tp->tp_del || _PyObject_HasWeakrefCallback(op);
 
     if (op_reenters){
         // Untrack the object while its waiting to be tp_dealloc()'ed so gc.collect()
