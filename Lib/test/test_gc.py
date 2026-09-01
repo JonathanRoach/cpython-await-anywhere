@@ -300,7 +300,8 @@ class GCTests(unittest.TestCase):
         # We're mostly just checking that this doesn't crash.
         rc, stdout, stderr = assert_python_ok("-c", code)
         self.assertEqual(rc, 0)
-        self.assertRegex(stdout, rb"""\A\s*func=None\s*\z""")
+        # Don't check output as, depending on exact internal ordering, it could be None or <function:...
+        # This depends on GIL being enabled or disabled.
         self.assertFalse(stderr)
 
     @refcount_test
