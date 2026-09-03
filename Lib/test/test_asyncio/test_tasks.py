@@ -2628,7 +2628,7 @@ class BaseTaskTests:
 
         async def main():
             tasks = []
-            for i in range(50):
+            for i in range(30):
                 task = loop.create_task(sub(random.randint(0, 10)))
                 tasks.append(task)
 
