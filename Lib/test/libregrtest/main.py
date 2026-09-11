@@ -126,6 +126,7 @@ class Regrtest:
         self.coverage: bool = ns.trace
         self.coverage_dir: StrPath | None = ns.coverdir
         self._tmp_dir: StrPath | None = ns.tempdir
+        self.pythoninfo: bool = ns.pythoninfo
 
         # Randomize
         self.randomize: bool = ns.randomize
@@ -741,6 +742,15 @@ class Regrtest:
             )
         return self._tmp_dir
 
+    def run_pythoninfo(self):
+        from test import pythoninfo
+        try:
+            pythoninfo.main()
+        except SystemExit:
+            # Ignore non-zero exit code on purpose
+            pass
+        print()
+
     def main(self, tests: TestList | None = None) -> NoReturn:
         if self.want_add_python_opts:
             self._add_python_opts()
@@ -753,6 +763,9 @@ class Regrtest:
 
         if self.want_wait:
             input("Press any key to continue...")
+
+        if self.pythoninfo:
+            self.run_pythoninfo()
 
         setup_test_dir(self.test_dir)
         selected, tests = self.find_tests(tests)
