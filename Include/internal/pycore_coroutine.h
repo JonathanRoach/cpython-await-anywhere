@@ -119,8 +119,9 @@
 // unassigned page which is also beyond the stack pointer is probably a bug. The consequence
 // is that you can't write a guard pattern at the C stack's limit, hence this configuration
 // control exists.
+// Android concludes the app is being greedy, and exceptions if this guard is placed.
 #ifndef COROUTINE_GUARD_AT_C_STACK_LIMIT
-    #if defined(MS_WIN32)
+    #if defined(MS_WIN32) || defined(__ANDROID__)
         #define COROUTINE_GUARD_AT_C_STACK_LIMIT 0
     #else
         #define COROUTINE_GUARD_AT_C_STACK_LIMIT 1
