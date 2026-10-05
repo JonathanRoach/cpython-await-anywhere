@@ -416,10 +416,12 @@ int _Py_StackNearlyExhausted(void)
         // not close
         return 0;
     }
+#if PY_ASYNC_BY_COROUTINE_C
     if (_Py_Coroutine_CanStartCoroutine(PYOS_COSTACK_STD_SIZE)) {
         // still not close as we can chain
         return 0;
     }
+#endif
     return -1;
 }
 
@@ -435,10 +437,12 @@ _Py_CheckRecursiveCall(PyThreadState *tstate, const char *where)
         // not close
         return 0;
     }
+#if PY_ASYNC_BY_COROUTINE_C
     if (_Py_Coroutine_CanStartCoroutine(PYOS_COSTACK_STD_SIZE)) {
         // still not close as we can chain
         return 0;
     }
+#endif
     if (coroutine_headroom < (intptr_t)PYOS_STACK_MARGIN_BYTES) {
         /* Overflowing while handling an overflow. Give up. */
         int kbytes_used = (int)(_tstate->c_stack_top - (uintptr_t)_Py_Coroutine_GetCStackTop())/1024;

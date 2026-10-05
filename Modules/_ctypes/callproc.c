@@ -1229,9 +1229,13 @@ PyObject *_ctypes_callproc(ctypes_state *st,
     };
 
     PyObject *result;
+#if PY_ASYNC_BY_COROUTINE_C
     if (_Py_Coroutine_CallWithMaxStack(_ctypes_callproc_inner, &params, (void **)&result)){
         result = _ctypes_callproc_inner(&params);
     }
+#else
+    result = _ctypes_callproc_inner(&params);
+#endif
     return result;
 }
 

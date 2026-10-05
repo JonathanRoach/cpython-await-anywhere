@@ -833,6 +833,21 @@ if test "$cross_compiling" = yes; then
 	_PYTHON_HOST_PLATFORM="$MACHDEP${_host_ident:+-$_host_ident}"
 fi
 
+# Whether Async is implemented by coroutine.c
+AC_SUBST([PY_ASYNC_BY_COROUTINE_C])
+if test "$cross_compiling" = yes; then
+	case "$host" in
+	wasm32-*-* | wasm64-*-*)
+    # Wasm can't do longjmp
+    PY_ASYNC_BY_COROUTINE_C=0
+		;;
+	*)
+   PY_ASYNC_BY_COROUTINE_C=1
+	esac
+else
+  PY_ASYNC_BY_COROUTINE_C=1
+fi
+
 # Some systems cannot stand _XOPEN_SOURCE being defined at all; they
 # disable features if it is defined, without any means to access these
 # features as extensions. For these systems, we skip the definition of
@@ -5440,6 +5455,13 @@ AS_CASE([$ac_sys_system],
     AS_VAR_APPEND([PLATFORM_HEADERS], [' $(srcdir)/Include/internal/pycore_emscripten_signal.h $(srcdir)/Include/internal/pycore_emscripten_trampoline.h'])
   ],
 )
+AS_VAR_IF([PY_ASYNC_BY_COROUTINE_C], [1], [
+  AS_VAR_APPEND([PLATFORM_OBJS], [' Python/coroutine.o'])
+  AC_DEFINE([PY_ASYNC_BY_COROUTINE_C], [1],
+              [Define to 1 if asyncio implemented using coroutine.c]),
+], [
+  AS_VAR_APPEND([PLATFORM_OBJS], [' Python/coroutine_stub.o'])
+])
 AC_SUBST([PLATFORM_HEADERS])
 AC_SUBST([PLATFORM_OBJS])
 

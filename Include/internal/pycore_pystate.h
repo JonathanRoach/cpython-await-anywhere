@@ -150,10 +150,12 @@ static inline int _PyThreadStack_IsStackFull(size_t headroom_needed) {
         required = PYOS_COSTACK_STD_SIZE;
     }
 
+#if PY_ASYNC_BY_COROUTINE_C
     if (_Py_Coroutine_CanStartCoroutine(required)) {
         // If a new coroutine can be started, there's enough room
         return 0;
     }
+#endif
     return 1;
 }
 

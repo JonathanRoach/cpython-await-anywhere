@@ -196,17 +196,23 @@ extern int _PyType_CacheGetItemForSpecialization(PyHeapTypeObject *ht, PyObject 
 
 static inline void *
 _PyType_CallFunction(PyTypeObject *tp, Coroutine_Start fn, void *param, unsigned char *functionflags, int fnindex){
+#if PY_ASYNC_BY_COROUTINE_C
     void *ret;
 
     // If (the type is extended and the function is frugal)
     //     or if the non-frugal call wasn't possible
     if ((PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) &&
-         (functionflags[fnindex] & Py_FNFLAGS_FRUGAL)) ||
-        _Py_Coroutine_CallWithMaxStack(fn, param, &ret)){
+         (functionflags[fnindex] & Py_FNFLAGS_FRUGAL))
+          ||
+        _Py_Coroutine_CallWithMaxStack(fn, param, &ret)
+    ){
         // then do a (frugal) dealloc with what stack we have
         return fn(param);
     }
     return ret;
+#else
+    return fn(param);
+#endif
 }
 
 #define PYTYPE_SLOTLOC_tp

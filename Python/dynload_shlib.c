@@ -130,8 +130,12 @@ _PyImport_FindSharedFuncptr(const char *prefix,
     // load with max stack - MacOS has been seen to use a fair chunk (26k)
     struct Do_PyImport_FindSharedFuncptr_Params params = {prefix, shortname, pathname, fp};
     dl_funcptr res;
+#if PY_ASYNC_BY_COROUTINE_C
     if (_Py_Coroutine_CallWithMaxStack((Coroutine_Start)Do_PyImport_FindSharedFuncptr, &params, (void **)&res)){
         res = Do_PyImport_FindSharedFuncptr(&params);
     }
+#else
+    res = Do_PyImport_FindSharedFuncptr(&params);
+#endif
     return res;
 }

@@ -15,7 +15,7 @@
 /* undefine macro trampoline to PyCMethod_New */
 #undef PyCFunction_NewEx
 
-#ifndef NDEBUG
+#if !defined(NDEBUG) && defined(PY_ASYNC_BY_COROUTINE_C)
     #define CheckCoroutineIntegrity(func_param) \
     if (_Py_Coroutine_CheckIntegrity()) { \
         PyCFunctionObject *badfunc = _PyCFunctionObject_CAST(func_param); \
@@ -25,7 +25,7 @@
     #define CheckCoroutineIntegrity(func_param)
 #endif
 
-#ifndef NDEBUG
+#if !defined(NDEBUG) && defined(PY_ASYNC_BY_COROUTINE_C)
     #define MeasureCStackUsage(FLAGS, NAME, CALL) \
         if ((FLAGS) & METH_C_STACK_MEASURE){ \
             _Py_Coroutine_ClearStackForHWM(); \
@@ -500,14 +500,18 @@ cfunction_vectorcall_FASTCALL(
     if (meth == NULL) {
         return NULL;
     }
-    PyCFunctionObject *func_func = _PyCFunctionObject_CAST(func);
     struct dovectorcall_FASTCALL_Params params = {meth, func, args, nargs};
     PyObject *result;
-    if (func_func->m_ml->ml_flags & METH_C_STACK_FRUGAL){
+#if PY_ASYNC_BY_COROUTINE_C
+    PyCFunctionObject *func_func = _PyCFunctionObject_CAST(func);
+    if (func_func->m_ml->ml_flags & METH_C_STACK_FRUGAL
+        || _Py_Coroutine_CallWithMaxStack((Coroutine_Start)dovectorcall_FASTCALL, &params, (void **)&result)
+    ){
         result = dovectorcall_FASTCALL(&params);
-    } else {
-        _Py_Coroutine_CallWithMaxStack((Coroutine_Start)dovectorcall_FASTCALL, &params, (void **)&result);
     }
+#else
+    result = dovectorcall_FASTCALL(&params);
+#endif
     _Py_LeaveRecursiveCallTstate(tstate);
     return result;
 }
@@ -540,14 +544,18 @@ cfunction_vectorcall_FASTCALL_KEYWORDS(
     if (meth == NULL) {
         return NULL;
     }
-    PyCFunctionObject *func_func = _PyCFunctionObject_CAST(func);
     struct docfunction_vectorcall_FASTCALL_KEYWORDS_Params params = {meth, func, args, nargs, kwnames};
     PyObject *result;
-    if (func_func->m_ml->ml_flags & METH_C_STACK_FRUGAL){
+#if PY_ASYNC_BY_COROUTINE_C
+    PyCFunctionObject *func_func = _PyCFunctionObject_CAST(func);
+    if (func_func->m_ml->ml_flags & METH_C_STACK_FRUGAL
+        || _Py_Coroutine_CallWithMaxStack((Coroutine_Start)docfunction_vectorcall_FASTCALL_KEYWORDS, &params, (void **)&result)
+    ){
         result = docfunction_vectorcall_FASTCALL_KEYWORDS(&params);
-    } else {
-        _Py_Coroutine_CallWithMaxStack((Coroutine_Start)docfunction_vectorcall_FASTCALL_KEYWORDS, &params, (void **)&result);
     }
+#else
+    result = docfunction_vectorcall_FASTCALL_KEYWORDS(&params);
+#endif
     _Py_LeaveRecursiveCallTstate(tstate);
     return result;
 }
@@ -581,14 +589,18 @@ cfunction_vectorcall_FASTCALL_KEYWORDS_METHOD(
     if (meth == NULL) {
         return NULL;
     }
-    PyCFunctionObject *func_func = _PyCFunctionObject_CAST(func);
     struct docfunction_vectorcall_FASTCALL_KEYWORDS_METHOD_Params params = {meth, func, cls, args, nargs, kwnames};
     PyObject *result;
-    if (func_func->m_ml->ml_flags & METH_C_STACK_FRUGAL){
+#if PY_ASYNC_BY_COROUTINE_C
+    PyCFunctionObject *func_func = _PyCFunctionObject_CAST(func);
+    if (func_func->m_ml->ml_flags & METH_C_STACK_FRUGAL
+        || _Py_Coroutine_CallWithMaxStack((Coroutine_Start)docfunction_vectorcall_FASTCALL_KEYWORDS_METHOD, &params, (void **)&result)
+    ){
         result = docfunction_vectorcall_FASTCALL_KEYWORDS_METHOD(&params);
-    } else {
-        _Py_Coroutine_CallWithMaxStack((Coroutine_Start)docfunction_vectorcall_FASTCALL_KEYWORDS_METHOD, &params, (void **)&result);
     }
+#else
+    result = docfunction_vectorcall_FASTCALL_KEYWORDS_METHOD(&params);
+#endif
     _Py_LeaveRecursiveCallTstate(tstate);
     return result;
 }
@@ -684,14 +696,18 @@ cfunction_call(PyObject *func, PyObject *args, PyObject *kwargs)
 
     assert(!PyErr_Occurred());
 
-    int flags = PyCFunction_GET_FLAGS(func);
 
     struct Do_Call_Params_cfunction_call params = {func, args, kwargs};
     PyObject *res;
-    if ((flags & METH_C_STACK_FRUGAL) ||
-        _Py_Coroutine_CallWithMaxStack(Do_cfunction_call, &params, (void **)&res)){
+#if PY_ASYNC_BY_COROUTINE_C
+    int flags = PyCFunction_GET_FLAGS(func);
+    if ((flags & METH_C_STACK_FRUGAL)
+        || _Py_Coroutine_CallWithMaxStack(Do_cfunction_call, &params, (void **)&res)){
         res = Do_cfunction_call(&params);
     }
+#else
+    res = Do_cfunction_call(&params);
+#endif
     return res;
 }
 

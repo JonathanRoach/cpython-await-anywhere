@@ -1852,6 +1852,9 @@
 /* Define to use huge pages for pymalloc arenas */
 #undef PYMALLOC_USE_HUGEPAGES
 
+/* Define to 1 if asyncio implemented using coroutine.c */
+#undef PY_ASYNC_BY_COROUTINE_C
+
 /* enabled builtin hash modules */
 #undef PY_BUILTIN_HASHLIB_HASHES
 

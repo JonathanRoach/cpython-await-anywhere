@@ -318,9 +318,6 @@ static PyObject *
 _PyVectorcall_Call(vectorcallfunc func,
                    PyObject *callable, PyObject *tuple, PyObject *kwargs)
 {
-    PyTypeObject *tp = Py_TYPE(callable);
-    unsigned flags = PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) ? tp->tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset] : 0;
-
     struct _PyVectorcall_Call_params params = {
         .func = func,
         .callable = callable,
@@ -329,10 +326,17 @@ _PyVectorcall_Call(vectorcallfunc func,
     };
 
     void *ret;
-    if ((flags & Py_FNFLAGS_FRUGAL) ||
-        _Py_Coroutine_CallWithMaxStack(Do__PyVectorcall_Call, &params, &ret)) {
+#if PY_ASYNC_BY_COROUTINE_C
+     PyTypeObject *tp = Py_TYPE(callable);
+   unsigned flags = PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) ? tp->tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset] : 0;
+    if ((flags & Py_FNFLAGS_FRUGAL)
+        || _Py_Coroutine_CallWithMaxStack(Do__PyVectorcall_Call, &params, &ret)
+    ) {
         ret = Do__PyVectorcall_Call(&params);
     }
+#else
+    ret = Do__PyVectorcall_Call(&params);
+#endif
     return ret;
 }
 

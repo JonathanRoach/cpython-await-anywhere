@@ -993,6 +993,7 @@ HAS_XCRUN
 IPHONEOS_DEPLOYMENT_TARGET
 EXPORT_MACOSX_DEPLOYMENT_TARGET
 CONFIGURE_MACOSX_DEPLOYMENT_TARGET
+PY_ASYNC_BY_COROUTINE_C
 _PYTHON_HOST_PLATFORM
 APP_STORE_COMPLIANCE_PATCH
 INSTALLTARGETS
@@ -4698,6 +4699,21 @@ printf "%s\n" "$IPHONEOS_DEPLOYMENT_TARGET" >&6; }
 		as_fn_error $? "cross build not supported for $host" "$LINENO" 5
 	esac
 	_PYTHON_HOST_PLATFORM="$MACHDEP${_host_ident:+-$_host_ident}"
+fi
+
+# Whether Async is implemented by coroutine.c
+
+if test "$cross_compiling" = yes; then
+	case "$host" in
+	wasm32-*-* | wasm64-*-*)
+    # Wasm can't do longjmp
+    PY_ASYNC_BY_COROUTINE_C=0
+		;;
+	*)
+   PY_ASYNC_BY_COROUTINE_C=1
+	esac
+else
+  PY_ASYNC_BY_COROUTINE_C=1
 fi
 
 # Some systems cannot stand _XOPEN_SOURCE being defined at all; they
@@ -20279,6 +20295,20 @@ fi
   *) :
      ;;
 esac
+if test "x$PY_ASYNC_BY_COROUTINE_C" = x1
+then :
+
+  as_fn_append PLATFORM_OBJS ' Python/coroutine.o'
+
+printf "%s\n" "#define PY_ASYNC_BY_COROUTINE_C 1" >>confdefs.h
+,
+
+else case e in #(
+  e)
+  as_fn_append PLATFORM_OBJS ' Python/coroutine_stub.o'
+ ;;
+esac
+fi
 
 
 
