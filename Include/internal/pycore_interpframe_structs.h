@@ -14,7 +14,10 @@
 
 #include "pycore_structs.h"       // _PyStackRef
 #include "pycore_typedefs.h"      // _PyInterpreterFrame
+#if PY_ASYNC_BY_COROUTINE_C
 #include "pycore_coroutine.h"     // Coroutine
+#else
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -87,6 +90,20 @@ struct _PyInterpreterFrame {
 };
 
 
+#if PY_ASYNC_BY_COROUTINE_C
+#define _PyGenObject_HEAD_CoroutineBits(prefix) \
+    Coroutine *prefix##_coroutine;                                          \
+    Coroutine *prefix##_return_coroutine;                                   \
+    PyObject *prefix##_result;                                              \
+    PyObject *prefix##_yield_from;                                          \
+    int prefix##_py_recursion_depth_at_entry;                               \
+
+#else
+#define _PyGenObject_HEAD_CoroutineBits(prefix) \
+    int prefix##_resume_frame_count;                                        \
+    
+#endif
+
 /* _PyGenObject_HEAD defines the initial segment of generator
    and coroutine objects. */
 #define _PyGenObject_HEAD(prefix)                                           \
@@ -101,16 +118,12 @@ struct _PyInterpreterFrame {
     PyObject *prefix##_origin_or_finalizer;                                 \
     /* the datastack owned by this generator */                             \
     _PyDataStack prefix##_datastack;                                        \
-    Coroutine *prefix##_coroutine;                                          \
-    Coroutine *prefix##_return_coroutine;                                   \
     /* (when frame is running) the datastack previous to this generator */  \
     _PyDataStack *prefix##_previous_datastack;                              \
-    PyObject *prefix##_result;                                              \
-    PyObject *prefix##_yield_from;                                          \
     /* the gen and its frame to resume at */                                \
     struct _PyInterpreterFrame *prefix##_resume_iframe;                     \
     struct _PyGenObject *prefix##_resume_gen;                               \
-    int prefix##_py_recursion_depth_at_entry;                               \
+    _PyGenObject_HEAD_CoroutineBits(prefix)                                 \
     char prefix##_hooks_inited;                                             \
     char prefix##_closed;                                                   \
     char prefix##_running_async;                                            \
