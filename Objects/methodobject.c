@@ -610,7 +610,10 @@ static inline PyObject *docfunction_vectorcall_NOARGS(
 {
     PyObject *ret;
     MeasureCStackUsage(_PyCFunctionObject_CAST(func_obj)->m_ml->ml_flags, _PyCFunctionObject_CAST(func_obj)->m_ml->ml_name, _PyCFunction_TrampolineCall(
+#if PY_ASYNC_BY_COROUTINE_C
         PyCFunction_GET_FLAGS(func_obj) & METH_C_STACK_FRUGAL,
+#else
+#endif
         meth, PyCFunction_GET_SELF(func_obj), NULL));
     CheckCoroutineIntegrity(func_obj);
     return ret;
@@ -648,7 +651,10 @@ static inline PyObject *docfunction_vectorcall_O(
 {
     PyObject *ret;
     MeasureCStackUsage(_PyCFunctionObject_CAST(func_obj)->m_ml->ml_flags, _PyCFunctionObject_CAST(func_obj)->m_ml->ml_name, _PyCFunction_TrampolineCall(
+#if PY_ASYNC_BY_COROUTINE_C
         PyCFunction_GET_FLAGS(func_obj) & METH_C_STACK_FRUGAL,
+#else
+#endif
         meth, PyCFunction_GET_SELF(func_obj), arg));
     CheckCoroutineIntegrity(func_obj);
     return ret;
@@ -735,7 +741,10 @@ Do_cfunction_call(void *_params)
     PyObject *ret;
     if (flags & METH_KEYWORDS) {
         MeasureCStackUsage(flags, _PyCFunctionObject_CAST(func)->m_ml->ml_name, _PyCFunctionWithKeywords_TrampolineCall(
+#if PY_ASYNC_BY_COROUTINE_C
             flags & METH_C_STACK_FRUGAL,
+#else
+#endif
             *_PyCFunctionWithKeywords_CAST(meth),
             self, args, kwargs));
     }
@@ -747,7 +756,10 @@ Do_cfunction_call(void *_params)
             return NULL;
         }
         MeasureCStackUsage(flags, _PyCFunctionObject_CAST(func)->m_ml->ml_name, _PyCFunction_TrampolineCall(
+#if PY_ASYNC_BY_COROUTINE_C
             flags & METH_C_STACK_FRUGAL,
+#else
+#endif
             meth, self, args));
     }
     CheckCoroutineIntegrity(func);
