@@ -324,7 +324,10 @@ method_vectorcall_VARARGS(
         return NULL;
     }
     PyObject *result = _PyCFunction_TrampolineCall(
+#if PY_ASYNC_BY_COROUTINE_C
         ((PyMethodDescrObject *)func)->d_method->ml_flags & METH_C_STACK_FRUGAL,
+#else
+#endif
         meth, args[0], argstuple);
     Py_DECREF(argstuple);
     _Py_LeaveRecursiveCallTstate(tstate);
@@ -359,7 +362,10 @@ method_vectorcall_VARARGS_KEYWORDS(
         goto exit;
     }
     result = _PyCFunctionWithKeywords_TrampolineCall(
+#if PY_ASYNC_BY_COROUTINE_C
         ((PyMethodDescrObject *)func)->d_method->ml_flags & METH_C_STACK_FRUGAL,
+#else
+#endif
         meth, args[0], argstuple, kwdict);
     _Py_LeaveRecursiveCallTstate(tstate);
 exit:
@@ -449,7 +455,10 @@ method_vectorcall_NOARGS(
         return NULL;
     }
     PyObject *result = _PyCFunction_TrampolineCall(
+#if PY_ASYNC_BY_COROUTINE_C
         ((PyMethodDescrObject *)func)->d_method->ml_flags & METH_C_STACK_FRUGAL,
+#else
+#endif
         meth, args[0], NULL);
     _Py_LeaveRecursiveCallTstate(tstate);
     return result;
@@ -479,7 +488,10 @@ method_vectorcall_O(
         return NULL;
     }
     PyObject *result = _PyCFunction_TrampolineCall(
+#if PY_ASYNC_BY_COROUTINE_C
         ((PyMethodDescrObject *)func)->d_method->ml_flags & METH_C_STACK_FRUGAL,
+#else
+#endif
         meth, args[0], args[1]);
     _Py_LeaveRecursiveCallTstate(tstate);
     return result;

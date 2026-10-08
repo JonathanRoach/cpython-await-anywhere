@@ -339,6 +339,7 @@ _PyVectorcall_Call(PyThreadState *tstate, vectorcallfunc func,
     return _Py_CheckFunctionResult(tstate, callable, result, NULL);
 }
 
+#if PY_ASYNC_BY_COROUTINE_C
 static PyObject *
 _PyVectorcall_Call(vectorcallfunc func,
                    PyObject *callable, PyObject *tuple, PyObject *kwargs)
@@ -351,7 +352,6 @@ _PyVectorcall_Call(vectorcallfunc func,
     };
 
     void *ret;
-#if PY_ASYNC_BY_COROUTINE_C
      PyTypeObject *tp = Py_TYPE(callable);
    unsigned flags = PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) ? tp->tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset] : 0;
     if ((flags & Py_FNFLAGS_FRUGAL)
@@ -359,11 +359,10 @@ _PyVectorcall_Call(vectorcallfunc func,
     ) {
         ret = Do__PyVectorcall_Call(&params);
     }
-#else
-    ret = Do__PyVectorcall_Call(&params);
-#endif
     return ret;
 }
+#else
+#endif
 
 PyObject *
 PyVectorcall_Call(PyObject *callable, PyObject *tuple, PyObject *kwargs)
@@ -391,7 +390,11 @@ PyVectorcall_Call(PyObject *callable, PyObject *tuple, PyObject *kwargs)
         return NULL;
     }
 
+#if PY_ASYNC_BY_COROUTINE_C
     return _PyVectorcall_Call(func, callable, tuple, kwargs);
+#else
+    return _PyVectorcall_Call(tstate, func, callable, tuple, kwargs);
+#endif
 }
 
 
@@ -436,7 +439,11 @@ _PyObject_Call(PyThreadState *tstate, PyObject *callable,
     EVAL_CALL_STAT_INC_IF_FUNCTION(EVAL_CALL_API, callable);
     vectorcallfunc vector_func = PyVectorcall_Function(callable);
     if (vector_func != NULL) {
+#if PY_ASYNC_BY_COROUTINE_C
         return _PyVectorcall_Call(vector_func, callable, args, kwargs);
+#else
+        return _PyVectorcall_Call(tstate, vector_func, callable, args, kwargs);
+#endif
     }
     else {
         PyTypeObject *tp = Py_TYPE(callable);
