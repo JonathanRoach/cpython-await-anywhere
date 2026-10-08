@@ -34,6 +34,11 @@ typedef struct _PyThreadStateImpl {
 
     // These are addresses, but we need to convert to ints to avoid UB.
     uintptr_t c_stack_top;
+#if PY_ASYNC_BY_COROUTINE_C
+#else
+    uintptr_t c_stack_soft_limit;
+    uintptr_t c_stack_hard_limit;
+#endif
 
     PyObject *asyncio_running_loop; // Strong reference
     PyObject *asyncio_running_task; // Strong reference

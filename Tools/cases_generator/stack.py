@@ -565,7 +565,7 @@ class Storage:
     def copy(self) -> "Storage":
         new_stack = self.stack.copy()
         variables = { var.name: var for var in new_stack.variables }
-        inputs = [ variables[var.name] for var in self.inputs]
+        inputs = [variables[var.name] if var.name in variables else var.copy() for var in self.inputs]
         assert [v.name for v in inputs] == [v.name for v in self.inputs], (inputs, self.inputs)
         return Storage(
             new_stack, inputs, self.copy_list(self.outputs), self.peeks,

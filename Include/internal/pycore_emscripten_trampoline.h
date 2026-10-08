@@ -2,7 +2,10 @@
 #define Py_EMSCRIPTEN_TRAMPOLINE_H
 
 #include "pycore_typedefs.h"      // _PyRuntimeState
+#if PY_ASYNC_BY_COROUTINE_C
 #include "pycore_cor_tools.h"     // _PY_ENSURE_COSTACK_HEADROOM_FOR_FN?_?
+#else
+#endif
 
 /**
  * C function call trampolines to mitigate bad function pointer casts.
@@ -37,6 +40,7 @@ _PyEM_TrampolineCall(PyCFunctionWithKeywords func,
                      PyObject* args,
                      PyObject* kw);
 
+#if PY_ASYNC_BY_COROUTINE_C
 _PY_MAX_STACK_FOR_CALL_IF_4(static inline, PyObject *, _PyCFunction_TrampolineCall, PyCFunction func, PyObject*, self, PyObject*, args)
     return _PyEM_TrampolineCall(*_PyCFunctionWithKeywords_CAST(meth), self, args, NULL);
 }
@@ -44,6 +48,13 @@ _PY_MAX_STACK_FOR_CALL_IF_4(static inline, PyObject *, _PyCFunction_TrampolineCa
 _PY_MAX_STACK_FOR_CALL_IF_4(static inline, PyObject *, _PyCFunctionWithKeywords_TrampolineCall, PyCFunctionWithKeywords meth, PyObject*, self, PyObject*, args, PyObject*, kw)
     return _PyEM_TrampolineCall(meth, self, args, kw);
 }
+#else
+#define _PyCFunction_TrampolineCall(meth, self, args) \
+    _PyEM_TrampolineCall(*_PyCFunctionWithKeywords_CAST(meth), (self), (args), NULL)
+
+#define _PyCFunctionWithKeywords_TrampolineCall(meth, self, args, kw) \
+    _PyEM_TrampolineCall((meth), (self), (args), (kw))
+#endif
 
 #define descr_set_trampoline_call(set, obj, value, closure)                 \
     ((int)_PyEM_TrampolineCall(_PyCFunctionWithKeywords_CAST(set), (obj),   \
@@ -56,6 +67,7 @@ _PY_MAX_STACK_FOR_CALL_IF_4(static inline, PyObject *, _PyCFunctionWithKeywords_
 
 #else // defined(__EMSCRIPTEN__) && defined(PY_CALL_TRAMPOLINE)
 
+#if PY_ASYNC_BY_COROUTINE_C
 _PY_MAX_STACK_FOR_CALL_IF_3(static inline, PyObject *, _PyCFunction_TrampolineCall, PyCFunction, meth, PyObject*, self, PyObject*, args)
     return meth(self, args);
 }
@@ -63,6 +75,13 @@ _PY_MAX_STACK_FOR_CALL_IF_3(static inline, PyObject *, _PyCFunction_TrampolineCa
 _PY_MAX_STACK_FOR_CALL_IF_4(static inline, PyObject *, _PyCFunctionWithKeywords_TrampolineCall, PyCFunctionWithKeywords, meth, PyObject*, self, PyObject*, args, PyObject*, kw)
     return meth(self, args, kw);
 }
+#else
+#define _PyCFunction_TrampolineCall(meth, self, args) \
+    (meth)((self), (args))
+
+#define _PyCFunctionWithKeywords_TrampolineCall(meth, self, args, kw) \
+    (meth)((self), (args), (kw))
+#endif
 
 #define descr_set_trampoline_call(set, obj, value, closure) \
     (set)((obj), (value), (closure))

@@ -2070,8 +2070,8 @@ Objects/mimalloc/page.o: $(srcdir)/Objects/mimalloc/page-queue.c
 .PHONY: regen-cases
 regen-cases: \
         regen-opcode-ids regen-opcode-targets regen-uop-ids regen-opcode-metadata-py \
-		regen-generated-cases regen-executor-cases regen-optimizer-cases regen-record-functions \
-		regen-opcode-metadata regen-uop-metadata regen-test-cases regen-test-opcode-targets
+		regen-generated-cases regen-executor-cases regen-optimizer-cases \
+		regen-opcode-metadata regen-uop-metadata
 
 .PHONY: regen-opcode-ids
 regen-opcode-ids:
@@ -2102,26 +2102,6 @@ regen-generated-cases:
 	$(PYTHON_FOR_REGEN) $(srcdir)/Tools/cases_generator/tier1_generator.py \
 	    -o $(srcdir)/Python/generated_cases.c.h.new $(srcdir)/Python/bytecodes.c
 	$(UPDATE_FILE) $(srcdir)/Python/generated_cases.c.h $(srcdir)/Python/generated_cases.c.h.new
-
-.PHONY: regen-record-functions
-regen-record-functions:
-	$(PYTHON_FOR_REGEN) $(srcdir)/Tools/cases_generator/record_function_generator.py \
-	    -o $(srcdir)/Python/record_functions.c.h.new $(srcdir)/Python/bytecodes.c
-	$(UPDATE_FILE) $(srcdir)/Python/record_functions.c.h $(srcdir)/Python/record_functions.c.h.new
-
-.PHONY: regen-test-cases
-regen-test-cases:
-	$(PYTHON_FOR_REGEN) $(srcdir)/Tools/cases_generator/tier1_generator.py \
-	    -o $(srcdir)/Modules/_testinternalcapi/test_cases.c.h.new $(srcdir)/Python/bytecodes.c \
-		$(srcdir)/Modules/_testinternalcapi/testbytecodes.c
-	$(UPDATE_FILE) $(srcdir)/Modules/_testinternalcapi/test_cases.c.h $(srcdir)/Modules/_testinternalcapi/test_cases.c.h.new
-
-.PHONY: regen-test-opcode-targets
-regen-test-opcode-targets:
-	$(PYTHON_FOR_REGEN) $(srcdir)/Tools/cases_generator/target_generator.py \
-	    -o $(srcdir)/Modules/_testinternalcapi/test_targets.h.new $(srcdir)/Python/bytecodes.c \
-		$(srcdir)/Modules/_testinternalcapi/testbytecodes.c
-	$(UPDATE_FILE) $(srcdir)/Modules/_testinternalcapi/test_targets.h $(srcdir)/Modules/_testinternalcapi/test_targets.h.new
 
 .PHONY: regen-executor-cases
 regen-executor-cases:

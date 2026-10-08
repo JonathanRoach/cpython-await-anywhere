@@ -1216,9 +1216,17 @@ dummy_func(
                 ERROR_IF(true);
             }
 
+#if PY_ASYNC_BY_COROUTINE_C
             iter_o = PyType_Call_am_aiter(type, obj_o);
+#else
+            iter_o = (*getter)(obj_o);
+#endif
             PyStackRef_CLOSE(obj);
             ERROR_IF(iter_o == NULL);
+#if PY_ASYNC_BY_COROUTINE_C
+#else
+            ERROR_IF(!stack_ok_for_await(tstate, frame));
+#endif
 
             if (Py_TYPE(iter_o)->tp_as_async == NULL ||
                     Py_TYPE(iter_o)->tp_as_async->am_anext == NULL) {
@@ -1245,6 +1253,10 @@ dummy_func(
             PyObject *iter_o = _PyEval_GetAwaitable(PyStackRef_AsPyObjectBorrow(iterable), oparg);
             PyStackRef_CLOSE(iterable);
             ERROR_IF(iter_o == NULL);
+#if PY_ASYNC_BY_COROUTINE_C
+#else
+            ERROR_IF(!stack_ok_for_await(tstate, frame));
+#endif
             iter = PyStackRef_FromPyObjectSteal(iter_o);
         }
 
@@ -1268,10 +1280,19 @@ dummy_func(
             PyObject *receiver_o = PyStackRef_AsPyObjectBorrow(receiver);
             PyObject *retval_o;
             assert(frame->owner != FRAME_OWNED_BY_INTERPRETER);
-            if ((tstate->interp->eval_frame == NULL) &&
+            #if PY_ASYNC_BY_COROUTINE_C
+            bool condition =
+                (tstate->interp->eval_frame == NULL) &&
                 (Py_TYPE(receiver_o) == &PyGen_Type || Py_TYPE(receiver_o) == &PyCoro_Type) &&
                 ((PyGenObject *)receiver_o)->gi_frame_state < FRAME_EXECUTING &&
-                !(Py_TYPE(receiver_o) == &PyCoro_Type && ((PyCoroObject *)receiver_o)->cr_coroutine != NULL) )
+                !(Py_TYPE(receiver_o) == &PyCoro_Type && ((PyCoroObject *)receiver_o)->cr_coroutine != NULL);
+            #else
+            bool condition = 
+                (tstate->interp->eval_frame == NULL) &&
+                    (Py_TYPE(receiver_o) == &PyGen_Type || Py_TYPE(receiver_o) == &PyCoro_Type) &&
+                    ((PyGenObject *)receiver_o)->gi_frame_state < FRAME_EXECUTING;
+            #endif
+            if (condition)
             {
                 PyGenObject *gen = (PyGenObject *)receiver_o;
                 _PyInterpreterFrame *gen_frame = &gen->gi_iframe;
@@ -1287,7 +1308,13 @@ dummy_func(
                 frame->return_offset = (uint16_t)(INSTRUCTION_SIZE + oparg);
                 assert(gen_frame->previous == NULL);
                 gen_frame->previous = frame;
-                // gen->gi_previous_datastack = _PyThreadState_ActivateDataStack(tstate, &resume_gen->gi_datastack);
+#if PY_ASYNC_BY_COROUTINE_C
+#else
+                gen->gi_previous_datastack = _PyThreadState_ActivateDataStack(tstate, &resume_gen->gi_datastack);
+
+                // consume (count-1) recursions, as DISPATCH_INLINED will consume one more, and check the result
+                tstate->py_recursion_remaining -= gen->gi_resume_frame_count-1;
+#endif
 
                 DISPATCH_INLINED(resume_frame);
             }
@@ -1342,6 +1369,7 @@ dummy_func(
             // NOTE: It's important that YIELD_VALUE never raises an exception!
             // The compiler treats any exception raised here as a failed close()
             // or throw() call.
+#if PY_ASYNC_BY_COROUTINE_C
             assert(frame->owner != FRAME_OWNED_BY_INTERPRETER);
             if (oparg & 2){
                 // coroutine yield
@@ -1394,6 +1422,76 @@ dummy_func(
                 value = PyStackRef_MakeHeapSafe(temp);
                 LLTRACE_RESUME_FRAME();
             }
+#else
+            assert(frame->owner != FRAME_OWNED_BY_INTERPRETER);
+            frame->instr_ptr++;
+
+            int frame_count;
+            PyGenObject *gen;
+            PyGenObject *yielding_gen;
+            if (oparg & 2){
+                // Search for the nearest coro generator
+                _PyInterpreterFrame *search_frame = frame;
+                frame_count = 1;
+                while (search_frame->owner != FRAME_OWNED_BY_GENERATOR){
+                    frame_count += 1;
+                    search_frame = search_frame->previous;
+                }
+                yielding_gen = gen = _PyGen_GetGeneratorFromFrame(search_frame);
+                for(;;) {
+                    if (search_frame->owner == FRAME_OWNED_BY_GENERATOR) {
+                        yielding_gen = _PyGen_GetGeneratorFromFrame(search_frame);
+                        if (PyCoro_CheckExact(yielding_gen) || PyAsyncGen_CheckExact(yielding_gen)) {
+                            break;
+                        }
+                    }
+                    frame_count += 1;
+                    search_frame = search_frame->previous;
+                }
+            } else {
+                // this frame should be the generatory
+                assert(frame->owner == FRAME_OWNED_BY_GENERATOR);
+                frame_count = 1;
+                yielding_gen = gen = _PyGen_GetGeneratorFromFrame(frame);
+            }
+
+            assert(FRAME_SUSPENDED_YIELD_FROM == FRAME_SUSPENDED + 1);
+            assert(oparg == 0 || oparg == 1 || oparg == 3);
+            yielding_gen->gi_frame_state = FRAME_SUSPENDED + (oparg & 1);
+            gen->gi_resume_iframe = frame;
+            yielding_gen->gi_resume_gen = gen;
+
+            _PyStackRef temp = retval;
+            DEAD(retval);
+            SAVE_STACK();
+            tstate->exc_info = yielding_gen->gi_exc_state.previous_item;
+            yielding_gen->gi_exc_state.previous_item = NULL;
+            yielding_gen->gi_resume_frame_count = frame_count;
+            _Py_LeaveRecursiveCallsPy(tstate, frame_count);
+
+            _PyInterpreterFrame *yielding_gen_frame = &yielding_gen->gi_iframe;
+
+            frame = tstate->current_frame = yielding_gen_frame->previous;
+            yielding_gen_frame->previous = NULL;
+            assert(yielding_gen->gi_previous_datastack);
+            _PyThreadState_ActivateDataStack(tstate, yielding_gen->gi_previous_datastack);
+            yielding_gen->gi_previous_datastack = NULL;
+
+            /* We don't know which of these is relevant here, so keep them equal */
+            assert(INLINE_CACHE_ENTRIES_SEND == INLINE_CACHE_ENTRIES_FOR_ITER);
+            #if TIER_ONE
+            assert(frame->instr_ptr->op.code == INSTRUMENTED_LINE ||
+                   frame->instr_ptr->op.code == INSTRUMENTED_INSTRUCTION ||
+                   _PyOpcode_Deopt[frame->instr_ptr->op.code] == SEND ||
+                   _PyOpcode_Deopt[frame->instr_ptr->op.code] == FOR_ITER ||
+                   _PyOpcode_Deopt[frame->instr_ptr->op.code] == INTERPRETER_EXIT ||
+                   _PyOpcode_Deopt[frame->instr_ptr->op.code] == ENTER_EXECUTOR);
+            #endif
+            RELOAD_STACK();
+            LOAD_IP(1 + INLINE_CACHE_ENTRIES_SEND);
+            value = PyStackRef_MakeHeapSafe(temp);
+            LLTRACE_RESUME_FRAME();
+#endif
         }
 
         tier1 op(_YIELD_VALUE_EVENT, (val -- val)) {
@@ -3234,7 +3332,11 @@ dummy_func(
                     PyGenObject *resume_gen = gen->gi_resume_gen;
                     _PyInterpreterFrame *resume_frame = resume_gen->gi_resume_iframe;
                     gen_frame->previous = frame;
-                    // gen->gi_previous_datastack = _PyThreadState_ActivateDataStack(tstate, &resume_gen->gi_datastack);
+#if PY_ASYNC_BY_COROUTINE_C
+#else
+                    gen->gi_previous_datastack = _PyThreadState_ActivateDataStack(tstate, &resume_gen->gi_datastack);
+                    assert(gen->gi_resume_frame_count == 1);
+#endif
                     DISPATCH_INLINED(resume_frame);
                 }
             }
@@ -4076,10 +4178,17 @@ dummy_func(
             PyGenObject *resume_gen = gen->gi_resume_gen;
             _PyInterpreterFrame *resume_frame = resume_gen->gi_resume_iframe;
             gen_frame->previous = frame;
-            // gen->gi_previous_datastack = _PyThreadState_ActivateDataStack(tstate, &resume_gen->gi_datastack);
+#if PY_ASYNC_BY_COROUTINE_C
+#else
+            gen->gi_previous_datastack = _PyThreadState_ActivateDataStack(tstate, &resume_gen->gi_datastack);
+#endif
             CALL_STAT_INC(inlined_py_calls);
             frame = tstate->current_frame = resume_frame;
+#if PY_ASYNC_BY_COROUTINE_C
             tstate->py_recursion_remaining -= 1;
+#else
+            tstate->py_recursion_remaining -= gen->gi_resume_frame_count;
+#endif
             LOAD_SP();
             LOAD_IP(0);
             LLTRACE_RESUME_FRAME();
@@ -4317,9 +4426,13 @@ dummy_func(
             STAT_INC(CALL, hit);
             PyCFunction cfunc = PyCFunction_GET_FUNCTION(callable_o);
             _PyStackRef arg = args[0];
+#if PY_ASYNC_BY_COROUTINE_C
             PyObject *res_o = _PyCFunction_TrampolineCall(
                 PyCFunction_GET_FLAGS(callable_o) & METH_C_STACK_FRUGAL,
                 cfunc, PyCFunction_GET_SELF(callable_o), PyStackRef_AsPyObjectBorrow(arg));
+#else
+            PyObject *res_o = _PyCFunction_TrampolineCall(cfunc, PyCFunction_GET_SELF(callable_o), PyStackRef_AsPyObjectBorrow(arg));
+#endif
             _Py_LeaveRecursiveCallTstate(tstate);
             assert((res_o != NULL) ^ (_PyErr_Occurred(tstate) != NULL));
 
@@ -4532,11 +4645,17 @@ dummy_func(
                                  method->d_common.d_type));
             STAT_INC(CALL, hit);
             PyCFunction cfunc = meth->ml_meth;
+#if PY_ASYNC_BY_COROUTINE_C
             PyObject *res_o = _PyCFunction_TrampolineCall(
                                 meth->ml_flags & METH_C_STACK_FRUGAL,
                                 cfunc,
                                 PyStackRef_AsPyObjectBorrow(self_stackref),
                                 PyStackRef_AsPyObjectBorrow(arg_stackref));
+#else
+            PyObject *res_o = _PyCFunction_TrampolineCall(cfunc,
+                                  PyStackRef_AsPyObjectBorrow(self_stackref),
+                                  PyStackRef_AsPyObjectBorrow(arg_stackref));
+#endif
             _Py_LeaveRecursiveCallTstate(tstate);
             assert((res_o != NULL) ^ (_PyErr_Occurred(tstate) != NULL));
             DECREF_INPUTS();
@@ -4613,9 +4732,13 @@ dummy_func(
             EXIT_IF(_Py_ReachedRecursionLimit(tstate));
             STAT_INC(CALL, hit);
             PyCFunction cfunc = meth->ml_meth;
+#if PY_ASYNC_BY_COROUTINE_C
             PyObject *res_o = _PyCFunction_TrampolineCall(
                 meth->ml_flags & METH_C_STACK_FRUGAL,
                 cfunc, self, NULL);
+#else
+            PyObject *res_o = _PyCFunction_TrampolineCall(cfunc, self, NULL);
+#endif
             _Py_LeaveRecursiveCallTstate(tstate);
             assert((res_o != NULL) ^ (_PyErr_Occurred(tstate) != NULL));
             PyStackRef_CLOSE(self_stackref);
@@ -5153,7 +5276,11 @@ dummy_func(
 
             _PyInterpreterFrame *inlined = frame;
             assert(_PyEval_BinaryOps[oparg]);
+#if PY_ASYNC_BY_COROUTINE_C
             PyObject *res_o = _PyEval_BinaryOps[oparg](lhs_o, rhs_o, tstate->interp->eval_frame ? NULL : &inlined);
+#else
+            PyObject *res_o = _PyEval_BinaryOps[oparg](lhs_o, rhs_o, &inlined);
+#endif
             if ( inlined != frame ){
                 // Manipulate stack directly because we exit with DISPATCH_INLINED().
                 DECREF_INPUTS();

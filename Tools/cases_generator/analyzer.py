@@ -683,6 +683,7 @@ NON_ESCAPING_FUNCTIONS = (
     "PyStackRef_IncrementTaggedIntNoOverflow",
     "PyStackRef_IsNullOrInt",
     "printf",
+    "stack_ok_for_await",
 )
 
 

@@ -1,8 +1,8 @@
 #ifndef Py_INTERNAL_COR_TOOLS_H
 #define Py_INTERNAL_COR_TOOLS_H
 
-#if PY_ASYNC_BY_COROUTINE_C
 #include "pycore_coroutine.h"
+#if PY_ASYNC_BY_COROUTINE_C
 #include "pycore_pystate.h"
 
 // _PY_ENSURE_COSTACK_HEADROOM_FOR_FN<N>_[A/B]

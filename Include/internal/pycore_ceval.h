@@ -16,7 +16,10 @@ extern "C" {
 #include "pycore_pystate.h"       // _PyThreadState_GET()
 #include "pycore_stats.h"         // EVAL_CALL_STAT_INC()
 #include "pycore_typedefs.h"      // _PyInterpreterFrame
+#if PY_ASYNC_BY_COROUTINE_C
 #include "pycore_coroutine.h"     // Coroutine_GetStackHeadroom and others
+#else
+#endif
 
 
 /* Forward declarations */
@@ -118,10 +121,31 @@ _PyEval_EvalFrame(PyThreadState *tstate, _PyInterpreterFrame *frame, int throwfl
 {
     EVAL_CALL_STAT_INC(EVAL_CALL_TOTAL);
     if (tstate->interp->eval_frame == NULL) {
+#if PY_ASYNC_BY_COROUTINE_C
         return _PyEval_EvalFrameDefault(tstate, frame, throwflag);
+#else
+        return _PyEval_EvalFramesDefault(tstate, frame, frame, 1, throwflag);
+#endif
     }
     return tstate->interp->eval_frame(tstate, frame, throwflag);
 }
+
+#if PY_ASYNC_BY_COROUTINE_C
+#else
+static inline PyObject*
+_PyEval_EvalFrames(PyThreadState *tstate, _PyInterpreterFrame *framebase, _PyInterpreterFrame *frame, int frame_count, int throwflag)
+{
+    EVAL_CALL_STAT_INC(EVAL_CALL_TOTAL);
+    if (frame == framebase) {
+        assert(frame_count == 1);
+        if (tstate->interp->eval_frame == NULL) {
+            return _PyEval_EvalFramesDefault(tstate, framebase, frame, frame_count, throwflag);
+        }
+        return tstate->interp->eval_frame(tstate, frame, throwflag);
+    }
+    return _PyEval_EvalFramesDefault(tstate, framebase, frame, frame_count, throwflag);
+}
+#endif
 
 extern PyObject*
 _PyEval_Vector(PyThreadState *tstate,
@@ -198,12 +222,20 @@ extern void _PyEval_DeactivateOpCache(void);
 
 /* --- _Py_EnterRecursiveCall() ----------------------------------------- */
 
+#if PY_ASYNC_BY_COROUTINE_C
 static inline int _Py_MakeRecCheck(PyThreadState *tstate)  {
     (void)tstate;
     return _PyThreadStack_IsStackFull(0);
 }
 
 int _Py_StackNearlyExhausted(void);
+#else
+inline int _Py_MakeRecCheck(PyThreadState *tstate)  {
+    uintptr_t here_addr = _Py_get_machine_stack_pointer();
+    _PyThreadStateImpl *_tstate = (_PyThreadStateImpl *)tstate;
+    return here_addr < _tstate->c_stack_soft_limit;
+}
+#endif
 
 // Export for '_json' shared extension, used via _Py_EnterRecursiveCall()
 // static inline function.
@@ -228,10 +260,21 @@ static inline void _Py_LeaveRecursiveCallTstate(PyThreadState *tstate) {
     (void)tstate;
 }
 
+#if PY_ASYNC_BY_COROUTINE_C
 static inline int _Py_ReachedRecursionLimit(PyThreadState *tstate)  {
     (void)tstate;
     return _PyThreadStack_IsStackFull(0);
 }
+#else
+PyAPI_FUNC(void) _Py_InitializeRecursionLimits(PyThreadState *tstate);
+
+static inline int _Py_ReachedRecursionLimit(PyThreadState *tstate)  {
+    uintptr_t here_addr = _Py_get_machine_stack_pointer();
+    _PyThreadStateImpl *_tstate = (_PyThreadStateImpl *)tstate;
+    assert(_tstate->c_stack_hard_limit != 0);
+    return here_addr <= _tstate->c_stack_soft_limit;
+}
+#endif
 
 static inline void _Py_LeaveRecursiveCall(void)  {
 }
