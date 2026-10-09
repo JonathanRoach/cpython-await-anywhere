@@ -688,10 +688,25 @@ def as_completed(fs, *, timeout=None):
     return _AsCompletedIterator(fs, timeout)
 
 
+@types.coroutine
+def __sleep0():
+    """Skip one event loop run cycle.
+
+    This is a private helper for 'asyncio.sleep()', used
+    when the 'delay' is set to 0.  It uses a bare 'yield'
+    expression (which Task.__step knows how to handle)
+    instead of creating a Future object.
+    """
+    yield
+
+
 async def sleep(delay, result=None):
     """Coroutine that completes after a given time (in seconds)."""
     if delay <= 0:
-        _CoroutineClass.doyield(None)
+        if hasattr(_CoroutineClass, 'doyield'):
+            _CoroutineClass.doyield(None)
+        else:
+            await __sleep0()
         return result
 
     if math.isnan(delay):
