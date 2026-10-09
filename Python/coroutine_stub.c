@@ -175,4 +175,15 @@ Coroutine_CallWithMaxStack(
     }
     return Coroutine_OK;
 }
+
+
+size_t
+Coroutine_GetUsefulFreeSpace(
+    size_t min_size,
+    size_t overhead
+){
+    (void)min_size;
+    (void)overhead;
+    return 0;
+}
 #include "pycore_coroutine_names_undef.h"

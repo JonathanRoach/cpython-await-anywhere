@@ -218,7 +218,8 @@ _PyThreadStack_GetAssigned(void)
 
 // Ensure fn(param) is called within a running coroutine system
 // The coroutine system will have its stack limits set if possible
-Coroutine_Err _PyThreadStack_CallInsideCoroutine(
+Coroutine_Err
+_PyThreadStack_CallInsideCoroutine(
     void *(*fn)(void *),
     void *param,
     void **ret
@@ -246,7 +247,10 @@ Coroutine_Err _PyThreadStack_CallInsideCoroutine(
     
     return _Py_Coroutine_Run(PYOS_COSTACK_STD_SIZE, PYOS_COSTACK_CHAIN_HEADROOM, fn, param, ret);
 #else
-    *ret = fn(param);
+    void *retval = fn(param);
+    if (ret){
+        *ret = retval;
+    }
     return Coroutine_OK;
 #endif
 }
