@@ -227,8 +227,6 @@ static inline int _Py_MakeRecCheck(PyThreadState *tstate)  {
     (void)tstate;
     return _PyThreadStack_IsStackFull(0);
 }
-
-int _Py_StackNearlyExhausted(void);
 #else
 inline int _Py_MakeRecCheck(PyThreadState *tstate)  {
     uintptr_t here_addr = _Py_get_machine_stack_pointer();
@@ -236,6 +234,7 @@ inline int _Py_MakeRecCheck(PyThreadState *tstate)  {
     return here_addr < _tstate->c_stack_soft_limit;
 }
 #endif
+int _Py_StackNearlyExhausted(void);
 
 // Export for '_json' shared extension, used via _Py_EnterRecursiveCall()
 // static inline function.

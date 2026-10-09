@@ -13,9 +13,12 @@
 #include "pycore_pylifecycle.h"   // _Py_IsInterpreterFinalizing()
 #include "pycore_pystate.h"       // _PyThreadState_GET()
 #include "pycore_runtime_init.h"  // _Py_ID()
+#if PY_ASYNC_BY_COROUTINE_C
 #include "pycore_coroutine.h"     // for Coroutine
 #include "pycore_genobject.h"     // _PyCoro_DoYield
 #include "pycore_interpframe.h"   // _PyDataStack_Init etc
+#else
+#endif
 
 #include <stddef.h>               // offsetof()
 
@@ -1900,7 +1903,10 @@ FutureIter_am_send_lock_held(futureiterobject *it, PyObject **result)
     if (fut->fut_state == STATE_PENDING) {
         if (!fut->fut_blocking) {
             fut->fut_blocking = 1;
-            // *result = Py_NewRef(fut);
+#if PY_ASYNC_BY_COROUTINE_C
+#else
+            *result = Py_NewRef(fut);
+#endif
             return PYGEN_NEXT;
         }
         PyErr_SetString(PyExc_RuntimeError,
@@ -1925,6 +1931,7 @@ FutureIter_am_send(PyObject *op,
     futureiterobject *it = (futureiterobject*)op;
     /* arg is unused, see the comment on FutureIter_send for clarification */
     PySendResult res;
+#if PY_ASYNC_BY_COROUTINE_C
     FutureObj *fut = it->future;
     Py_BEGIN_CRITICAL_SECTION(fut);
     res = FutureIter_am_send_lock_held(it, result);
@@ -1950,6 +1957,11 @@ FutureIter_am_send(PyObject *op,
             }
         }
     }
+#else
+    Py_BEGIN_CRITICAL_SECTION(it->future);
+    res = FutureIter_am_send_lock_held(it, result);
+    Py_END_CRITICAL_SECTION();
+#endif
     return res;
 }
 
@@ -3241,10 +3253,18 @@ task_step_impl(asyncio_state *state, TaskObj *task, PyObject *exc)
 
     int gen_status = PYGEN_ERROR;
     if (exc == NULL) {
+#if PY_ASYNC_BY_COROUTINE_C
         gen_status = PyIter_Send(task->task_coro, Py_None, &result);
+#else
+        gen_status = PyIter_Send(coro, Py_None, &result);
+#endif
     }
     else {
+#if PY_ASYNC_BY_COROUTINE_C
         result = PyObject_CallMethodOneArg(task->task_coro, &_Py_ID(throw), exc);
+#else
+        result = PyObject_CallMethodOneArg(coro, &_Py_ID(throw), exc);
+#endif
         gen_status = gen_status_from_result(&result);
         if (clear_exc) {
             /* We created 'exc' during this call */
