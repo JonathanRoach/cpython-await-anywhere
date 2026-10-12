@@ -224,7 +224,6 @@ _PyThreadStack_CallInsideCoroutine(
     void *param,
     void **ret
 ){
-#if PY_ASYNC_BY_COROUTINE_C
     if (_Py_Coroutine_IsStarted()){
         void *retval = fn(param);
         if (ret){
@@ -246,13 +245,6 @@ _PyThreadStack_CallInsideCoroutine(
     }
     
     return _Py_Coroutine_Run(PYOS_COSTACK_STD_SIZE, PYOS_COSTACK_CHAIN_HEADROOM, fn, param, ret);
-#else
-    void *retval = fn(param);
-    if (ret){
-        *ret = retval;
-    }
-    return Coroutine_OK;
-#endif
 }
 
 

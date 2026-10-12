@@ -307,10 +307,10 @@ class Future:
     def __await__(self):
         if not self.done():
             self._asyncio_future_blocking = True
-            # if False - look like a generator, but behave like a completed generator
-            if False:
+            if hasattr(_CoroutineClass, 'doyield'):
+                _CoroutineClass.doyield(self)
+            else:
                 yield self  # This tells Task to wait for completion.
-            _CoroutineClass.doyield(self)
         if not self.done():
             raise RuntimeError("await wasn't used with future")
         return self.result()  # May raise too.

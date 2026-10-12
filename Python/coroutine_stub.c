@@ -64,6 +64,7 @@ StackPointerDiff
 // ...unused
 
 _Cor_thread_local unsigned char *g_stack_limit;
+_Cor_thread_local bool g_started;
 
 
 #ifndef NDEBUG
@@ -86,15 +87,34 @@ Coroutine_SetStackLimit(
 }
 
 
-Coroutine_Err Coroutine_Run(
+bool
+Coroutine_IsStarted(
+    void
+){
+    return g_started;
+}
+
+
+Coroutine_Err
+Coroutine_Run(
     size_t min_size,
     size_t min_headroom,
     Coroutine_Start start,
     void *value,
     void **result
 ){
-    // Pretend we are in an active coroutine, so call start() directly
-    void *res = start(value);
+    (void)min_size;
+    (void)min_headroom;
+
+    void *res;
+    if (g_started){
+        res = start(value);
+    } else {
+        g_started = true;
+        res = start(value);
+        g_started = false;
+    }
+
     if (result){
         *result = res;
     }

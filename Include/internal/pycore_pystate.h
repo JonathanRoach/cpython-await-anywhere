@@ -141,6 +141,7 @@ static inline int _PyThreadStack_IsStackFull(size_t headroom_needed) {
         return 0;
     }
 
+#if PY_ASYNC_BY_COROUTINE_C
     // work out space we'll need in a chained coroutine
     uintptr_t required = headroom_needed;
     if (headroom > PYOS_COSTACK_MIN_HEADROOM){
@@ -150,7 +151,6 @@ static inline int _PyThreadStack_IsStackFull(size_t headroom_needed) {
         required = PYOS_COSTACK_STD_SIZE;
     }
 
-#if PY_ASYNC_BY_COROUTINE_C
     if (_Py_Coroutine_CanStartCoroutine(required)) {
         // If a new coroutine can be started, there's enough room
         return 0;
