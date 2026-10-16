@@ -11488,7 +11488,6 @@ an all-zero entry.
 #undef MPSLOT
 #undef NBSLOT
 #undef UNSLOT
-#undef IBSLOT
 #undef BINSLOT
 #undef RBINSLOT
 
@@ -11522,8 +11521,8 @@ an all-zero entry.
 #define UNSLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
     ETSLOT(NAME, as_number.SLOT, FUNCTION, WRAPPER, \
            #NAME "($self, /)\n--\n\n" DOC)
-#define IBSLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
-    ETSLOT(NAME, as_number.SLOT, FUNCTION, WRAPPER, \
+#define IBISLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
+    ETISLOT(NAME, as_number.SLOT, FUNCTION, WRAPPER, \
            #NAME "($self, value, /)\n--\n\nReturn self" DOC "value.")
 #define BINSLOT(NAME, SLOT, FUNCTION, DOC) \
     ETISLOT(NAME, as_number.SLOT, FUNCTION, wrap_binaryfunc_l, \
@@ -11656,33 +11655,33 @@ static pytype_slotdef slotdefs[] = {
            "int(self)"),
     UNSLOT(__float__, nb_float, slot_nb_float, wrap_unaryfunc,
            "float(self)"),
-    IBSLOT(__iadd__, nb_inplace_add, _PyType_Slot_nb_inplace_add,
+    IBISLOT(__iadd__, nb_inplace_add, _PyType_Slot_nb_inplace_add,
            wrap_binaryfunc, "+="),
-    IBSLOT(__isub__, nb_inplace_subtract, _PyType_Slot_nb_inplace_subtract,
+    IBISLOT(__isub__, nb_inplace_subtract, _PyType_Slot_nb_inplace_subtract,
            wrap_binaryfunc, "-="),
-    IBSLOT(__imul__, nb_inplace_multiply, _PyType_Slot_nb_inplace_multiply,
+    IBISLOT(__imul__, nb_inplace_multiply, _PyType_Slot_nb_inplace_multiply,
            wrap_binaryfunc, "*="),
-    IBSLOT(__imod__, nb_inplace_remainder, _PyType_Slot_nb_inplace_remainder,
+    IBISLOT(__imod__, nb_inplace_remainder, _PyType_Slot_nb_inplace_remainder,
            wrap_binaryfunc, "%="),
-    IBSLOT(__ipow__, nb_inplace_power, _PyType_Slot_nb_inplace_power,
+    IBISLOT(__ipow__, nb_inplace_power, _PyType_Slot_nb_inplace_power,
            wrap_ternaryfunc, "**="),
-    IBSLOT(__ilshift__, nb_inplace_lshift, _PyType_Slot_nb_inplace_lshift,
+    IBISLOT(__ilshift__, nb_inplace_lshift, _PyType_Slot_nb_inplace_lshift,
            wrap_binaryfunc, "<<="),
-    IBSLOT(__irshift__, nb_inplace_rshift, _PyType_Slot_nb_inplace_rshift,
+    IBISLOT(__irshift__, nb_inplace_rshift, _PyType_Slot_nb_inplace_rshift,
            wrap_binaryfunc, ">>="),
-    IBSLOT(__iand__, nb_inplace_and, _PyType_Slot_nb_inplace_and,
+    IBISLOT(__iand__, nb_inplace_and, _PyType_Slot_nb_inplace_and,
            wrap_binaryfunc, "&="),
-    IBSLOT(__ixor__, nb_inplace_xor, _PyType_Slot_nb_inplace_xor,
+    IBISLOT(__ixor__, nb_inplace_xor, _PyType_Slot_nb_inplace_xor,
            wrap_binaryfunc, "^="),
-    IBSLOT(__ior__, nb_inplace_or, _PyType_Slot_nb_inplace_or,
+    IBISLOT(__ior__, nb_inplace_or, _PyType_Slot_nb_inplace_or,
            wrap_binaryfunc, "|="),
     BINSLOT(__floordiv__, nb_floor_divide, _PyType_Slot_nb_floor_divide, "//"),
     RBINSLOT(__rfloordiv__, nb_floor_divide, _PyType_Slot_nb_floor_divide, "//"),
     BINSLOT(__truediv__, nb_true_divide, _PyType_Slot_nb_true_divide, "/"),
     RBINSLOT(__rtruediv__, nb_true_divide, _PyType_Slot_nb_true_divide, "/"),
-    IBSLOT(__ifloordiv__, nb_inplace_floor_divide,
+    IBISLOT(__ifloordiv__, nb_inplace_floor_divide,
            _PyType_Slot_nb_inplace_floor_divide, wrap_binaryfunc, "//="),
-    IBSLOT(__itruediv__, nb_inplace_true_divide,
+    IBISLOT(__itruediv__, nb_inplace_true_divide,
            _PyType_Slot_nb_inplace_true_divide, wrap_binaryfunc, "/="),
     NBSLOT(__index__, nb_index, slot_nb_index, wrap_unaryfunc,
            "__index__($self, /)\n--\n\n"
@@ -11692,7 +11691,7 @@ static pytype_slotdef slotdefs[] = {
             "@"),
     RBINSLOT(__rmatmul__, nb_matrix_multiply, _PyType_Slot_nb_matrix_multiply,
              "@"),
-    IBSLOT(__imatmul__, nb_inplace_matrix_multiply, _PyType_Slot_nb_inplace_matrix_multiply,
+    IBISLOT(__imatmul__, nb_inplace_matrix_multiply, _PyType_Slot_nb_inplace_matrix_multiply,
            wrap_binaryfunc, "@="),
     MPSLOT(__len__, mp_length, slot_mp_length, wrap_lenfunc,
            "__len__($self, /)\n--\n\nReturn len(self)."),
