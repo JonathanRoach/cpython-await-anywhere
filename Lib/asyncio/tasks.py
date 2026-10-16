@@ -18,7 +18,7 @@ import itertools
 import math
 import types
 import weakref
-from types import GenericAlias
+from types import GenericAlias, CoroutineType
 
 from . import base_tasks
 from . import coroutines
@@ -52,22 +52,6 @@ def all_tasks(loop=None):
     return {t for t in itertools.chain(_scheduled_tasks, eager_tasks)
             if futures._get_loop(t) is loop and not t.done()}
 
-
-def _GetCoroutineClass():
-    async def _CoroutineWhichDoesNothing():
-        ...
-
-    cr = _CoroutineWhichDoesNothing()
-
-    # prevent the warning that we haven't used the coroutine
-    try:
-        cr.send(None)
-    except StopIteration:
-        pass
-
-    return cr.__class__
-
-_CoroutineClass = _GetCoroutineClass()
 
 class Task(futures._PyFuture):  # Inherit Python Task implementation
                                 # from a Python Future implementation.
@@ -703,8 +687,8 @@ def __sleep0():
 async def sleep(delay, result=None):
     """Coroutine that completes after a given time (in seconds)."""
     if delay <= 0:
-        if hasattr(_CoroutineClass, 'doyield'):
-            _CoroutineClass.doyield(None)
+        if hasattr(CoroutineType, 'doyield'):
+            CoroutineType.doyield(None)
         else:
             await __sleep0()
         return result

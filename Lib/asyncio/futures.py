@@ -9,7 +9,7 @@ import concurrent.futures
 import contextvars
 import logging
 import sys
-from types import GenericAlias
+from types import GenericAlias, CoroutineType
 
 from . import base_futures
 from . import events
@@ -26,22 +26,6 @@ _FINISHED = base_futures._FINISHED
 
 
 STACK_DEBUG = logging.DEBUG - 1  # heavy-duty debugging
-
-def _GetCoroutineClass():
-    async def _CoroutineWhichDoesNothing():
-        ...
-
-    cr = _CoroutineWhichDoesNothing()
-
-    # prevent the warning that we haven't used the coroutine
-    try:
-        cr.send(None)
-    except StopIteration:
-        pass
-
-    return cr.__class__
-
-_CoroutineClass = _GetCoroutineClass()
 
 class Future:
     """This class is *almost* compatible with concurrent.futures.Future.
@@ -307,8 +291,8 @@ class Future:
     def __await__(self):
         if not self.done():
             self._asyncio_future_blocking = True
-            if hasattr(_CoroutineClass, 'doyield'):
-                _CoroutineClass.doyield(self)
+            if hasattr(CoroutineType, 'doyield'):
+                CoroutineType.doyield(self)
             else:
                 yield self  # This tells Task to wait for completion.
         if not self.done():
