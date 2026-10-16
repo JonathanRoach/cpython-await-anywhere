@@ -100,8 +100,12 @@ struct _PyInterpreterFrame {
 
 #else
 #define _PyGenObject_HEAD_CoroutineBits(prefix) \
+    void *prefix##_unused0;                                                 \
+    void *prefix##_unused1;                                                 \
+    void *prefix##_unused2;                                                 \
+    void *prefix##_unused3;                                                 \
     int prefix##_resume_frame_count;                                        \
-    
+
 #endif
 
 /* _PyGenObject_HEAD defines the initial segment of generator
