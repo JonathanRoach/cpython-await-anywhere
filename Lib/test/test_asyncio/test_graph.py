@@ -1,7 +1,9 @@
 import asyncio
 import io
 import unittest
+from types import CoroutineType
 
+PY_ASYNC_BY_COROUTINE_C = hasattr(CoroutineType, 'doyield')
 
 # To prevent a warning "test altered the execution environment"
 def tearDownModule():
@@ -84,13 +86,13 @@ class CallStackTestBase:
             # awaited by
             [
                 ['T<anon>',
-                     ['a _aexit', 'a __aexit__', 'a main', 'a test_stack_tgroup'], []
+                     ['a _aexit', 'a __aexit__', 'a main', 'a test_stack_tgroup'] if PY_ASYNC_BY_COROUTINE_C else ['a test_stack_tgroup'], []
                 ],
                 ['T<sub_main_1>',
                     ['a c1'],
                     [
                         ['T<anon>',
-                            ['a _aexit', 'a __aexit__', 'a main', 'a test_stack_tgroup'], []
+                            ['a _aexit', 'a __aexit__', 'a main', 'a test_stack_tgroup'] if PY_ASYNC_BY_COROUTINE_C else ['a test_stack_tgroup'], []
                         ]
                     ]
                 ],
@@ -98,7 +100,7 @@ class CallStackTestBase:
                     ['a c1'],
                     [
                         ['T<anon>',
-                            ['a _aexit', 'a __aexit__', 'a main', 'a test_stack_tgroup'], []
+                            ['a _aexit', 'a __aexit__', 'a main', 'a test_stack_tgroup'] if PY_ASYNC_BY_COROUTINE_C else ['a test_stack_tgroup'], []
                         ]
                     ]
                 ]
@@ -171,7 +173,11 @@ class CallStackTestBase:
             'T<anon>',
             ['s capture_test_stack', 'a deep', 'a c1'],
             [
-                ['T<anon>', ['a main', 'a test_stack_gather'], []]
+                [
+                    'T<anon>',
+                    ['a main', 'a test_stack_gather'] if PY_ASYNC_BY_COROUTINE_C else ['a test_stack_gather'],
+                    []
+                ]
             ]
         ])
 
@@ -197,7 +203,7 @@ class CallStackTestBase:
             'T<anon>',
             ['s capture_test_stack', 'a deep', 'a c1'],
             [
-                ['T<anon>', ['a main', 'a test_stack_shield'], []]
+                ['T<anon>', ['a main', 'a test_stack_shield'] if PY_ASYNC_BY_COROUTINE_C else ['a test_stack_shield'], []]
             ]
         ])
 
@@ -224,7 +230,7 @@ class CallStackTestBase:
             'T<anon>',
             ['s capture_test_stack', 'a inner', 'a c1'],
             [
-                ['T<anon>', ['a main', 'a test_stack_timeout'], []]
+                ['T<anon>', ['a main', 'a test_stack_timeout'] if PY_ASYNC_BY_COROUTINE_C else ['a test_stack_timeout'], []]
             ]
         ])
 
@@ -265,7 +271,7 @@ class CallStackTestBase:
             ['s capture_test_stack', 'a inner', 'a c1'],
             [
                 ['T<anon>',
-                    ['a _wait', 'a wait', 'a main', 'a test_stack_wait'],
+                    ['a _wait', 'a wait', 'a main', 'a test_stack_wait'] if PY_ASYNC_BY_COROUTINE_C else ['a test_stack_wait'],
                     []
                 ]
             ]
@@ -294,7 +300,7 @@ class CallStackTestBase:
         self.assertEqual(stack_for_inner[0], [
             'T<there there>',
             ['s capture_test_stack', 'a inner', 'a c1'],
-            [['T<anon>', ['a c2', 'a main', 'a test_stack_task'], []]]
+            [['T<anon>', ['a c2', 'a main', 'a test_stack_task'] if PY_ASYNC_BY_COROUTINE_C else ['a test_stack_task'], []]]
         ])
 
     async def test_stack_future(self):
@@ -333,7 +339,7 @@ class CallStackTestBase:
             [],
             [
                 ['T<task A>',
-                    ['a a2', 'a a1'],
+                    ['a a2', 'a a1'] if PY_ASYNC_BY_COROUTINE_C else ['a a1'],
                     [['T<anon>', ['a test_stack_future'], []]]
                 ],
                 ['T<task B>',
