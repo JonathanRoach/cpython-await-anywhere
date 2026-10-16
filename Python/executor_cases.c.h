@@ -1985,6 +1985,9 @@
                 PyStackRef_CLOSE(retval);
                 stack_pointer = _PyFrame_GetStackPointer(frame);
                 if (!value_o){
+                    _PyFrame_SetStackPointer(frame, stack_pointer);
+                    _PyFrame_StackPush(frame, PyStackRef_None);
+                    stack_pointer = _PyFrame_GetStackPointer(frame);
                     JUMP_TO_ERROR();
                 }
                 value = PyStackRef_FromPyObjectSteal(value_o);

@@ -4752,7 +4752,7 @@
             last_sent_val = stack_pointer[-2];
             sub_iter = stack_pointer[-3];
             PyObject *exc_value = PyStackRef_AsPyObjectBorrow(exc_value_st);
-            #if !Py_TAIL_CALL_INTERP
+            #if !Py_TAIL_CALL_INTERP && !PY_ASYNC_BY_COROUTINE_C
             assert(throwflag);
             #endif
             assert(exc_value && PyExceptionInstance_Check(exc_value));
@@ -7796,6 +7796,9 @@
                     PyStackRef_CLOSE(retval);
                     stack_pointer = _PyFrame_GetStackPointer(frame);
                     if (!value_o){
+                        _PyFrame_SetStackPointer(frame, stack_pointer);
+                        _PyFrame_StackPush(frame, PyStackRef_None);
+                        stack_pointer = _PyFrame_GetStackPointer(frame);
                         JUMP_TO_LABEL(error);
                     }
                     value = PyStackRef_FromPyObjectSteal(value_o);
@@ -12583,6 +12586,9 @@
                 PyStackRef_CLOSE(retval);
                 stack_pointer = _PyFrame_GetStackPointer(frame);
                 if (!value_o){
+                    _PyFrame_SetStackPointer(frame, stack_pointer);
+                    _PyFrame_StackPush(frame, PyStackRef_None);
+                    stack_pointer = _PyFrame_GetStackPointer(frame);
                     JUMP_TO_LABEL(error);
                 }
                 value = PyStackRef_FromPyObjectSteal(value_o);
@@ -12771,6 +12777,9 @@ JUMP_TO_LABEL(error);
                 }
                 monitor_unwind(tstate, frame, next_instr-1);
                 JUMP_TO_LABEL(exit_unwind);
+            }
+            if (!(STACK_LEVEL() >= level)){
+                printf("%d %d\n",STACK_LEVEL(), level);
             }
             assert(STACK_LEVEL() >= level);
             _PyStackRef *new_top = _PyFrame_Stackbase(frame) + level;

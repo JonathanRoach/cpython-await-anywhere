@@ -1377,6 +1377,10 @@ dummy_func(
                 PyObject *value_o = _PyCoro_DoYield(PyStackRef_AsPyObjectBorrow(retval), yield_from);
                 PyStackRef_CLOSE(retval);
                 if (!value_o){
+                    // Restore retval / value as expected by the exception block
+                    SAVE_STACK();
+                    _PyFrame_StackPush(frame, PyStackRef_None);
+                    RELOAD_STACK();
                     ERROR_IF(true);
                 }
                 value = PyStackRef_FromPyObjectSteal(value_o);
@@ -1562,7 +1566,7 @@ dummy_func(
 
         tier1 inst(CLEANUP_THROW, (sub_iter, last_sent_val, exc_value_st -- none, value)) {
             PyObject *exc_value = PyStackRef_AsPyObjectBorrow(exc_value_st);
-            #if !Py_TAIL_CALL_INTERP
+            #if !Py_TAIL_CALL_INTERP && !PY_ASYNC_BY_COROUTINE_C
             assert(throwflag);
             #endif
             assert(exc_value && PyExceptionInstance_Check(exc_value));
@@ -5712,6 +5716,9 @@ dummy_func(
                 }
                 monitor_unwind(tstate, frame, next_instr-1);
                 goto exit_unwind;
+            }
+            if (!(STACK_LEVEL() >= level)){
+                printf("%d %d\n",STACK_LEVEL(), level);
             }
             assert(STACK_LEVEL() >= level);
             _PyStackRef *new_top = _PyFrame_Stackbase(frame) + level;
