@@ -11088,7 +11088,7 @@ _PyType_Slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type)
 }
 
 int
-_PyType_Slot_tp_descr_set_inlinable(PyObject *self, PyObject *target, PyObject *value, struct _PyInterpreterFrame **inlined)
+_PyType_Slot_tp_descr_set_Inlinable(PyObject *self, PyObject *target, PyObject *value, struct _PyInterpreterFrame **inlined)
 {
     PyObject* stack[3];
     PyObject *res;
@@ -11130,7 +11130,7 @@ _PyType_Slot_tp_descr_set_inlinable(PyObject *self, PyObject *target, PyObject *
 int
 _PyType_Slot_tp_descr_set(PyObject *self, PyObject *target, PyObject *value)
 {
-    return _PyType_Slot_tp_descr_set_inlinable(self, target, value, NULL);
+    return _PyType_Slot_tp_descr_set_Inlinable(self, target, value, NULL);
 }
 
 static int
@@ -11590,9 +11590,9 @@ static pytype_slotdef slotdefs[] = {
            "__next__($self, /)\n--\n\nImplement next(self)."),
     TPSLOT(__get__, tp_descr_get, _PyType_Slot_tp_descr_get, wrap_descr_get,
            "__get__($self, instance, owner=None, /)\n--\n\nReturn an attribute of instance, which is of type owner."),
-    TPSLOT(__set__, tp_descr_set, _PyType_Slot_tp_descr_set, wrap_descr_set,
+    TPISLOT(__set__, tp_descr_set, _PyType_Slot_tp_descr_set, wrap_descr_set,
            "__set__($self, instance, value, /)\n--\n\nSet an attribute of instance to value."),
-    TPSLOT(__delete__, tp_descr_set, _PyType_Slot_tp_descr_set,
+    TPISLOT(__delete__, tp_descr_set, _PyType_Slot_tp_descr_set,
            wrap_descr_delete,
            "__delete__($self, instance, /)\n--\n\nDelete an attribute of instance."),
     FLSLOT(__init__, tp_init, slot_tp_init,
@@ -11817,7 +11817,7 @@ static struct SlotInfos {
     SLOTINFO(tp,iter)
     SLOTINFO(tp,iternext)
     SLOTINFO(tp,descr_get)
-    SLOTINFO(tp,descr_set)
+    SLOTIINFO(tp,descr_set)
     SLOTINFO(tp,init)
     SLOTINFO(tp,alloc)
     SLOTINFO(tp,new)
@@ -12094,6 +12094,7 @@ update_one_slot(PyTypeObject *type, pytype_slotdef *p, pytype_slotdef **next_p,
         }
         return 0;
     }
+
     /* We may end up clearing live exceptions below, so make sure it's ours. */
     assert(!PyErr_Occurred());
     do {
@@ -13384,6 +13385,7 @@ PyType_DefineCallTypeFunction4(R, PyObject *, tp, vectorcall, PyObject *, PyObje
 
 PyType_DefineCallTypeFunction4(R, int, tp, setattr_inlineable, PyObject *, char *, PyObject *, struct _PyInterpreterFrame **)
 PyType_DefineCallTypeFunction4(R, int, tp, setattro_inlineable, PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **)
+PyType_DefineCallTypeFunction4(R, int, tp, descr_set_inlineable, PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **)
 
 
 PyType_DefineCallTypeFunction1(R, PyObject *, am, await, PyObject *)

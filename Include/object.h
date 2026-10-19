@@ -372,6 +372,7 @@ typedef PyObject *(*getiterfunc) (PyObject *);
 typedef PyObject *(*iternextfunc) (PyObject *);
 typedef PyObject *(*descrgetfunc) (PyObject *, PyObject *, PyObject *);
 typedef int (*descrsetfunc) (PyObject *, PyObject *, PyObject *);
+typedef int (*descrsetfunc_inlineable) (PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **);
 typedef int (*initproc)(PyObject *, PyObject *, PyObject *);
 typedef PyObject *(*newfunc)(PyTypeObject *, PyObject *, PyObject *);
 typedef PyObject *(*allocfunc)(PyTypeObject *, Py_ssize_t);
@@ -893,6 +894,7 @@ PyAPI_FUNC(PyObject *) PyType_Call_tp_vectorcall(PyTypeObject *tp, PyObject *cal
 
 PyAPI_FUNC(int) PyType_Call_tp_setattr_inlineable(PyTypeObject *tp, PyObject *callable, char *name, PyObject *value, struct _PyInterpreterFrame **);
 PyAPI_FUNC(int) PyType_Call_tp_setattro_inlineable(PyTypeObject *tp, PyObject *callable, PyObject *name, PyObject *value, struct _PyInterpreterFrame **);
+PyAPI_FUNC(int) PyType_Call_tp_descr_set_inlineable(PyTypeObject *tp, PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **);
 
 
 PyAPI_FUNC(PyObject *) PyType_Call_am_await(PyTypeObject *tp, PyObject *);

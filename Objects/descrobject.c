@@ -1776,7 +1776,7 @@ _PyProperty_Slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type){
 }
 
 int
-_PyProperty_Slot_tp_descr_set_inlinable(PyObject *self, PyObject *obj, PyObject *value,
+_PyProperty_Slot_tp_descr_set_Inlineable(PyObject *self, PyObject *obj, PyObject *value,
     struct _PyInterpreterFrame **inlined)
 {
     propertyobject *gs = (propertyobject *)self;
@@ -1862,7 +1862,7 @@ _PyProperty_Slot_tp_descr_set_inlinable(PyObject *self, PyObject *obj, PyObject 
 int
 _PyProperty_Slot_tp_descr_set(PyObject *self, PyObject *obj, PyObject *value)
 {
-    return _PyProperty_Slot_tp_descr_set_inlinable(self, obj, value, NULL);
+    return _PyProperty_Slot_tp_descr_set_Inlineable(self, obj, value, NULL);
 }
 
 static PyObject *
@@ -2205,4 +2205,7 @@ PyTypeObject PyProperty_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_init] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
+
+    .tp_descr_set_inlineable = _PyProperty_Slot_tp_descr_set_Inlineable,
+    .tp_functionflags[_PyFunctionIndex_tp_descr_set_inlineable] = Py_FNFLAGS_FRUGAL,
 };

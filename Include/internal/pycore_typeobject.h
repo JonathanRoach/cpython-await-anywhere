@@ -120,7 +120,7 @@ extern int _PyType_Slot_tp_setattro_Inlinable(PyObject *self, PyObject *name, Py
 extern PyObject *_PyType_Slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type);
 extern PyObject *_PyType_Slot_tp_descr_get_inlinable(PyObject *self, PyObject *obj, PyObject *type, struct _PyInterpreterFrame **inlined);
 extern int _PyType_Slot_tp_descr_set(PyObject *self, PyObject *target, PyObject *value);
-extern int _PyType_Slot_tp_descr_set_inlinable(PyObject *self, PyObject *target, PyObject *value, struct _PyInterpreterFrame **inlined);
+extern int _PyType_Slot_tp_descr_set_Inlinable(PyObject *self, PyObject *target, PyObject *value, struct _PyInterpreterFrame **inlined);
 
 #define _PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(SLOTNAME) \
 extern PyObject * _PyType_Slot_##SLOTNAME(PyObject *self, PyObject *other); \

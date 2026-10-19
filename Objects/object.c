@@ -2014,14 +2014,13 @@ _PyObject_GenericSetAttrWithDict(PyObject *obj, PyObject *name,
     descr = PyStackRef_AsPyObjectBorrow(cref.ref);
 
     if (descr != NULL) {
-        f = Py_TYPE(descr)->tp_descr_set;
+        PyTypeObject *tpd = Py_TYPE(descr);
+        f = tpd->tp_descr_set;
         if (f) {
-            if (f == _PyType_Slot_tp_descr_set) {
-                res = _PyType_Slot_tp_descr_set_inlinable(descr, obj, value, inlined);
-            } else if (f == _PyProperty_Slot_tp_descr_set) {
-                res = _PyProperty_Slot_tp_descr_set_inlinable(descr, obj, value, inlined);
+            if (PyType_HasFeature(tpd, Py_TPFLAGS_IS_EXTENDED) && tpd->tp_descr_set_inlineable){
+                res = PyType_Call_tp_descr_set_inlineable(tpd, descr, obj, value, inlined);
             } else {
-                res = PyType_Call_tp_descr_set(Py_TYPE(descr), descr, obj, value);
+                res = PyType_Call_tp_descr_set(tpd, descr, obj, value);
             }
             goto done;
         }
