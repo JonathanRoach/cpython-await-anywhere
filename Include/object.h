@@ -362,7 +362,9 @@ typedef void (*destructor)(PyObject *);
 typedef PyObject *(*getattrfunc)(PyObject *, char *);
 typedef PyObject *(*getattrofunc)(PyObject *, PyObject *);
 typedef int (*setattrfunc)(PyObject *, char *, PyObject *);
+typedef int (*setattrfunc_inlineable)(PyObject *, char *, PyObject *, struct _PyInterpreterFrame **);
 typedef int (*setattrofunc)(PyObject *, PyObject *, PyObject *);
+typedef int (*setattrofunc_inlineable)(PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **);
 typedef PyObject *(*reprfunc)(PyObject *);
 typedef Py_hash_t (*hashfunc)(PyObject *);
 typedef PyObject *(*richcmpfunc) (PyObject *, PyObject *, int);
@@ -888,6 +890,10 @@ PyAPI_FUNC(int) PyType_Call_tp_is_gc(PyTypeObject *tp, PyObject *);
 PyAPI_FUNC(void) PyType_Call_tp_del(PyTypeObject *tp, PyObject *);
 PyAPI_FUNC(void) PyType_Call_tp_finalize(PyTypeObject *tp, PyObject *);
 PyAPI_FUNC(PyObject *) PyType_Call_tp_vectorcall(PyTypeObject *tp, PyObject *callable, PyObject *const *args, size_t nargsf, PyObject *kwnames);
+
+PyAPI_FUNC(int) PyType_Call_tp_setattr_inlineable(PyTypeObject *tp, PyObject *callable, char *name, PyObject *value, struct _PyInterpreterFrame **);
+PyAPI_FUNC(int) PyType_Call_tp_setattro_inlineable(PyTypeObject *tp, PyObject *callable, PyObject *name, PyObject *value, struct _PyInterpreterFrame **);
+
 
 PyAPI_FUNC(PyObject *) PyType_Call_am_await(PyTypeObject *tp, PyObject *);
 PyAPI_FUNC(PyObject *) PyType_Call_am_aiter(PyTypeObject *tp, PyObject *);

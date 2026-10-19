@@ -1482,8 +1482,8 @@ _PyObject_SetAttrInlinable(PyObject *v, PyObject *name, PyObject *value,
         if (inlined && tp->tp_setattro == PyObject_GenericSetAttr){
             err = _PyObject_GenericSetAttrInlinable(v, name, value, inlined);
         }
-        else if (inlined && tp->tp_setattro == _PyType_Slot_tp_setattro){
-            err = _PyType_Slot_tp_setattro_inlinable(v, name, value, inlined);
+        else if (inlined && PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) && tp->tp_setattro_inlineable){
+            err = PyType_Call_tp_setattro_inlineable(tp, v, name, value, inlined);
         } else {
             err = PyType_Call_tp_setattro(tp, v, name, value);
         }

@@ -1601,7 +1601,7 @@ class SizeofTest(unittest.TestCase):
         import collections
         check(collections.defaultdict.default_factory, size('3PP'))
         # wrapper_descriptor (descriptor object)
-        check(int.__add__, size('3P2PBP'))
+        check(int.__add__, size('3P2PBPB'))
         # method-wrapper (descriptor object)
         check({}.__iter__, size('2P'))
         # empty dict
@@ -1764,7 +1764,7 @@ class SizeofTest(unittest.TestCase):
         check((1,2,3), vsize('') + self.P + 3*self.P)
         # type
         # static type: PyTypeObject
-        fmt = 'P2nPn13PL4Pn9Pn11PI2PBHL26s'
+        fmt = 'P2nPn13PL4Pn9Pn11PI2PBHL28s2P'
         s = vsize(fmt)
         check(int, s)
         typeid = 'n' if support.Py_GIL_DISABLED else ''

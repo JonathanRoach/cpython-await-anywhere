@@ -3742,6 +3742,7 @@ struct SlotPtrInfo {
     void **func;
     char *flags;
     void **func_inlineable;
+    char *flags_inlineable;
 };
 
 #ifdef Py_GIL_DISABLED
@@ -3770,6 +3771,7 @@ typedef struct {
     void *slot_value;
     char slot_flags;
     void *slot_value_inlineable;
+    char slot_flags_inlineable;
 } slot_update_item_t;
 
 // The number of slot updates performed is based on the number of changed
@@ -3823,7 +3825,8 @@ queue_slot_update(
     struct SlotPtrInfo *ptr,
     void *slot_value,
     char slot_flags,
-    void *slot_value_inlineable
+    void *slot_value_inlineable,
+    char slot_flags_inlineable
 )
 {
     if (*ptr->func == slot_value) {
@@ -3843,6 +3846,7 @@ queue_slot_update(
     item->slot_value = slot_value;
     item->slot_flags = slot_flags;
     item->slot_value_inlineable = slot_value_inlineable;
+    item->slot_flags_inlineable = slot_flags_inlineable;
     updates->head->n++;
     assert(updates->head->n <= SLOT_UPDATE_CHUNK_SIZE);
     return 0;
@@ -3860,6 +3864,9 @@ apply_slot_updates(slot_update_t *updates)
             *(item->ptr.flags) = item->slot_flags;
             if (item->ptr.func_inlineable){
                 *item->ptr.func_inlineable = item->slot_value_inlineable;
+            }
+            if (item->ptr.flags_inlineable){
+                *item->ptr.flags_inlineable = item->slot_flags_inlineable;
             }
             if (item->slot_value == slot_tp_call) {
                 /* A generic __call__ is incompatible with vectorcall */
@@ -10944,7 +10951,7 @@ _PyType_Slot_tp_getattr_hook(PyObject *self, PyObject *name)
 }
 
 extern int
-_PyType_Slot_tp_setattro_inlinable(PyObject *self, PyObject *name, PyObject *value,
+_PyType_Slot_tp_setattro_Inlinable(PyObject *self, PyObject *name, PyObject *value,
     struct _PyInterpreterFrame **inlined)
 {
     PyObject *stack[3];
@@ -10985,7 +10992,7 @@ _PyType_Slot_tp_setattro_inlinable(PyObject *self, PyObject *name, PyObject *val
 extern int
 _PyType_Slot_tp_setattro(PyObject *self, PyObject *name, PyObject *value)
 {
-    return _PyType_Slot_tp_setattro_inlinable(self, name, value, NULL);
+    return _PyType_Slot_tp_setattro_Inlinable(self, name, value, NULL);
 }
 
 static PyObject *name_op[] = {
@@ -11494,6 +11501,10 @@ an all-zero entry.
 #define TPSLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
     {{#NAME, offsetof(PyTypeObject, SLOT), (void *)(FUNCTION), WRAPPER, \
      PyDoc_STR(DOC), .name_strobj = &_Py_ID(NAME)}}
+#define TPISLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
+    {{#NAME, offsetof(PyTypeObject, SLOT), (void *)(FUNCTION), WRAPPER, \
+     PyDoc_STR(DOC), .name_strobj = &_Py_ID(NAME)}, \
+    offsetof(PyTypeObject, SLOT##_inlineable), (void *)(FUNCTION##_Inlinable)}
 #define FLSLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC, FLAGS) \
     {{#NAME, offsetof(PyTypeObject, SLOT), (void *)(FUNCTION), WRAPPER, \
      PyDoc_STR(DOC), FLAGS, .name_strobj = &_Py_ID(NAME) }}
@@ -11557,9 +11568,9 @@ static pytype_slotdef slotdefs[] = {
            "__getattribute__($self, name, /)\n--\n\nReturn getattr(self, name)."),
     TPSLOT(__getattr__, tp_getattro, _PyType_Slot_tp_getattr_hook, NULL,
            "__getattr__($self, name, /)\n--\n\nImplement getattr(self, name)."),
-    TPSLOT(__setattr__, tp_setattro, _PyType_Slot_tp_setattro, wrap_setattr,
+    TPISLOT(__setattr__, tp_setattro, _PyType_Slot_tp_setattro, wrap_setattr,
            "__setattr__($self, name, value, /)\n--\n\nImplement setattr(self, name, value)."),
-    TPSLOT(__delattr__, tp_setattro, _PyType_Slot_tp_setattro, wrap_delattr,
+    TPISLOT(__delattr__, tp_setattro, _PyType_Slot_tp_setattro, wrap_delattr,
            "__delattr__($self, name, /)\n--\n\nImplement delattr(self, name)."),
     TPSLOT(__lt__, tp_richcompare, slot_tp_richcompare, richcmp_lt,
            "__lt__($self, value, /)\n--\n\nReturn self<value."),
@@ -11741,6 +11752,7 @@ struct SlotInfo {
     ptrdiff_t fn;
     ptrdiff_t fn_inlineable;
     ptrdiff_t fnflags;
+    ptrdiff_t fnflags_inlineable;
     int fnindex;
 };
 
@@ -11769,20 +11781,22 @@ struct SlotInfo {
 #define SLOTINFO(KIND, SLOT) \
     .i[offsetof(PyHeapTypeObject, SLOTINFO_SLOTLOC_##KIND.KIND##_##SLOT)] = \
         { \
-            offsetof(PyHeapTypeObject, SLOTINFO_SLOTLOCP_##KIND), \
-            offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##_##SLOT), \
-            0, \
-            offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##_functionflags[_PyFunctionIndex_##KIND##_##SLOT]), \
-            _PyFunctionIndex_##KIND##_##SLOT, \
+            .group = offsetof(PyHeapTypeObject, SLOTINFO_SLOTLOCP_##KIND), \
+            .fn = offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##_##SLOT), \
+            .fn_inlineable = 0, \
+            .fnflags = offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##_functionflags[_PyFunctionIndex_##KIND##_##SLOT]), \
+            .fnflags_inlineable = 0, \
+            .fnindex = _PyFunctionIndex_##KIND##_##SLOT, \
         },
 #define SLOTIINFO(KIND, SLOT) \
     .i[offsetof(PyHeapTypeObject, SLOTINFO_SLOTLOC_##KIND.KIND##_##SLOT)] = \
         { \
-            offsetof(PyHeapTypeObject, SLOTINFO_SLOTLOCP_##KIND), \
-            offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##_##SLOT), \
-            offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##_##SLOT##_inlineable), \
-            offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##_functionflags[_PyFunctionIndex_##KIND##_##SLOT]), \
-            _PyFunctionIndex_##KIND##_##SLOT, \
+            .group = offsetof(PyHeapTypeObject, SLOTINFO_SLOTLOCP_##KIND), \
+            .fn = offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##_##SLOT), \
+            .fn_inlineable = offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##_##SLOT##_inlineable), \
+            .fnflags = offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##_functionflags[_PyFunctionIndex_##KIND##_##SLOT]), \
+            .fnflags_inlineable = offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##_functionflags[_PyFunctionIndex_##KIND##_##SLOT##_inlineable]), \
+            .fnindex = _PyFunctionIndex_##KIND##_##SLOT, \
         },
 
 static struct SlotInfos {
@@ -11790,13 +11804,13 @@ static struct SlotInfos {
 } offset_to_info = {
     SLOTINFO(tp,dealloc)
     SLOTINFO(tp,getattr)
-    SLOTINFO(tp,setattr)
+    SLOTIINFO(tp,setattr)
     SLOTINFO(tp,repr)
     SLOTINFO(tp,hash)
     SLOTINFO(tp,call)
     SLOTINFO(tp,str)
     SLOTINFO(tp,getattro)
-    SLOTINFO(tp,setattro)
+    SLOTIINFO(tp,setattro)
     SLOTINFO(tp,traverse)
     SLOTINFO(tp,clear)
     SLOTINFO(tp,richcompare)
@@ -11893,10 +11907,12 @@ slotptr(PyTypeObject *type, int ioffset)
         result.func = (void **)((char *)base + info->fn);
         result.flags = (char *)((char *)base + info->fnflags);
         result.func_inlineable = info->fn_inlineable ? (void **)((char *)base + info->fn_inlineable) : NULL;
+        result.flags_inlineable = info->fnflags_inlineable ? (char *)((char *)base + info->fnflags_inlineable) : NULL;
     } else {
         result.func = NULL;
         result.flags = NULL;
         result.func_inlineable = NULL;
+        result.flags_inlineable = NULL;
     }
 
     return result;
@@ -12054,11 +12070,13 @@ update_one_slot(PyTypeObject *type, pytype_slotdef *p, pytype_slotdef **next_p,
     void *specific = NULL;
     void *specific_inlineable = NULL;
     unsigned char specific_flags = 0;
+    unsigned char specific_flags_inlineable = 0;
 
     // A generic wrapper that uses method lookup (safe but slow)
     void *generic = NULL;
     void *generic_inlineable = NULL;
     unsigned char generic_flags = 0;
+    unsigned char generic_flags_inlineable = 0;
 
     // Set to 1 if the generic wrapper is necessary
     int use_generic = 0;
@@ -12092,6 +12110,7 @@ update_one_slot(PyTypeObject *type, pytype_slotdef *p, pytype_slotdef **next_p,
                 specific = (void *)_PyObject_NextNotImplemented;
                 specific_inlineable = NULL;
                 specific_flags = Py_FNFLAGS_FRUGAL;
+                specific_flags_inlineable = 0;
             }
             continue;
         }
@@ -12103,6 +12122,7 @@ update_one_slot(PyTypeObject *type, pytype_slotdef *p, pytype_slotdef **next_p,
                 generic = p->base.function;
                 generic_inlineable = p->function_inlineable;
                 generic_flags = Py_FNFLAGS_FRUGAL;
+                generic_flags_inlineable = Py_FNFLAGS_FRUGAL;
             }
             d = (PyWrapperDescrObject *)descr;
             if ((specific == NULL || specific == d->d_wrapped) &&
@@ -12112,6 +12132,7 @@ update_one_slot(PyTypeObject *type, pytype_slotdef *p, pytype_slotdef **next_p,
                 specific = d->d_wrapped;
                 specific_inlineable = d->d_wrapped_inlineable;
                 specific_flags = d->d_flags;
+                specific_flags_inlineable = d->d_flags_inlineable;
             }
             else {
                 /* We cannot use the specific slot function because either
@@ -12143,6 +12164,7 @@ update_one_slot(PyTypeObject *type, pytype_slotdef *p, pytype_slotdef **next_p,
             specific = (void *)type->tp_new;
             specific_inlineable = NULL;
             specific_flags = PyType_HasFeature(type, Py_TPFLAGS_IS_EXTENDED) ? type->tp_functionflags[_PyFunctionIndex_tp_new] : 0;
+            specific_flags_inlineable = 0;
             /* XXX I'm not 100% sure that there isn't a hole
                in this reasoning that requires additional
                sanity checks.  I'll buy the first person to
@@ -12156,6 +12178,7 @@ update_one_slot(PyTypeObject *type, pytype_slotdef *p, pytype_slotdef **next_p,
             specific = (void *)PyObject_HashNotImplemented;
             specific_inlineable = NULL;
             specific_flags = Py_FNFLAGS_FRUGAL;
+            specific_flags_inlineable = 0;
         }
         else {
             use_generic = 1;
@@ -12165,11 +12188,13 @@ update_one_slot(PyTypeObject *type, pytype_slotdef *p, pytype_slotdef **next_p,
                 generic = *ptr.func;
                 generic_inlineable = ptr.func_inlineable ? *ptr.func_inlineable : NULL;
                 generic_flags = *ptr.flags;
+                generic_flags_inlineable = ptr.flags_inlineable ? *ptr.flags_inlineable : 0;
             }
             else {
                 generic = p->base.function;
                 generic_inlineable = p->function_inlineable;
-                generic_flags = Py_FNFLAGS_FRUGAL;
+                generic_flags = generic ? Py_FNFLAGS_FRUGAL : 0;
+                generic_flags_inlineable = generic_inlineable ? Py_FNFLAGS_FRUGAL : 0;
             }
             if (p->base.function == slot_tp_call) {
                 /* A generic __call__ is incompatible with vectorcall */
@@ -12184,20 +12209,23 @@ update_one_slot(PyTypeObject *type, pytype_slotdef *p, pytype_slotdef **next_p,
     void *slot_value;
     void *slot_value_inlineable;
     unsigned char slot_flags;
+    unsigned char slot_flags_inlineable;
     if (specific && !use_generic) {
         slot_value = specific;
         slot_value_inlineable = specific_inlineable;
         slot_flags = specific_flags;
+        slot_flags_inlineable = specific_flags_inlineable;
     } else {
         slot_value = generic;
         slot_value_inlineable = generic_inlineable;
         slot_flags = generic_flags;
+        slot_flags_inlineable = generic_flags_inlineable;
     }
 
 #ifdef Py_GIL_DISABLED
     if (queued_updates != NULL) {
         // queue the update to perform later, while world is stopped
-        if (queue_slot_update(queued_updates, type, &ptr, slot_value, slot_flags, slot_value_inlineable) < 0) {
+        if (queue_slot_update(queued_updates, type, &ptr, slot_value, slot_flags, slot_value_inlineable, slot_flags_inlineable) < 0) {
             return -1;
         }
     } else {
@@ -12215,6 +12243,7 @@ update_one_slot(PyTypeObject *type, pytype_slotdef *p, pytype_slotdef **next_p,
     *ptr.flags = slot_flags;
     if (ptr.func_inlineable){
         *ptr.func_inlineable = slot_value_inlineable;
+        *ptr.flags_inlineable = slot_flags_inlineable;
     }
 #endif
 
@@ -12575,7 +12604,7 @@ add_operators(PyTypeObject *type)
                 return -1;
         }
         else {
-            descr = PyDescr_NewWrapper_Ex(type, &p->base, *ptr.func, *ptr.flags, ptr.func_inlineable ? *ptr.func_inlineable : NULL);
+            descr = PyDescr_NewWrapper_Ex(type, &p->base, *ptr.func, *ptr.flags, ptr.func_inlineable ? *ptr.func_inlineable : NULL, ptr.flags_inlineable ? *ptr.flags_inlineable : 0);
             if (descr == NULL)
                 return -1;
             if (PyDict_SetItem(dict, p->base.name_strobj, descr) < 0) {
@@ -13352,6 +13381,10 @@ PyType_DefineCallTypeFunction1(R, int, tp, is_gc, PyObject *)
 PyType_DefineCallTypeFunction1(V, void, tp, del, PyObject *)
 PyType_DefineCallTypeFunction1(V, void, tp, finalize, PyObject *)
 PyType_DefineCallTypeFunction4(R, PyObject *, tp, vectorcall, PyObject *, PyObject *const *, size_t, PyObject *)
+
+PyType_DefineCallTypeFunction4(R, int, tp, setattr_inlineable, PyObject *, char *, PyObject *, struct _PyInterpreterFrame **)
+PyType_DefineCallTypeFunction4(R, int, tp, setattro_inlineable, PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **)
+
 
 PyType_DefineCallTypeFunction1(R, PyObject *, am, await, PyObject *)
 PyType_DefineCallTypeFunction1(R, PyObject *, am, aiter, PyObject *)

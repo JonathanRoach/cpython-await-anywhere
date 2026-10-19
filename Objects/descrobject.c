@@ -1067,7 +1067,8 @@ PyDescr_NewWrapper_Ex(
     struct wrapperbase *base,
     void *wrapped,
     unsigned char flags,
-    void *wrapped_inlineable
+    void *wrapped_inlineable,
+    unsigned char flags_inlineable
 )
 {
     PyWrapperDescrObject *descr;
@@ -1079,6 +1080,7 @@ PyDescr_NewWrapper_Ex(
         descr->d_wrapped = wrapped;
         descr->d_flags = flags;
         descr->d_wrapped_inlineable = wrapped_inlineable;
+        descr->d_flags_inlineable = flags_inlineable;
     }
     return (PyObject *)descr;
 }
@@ -1086,7 +1088,7 @@ PyDescr_NewWrapper_Ex(
 PyObject *
 PyDescr_NewWrapper(PyTypeObject *type, struct wrapperbase *base, void *wrapped)
 {
-    return PyDescr_NewWrapper_Ex(type, base, wrapped, 0, NULL);
+    return PyDescr_NewWrapper_Ex(type, base, wrapped, 0, NULL, 0);
 }
 
 int

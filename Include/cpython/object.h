@@ -358,6 +358,8 @@ enum {
     _PyFunctionIndex_tp_del,
     _PyFunctionIndex_tp_finalize,
     _PyFunctionIndex_tp_vectorcall,
+    _PyFunctionIndex_tp_setattr_inlineable,
+    _PyFunctionIndex_tp_setattro_inlineable,
     _PyFunctionIndex_tp_COUNT
 };
 
@@ -463,6 +465,8 @@ struct _typeobject {
 //
     unsigned long tp_ex_flags;
     unsigned char tp_functionflags[_PyFunctionIndex_tp_COUNT];
+    setattrfunc_inlineable tp_setattr_inlineable;
+    setattrofunc_inlineable tp_setattro_inlineable;
 };
 
 #define _Py_ATTR_CACHE_UNUSED (30000)  // (see tp_versions_used)
