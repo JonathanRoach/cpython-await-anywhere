@@ -358,7 +358,9 @@ enum {
     _PyFunctionIndex_tp_del,
     _PyFunctionIndex_tp_finalize,
     _PyFunctionIndex_tp_vectorcall,
+    _PyFunctionIndex_tp_getattr_inlineable,
     _PyFunctionIndex_tp_setattr_inlineable,
+    _PyFunctionIndex_tp_getattro_inlineable,
     _PyFunctionIndex_tp_setattro_inlineable,
     _PyFunctionIndex_tp_descr_set_inlineable,
     _PyFunctionIndex_tp_COUNT
@@ -466,7 +468,9 @@ struct _typeobject {
 //
     unsigned long tp_ex_flags;
     unsigned char tp_functionflags[_PyFunctionIndex_tp_COUNT];
+    getattrfunc_inlineable tp_getattr_inlineable;
     setattrfunc_inlineable tp_setattr_inlineable;
+    getattrofunc_inlineable tp_getattro_inlineable;
     setattrofunc_inlineable tp_setattro_inlineable;
     descrsetfunc_inlineable tp_descr_set_inlineable;
 };

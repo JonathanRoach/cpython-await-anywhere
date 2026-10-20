@@ -888,7 +888,7 @@ extern PyTypeObject* _PyType_CalculateMetaclass(PyTypeObject *, PyObject *);
 extern PyObject* _PyType_GetDocFromInternalDoc(const char *, const char *);
 extern PyObject* _PyType_GetTextSignatureFromInternalDoc(const char *, const char *, int);
 extern int _PyObject_SetAttributeErrorContext(PyObject *v, PyObject* name);
-extern PyObject *_PyObject_GenericGetAttrInlinable(PyObject *obj, PyObject *name, struct _PyInterpreterFrame **inlined);
+extern PyObject *_PyObject_GenericGetAttr_Inlinable(PyObject *obj, PyObject *name, struct _PyInterpreterFrame **inlined);
 extern PyObject* _PyObject_GetAttrInlinable(PyObject *v, PyObject *name, struct _PyInterpreterFrame **inlined);
 extern int _PyObject_GenericSetAttrInlinable(PyObject *obj, PyObject *name, PyObject *value, struct _PyInterpreterFrame **inlined);
 extern int _PyObject_SetAttrInlinable(PyObject *v, PyObject *name, PyObject *value, struct _PyInterpreterFrame **inlined);

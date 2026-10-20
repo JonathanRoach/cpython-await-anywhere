@@ -112,9 +112,9 @@ extern PyObject* _Py_type_getattro(PyObject *type, PyObject *name);
 extern PyObject* _Py_BaseObject_RichCompare(PyObject* self, PyObject* other, int op);
 
 extern PyObject* _PyType_Slot_tp_getattro(PyObject *self, PyObject *name);
-extern PyObject* _PyType_Slot_tp_getattro_inlinable(PyObject *self, PyObject *name, struct _PyInterpreterFrame **inlined);
+extern PyObject* _PyType_Slot_tp_getattro_Inlineable(PyObject *self, PyObject *name, struct _PyInterpreterFrame **inlined);
 extern PyObject* _PyType_Slot_tp_getattr_hook(PyObject *self, PyObject *name);
-extern PyObject* _PyType_Slot_tp_getattr_hook_inlinable(PyObject *self, PyObject *name, struct _PyInterpreterFrame **inlined);
+extern PyObject* _PyType_Slot_tp_getattr_hook_Inlinable(PyObject *self, PyObject *name, struct _PyInterpreterFrame **inlined);
 extern int _PyType_Slot_tp_setattro(PyObject *self, PyObject *name, PyObject *value);
 extern int _PyType_Slot_tp_setattro_Inlinable(PyObject *self, PyObject *name, PyObject *value, struct _PyInterpreterFrame **inlined);
 extern PyObject *_PyType_Slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type);

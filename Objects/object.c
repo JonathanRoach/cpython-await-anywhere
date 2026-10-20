@@ -1309,13 +1309,9 @@ _PyObject_GetAttrInlinable(PyObject *v, PyObject *name, _PyInterpreterFrame **in
         getattrofunc getattro = tp->tp_getattro;
         if (getattro == PyObject_GenericGetAttr) {
             // covers @property properties
-            result = _PyObject_GenericGetAttrInlinable(v, name, inlined);
-        } else if (getattro == _PyType_Slot_tp_getattr_hook) {
-            // covers some __getattr__ and __getattribute__ cases
-            result = _PyType_Slot_tp_getattr_hook_inlinable(v, name, inlined);
-        } else if ( getattro == _PyType_Slot_tp_getattro ){
-            // covers the remaining __getattr__ and __getattribute__ cases
-            result = _PyType_Slot_tp_getattro_inlinable(v, name, inlined);
+            result = _PyObject_GenericGetAttr_Inlinable(v, name, inlined);
+        } else if (PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) && tp->tp_getattro_inlineable) {
+            result = PyType_Call_tp_getattro_inlineable(tp, v, name, inlined);
         } else {
             result = PyType_Call_tp_getattro(tp, v, name);
         }
@@ -1970,7 +1966,7 @@ _PyObject_GenericGetAttrWithDict(PyObject *obj, PyObject *name,
    run that code directly, instead of via some C function calls. This allows and so allow that call stack to be await'ed.
 */
 PyObject *
-_PyObject_GenericGetAttrInlinable(PyObject *obj, PyObject *name, struct _PyInterpreterFrame **inlined)
+_PyObject_GenericGetAttr_Inlinable(PyObject *obj, PyObject *name, struct _PyInterpreterFrame **inlined)
 {
     return _PyObject_GenericGetAttrWithDict(obj, name, NULL, 0, inlined);
 }

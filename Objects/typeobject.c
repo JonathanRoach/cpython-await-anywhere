@@ -10810,7 +10810,7 @@ slot_tp_call(PyObject *self, PyObject *args, PyObject *kwds)
    slot if necessary. */
 
 PyObject *
-_PyType_Slot_tp_getattro_inlinable(PyObject *self, PyObject *name,
+_PyType_Slot_tp_getattro_Inlineable(PyObject *self, PyObject *name,
     struct _PyInterpreterFrame **inlined)
 {
     PyObject *stack[2] = {self, name};
@@ -10821,7 +10821,7 @@ _PyType_Slot_tp_getattro_inlinable(PyObject *self, PyObject *name,
 PyObject *
 _PyType_Slot_tp_getattro(PyObject *self, PyObject *name)
 {
-    return _PyType_Slot_tp_getattro_inlinable(self, name, NULL);
+    return _PyType_Slot_tp_getattro_Inlineable(self, name, NULL);
 }
 
 static inline PyObject *
@@ -10890,7 +10890,7 @@ static PyObject *getattr_returnaction_AdaptExit(getattr_returnaction *me, PyObje
 }
 
 PyObject *
-_PyType_Slot_tp_getattr_hook_inlinable(PyObject *self, PyObject *name,
+_PyType_Slot_tp_getattr_hook_Inlinable(PyObject *self, PyObject *name,
     struct _PyInterpreterFrame **inlined)
 {
     PyTypeObject *tp = Py_TYPE(self);
@@ -10906,7 +10906,9 @@ _PyType_Slot_tp_getattr_hook_inlinable(PyObject *self, PyObject *name,
         /* No __getattr__ hook: use a simpler dispatcher */
         tp->tp_getattro = _PyType_Slot_tp_getattro;
         tp->tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL;
-        return _PyType_Slot_tp_getattro_inlinable(self, name, inlined);
+        tp->tp_getattro_inlineable = _PyType_Slot_tp_getattro_Inlineable;
+        tp->tp_functionflags[_PyFunctionIndex_tp_getattro_inlineable] = Py_FNFLAGS_FRUGAL;
+        return _PyType_Slot_tp_getattro_Inlineable(self, name, inlined);
     }
     /* speed hack: we could use lookup_maybe, but that would resolve the
        method fully for each attribute lookup for classes with
@@ -10947,7 +10949,7 @@ _PyType_Slot_tp_getattr_hook_inlinable(PyObject *self, PyObject *name,
 PyObject *
 _PyType_Slot_tp_getattr_hook(PyObject *self, PyObject *name)
 {
-    return _PyType_Slot_tp_getattr_hook_inlinable(self, name, NULL);
+    return _PyType_Slot_tp_getattr_hook_Inlinable(self, name, NULL);
 }
 
 extern int
@@ -11563,10 +11565,10 @@ static pytype_slotdef slotdefs[] = {
            PyWrapperFlag_KEYWORDS),
     TPSLOT(__str__, tp_str, slot_tp_str, wrap_unaryfunc,
            "__str__($self, /)\n--\n\nReturn str(self)."),
-    TPSLOT(__getattribute__, tp_getattro, _PyType_Slot_tp_getattr_hook,
+    TPISLOT(__getattribute__, tp_getattro, _PyType_Slot_tp_getattr_hook,
            wrap_binaryfunc,
            "__getattribute__($self, name, /)\n--\n\nReturn getattr(self, name)."),
-    TPSLOT(__getattr__, tp_getattro, _PyType_Slot_tp_getattr_hook, NULL,
+    TPISLOT(__getattr__, tp_getattro, _PyType_Slot_tp_getattr_hook, NULL,
            "__getattr__($self, name, /)\n--\n\nImplement getattr(self, name)."),
     TPISLOT(__setattr__, tp_setattro, _PyType_Slot_tp_setattro, wrap_setattr,
            "__setattr__($self, name, value, /)\n--\n\nImplement setattr(self, name, value)."),
@@ -11803,13 +11805,13 @@ static struct SlotInfos {
     struct SlotInfo i[offsetof(PyHeapTypeObject, ht_name)];
 } offset_to_info = {
     SLOTINFO(tp,dealloc)
-    SLOTINFO(tp,getattr)
+    SLOTIINFO(tp,getattr)
     SLOTIINFO(tp,setattr)
     SLOTINFO(tp,repr)
     SLOTINFO(tp,hash)
     SLOTINFO(tp,call)
     SLOTINFO(tp,str)
-    SLOTINFO(tp,getattro)
+    SLOTIINFO(tp,getattro)
     SLOTIINFO(tp,setattro)
     SLOTINFO(tp,traverse)
     SLOTINFO(tp,clear)
@@ -13383,7 +13385,9 @@ PyType_DefineCallTypeFunction1(V, void, tp, del, PyObject *)
 PyType_DefineCallTypeFunction1(V, void, tp, finalize, PyObject *)
 PyType_DefineCallTypeFunction4(R, PyObject *, tp, vectorcall, PyObject *, PyObject *const *, size_t, PyObject *)
 
+PyType_DefineCallTypeFunction3(R, PyObject *, tp, getattr_inlineable, PyObject *, char *, struct _PyInterpreterFrame **)
 PyType_DefineCallTypeFunction4(R, int, tp, setattr_inlineable, PyObject *, char *, PyObject *, struct _PyInterpreterFrame **)
+PyType_DefineCallTypeFunction3(R, PyObject *, tp, getattro_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **)
 PyType_DefineCallTypeFunction4(R, int, tp, setattro_inlineable, PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **)
 PyType_DefineCallTypeFunction4(R, int, tp, descr_set_inlineable, PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **)
 
