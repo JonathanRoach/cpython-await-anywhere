@@ -118,7 +118,7 @@ extern PyObject* _PyType_Slot_tp_getattr_hook_Inlineable(PyObject *self, PyObjec
 extern int _PyType_Slot_tp_setattro(PyObject *self, PyObject *name, PyObject *value);
 extern int _PyType_Slot_tp_setattro_Inlineable(PyObject *self, PyObject *name, PyObject *value, struct _PyInterpreterFrame **inlined);
 extern PyObject *_PyType_Slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type);
-extern PyObject *_PyType_Slot_tp_descr_get_inlineable(PyObject *self, PyObject *obj, PyObject *type, struct _PyInterpreterFrame **inlined);
+extern PyObject *_PyType_Slot_tp_descr_get_Inlineable(PyObject *self, PyObject *obj, PyObject *type, struct _PyInterpreterFrame **inlined);
 extern int _PyType_Slot_tp_descr_set(PyObject *self, PyObject *target, PyObject *value);
 extern int _PyType_Slot_tp_descr_set_Inlineable(PyObject *self, PyObject *target, PyObject *value, struct _PyInterpreterFrame **inlined);
 

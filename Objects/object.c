@@ -1861,15 +1861,15 @@ _PyObject_GenericGetAttrWithDict(PyObject *obj, PyObject *name,
     descr = PyStackRef_AsPyObjectBorrow(cref.ref);
 
     f = NULL;
+    PyTypeObject *tpd = NULL;
     if (descr != NULL) {
-        f = Py_TYPE(descr)->tp_descr_get;
+        tpd = Py_TYPE(descr);
+        f = tpd->tp_descr_get;
         if (f != NULL && PyDescr_IsData(descr)) {
-            if (f == _PyType_Slot_tp_descr_get) {
-                res = _PyType_Slot_tp_descr_get_inlineable(descr, obj, (PyObject *)Py_TYPE(obj), inlined);
-            } else if (f == _PyProperty_Slot_tp_descr_get) {
-                res = _PyProperty_Slot_tp_descr_get_inlineable(descr, obj, (PyObject *)Py_TYPE(obj), inlined);
+            if (PyType_HasFeature(tpd, Py_TPFLAGS_IS_EXTENDED) && tpd->tp_descr_get_inlineable){
+                res = PyType_Call_tp_descr_get_inlineable(tpd, descr, obj, (PyObject *)Py_TYPE(obj), inlined);
             } else {
-                res = PyType_Call_tp_descr_get(Py_TYPE(descr), descr, obj, (PyObject *)Py_TYPE(obj));
+                res = PyType_Call_tp_descr_get(tpd, descr, obj, (PyObject *)Py_TYPE(obj));
             }
             if (res == NULL && suppress &&
                     PyErr_ExceptionMatches(PyExc_AttributeError)) {
@@ -1926,10 +1926,10 @@ _PyObject_GenericGetAttrWithDict(PyObject *obj, PyObject *name,
     }
 
     if (f != NULL) {
-        if (f == _PyType_Slot_tp_descr_get) {
-            res = _PyType_Slot_tp_descr_get_inlineable(descr, obj, (PyObject *)Py_TYPE(obj), inlined);
+        if (PyType_HasFeature(tpd, Py_TPFLAGS_IS_EXTENDED) && tpd->tp_descr_get_inlineable){
+            res = PyType_Call_tp_descr_get_inlineable(tpd, descr, obj, (PyObject *)Py_TYPE(obj), inlined);
         } else {
-            res = PyType_Call_tp_descr_get(Py_TYPE(descr), descr, obj, (PyObject *)Py_TYPE(obj));
+            res = PyType_Call_tp_descr_get(tpd, descr, obj, (PyObject *)Py_TYPE(obj));
         }
         if (res == NULL && suppress &&
                 PyErr_ExceptionMatches(PyExc_AttributeError)) {

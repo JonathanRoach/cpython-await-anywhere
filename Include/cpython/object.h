@@ -362,6 +362,7 @@ enum {
     _PyFunctionIndex_tp_setattr_inlineable,
     _PyFunctionIndex_tp_getattro_inlineable,
     _PyFunctionIndex_tp_setattro_inlineable,
+    _PyFunctionIndex_tp_descr_get_inlineable,
     _PyFunctionIndex_tp_descr_set_inlineable,
     _PyFunctionIndex_tp_COUNT
 };
@@ -472,6 +473,7 @@ struct _typeobject {
     setattrfunc_inlineable tp_setattr_inlineable;
     getattrofunc_inlineable tp_getattro_inlineable;
     setattrofunc_inlineable tp_setattro_inlineable;
+    descrgetfunc_inlineable tp_descr_get_inlineable;
     descrsetfunc_inlineable tp_descr_set_inlineable;
 };
 

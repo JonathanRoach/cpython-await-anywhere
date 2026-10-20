@@ -11060,7 +11060,7 @@ slot_tp_iternext(PyObject *self)
 }
 
 PyObject *
-_PyType_Slot_tp_descr_get_inlineable(PyObject *self, PyObject *obj,
+_PyType_Slot_tp_descr_get_Inlineable(PyObject *self, PyObject *obj,
     PyObject *type, struct _PyInterpreterFrame **inlined)
 {
     PyTypeObject *tp = Py_TYPE(self);
@@ -11086,7 +11086,7 @@ _PyType_Slot_tp_descr_get_inlineable(PyObject *self, PyObject *obj,
 PyObject *
 _PyType_Slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type)
 {
-    return _PyType_Slot_tp_descr_get_inlineable(self, obj, type, NULL);
+    return _PyType_Slot_tp_descr_get_Inlineable(self, obj, type, NULL);
 }
 
 int
@@ -11590,7 +11590,7 @@ static pytype_slotdef slotdefs[] = {
            "__iter__($self, /)\n--\n\nImplement iter(self)."),
     TPSLOT(__next__, tp_iternext, slot_tp_iternext, wrap_next,
            "__next__($self, /)\n--\n\nImplement next(self)."),
-    TPSLOT(__get__, tp_descr_get, _PyType_Slot_tp_descr_get, wrap_descr_get,
+    TPISLOT(__get__, tp_descr_get, _PyType_Slot_tp_descr_get, wrap_descr_get,
            "__get__($self, instance, owner=None, /)\n--\n\nReturn an attribute of instance, which is of type owner."),
     TPISLOT(__set__, tp_descr_set, _PyType_Slot_tp_descr_set, wrap_descr_set,
            "__set__($self, instance, value, /)\n--\n\nSet an attribute of instance to value."),
@@ -11818,7 +11818,7 @@ static struct SlotInfos {
     SLOTINFO(tp,richcompare)
     SLOTINFO(tp,iter)
     SLOTINFO(tp,iternext)
-    SLOTINFO(tp,descr_get)
+    SLOTIINFO(tp,descr_get)
     SLOTIINFO(tp,descr_set)
     SLOTINFO(tp,init)
     SLOTINFO(tp,alloc)
@@ -13389,6 +13389,7 @@ PyType_DefineCallTypeFunction3(R, PyObject *, tp, getattr_inlineable, PyObject *
 PyType_DefineCallTypeFunction4(R, int, tp, setattr_inlineable, PyObject *, char *, PyObject *, struct _PyInterpreterFrame **)
 PyType_DefineCallTypeFunction3(R, PyObject *, tp, getattro_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **)
 PyType_DefineCallTypeFunction4(R, int, tp, setattro_inlineable, PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **)
+PyType_DefineCallTypeFunction4(R, PyObject *, tp, descr_get_inlineable, PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **)
 PyType_DefineCallTypeFunction4(R, int, tp, descr_set_inlineable, PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **)
 
 
