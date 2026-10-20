@@ -1753,7 +1753,7 @@ dummy_func(
                                         name, PyStackRef_AsPyObjectBorrow(v));
             } else {
                 _PyInterpreterFrame *inlined = frame;
-                err = _PyObject_SetAttrInlinable(PyStackRef_AsPyObjectBorrow(owner),
+                err = _PyObject_SetAttrInlineable(PyStackRef_AsPyObjectBorrow(owner),
                             name, PyStackRef_AsPyObjectBorrow(v), &inlined);
                 if ( inlined != frame ){
                     // Manipulate stack directly because we exit with DISPATCH_INLINED().
@@ -1778,7 +1778,7 @@ dummy_func(
                 err = PyObject_DelAttr(PyStackRef_AsPyObjectBorrow(owner), name);
             } else {
                 _PyInterpreterFrame *inlined = frame;
-                err = _PyObject_DelAttrInlinable(PyStackRef_AsPyObjectBorrow(owner), name, &inlined);
+                err = _PyObject_DelAttrInlineable(PyStackRef_AsPyObjectBorrow(owner), name, &inlined);
                 if ( inlined != frame ){
                     // Manipulate stack directly because we exit with DISPATCH_INLINED().
                     DECREF_INPUTS();
@@ -2452,7 +2452,7 @@ dummy_func(
                 /* Classic, pushes one value. */
                 if ( !tstate->interp->eval_frame ){
                     _PyInterpreterFrame *inlined = frame;
-                    attr_o = _PyObject_GetAttrInlinable(PyStackRef_AsPyObjectBorrow(owner), name, &inlined);
+                    attr_o = _PyObject_GetAttrInlineable(PyStackRef_AsPyObjectBorrow(owner), name, &inlined);
                     if ( inlined != frame ){
                         // Manipulate stack directly because we exit with DISPATCH_INLINED().
                         PyStackRef_CLOSE(owner);

@@ -114,21 +114,21 @@ extern PyObject* _Py_BaseObject_RichCompare(PyObject* self, PyObject* other, int
 extern PyObject* _PyType_Slot_tp_getattro(PyObject *self, PyObject *name);
 extern PyObject* _PyType_Slot_tp_getattro_Inlineable(PyObject *self, PyObject *name, struct _PyInterpreterFrame **inlined);
 extern PyObject* _PyType_Slot_tp_getattr_hook(PyObject *self, PyObject *name);
-extern PyObject* _PyType_Slot_tp_getattr_hook_Inlinable(PyObject *self, PyObject *name, struct _PyInterpreterFrame **inlined);
+extern PyObject* _PyType_Slot_tp_getattr_hook_Inlineable(PyObject *self, PyObject *name, struct _PyInterpreterFrame **inlined);
 extern int _PyType_Slot_tp_setattro(PyObject *self, PyObject *name, PyObject *value);
-extern int _PyType_Slot_tp_setattro_Inlinable(PyObject *self, PyObject *name, PyObject *value, struct _PyInterpreterFrame **inlined);
+extern int _PyType_Slot_tp_setattro_Inlineable(PyObject *self, PyObject *name, PyObject *value, struct _PyInterpreterFrame **inlined);
 extern PyObject *_PyType_Slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type);
-extern PyObject *_PyType_Slot_tp_descr_get_inlinable(PyObject *self, PyObject *obj, PyObject *type, struct _PyInterpreterFrame **inlined);
+extern PyObject *_PyType_Slot_tp_descr_get_inlineable(PyObject *self, PyObject *obj, PyObject *type, struct _PyInterpreterFrame **inlined);
 extern int _PyType_Slot_tp_descr_set(PyObject *self, PyObject *target, PyObject *value);
-extern int _PyType_Slot_tp_descr_set_Inlinable(PyObject *self, PyObject *target, PyObject *value, struct _PyInterpreterFrame **inlined);
+extern int _PyType_Slot_tp_descr_set_Inlineable(PyObject *self, PyObject *target, PyObject *value, struct _PyInterpreterFrame **inlined);
 
 #define _PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(SLOTNAME) \
 extern PyObject * _PyType_Slot_##SLOTNAME(PyObject *self, PyObject *other); \
-extern PyObject * _PyType_Slot_##SLOTNAME##_Inlinable(PyObject *self, PyObject *other, struct _PyInterpreterFrame **inlined);
+extern PyObject * _PyType_Slot_##SLOTNAME##_Inlineable(PyObject *self, PyObject *other, struct _PyInterpreterFrame **inlined);
 
 #define _PYTYPE_SLOT_TERNOP_DECLARE_FUNCTIONS(SLOTNAME) \
 extern PyObject * _PyType_Slot_##SLOTNAME(PyObject *self, PyObject *b, PyObject *c); \
-extern PyObject * _PyType_Slot_##SLOTNAME##_Inlinable(PyObject *self, PyObject *b, PyObject *c, struct _PyInterpreterFrame **inlined);
+extern PyObject * _PyType_Slot_##SLOTNAME##_Inlineable(PyObject *self, PyObject *b, PyObject *c, struct _PyInterpreterFrame **inlined);
 
 _PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_add)
 _PYTYPE_SLOT_BINOP_DECLARE_FUNCTIONS(nb_subtract)

@@ -51,12 +51,12 @@ extern PyObject* _PyObject_Call(
     PyObject *args,
     PyObject *kwargs);
 
-extern PyObject *_PyObject_CallOneArg_Inlinable(
+extern PyObject *_PyObject_CallOneArg_Inlineable(
     PyObject *func,
     PyObject *arg,
     struct _PyInterpreterFrame **inlined);
 
-extern PyObject *_PyObject_Vectorcall_Inlinable(
+extern PyObject *_PyObject_Vectorcall_Inlineable(
     PyObject *callable,
     PyObject *const *args,
     size_t nargsf, PyObject *kwnames,
@@ -183,10 +183,10 @@ _PyObject_VectorcallTstate(PyThreadState *tstate, PyObject *callable,
         assert(offset > 0);
 
         if (PyType_HasFeature(tp, Py_TPFLAGS_VECTORCALL_INLINEABLE)) {
-            _vectorcallfunc_inlinable func_inlinable;
-            memcpy(&func_inlinable, (char *) callable + offset + sizeof(func), sizeof(func_inlinable));
-            if (func_inlinable){
-                res = func_inlinable(callable, args, nargsf, kwnames, inlined);
+            _vectorcallfunc_inlineable func_inlineable;
+            memcpy(&func_inlineable, (char *) callable + offset + sizeof(func), sizeof(func_inlineable));
+            if (func_inlineable){
+                res = func_inlineable(callable, args, nargsf, kwnames, inlined);
                 goto done;
             }
         }
@@ -221,7 +221,7 @@ _PyObject_CallNoArgs(PyObject *func) {
 }
 
 
-static inline PyObject *_PyObject_Vectorcall_inlinable(
+static inline PyObject *_PyObject_Vectorcall_inlineable(
     PyObject *callable,
     PyObject *const *args,
     size_t nargsf,

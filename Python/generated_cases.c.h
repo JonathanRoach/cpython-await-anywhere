@@ -5313,7 +5313,7 @@
             } else {
                 _PyInterpreterFrame *inlined = frame;
                 _PyFrame_SetStackPointer(frame, stack_pointer);
-                err = _PyObject_DelAttrInlinable(PyStackRef_AsPyObjectBorrow(owner), name, &inlined);
+                err = _PyObject_DelAttrInlineable(PyStackRef_AsPyObjectBorrow(owner), name, &inlined);
                 stack_pointer = _PyFrame_GetStackPointer(frame);
                 if ( inlined != frame ){
                     _PyFrame_SetStackPointer(frame, stack_pointer);
@@ -8271,7 +8271,7 @@
                     if ( !tstate->interp->eval_frame ){
                         _PyInterpreterFrame *inlined = frame;
                         _PyFrame_SetStackPointer(frame, stack_pointer);
-                        attr_o = _PyObject_GetAttrInlinable(PyStackRef_AsPyObjectBorrow(owner), name, &inlined);
+                        attr_o = _PyObject_GetAttrInlineable(PyStackRef_AsPyObjectBorrow(owner), name, &inlined);
                         stack_pointer = _PyFrame_GetStackPointer(frame);
                         if ( inlined != frame ){
                             stack_pointer += -1;
@@ -11222,7 +11222,7 @@
                 } else {
                     _PyInterpreterFrame *inlined = frame;
                     _PyFrame_SetStackPointer(frame, stack_pointer);
-                    err = _PyObject_SetAttrInlinable(PyStackRef_AsPyObjectBorrow(owner),
+                    err = _PyObject_SetAttrInlineable(PyStackRef_AsPyObjectBorrow(owner),
                         name, PyStackRef_AsPyObjectBorrow(v), &inlined);
                     stack_pointer = _PyFrame_GetStackPointer(frame);
                     if ( inlined != frame ){

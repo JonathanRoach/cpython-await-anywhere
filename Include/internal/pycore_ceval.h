@@ -12,7 +12,7 @@ extern "C" {
 
 #include "pycore_code.h"          // _PyCode_GetTLBCFast()
 #include "pycore_interp.h"        // PyInterpreterState.eval_frame
-#include "pycore_object.h"        // binaryfunc_inlinable
+#include "pycore_object.h"        // binaryfunc_inlineable
 #include "pycore_pystate.h"       // _PyThreadState_GET()
 #include "pycore_stats.h"         // EVAL_CALL_STAT_INC()
 #include "pycore_typedefs.h"      // _PyInterpreterFrame
@@ -287,7 +287,7 @@ extern PyObject * _PyEval_GetFrameLocals(void);
 
 typedef PyObject *(*conversion_func)(PyObject *);
 
-PyAPI_DATA(const binaryfunc_inlinable) _PyEval_BinaryOps[];
+PyAPI_DATA(const binaryfunc_inlineable) _PyEval_BinaryOps[];
 PyAPI_DATA(const conversion_func) _PyEval_ConversionFuncs[];
 
 typedef struct _special_method {

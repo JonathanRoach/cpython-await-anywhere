@@ -15,7 +15,7 @@
 #include "pycore_tuple.h"         // _PyTuple_FromArraySteal()
 #include "pycore_unionobject.h"   // _PyUnion_Check()
 #include "pycore_interpframe.h"   // _PyReturnAction_ctor()
-#include "pycore_typeobject.h"    // _PyTypeSlot_nb_???() and _PyTypeSlot_nb_???_Inlinable()
+#include "pycore_typeobject.h"    // _PyTypeSlot_nb_???() and _PyTypeSlot_nb_???_Inlineable()
 #include "pycore_cor_tools.h"     // _PY_ENSURE_COSTACK_HEADROOM_FOR_FN?_?
 
 #include <stddef.h>               // offsetof()
@@ -170,7 +170,7 @@ PyObject_LengthHint(PyObject *o, Py_ssize_t defaultvalue)
 #endif
 
 PyObject *
-_PyObject_GetItem_Inlinable(PyObject *o, PyObject *key, struct _PyInterpreterFrame **inlined)
+_PyObject_GetItem_Inlineable(PyObject *o, PyObject *key, struct _PyInterpreterFrame **inlined)
 {
     if (o == NULL || key == NULL) {
         return null_error();
@@ -218,7 +218,7 @@ _PyObject_GetItem_Inlinable(PyObject *o, PyObject *key, struct _PyInterpreterFra
             return NULL;
         }
         if (meth && meth != Py_None) {
-            result = _PyObject_CallOneArg_Inlinable(meth, key, inlined);
+            result = _PyObject_CallOneArg_Inlineable(meth, key, inlined);
             Py_DECREF(meth);
             return result;
         }
@@ -234,7 +234,7 @@ _PyObject_GetItem_Inlinable(PyObject *o, PyObject *key, struct _PyInterpreterFra
 PyObject *
 PyObject_GetItem(PyObject *o, PyObject *key)
 {
-    return _PyObject_GetItem_Inlinable(o, key, NULL);
+    return _PyObject_GetItem_Inlineable(o, key, NULL);
 }
 
 int
@@ -1678,12 +1678,12 @@ ternary_op(
 
 #define BINARY_FUNC(func, op, op_name) \
     PyObject * \
-    _##func##_Inlinable(PyObject *v, PyObject *w, struct _PyInterpreterFrame **inlined) { \
+    _##func##_Inlineable(PyObject *v, PyObject *w, struct _PyInterpreterFrame **inlined) { \
         return binary_op(v, w, &SlotDetails_##op, op_name, inlined); \
     } \
     PyObject * \
     func(PyObject *v, PyObject *w) { \
-        return _##func##_Inlinable(v, w, NULL); \
+        return _##func##_Inlineable(v, w, NULL); \
     }
 
 BINARY_FUNC(PyNumber_Or, nb_or, "|")
@@ -1735,7 +1735,7 @@ static PyObject *add_returnaction_AdaptExit(add_returnaction *me, PyObject *res,
 
 
 PyObject *
-_PyNumber_Add_Inlinable(PyObject *v, PyObject *w, struct _PyInterpreterFrame **inlined)
+_PyNumber_Add_Inlineable(PyObject *v, PyObject *w, struct _PyInterpreterFrame **inlined)
 {
     struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
     PyObject *result = BINARY_OP1(v, w, &SlotDetails_nb_add, inlined, "+");
@@ -1762,7 +1762,7 @@ _PyNumber_Add_Inlinable(PyObject *v, PyObject *w, struct _PyInterpreterFrame **i
 PyObject *
 PyNumber_Add(PyObject *v, PyObject *w)
 {
-    return _PyNumber_Add_Inlinable(v, w, NULL);
+    return _PyNumber_Add_Inlineable(v, w, NULL);
 }
 
 static PyObject *
@@ -1834,7 +1834,7 @@ static PyObject *multiply_returnaction_AdaptExit(multiply_returnaction *me, PyOb
 }
 
 PyObject *
-_PyNumber_Multiply_Inlinable(PyObject *v, PyObject *w, struct _PyInterpreterFrame **inlined)
+_PyNumber_Multiply_Inlineable(PyObject *v, PyObject *w, struct _PyInterpreterFrame **inlined)
 {
     struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
     PyObject *result = BINARY_OP1(v, w, &SlotDetails_nb_multiply, inlined, "*");
@@ -1860,7 +1860,7 @@ _PyNumber_Multiply_Inlinable(PyObject *v, PyObject *w, struct _PyInterpreterFram
 PyObject *
 PyNumber_Multiply(PyObject *v, PyObject *w)
 {
-    return _PyNumber_Multiply_Inlinable(v, w, NULL);
+    return _PyNumber_Multiply_Inlineable(v, w, NULL);
 }
 
 BINARY_FUNC(PyNumber_MatrixMultiply, nb_matrix_multiply, "@")
@@ -1869,7 +1869,7 @@ BINARY_FUNC(PyNumber_TrueDivide, nb_true_divide, "/")
 BINARY_FUNC(PyNumber_Remainder, nb_remainder, "%")
 
 PyObject *
-_PyNumber_Power_Inlinable(PyObject *v, PyObject *w, PyObject *z, struct _PyInterpreterFrame **inlined)
+_PyNumber_Power_Inlineable(PyObject *v, PyObject *w, PyObject *z, struct _PyInterpreterFrame **inlined)
 {
     return ternary_op(v, w, z, &SlotDetails_nb_power, inlined, "** or pow()");
 }
@@ -1877,13 +1877,13 @@ _PyNumber_Power_Inlinable(PyObject *v, PyObject *w, PyObject *z, struct _PyInter
 PyObject *
 PyNumber_Power(PyObject *v, PyObject *w, PyObject *z)
 {
-    return _PyNumber_Power_Inlinable(v, w, z, NULL);
+    return _PyNumber_Power_Inlineable(v, w, z, NULL);
 }
 
 PyObject *
-_PyNumber_PowerNoMod_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined)
+_PyNumber_PowerNoMod_Inlineable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined)
 {
-    return _PyNumber_Power_Inlinable(lhs, rhs, Py_None, inlined);
+    return _PyNumber_Power_Inlineable(lhs, rhs, Py_None, inlined);
 }
 
 /* Binary in-place operators */
@@ -2103,12 +2103,12 @@ ternary_iop(
 
 #define INPLACE_BINOP(func, iop, op, op_name) \
     PyObject * \
-    _##func##_Inlinable(PyObject *v, PyObject *w, struct _PyInterpreterFrame **inlined) { \
+    _##func##_Inlineable(PyObject *v, PyObject *w, struct _PyInterpreterFrame **inlined) { \
         return binary_iop(v, w, &SlotDetails_##iop, &SlotDetails_##op, inlined, op_name); \
     } \
     PyObject * \
     func(PyObject *v, PyObject *w) { \
-        return _##func##_Inlinable(v, w, NULL); \
+        return _##func##_Inlineable(v, w, NULL); \
     }
 
 INPLACE_BINOP(PyNumber_InPlaceOr, nb_inplace_or, nb_or, "|=")
@@ -2169,7 +2169,7 @@ static PyObject *inplaceadd_returnaction_AdaptExit(inplaceadd_returnaction *me, 
 }
 
 PyObject *
-_PyNumber_InPlaceAdd_Inlinable(PyObject *v, PyObject *w, struct _PyInterpreterFrame **inlined)
+_PyNumber_InPlaceAdd_Inlineable(PyObject *v, PyObject *w, struct _PyInterpreterFrame **inlined)
 {
     struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
     PyObject *result = BINARY_IOP1(
@@ -2204,7 +2204,7 @@ _PyNumber_InPlaceAdd_Inlinable(PyObject *v, PyObject *w, struct _PyInterpreterFr
 PyObject *
 PyNumber_InPlaceAdd(PyObject *v, PyObject *w)
 {
-    return _PyNumber_InPlaceAdd_Inlinable(v, w, NULL);
+    return _PyNumber_InPlaceAdd_Inlineable(v, w, NULL);
 }
 
 RETURNACTION_STDMETHODDECL(inplacemultiply_returnaction)
@@ -2257,7 +2257,7 @@ static PyObject *inplacemultiply_returnaction_AdaptExit(inplacemultiply_returnac
 }
 
 PyObject *
-_PyNumber_InPlaceMultiply_Inlinable(PyObject *v, PyObject *w, struct _PyInterpreterFrame **inlined)
+_PyNumber_InPlaceMultiply_Inlineable(PyObject *v, PyObject *w, struct _PyInterpreterFrame **inlined)
 {
     struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
     PyObject *result = BINARY_IOP1(
@@ -2295,11 +2295,11 @@ _PyNumber_InPlaceMultiply_Inlinable(PyObject *v, PyObject *w, struct _PyInterpre
 PyObject *
 PyNumber_InPlaceMultiply(PyObject *v, PyObject *w)
 {
-    return _PyNumber_InPlaceMultiply_Inlinable(v, w, NULL);
+    return _PyNumber_InPlaceMultiply_Inlineable(v, w, NULL);
 }
 
 PyObject *
-_PyNumber_InPlacePower_Inlinable(PyObject *v, PyObject *w, PyObject *z, struct _PyInterpreterFrame **inlined)
+_PyNumber_InPlacePower_Inlineable(PyObject *v, PyObject *w, PyObject *z, struct _PyInterpreterFrame **inlined)
 {
     return ternary_iop(
         v, w, z,
@@ -2313,13 +2313,13 @@ _PyNumber_InPlacePower_Inlinable(PyObject *v, PyObject *w, PyObject *z, struct _
 PyObject *
 PyNumber_InPlacePower(PyObject *v, PyObject *w, PyObject *z)
 {
-    return _PyNumber_InPlacePower_Inlinable(v, w, z, NULL);
+    return _PyNumber_InPlacePower_Inlineable(v, w, z, NULL);
 }
 
 PyObject *
-_PyNumber_InPlacePowerNoMod_Inlinable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined)
+_PyNumber_InPlacePowerNoMod_Inlineable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined)
 {
-    return _PyNumber_InPlacePower_Inlinable(lhs, rhs, Py_None, inlined);
+    return _PyNumber_InPlacePower_Inlineable(lhs, rhs, Py_None, inlined);
 }
 
 

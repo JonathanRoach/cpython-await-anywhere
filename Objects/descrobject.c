@@ -1735,7 +1735,7 @@ property_name(propertyobject *prop, PyObject **name)
 }
 
 PyObject *
-_PyProperty_Slot_tp_descr_get_inlinable(PyObject *self, PyObject *obj, PyObject *type, struct _PyInterpreterFrame **inlined)
+_PyProperty_Slot_tp_descr_get_inlineable(PyObject *self, PyObject *obj, PyObject *type, struct _PyInterpreterFrame **inlined)
 {
     if (obj == NULL || obj == Py_None) {
         return Py_NewRef(self);
@@ -1767,12 +1767,12 @@ _PyProperty_Slot_tp_descr_get_inlinable(PyObject *self, PyObject *obj, PyObject 
         return NULL;
     }
 
-    return _PyObject_CallOneArg_Inlinable(gs->prop_get, obj, inlined);
+    return _PyObject_CallOneArg_Inlineable(gs->prop_get, obj, inlined);
 }
 
 PyObject *
 _PyProperty_Slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type){
-    return _PyProperty_Slot_tp_descr_get_inlinable(self, obj, type, NULL);
+    return _PyProperty_Slot_tp_descr_get_inlineable(self, obj, type, NULL);
 }
 
 int
@@ -1827,12 +1827,12 @@ _PyProperty_Slot_tp_descr_set_Inlineable(PyObject *self, PyObject *obj, PyObject
     if (inlined){
         struct _PyInterpreterFrame *frame = *inlined;
         if (value == NULL) {
-            res = _PyObject_CallOneArg_Inlinable(func, obj, inlined);
+            res = _PyObject_CallOneArg_Inlineable(func, obj, inlined);
         }
         else {
             EVAL_CALL_STAT_INC_IF_FUNCTION(EVAL_CALL_API, func);
             PyObject *args[] = { obj, value };
-            res = _PyObject_Vectorcall_Inlinable(func, args, 2, NULL, inlined);
+            res = _PyObject_Vectorcall_Inlineable(func, args, 2, NULL, inlined);
         }
         if (res) {
             if (*inlined != frame){

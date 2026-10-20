@@ -10274,7 +10274,7 @@ FUNCNAME(PyObject *self) \
 
 #define SLOT1(FUNCNAME, DUNDER, ARG1TYPE) \
 PyObject * \
-FUNCNAME##_Inlinable(PyObject *self, ARG1TYPE arg1, struct _PyInterpreterFrame **inlined) \
+FUNCNAME##_Inlineable(PyObject *self, ARG1TYPE arg1, struct _PyInterpreterFrame **inlined) \
 { \
     PyObject* stack[2] = {self, arg1}; \
     return vectorcall_method(&_Py_ID(DUNDER), stack, 2, inlined); \
@@ -10283,7 +10283,7 @@ FUNCNAME##_Inlinable(PyObject *self, ARG1TYPE arg1, struct _PyInterpreterFrame *
 PyObject * \
 FUNCNAME(PyObject *self, ARG1TYPE arg1) \
 { \
-    return FUNCNAME##_Inlinable(self, arg1, NULL); \
+    return FUNCNAME##_Inlineable(self, arg1, NULL); \
 }
 
 /* Boolean helper for SLOT1BINFULL().
@@ -10390,7 +10390,7 @@ static PyObject *FUNCNAME##_returnaction_B_AdaptExit(FUNCNAME##_returnaction_B *
 } \
  \
 PyObject * \
-FUNCNAME##_Inlinable(PyObject *self, PyObject *other, struct _PyInterpreterFrame **inlined) \
+FUNCNAME##_Inlineable(PyObject *self, PyObject *other, struct _PyInterpreterFrame **inlined) \
 { \
     PyObject* stack[2]; \
     PyThreadState *tstate = _PyThreadState_GET(); \
@@ -10446,7 +10446,7 @@ FUNCNAME##_Inlinable(PyObject *self, PyObject *other, struct _PyInterpreterFrame
 PyObject * \
 FUNCNAME(PyObject *self, PyObject *other) \
 { \
-    return FUNCNAME##_Inlinable(self, other, NULL); \
+    return FUNCNAME##_Inlineable(self, other, NULL); \
 }
 
 #define SLOT1BIN(FUNCNAME, SLOTNAME, DUNDER, RDUNDER) \
@@ -10551,7 +10551,7 @@ slot_sq_contains(PyObject *self, PyObject *value)
 SLOT1(_PyType_Slot_mp_subscript, __getitem__, PyObject *)
 
 static int
-slot_mp_ass_subscript_Inlinable(PyObject *self, PyObject *key, PyObject *value, struct _PyInterpreterFrame **inlined)
+slot_mp_ass_subscript_Inlineable(PyObject *self, PyObject *key, PyObject *value, struct _PyInterpreterFrame **inlined)
 {
     PyObject *stack[3];
     PyObject *res;
@@ -10575,7 +10575,7 @@ slot_mp_ass_subscript_Inlinable(PyObject *self, PyObject *key, PyObject *value, 
 static int
 slot_mp_ass_subscript(PyObject *self, PyObject *key, PyObject *value)
 {
-    return slot_mp_ass_subscript_Inlinable(self, key, value, NULL);
+    return slot_mp_ass_subscript_Inlineable(self, key, value, NULL);
 }
 
 SLOT1BIN(_PyType_Slot_nb_add, nb_add, __add__, __radd__)
@@ -10590,11 +10590,11 @@ PyObject *_PyType_Slot_nb_power(PyObject *, PyObject *, PyObject *);
 SLOT1BINFULL(_PyType_Slot_nb_power_binary, _PyType_Slot_nb_power, nb_power, __pow__, __rpow__)
 
 PyObject *
-_PyType_Slot_nb_power_Inlinable(PyObject *self, PyObject *other,
+_PyType_Slot_nb_power_Inlineable(PyObject *self, PyObject *other,
     PyObject *modulus, struct _PyInterpreterFrame **inlined)
 {
     if (modulus == Py_None)
-        return _PyType_Slot_nb_power_binary_Inlinable(self, other, inlined);
+        return _PyType_Slot_nb_power_binary_Inlineable(self, other, inlined);
 
     /* The following code is a copy of SLOT1BINFULL, but for three arguments. */
     PyObject* stack[3];
@@ -10642,7 +10642,7 @@ _PyType_Slot_nb_power_Inlinable(PyObject *self, PyObject *other,
 PyObject *
 _PyType_Slot_nb_power(PyObject *self, PyObject *other, PyObject *modulus)
 {
-    return _PyType_Slot_nb_power_Inlinable(self, other, modulus, NULL);
+    return _PyType_Slot_nb_power_Inlineable(self, other, modulus, NULL);
 }
 
 SLOT0(slot_nb_negative, __neg__)
@@ -10718,7 +10718,7 @@ SLOT1(_PyType_Slot_nb_inplace_matrix_multiply, __imatmul__, PyObject *)
 SLOT1(_PyType_Slot_nb_inplace_remainder, __imod__, PyObject *)
 /* Can't use SLOT1 here, because nb_inplace_power is ternary */
 PyObject *
-_PyType_Slot_nb_inplace_power_Inlinable(PyObject *self, PyObject * arg1, PyObject *arg2, struct _PyInterpreterFrame **inlined)
+_PyType_Slot_nb_inplace_power_Inlineable(PyObject *self, PyObject * arg1, PyObject *arg2, struct _PyInterpreterFrame **inlined)
 {
     PyObject *stack[2] = {self, arg1};
     return vectorcall_method(&_Py_ID(__ipow__), stack, 2, inlined);
@@ -10726,7 +10726,7 @@ _PyType_Slot_nb_inplace_power_Inlinable(PyObject *self, PyObject * arg1, PyObjec
 PyObject *
 _PyType_Slot_nb_inplace_power(PyObject *self, PyObject * arg1, PyObject *arg2)
 {
-    return _PyType_Slot_nb_inplace_power_Inlinable(self, arg1, arg2, NULL);
+    return _PyType_Slot_nb_inplace_power_Inlineable(self, arg1, arg2, NULL);
 }
 SLOT1(_PyType_Slot_nb_inplace_lshift, __ilshift__, PyObject *)
 SLOT1(_PyType_Slot_nb_inplace_rshift, __irshift__, PyObject *)
@@ -10832,7 +10832,7 @@ call_attribute(PyObject *self, PyObject *attr, PyObject *name,
 
     if (_PyType_HasFeature(Py_TYPE(attr), Py_TPFLAGS_METHOD_DESCRIPTOR)) {
         PyObject *args[] = { self, name };
-        res = _PyObject_Vectorcall_inlinable(attr, args, 2, NULL, inlined);
+        res = _PyObject_Vectorcall_inlineable(attr, args, 2, NULL, inlined);
         return res;
     }
 
@@ -10890,7 +10890,7 @@ static PyObject *getattr_returnaction_AdaptExit(getattr_returnaction *me, PyObje
 }
 
 PyObject *
-_PyType_Slot_tp_getattr_hook_Inlinable(PyObject *self, PyObject *name,
+_PyType_Slot_tp_getattr_hook_Inlineable(PyObject *self, PyObject *name,
     struct _PyInterpreterFrame **inlined)
 {
     PyTypeObject *tp = Py_TYPE(self);
@@ -10949,11 +10949,11 @@ _PyType_Slot_tp_getattr_hook_Inlinable(PyObject *self, PyObject *name,
 PyObject *
 _PyType_Slot_tp_getattr_hook(PyObject *self, PyObject *name)
 {
-    return _PyType_Slot_tp_getattr_hook_Inlinable(self, name, NULL);
+    return _PyType_Slot_tp_getattr_hook_Inlineable(self, name, NULL);
 }
 
 extern int
-_PyType_Slot_tp_setattro_Inlinable(PyObject *self, PyObject *name, PyObject *value,
+_PyType_Slot_tp_setattro_Inlineable(PyObject *self, PyObject *name, PyObject *value,
     struct _PyInterpreterFrame **inlined)
 {
     PyObject *stack[3];
@@ -10994,7 +10994,7 @@ _PyType_Slot_tp_setattro_Inlinable(PyObject *self, PyObject *name, PyObject *val
 extern int
 _PyType_Slot_tp_setattro(PyObject *self, PyObject *name, PyObject *value)
 {
-    return _PyType_Slot_tp_setattro_Inlinable(self, name, value, NULL);
+    return _PyType_Slot_tp_setattro_Inlineable(self, name, value, NULL);
 }
 
 static PyObject *name_op[] = {
@@ -11060,7 +11060,7 @@ slot_tp_iternext(PyObject *self)
 }
 
 PyObject *
-_PyType_Slot_tp_descr_get_inlinable(PyObject *self, PyObject *obj,
+_PyType_Slot_tp_descr_get_inlineable(PyObject *self, PyObject *obj,
     PyObject *type, struct _PyInterpreterFrame **inlined)
 {
     PyTypeObject *tp = Py_TYPE(self);
@@ -11078,7 +11078,7 @@ _PyType_Slot_tp_descr_get_inlinable(PyObject *self, PyObject *obj,
     if (type == NULL)
         type = Py_None;
     PyObject *stack[3] = {self, obj, type};
-    PyObject *res = _PyObject_Vectorcall_inlinable(get, stack, 3, NULL, inlined);
+    PyObject *res = _PyObject_Vectorcall_inlineable(get, stack, 3, NULL, inlined);
     Py_DECREF(get);
     return res;
 }
@@ -11086,11 +11086,11 @@ _PyType_Slot_tp_descr_get_inlinable(PyObject *self, PyObject *obj,
 PyObject *
 _PyType_Slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type)
 {
-    return _PyType_Slot_tp_descr_get_inlinable(self, obj, type, NULL);
+    return _PyType_Slot_tp_descr_get_inlineable(self, obj, type, NULL);
 }
 
 int
-_PyType_Slot_tp_descr_set_Inlinable(PyObject *self, PyObject *target, PyObject *value, struct _PyInterpreterFrame **inlined)
+_PyType_Slot_tp_descr_set_Inlineable(PyObject *self, PyObject *target, PyObject *value, struct _PyInterpreterFrame **inlined)
 {
     PyObject* stack[3];
     PyObject *res;
@@ -11132,7 +11132,7 @@ _PyType_Slot_tp_descr_set_Inlinable(PyObject *self, PyObject *target, PyObject *
 int
 _PyType_Slot_tp_descr_set(PyObject *self, PyObject *target, PyObject *value)
 {
-    return _PyType_Slot_tp_descr_set_Inlinable(self, target, value, NULL);
+    return _PyType_Slot_tp_descr_set_Inlineable(self, target, value, NULL);
 }
 
 static int
@@ -11506,7 +11506,7 @@ an all-zero entry.
 #define TPISLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
     {{#NAME, offsetof(PyTypeObject, SLOT), (void *)(FUNCTION), WRAPPER, \
      PyDoc_STR(DOC), .name_strobj = &_Py_ID(NAME)}, \
-    offsetof(PyTypeObject, SLOT##_inlineable), (void *)(FUNCTION##_Inlinable)}
+    offsetof(PyTypeObject, SLOT##_inlineable), (void *)(FUNCTION##_Inlineable)}
 #define FLSLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC, FLAGS) \
     {{#NAME, offsetof(PyTypeObject, SLOT), (void *)(FUNCTION), WRAPPER, \
      PyDoc_STR(DOC), FLAGS, .name_strobj = &_Py_ID(NAME) }}
@@ -11516,7 +11516,7 @@ an all-zero entry.
 #define ETISLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
     {{#NAME, offsetof(PyHeapTypeObject, SLOT), (void *)(FUNCTION), WRAPPER, \
      PyDoc_STR(DOC), .name_strobj = &_Py_ID(NAME) }, \
-     offsetof(PyHeapTypeObject, SLOT##_inlineable), (void *)(FUNCTION##_Inlinable) }
+     offsetof(PyHeapTypeObject, SLOT##_inlineable), (void *)(FUNCTION##_Inlineable) }
 #define BUFSLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
     ETSLOT(NAME, as_buffer.SLOT, FUNCTION, WRAPPER, DOC)
 #define AMSLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \

@@ -22,7 +22,7 @@ typedef propertyobject _PyPropertyObject;
 
 extern PyTypeObject _PyMethodWrapper_Type;
 
-extern PyObject *_PyProperty_Slot_tp_descr_get_inlinable(PyObject *self, PyObject *obj, PyObject *type, struct _PyInterpreterFrame **inlined);
+extern PyObject *_PyProperty_Slot_tp_descr_get_inlineable(PyObject *self, PyObject *obj, PyObject *type, struct _PyInterpreterFrame **inlined);
 extern PyObject *_PyProperty_Slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type);
 extern int _PyProperty_Slot_tp_descr_set_Inlineable(PyObject *self, PyObject *obj, PyObject *value, struct _PyInterpreterFrame **inlined);
 extern int _PyProperty_Slot_tp_descr_set(PyObject *self, PyObject *obj, PyObject *value);

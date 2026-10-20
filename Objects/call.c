@@ -399,7 +399,7 @@ PyVectorcall_Call(PyObject *callable, PyObject *tuple, PyObject *kwargs)
 
 
 PyObject *
-_PyObject_Vectorcall_Inlinable(PyObject *callable, PyObject *const *args,
+_PyObject_Vectorcall_Inlineable(PyObject *callable, PyObject *const *args,
     size_t nargsf, PyObject *kwnames, struct _PyInterpreterFrame **inlined)
 {
     PyThreadState *tstate = _PyThreadState_GET();
@@ -412,7 +412,7 @@ PyObject *
 PyObject_Vectorcall(PyObject *callable, PyObject *const *args,
                      size_t nargsf, PyObject *kwnames)
 {
-    return _PyObject_Vectorcall_Inlinable(callable, args, nargsf, kwnames, NULL);
+    return _PyObject_Vectorcall_Inlineable(callable, args, nargsf, kwnames, NULL);
 }
 
 
@@ -511,7 +511,7 @@ PyCFunction_Call(PyObject *callable, PyObject *args, PyObject *kwargs)
 
 
 PyObject *
-_PyObject_CallOneArg_Inlinable(PyObject *func, PyObject *arg,
+_PyObject_CallOneArg_Inlineable(PyObject *func, PyObject *arg,
                                struct _PyInterpreterFrame **inlined)
 {
     EVAL_CALL_STAT_INC_IF_FUNCTION(EVAL_CALL_API, func);
@@ -535,7 +535,7 @@ static void *
 co_PyObject_CallOneArg(void *_params){
     _PY_ENSURE_COSTACK_HEADROOM_FOR_FN1_B(PyErr_NoMemory(), void *, co_PyObject_CallOneArg, _params)
     struct PyObject_CallOneArg_params *params = (struct PyObject_CallOneArg_params *)_params;
-    return _PyObject_CallOneArg_Inlinable(params->func, params->arg, NULL);
+    return _PyObject_CallOneArg_Inlineable(params->func, params->arg, NULL);
 }
 PyObject *
 PyObject_CallOneArg(PyObject *func, PyObject *arg)
@@ -552,7 +552,7 @@ PyObject_CallOneArg(PyObject *func, PyObject *arg)
 PyObject *
 PyObject_CallOneArg(PyObject *func, PyObject *arg)
 {
-    return _PyObject_CallOneArg_Inlinable(func, arg, NULL);
+    return _PyObject_CallOneArg_Inlineable(func, arg, NULL);
 }
 #endif
 
@@ -560,7 +560,7 @@ PyObject_CallOneArg(PyObject *func, PyObject *arg)
 /* --- PyFunction call functions ---------------------------------- */
 
 PyObject *
-_PyFunction_Vectorcall_inlinable(PyObject *func, PyObject* const* stack,
+_PyFunction_Vectorcall_inlineable(PyObject *func, PyObject* const* stack,
                        size_t nargsf, PyObject *kwnames,
                        struct _PyInterpreterFrame **inlined)
 {
@@ -596,7 +596,7 @@ PyObject *
 _PyFunction_Vectorcall(PyObject *func, PyObject* const* stack,
                        size_t nargsf, PyObject *kwnames)
 {
-    return _PyFunction_Vectorcall_inlinable(func, stack, nargsf, kwnames, NULL);
+    return _PyFunction_Vectorcall_inlineable(func, stack, nargsf, kwnames, NULL);
 }
 
 /* --- More complex call functions -------------------------------- */

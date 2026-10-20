@@ -1288,13 +1288,13 @@ restore:
    inlined == NULL
     Same behaviour as PyObject_GetAttr
    inlined != NULL (must be set to frame)
-    If the getattr code is inlinable (eg it's __getattribute__) then
+    If the getattr code is inlineable (eg it's __getattribute__) then
         *inlined the inlined frame
-    If the getattr code is not inlinable, then
+    If the getattr code is not inlineable, then
         The attribute is returned
    */
 PyObject *
-_PyObject_GetAttrInlinable(PyObject *v, PyObject *name, _PyInterpreterFrame **inlined)
+_PyObject_GetAttrInlineable(PyObject *v, PyObject *name, _PyInterpreterFrame **inlined)
 {
     PyTypeObject *tp = Py_TYPE(v);
     if (!PyUnicode_Check(name)) {
@@ -1309,7 +1309,7 @@ _PyObject_GetAttrInlinable(PyObject *v, PyObject *name, _PyInterpreterFrame **in
         getattrofunc getattro = tp->tp_getattro;
         if (getattro == PyObject_GenericGetAttr) {
             // covers @property properties
-            result = _PyObject_GenericGetAttr_Inlinable(v, name, inlined);
+            result = _PyObject_GenericGetAttr_Inlineable(v, name, inlined);
         } else if (PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) && tp->tp_getattro_inlineable) {
             result = PyType_Call_tp_getattro_inlineable(tp, v, name, inlined);
         } else {
@@ -1338,7 +1338,7 @@ _PyObject_GetAttrInlinable(PyObject *v, PyObject *name, _PyInterpreterFrame **in
 PyObject *
 PyObject_GetAttr(PyObject *v, PyObject *name)
 {
-    return _PyObject_GetAttrInlinable(v, name, NULL);
+    return _PyObject_GetAttrInlineable(v, name, NULL);
 }
 
 int
@@ -1458,7 +1458,7 @@ PyObject_HasAttr(PyObject *obj, PyObject *name)
 }
 
 int
-_PyObject_SetAttrInlinable(PyObject *v, PyObject *name, PyObject *value,
+_PyObject_SetAttrInlineable(PyObject *v, PyObject *name, PyObject *value,
     struct _PyInterpreterFrame **inlined)
 {
     PyTypeObject *tp = Py_TYPE(v);
@@ -1476,7 +1476,7 @@ _PyObject_SetAttrInlinable(PyObject *v, PyObject *name, PyObject *value,
     _PyUnicode_InternMortal(interp, &name);
     if (tp->tp_setattro != NULL) {
         if (inlined && tp->tp_setattro == PyObject_GenericSetAttr){
-            err = _PyObject_GenericSetAttrInlinable(v, name, value, inlined);
+            err = _PyObject_GenericSetAttrInlineable(v, name, value, inlined);
         }
         else if (inlined && PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) && tp->tp_setattro_inlineable){
             err = PyType_Call_tp_setattro_inlineable(tp, v, name, value, inlined);
@@ -1518,20 +1518,20 @@ _PyObject_SetAttrInlinable(PyObject *v, PyObject *name, PyObject *value,
 int
 PyObject_SetAttr(PyObject *v, PyObject *name, PyObject *value)
 {
-    return _PyObject_SetAttrInlinable(v, name, value, NULL);
+    return _PyObject_SetAttrInlineable(v, name, value, NULL);
 }
 
 int
-_PyObject_DelAttrInlinable(PyObject *v, PyObject *name,
+_PyObject_DelAttrInlineable(PyObject *v, PyObject *name,
     struct _PyInterpreterFrame **inlined)
 {
-    return _PyObject_SetAttrInlinable(v, name, NULL, inlined);
+    return _PyObject_SetAttrInlineable(v, name, NULL, inlined);
 }
 
 int
 PyObject_DelAttr(PyObject *v, PyObject *name)
 {
-    return _PyObject_SetAttrInlinable(v, name, NULL, NULL);
+    return _PyObject_SetAttrInlineable(v, name, NULL, NULL);
 }
 
 PyObject **
@@ -1865,9 +1865,9 @@ _PyObject_GenericGetAttrWithDict(PyObject *obj, PyObject *name,
         f = Py_TYPE(descr)->tp_descr_get;
         if (f != NULL && PyDescr_IsData(descr)) {
             if (f == _PyType_Slot_tp_descr_get) {
-                res = _PyType_Slot_tp_descr_get_inlinable(descr, obj, (PyObject *)Py_TYPE(obj), inlined);
+                res = _PyType_Slot_tp_descr_get_inlineable(descr, obj, (PyObject *)Py_TYPE(obj), inlined);
             } else if (f == _PyProperty_Slot_tp_descr_get) {
-                res = _PyProperty_Slot_tp_descr_get_inlinable(descr, obj, (PyObject *)Py_TYPE(obj), inlined);
+                res = _PyProperty_Slot_tp_descr_get_inlineable(descr, obj, (PyObject *)Py_TYPE(obj), inlined);
             } else {
                 res = PyType_Call_tp_descr_get(Py_TYPE(descr), descr, obj, (PyObject *)Py_TYPE(obj));
             }
@@ -1927,7 +1927,7 @@ _PyObject_GenericGetAttrWithDict(PyObject *obj, PyObject *name,
 
     if (f != NULL) {
         if (f == _PyType_Slot_tp_descr_get) {
-            res = _PyType_Slot_tp_descr_get_inlinable(descr, obj, (PyObject *)Py_TYPE(obj), inlined);
+            res = _PyType_Slot_tp_descr_get_inlineable(descr, obj, (PyObject *)Py_TYPE(obj), inlined);
         } else {
             res = PyType_Call_tp_descr_get(Py_TYPE(descr), descr, obj, (PyObject *)Py_TYPE(obj));
         }
@@ -1966,7 +1966,7 @@ _PyObject_GenericGetAttrWithDict(PyObject *obj, PyObject *name,
    run that code directly, instead of via some C function calls. This allows and so allow that call stack to be await'ed.
 */
 PyObject *
-_PyObject_GenericGetAttr_Inlinable(PyObject *obj, PyObject *name, struct _PyInterpreterFrame **inlined)
+_PyObject_GenericGetAttr_Inlineable(PyObject *obj, PyObject *name, struct _PyInterpreterFrame **inlined)
 {
     return _PyObject_GenericGetAttrWithDict(obj, name, NULL, 0, inlined);
 }
@@ -2086,7 +2086,7 @@ _PyObject_GenericSetAttrWithDict(PyObject *obj, PyObject *name,
 }
 
 int
-_PyObject_GenericSetAttrInlinable(PyObject *obj, PyObject *name, PyObject *value,
+_PyObject_GenericSetAttrInlineable(PyObject *obj, PyObject *name, PyObject *value,
     struct _PyInterpreterFrame **inlined)
 {
     return _PyObject_GenericSetAttrWithDict(obj, name, value, NULL, inlined);

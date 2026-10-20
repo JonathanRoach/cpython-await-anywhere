@@ -16,7 +16,7 @@ extern PyObject* _PyFunction_Vectorcall(
     size_t nargsf,
     PyObject *kwnames);
 
-extern PyObject* _PyFunction_Vectorcall_inlinable(
+extern PyObject* _PyFunction_Vectorcall_inlineable(
     PyObject *func,
     PyObject *const *stack,
     size_t nargsf,

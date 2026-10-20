@@ -383,9 +383,9 @@ typedef PyObject *(*allocfunc)(PyTypeObject *, Py_ssize_t);
 typedef PyObject *(*vectorcallfunc)(PyObject *callable, PyObject *const *args,
                                     size_t nargsf, PyObject *kwnames);
 
-// like vectorcallfunc, but inlinable
+// like vectorcallfunc, but inlineable
 struct _PyInterpreterFrame;
-typedef PyObject *(*_vectorcallfunc_inlinable)(
+typedef PyObject *(*_vectorcallfunc_inlineable)(
     PyObject *callable,
     PyObject *const *args,
     size_t nargsf,

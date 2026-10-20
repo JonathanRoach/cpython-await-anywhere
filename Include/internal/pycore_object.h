@@ -30,8 +30,8 @@ extern "C" {
 /* For backwards compatibility -- Do not use this */
 #define _Py_IsImmortalLoose(op) _Py_IsImmortal
 
-typedef PyObject * (*binaryfunc_inlinable)(PyObject *, PyObject *, struct _PyInterpreterFrame **);
-typedef PyObject * (*ternaryfunc_inlinable)(PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+typedef PyObject * (*binaryfunc_inlineable)(PyObject *, PyObject *, struct _PyInterpreterFrame **);
+typedef PyObject * (*ternaryfunc_inlineable)(PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **);
 
 
 /* Check if an object is consistent. For example, ensure that the reference
@@ -362,7 +362,7 @@ _Py_THREAD_INCREF_OBJECT(PyObject *obj, Py_ssize_t unique_id)
     }
     else {
         // The slow path resizes the per-thread refcount array if necessary.
-        // It handles the unique_id=0 case to keep the inlinable function smaller.
+        // It handles the unique_id=0 case to keep the inlineable function smaller.
         _PyObject_ThreadIncrefSlow(obj, idx);
     }
 }
@@ -888,11 +888,11 @@ extern PyTypeObject* _PyType_CalculateMetaclass(PyTypeObject *, PyObject *);
 extern PyObject* _PyType_GetDocFromInternalDoc(const char *, const char *);
 extern PyObject* _PyType_GetTextSignatureFromInternalDoc(const char *, const char *, int);
 extern int _PyObject_SetAttributeErrorContext(PyObject *v, PyObject* name);
-extern PyObject *_PyObject_GenericGetAttr_Inlinable(PyObject *obj, PyObject *name, struct _PyInterpreterFrame **inlined);
-extern PyObject* _PyObject_GetAttrInlinable(PyObject *v, PyObject *name, struct _PyInterpreterFrame **inlined);
-extern int _PyObject_GenericSetAttrInlinable(PyObject *obj, PyObject *name, PyObject *value, struct _PyInterpreterFrame **inlined);
-extern int _PyObject_SetAttrInlinable(PyObject *v, PyObject *name, PyObject *value, struct _PyInterpreterFrame **inlined);
-extern int _PyObject_DelAttrInlinable(PyObject *o, PyObject *attr_name, struct _PyInterpreterFrame **inlined);
+extern PyObject *_PyObject_GenericGetAttr_Inlineable(PyObject *obj, PyObject *name, struct _PyInterpreterFrame **inlined);
+extern PyObject* _PyObject_GetAttrInlineable(PyObject *v, PyObject *name, struct _PyInterpreterFrame **inlined);
+extern int _PyObject_GenericSetAttrInlineable(PyObject *obj, PyObject *name, PyObject *value, struct _PyInterpreterFrame **inlined);
+extern int _PyObject_SetAttrInlineable(PyObject *v, PyObject *name, PyObject *value, struct _PyInterpreterFrame **inlined);
+extern int _PyObject_DelAttrInlineable(PyObject *o, PyObject *attr_name, struct _PyInterpreterFrame **inlined);
 
 void _PyObject_InitInlineValues(PyObject *obj, PyTypeObject *tp);
 extern int _PyObject_StoreInstanceAttribute(PyObject *obj,

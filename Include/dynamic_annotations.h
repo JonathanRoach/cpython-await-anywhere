@@ -50,7 +50,7 @@
    - None (DYNAMIC_ANNOTATIONS_ENABLED is not defined or zero).
       Macros are defined empty.
    - ThreadSanitizer, Helgrind, DRD (DYNAMIC_ANNOTATIONS_ENABLED is 1).
-      Macros are defined as calls to non-inlinable empty functions
+      Macros are defined as calls to non-inlineable empty functions
       that are intercepted by Valgrind. */
 
 #ifndef __DYNAMIC_ANNOTATIONS_H__
