@@ -31,35 +31,103 @@ enum _frameowner {
     FRAME_OWNED_BY_CSTACK = 4,
 };
 
-typedef struct _PyReturnAction _PyReturnAction;
 struct _PyInterpreterFrame;
 
-typedef struct _PyReturnAction_Methods {
-    void (*dtor)(_PyReturnAction *this);
-    PyObject *(*AdaptExit)(_PyReturnAction *this, PyObject *res, struct _PyInterpreterFrame **inlined);
-} _PyReturnAction_Methods;
+typedef struct ReturnAction_State {
+    int step;
+} ReturnAction_State;
 
-struct _PyReturnAction {
-    _PyReturnAction_Methods *vfptr;
-    _PyReturnAction *nextaction;
+#define ReturnAction_State_Wrapped (1<<30)
+#define ReturnAction_State_ReUsed (1<<31)
+#define ReturnAction_State_Flags (ReturnAction_State_Wrapped | ReturnAction_State_ReUsed)
+
+typedef struct ReturnAction_StateWrapper ReturnAction_StateWrapper;
+typedef struct ReturnAction_Class ReturnAction_Class;
+
+struct ReturnAction_StateWrapper {
+    ReturnAction_StateWrapper *next;
+    ReturnAction_Class *class;
+    ReturnAction_State wrapped;
 };
 
-#define RETURNACTION_STDMETHODDECL(cls) \
-typedef struct cls cls; \
- \
-static void cls##_dtor(cls *); \
-static PyObject *cls##_AdaptExit(cls *, PyObject *res, struct _PyInterpreterFrame **inlined); \
- \
-static struct _PyReturnAction_Methods cls##_methods = \
+typedef void ReturnAction_WrappedInit(ReturnAction_State *wrapped, ReturnAction_State *state);
+typedef void ReturnAction_WrappedDtor(ReturnAction_State *wrapped);
+typedef PyObject *ReturnAction_Step(ReturnAction_State *wrapped, PyObject *result, struct _PyInterpreterFrame **inlined);
+
+static inline void
+ReturnAction_BaseWrappedInit(ReturnAction_State *wrapped, ReturnAction_State *state){
+    wrapped->step = state->step | (ReturnAction_State_Wrapped | ReturnAction_State_ReUsed);
+}
+
+struct ReturnAction_Class {
+    ReturnAction_WrappedInit *init;
+    ReturnAction_WrappedDtor *dtor;
+    ReturnAction_Step *step;
+    size_t size;
+};
+
+#define RETURNACTION_SETSTEP(N) (state->base.step = (state->base.step & ~ReturnAction_State_Flags) | (N))
+
+#define RETURNACTION_STDCLASSDECLARATION(name) \
+typedef struct name##_State name##_State; \
+static void name##_WrappedInit(name##_State *wrapped, name##_State *state); \
+static void name##_WrappedDtor(name##_State *wrapped); \
+static PyObject *name##_Step(name##_State *wrapped, PyObject *result, struct _PyInterpreterFrame **inlined);
+
+#define RETURNACTION_CHECKINLINED(N) \
+    if (inlined && *inlined != frame) \
+    { \
+        RETURNACTION_SETSTEP(N); \
+        _PyFrame_AddReturnAction(*inlined, &state->base, &MyReturnAction_Class); \
+        return result; \
+    } \
+    l##N:;
+
+#define RETURNACTION_STEPPREAMBLE_INNER_1 \
+    case 1: goto l1;
+
+#define RETURNACTION_STEPPREAMBLE_INNER_2 \
+    RETURNACTION_STEPPREAMBLE_INNER_1 \
+    case 2: goto l2;
+
+#define RETURNACTION_STEPPREAMBLE_INNER_3 \
+    RETURNACTION_STEPPREAMBLE_INNER_2 \
+    case 3: goto l3;
+
+#define RETURNACTION_STEPPREAMBLE_INNER_4 \
+    RETURNACTION_STEPPREAMBLE_INNER_3 \
+    case 4: goto l4;
+
+#define RETURNACTION_STEPPREAMBLE_INNER_5 \
+    RETURNACTION_STEPPREAMBLE_INNER_4 \
+    case 5: goto l5;
+
+#define RETURNACTION_STEPPREAMBLE_INNER_6 \
+    RETURNACTION_STEPPREAMBLE_INNER_5 \
+    case 6: goto l6;
+
+#define RETURNACTION_STEPDEFINITION(name, N) \
+static PyObject * \
+name##_Step( \
+    name##_State *state, \
+    PyObject *result, \
+    struct _PyInterpreterFrame **inlined \
+) \
 { \
-    .dtor = (void (*)(_PyReturnAction *))&cls##_dtor, \
-    .AdaptExit = (PyObject *(*)(_PyReturnAction *, PyObject *res, struct _PyInterpreterFrame **inlined))&cls##_AdaptExit, \
-};
-
-#define RETURNACTION_NEWPREAMBLE(cls) \
-    cls *me = PyObject_Malloc(sizeof(cls)); \
-    _PyReturnAction_ctor(&me->base, NULL); \
-    me->base.vfptr = &cls##_methods;
+    static ReturnAction_Class MyReturnAction_Class = { \
+        .size = sizeof(name##_State), \
+        .init = (ReturnAction_WrappedInit *)&name##_WrappedInit, \
+        .dtor = (ReturnAction_WrappedDtor *)&name##_WrappedDtor, \
+        .step = (ReturnAction_Step *)&name##_Step, \
+    }; \
+ \
+    struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL; \
+    switch(state->base.step & ~ReturnAction_State_Flags) { \
+    case 0: goto l0; \
+    RETURNACTION_STEPPREAMBLE_INNER_##N \
+    default: assert(0); \
+    } \
+l0:;
 
 
 struct _PyInterpreterFrame {
@@ -72,7 +140,7 @@ struct _PyInterpreterFrame {
     PyFrameObject *frame_obj; /* Strong reference, may be NULL. Only valid if not on C stack */
     _Py_CODEUNIT *instr_ptr; /* Instruction currently executing (or about to begin) */
     _PyStackRef *stackpointer;
-    struct _PyReturnAction *returnaction;
+    ReturnAction_StateWrapper *returnaction;
 #ifdef Py_GIL_DISABLED
     /* Index of thread-local bytecode containing instr_ptr. */
     int32_t tlbc_index;

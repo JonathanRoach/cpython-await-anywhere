@@ -7719,7 +7719,7 @@
                 assert(STACK_LEVEL() == 0);
                 _Py_LeaveRecursiveCallPy(tstate);
                 _PyInterpreterFrame *dying = frame;
-                struct _PyReturnAction *returnaction = dying->returnaction;
+                ReturnAction_StateWrapper *returnaction = dying->returnaction;
                 dying->returnaction = NULL;
                 frame = tstate->current_frame = dying->previous;
                 _PyEval_FrameClearAndPop(tstate, dying);
@@ -10820,7 +10820,7 @@
             assert(STACK_LEVEL() == 0);
             _Py_LeaveRecursiveCallPy(tstate);
             _PyInterpreterFrame *dying = frame;
-            struct _PyReturnAction *returnaction = dying->returnaction;
+            ReturnAction_StateWrapper *returnaction = dying->returnaction;
             dying->returnaction = NULL;
             frame = tstate->current_frame = dying->previous;
             _PyEval_FrameClearAndPop(tstate, dying);
@@ -12818,7 +12818,7 @@ JUMP_TO_LABEL(error);
             _Py_LeaveRecursiveCallPy(tstate);
             assert(frame->owner != FRAME_OWNED_BY_INTERPRETER);
             _PyInterpreterFrame *dying = frame;
-            struct _PyReturnAction *returnaction = dying->returnaction;
+            ReturnAction_StateWrapper *returnaction = dying->returnaction;
             frame = tstate->current_frame = dying->previous;
             _PyEval_FrameClearAndPop(tstate, dying);
             if (returnaction){

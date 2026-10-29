@@ -1159,7 +1159,7 @@ dummy_func(
             _Py_LeaveRecursiveCallPy(tstate);
             // GH-99729: We need to unlink the frame *before* clearing it:
             _PyInterpreterFrame *dying = frame;
-            struct _PyReturnAction *returnaction = dying->returnaction;
+            ReturnAction_StateWrapper *returnaction = dying->returnaction;
             dying->returnaction = NULL;
             frame = tstate->current_frame = dying->previous;
             _PyEval_FrameClearAndPop(tstate, dying);
@@ -5764,7 +5764,7 @@ dummy_func(
             assert(frame->owner != FRAME_OWNED_BY_INTERPRETER);
             // GH-99729: We need to unlink the frame *before* clearing it:
             _PyInterpreterFrame *dying = frame;
-            struct _PyReturnAction *returnaction = dying->returnaction;
+            ReturnAction_StateWrapper *returnaction = dying->returnaction;
             frame = tstate->current_frame = dying->previous;
             _PyEval_FrameClearAndPop(tstate, dying);
             if (returnaction){

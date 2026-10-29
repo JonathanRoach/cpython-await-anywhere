@@ -103,46 +103,60 @@ _PyFrame_ClearLocals(_PyInterpreterFrame *frame)
     Py_CLEAR(frame->f_locals);
 }
 
-void _PyReturnAction_Delete(struct _PyReturnAction *returnaction)
+void _PyReturnAction_Delete(ReturnAction_StateWrapper *wrapper)
 {
-    if (returnaction) {
-        returnaction->vfptr->dtor(returnaction);
-        PyObject_Free(returnaction);
+    ReturnAction_StateWrapper *nextwrapper;
+    for (; wrapper; wrapper = nextwrapper) {
+        nextwrapper = wrapper->next;
+        wrapper->class->dtor(&wrapper->wrapped);
+        PyObject_Free(wrapper);
     }
 }
 
-void _PyReturnAction_dtor(struct _PyReturnAction *this){
-    _PyReturnAction_Delete(this->nextaction);
-}
-
-void _PyReturnAction_ctor(struct _PyReturnAction *this, struct _PyReturnAction *nextaction)
+void _PyFrame_AddReturnActionWrapper(struct _PyInterpreterFrame *frame, ReturnAction_StateWrapper *wrapper)
 {
-    this->nextaction = nextaction;
-}
-
-void _PyFrame_AddReturnAction(struct _PyInterpreterFrame *frame, _PyReturnAction *nextaction)
-{
-    if (nextaction) {
-        _PyReturnAction **returnaction = &(frame->returnaction);
-        while (*returnaction){
-            returnaction = &(*returnaction)->nextaction;
-        }
-        *returnaction = nextaction;
+    ReturnAction_StateWrapper **returnaction = &(frame->returnaction);
+    while (*returnaction){
+        returnaction = &(*returnaction)->next;
     }
+    *returnaction = wrapper;
 }
 
-PyObject *_PyReturnAction_AdaptExit(struct _PyReturnAction *this, PyObject *res, struct _PyInterpreterFrame **inlined)
+void _PyFrame_AddReturnAction(struct _PyInterpreterFrame *frame, ReturnAction_State *state, ReturnAction_Class *class)
+{
+    ReturnAction_StateWrapper *wrapper;
+    if ((state->step & ReturnAction_State_Wrapped) == 0){
+        // wrap it first
+        wrapper = PyObject_Malloc(sizeof(ReturnAction_StateWrapper) - sizeof(ReturnAction_State) + class->size);
+        wrapper->next = NULL;
+        wrapper->class = class;
+        class->init(&wrapper->wrapped, state);
+    } else {
+        state->step |= ReturnAction_State_ReUsed;
+        wrapper = (ReturnAction_StateWrapper *)((char *)state - offsetof(ReturnAction_StateWrapper, wrapped));
+    }
+    _PyFrame_AddReturnActionWrapper(frame, wrapper);
+}
+
+PyObject *_PyReturnAction_AdaptExit(ReturnAction_StateWrapper *this, PyObject *res, struct _PyInterpreterFrame **inlined)
 {
     struct _PyInterpreterFrame *frame = *inlined;
 
-    struct _PyReturnAction *next = this->nextaction;
-    PyObject *nextres = this->vfptr->AdaptExit(this, res, inlined);
-    this->nextaction = NULL;
-    _PyReturnAction_Delete(this);
+    assert(_PyErr_Occurred(_PyThreadState_GET()) ? res == NULL : res != NULL);
+    Py_XINCREF(res);
+    ReturnAction_StateWrapper *next = this->next;
+    this->wrapped.step &= ~ReturnAction_State_ReUsed;
+    PyObject *nextres = this->class->step(&this->wrapped, res, inlined);
+    if ((this->wrapped.step & ReturnAction_State_ReUsed) == 0){
+        this->next = NULL;
+        _PyReturnAction_Delete(this);
+    }
 
     if (*inlined != frame){
         // new, inlined function - queue remainder of returnaction after the new inlined function
-        _PyFrame_AddReturnAction(*inlined, next);
+        if (next){
+            _PyFrame_AddReturnActionWrapper(*inlined, next);
+        }
         return res;
     }
 
@@ -150,15 +164,19 @@ PyObject *_PyReturnAction_AdaptExit(struct _PyReturnAction *this, PyObject *res,
     while (next){
         this = next;
         res = nextres;
-        next = this->nextaction;
-        nextres = this->vfptr->AdaptExit(this, res, inlined);
-        Py_XDECREF(res);
-        this->nextaction = NULL;
-        _PyReturnAction_Delete(this);
+        next = this->next;
+        this->wrapped.step &= ~ReturnAction_State_ReUsed;
+        nextres = this->class->step(&this->wrapped, res, inlined);
+        if ((this->wrapped.step & ReturnAction_State_ReUsed) == 0){
+            this->next = NULL;
+            _PyReturnAction_Delete(this);
+        }
 
         if (*inlined != frame){
             // new, inlined function - queue remainder of returnaction after the new inlined function
-            _PyFrame_AddReturnAction(*inlined, next);
+            if (next){
+                _PyFrame_AddReturnActionWrapper(*inlined, next);
+            }
             return nextres;
         }
     }

@@ -10321,126 +10321,77 @@ method_is_overloaded(PyObject *left, PyObject *right, PyObject *name)
 
 #define SLOT1BINFULL(FUNCNAME, TESTFUNC, SLOTNAME, DUNDER, RDUNDER) \
  \
-RETURNACTION_STDMETHODDECL(FUNCNAME##_returnaction_A) \
+RETURNACTION_STDCLASSDECLARATION(FUNCNAME##_Inlineable) \
  \
-struct FUNCNAME##_returnaction_A { \
-    _PyReturnAction base; \
+struct FUNCNAME##_Inlineable_State { \
+    ReturnAction_State base; \
     PyObject *self; \
     PyObject *other; \
+    bool do_other; \
 }; \
  \
-_PyReturnAction *FUNCNAME##_returnaction_A_new(PyObject *self, PyObject *other){ \
-    RETURNACTION_NEWPREAMBLE(FUNCNAME##_returnaction_A) \
-    me->self = Py_NewRef(self); \
-    me->other = Py_NewRef(other); \
-    return (_PyReturnAction *)me; \
+static void FUNCNAME##_Inlineable_WrappedInit(FUNCNAME##_Inlineable_State *wrapped, FUNCNAME##_Inlineable_State *state){ \
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base); \
+    wrapped->self = Py_NewRef(state->self); \
+    wrapped->other = Py_NewRef(state->other); \
+    wrapped->do_other = state->do_other; \
 } \
  \
-static void FUNCNAME##_returnaction_A_dtor(FUNCNAME##_returnaction_A *me) \
-{ \
-    Py_DECREF(me->self); \
-    Py_DECREF(me->other); \
-    _PyReturnAction_dtor(&me->base); \
+static void FUNCNAME##_Inlineable_WrappedDtor(FUNCNAME##_Inlineable_State *wrapped){ \
+    Py_DECREF(wrapped->self); \
+    Py_DECREF(wrapped->other); \
 } \
  \
-static PyObject *FUNCNAME##_returnaction_A_AdaptExit(FUNCNAME##_returnaction_A *me, PyObject *res, struct _PyInterpreterFrame **inlined) \
-{ \
-    if (res != Py_NotImplemented) \
-        return res ? Py_NewRef(res) : NULL; \
+RETURNACTION_STEPDEFINITION(FUNCNAME##_Inlineable, 2) \
  \
     PyObject* stack[2]; \
-    PyThreadState *tstate = _PyThreadState_GET(); \
-    stack[0] = me->self; \
-    stack[1] = me->other; \
-    return vectorcall_maybe(tstate, &_Py_ID(DUNDER), stack, 2, inlined); \
-} \
- \
-RETURNACTION_STDMETHODDECL(FUNCNAME##_returnaction_B) \
- \
-struct FUNCNAME##_returnaction_B { \
-    _PyReturnAction base; \
-    PyObject *self; \
-    PyObject *other; \
-}; \
- \
-_PyReturnAction *FUNCNAME##_returnaction_B_new(PyObject *self, PyObject *other){ \
-    RETURNACTION_NEWPREAMBLE(FUNCNAME##_returnaction_B) \
-    me->self = Py_NewRef(self); \
-    me->other = Py_NewRef(other); \
-    return (_PyReturnAction *)me; \
-} \
- \
-static void FUNCNAME##_returnaction_B_dtor(FUNCNAME##_returnaction_B *me) \
-{ \
-    Py_DECREF(me->self); \
-    Py_DECREF(me->other); \
-    _PyReturnAction_dtor(&me->base); \
-} \
- \
-static PyObject *FUNCNAME##_returnaction_B_AdaptExit(FUNCNAME##_returnaction_B *me, PyObject *res, struct _PyInterpreterFrame **inlined) \
-{ \
-    if (res != Py_NotImplemented) \
-        return res ? Py_NewRef(res) : NULL; \
- \
-    PyObject* stack[2]; \
-    PyThreadState *tstate = _PyThreadState_GET(); \
-    stack[0] = me->other; \
-    stack[1] = me->self; \
-    return vectorcall_maybe(tstate, &_Py_ID(RDUNDER), stack, 2, inlined); \
+    state->do_other = !Py_IS_TYPE(state->self, Py_TYPE(state->other)) && \
+        Py_TYPE(state->other)->tp_as_number != NULL && \
+        Py_TYPE(state->other)->tp_as_number->SLOTNAME == TESTFUNC; \
+    if (Py_TYPE(state->self)->tp_as_number != NULL && \
+        Py_TYPE(state->self)->tp_as_number->SLOTNAME == TESTFUNC) { \
+        if (state->do_other && PyType_IsSubtype(Py_TYPE(state->other), Py_TYPE(state->self))) { \
+            int ok = method_is_overloaded(state->self, state->other, &_Py_ID(RDUNDER)); \
+            if (ok < 0) { \
+                return NULL; \
+            } \
+            if (ok) { \
+                stack[0] = state->other; \
+                stack[1] = state->self; \
+                result = vectorcall_maybe(_PyThreadState_GET(), &_Py_ID(RDUNDER), stack, 2, inlined); \
+                RETURNACTION_CHECKINLINED(1) \
+                if (result != Py_NotImplemented) \
+                    return result; \
+                Py_DECREF(result); \
+                state->do_other = false; \
+            } \
+        } \
+        stack[0] = state->self; \
+        stack[1] = state->other; \
+        result = vectorcall_maybe(_PyThreadState_GET(), &_Py_ID(DUNDER), stack, 2, inlined); \
+        RETURNACTION_CHECKINLINED(2) \
+        if (result != Py_NotImplemented || \
+            Py_IS_TYPE(state->other, Py_TYPE(state->self))) \
+            return result; \
+        Py_DECREF(result); \
+    } \
+    if (state->do_other) { \
+        stack[0] = state->other; \
+        stack[1] = state->self; \
+        return vectorcall_maybe(_PyThreadState_GET(), &_Py_ID(RDUNDER), stack, 2, inlined); \
+    } \
+    Py_RETURN_NOTIMPLEMENTED; \
 } \
  \
 PyObject * \
 FUNCNAME##_Inlineable(PyObject *self, PyObject *other, struct _PyInterpreterFrame **inlined) \
 { \
-    PyObject* stack[2]; \
-    PyThreadState *tstate = _PyThreadState_GET(); \
-    int do_other = !Py_IS_TYPE(self, Py_TYPE(other)) && \
-        Py_TYPE(other)->tp_as_number != NULL && \
-        Py_TYPE(other)->tp_as_number->SLOTNAME == TESTFUNC; \
-    if (Py_TYPE(self)->tp_as_number != NULL && \
-        Py_TYPE(self)->tp_as_number->SLOTNAME == TESTFUNC) { \
-        PyObject *r; \
-        if (do_other && PyType_IsSubtype(Py_TYPE(other), Py_TYPE(self))) { \
-            int ok = method_is_overloaded(self, other, &_Py_ID(RDUNDER)); \
-            if (ok < 0) { \
-                return NULL; \
-            } \
-            if (ok) { \
-                stack[0] = other; \
-                stack[1] = self; \
-                struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL; \
-                r = vectorcall_maybe(tstate, &_Py_ID(RDUNDER), stack, 2, inlined); \
-                if (inlined && frame != *inlined) { \
-                    _PyFrame_AddReturnAction(*inlined, FUNCNAME##_returnaction_A_new(self, other)); \
-                    return r; \
-                } \
-                if (r != Py_NotImplemented) \
-                    return r; \
-                Py_DECREF(r); \
-                do_other = 0; \
-            } \
-        } \
-        stack[0] = self; \
-        stack[1] = other; \
-        struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL; \
-        r = vectorcall_maybe(tstate, &_Py_ID(DUNDER), stack, 2, inlined); \
-        if (inlined && frame != *inlined) { \
-            if (!Py_IS_TYPE(other, Py_TYPE(self)) && do_other) { \
-                _PyFrame_AddReturnAction(*inlined, FUNCNAME##_returnaction_B_new(self, other)); \
-            } \
-            return r; \
-        } \
-        if (r != Py_NotImplemented || \
-            Py_IS_TYPE(other, Py_TYPE(self))) \
-            return r; \
-        Py_DECREF(r); \
-    } \
-    if (do_other) { \
-        stack[0] = other; \
-        stack[1] = self; \
-        return vectorcall_maybe(tstate, &_Py_ID(RDUNDER), stack, 2, inlined); \
-    } \
-    Py_RETURN_NOTIMPLEMENTED; \
+    FUNCNAME##_Inlineable_State state = { \
+        .base.step = 0, \
+        .self = self, \
+        .other = other, \
+    }; \
+    return FUNCNAME##_Inlineable_Step(&state, NULL, inlined); \
 } \
  \
 PyObject * \
@@ -10850,65 +10801,46 @@ call_attribute(PyObject *self, PyObject *attr, PyObject *name,
     return res;
 }
 
-RETURNACTION_STDMETHODDECL(getattr_returnaction)
+RETURNACTION_STDCLASSDECLARATION(_PyType_Slot_tp_getattr_hook_Inlineable)
 
-struct getattr_returnaction {
-    _PyReturnAction base;
+struct _PyType_Slot_tp_getattr_hook_Inlineable_State {
+    ReturnAction_State base;
     PyObject *self;
-    PyObject *getattr;
     PyObject *name;
+    PyObject *getattr;
 };
 
-_PyReturnAction *getattr_returnaction_new(PyObject *self, PyObject *getattr, PyObject *name){
-    RETURNACTION_NEWPREAMBLE(getattr_returnaction)
-    me->self = Py_NewRef(self);
-    me->getattr = Py_NewRef(getattr);
-    me->name = Py_NewRef(name);
-    return (_PyReturnAction *)me;
+static void _PyType_Slot_tp_getattr_hook_Inlineable_WrappedInit(_PyType_Slot_tp_getattr_hook_Inlineable_State *wrapped, _PyType_Slot_tp_getattr_hook_Inlineable_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+    wrapped->self = Py_NewRef(state->self);
+    wrapped->name = Py_NewRef(state->name);
+    wrapped->getattr = Py_NewRef(state->getattr);
 }
 
-static void getattr_returnaction_dtor(getattr_returnaction *me)
-{
-    Py_DECREF(me->self);
-    Py_DECREF(me->getattr);
-    Py_DECREF(me->name);
-    _PyReturnAction_dtor(&me->base);
+static void _PyType_Slot_tp_getattr_hook_Inlineable_WrappedDtor(_PyType_Slot_tp_getattr_hook_Inlineable_State *wrapped){
+    Py_DECREF(wrapped->self);
+    Py_DECREF(wrapped->name);
+    Py_DECREF(wrapped->getattr);
 }
 
-static PyObject *getattr_returnaction_AdaptExit(getattr_returnaction *me, PyObject *res, struct _PyInterpreterFrame **inlined)
-{
-    if (res){
-        return Py_NewRef(res);
-    }
+RETURNACTION_STEPDEFINITION(_PyType_Slot_tp_getattr_hook_Inlineable, 1)
 
-    if (PyErr_ExceptionMatches(PyExc_AttributeError)) {
-        PyErr_Clear();
-        return call_attribute(me->self, me->getattr, me->name, inlined);
-    }
-
-    return NULL;
-}
-
-PyObject *
-_PyType_Slot_tp_getattr_hook_Inlineable(PyObject *self, PyObject *name,
-    struct _PyInterpreterFrame **inlined)
-{
-    PyTypeObject *tp = Py_TYPE(self);
-    PyObject *getattr, *getattribute, *res;
+    PyTypeObject *tp = Py_TYPE(state->self);
+    PyObject *getattribute;
 
     /* speed hack: we could use lookup_maybe, but that would resolve the
        method fully for each attribute lookup for classes with
        __getattr__, even when the attribute is present. So we use
        _PyType_LookupRef and create the method only when needed, with
        call_attribute. */
-    getattr = _PyType_LookupRef(tp, &_Py_ID(__getattr__));
-    if (getattr == NULL) {
+    state->getattr = _PyType_LookupRef(tp, &_Py_ID(__getattr__));
+    if (state->getattr == NULL) {
         /* No __getattr__ hook: use a simpler dispatcher */
         tp->tp_getattro = _PyType_Slot_tp_getattro;
         tp->tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL;
         tp->tp_getattro_inlineable = _PyType_Slot_tp_getattro_Inlineable;
         tp->tp_functionflags[_PyFunctionIndex_tp_getattro_inlineable] = Py_FNFLAGS_FRUGAL;
-        return _PyType_Slot_tp_getattro_Inlineable(self, name, inlined);
+        return _PyType_Slot_tp_getattro_Inlineable(state->self, state->name, inlined);
     }
     /* speed hack: we could use lookup_maybe, but that would resolve the
        method fully for each attribute lookup for classes with
@@ -10921,29 +10853,39 @@ _PyType_Slot_tp_getattr_hook_Inlineable(PyObject *self, PyObject *name,
          ((PyWrapperDescrObject *)getattribute)->d_wrapped ==
              (void *)PyObject_GenericGetAttr)) {
         Py_XDECREF(getattribute);
-        res = _PyObject_GenericGetAttrWithDict(self, name, NULL, 1, NULL);
+        result = _PyObject_GenericGetAttrWithDict(state->self, state->name, NULL, 1, NULL);
         /* if res == NULL with no exception set, then it must be an
            AttributeError suppressed by us. */
-        if (res == NULL && !PyErr_Occurred()) {
-            res = call_attribute(self, getattr, name, inlined);
+        if (result == NULL && !PyErr_Occurred()) {
+            result = call_attribute(state->self, state->getattr, state->name, inlined);
         }
     }
     else {
-        struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
-        res = call_attribute(self, getattribute, name, inlined);
+        result = call_attribute(state->self, getattribute, state->name, inlined);
         Py_DECREF(getattribute);
-        if (inlined && *inlined != frame) {
-            _PyFrame_AddReturnAction(*inlined, getattr_returnaction_new(self, getattr, name));
-        } else {
-            if (res == NULL && PyErr_ExceptionMatches(PyExc_AttributeError)) {
-                PyErr_Clear();
-                res = call_attribute(self, getattr, name, inlined);
-            }
+        RETURNACTION_CHECKINLINED(1)
+        if (result == NULL && PyErr_ExceptionMatches(PyExc_AttributeError)) {
+            PyErr_Clear();
+            result = call_attribute(state->self, state->getattr, state->name, inlined);
         }
     }
 
-    Py_DECREF(getattr);
-    return res;
+    return result;
+}
+
+PyObject *
+_PyType_Slot_tp_getattr_hook_Inlineable(PyObject *self, PyObject *name,
+    struct _PyInterpreterFrame **inlined)
+{
+    _PyType_Slot_tp_getattr_hook_Inlineable_State state = {
+        .base.step = 0,
+        .self = self,
+        .name = name,
+        .getattr = NULL,
+    };
+    PyObject *ret = _PyType_Slot_tp_getattr_hook_Inlineable_Step(&state, NULL, inlined);
+    Py_XDECREF(state.getattr);
+    return ret;
 }
 
 PyObject *

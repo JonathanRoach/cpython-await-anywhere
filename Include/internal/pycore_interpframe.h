@@ -17,10 +17,8 @@ extern "C" {
 #define _PyInterpreterFrame_LASTI(IF) \
     ((int)((IF)->instr_ptr - _PyFrame_GetBytecode((IF))))
 
-void _PyReturnAction_ctor(_PyReturnAction *this, _PyReturnAction *nextaction);
-void _PyReturnAction_dtor(_PyReturnAction *this);
-void _PyFrame_AddReturnAction(struct _PyInterpreterFrame *frame, _PyReturnAction *nextaction);
-PyObject *_PyReturnAction_AdaptExit(_PyReturnAction *this, PyObject *res, struct _PyInterpreterFrame **inlined);
+void _PyFrame_AddReturnAction(struct _PyInterpreterFrame *frame, ReturnAction_State *state, ReturnAction_Class *class);
+PyObject *_PyReturnAction_AdaptExit(ReturnAction_StateWrapper *this, PyObject *res, struct _PyInterpreterFrame **inlined);
 
 
 static inline PyCodeObject *_PyFrame_GetCode(_PyInterpreterFrame *f) {
