@@ -14,8 +14,9 @@ PyDoc_STRVAR(_dbm_dbm_close__doc__,
 "\n"
 "Close the database.");
 
+static struct {char name[];} _dbm_dbm_close_MethodName = {.name = "close",};
 #define _DBM_DBM_CLOSE_METHODDEF    \
-    {"close", (PyCFunction)_dbm_dbm_close, METH_NOARGS, _dbm_dbm_close__doc__},
+    {_dbm_dbm_close_MethodName.name, (PyCFunction)_dbm_dbm_close, METH_NOARGS, _dbm_dbm_close__doc__},
 
 static PyObject *
 _dbm_dbm_close_impl(dbmobject *self);
@@ -38,8 +39,9 @@ PyDoc_STRVAR(_dbm_dbm_keys__doc__,
 "\n"
 "Return a list of all keys in the database.");
 
+static struct {char name[];} _dbm_dbm_keys_MethodName = {.name = "keys",};
 #define _DBM_DBM_KEYS_METHODDEF    \
-    {"keys", _PyCFunction_CAST(_dbm_dbm_keys), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _dbm_dbm_keys__doc__},
+    {_dbm_dbm_keys_MethodName.name, _PyCFunction_CAST(_dbm_dbm_keys), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _dbm_dbm_keys__doc__},
 
 static PyObject *
 _dbm_dbm_keys_impl(dbmobject *self, PyTypeObject *cls);
@@ -67,8 +69,9 @@ PyDoc_STRVAR(_dbm_dbm_get__doc__,
 "\n"
 "Return the value for key if present, otherwise default.");
 
+static struct {char name[];} _dbm_dbm_get_MethodName = {.name = "get",};
 #define _DBM_DBM_GET_METHODDEF    \
-    {"get", _PyCFunction_CAST(_dbm_dbm_get), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _dbm_dbm_get__doc__},
+    {_dbm_dbm_get_MethodName.name, _PyCFunction_CAST(_dbm_dbm_get), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _dbm_dbm_get__doc__},
 
 static PyObject *
 _dbm_dbm_get_impl(dbmobject *self, PyTypeObject *cls, const char *key,
@@ -115,8 +118,9 @@ PyDoc_STRVAR(_dbm_dbm_setdefault__doc__,
 "\n"
 "If key is not in the database, it is inserted with default as the value.");
 
+static struct {char name[];} _dbm_dbm_setdefault_MethodName = {.name = "setdefault",};
 #define _DBM_DBM_SETDEFAULT_METHODDEF    \
-    {"setdefault", _PyCFunction_CAST(_dbm_dbm_setdefault), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _dbm_dbm_setdefault__doc__},
+    {_dbm_dbm_setdefault_MethodName.name, _PyCFunction_CAST(_dbm_dbm_setdefault), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _dbm_dbm_setdefault__doc__},
 
 static PyObject *
 _dbm_dbm_setdefault_impl(dbmobject *self, PyTypeObject *cls, const char *key,
@@ -161,8 +165,9 @@ PyDoc_STRVAR(_dbm_dbm_clear__doc__,
 "\n"
 "Remove all items from the database.");
 
+static struct {char name[];} _dbm_dbm_clear_MethodName = {.name = "clear",};
 #define _DBM_DBM_CLEAR_METHODDEF    \
-    {"clear", _PyCFunction_CAST(_dbm_dbm_clear), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _dbm_dbm_clear__doc__},
+    {_dbm_dbm_clear_MethodName.name, _PyCFunction_CAST(_dbm_dbm_clear), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _dbm_dbm_clear__doc__},
 
 static PyObject *
 _dbm_dbm_clear_impl(dbmobject *self, PyTypeObject *cls);
@@ -198,8 +203,9 @@ PyDoc_STRVAR(dbmopen__doc__,
 "    If creating a new file, the mode bits for the new file\n"
 "    (e.g. os.O_RDWR).");
 
+static struct {char name[];} dbmopen_MethodName = {.name = "open",};
 #define DBMOPEN_METHODDEF    \
-    {"open", _PyCFunction_CAST(dbmopen), METH_FASTCALL, dbmopen__doc__},
+    {dbmopen_MethodName.name, _PyCFunction_CAST(dbmopen), METH_FASTCALL, dbmopen__doc__},
 
 static PyObject *
 dbmopen_impl(PyObject *module, PyObject *filename, const char *flags,
@@ -246,4 +252,4 @@ skip_optional:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=279511ea7cda38dd input=a9049054013a1b77]*/
+/*[clinic end generated code: output=0a10812f9b70d689 input=a9049054013a1b77]*/

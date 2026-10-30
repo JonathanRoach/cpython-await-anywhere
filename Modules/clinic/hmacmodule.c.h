@@ -14,8 +14,9 @@ PyDoc_STRVAR(_hmac_new__doc__,
 "\n"
 "Return a new HMAC object.");
 
+static struct {char name[];} _hmac_new_MethodName = {.name = "new",};
 #define _HMAC_NEW_METHODDEF    \
-    {"new", _PyCFunction_CAST(_hmac_new), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hmac_new__doc__},
+    {_hmac_new_MethodName.name, _PyCFunction_CAST(_hmac_new), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hmac_new__doc__},
 
 static PyObject *
 _hmac_new_impl(PyObject *module, PyObject *keyobj, PyObject *msgobj,
@@ -87,8 +88,9 @@ PyDoc_STRVAR(_hmac_HMAC_copy__doc__,
 "\n"
 "Return a copy (\"clone\") of the HMAC object.");
 
+static struct {char name[];} _hmac_HMAC_copy_MethodName = {.name = "copy",};
 #define _HMAC_HMAC_COPY_METHODDEF    \
-    {"copy", _PyCFunction_CAST(_hmac_HMAC_copy), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hmac_HMAC_copy__doc__},
+    {_hmac_HMAC_copy_MethodName.name, _PyCFunction_CAST(_hmac_HMAC_copy), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hmac_HMAC_copy__doc__},
 
 static PyObject *
 _hmac_HMAC_copy_impl(HMACObject *self, PyTypeObject *cls);
@@ -109,8 +111,9 @@ PyDoc_STRVAR(_hmac_HMAC_update__doc__,
 "\n"
 "Update the HMAC object with the given message.");
 
+static struct {char name[];} _hmac_HMAC_update_MethodName = {.name = "update",};
 #define _HMAC_HMAC_UPDATE_METHODDEF    \
-    {"update", _PyCFunction_CAST(_hmac_HMAC_update), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hmac_HMAC_update__doc__},
+    {_hmac_HMAC_update_MethodName.name, _PyCFunction_CAST(_hmac_HMAC_update), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hmac_HMAC_update__doc__},
 
 static PyObject *
 _hmac_HMAC_update_impl(HMACObject *self, PyObject *msgobj);
@@ -169,8 +172,9 @@ PyDoc_STRVAR(_hmac_HMAC_digest__doc__,
 "\n"
 "This method may raise a MemoryError.");
 
+static struct {char name[];} _hmac_HMAC_digest_MethodName = {.name = "digest",};
 #define _HMAC_HMAC_DIGEST_METHODDEF    \
-    {"digest", (PyCFunction)_hmac_HMAC_digest, METH_NOARGS|METH_C_STACK_FRUGAL, _hmac_HMAC_digest__doc__},
+    {_hmac_HMAC_digest_MethodName.name, (PyCFunction)_hmac_HMAC_digest, METH_NOARGS|METH_C_STACK_FRUGAL, _hmac_HMAC_digest__doc__},
 
 static PyObject *
 _hmac_HMAC_digest_impl(HMACObject *self);
@@ -192,8 +196,9 @@ PyDoc_STRVAR(_hmac_HMAC_hexdigest__doc__,
 "\n"
 "This method may raise a MemoryError.");
 
+static struct {char name[];} _hmac_HMAC_hexdigest_MethodName = {.name = "hexdigest",};
 #define _HMAC_HMAC_HEXDIGEST_METHODDEF    \
-    {"hexdigest", (PyCFunction)_hmac_HMAC_hexdigest, METH_NOARGS|METH_C_STACK_FRUGAL, _hmac_HMAC_hexdigest__doc__},
+    {_hmac_HMAC_hexdigest_MethodName.name, (PyCFunction)_hmac_HMAC_hexdigest, METH_NOARGS|METH_C_STACK_FRUGAL, _hmac_HMAC_hexdigest__doc__},
 
 static PyObject *
 _hmac_HMAC_hexdigest_impl(HMACObject *self);
@@ -266,8 +271,9 @@ PyDoc_STRVAR(_hmac_compute_digest__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _hmac_compute_digest_MethodName = {.name = "compute_digest",};
 #define _HMAC_COMPUTE_DIGEST_METHODDEF    \
-    {"compute_digest", _PyCFunction_CAST(_hmac_compute_digest), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hmac_compute_digest__doc__},
+    {_hmac_compute_digest_MethodName.name, _PyCFunction_CAST(_hmac_compute_digest), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _hmac_compute_digest__doc__},
 
 static PyObject *
 _hmac_compute_digest_impl(PyObject *module, PyObject *key, PyObject *msg,
@@ -328,8 +334,9 @@ PyDoc_STRVAR(_hmac_compute_md5__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _hmac_compute_md5_MethodName = {.name = "compute_md5",};
 #define _HMAC_COMPUTE_MD5_METHODDEF    \
-    {"compute_md5", _PyCFunction_CAST(_hmac_compute_md5), METH_FASTCALL|METH_C_STACK_FRUGAL, _hmac_compute_md5__doc__},
+    {_hmac_compute_md5_MethodName.name, _PyCFunction_CAST(_hmac_compute_md5), METH_FASTCALL|METH_C_STACK_FRUGAL, _hmac_compute_md5__doc__},
 
 static PyObject *
 _hmac_compute_md5_impl(PyObject *module, PyObject *key, PyObject *msg);
@@ -357,8 +364,9 @@ PyDoc_STRVAR(_hmac_compute_sha1__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _hmac_compute_sha1_MethodName = {.name = "compute_sha1",};
 #define _HMAC_COMPUTE_SHA1_METHODDEF    \
-    {"compute_sha1", _PyCFunction_CAST(_hmac_compute_sha1), METH_FASTCALL|METH_C_STACK_FRUGAL, _hmac_compute_sha1__doc__},
+    {_hmac_compute_sha1_MethodName.name, _PyCFunction_CAST(_hmac_compute_sha1), METH_FASTCALL|METH_C_STACK_FRUGAL, _hmac_compute_sha1__doc__},
 
 static PyObject *
 _hmac_compute_sha1_impl(PyObject *module, PyObject *key, PyObject *msg);
@@ -386,8 +394,9 @@ PyDoc_STRVAR(_hmac_compute_sha2_224__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _hmac_compute_sha2_224_MethodName = {.name = "compute_sha224",};
 #define _HMAC_COMPUTE_SHA2_224_METHODDEF    \
-    {"compute_sha224", _PyCFunction_CAST(_hmac_compute_sha2_224), METH_FASTCALL|METH_C_STACK_FRUGAL, _hmac_compute_sha2_224__doc__},
+    {_hmac_compute_sha2_224_MethodName.name, _PyCFunction_CAST(_hmac_compute_sha2_224), METH_FASTCALL|METH_C_STACK_FRUGAL, _hmac_compute_sha2_224__doc__},
 
 static PyObject *
 _hmac_compute_sha2_224_impl(PyObject *module, PyObject *key, PyObject *msg);
@@ -415,8 +424,9 @@ PyDoc_STRVAR(_hmac_compute_sha2_256__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _hmac_compute_sha2_256_MethodName = {.name = "compute_sha256",};
 #define _HMAC_COMPUTE_SHA2_256_METHODDEF    \
-    {"compute_sha256", _PyCFunction_CAST(_hmac_compute_sha2_256), METH_FASTCALL|METH_C_STACK_FRUGAL, _hmac_compute_sha2_256__doc__},
+    {_hmac_compute_sha2_256_MethodName.name, _PyCFunction_CAST(_hmac_compute_sha2_256), METH_FASTCALL|METH_C_STACK_FRUGAL, _hmac_compute_sha2_256__doc__},
 
 static PyObject *
 _hmac_compute_sha2_256_impl(PyObject *module, PyObject *key, PyObject *msg);
@@ -444,8 +454,9 @@ PyDoc_STRVAR(_hmac_compute_sha2_384__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _hmac_compute_sha2_384_MethodName = {.name = "compute_sha384",};
 #define _HMAC_COMPUTE_SHA2_384_METHODDEF    \
-    {"compute_sha384", _PyCFunction_CAST(_hmac_compute_sha2_384), METH_FASTCALL|METH_C_STACK_FRUGAL, _hmac_compute_sha2_384__doc__},
+    {_hmac_compute_sha2_384_MethodName.name, _PyCFunction_CAST(_hmac_compute_sha2_384), METH_FASTCALL|METH_C_STACK_FRUGAL, _hmac_compute_sha2_384__doc__},
 
 static PyObject *
 _hmac_compute_sha2_384_impl(PyObject *module, PyObject *key, PyObject *msg);
@@ -473,8 +484,9 @@ PyDoc_STRVAR(_hmac_compute_sha2_512__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _hmac_compute_sha2_512_MethodName = {.name = "compute_sha512",};
 #define _HMAC_COMPUTE_SHA2_512_METHODDEF    \
-    {"compute_sha512", _PyCFunction_CAST(_hmac_compute_sha2_512), METH_FASTCALL|METH_C_STACK_FRUGAL, _hmac_compute_sha2_512__doc__},
+    {_hmac_compute_sha2_512_MethodName.name, _PyCFunction_CAST(_hmac_compute_sha2_512), METH_FASTCALL|METH_C_STACK_FRUGAL, _hmac_compute_sha2_512__doc__},
 
 static PyObject *
 _hmac_compute_sha2_512_impl(PyObject *module, PyObject *key, PyObject *msg);
@@ -502,8 +514,9 @@ PyDoc_STRVAR(_hmac_compute_sha3_224__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _hmac_compute_sha3_224_MethodName = {.name = "compute_sha3_224",};
 #define _HMAC_COMPUTE_SHA3_224_METHODDEF    \
-    {"compute_sha3_224", _PyCFunction_CAST(_hmac_compute_sha3_224), METH_FASTCALL|METH_C_STACK_FRUGAL, _hmac_compute_sha3_224__doc__},
+    {_hmac_compute_sha3_224_MethodName.name, _PyCFunction_CAST(_hmac_compute_sha3_224), METH_FASTCALL|METH_C_STACK_FRUGAL, _hmac_compute_sha3_224__doc__},
 
 static PyObject *
 _hmac_compute_sha3_224_impl(PyObject *module, PyObject *key, PyObject *msg);
@@ -531,8 +544,9 @@ PyDoc_STRVAR(_hmac_compute_sha3_256__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _hmac_compute_sha3_256_MethodName = {.name = "compute_sha3_256",};
 #define _HMAC_COMPUTE_SHA3_256_METHODDEF    \
-    {"compute_sha3_256", _PyCFunction_CAST(_hmac_compute_sha3_256), METH_FASTCALL|METH_C_STACK_FRUGAL, _hmac_compute_sha3_256__doc__},
+    {_hmac_compute_sha3_256_MethodName.name, _PyCFunction_CAST(_hmac_compute_sha3_256), METH_FASTCALL|METH_C_STACK_FRUGAL, _hmac_compute_sha3_256__doc__},
 
 static PyObject *
 _hmac_compute_sha3_256_impl(PyObject *module, PyObject *key, PyObject *msg);
@@ -560,8 +574,9 @@ PyDoc_STRVAR(_hmac_compute_sha3_384__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _hmac_compute_sha3_384_MethodName = {.name = "compute_sha3_384",};
 #define _HMAC_COMPUTE_SHA3_384_METHODDEF    \
-    {"compute_sha3_384", _PyCFunction_CAST(_hmac_compute_sha3_384), METH_FASTCALL|METH_C_STACK_FRUGAL, _hmac_compute_sha3_384__doc__},
+    {_hmac_compute_sha3_384_MethodName.name, _PyCFunction_CAST(_hmac_compute_sha3_384), METH_FASTCALL|METH_C_STACK_FRUGAL, _hmac_compute_sha3_384__doc__},
 
 static PyObject *
 _hmac_compute_sha3_384_impl(PyObject *module, PyObject *key, PyObject *msg);
@@ -589,8 +604,9 @@ PyDoc_STRVAR(_hmac_compute_sha3_512__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _hmac_compute_sha3_512_MethodName = {.name = "compute_sha3_512",};
 #define _HMAC_COMPUTE_SHA3_512_METHODDEF    \
-    {"compute_sha3_512", _PyCFunction_CAST(_hmac_compute_sha3_512), METH_FASTCALL|METH_C_STACK_FRUGAL, _hmac_compute_sha3_512__doc__},
+    {_hmac_compute_sha3_512_MethodName.name, _PyCFunction_CAST(_hmac_compute_sha3_512), METH_FASTCALL|METH_C_STACK_FRUGAL, _hmac_compute_sha3_512__doc__},
 
 static PyObject *
 _hmac_compute_sha3_512_impl(PyObject *module, PyObject *key, PyObject *msg);
@@ -618,8 +634,9 @@ PyDoc_STRVAR(_hmac_compute_blake2s_32__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _hmac_compute_blake2s_32_MethodName = {.name = "compute_blake2s_32",};
 #define _HMAC_COMPUTE_BLAKE2S_32_METHODDEF    \
-    {"compute_blake2s_32", _PyCFunction_CAST(_hmac_compute_blake2s_32), METH_FASTCALL|METH_C_STACK_FRUGAL, _hmac_compute_blake2s_32__doc__},
+    {_hmac_compute_blake2s_32_MethodName.name, _PyCFunction_CAST(_hmac_compute_blake2s_32), METH_FASTCALL|METH_C_STACK_FRUGAL, _hmac_compute_blake2s_32__doc__},
 
 static PyObject *
 _hmac_compute_blake2s_32_impl(PyObject *module, PyObject *key, PyObject *msg);
@@ -647,8 +664,9 @@ PyDoc_STRVAR(_hmac_compute_blake2b_32__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _hmac_compute_blake2b_32_MethodName = {.name = "compute_blake2b_32",};
 #define _HMAC_COMPUTE_BLAKE2B_32_METHODDEF    \
-    {"compute_blake2b_32", _PyCFunction_CAST(_hmac_compute_blake2b_32), METH_FASTCALL|METH_C_STACK_FRUGAL, _hmac_compute_blake2b_32__doc__},
+    {_hmac_compute_blake2b_32_MethodName.name, _PyCFunction_CAST(_hmac_compute_blake2b_32), METH_FASTCALL|METH_C_STACK_FRUGAL, _hmac_compute_blake2b_32__doc__},
 
 static PyObject *
 _hmac_compute_blake2b_32_impl(PyObject *module, PyObject *key, PyObject *msg);
@@ -670,4 +688,4 @@ _hmac_compute_blake2b_32(PyObject *module, PyObject *const *args, Py_ssize_t nar
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=ed98bdf584f7c34c input=a9049054013a1b77]*/
+/*[clinic end generated code: output=6c7cd8ca3925bef7 input=a9049054013a1b77]*/

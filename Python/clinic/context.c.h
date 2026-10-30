@@ -13,8 +13,9 @@ PyDoc_STRVAR(_contextvars_Context_get__doc__,
 "If `key` does not exist, return `default`. If `default` is not given,\n"
 "return None.");
 
+static struct {char name[];} _contextvars_Context_get_MethodName = {.name = "get",};
 #define _CONTEXTVARS_CONTEXT_GET_METHODDEF    \
-    {"get", _PyCFunction_CAST(_contextvars_Context_get), METH_FASTCALL|METH_C_STACK_FRUGAL, _contextvars_Context_get__doc__},
+    {_contextvars_Context_get_MethodName.name, _PyCFunction_CAST(_contextvars_Context_get), METH_FASTCALL|METH_C_STACK_FRUGAL, _contextvars_Context_get__doc__},
 
 static PyObject *
 _contextvars_Context_get_impl(PyContext *self, PyObject *key,
@@ -50,8 +51,9 @@ PyDoc_STRVAR(_contextvars_Context_items__doc__,
 "\n"
 "The result is returned as a list of 2-tuples (variable, value).");
 
+static struct {char name[];} _contextvars_Context_items_MethodName = {.name = "items",};
 #define _CONTEXTVARS_CONTEXT_ITEMS_METHODDEF    \
-    {"items", (PyCFunction)_contextvars_Context_items, METH_NOARGS|METH_C_STACK_FRUGAL, _contextvars_Context_items__doc__},
+    {_contextvars_Context_items_MethodName.name, (PyCFunction)_contextvars_Context_items, METH_NOARGS|METH_C_STACK_FRUGAL, _contextvars_Context_items__doc__},
 
 static PyObject *
 _contextvars_Context_items_impl(PyContext *self);
@@ -68,8 +70,9 @@ PyDoc_STRVAR(_contextvars_Context_keys__doc__,
 "\n"
 "Return a list of all variables in the context object.");
 
+static struct {char name[];} _contextvars_Context_keys_MethodName = {.name = "keys",};
 #define _CONTEXTVARS_CONTEXT_KEYS_METHODDEF    \
-    {"keys", (PyCFunction)_contextvars_Context_keys, METH_NOARGS|METH_C_STACK_FRUGAL, _contextvars_Context_keys__doc__},
+    {_contextvars_Context_keys_MethodName.name, (PyCFunction)_contextvars_Context_keys, METH_NOARGS|METH_C_STACK_FRUGAL, _contextvars_Context_keys__doc__},
 
 static PyObject *
 _contextvars_Context_keys_impl(PyContext *self);
@@ -86,8 +89,9 @@ PyDoc_STRVAR(_contextvars_Context_values__doc__,
 "\n"
 "Return a list of all variables\' values in the context object.");
 
+static struct {char name[];} _contextvars_Context_values_MethodName = {.name = "values",};
 #define _CONTEXTVARS_CONTEXT_VALUES_METHODDEF    \
-    {"values", (PyCFunction)_contextvars_Context_values, METH_NOARGS|METH_C_STACK_FRUGAL, _contextvars_Context_values__doc__},
+    {_contextvars_Context_values_MethodName.name, (PyCFunction)_contextvars_Context_values, METH_NOARGS|METH_C_STACK_FRUGAL, _contextvars_Context_values__doc__},
 
 static PyObject *
 _contextvars_Context_values_impl(PyContext *self);
@@ -104,8 +108,9 @@ PyDoc_STRVAR(_contextvars_Context_copy__doc__,
 "\n"
 "Return a shallow copy of the context object.");
 
+static struct {char name[];} _contextvars_Context_copy_MethodName = {.name = "copy",};
 #define _CONTEXTVARS_CONTEXT_COPY_METHODDEF    \
-    {"copy", (PyCFunction)_contextvars_Context_copy, METH_NOARGS|METH_C_STACK_FRUGAL, _contextvars_Context_copy__doc__},
+    {_contextvars_Context_copy_MethodName.name, (PyCFunction)_contextvars_Context_copy, METH_NOARGS|METH_C_STACK_FRUGAL, _contextvars_Context_copy__doc__},
 
 static PyObject *
 _contextvars_Context_copy_impl(PyContext *self);
@@ -128,8 +133,9 @@ PyDoc_STRVAR(_contextvars_ContextVar_get__doc__,
 "   with one; or\n"
 " * raise a LookupError.");
 
+static struct {char name[];} _contextvars_ContextVar_get_MethodName = {.name = "get",};
 #define _CONTEXTVARS_CONTEXTVAR_GET_METHODDEF    \
-    {"get", _PyCFunction_CAST(_contextvars_ContextVar_get), METH_FASTCALL|METH_C_STACK_FRUGAL, _contextvars_ContextVar_get__doc__},
+    {_contextvars_ContextVar_get_MethodName.name, _PyCFunction_CAST(_contextvars_ContextVar_get), METH_FASTCALL|METH_C_STACK_FRUGAL, _contextvars_ContextVar_get__doc__},
 
 static PyObject *
 _contextvars_ContextVar_get_impl(PyContextVar *self, PyObject *default_value);
@@ -165,8 +171,9 @@ PyDoc_STRVAR(_contextvars_ContextVar_set__doc__,
 "Returns a Token object that can be used to restore the variable to its previous\n"
 "value via the `ContextVar.reset()` method.");
 
+static struct {char name[];} _contextvars_ContextVar_set_MethodName = {.name = "set",};
 #define _CONTEXTVARS_CONTEXTVAR_SET_METHODDEF    \
-    {"set", (PyCFunction)_contextvars_ContextVar_set, METH_O|METH_C_STACK_FRUGAL, _contextvars_ContextVar_set__doc__},
+    {_contextvars_ContextVar_set_MethodName.name, (PyCFunction)_contextvars_ContextVar_set, METH_O|METH_C_STACK_FRUGAL, _contextvars_ContextVar_set__doc__},
 
 static PyObject *
 _contextvars_ContextVar_set_impl(PyContextVar *self, PyObject *value);
@@ -190,8 +197,9 @@ PyDoc_STRVAR(_contextvars_ContextVar_reset__doc__,
 "The variable is reset to the value it had before the `ContextVar.set()` that\n"
 "created the token was used.");
 
+static struct {char name[];} _contextvars_ContextVar_reset_MethodName = {.name = "reset",};
 #define _CONTEXTVARS_CONTEXTVAR_RESET_METHODDEF    \
-    {"reset", (PyCFunction)_contextvars_ContextVar_reset, METH_O|METH_C_STACK_FRUGAL, _contextvars_ContextVar_reset__doc__},
+    {_contextvars_ContextVar_reset_MethodName.name, (PyCFunction)_contextvars_ContextVar_reset, METH_O|METH_C_STACK_FRUGAL, _contextvars_ContextVar_reset__doc__},
 
 static PyObject *
 _contextvars_ContextVar_reset_impl(PyContextVar *self, PyObject *token);
@@ -212,8 +220,9 @@ PyDoc_STRVAR(token_enter__doc__,
 "\n"
 "Enter into Token context manager.");
 
+static struct {char name[];} token_enter_MethodName = {.name = "__enter__",};
 #define TOKEN_ENTER_METHODDEF    \
-    {"__enter__", (PyCFunction)token_enter, METH_NOARGS|METH_C_STACK_FRUGAL, token_enter__doc__},
+    {token_enter_MethodName.name, (PyCFunction)token_enter, METH_NOARGS|METH_C_STACK_FRUGAL, token_enter__doc__},
 
 static PyObject *
 token_enter_impl(PyContextToken *self);
@@ -230,8 +239,9 @@ PyDoc_STRVAR(token_exit__doc__,
 "\n"
 "Exit from Token context manager, restore the linked ContextVar.");
 
+static struct {char name[];} token_exit_MethodName = {.name = "__exit__",};
 #define TOKEN_EXIT_METHODDEF    \
-    {"__exit__", _PyCFunction_CAST(token_exit), METH_FASTCALL|METH_C_STACK_FRUGAL, token_exit__doc__},
+    {token_exit_MethodName.name, _PyCFunction_CAST(token_exit), METH_FASTCALL|METH_C_STACK_FRUGAL, token_exit__doc__},
 
 static PyObject *
 token_exit_impl(PyContextToken *self, PyObject *type, PyObject *val,
@@ -256,4 +266,4 @@ token_exit(PyObject *self, PyObject *const *args, Py_ssize_t nargs)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=e22a50cc88ceb352 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=846508abe711b4b0 input=a9049054013a1b77]*/

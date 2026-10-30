@@ -16,8 +16,9 @@ PyDoc_STRVAR(list_insert__doc__,
 "\n"
 "Insert object before index.");
 
+static struct {char name[];} list_insert_MethodName = {.name = "insert",};
 #define LIST_INSERT_METHODDEF    \
-    {"insert", _PyCFunction_CAST(list_insert), METH_FASTCALL|METH_C_STACK_FRUGAL, list_insert__doc__},
+    {list_insert_MethodName.name, _PyCFunction_CAST(list_insert), METH_FASTCALL|METH_C_STACK_FRUGAL, list_insert__doc__},
 
 static PyObject *
 list_insert_impl(PyListObject *self, Py_ssize_t index, PyObject *object);
@@ -59,8 +60,9 @@ PyDoc_STRVAR(py_list_clear__doc__,
 "\n"
 "Remove all items from list.");
 
+static struct {char name[];} py_list_clear_MethodName = {.name = "clear",};
 #define PY_LIST_CLEAR_METHODDEF    \
-    {"clear", (PyCFunction)py_list_clear, METH_NOARGS|METH_C_STACK_FRUGAL, py_list_clear__doc__},
+    {py_list_clear_MethodName.name, (PyCFunction)py_list_clear, METH_NOARGS|METH_C_STACK_FRUGAL, py_list_clear__doc__},
 
 static PyObject *
 py_list_clear_impl(PyListObject *self);
@@ -83,8 +85,9 @@ PyDoc_STRVAR(list_copy__doc__,
 "\n"
 "Return a shallow copy of the list.");
 
+static struct {char name[];} list_copy_MethodName = {.name = "copy",};
 #define LIST_COPY_METHODDEF    \
-    {"copy", (PyCFunction)list_copy, METH_NOARGS|METH_C_STACK_FRUGAL, list_copy__doc__},
+    {list_copy_MethodName.name, (PyCFunction)list_copy, METH_NOARGS|METH_C_STACK_FRUGAL, list_copy__doc__},
 
 static PyObject *
 list_copy_impl(PyListObject *self);
@@ -107,8 +110,9 @@ PyDoc_STRVAR(list_append__doc__,
 "\n"
 "Append object to the end of the list.");
 
+static struct {char name[];} list_append_MethodName = {.name = "append",};
 #define LIST_APPEND_METHODDEF    \
-    {"append", (PyCFunction)list_append, METH_O|METH_C_STACK_FRUGAL, list_append__doc__},
+    {list_append_MethodName.name, (PyCFunction)list_append, METH_O|METH_C_STACK_FRUGAL, list_append__doc__},
 
 static PyObject *
 list_append_impl(PyListObject *self, PyObject *object);
@@ -131,8 +135,9 @@ PyDoc_STRVAR(list_extend__doc__,
 "\n"
 "Extend list by appending elements from the iterable.");
 
+static struct {char name[];} list_extend_MethodName = {.name = "extend",};
 #define LIST_EXTEND_METHODDEF    \
-    {"extend", (PyCFunction)list_extend, METH_O|METH_C_STACK_FRUGAL, list_extend__doc__},
+    {list_extend_MethodName.name, (PyCFunction)list_extend, METH_O|METH_C_STACK_FRUGAL, list_extend__doc__},
 
 static PyObject *
 list_extend_impl(PyListObject *self, PyObject *iterable);
@@ -155,8 +160,9 @@ PyDoc_STRVAR(list_pop__doc__,
 "\n"
 "Raises IndexError if list is empty or index is out of range.");
 
+static struct {char name[];} list_pop_MethodName = {.name = "pop",};
 #define LIST_POP_METHODDEF    \
-    {"pop", _PyCFunction_CAST(list_pop), METH_FASTCALL|METH_C_STACK_FRUGAL, list_pop__doc__},
+    {list_pop_MethodName.name, _PyCFunction_CAST(list_pop), METH_FASTCALL|METH_C_STACK_FRUGAL, list_pop__doc__},
 
 static PyObject *
 list_pop_impl(PyListObject *self, Py_ssize_t index);
@@ -208,8 +214,9 @@ PyDoc_STRVAR(list_sort__doc__,
 "\n"
 "The reverse flag can be set to sort in descending order.");
 
+static struct {char name[];} list_sort_MethodName = {.name = "sort",};
 #define LIST_SORT_METHODDEF    \
-    {"sort", _PyCFunction_CAST(list_sort), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, list_sort__doc__},
+    {list_sort_MethodName.name, _PyCFunction_CAST(list_sort), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, list_sort__doc__},
 
 static PyObject *
 list_sort_impl(PyListObject *self, PyObject *keyfunc, int reverse);
@@ -283,8 +290,9 @@ PyDoc_STRVAR(list_reverse__doc__,
 "\n"
 "Reverse *IN PLACE*.");
 
+static struct {char name[];} list_reverse_MethodName = {.name = "reverse",};
 #define LIST_REVERSE_METHODDEF    \
-    {"reverse", (PyCFunction)list_reverse, METH_NOARGS|METH_C_STACK_FRUGAL, list_reverse__doc__},
+    {list_reverse_MethodName.name, (PyCFunction)list_reverse, METH_NOARGS|METH_C_STACK_FRUGAL, list_reverse__doc__},
 
 static PyObject *
 list_reverse_impl(PyListObject *self);
@@ -309,8 +317,9 @@ PyDoc_STRVAR(list_index__doc__,
 "\n"
 "Raises ValueError if the value is not present.");
 
+static struct {char name[];} list_index_MethodName = {.name = "index",};
 #define LIST_INDEX_METHODDEF    \
-    {"index", _PyCFunction_CAST(list_index), METH_FASTCALL|METH_C_STACK_FRUGAL, list_index__doc__},
+    {list_index_MethodName.name, _PyCFunction_CAST(list_index), METH_FASTCALL|METH_C_STACK_FRUGAL, list_index__doc__},
 
 static PyObject *
 list_index_impl(PyListObject *self, PyObject *value, Py_ssize_t start,
@@ -353,8 +362,9 @@ PyDoc_STRVAR(list_count__doc__,
 "\n"
 "Return number of occurrences of value.");
 
+static struct {char name[];} list_count_MethodName = {.name = "count",};
 #define LIST_COUNT_METHODDEF    \
-    {"count", (PyCFunction)list_count, METH_O|METH_C_STACK_FRUGAL, list_count__doc__},
+    {list_count_MethodName.name, (PyCFunction)list_count, METH_O|METH_C_STACK_FRUGAL, list_count__doc__},
 
 static PyObject *
 list_count_impl(PyListObject *self, PyObject *value);
@@ -377,8 +387,9 @@ PyDoc_STRVAR(list_remove__doc__,
 "\n"
 "Raises ValueError if the value is not present.");
 
+static struct {char name[];} list_remove_MethodName = {.name = "remove",};
 #define LIST_REMOVE_METHODDEF    \
-    {"remove", (PyCFunction)list_remove, METH_O|METH_C_STACK_FRUGAL, list_remove__doc__},
+    {list_remove_MethodName.name, (PyCFunction)list_remove, METH_O|METH_C_STACK_FRUGAL, list_remove__doc__},
 
 static PyObject *
 list_remove_impl(PyListObject *self, PyObject *value);
@@ -439,8 +450,9 @@ PyDoc_STRVAR(list___sizeof____doc__,
 "\n"
 "Return the size of the list in memory, in bytes.");
 
+static struct {char name[];} list___sizeof___MethodName = {.name = "__sizeof__",};
 #define LIST___SIZEOF___METHODDEF    \
-    {"__sizeof__", (PyCFunction)list___sizeof__, METH_NOARGS|METH_C_STACK_FRUGAL, list___sizeof____doc__},
+    {list___sizeof___MethodName.name, (PyCFunction)list___sizeof__, METH_NOARGS|METH_C_STACK_FRUGAL, list___sizeof____doc__},
 
 static PyObject *
 list___sizeof___impl(PyListObject *self);
@@ -457,8 +469,9 @@ PyDoc_STRVAR(list___reversed____doc__,
 "\n"
 "Return a reverse iterator over the list.");
 
+static struct {char name[];} list___reversed___MethodName = {.name = "__reversed__",};
 #define LIST___REVERSED___METHODDEF    \
-    {"__reversed__", (PyCFunction)list___reversed__, METH_NOARGS|METH_C_STACK_FRUGAL, list___reversed____doc__},
+    {list___reversed___MethodName.name, (PyCFunction)list___reversed__, METH_NOARGS|METH_C_STACK_FRUGAL, list___reversed____doc__},
 
 static PyObject *
 list___reversed___impl(PyListObject *self);
@@ -468,4 +481,4 @@ list___reversed__(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return list___reversed___impl((PyListObject *)self);
 }
-/*[clinic end generated code: output=497644a02b80dd3c input=a9049054013a1b77]*/
+/*[clinic end generated code: output=0db7b56fc0815d61 input=a9049054013a1b77]*/

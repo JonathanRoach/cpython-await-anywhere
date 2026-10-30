@@ -11,8 +11,9 @@ PyDoc_STRVAR(_multiprocessing_closesocket__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _multiprocessing_closesocket_MethodName = {.name = "closesocket",};
 #define _MULTIPROCESSING_CLOSESOCKET_METHODDEF    \
-    {"closesocket", (PyCFunction)_multiprocessing_closesocket, METH_O|METH_C_STACK_FRUGAL, _multiprocessing_closesocket__doc__},
+    {_multiprocessing_closesocket_MethodName.name, (PyCFunction)_multiprocessing_closesocket, METH_O|METH_C_STACK_FRUGAL, _multiprocessing_closesocket__doc__},
 
 static PyObject *
 _multiprocessing_closesocket_impl(PyObject *module, HANDLE handle);
@@ -42,8 +43,9 @@ PyDoc_STRVAR(_multiprocessing_recv__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _multiprocessing_recv_MethodName = {.name = "recv",};
 #define _MULTIPROCESSING_RECV_METHODDEF    \
-    {"recv", _PyCFunction_CAST(_multiprocessing_recv), METH_FASTCALL|METH_C_STACK_FRUGAL, _multiprocessing_recv__doc__},
+    {_multiprocessing_recv_MethodName.name, _PyCFunction_CAST(_multiprocessing_recv), METH_FASTCALL|METH_C_STACK_FRUGAL, _multiprocessing_recv__doc__},
 
 static PyObject *
 _multiprocessing_recv_impl(PyObject *module, HANDLE handle, int size);
@@ -81,8 +83,9 @@ PyDoc_STRVAR(_multiprocessing_send__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _multiprocessing_send_MethodName = {.name = "send",};
 #define _MULTIPROCESSING_SEND_METHODDEF    \
-    {"send", _PyCFunction_CAST(_multiprocessing_send), METH_FASTCALL|METH_C_STACK_FRUGAL, _multiprocessing_send__doc__},
+    {_multiprocessing_send_MethodName.name, _PyCFunction_CAST(_multiprocessing_send), METH_FASTCALL|METH_C_STACK_FRUGAL, _multiprocessing_send__doc__},
 
 static PyObject *
 _multiprocessing_send_impl(PyObject *module, HANDLE handle, Py_buffer *buf);
@@ -122,8 +125,9 @@ PyDoc_STRVAR(_multiprocessing_sem_unlink__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _multiprocessing_sem_unlink_MethodName = {.name = "sem_unlink",};
 #define _MULTIPROCESSING_SEM_UNLINK_METHODDEF    \
-    {"sem_unlink", (PyCFunction)_multiprocessing_sem_unlink, METH_O|METH_C_STACK_FRUGAL, _multiprocessing_sem_unlink__doc__},
+    {_multiprocessing_sem_unlink_MethodName.name, (PyCFunction)_multiprocessing_sem_unlink, METH_O|METH_C_STACK_FRUGAL, _multiprocessing_sem_unlink__doc__},
 
 static PyObject *
 _multiprocessing_sem_unlink_impl(PyObject *module, const char *name);
@@ -164,4 +168,4 @@ exit:
 #ifndef _MULTIPROCESSING_SEND_METHODDEF
     #define _MULTIPROCESSING_SEND_METHODDEF
 #endif /* !defined(_MULTIPROCESSING_SEND_METHODDEF) */
-/*[clinic end generated code: output=182c1a0e3b608115 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=5980d0e216659071 input=a9049054013a1b77]*/

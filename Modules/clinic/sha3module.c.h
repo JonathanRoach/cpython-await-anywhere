@@ -99,8 +99,9 @@ PyDoc_STRVAR(_sha3_sha3_224_copy__doc__,
 "\n"
 "Return a copy of the hash object.");
 
+static struct {char name[];} _sha3_sha3_224_copy_MethodName = {.name = "copy",};
 #define _SHA3_SHA3_224_COPY_METHODDEF    \
-    {"copy", (PyCFunction)_sha3_sha3_224_copy, METH_NOARGS|METH_C_STACK_FRUGAL, _sha3_sha3_224_copy__doc__},
+    {_sha3_sha3_224_copy_MethodName.name, (PyCFunction)_sha3_sha3_224_copy, METH_NOARGS|METH_C_STACK_FRUGAL, _sha3_sha3_224_copy__doc__},
 
 static PyObject *
 _sha3_sha3_224_copy_impl(SHA3object *self);
@@ -117,8 +118,9 @@ PyDoc_STRVAR(_sha3_sha3_224_digest__doc__,
 "\n"
 "Return the digest value as a bytes object.");
 
+static struct {char name[];} _sha3_sha3_224_digest_MethodName = {.name = "digest",};
 #define _SHA3_SHA3_224_DIGEST_METHODDEF    \
-    {"digest", (PyCFunction)_sha3_sha3_224_digest, METH_NOARGS|METH_C_STACK_FRUGAL, _sha3_sha3_224_digest__doc__},
+    {_sha3_sha3_224_digest_MethodName.name, (PyCFunction)_sha3_sha3_224_digest, METH_NOARGS|METH_C_STACK_FRUGAL, _sha3_sha3_224_digest__doc__},
 
 static PyObject *
 _sha3_sha3_224_digest_impl(SHA3object *self);
@@ -135,8 +137,9 @@ PyDoc_STRVAR(_sha3_sha3_224_hexdigest__doc__,
 "\n"
 "Return the digest value as a string of hexadecimal digits.");
 
+static struct {char name[];} _sha3_sha3_224_hexdigest_MethodName = {.name = "hexdigest",};
 #define _SHA3_SHA3_224_HEXDIGEST_METHODDEF    \
-    {"hexdigest", (PyCFunction)_sha3_sha3_224_hexdigest, METH_NOARGS|METH_C_STACK_FRUGAL, _sha3_sha3_224_hexdigest__doc__},
+    {_sha3_sha3_224_hexdigest_MethodName.name, (PyCFunction)_sha3_sha3_224_hexdigest, METH_NOARGS|METH_C_STACK_FRUGAL, _sha3_sha3_224_hexdigest__doc__},
 
 static PyObject *
 _sha3_sha3_224_hexdigest_impl(SHA3object *self);
@@ -153,8 +156,9 @@ PyDoc_STRVAR(_sha3_sha3_224_update__doc__,
 "\n"
 "Update this hash object\'s state with the provided bytes-like object.");
 
+static struct {char name[];} _sha3_sha3_224_update_MethodName = {.name = "update",};
 #define _SHA3_SHA3_224_UPDATE_METHODDEF    \
-    {"update", (PyCFunction)_sha3_sha3_224_update, METH_O|METH_C_STACK_FRUGAL, _sha3_sha3_224_update__doc__},
+    {_sha3_sha3_224_update_MethodName.name, (PyCFunction)_sha3_sha3_224_update, METH_O|METH_C_STACK_FRUGAL, _sha3_sha3_224_update__doc__},
 
 static PyObject *
 _sha3_sha3_224_update_impl(SHA3object *self, PyObject *data);
@@ -175,8 +179,9 @@ PyDoc_STRVAR(_sha3_shake_128_digest__doc__,
 "\n"
 "Return the digest value as a bytes object.");
 
+static struct {char name[];} _sha3_shake_128_digest_MethodName = {.name = "digest",};
 #define _SHA3_SHAKE_128_DIGEST_METHODDEF    \
-    {"digest", _PyCFunction_CAST(_sha3_shake_128_digest), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sha3_shake_128_digest__doc__},
+    {_sha3_shake_128_digest_MethodName.name, _PyCFunction_CAST(_sha3_shake_128_digest), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sha3_shake_128_digest__doc__},
 
 static PyObject *
 _sha3_shake_128_digest_impl(SHA3object *self, unsigned long length);
@@ -235,8 +240,9 @@ PyDoc_STRVAR(_sha3_shake_128_hexdigest__doc__,
 "\n"
 "Return the digest value as a string of hexadecimal digits.");
 
+static struct {char name[];} _sha3_shake_128_hexdigest_MethodName = {.name = "hexdigest",};
 #define _SHA3_SHAKE_128_HEXDIGEST_METHODDEF    \
-    {"hexdigest", _PyCFunction_CAST(_sha3_shake_128_hexdigest), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sha3_shake_128_hexdigest__doc__},
+    {_sha3_shake_128_hexdigest_MethodName.name, _PyCFunction_CAST(_sha3_shake_128_hexdigest), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sha3_shake_128_hexdigest__doc__},
 
 static PyObject *
 _sha3_shake_128_hexdigest_impl(SHA3object *self, unsigned long length);
@@ -288,4 +294,4 @@ _sha3_shake_128_hexdigest(PyObject *self, PyObject *const *args, Py_ssize_t narg
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=e5841a2241e9a517 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=aa408350271bf0be input=a9049054013a1b77]*/

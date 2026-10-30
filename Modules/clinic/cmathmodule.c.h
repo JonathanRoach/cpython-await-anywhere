@@ -14,8 +14,9 @@ PyDoc_STRVAR(cmath_acos__doc__,
 "\n"
 "Return the arc cosine of z.");
 
+static struct {char name[];} cmath_acos_MethodName = {.name = "acos",};
 #define CMATH_ACOS_METHODDEF    \
-    {"acos", (PyCFunction)cmath_acos, METH_O|METH_C_STACK_FRUGAL, cmath_acos__doc__},
+    {cmath_acos_MethodName.name, (PyCFunction)cmath_acos, METH_O|METH_C_STACK_FRUGAL, cmath_acos__doc__},
 
 static Py_complex
 cmath_acos_impl(PyObject *module, Py_complex z);
@@ -56,8 +57,9 @@ PyDoc_STRVAR(cmath_acosh__doc__,
 "\n"
 "Return the inverse hyperbolic cosine of z.");
 
+static struct {char name[];} cmath_acosh_MethodName = {.name = "acosh",};
 #define CMATH_ACOSH_METHODDEF    \
-    {"acosh", (PyCFunction)cmath_acosh, METH_O|METH_C_STACK_FRUGAL, cmath_acosh__doc__},
+    {cmath_acosh_MethodName.name, (PyCFunction)cmath_acosh, METH_O|METH_C_STACK_FRUGAL, cmath_acosh__doc__},
 
 static Py_complex
 cmath_acosh_impl(PyObject *module, Py_complex z);
@@ -98,8 +100,9 @@ PyDoc_STRVAR(cmath_asin__doc__,
 "\n"
 "Return the arc sine of z.");
 
+static struct {char name[];} cmath_asin_MethodName = {.name = "asin",};
 #define CMATH_ASIN_METHODDEF    \
-    {"asin", (PyCFunction)cmath_asin, METH_O|METH_C_STACK_FRUGAL, cmath_asin__doc__},
+    {cmath_asin_MethodName.name, (PyCFunction)cmath_asin, METH_O|METH_C_STACK_FRUGAL, cmath_asin__doc__},
 
 static Py_complex
 cmath_asin_impl(PyObject *module, Py_complex z);
@@ -140,8 +143,9 @@ PyDoc_STRVAR(cmath_asinh__doc__,
 "\n"
 "Return the inverse hyperbolic sine of z.");
 
+static struct {char name[];} cmath_asinh_MethodName = {.name = "asinh",};
 #define CMATH_ASINH_METHODDEF    \
-    {"asinh", (PyCFunction)cmath_asinh, METH_O|METH_C_STACK_FRUGAL, cmath_asinh__doc__},
+    {cmath_asinh_MethodName.name, (PyCFunction)cmath_asinh, METH_O|METH_C_STACK_FRUGAL, cmath_asinh__doc__},
 
 static Py_complex
 cmath_asinh_impl(PyObject *module, Py_complex z);
@@ -182,8 +186,9 @@ PyDoc_STRVAR(cmath_atan__doc__,
 "\n"
 "Return the arc tangent of z.");
 
+static struct {char name[];} cmath_atan_MethodName = {.name = "atan",};
 #define CMATH_ATAN_METHODDEF    \
-    {"atan", (PyCFunction)cmath_atan, METH_O|METH_C_STACK_FRUGAL, cmath_atan__doc__},
+    {cmath_atan_MethodName.name, (PyCFunction)cmath_atan, METH_O|METH_C_STACK_FRUGAL, cmath_atan__doc__},
 
 static Py_complex
 cmath_atan_impl(PyObject *module, Py_complex z);
@@ -224,8 +229,9 @@ PyDoc_STRVAR(cmath_atanh__doc__,
 "\n"
 "Return the inverse hyperbolic tangent of z.");
 
+static struct {char name[];} cmath_atanh_MethodName = {.name = "atanh",};
 #define CMATH_ATANH_METHODDEF    \
-    {"atanh", (PyCFunction)cmath_atanh, METH_O|METH_C_STACK_FRUGAL, cmath_atanh__doc__},
+    {cmath_atanh_MethodName.name, (PyCFunction)cmath_atanh, METH_O|METH_C_STACK_FRUGAL, cmath_atanh__doc__},
 
 static Py_complex
 cmath_atanh_impl(PyObject *module, Py_complex z);
@@ -266,8 +272,9 @@ PyDoc_STRVAR(cmath_cos__doc__,
 "\n"
 "Return the cosine of z.");
 
+static struct {char name[];} cmath_cos_MethodName = {.name = "cos",};
 #define CMATH_COS_METHODDEF    \
-    {"cos", (PyCFunction)cmath_cos, METH_O|METH_C_STACK_FRUGAL, cmath_cos__doc__},
+    {cmath_cos_MethodName.name, (PyCFunction)cmath_cos, METH_O|METH_C_STACK_FRUGAL, cmath_cos__doc__},
 
 static Py_complex
 cmath_cos_impl(PyObject *module, Py_complex z);
@@ -308,8 +315,9 @@ PyDoc_STRVAR(cmath_cosh__doc__,
 "\n"
 "Return the hyperbolic cosine of z.");
 
+static struct {char name[];} cmath_cosh_MethodName = {.name = "cosh",};
 #define CMATH_COSH_METHODDEF    \
-    {"cosh", (PyCFunction)cmath_cosh, METH_O|METH_C_STACK_FRUGAL, cmath_cosh__doc__},
+    {cmath_cosh_MethodName.name, (PyCFunction)cmath_cosh, METH_O|METH_C_STACK_FRUGAL, cmath_cosh__doc__},
 
 static Py_complex
 cmath_cosh_impl(PyObject *module, Py_complex z);
@@ -350,8 +358,9 @@ PyDoc_STRVAR(cmath_exp__doc__,
 "\n"
 "Return the exponential value e**z.");
 
+static struct {char name[];} cmath_exp_MethodName = {.name = "exp",};
 #define CMATH_EXP_METHODDEF    \
-    {"exp", (PyCFunction)cmath_exp, METH_O|METH_C_STACK_FRUGAL, cmath_exp__doc__},
+    {cmath_exp_MethodName.name, (PyCFunction)cmath_exp, METH_O|METH_C_STACK_FRUGAL, cmath_exp__doc__},
 
 static Py_complex
 cmath_exp_impl(PyObject *module, Py_complex z);
@@ -392,8 +401,9 @@ PyDoc_STRVAR(cmath_log10__doc__,
 "\n"
 "Return the base-10 logarithm of z.");
 
+static struct {char name[];} cmath_log10_MethodName = {.name = "log10",};
 #define CMATH_LOG10_METHODDEF    \
-    {"log10", (PyCFunction)cmath_log10, METH_O|METH_C_STACK_FRUGAL, cmath_log10__doc__},
+    {cmath_log10_MethodName.name, (PyCFunction)cmath_log10, METH_O|METH_C_STACK_FRUGAL, cmath_log10__doc__},
 
 static Py_complex
 cmath_log10_impl(PyObject *module, Py_complex z);
@@ -434,8 +444,9 @@ PyDoc_STRVAR(cmath_sin__doc__,
 "\n"
 "Return the sine of z.");
 
+static struct {char name[];} cmath_sin_MethodName = {.name = "sin",};
 #define CMATH_SIN_METHODDEF    \
-    {"sin", (PyCFunction)cmath_sin, METH_O|METH_C_STACK_FRUGAL, cmath_sin__doc__},
+    {cmath_sin_MethodName.name, (PyCFunction)cmath_sin, METH_O|METH_C_STACK_FRUGAL, cmath_sin__doc__},
 
 static Py_complex
 cmath_sin_impl(PyObject *module, Py_complex z);
@@ -476,8 +487,9 @@ PyDoc_STRVAR(cmath_sinh__doc__,
 "\n"
 "Return the hyperbolic sine of z.");
 
+static struct {char name[];} cmath_sinh_MethodName = {.name = "sinh",};
 #define CMATH_SINH_METHODDEF    \
-    {"sinh", (PyCFunction)cmath_sinh, METH_O|METH_C_STACK_FRUGAL, cmath_sinh__doc__},
+    {cmath_sinh_MethodName.name, (PyCFunction)cmath_sinh, METH_O|METH_C_STACK_FRUGAL, cmath_sinh__doc__},
 
 static Py_complex
 cmath_sinh_impl(PyObject *module, Py_complex z);
@@ -518,8 +530,9 @@ PyDoc_STRVAR(cmath_sqrt__doc__,
 "\n"
 "Return the square root of z.");
 
+static struct {char name[];} cmath_sqrt_MethodName = {.name = "sqrt",};
 #define CMATH_SQRT_METHODDEF    \
-    {"sqrt", (PyCFunction)cmath_sqrt, METH_O|METH_C_STACK_FRUGAL, cmath_sqrt__doc__},
+    {cmath_sqrt_MethodName.name, (PyCFunction)cmath_sqrt, METH_O|METH_C_STACK_FRUGAL, cmath_sqrt__doc__},
 
 static Py_complex
 cmath_sqrt_impl(PyObject *module, Py_complex z);
@@ -560,8 +573,9 @@ PyDoc_STRVAR(cmath_tan__doc__,
 "\n"
 "Return the tangent of z.");
 
+static struct {char name[];} cmath_tan_MethodName = {.name = "tan",};
 #define CMATH_TAN_METHODDEF    \
-    {"tan", (PyCFunction)cmath_tan, METH_O|METH_C_STACK_FRUGAL, cmath_tan__doc__},
+    {cmath_tan_MethodName.name, (PyCFunction)cmath_tan, METH_O|METH_C_STACK_FRUGAL, cmath_tan__doc__},
 
 static Py_complex
 cmath_tan_impl(PyObject *module, Py_complex z);
@@ -602,8 +616,9 @@ PyDoc_STRVAR(cmath_tanh__doc__,
 "\n"
 "Return the hyperbolic tangent of z.");
 
+static struct {char name[];} cmath_tanh_MethodName = {.name = "tanh",};
 #define CMATH_TANH_METHODDEF    \
-    {"tanh", (PyCFunction)cmath_tanh, METH_O|METH_C_STACK_FRUGAL, cmath_tanh__doc__},
+    {cmath_tanh_MethodName.name, (PyCFunction)cmath_tanh, METH_O|METH_C_STACK_FRUGAL, cmath_tanh__doc__},
 
 static Py_complex
 cmath_tanh_impl(PyObject *module, Py_complex z);
@@ -646,8 +661,9 @@ PyDoc_STRVAR(cmath_log__doc__,
 "\n"
 "If the base is not specified, returns the natural logarithm (base e) of z.");
 
+static struct {char name[];} cmath_log_MethodName = {.name = "log",};
 #define CMATH_LOG_METHODDEF    \
-    {"log", _PyCFunction_CAST(cmath_log), METH_FASTCALL|METH_C_STACK_FRUGAL, cmath_log__doc__},
+    {cmath_log_MethodName.name, _PyCFunction_CAST(cmath_log), METH_FASTCALL|METH_C_STACK_FRUGAL, cmath_log__doc__},
 
 static PyObject *
 cmath_log_impl(PyObject *module, Py_complex x, PyObject *y_obj);
@@ -683,8 +699,9 @@ PyDoc_STRVAR(cmath_phase__doc__,
 "\n"
 "Return argument, also known as the phase angle, of a complex.");
 
+static struct {char name[];} cmath_phase_MethodName = {.name = "phase",};
 #define CMATH_PHASE_METHODDEF    \
-    {"phase", (PyCFunction)cmath_phase, METH_O|METH_C_STACK_FRUGAL, cmath_phase__doc__},
+    {cmath_phase_MethodName.name, (PyCFunction)cmath_phase, METH_O|METH_C_STACK_FRUGAL, cmath_phase__doc__},
 
 static PyObject *
 cmath_phase_impl(PyObject *module, Py_complex z);
@@ -713,8 +730,9 @@ PyDoc_STRVAR(cmath_polar__doc__,
 "\n"
 "r is the distance from 0 and phi the phase angle.");
 
+static struct {char name[];} cmath_polar_MethodName = {.name = "polar",};
 #define CMATH_POLAR_METHODDEF    \
-    {"polar", (PyCFunction)cmath_polar, METH_O|METH_C_STACK_FRUGAL, cmath_polar__doc__},
+    {cmath_polar_MethodName.name, (PyCFunction)cmath_polar, METH_O|METH_C_STACK_FRUGAL, cmath_polar__doc__},
 
 static PyObject *
 cmath_polar_impl(PyObject *module, Py_complex z);
@@ -741,8 +759,9 @@ PyDoc_STRVAR(cmath_rect__doc__,
 "\n"
 "Convert from polar coordinates to rectangular coordinates.");
 
+static struct {char name[];} cmath_rect_MethodName = {.name = "rect",};
 #define CMATH_RECT_METHODDEF    \
-    {"rect", _PyCFunction_CAST(cmath_rect), METH_FASTCALL|METH_C_STACK_FRUGAL, cmath_rect__doc__},
+    {cmath_rect_MethodName.name, _PyCFunction_CAST(cmath_rect), METH_FASTCALL|METH_C_STACK_FRUGAL, cmath_rect__doc__},
 
 static PyObject *
 cmath_rect_impl(PyObject *module, double r, double phi);
@@ -789,8 +808,9 @@ PyDoc_STRVAR(cmath_isfinite__doc__,
 "\n"
 "Return True if both the real and imaginary parts of z are finite, else False.");
 
+static struct {char name[];} cmath_isfinite_MethodName = {.name = "isfinite",};
 #define CMATH_ISFINITE_METHODDEF    \
-    {"isfinite", (PyCFunction)cmath_isfinite, METH_O|METH_C_STACK_FRUGAL, cmath_isfinite__doc__},
+    {cmath_isfinite_MethodName.name, (PyCFunction)cmath_isfinite, METH_O|METH_C_STACK_FRUGAL, cmath_isfinite__doc__},
 
 static PyObject *
 cmath_isfinite_impl(PyObject *module, Py_complex z);
@@ -817,8 +837,9 @@ PyDoc_STRVAR(cmath_isnan__doc__,
 "\n"
 "Checks if the real or imaginary part of z not a number (NaN).");
 
+static struct {char name[];} cmath_isnan_MethodName = {.name = "isnan",};
 #define CMATH_ISNAN_METHODDEF    \
-    {"isnan", (PyCFunction)cmath_isnan, METH_O|METH_C_STACK_FRUGAL, cmath_isnan__doc__},
+    {cmath_isnan_MethodName.name, (PyCFunction)cmath_isnan, METH_O|METH_C_STACK_FRUGAL, cmath_isnan__doc__},
 
 static PyObject *
 cmath_isnan_impl(PyObject *module, Py_complex z);
@@ -845,8 +866,9 @@ PyDoc_STRVAR(cmath_isinf__doc__,
 "\n"
 "Checks if the real or imaginary part of z is infinite.");
 
+static struct {char name[];} cmath_isinf_MethodName = {.name = "isinf",};
 #define CMATH_ISINF_METHODDEF    \
-    {"isinf", (PyCFunction)cmath_isinf, METH_O|METH_C_STACK_FRUGAL, cmath_isinf__doc__},
+    {cmath_isinf_MethodName.name, (PyCFunction)cmath_isinf, METH_O|METH_C_STACK_FRUGAL, cmath_isinf__doc__},
 
 static PyObject *
 cmath_isinf_impl(PyObject *module, Py_complex z);
@@ -888,8 +910,9 @@ PyDoc_STRVAR(cmath_isclose__doc__,
 "-inf, inf and NaN behave similarly to the IEEE 754 Standard. That is, NaN is\n"
 "not close to anything, even itself. inf and -inf are only close to themselves.");
 
+static struct {char name[];} cmath_isclose_MethodName = {.name = "isclose",};
 #define CMATH_ISCLOSE_METHODDEF    \
-    {"isclose", _PyCFunction_CAST(cmath_isclose), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, cmath_isclose__doc__},
+    {cmath_isclose_MethodName.name, _PyCFunction_CAST(cmath_isclose), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, cmath_isclose__doc__},
 
 static int
 cmath_isclose_impl(PyObject *module, Py_complex a, Py_complex b,
@@ -985,4 +1008,4 @@ skip_optional_kwonly:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=86199977354517ff input=a9049054013a1b77]*/
+/*[clinic end generated code: output=985a5190ddd6a239 input=a9049054013a1b77]*/

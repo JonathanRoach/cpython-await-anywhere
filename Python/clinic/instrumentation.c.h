@@ -9,8 +9,9 @@ PyDoc_STRVAR(monitoring_use_tool_id__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} monitoring_use_tool_id_MethodName = {.name = "use_tool_id",};
 #define MONITORING_USE_TOOL_ID_METHODDEF    \
-    {"use_tool_id", _PyCFunction_CAST(monitoring_use_tool_id), METH_FASTCALL|METH_C_STACK_FRUGAL, monitoring_use_tool_id__doc__},
+    {monitoring_use_tool_id_MethodName.name, _PyCFunction_CAST(monitoring_use_tool_id), METH_FASTCALL|METH_C_STACK_FRUGAL, monitoring_use_tool_id__doc__},
 
 static PyObject *
 monitoring_use_tool_id_impl(PyObject *module, int tool_id, PyObject *name);
@@ -41,8 +42,9 @@ PyDoc_STRVAR(monitoring_clear_tool_id__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} monitoring_clear_tool_id_MethodName = {.name = "clear_tool_id",};
 #define MONITORING_CLEAR_TOOL_ID_METHODDEF    \
-    {"clear_tool_id", (PyCFunction)monitoring_clear_tool_id, METH_O|METH_C_STACK_FRUGAL, monitoring_clear_tool_id__doc__},
+    {monitoring_clear_tool_id_MethodName.name, (PyCFunction)monitoring_clear_tool_id, METH_O|METH_C_STACK_FRUGAL, monitoring_clear_tool_id__doc__},
 
 static PyObject *
 monitoring_clear_tool_id_impl(PyObject *module, int tool_id);
@@ -68,8 +70,9 @@ PyDoc_STRVAR(monitoring_free_tool_id__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} monitoring_free_tool_id_MethodName = {.name = "free_tool_id",};
 #define MONITORING_FREE_TOOL_ID_METHODDEF    \
-    {"free_tool_id", (PyCFunction)monitoring_free_tool_id, METH_O|METH_C_STACK_FRUGAL, monitoring_free_tool_id__doc__},
+    {monitoring_free_tool_id_MethodName.name, (PyCFunction)monitoring_free_tool_id, METH_O|METH_C_STACK_FRUGAL, monitoring_free_tool_id__doc__},
 
 static PyObject *
 monitoring_free_tool_id_impl(PyObject *module, int tool_id);
@@ -95,8 +98,9 @@ PyDoc_STRVAR(monitoring_get_tool__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} monitoring_get_tool_MethodName = {.name = "get_tool",};
 #define MONITORING_GET_TOOL_METHODDEF    \
-    {"get_tool", (PyCFunction)monitoring_get_tool, METH_O|METH_C_STACK_FRUGAL, monitoring_get_tool__doc__},
+    {monitoring_get_tool_MethodName.name, (PyCFunction)monitoring_get_tool, METH_O|METH_C_STACK_FRUGAL, monitoring_get_tool__doc__},
 
 static PyObject *
 monitoring_get_tool_impl(PyObject *module, int tool_id);
@@ -122,8 +126,9 @@ PyDoc_STRVAR(monitoring_register_callback__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} monitoring_register_callback_MethodName = {.name = "register_callback",};
 #define MONITORING_REGISTER_CALLBACK_METHODDEF    \
-    {"register_callback", _PyCFunction_CAST(monitoring_register_callback), METH_FASTCALL|METH_C_STACK_FRUGAL, monitoring_register_callback__doc__},
+    {monitoring_register_callback_MethodName.name, _PyCFunction_CAST(monitoring_register_callback), METH_FASTCALL|METH_C_STACK_FRUGAL, monitoring_register_callback__doc__},
 
 static PyObject *
 monitoring_register_callback_impl(PyObject *module, int tool_id, int event,
@@ -160,8 +165,9 @@ PyDoc_STRVAR(monitoring_get_events__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} monitoring_get_events_MethodName = {.name = "get_events",};
 #define MONITORING_GET_EVENTS_METHODDEF    \
-    {"get_events", (PyCFunction)monitoring_get_events, METH_O|METH_C_STACK_FRUGAL, monitoring_get_events__doc__},
+    {monitoring_get_events_MethodName.name, (PyCFunction)monitoring_get_events, METH_O|METH_C_STACK_FRUGAL, monitoring_get_events__doc__},
 
 static int
 monitoring_get_events_impl(PyObject *module, int tool_id);
@@ -192,8 +198,9 @@ PyDoc_STRVAR(monitoring_set_events__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} monitoring_set_events_MethodName = {.name = "set_events",};
 #define MONITORING_SET_EVENTS_METHODDEF    \
-    {"set_events", _PyCFunction_CAST(monitoring_set_events), METH_FASTCALL|METH_C_STACK_FRUGAL, monitoring_set_events__doc__},
+    {monitoring_set_events_MethodName.name, _PyCFunction_CAST(monitoring_set_events), METH_FASTCALL|METH_C_STACK_FRUGAL, monitoring_set_events__doc__},
 
 static PyObject *
 monitoring_set_events_impl(PyObject *module, int tool_id, int event_set);
@@ -227,8 +234,9 @@ PyDoc_STRVAR(monitoring_get_local_events__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} monitoring_get_local_events_MethodName = {.name = "get_local_events",};
 #define MONITORING_GET_LOCAL_EVENTS_METHODDEF    \
-    {"get_local_events", _PyCFunction_CAST(monitoring_get_local_events), METH_FASTCALL|METH_C_STACK_FRUGAL, monitoring_get_local_events__doc__},
+    {monitoring_get_local_events_MethodName.name, _PyCFunction_CAST(monitoring_get_local_events), METH_FASTCALL|METH_C_STACK_FRUGAL, monitoring_get_local_events__doc__},
 
 static int
 monitoring_get_local_events_impl(PyObject *module, int tool_id,
@@ -265,8 +273,9 @@ PyDoc_STRVAR(monitoring_set_local_events__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} monitoring_set_local_events_MethodName = {.name = "set_local_events",};
 #define MONITORING_SET_LOCAL_EVENTS_METHODDEF    \
-    {"set_local_events", _PyCFunction_CAST(monitoring_set_local_events), METH_FASTCALL|METH_C_STACK_FRUGAL, monitoring_set_local_events__doc__},
+    {monitoring_set_local_events_MethodName.name, _PyCFunction_CAST(monitoring_set_local_events), METH_FASTCALL|METH_C_STACK_FRUGAL, monitoring_set_local_events__doc__},
 
 static PyObject *
 monitoring_set_local_events_impl(PyObject *module, int tool_id,
@@ -303,8 +312,9 @@ PyDoc_STRVAR(monitoring_restart_events__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} monitoring_restart_events_MethodName = {.name = "restart_events",};
 #define MONITORING_RESTART_EVENTS_METHODDEF    \
-    {"restart_events", (PyCFunction)monitoring_restart_events, METH_NOARGS|METH_C_STACK_FRUGAL, monitoring_restart_events__doc__},
+    {monitoring_restart_events_MethodName.name, (PyCFunction)monitoring_restart_events, METH_NOARGS|METH_C_STACK_FRUGAL, monitoring_restart_events__doc__},
 
 static PyObject *
 monitoring_restart_events_impl(PyObject *module);
@@ -320,8 +330,9 @@ PyDoc_STRVAR(monitoring__all_events__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} monitoring__all_events_MethodName = {.name = "_all_events",};
 #define MONITORING__ALL_EVENTS_METHODDEF    \
-    {"_all_events", (PyCFunction)monitoring__all_events, METH_NOARGS|METH_C_STACK_FRUGAL, monitoring__all_events__doc__},
+    {monitoring__all_events_MethodName.name, (PyCFunction)monitoring__all_events, METH_NOARGS|METH_C_STACK_FRUGAL, monitoring__all_events__doc__},
 
 static PyObject *
 monitoring__all_events_impl(PyObject *module);
@@ -331,4 +342,4 @@ monitoring__all_events(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return monitoring__all_events_impl(module);
 }
-/*[clinic end generated code: output=72de55c3eb5cea95 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=7b64feefab25f7e1 input=a9049054013a1b77]*/

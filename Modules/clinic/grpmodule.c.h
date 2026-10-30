@@ -16,8 +16,9 @@ PyDoc_STRVAR(grp_getgrgid__doc__,
 "\n"
 "If id is not valid, raise KeyError.");
 
+static struct {char name[];} grp_getgrgid_MethodName = {.name = "getgrgid",};
 #define GRP_GETGRGID_METHODDEF    \
-    {"getgrgid", _PyCFunction_CAST(grp_getgrgid), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, grp_getgrgid__doc__},
+    {grp_getgrgid_MethodName.name, _PyCFunction_CAST(grp_getgrgid), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, grp_getgrgid__doc__},
 
 static PyObject *
 grp_getgrgid_impl(PyObject *module, PyObject *id);
@@ -76,8 +77,9 @@ PyDoc_STRVAR(grp_getgrnam__doc__,
 "\n"
 "If name is not valid, raise KeyError.");
 
+static struct {char name[];} grp_getgrnam_MethodName = {.name = "getgrnam",};
 #define GRP_GETGRNAM_METHODDEF    \
-    {"getgrnam", _PyCFunction_CAST(grp_getgrnam), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, grp_getgrnam__doc__},
+    {grp_getgrnam_MethodName.name, _PyCFunction_CAST(grp_getgrnam), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, grp_getgrnam__doc__},
 
 static PyObject *
 grp_getgrnam_impl(PyObject *module, PyObject *name);
@@ -141,8 +143,9 @@ PyDoc_STRVAR(grp_getgrall__doc__,
 "An entry whose name starts with \'+\' or \'-\' represents an instruction\n"
 "to use YP/NIS and may not be accessible via getgrnam or getgrgid.");
 
+static struct {char name[];} grp_getgrall_MethodName = {.name = "getgrall",};
 #define GRP_GETGRALL_METHODDEF    \
-    {"getgrall", (PyCFunction)grp_getgrall, METH_NOARGS|METH_C_STACK_FRUGAL, grp_getgrall__doc__},
+    {grp_getgrall_MethodName.name, (PyCFunction)grp_getgrall, METH_NOARGS|METH_C_STACK_FRUGAL, grp_getgrall__doc__},
 
 static PyObject *
 grp_getgrall_impl(PyObject *module);
@@ -152,4 +155,4 @@ grp_getgrall(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return grp_getgrall_impl(module);
 }
-/*[clinic end generated code: output=5eb01a606ef19506 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=8344bd688f3dec88 input=a9049054013a1b77]*/

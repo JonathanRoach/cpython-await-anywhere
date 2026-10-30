@@ -20,8 +20,9 @@ PyDoc_STRVAR(_io__WindowsConsoleIO_close__doc__,
 "A closed console object cannot be used for further I/O operations.\n"
 "close() may be called more than once without error.");
 
+static struct {char name[];} _io__WindowsConsoleIO_close_MethodName = {.name = "close",};
 #define _IO__WINDOWSCONSOLEIO_CLOSE_METHODDEF    \
-    {"close", _PyCFunction_CAST(_io__WindowsConsoleIO_close), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _io__WindowsConsoleIO_close__doc__},
+    {_io__WindowsConsoleIO_close_MethodName.name, _PyCFunction_CAST(_io__WindowsConsoleIO_close), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _io__WindowsConsoleIO_close__doc__},
 
 static PyObject *
 _io__WindowsConsoleIO_close_impl(winconsoleio *self, PyTypeObject *cls);
@@ -149,8 +150,9 @@ PyDoc_STRVAR(_io__WindowsConsoleIO_fileno__doc__,
 "\n"
 "Return the underlying file descriptor (an integer).");
 
+static struct {char name[];} _io__WindowsConsoleIO_fileno_MethodName = {.name = "fileno",};
 #define _IO__WINDOWSCONSOLEIO_FILENO_METHODDEF    \
-    {"fileno", (PyCFunction)_io__WindowsConsoleIO_fileno, METH_NOARGS, _io__WindowsConsoleIO_fileno__doc__},
+    {_io__WindowsConsoleIO_fileno_MethodName.name, (PyCFunction)_io__WindowsConsoleIO_fileno, METH_NOARGS, _io__WindowsConsoleIO_fileno__doc__},
 
 static PyObject *
 _io__WindowsConsoleIO_fileno_impl(winconsoleio *self);
@@ -171,8 +173,9 @@ PyDoc_STRVAR(_io__WindowsConsoleIO_readable__doc__,
 "\n"
 "True if console is an input buffer.");
 
+static struct {char name[];} _io__WindowsConsoleIO_readable_MethodName = {.name = "readable",};
 #define _IO__WINDOWSCONSOLEIO_READABLE_METHODDEF    \
-    {"readable", (PyCFunction)_io__WindowsConsoleIO_readable, METH_NOARGS, _io__WindowsConsoleIO_readable__doc__},
+    {_io__WindowsConsoleIO_readable_MethodName.name, (PyCFunction)_io__WindowsConsoleIO_readable, METH_NOARGS, _io__WindowsConsoleIO_readable__doc__},
 
 static PyObject *
 _io__WindowsConsoleIO_readable_impl(winconsoleio *self);
@@ -193,8 +196,9 @@ PyDoc_STRVAR(_io__WindowsConsoleIO_writable__doc__,
 "\n"
 "True if console is an output buffer.");
 
+static struct {char name[];} _io__WindowsConsoleIO_writable_MethodName = {.name = "writable",};
 #define _IO__WINDOWSCONSOLEIO_WRITABLE_METHODDEF    \
-    {"writable", (PyCFunction)_io__WindowsConsoleIO_writable, METH_NOARGS, _io__WindowsConsoleIO_writable__doc__},
+    {_io__WindowsConsoleIO_writable_MethodName.name, (PyCFunction)_io__WindowsConsoleIO_writable, METH_NOARGS, _io__WindowsConsoleIO_writable__doc__},
 
 static PyObject *
 _io__WindowsConsoleIO_writable_impl(winconsoleio *self);
@@ -215,8 +219,9 @@ PyDoc_STRVAR(_io__WindowsConsoleIO_readinto__doc__,
 "\n"
 "Same as RawIOBase.readinto().");
 
+static struct {char name[];} _io__WindowsConsoleIO_readinto_MethodName = {.name = "readinto",};
 #define _IO__WINDOWSCONSOLEIO_READINTO_METHODDEF    \
-    {"readinto", _PyCFunction_CAST(_io__WindowsConsoleIO_readinto), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _io__WindowsConsoleIO_readinto__doc__},
+    {_io__WindowsConsoleIO_readinto_MethodName.name, _PyCFunction_CAST(_io__WindowsConsoleIO_readinto), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _io__WindowsConsoleIO_readinto__doc__},
 
 static PyObject *
 _io__WindowsConsoleIO_readinto_impl(winconsoleio *self, PyTypeObject *cls,
@@ -274,8 +279,9 @@ PyDoc_STRVAR(_io__WindowsConsoleIO_readall__doc__,
 "\n"
 "Return an empty bytes object at EOF.");
 
+static struct {char name[];} _io__WindowsConsoleIO_readall_MethodName = {.name = "readall",};
 #define _IO__WINDOWSCONSOLEIO_READALL_METHODDEF    \
-    {"readall", (PyCFunction)_io__WindowsConsoleIO_readall, METH_NOARGS, _io__WindowsConsoleIO_readall__doc__},
+    {_io__WindowsConsoleIO_readall_MethodName.name, (PyCFunction)_io__WindowsConsoleIO_readall, METH_NOARGS, _io__WindowsConsoleIO_readall__doc__},
 
 static PyObject *
 _io__WindowsConsoleIO_readall_impl(winconsoleio *self);
@@ -300,8 +306,9 @@ PyDoc_STRVAR(_io__WindowsConsoleIO_read__doc__,
 "so less data may be returned than requested.\n"
 "Return an empty bytes object at EOF.");
 
+static struct {char name[];} _io__WindowsConsoleIO_read_MethodName = {.name = "read",};
 #define _IO__WINDOWSCONSOLEIO_READ_METHODDEF    \
-    {"read", _PyCFunction_CAST(_io__WindowsConsoleIO_read), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _io__WindowsConsoleIO_read__doc__},
+    {_io__WindowsConsoleIO_read_MethodName.name, _PyCFunction_CAST(_io__WindowsConsoleIO_read), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _io__WindowsConsoleIO_read__doc__},
 
 static PyObject *
 _io__WindowsConsoleIO_read_impl(winconsoleio *self, PyTypeObject *cls,
@@ -358,8 +365,9 @@ PyDoc_STRVAR(_io__WindowsConsoleIO_write__doc__,
 "Only makes one system call, so not all of the data may be written.\n"
 "The number of bytes actually written is returned.");
 
+static struct {char name[];} _io__WindowsConsoleIO_write_MethodName = {.name = "write",};
 #define _IO__WINDOWSCONSOLEIO_WRITE_METHODDEF    \
-    {"write", _PyCFunction_CAST(_io__WindowsConsoleIO_write), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _io__WindowsConsoleIO_write__doc__},
+    {_io__WindowsConsoleIO_write_MethodName.name, _PyCFunction_CAST(_io__WindowsConsoleIO_write), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _io__WindowsConsoleIO_write__doc__},
 
 static PyObject *
 _io__WindowsConsoleIO_write_impl(winconsoleio *self, PyTypeObject *cls,
@@ -414,8 +422,9 @@ PyDoc_STRVAR(_io__WindowsConsoleIO_isatty__doc__,
 "\n"
 "Always True.");
 
+static struct {char name[];} _io__WindowsConsoleIO_isatty_MethodName = {.name = "isatty",};
 #define _IO__WINDOWSCONSOLEIO_ISATTY_METHODDEF    \
-    {"isatty", (PyCFunction)_io__WindowsConsoleIO_isatty, METH_NOARGS, _io__WindowsConsoleIO_isatty__doc__},
+    {_io__WindowsConsoleIO_isatty_MethodName.name, (PyCFunction)_io__WindowsConsoleIO_isatty, METH_NOARGS, _io__WindowsConsoleIO_isatty__doc__},
 
 static PyObject *
 _io__WindowsConsoleIO_isatty_impl(winconsoleio *self);
@@ -463,4 +472,4 @@ _io__WindowsConsoleIO_isatty(PyObject *self, PyObject *Py_UNUSED(ignored))
 #ifndef _IO__WINDOWSCONSOLEIO_ISATTY_METHODDEF
     #define _IO__WINDOWSCONSOLEIO_ISATTY_METHODDEF
 #endif /* !defined(_IO__WINDOWSCONSOLEIO_ISATTY_METHODDEF) */
-/*[clinic end generated code: output=ce50bcd905f1f213 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=5ae6072eb1ab1802 input=a9049054013a1b77]*/

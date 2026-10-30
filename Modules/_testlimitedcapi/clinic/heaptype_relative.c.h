@@ -10,8 +10,9 @@ PyDoc_STRVAR(make_heaptype_with_member__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} make_heaptype_with_member_MethodName = {.name = "make_heaptype_with_member",};
 #define MAKE_HEAPTYPE_WITH_MEMBER_METHODDEF    \
-    {"make_heaptype_with_member", (PyCFunction)(void(*)(void))make_heaptype_with_member, METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, make_heaptype_with_member__doc__},
+    {make_heaptype_with_member_MethodName.name, (PyCFunction)(void(*)(void))make_heaptype_with_member, METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, make_heaptype_with_member__doc__},
 
 static PyObject *
 make_heaptype_with_member_impl(PyObject *module, int extra_base_size,
@@ -41,4 +42,4 @@ make_heaptype_with_member(PyObject *module, PyObject *args, PyObject *kwargs)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=949d931351148810 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=8c4c6bc0d0ac8da6 input=a9049054013a1b77]*/

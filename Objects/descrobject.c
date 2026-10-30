@@ -978,29 +978,65 @@ PyDescr_NewMethod(PyTypeObject *type, PyMethodDef *method)
 {
     /* Figure out correct vectorcall function to use */
     vectorcallfunc vectorcall;
+    _vectorcallfunc_inlineable vectorcall_inlineable;
     switch (method->ml_flags & (METH_VARARGS | METH_FASTCALL | METH_NOARGS |
-                                METH_O | METH_KEYWORDS | METH_METHOD))
+                                METH_O | METH_KEYWORDS | METH_METHOD | METH_C_INLINEABLE))
     {
         case METH_VARARGS:
             vectorcall = method_vectorcall_VARARGS;
+            vectorcall_inlineable = NULL;
             break;
         case METH_VARARGS | METH_KEYWORDS:
             vectorcall = method_vectorcall_VARARGS_KEYWORDS;
+            vectorcall_inlineable = NULL;
             break;
         case METH_FASTCALL:
             vectorcall = method_vectorcall_FASTCALL;
+            vectorcall_inlineable = NULL;
             break;
         case METH_FASTCALL | METH_KEYWORDS:
             vectorcall = method_vectorcall_FASTCALL_KEYWORDS;
+            vectorcall_inlineable = NULL;
             break;
         case METH_NOARGS:
             vectorcall = method_vectorcall_NOARGS;
+            vectorcall_inlineable = NULL;
             break;
         case METH_O:
             vectorcall = method_vectorcall_O;
+            vectorcall_inlineable = NULL;
             break;
         case METH_METHOD | METH_FASTCALL | METH_KEYWORDS:
             vectorcall = method_vectorcall_FASTCALL_KEYWORDS_METHOD;
+            vectorcall_inlineable = NULL;
+            break;
+        case METH_VARARGS | METH_C_INLINEABLE:
+            vectorcall = method_vectorcall_VARARGS;
+            vectorcall_inlineable = NULL;
+            break;
+        case METH_VARARGS | METH_KEYWORDS | METH_C_INLINEABLE:
+            vectorcall = method_vectorcall_VARARGS_KEYWORDS;
+            vectorcall_inlineable = NULL;
+            break;
+        case METH_FASTCALL | METH_C_INLINEABLE:
+            vectorcall = method_vectorcall_FASTCALL;
+            vectorcall_inlineable = NULL;
+            break;
+        case METH_FASTCALL | METH_KEYWORDS | METH_C_INLINEABLE:
+            vectorcall = method_vectorcall_FASTCALL_KEYWORDS;
+            vectorcall_inlineable = NULL;
+            break;
+        case METH_NOARGS | METH_C_INLINEABLE:
+            vectorcall = method_vectorcall_NOARGS;
+            vectorcall_inlineable = NULL;
+            break;
+        case METH_O | METH_C_INLINEABLE:
+            vectorcall = method_vectorcall_O;
+            vectorcall_inlineable = NULL;
+            break;
+        case METH_METHOD | METH_FASTCALL | METH_KEYWORDS | METH_C_INLINEABLE:
+            vectorcall = method_vectorcall_FASTCALL_KEYWORDS_METHOD;
+            vectorcall_inlineable = NULL;
             break;
         default:
             PyErr_Format(PyExc_SystemError,
@@ -1015,6 +1051,7 @@ PyDescr_NewMethod(PyTypeObject *type, PyMethodDef *method)
     if (descr != NULL) {
         descr->d_method = method;
         descr->vectorcall = vectorcall;
+        descr->vectorcall_inlineable = vectorcall_inlineable;
     }
     return (PyObject *)descr;
 }

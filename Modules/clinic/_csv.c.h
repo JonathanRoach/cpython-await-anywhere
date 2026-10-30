@@ -16,8 +16,9 @@ PyDoc_STRVAR(_csv_list_dialects__doc__,
 "\n"
 "    names = csv.list_dialects()");
 
+static struct {char name[];} _csv_list_dialects_MethodName = {.name = "list_dialects",};
 #define _CSV_LIST_DIALECTS_METHODDEF    \
-    {"list_dialects", (PyCFunction)_csv_list_dialects, METH_NOARGS|METH_C_STACK_FRUGAL, _csv_list_dialects__doc__},
+    {_csv_list_dialects_MethodName.name, (PyCFunction)_csv_list_dialects, METH_NOARGS|METH_C_STACK_FRUGAL, _csv_list_dialects__doc__},
 
 static PyObject *
 _csv_list_dialects_impl(PyObject *module);
@@ -36,8 +37,9 @@ PyDoc_STRVAR(_csv_unregister_dialect__doc__,
 "\n"
 "    csv.unregister_dialect(name)");
 
+static struct {char name[];} _csv_unregister_dialect_MethodName = {.name = "unregister_dialect",};
 #define _CSV_UNREGISTER_DIALECT_METHODDEF    \
-    {"unregister_dialect", _PyCFunction_CAST(_csv_unregister_dialect), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _csv_unregister_dialect__doc__},
+    {_csv_unregister_dialect_MethodName.name, _PyCFunction_CAST(_csv_unregister_dialect), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _csv_unregister_dialect__doc__},
 
 static PyObject *
 _csv_unregister_dialect_impl(PyObject *module, PyObject *name);
@@ -96,8 +98,9 @@ PyDoc_STRVAR(_csv_get_dialect__doc__,
 "\n"
 "    dialect = csv.get_dialect(name)");
 
+static struct {char name[];} _csv_get_dialect_MethodName = {.name = "get_dialect",};
 #define _CSV_GET_DIALECT_METHODDEF    \
-    {"get_dialect", _PyCFunction_CAST(_csv_get_dialect), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _csv_get_dialect__doc__},
+    {_csv_get_dialect_MethodName.name, _PyCFunction_CAST(_csv_get_dialect), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _csv_get_dialect__doc__},
 
 static PyObject *
 _csv_get_dialect_impl(PyObject *module, PyObject *name);
@@ -159,8 +162,9 @@ PyDoc_STRVAR(_csv_field_size_limit__doc__,
 "Returns old limit. If limit is not given, no new limit is set and\n"
 "the old limit is returned");
 
+static struct {char name[];} _csv_field_size_limit_MethodName = {.name = "field_size_limit",};
 #define _CSV_FIELD_SIZE_LIMIT_METHODDEF    \
-    {"field_size_limit", _PyCFunction_CAST(_csv_field_size_limit), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _csv_field_size_limit__doc__},
+    {_csv_field_size_limit_MethodName.name, _PyCFunction_CAST(_csv_field_size_limit), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _csv_field_size_limit__doc__},
 
 static PyObject *
 _csv_field_size_limit_impl(PyObject *module, PyObject *new_limit);
@@ -215,4 +219,4 @@ skip_optional_pos:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=a67362619de62567 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=089bc3f8f0f0cbfd input=a9049054013a1b77]*/

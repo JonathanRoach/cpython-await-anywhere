@@ -7,8 +7,9 @@ PyDoc_STRVAR(_contextvars_copy_context__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _contextvars_copy_context_MethodName = {.name = "copy_context",};
 #define _CONTEXTVARS_COPY_CONTEXT_METHODDEF    \
-    {"copy_context", (PyCFunction)_contextvars_copy_context, METH_NOARGS|METH_C_STACK_FRUGAL, _contextvars_copy_context__doc__},
+    {_contextvars_copy_context_MethodName.name, (PyCFunction)_contextvars_copy_context, METH_NOARGS|METH_C_STACK_FRUGAL, _contextvars_copy_context__doc__},
 
 static PyObject *
 _contextvars_copy_context_impl(PyObject *module);
@@ -18,4 +19,4 @@ _contextvars_copy_context(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return _contextvars_copy_context_impl(module);
 }
-/*[clinic end generated code: output=d0487b5590b6b29c input=a9049054013a1b77]*/
+/*[clinic end generated code: output=de525ba0f1138bbf input=a9049054013a1b77]*/

@@ -17,8 +17,9 @@ PyDoc_STRVAR(_testmultiphase_StateAccessType_get_defining_module__doc__,
 "Also tests that result of PyType_GetModuleByDef matches defining_class\'s\n"
 "module.");
 
+static struct {char name[];} _testmultiphase_StateAccessType_get_defining_module_MethodName = {.name = "get_defining_module",};
 #define _TESTMULTIPHASE_STATEACCESSTYPE_GET_DEFINING_MODULE_METHODDEF    \
-    {"get_defining_module", _PyCFunction_CAST(_testmultiphase_StateAccessType_get_defining_module), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _testmultiphase_StateAccessType_get_defining_module__doc__},
+    {_testmultiphase_StateAccessType_get_defining_module_MethodName.name, _PyCFunction_CAST(_testmultiphase_StateAccessType_get_defining_module), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _testmultiphase_StateAccessType_get_defining_module__doc__},
 
 static PyObject *
 _testmultiphase_StateAccessType_get_defining_module_impl(StateAccessTypeObject *self,
@@ -40,8 +41,9 @@ PyDoc_STRVAR(_testmultiphase_StateAccessType_getmodulebydef_bad_def__doc__,
 "\n"
 "Test that result of PyType_GetModuleByDef with a bad def is NULL.");
 
+static struct {char name[];} _testmultiphase_StateAccessType_getmodulebydef_bad_def_MethodName = {.name = "getmodulebydef_bad_def",};
 #define _TESTMULTIPHASE_STATEACCESSTYPE_GETMODULEBYDEF_BAD_DEF_METHODDEF    \
-    {"getmodulebydef_bad_def", _PyCFunction_CAST(_testmultiphase_StateAccessType_getmodulebydef_bad_def), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _testmultiphase_StateAccessType_getmodulebydef_bad_def__doc__},
+    {_testmultiphase_StateAccessType_getmodulebydef_bad_def_MethodName.name, _PyCFunction_CAST(_testmultiphase_StateAccessType_getmodulebydef_bad_def), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _testmultiphase_StateAccessType_getmodulebydef_bad_def__doc__},
 
 static PyObject *
 _testmultiphase_StateAccessType_getmodulebydef_bad_def_impl(StateAccessTypeObject *self,
@@ -67,8 +69,9 @@ PyDoc_STRVAR(_testmultiphase_StateAccessType_increment_count_clinic__doc__,
 "\n"
 "This tests Argument Clinic support for defining_class.");
 
+static struct {char name[];} _testmultiphase_StateAccessType_increment_count_clinic_MethodName = {.name = "increment_count_clinic",};
 #define _TESTMULTIPHASE_STATEACCESSTYPE_INCREMENT_COUNT_CLINIC_METHODDEF    \
-    {"increment_count_clinic", _PyCFunction_CAST(_testmultiphase_StateAccessType_increment_count_clinic), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _testmultiphase_StateAccessType_increment_count_clinic__doc__},
+    {_testmultiphase_StateAccessType_increment_count_clinic_MethodName.name, _PyCFunction_CAST(_testmultiphase_StateAccessType_increment_count_clinic), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _testmultiphase_StateAccessType_increment_count_clinic__doc__},
 
 static PyObject *
 _testmultiphase_StateAccessType_increment_count_clinic_impl(StateAccessTypeObject *self,
@@ -149,8 +152,9 @@ PyDoc_STRVAR(_testmultiphase_StateAccessType_get_count__doc__,
 "\n"
 "Return the value of the module-state counter.");
 
+static struct {char name[];} _testmultiphase_StateAccessType_get_count_MethodName = {.name = "get_count",};
 #define _TESTMULTIPHASE_STATEACCESSTYPE_GET_COUNT_METHODDEF    \
-    {"get_count", _PyCFunction_CAST(_testmultiphase_StateAccessType_get_count), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _testmultiphase_StateAccessType_get_count__doc__},
+    {_testmultiphase_StateAccessType_get_count_MethodName.name, _PyCFunction_CAST(_testmultiphase_StateAccessType_get_count), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _testmultiphase_StateAccessType_get_count__doc__},
 
 static PyObject *
 _testmultiphase_StateAccessType_get_count_impl(StateAccessTypeObject *self,
@@ -165,4 +169,4 @@ _testmultiphase_StateAccessType_get_count(PyObject *self, PyTypeObject *cls, PyO
     }
     return _testmultiphase_StateAccessType_get_count_impl((StateAccessTypeObject *)self, cls);
 }
-/*[clinic end generated code: output=0091e72366c8c8b9 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=28efc0e9440a00e3 input=a9049054013a1b77]*/

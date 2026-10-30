@@ -12,8 +12,9 @@ PyDoc_STRVAR(_random_Random_random__doc__,
 "\n"
 "random() -> x in the interval [0, 1).");
 
+static struct {char name[];} _random_Random_random_MethodName = {.name = "random",};
 #define _RANDOM_RANDOM_RANDOM_METHODDEF    \
-    {"random", (PyCFunction)_random_Random_random, METH_NOARGS|METH_C_STACK_FRUGAL, _random_Random_random__doc__},
+    {_random_Random_random_MethodName.name, (PyCFunction)_random_Random_random, METH_NOARGS|METH_C_STACK_FRUGAL, _random_Random_random__doc__},
 
 static PyObject *
 _random_Random_random_impl(RandomObject *self);
@@ -39,8 +40,9 @@ PyDoc_STRVAR(_random_Random_seed__doc__,
 "Defaults to use urandom and falls back to a combination\n"
 "of the current time and the process identifier.");
 
+static struct {char name[];} _random_Random_seed_MethodName = {.name = "seed",};
 #define _RANDOM_RANDOM_SEED_METHODDEF    \
-    {"seed", _PyCFunction_CAST(_random_Random_seed), METH_FASTCALL|METH_C_STACK_FRUGAL, _random_Random_seed__doc__},
+    {_random_Random_seed_MethodName.name, _PyCFunction_CAST(_random_Random_seed), METH_FASTCALL|METH_C_STACK_FRUGAL, _random_Random_seed__doc__},
 
 static PyObject *
 _random_Random_seed_impl(RandomObject *self, PyObject *n);
@@ -73,8 +75,9 @@ PyDoc_STRVAR(_random_Random_getstate__doc__,
 "\n"
 "getstate() -> tuple containing the current state.");
 
+static struct {char name[];} _random_Random_getstate_MethodName = {.name = "getstate",};
 #define _RANDOM_RANDOM_GETSTATE_METHODDEF    \
-    {"getstate", (PyCFunction)_random_Random_getstate, METH_NOARGS|METH_C_STACK_FRUGAL, _random_Random_getstate__doc__},
+    {_random_Random_getstate_MethodName.name, (PyCFunction)_random_Random_getstate, METH_NOARGS|METH_C_STACK_FRUGAL, _random_Random_getstate__doc__},
 
 static PyObject *
 _random_Random_getstate_impl(RandomObject *self);
@@ -97,8 +100,9 @@ PyDoc_STRVAR(_random_Random_setstate__doc__,
 "\n"
 "setstate(state) -> None.  Restores generator state.");
 
+static struct {char name[];} _random_Random_setstate_MethodName = {.name = "setstate",};
 #define _RANDOM_RANDOM_SETSTATE_METHODDEF    \
-    {"setstate", (PyCFunction)_random_Random_setstate, METH_O|METH_C_STACK_FRUGAL, _random_Random_setstate__doc__},
+    {_random_Random_setstate_MethodName.name, (PyCFunction)_random_Random_setstate, METH_O|METH_C_STACK_FRUGAL, _random_Random_setstate__doc__},
 
 static PyObject *
 _random_Random_setstate_impl(RandomObject *self, PyObject *state);
@@ -121,8 +125,9 @@ PyDoc_STRVAR(_random_Random_getrandbits__doc__,
 "\n"
 "getrandbits(k) -> x.  Generates an int with k random bits.");
 
+static struct {char name[];} _random_Random_getrandbits_MethodName = {.name = "getrandbits",};
 #define _RANDOM_RANDOM_GETRANDBITS_METHODDEF    \
-    {"getrandbits", (PyCFunction)_random_Random_getrandbits, METH_O|METH_C_STACK_FRUGAL, _random_Random_getrandbits__doc__},
+    {_random_Random_getrandbits_MethodName.name, (PyCFunction)_random_Random_getrandbits, METH_O|METH_C_STACK_FRUGAL, _random_Random_getrandbits__doc__},
 
 static PyObject *
 _random_Random_getrandbits_impl(RandomObject *self, uint64_t k);
@@ -143,4 +148,4 @@ _random_Random_getrandbits(PyObject *self, PyObject *arg)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=602997fdce65bd87 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=71610a79f057b294 input=a9049054013a1b77]*/

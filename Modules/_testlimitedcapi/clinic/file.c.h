@@ -7,8 +7,9 @@ PyDoc_STRVAR(_testcapi_pyfile_getline__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _testcapi_pyfile_getline_MethodName = {.name = "pyfile_getline",};
 #define _TESTCAPI_PYFILE_GETLINE_METHODDEF    \
-    {"pyfile_getline", (PyCFunction)(void(*)(void))_testcapi_pyfile_getline, METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_pyfile_getline__doc__},
+    {_testcapi_pyfile_getline_MethodName.name, (PyCFunction)(void(*)(void))_testcapi_pyfile_getline, METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_pyfile_getline__doc__},
 
 static PyObject *
 _testcapi_pyfile_getline_impl(PyObject *module, PyObject *file, int n);
@@ -40,8 +41,9 @@ PyDoc_STRVAR(_testcapi_pyfile_writeobject__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _testcapi_pyfile_writeobject_MethodName = {.name = "pyfile_writeobject",};
 #define _TESTCAPI_PYFILE_WRITEOBJECT_METHODDEF    \
-    {"pyfile_writeobject", (PyCFunction)(void(*)(void))_testcapi_pyfile_writeobject, METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_pyfile_writeobject__doc__},
+    {_testcapi_pyfile_writeobject_MethodName.name, (PyCFunction)(void(*)(void))_testcapi_pyfile_writeobject, METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_pyfile_writeobject__doc__},
 
 static PyObject *
 _testcapi_pyfile_writeobject_impl(PyObject *module, PyObject *obj,
@@ -76,6 +78,7 @@ PyDoc_STRVAR(_testcapi_pyobject_asfiledescriptor__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _testcapi_pyobject_asfiledescriptor_MethodName = {.name = "pyobject_asfiledescriptor",};
 #define _TESTCAPI_PYOBJECT_ASFILEDESCRIPTOR_METHODDEF    \
-    {"pyobject_asfiledescriptor", (PyCFunction)_testcapi_pyobject_asfiledescriptor, METH_O|METH_C_STACK_FRUGAL, _testcapi_pyobject_asfiledescriptor__doc__},
-/*[clinic end generated code: output=24dbaf881dceb69d input=a9049054013a1b77]*/
+    {_testcapi_pyobject_asfiledescriptor_MethodName.name, (PyCFunction)_testcapi_pyobject_asfiledescriptor, METH_O|METH_C_STACK_FRUGAL, _testcapi_pyobject_asfiledescriptor__doc__},
+/*[clinic end generated code: output=c8c673a3c378ebc3 input=a9049054013a1b77]*/

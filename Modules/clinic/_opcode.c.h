@@ -14,8 +14,9 @@ PyDoc_STRVAR(_opcode_stack_effect__doc__,
 "\n"
 "Compute the stack effect of the opcode.");
 
+static struct {char name[];} _opcode_stack_effect_MethodName = {.name = "stack_effect",};
 #define _OPCODE_STACK_EFFECT_METHODDEF    \
-    {"stack_effect", _PyCFunction_CAST(_opcode_stack_effect), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _opcode_stack_effect__doc__},
+    {_opcode_stack_effect_MethodName.name, _PyCFunction_CAST(_opcode_stack_effect), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _opcode_stack_effect__doc__},
 
 static int
 _opcode_stack_effect_impl(PyObject *module, int opcode, PyObject *oparg,
@@ -95,8 +96,9 @@ PyDoc_STRVAR(_opcode_is_valid__doc__,
 "\n"
 "Return True if opcode is valid, False otherwise.");
 
+static struct {char name[];} _opcode_is_valid_MethodName = {.name = "is_valid",};
 #define _OPCODE_IS_VALID_METHODDEF    \
-    {"is_valid", _PyCFunction_CAST(_opcode_is_valid), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _opcode_is_valid__doc__},
+    {_opcode_is_valid_MethodName.name, _PyCFunction_CAST(_opcode_is_valid), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _opcode_is_valid__doc__},
 
 static int
 _opcode_is_valid_impl(PyObject *module, int opcode);
@@ -161,8 +163,9 @@ PyDoc_STRVAR(_opcode_has_arg__doc__,
 "\n"
 "Return True if the opcode uses its oparg, False otherwise.");
 
+static struct {char name[];} _opcode_has_arg_MethodName = {.name = "has_arg",};
 #define _OPCODE_HAS_ARG_METHODDEF    \
-    {"has_arg", _PyCFunction_CAST(_opcode_has_arg), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _opcode_has_arg__doc__},
+    {_opcode_has_arg_MethodName.name, _PyCFunction_CAST(_opcode_has_arg), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _opcode_has_arg__doc__},
 
 static int
 _opcode_has_arg_impl(PyObject *module, int opcode);
@@ -227,8 +230,9 @@ PyDoc_STRVAR(_opcode_has_const__doc__,
 "\n"
 "Return True if the opcode accesses a constant, False otherwise.");
 
+static struct {char name[];} _opcode_has_const_MethodName = {.name = "has_const",};
 #define _OPCODE_HAS_CONST_METHODDEF    \
-    {"has_const", _PyCFunction_CAST(_opcode_has_const), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _opcode_has_const__doc__},
+    {_opcode_has_const_MethodName.name, _PyCFunction_CAST(_opcode_has_const), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _opcode_has_const__doc__},
 
 static int
 _opcode_has_const_impl(PyObject *module, int opcode);
@@ -293,8 +297,9 @@ PyDoc_STRVAR(_opcode_has_name__doc__,
 "\n"
 "Return True if the opcode accesses an attribute by name, False otherwise.");
 
+static struct {char name[];} _opcode_has_name_MethodName = {.name = "has_name",};
 #define _OPCODE_HAS_NAME_METHODDEF    \
-    {"has_name", _PyCFunction_CAST(_opcode_has_name), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _opcode_has_name__doc__},
+    {_opcode_has_name_MethodName.name, _PyCFunction_CAST(_opcode_has_name), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _opcode_has_name__doc__},
 
 static int
 _opcode_has_name_impl(PyObject *module, int opcode);
@@ -359,8 +364,9 @@ PyDoc_STRVAR(_opcode_has_jump__doc__,
 "\n"
 "Return True if the opcode has a jump target, False otherwise.");
 
+static struct {char name[];} _opcode_has_jump_MethodName = {.name = "has_jump",};
 #define _OPCODE_HAS_JUMP_METHODDEF    \
-    {"has_jump", _PyCFunction_CAST(_opcode_has_jump), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _opcode_has_jump__doc__},
+    {_opcode_has_jump_MethodName.name, _PyCFunction_CAST(_opcode_has_jump), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _opcode_has_jump__doc__},
 
 static int
 _opcode_has_jump_impl(PyObject *module, int opcode);
@@ -430,8 +436,9 @@ PyDoc_STRVAR(_opcode_has_free__doc__,
 "referenced from this scope. It does not include references to global\n"
 "or builtin scopes.");
 
+static struct {char name[];} _opcode_has_free_MethodName = {.name = "has_free",};
 #define _OPCODE_HAS_FREE_METHODDEF    \
-    {"has_free", _PyCFunction_CAST(_opcode_has_free), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _opcode_has_free__doc__},
+    {_opcode_has_free_MethodName.name, _PyCFunction_CAST(_opcode_has_free), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _opcode_has_free__doc__},
 
 static int
 _opcode_has_free_impl(PyObject *module, int opcode);
@@ -496,8 +503,9 @@ PyDoc_STRVAR(_opcode_has_local__doc__,
 "\n"
 "Return True if the opcode accesses a local variable, False otherwise.");
 
+static struct {char name[];} _opcode_has_local_MethodName = {.name = "has_local",};
 #define _OPCODE_HAS_LOCAL_METHODDEF    \
-    {"has_local", _PyCFunction_CAST(_opcode_has_local), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _opcode_has_local__doc__},
+    {_opcode_has_local_MethodName.name, _PyCFunction_CAST(_opcode_has_local), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _opcode_has_local__doc__},
 
 static int
 _opcode_has_local_impl(PyObject *module, int opcode);
@@ -562,8 +570,9 @@ PyDoc_STRVAR(_opcode_has_exc__doc__,
 "\n"
 "Return True if the opcode sets an exception handler, False otherwise.");
 
+static struct {char name[];} _opcode_has_exc_MethodName = {.name = "has_exc",};
 #define _OPCODE_HAS_EXC_METHODDEF    \
-    {"has_exc", _PyCFunction_CAST(_opcode_has_exc), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _opcode_has_exc__doc__},
+    {_opcode_has_exc_MethodName.name, _PyCFunction_CAST(_opcode_has_exc), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _opcode_has_exc__doc__},
 
 static int
 _opcode_has_exc_impl(PyObject *module, int opcode);
@@ -628,8 +637,9 @@ PyDoc_STRVAR(_opcode_get_specialization_stats__doc__,
 "\n"
 "Return the specialization stats");
 
+static struct {char name[];} _opcode_get_specialization_stats_MethodName = {.name = "get_specialization_stats",};
 #define _OPCODE_GET_SPECIALIZATION_STATS_METHODDEF    \
-    {"get_specialization_stats", (PyCFunction)_opcode_get_specialization_stats, METH_NOARGS|METH_C_STACK_FRUGAL, _opcode_get_specialization_stats__doc__},
+    {_opcode_get_specialization_stats_MethodName.name, (PyCFunction)_opcode_get_specialization_stats, METH_NOARGS|METH_C_STACK_FRUGAL, _opcode_get_specialization_stats__doc__},
 
 static PyObject *
 _opcode_get_specialization_stats_impl(PyObject *module);
@@ -648,8 +658,9 @@ PyDoc_STRVAR(_opcode_get_nb_ops__doc__,
 "\n"
 "Indexed by the BINARY_OP oparg value.");
 
+static struct {char name[];} _opcode_get_nb_ops_MethodName = {.name = "get_nb_ops",};
 #define _OPCODE_GET_NB_OPS_METHODDEF    \
-    {"get_nb_ops", (PyCFunction)_opcode_get_nb_ops, METH_NOARGS|METH_C_STACK_FRUGAL, _opcode_get_nb_ops__doc__},
+    {_opcode_get_nb_ops_MethodName.name, (PyCFunction)_opcode_get_nb_ops, METH_NOARGS|METH_C_STACK_FRUGAL, _opcode_get_nb_ops__doc__},
 
 static PyObject *
 _opcode_get_nb_ops_impl(PyObject *module);
@@ -666,8 +677,9 @@ PyDoc_STRVAR(_opcode_get_intrinsic1_descs__doc__,
 "\n"
 "Return a list of names of the unary intrinsics.");
 
+static struct {char name[];} _opcode_get_intrinsic1_descs_MethodName = {.name = "get_intrinsic1_descs",};
 #define _OPCODE_GET_INTRINSIC1_DESCS_METHODDEF    \
-    {"get_intrinsic1_descs", (PyCFunction)_opcode_get_intrinsic1_descs, METH_NOARGS|METH_C_STACK_FRUGAL, _opcode_get_intrinsic1_descs__doc__},
+    {_opcode_get_intrinsic1_descs_MethodName.name, (PyCFunction)_opcode_get_intrinsic1_descs, METH_NOARGS|METH_C_STACK_FRUGAL, _opcode_get_intrinsic1_descs__doc__},
 
 static PyObject *
 _opcode_get_intrinsic1_descs_impl(PyObject *module);
@@ -684,8 +696,9 @@ PyDoc_STRVAR(_opcode_get_intrinsic2_descs__doc__,
 "\n"
 "Return a list of names of the binary intrinsics.");
 
+static struct {char name[];} _opcode_get_intrinsic2_descs_MethodName = {.name = "get_intrinsic2_descs",};
 #define _OPCODE_GET_INTRINSIC2_DESCS_METHODDEF    \
-    {"get_intrinsic2_descs", (PyCFunction)_opcode_get_intrinsic2_descs, METH_NOARGS|METH_C_STACK_FRUGAL, _opcode_get_intrinsic2_descs__doc__},
+    {_opcode_get_intrinsic2_descs_MethodName.name, (PyCFunction)_opcode_get_intrinsic2_descs, METH_NOARGS|METH_C_STACK_FRUGAL, _opcode_get_intrinsic2_descs__doc__},
 
 static PyObject *
 _opcode_get_intrinsic2_descs_impl(PyObject *module);
@@ -702,8 +715,9 @@ PyDoc_STRVAR(_opcode_get_special_method_names__doc__,
 "\n"
 "Return a list of special method names.");
 
+static struct {char name[];} _opcode_get_special_method_names_MethodName = {.name = "get_special_method_names",};
 #define _OPCODE_GET_SPECIAL_METHOD_NAMES_METHODDEF    \
-    {"get_special_method_names", (PyCFunction)_opcode_get_special_method_names, METH_NOARGS|METH_C_STACK_FRUGAL, _opcode_get_special_method_names__doc__},
+    {_opcode_get_special_method_names_MethodName.name, (PyCFunction)_opcode_get_special_method_names, METH_NOARGS|METH_C_STACK_FRUGAL, _opcode_get_special_method_names__doc__},
 
 static PyObject *
 _opcode_get_special_method_names_impl(PyObject *module);
@@ -720,8 +734,9 @@ PyDoc_STRVAR(_opcode_get_executor__doc__,
 "\n"
 "Return the executor object at offset in code if exists, None otherwise.");
 
+static struct {char name[];} _opcode_get_executor_MethodName = {.name = "get_executor",};
 #define _OPCODE_GET_EXECUTOR_METHODDEF    \
-    {"get_executor", _PyCFunction_CAST(_opcode_get_executor), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _opcode_get_executor__doc__},
+    {_opcode_get_executor_MethodName.name, _PyCFunction_CAST(_opcode_get_executor), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _opcode_get_executor__doc__},
 
 static PyObject *
 _opcode_get_executor_impl(PyObject *module, PyObject *code, int offset);
@@ -776,4 +791,4 @@ _opcode_get_executor(PyObject *module, PyObject *const *args, Py_ssize_t nargs, 
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=2c8fb626e9d80437 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=799f2f79ffca5478 input=a9049054013a1b77]*/

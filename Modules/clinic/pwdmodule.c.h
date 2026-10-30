@@ -10,8 +10,9 @@ PyDoc_STRVAR(pwd_getpwuid__doc__,
 "\n"
 "See `help(pwd)` for more on password database entries.");
 
+static struct {char name[];} pwd_getpwuid_MethodName = {.name = "getpwuid",};
 #define PWD_GETPWUID_METHODDEF    \
-    {"getpwuid", (PyCFunction)pwd_getpwuid, METH_O|METH_C_STACK_FRUGAL, pwd_getpwuid__doc__},
+    {pwd_getpwuid_MethodName.name, (PyCFunction)pwd_getpwuid, METH_O|METH_C_STACK_FRUGAL, pwd_getpwuid__doc__},
 
 PyDoc_STRVAR(pwd_getpwnam__doc__,
 "getpwnam($module, name, /)\n"
@@ -21,8 +22,9 @@ PyDoc_STRVAR(pwd_getpwnam__doc__,
 "\n"
 "See `help(pwd)` for more on password database entries.");
 
+static struct {char name[];} pwd_getpwnam_MethodName = {.name = "getpwnam",};
 #define PWD_GETPWNAM_METHODDEF    \
-    {"getpwnam", (PyCFunction)pwd_getpwnam, METH_O|METH_C_STACK_FRUGAL, pwd_getpwnam__doc__},
+    {pwd_getpwnam_MethodName.name, (PyCFunction)pwd_getpwnam, METH_O|METH_C_STACK_FRUGAL, pwd_getpwnam__doc__},
 
 static PyObject *
 pwd_getpwnam_impl(PyObject *module, PyObject *name);
@@ -54,8 +56,9 @@ PyDoc_STRVAR(pwd_getpwall__doc__,
 "\n"
 "See help(pwd) for more on password database entries.");
 
+static struct {char name[];} pwd_getpwall_MethodName = {.name = "getpwall",};
 #define PWD_GETPWALL_METHODDEF    \
-    {"getpwall", (PyCFunction)pwd_getpwall, METH_NOARGS|METH_C_STACK_FRUGAL, pwd_getpwall__doc__},
+    {pwd_getpwall_MethodName.name, (PyCFunction)pwd_getpwall, METH_NOARGS|METH_C_STACK_FRUGAL, pwd_getpwall__doc__},
 
 static PyObject *
 pwd_getpwall_impl(PyObject *module);
@@ -71,4 +74,4 @@ pwd_getpwall(PyObject *module, PyObject *Py_UNUSED(ignored))
 #ifndef PWD_GETPWALL_METHODDEF
     #define PWD_GETPWALL_METHODDEF
 #endif /* !defined(PWD_GETPWALL_METHODDEF) */
-/*[clinic end generated code: output=1475a63a1e9663d9 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=6e6d016dd20d2a1f input=a9049054013a1b77]*/

@@ -37,8 +37,9 @@ PyDoc_STRVAR(select_select__doc__,
 "On Windows, only sockets are supported; on Unix, all file\n"
 "descriptors can be used.");
 
+static struct {char name[];} select_select_MethodName = {.name = "select",};
 #define SELECT_SELECT_METHODDEF    \
-    {"select", _PyCFunction_CAST(select_select), METH_FASTCALL|METH_C_STACK_FRUGAL, select_select__doc__},
+    {select_select_MethodName.name, _PyCFunction_CAST(select_select), METH_FASTCALL|METH_C_STACK_FRUGAL, select_select__doc__},
 
 static PyObject *
 select_select_impl(PyObject *module, PyObject *rlist, PyObject *wlist,
@@ -84,8 +85,9 @@ PyDoc_STRVAR(select_poll_register__doc__,
 "  eventmask\n"
 "    an optional bitmask describing the type of events to check for");
 
+static struct {char name[];} select_poll_register_MethodName = {.name = "register",};
 #define SELECT_POLL_REGISTER_METHODDEF    \
-    {"register", _PyCFunction_CAST(select_poll_register), METH_FASTCALL|METH_C_STACK_FRUGAL, select_poll_register__doc__},
+    {select_poll_register_MethodName.name, _PyCFunction_CAST(select_poll_register), METH_FASTCALL|METH_C_STACK_FRUGAL, select_poll_register__doc__},
 
 static PyObject *
 select_poll_register_impl(pollObject *self, int fd, unsigned short eventmask);
@@ -135,8 +137,9 @@ PyDoc_STRVAR(select_poll_modify__doc__,
 "  eventmask\n"
 "    a bitmask describing the type of events to check for");
 
+static struct {char name[];} select_poll_modify_MethodName = {.name = "modify",};
 #define SELECT_POLL_MODIFY_METHODDEF    \
-    {"modify", _PyCFunction_CAST(select_poll_modify), METH_FASTCALL|METH_C_STACK_FRUGAL, select_poll_modify__doc__},
+    {select_poll_modify_MethodName.name, _PyCFunction_CAST(select_poll_modify), METH_FASTCALL|METH_C_STACK_FRUGAL, select_poll_modify__doc__},
 
 static PyObject *
 select_poll_modify_impl(pollObject *self, int fd, unsigned short eventmask);
@@ -176,8 +179,9 @@ PyDoc_STRVAR(select_poll_unregister__doc__,
 "\n"
 "Remove a file descriptor being tracked by the polling object.");
 
+static struct {char name[];} select_poll_unregister_MethodName = {.name = "unregister",};
 #define SELECT_POLL_UNREGISTER_METHODDEF    \
-    {"unregister", (PyCFunction)select_poll_unregister, METH_O|METH_C_STACK_FRUGAL, select_poll_unregister__doc__},
+    {select_poll_unregister_MethodName.name, (PyCFunction)select_poll_unregister, METH_O|METH_C_STACK_FRUGAL, select_poll_unregister__doc__},
 
 static PyObject *
 select_poll_unregister_impl(pollObject *self, int fd);
@@ -217,8 +221,9 @@ PyDoc_STRVAR(select_poll_poll__doc__,
 "Returns a list containing any descriptors that have events or errors to\n"
 "report, as a list of (fd, event) 2-tuples.");
 
+static struct {char name[];} select_poll_poll_MethodName = {.name = "poll",};
 #define SELECT_POLL_POLL_METHODDEF    \
-    {"poll", _PyCFunction_CAST(select_poll_poll), METH_FASTCALL|METH_C_STACK_FRUGAL, select_poll_poll__doc__},
+    {select_poll_poll_MethodName.name, _PyCFunction_CAST(select_poll_poll), METH_FASTCALL|METH_C_STACK_FRUGAL, select_poll_poll__doc__},
 
 static PyObject *
 select_poll_poll_impl(pollObject *self, PyObject *timeout_obj);
@@ -262,8 +267,9 @@ PyDoc_STRVAR(select_devpoll_register__doc__,
 "  eventmask\n"
 "    an optional bitmask describing the type of events to check for");
 
+static struct {char name[];} select_devpoll_register_MethodName = {.name = "register",};
 #define SELECT_DEVPOLL_REGISTER_METHODDEF    \
-    {"register", _PyCFunction_CAST(select_devpoll_register), METH_FASTCALL|METH_C_STACK_FRUGAL, select_devpoll_register__doc__},
+    {select_devpoll_register_MethodName.name, _PyCFunction_CAST(select_devpoll_register), METH_FASTCALL|METH_C_STACK_FRUGAL, select_devpoll_register__doc__},
 
 static PyObject *
 select_devpoll_register_impl(devpollObject *self, int fd,
@@ -315,8 +321,9 @@ PyDoc_STRVAR(select_devpoll_modify__doc__,
 "  eventmask\n"
 "    an optional bitmask describing the type of events to check for");
 
+static struct {char name[];} select_devpoll_modify_MethodName = {.name = "modify",};
 #define SELECT_DEVPOLL_MODIFY_METHODDEF    \
-    {"modify", _PyCFunction_CAST(select_devpoll_modify), METH_FASTCALL|METH_C_STACK_FRUGAL, select_devpoll_modify__doc__},
+    {select_devpoll_modify_MethodName.name, _PyCFunction_CAST(select_devpoll_modify), METH_FASTCALL|METH_C_STACK_FRUGAL, select_devpoll_modify__doc__},
 
 static PyObject *
 select_devpoll_modify_impl(devpollObject *self, int fd,
@@ -361,8 +368,9 @@ PyDoc_STRVAR(select_devpoll_unregister__doc__,
 "\n"
 "Remove a file descriptor being tracked by the polling object.");
 
+static struct {char name[];} select_devpoll_unregister_MethodName = {.name = "unregister",};
 #define SELECT_DEVPOLL_UNREGISTER_METHODDEF    \
-    {"unregister", (PyCFunction)select_devpoll_unregister, METH_O|METH_C_STACK_FRUGAL, select_devpoll_unregister__doc__},
+    {select_devpoll_unregister_MethodName.name, (PyCFunction)select_devpoll_unregister, METH_O|METH_C_STACK_FRUGAL, select_devpoll_unregister__doc__},
 
 static PyObject *
 select_devpoll_unregister_impl(devpollObject *self, int fd);
@@ -402,8 +410,9 @@ PyDoc_STRVAR(select_devpoll_poll__doc__,
 "Returns a list containing any descriptors that have events or errors to\n"
 "report, as a list of (fd, event) 2-tuples.");
 
+static struct {char name[];} select_devpoll_poll_MethodName = {.name = "poll",};
 #define SELECT_DEVPOLL_POLL_METHODDEF    \
-    {"poll", _PyCFunction_CAST(select_devpoll_poll), METH_FASTCALL|METH_C_STACK_FRUGAL, select_devpoll_poll__doc__},
+    {select_devpoll_poll_MethodName.name, _PyCFunction_CAST(select_devpoll_poll), METH_FASTCALL|METH_C_STACK_FRUGAL, select_devpoll_poll__doc__},
 
 static PyObject *
 select_devpoll_poll_impl(devpollObject *self, PyObject *timeout_obj);
@@ -442,8 +451,9 @@ PyDoc_STRVAR(select_devpoll_close__doc__,
 "\n"
 "Further operations on the devpoll object will raise an exception.");
 
+static struct {char name[];} select_devpoll_close_MethodName = {.name = "close",};
 #define SELECT_DEVPOLL_CLOSE_METHODDEF    \
-    {"close", (PyCFunction)select_devpoll_close, METH_NOARGS|METH_C_STACK_FRUGAL, select_devpoll_close__doc__},
+    {select_devpoll_close_MethodName.name, (PyCFunction)select_devpoll_close, METH_NOARGS|METH_C_STACK_FRUGAL, select_devpoll_close__doc__},
 
 static PyObject *
 select_devpoll_close_impl(devpollObject *self);
@@ -470,8 +480,9 @@ PyDoc_STRVAR(select_devpoll_fileno__doc__,
 "\n"
 "Return the file descriptor.");
 
+static struct {char name[];} select_devpoll_fileno_MethodName = {.name = "fileno",};
 #define SELECT_DEVPOLL_FILENO_METHODDEF    \
-    {"fileno", (PyCFunction)select_devpoll_fileno, METH_NOARGS|METH_C_STACK_FRUGAL, select_devpoll_fileno__doc__},
+    {select_devpoll_fileno_MethodName.name, (PyCFunction)select_devpoll_fileno, METH_NOARGS|METH_C_STACK_FRUGAL, select_devpoll_fileno__doc__},
 
 static PyObject *
 select_devpoll_fileno_impl(devpollObject *self);
@@ -501,8 +512,9 @@ PyDoc_STRVAR(select_poll__doc__,
 "This object supports registering and unregistering file descriptors, and then\n"
 "polling them for I/O events.");
 
+static struct {char name[];} select_poll_MethodName = {.name = "poll",};
 #define SELECT_POLL_METHODDEF    \
-    {"poll", (PyCFunction)select_poll, METH_NOARGS|METH_C_STACK_FRUGAL, select_poll__doc__},
+    {select_poll_MethodName.name, (PyCFunction)select_poll, METH_NOARGS|METH_C_STACK_FRUGAL, select_poll__doc__},
 
 static PyObject *
 select_poll_impl(PyObject *module);
@@ -526,8 +538,9 @@ PyDoc_STRVAR(select_devpoll__doc__,
 "This object supports registering and unregistering file descriptors, and then\n"
 "polling them for I/O events.");
 
+static struct {char name[];} select_devpoll_MethodName = {.name = "devpoll",};
 #define SELECT_DEVPOLL_METHODDEF    \
-    {"devpoll", (PyCFunction)select_devpoll, METH_NOARGS|METH_C_STACK_FRUGAL, select_devpoll__doc__},
+    {select_devpoll_MethodName.name, (PyCFunction)select_devpoll, METH_NOARGS|METH_C_STACK_FRUGAL, select_devpoll__doc__},
 
 static PyObject *
 select_devpoll_impl(PyObject *module);
@@ -638,8 +651,9 @@ PyDoc_STRVAR(select_epoll_close__doc__,
 "\n"
 "Further operations on the epoll object will raise an exception.");
 
+static struct {char name[];} select_epoll_close_MethodName = {.name = "close",};
 #define SELECT_EPOLL_CLOSE_METHODDEF    \
-    {"close", (PyCFunction)select_epoll_close, METH_NOARGS|METH_C_STACK_FRUGAL, select_epoll_close__doc__},
+    {select_epoll_close_MethodName.name, (PyCFunction)select_epoll_close, METH_NOARGS|METH_C_STACK_FRUGAL, select_epoll_close__doc__},
 
 static PyObject *
 select_epoll_close_impl(pyEpoll_Object *self);
@@ -666,8 +680,9 @@ PyDoc_STRVAR(select_epoll_fileno__doc__,
 "\n"
 "Return the epoll control file descriptor.");
 
+static struct {char name[];} select_epoll_fileno_MethodName = {.name = "fileno",};
 #define SELECT_EPOLL_FILENO_METHODDEF    \
-    {"fileno", (PyCFunction)select_epoll_fileno, METH_NOARGS|METH_C_STACK_FRUGAL, select_epoll_fileno__doc__},
+    {select_epoll_fileno_MethodName.name, (PyCFunction)select_epoll_fileno, METH_NOARGS|METH_C_STACK_FRUGAL, select_epoll_fileno__doc__},
 
 static PyObject *
 select_epoll_fileno_impl(pyEpoll_Object *self);
@@ -688,8 +703,9 @@ PyDoc_STRVAR(select_epoll_fromfd__doc__,
 "\n"
 "Create an epoll object from a given control fd.");
 
+static struct {char name[];} select_epoll_fromfd_MethodName = {.name = "fromfd",};
 #define SELECT_EPOLL_FROMFD_METHODDEF    \
-    {"fromfd", (PyCFunction)select_epoll_fromfd, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, select_epoll_fromfd__doc__},
+    {select_epoll_fromfd_MethodName.name, (PyCFunction)select_epoll_fromfd, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, select_epoll_fromfd__doc__},
 
 static PyObject *
 select_epoll_fromfd_impl(PyTypeObject *type, int fd);
@@ -728,8 +744,9 @@ PyDoc_STRVAR(select_epoll_register__doc__,
 "\n"
 "The epoll interface supports all file descriptors that support poll.");
 
+static struct {char name[];} select_epoll_register_MethodName = {.name = "register",};
 #define SELECT_EPOLL_REGISTER_METHODDEF    \
-    {"register", _PyCFunction_CAST(select_epoll_register), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, select_epoll_register__doc__},
+    {select_epoll_register_MethodName.name, _PyCFunction_CAST(select_epoll_register), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, select_epoll_register__doc__},
 
 static PyObject *
 select_epoll_register_impl(pyEpoll_Object *self, int fd,
@@ -809,8 +826,9 @@ PyDoc_STRVAR(select_epoll_modify__doc__,
 "  eventmask\n"
 "    a bit set composed of the various EPOLL constants");
 
+static struct {char name[];} select_epoll_modify_MethodName = {.name = "modify",};
 #define SELECT_EPOLL_MODIFY_METHODDEF    \
-    {"modify", _PyCFunction_CAST(select_epoll_modify), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, select_epoll_modify__doc__},
+    {select_epoll_modify_MethodName.name, _PyCFunction_CAST(select_epoll_modify), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, select_epoll_modify__doc__},
 
 static PyObject *
 select_epoll_modify_impl(pyEpoll_Object *self, int fd,
@@ -883,8 +901,9 @@ PyDoc_STRVAR(select_epoll_unregister__doc__,
 "  fd\n"
 "    the target file descriptor of the operation");
 
+static struct {char name[];} select_epoll_unregister_MethodName = {.name = "unregister",};
 #define SELECT_EPOLL_UNREGISTER_METHODDEF    \
-    {"unregister", _PyCFunction_CAST(select_epoll_unregister), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, select_epoll_unregister__doc__},
+    {select_epoll_unregister_MethodName.name, _PyCFunction_CAST(select_epoll_unregister), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, select_epoll_unregister__doc__},
 
 static PyObject *
 select_epoll_unregister_impl(pyEpoll_Object *self, int fd);
@@ -957,8 +976,9 @@ PyDoc_STRVAR(select_epoll_poll__doc__,
 "Returns a list containing any descriptors that have events to report,\n"
 "as a list of (fd, events) 2-tuples.");
 
+static struct {char name[];} select_epoll_poll_MethodName = {.name = "poll",};
 #define SELECT_EPOLL_POLL_METHODDEF    \
-    {"poll", _PyCFunction_CAST(select_epoll_poll), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, select_epoll_poll__doc__},
+    {select_epoll_poll_MethodName.name, _PyCFunction_CAST(select_epoll_poll), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, select_epoll_poll__doc__},
 
 static PyObject *
 select_epoll_poll_impl(pyEpoll_Object *self, PyObject *timeout_obj,
@@ -1034,8 +1054,9 @@ PyDoc_STRVAR(select_epoll___enter____doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} select_epoll___enter___MethodName = {.name = "__enter__",};
 #define SELECT_EPOLL___ENTER___METHODDEF    \
-    {"__enter__", (PyCFunction)select_epoll___enter__, METH_NOARGS|METH_C_STACK_FRUGAL, select_epoll___enter____doc__},
+    {select_epoll___enter___MethodName.name, (PyCFunction)select_epoll___enter__, METH_NOARGS|METH_C_STACK_FRUGAL, select_epoll___enter____doc__},
 
 static PyObject *
 select_epoll___enter___impl(pyEpoll_Object *self);
@@ -1055,8 +1076,9 @@ PyDoc_STRVAR(select_epoll___exit____doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} select_epoll___exit___MethodName = {.name = "__exit__",};
 #define SELECT_EPOLL___EXIT___METHODDEF    \
-    {"__exit__", _PyCFunction_CAST(select_epoll___exit__), METH_FASTCALL|METH_C_STACK_FRUGAL, select_epoll___exit____doc__},
+    {select_epoll___exit___MethodName.name, _PyCFunction_CAST(select_epoll___exit__), METH_FASTCALL|METH_C_STACK_FRUGAL, select_epoll___exit____doc__},
 
 static PyObject *
 select_epoll___exit___impl(pyEpoll_Object *self, PyObject *exc_type,
@@ -1149,8 +1171,9 @@ PyDoc_STRVAR(select_kqueue_close__doc__,
 "\n"
 "Further operations on the kqueue object will raise an exception.");
 
+static struct {char name[];} select_kqueue_close_MethodName = {.name = "close",};
 #define SELECT_KQUEUE_CLOSE_METHODDEF    \
-    {"close", (PyCFunction)select_kqueue_close, METH_NOARGS|METH_C_STACK_FRUGAL, select_kqueue_close__doc__},
+    {select_kqueue_close_MethodName.name, (PyCFunction)select_kqueue_close, METH_NOARGS|METH_C_STACK_FRUGAL, select_kqueue_close__doc__},
 
 static PyObject *
 select_kqueue_close_impl(kqueue_queue_Object *self);
@@ -1177,8 +1200,9 @@ PyDoc_STRVAR(select_kqueue_fileno__doc__,
 "\n"
 "Return the kqueue control file descriptor.");
 
+static struct {char name[];} select_kqueue_fileno_MethodName = {.name = "fileno",};
 #define SELECT_KQUEUE_FILENO_METHODDEF    \
-    {"fileno", (PyCFunction)select_kqueue_fileno, METH_NOARGS|METH_C_STACK_FRUGAL, select_kqueue_fileno__doc__},
+    {select_kqueue_fileno_MethodName.name, (PyCFunction)select_kqueue_fileno, METH_NOARGS|METH_C_STACK_FRUGAL, select_kqueue_fileno__doc__},
 
 static PyObject *
 select_kqueue_fileno_impl(kqueue_queue_Object *self);
@@ -1199,8 +1223,9 @@ PyDoc_STRVAR(select_kqueue_fromfd__doc__,
 "\n"
 "Create a kqueue object from a given control fd.");
 
+static struct {char name[];} select_kqueue_fromfd_MethodName = {.name = "fromfd",};
 #define SELECT_KQUEUE_FROMFD_METHODDEF    \
-    {"fromfd", (PyCFunction)select_kqueue_fromfd, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, select_kqueue_fromfd__doc__},
+    {select_kqueue_fromfd_MethodName.name, (PyCFunction)select_kqueue_fromfd, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, select_kqueue_fromfd__doc__},
 
 static PyObject *
 select_kqueue_fromfd_impl(PyTypeObject *type, int fd);
@@ -1240,8 +1265,9 @@ PyDoc_STRVAR(select_kqueue_control__doc__,
 "    The maximum time to wait in seconds, or else None to wait forever.\n"
 "    This accepts floats for smaller timeouts, too.");
 
+static struct {char name[];} select_kqueue_control_MethodName = {.name = "control",};
 #define SELECT_KQUEUE_CONTROL_METHODDEF    \
-    {"control", _PyCFunction_CAST(select_kqueue_control), METH_FASTCALL|METH_C_STACK_FRUGAL, select_kqueue_control__doc__},
+    {select_kqueue_control_MethodName.name, _PyCFunction_CAST(select_kqueue_control), METH_FASTCALL|METH_C_STACK_FRUGAL, select_kqueue_control__doc__},
 
 static PyObject *
 select_kqueue_control_impl(kqueue_queue_Object *self, PyObject *changelist,
@@ -1375,4 +1401,4 @@ exit:
 #ifndef SELECT_KQUEUE_CONTROL_METHODDEF
     #define SELECT_KQUEUE_CONTROL_METHODDEF
 #endif /* !defined(SELECT_KQUEUE_CONTROL_METHODDEF) */
-/*[clinic end generated code: output=96f06731aa7fcbe7 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=e00b3430e2d00992 input=a9049054013a1b77]*/

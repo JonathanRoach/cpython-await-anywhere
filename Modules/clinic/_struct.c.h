@@ -82,8 +82,9 @@ PyDoc_STRVAR(Struct_unpack__doc__,
 "\n"
 "See help(struct) for more on format strings.");
 
+static struct {char name[];} Struct_unpack_MethodName = {.name = "unpack",};
 #define STRUCT_UNPACK_METHODDEF    \
-    {"unpack", (PyCFunction)Struct_unpack, METH_O|METH_C_STACK_FRUGAL, Struct_unpack__doc__},
+    {Struct_unpack_MethodName.name, (PyCFunction)Struct_unpack, METH_O|METH_C_STACK_FRUGAL, Struct_unpack__doc__},
 
 static PyObject *
 Struct_unpack_impl(PyStructObject *self, Py_buffer *buffer);
@@ -121,8 +122,9 @@ PyDoc_STRVAR(Struct_unpack_from__doc__,
 "\n"
 "See help(struct) for more on format strings.");
 
+static struct {char name[];} Struct_unpack_from_MethodName = {.name = "unpack_from",};
 #define STRUCT_UNPACK_FROM_METHODDEF    \
-    {"unpack_from", _PyCFunction_CAST(Struct_unpack_from), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, Struct_unpack_from__doc__},
+    {Struct_unpack_from_MethodName.name, _PyCFunction_CAST(Struct_unpack_from), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, Struct_unpack_from__doc__},
 
 static PyObject *
 Struct_unpack_from_impl(PyStructObject *self, Py_buffer *buffer,
@@ -210,8 +212,9 @@ PyDoc_STRVAR(Struct_iter_unpack__doc__,
 "\n"
 "Requires that the bytes length be a multiple of the struct size.");
 
+static struct {char name[];} Struct_iter_unpack_MethodName = {.name = "iter_unpack",};
 #define STRUCT_ITER_UNPACK_METHODDEF    \
-    {"iter_unpack", (PyCFunction)Struct_iter_unpack, METH_O|METH_C_STACK_FRUGAL, Struct_iter_unpack__doc__},
+    {Struct_iter_unpack_MethodName.name, (PyCFunction)Struct_iter_unpack, METH_O|METH_C_STACK_FRUGAL, Struct_iter_unpack__doc__},
 
 static PyObject *
 Struct_iter_unpack_impl(PyStructObject *self, PyObject *buffer);
@@ -232,8 +235,9 @@ PyDoc_STRVAR(_clearcache__doc__,
 "\n"
 "Clear the internal cache.");
 
+static struct {char name[];} _clearcache_MethodName = {.name = "_clearcache",};
 #define _CLEARCACHE_METHODDEF    \
-    {"_clearcache", (PyCFunction)_clearcache, METH_NOARGS|METH_C_STACK_FRUGAL, _clearcache__doc__},
+    {_clearcache_MethodName.name, (PyCFunction)_clearcache, METH_NOARGS|METH_C_STACK_FRUGAL, _clearcache__doc__},
 
 static PyObject *
 _clearcache_impl(PyObject *module);
@@ -250,8 +254,9 @@ PyDoc_STRVAR(calcsize__doc__,
 "\n"
 "Return size in bytes of the struct described by the format string.");
 
+static struct {char name[];} calcsize_MethodName = {.name = "calcsize",};
 #define CALCSIZE_METHODDEF    \
-    {"calcsize", (PyCFunction)calcsize, METH_O|METH_C_STACK_FRUGAL, calcsize__doc__},
+    {calcsize_MethodName.name, (PyCFunction)calcsize, METH_O|METH_C_STACK_FRUGAL, calcsize__doc__},
 
 static Py_ssize_t
 calcsize_impl(PyObject *module, PyStructObject *s_object);
@@ -289,8 +294,9 @@ PyDoc_STRVAR(unpack__doc__,
 "\n"
 "See help(struct) for more on format strings.");
 
+static struct {char name[];} unpack_MethodName = {.name = "unpack",};
 #define UNPACK_METHODDEF    \
-    {"unpack", _PyCFunction_CAST(unpack), METH_FASTCALL|METH_C_STACK_FRUGAL, unpack__doc__},
+    {unpack_MethodName.name, _PyCFunction_CAST(unpack), METH_FASTCALL|METH_C_STACK_FRUGAL, unpack__doc__},
 
 static PyObject *
 unpack_impl(PyObject *module, PyStructObject *s_object, Py_buffer *buffer);
@@ -334,8 +340,9 @@ PyDoc_STRVAR(unpack_from__doc__,
 "\n"
 "See help(struct) for more on format strings.");
 
+static struct {char name[];} unpack_from_MethodName = {.name = "unpack_from",};
 #define UNPACK_FROM_METHODDEF    \
-    {"unpack_from", _PyCFunction_CAST(unpack_from), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, unpack_from__doc__},
+    {unpack_from_MethodName.name, _PyCFunction_CAST(unpack_from), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, unpack_from__doc__},
 
 static PyObject *
 unpack_from_impl(PyObject *module, PyStructObject *s_object,
@@ -429,8 +436,9 @@ PyDoc_STRVAR(iter_unpack__doc__,
 "\n"
 "Requires that the bytes length be a multiple of the format struct size.");
 
+static struct {char name[];} iter_unpack_MethodName = {.name = "iter_unpack",};
 #define ITER_UNPACK_METHODDEF    \
-    {"iter_unpack", _PyCFunction_CAST(iter_unpack), METH_FASTCALL|METH_C_STACK_FRUGAL, iter_unpack__doc__},
+    {iter_unpack_MethodName.name, _PyCFunction_CAST(iter_unpack), METH_FASTCALL|METH_C_STACK_FRUGAL, iter_unpack__doc__},
 
 static PyObject *
 iter_unpack_impl(PyObject *module, PyStructObject *s_object,
@@ -458,4 +466,4 @@ exit:
 
     return return_value;
 }
-/*[clinic end generated code: output=0a897a8263cb404d input=a9049054013a1b77]*/
+/*[clinic end generated code: output=5c7ade819f7504e6 input=a9049054013a1b77]*/

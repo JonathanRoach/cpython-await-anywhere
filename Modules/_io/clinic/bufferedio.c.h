@@ -15,8 +15,9 @@ PyDoc_STRVAR(_io__BufferedIOBase_readinto__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _io__BufferedIOBase_readinto_MethodName = {.name = "readinto",};
 #define _IO__BUFFEREDIOBASE_READINTO_METHODDEF    \
-    {"readinto", (PyCFunction)_io__BufferedIOBase_readinto, METH_O|METH_C_STACK_FRUGAL, _io__BufferedIOBase_readinto__doc__},
+    {_io__BufferedIOBase_readinto_MethodName.name, (PyCFunction)_io__BufferedIOBase_readinto, METH_O|METH_C_STACK_FRUGAL, _io__BufferedIOBase_readinto__doc__},
 
 static PyObject *
 _io__BufferedIOBase_readinto_impl(PyObject *self, Py_buffer *buffer);
@@ -49,8 +50,9 @@ PyDoc_STRVAR(_io__BufferedIOBase_readinto1__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _io__BufferedIOBase_readinto1_MethodName = {.name = "readinto1",};
 #define _IO__BUFFEREDIOBASE_READINTO1_METHODDEF    \
-    {"readinto1", (PyCFunction)_io__BufferedIOBase_readinto1, METH_O|METH_C_STACK_FRUGAL, _io__BufferedIOBase_readinto1__doc__},
+    {_io__BufferedIOBase_readinto1_MethodName.name, (PyCFunction)_io__BufferedIOBase_readinto1, METH_O|METH_C_STACK_FRUGAL, _io__BufferedIOBase_readinto1__doc__},
 
 static PyObject *
 _io__BufferedIOBase_readinto1_impl(PyObject *self, Py_buffer *buffer);
@@ -87,8 +89,9 @@ PyDoc_STRVAR(_io__BufferedIOBase_detach__doc__,
 "After the raw stream has been detached, the buffer is in an unusable\n"
 "state.");
 
+static struct {char name[];} _io__BufferedIOBase_detach_MethodName = {.name = "detach",};
 #define _IO__BUFFEREDIOBASE_DETACH_METHODDEF    \
-    {"detach", _PyCFunction_CAST(_io__BufferedIOBase_detach), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__BufferedIOBase_detach__doc__},
+    {_io__BufferedIOBase_detach_MethodName.name, _PyCFunction_CAST(_io__BufferedIOBase_detach), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__BufferedIOBase_detach__doc__},
 
 static PyObject *
 _io__BufferedIOBase_detach_impl(PyObject *self, PyTypeObject *cls);
@@ -124,8 +127,9 @@ PyDoc_STRVAR(_io__BufferedIOBase_read__doc__,
 "Return None if the underlying raw stream was open in non-blocking\n"
 "mode and no data is available at the moment.");
 
+static struct {char name[];} _io__BufferedIOBase_read_MethodName = {.name = "read",};
 #define _IO__BUFFEREDIOBASE_READ_METHODDEF    \
-    {"read", _PyCFunction_CAST(_io__BufferedIOBase_read), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__BufferedIOBase_read__doc__},
+    {_io__BufferedIOBase_read_MethodName.name, _PyCFunction_CAST(_io__BufferedIOBase_read), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__BufferedIOBase_read__doc__},
 
 static PyObject *
 _io__BufferedIOBase_read_impl(PyObject *self, PyTypeObject *cls,
@@ -179,8 +183,9 @@ PyDoc_STRVAR(_io__BufferedIOBase_read1__doc__,
 "Return an empty bytes object on EOF.\n"
 "A short result does not imply that EOF is imminent.");
 
+static struct {char name[];} _io__BufferedIOBase_read1_MethodName = {.name = "read1",};
 #define _IO__BUFFEREDIOBASE_READ1_METHODDEF    \
-    {"read1", _PyCFunction_CAST(_io__BufferedIOBase_read1), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__BufferedIOBase_read1__doc__},
+    {_io__BufferedIOBase_read1_MethodName.name, _PyCFunction_CAST(_io__BufferedIOBase_read1), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__BufferedIOBase_read1__doc__},
 
 static PyObject *
 _io__BufferedIOBase_read1_impl(PyObject *self, PyTypeObject *cls,
@@ -237,8 +242,9 @@ PyDoc_STRVAR(_io__BufferedIOBase_write__doc__,
 "Raise BlockingIOError if the buffer is full and the\n"
 "underlying raw stream cannot accept more data at the moment.");
 
+static struct {char name[];} _io__BufferedIOBase_write_MethodName = {.name = "write",};
 #define _IO__BUFFEREDIOBASE_WRITE_METHODDEF    \
-    {"write", _PyCFunction_CAST(_io__BufferedIOBase_write), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__BufferedIOBase_write__doc__},
+    {_io__BufferedIOBase_write_MethodName.name, _PyCFunction_CAST(_io__BufferedIOBase_write), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__BufferedIOBase_write__doc__},
 
 static PyObject *
 _io__BufferedIOBase_write_impl(PyObject *self, PyTypeObject *cls,
@@ -281,8 +287,9 @@ PyDoc_STRVAR(_io__Buffered___sizeof____doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _io__Buffered___sizeof___MethodName = {.name = "__sizeof__",};
 #define _IO__BUFFERED___SIZEOF___METHODDEF    \
-    {"__sizeof__", (PyCFunction)_io__Buffered___sizeof__, METH_NOARGS|METH_C_STACK_FRUGAL, _io__Buffered___sizeof____doc__},
+    {_io__Buffered___sizeof___MethodName.name, (PyCFunction)_io__Buffered___sizeof__, METH_NOARGS|METH_C_STACK_FRUGAL, _io__Buffered___sizeof____doc__},
 
 static PyObject *
 _io__Buffered___sizeof___impl(buffered *self);
@@ -304,8 +311,9 @@ PyDoc_STRVAR(_io__Buffered__dealloc_warn__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _io__Buffered__dealloc_warn_MethodName = {.name = "_dealloc_warn",};
 #define _IO__BUFFERED__DEALLOC_WARN_METHODDEF    \
-    {"_dealloc_warn", (PyCFunction)_io__Buffered__dealloc_warn, METH_O|METH_C_STACK_FRUGAL, _io__Buffered__dealloc_warn__doc__},
+    {_io__Buffered__dealloc_warn_MethodName.name, (PyCFunction)_io__Buffered__dealloc_warn, METH_O|METH_C_STACK_FRUGAL, _io__Buffered__dealloc_warn__doc__},
 
 static PyObject *
 _io__Buffered__dealloc_warn_impl(buffered *self, PyObject *source);
@@ -325,8 +333,9 @@ PyDoc_STRVAR(_io__Buffered_simple_flush__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _io__Buffered_simple_flush_MethodName = {.name = "flush",};
 #define _IO__BUFFERED_SIMPLE_FLUSH_METHODDEF    \
-    {"flush", (PyCFunction)_io__Buffered_simple_flush, METH_NOARGS|METH_C_STACK_FRUGAL, _io__Buffered_simple_flush__doc__},
+    {_io__Buffered_simple_flush_MethodName.name, (PyCFunction)_io__Buffered_simple_flush, METH_NOARGS|METH_C_STACK_FRUGAL, _io__Buffered_simple_flush__doc__},
 
 static PyObject *
 _io__Buffered_simple_flush_impl(buffered *self);
@@ -373,8 +382,9 @@ PyDoc_STRVAR(_io__Buffered_close__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _io__Buffered_close_MethodName = {.name = "close",};
 #define _IO__BUFFERED_CLOSE_METHODDEF    \
-    {"close", (PyCFunction)_io__Buffered_close, METH_NOARGS|METH_C_STACK_FRUGAL, _io__Buffered_close__doc__},
+    {_io__Buffered_close_MethodName.name, (PyCFunction)_io__Buffered_close, METH_NOARGS|METH_C_STACK_FRUGAL, _io__Buffered_close__doc__},
 
 static PyObject *
 _io__Buffered_close_impl(buffered *self);
@@ -396,8 +406,9 @@ PyDoc_STRVAR(_io__Buffered_detach__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _io__Buffered_detach_MethodName = {.name = "detach",};
 #define _IO__BUFFERED_DETACH_METHODDEF    \
-    {"detach", (PyCFunction)_io__Buffered_detach, METH_NOARGS|METH_C_STACK_FRUGAL, _io__Buffered_detach__doc__},
+    {_io__Buffered_detach_MethodName.name, (PyCFunction)_io__Buffered_detach, METH_NOARGS|METH_C_STACK_FRUGAL, _io__Buffered_detach__doc__},
 
 static PyObject *
 _io__Buffered_detach_impl(buffered *self);
@@ -419,8 +430,9 @@ PyDoc_STRVAR(_io__Buffered_seekable__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _io__Buffered_seekable_MethodName = {.name = "seekable",};
 #define _IO__BUFFERED_SEEKABLE_METHODDEF    \
-    {"seekable", (PyCFunction)_io__Buffered_seekable, METH_NOARGS|METH_C_STACK_FRUGAL, _io__Buffered_seekable__doc__},
+    {_io__Buffered_seekable_MethodName.name, (PyCFunction)_io__Buffered_seekable, METH_NOARGS|METH_C_STACK_FRUGAL, _io__Buffered_seekable__doc__},
 
 static PyObject *
 _io__Buffered_seekable_impl(buffered *self);
@@ -442,8 +454,9 @@ PyDoc_STRVAR(_io__Buffered_readable__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _io__Buffered_readable_MethodName = {.name = "readable",};
 #define _IO__BUFFERED_READABLE_METHODDEF    \
-    {"readable", (PyCFunction)_io__Buffered_readable, METH_NOARGS|METH_C_STACK_FRUGAL, _io__Buffered_readable__doc__},
+    {_io__Buffered_readable_MethodName.name, (PyCFunction)_io__Buffered_readable, METH_NOARGS|METH_C_STACK_FRUGAL, _io__Buffered_readable__doc__},
 
 static PyObject *
 _io__Buffered_readable_impl(buffered *self);
@@ -465,8 +478,9 @@ PyDoc_STRVAR(_io__Buffered_writable__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _io__Buffered_writable_MethodName = {.name = "writable",};
 #define _IO__BUFFERED_WRITABLE_METHODDEF    \
-    {"writable", (PyCFunction)_io__Buffered_writable, METH_NOARGS|METH_C_STACK_FRUGAL, _io__Buffered_writable__doc__},
+    {_io__Buffered_writable_MethodName.name, (PyCFunction)_io__Buffered_writable, METH_NOARGS|METH_C_STACK_FRUGAL, _io__Buffered_writable__doc__},
 
 static PyObject *
 _io__Buffered_writable_impl(buffered *self);
@@ -538,8 +552,9 @@ PyDoc_STRVAR(_io__Buffered_fileno__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _io__Buffered_fileno_MethodName = {.name = "fileno",};
 #define _IO__BUFFERED_FILENO_METHODDEF    \
-    {"fileno", (PyCFunction)_io__Buffered_fileno, METH_NOARGS|METH_C_STACK_FRUGAL, _io__Buffered_fileno__doc__},
+    {_io__Buffered_fileno_MethodName.name, (PyCFunction)_io__Buffered_fileno, METH_NOARGS|METH_C_STACK_FRUGAL, _io__Buffered_fileno__doc__},
 
 static PyObject *
 _io__Buffered_fileno_impl(buffered *self);
@@ -561,8 +576,9 @@ PyDoc_STRVAR(_io__Buffered_isatty__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _io__Buffered_isatty_MethodName = {.name = "isatty",};
 #define _IO__BUFFERED_ISATTY_METHODDEF    \
-    {"isatty", (PyCFunction)_io__Buffered_isatty, METH_NOARGS|METH_C_STACK_FRUGAL, _io__Buffered_isatty__doc__},
+    {_io__Buffered_isatty_MethodName.name, (PyCFunction)_io__Buffered_isatty, METH_NOARGS|METH_C_STACK_FRUGAL, _io__Buffered_isatty__doc__},
 
 static PyObject *
 _io__Buffered_isatty_impl(buffered *self);
@@ -584,8 +600,9 @@ PyDoc_STRVAR(_io__Buffered_flush__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _io__Buffered_flush_MethodName = {.name = "flush",};
 #define _IO__BUFFERED_FLUSH_METHODDEF    \
-    {"flush", (PyCFunction)_io__Buffered_flush, METH_NOARGS|METH_C_STACK_FRUGAL, _io__Buffered_flush__doc__},
+    {_io__Buffered_flush_MethodName.name, (PyCFunction)_io__Buffered_flush, METH_NOARGS|METH_C_STACK_FRUGAL, _io__Buffered_flush__doc__},
 
 static PyObject *
 _io__Buffered_flush_impl(buffered *self);
@@ -607,8 +624,9 @@ PyDoc_STRVAR(_io__Buffered_peek__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _io__Buffered_peek_MethodName = {.name = "peek",};
 #define _IO__BUFFERED_PEEK_METHODDEF    \
-    {"peek", _PyCFunction_CAST(_io__Buffered_peek), METH_FASTCALL|METH_C_STACK_FRUGAL, _io__Buffered_peek__doc__},
+    {_io__Buffered_peek_MethodName.name, _PyCFunction_CAST(_io__Buffered_peek), METH_FASTCALL|METH_C_STACK_FRUGAL, _io__Buffered_peek__doc__},
 
 static PyObject *
 _io__Buffered_peek_impl(buffered *self, Py_ssize_t size);
@@ -651,8 +669,9 @@ PyDoc_STRVAR(_io__Buffered_read__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _io__Buffered_read_MethodName = {.name = "read",};
 #define _IO__BUFFERED_READ_METHODDEF    \
-    {"read", _PyCFunction_CAST(_io__Buffered_read), METH_FASTCALL|METH_C_STACK_FRUGAL, _io__Buffered_read__doc__},
+    {_io__Buffered_read_MethodName.name, _PyCFunction_CAST(_io__Buffered_read), METH_FASTCALL|METH_C_STACK_FRUGAL, _io__Buffered_read__doc__},
 
 static PyObject *
 _io__Buffered_read_impl(buffered *self, Py_ssize_t n);
@@ -686,8 +705,9 @@ PyDoc_STRVAR(_io__Buffered_read1__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _io__Buffered_read1_MethodName = {.name = "read1",};
 #define _IO__BUFFERED_READ1_METHODDEF    \
-    {"read1", _PyCFunction_CAST(_io__Buffered_read1), METH_FASTCALL|METH_C_STACK_FRUGAL, _io__Buffered_read1__doc__},
+    {_io__Buffered_read1_MethodName.name, _PyCFunction_CAST(_io__Buffered_read1), METH_FASTCALL|METH_C_STACK_FRUGAL, _io__Buffered_read1__doc__},
 
 static PyObject *
 _io__Buffered_read1_impl(buffered *self, Py_ssize_t n);
@@ -730,8 +750,9 @@ PyDoc_STRVAR(_io__Buffered_readinto__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _io__Buffered_readinto_MethodName = {.name = "readinto",};
 #define _IO__BUFFERED_READINTO_METHODDEF    \
-    {"readinto", (PyCFunction)_io__Buffered_readinto, METH_O|METH_C_STACK_FRUGAL, _io__Buffered_readinto__doc__},
+    {_io__Buffered_readinto_MethodName.name, (PyCFunction)_io__Buffered_readinto, METH_O|METH_C_STACK_FRUGAL, _io__Buffered_readinto__doc__},
 
 static PyObject *
 _io__Buffered_readinto_impl(buffered *self, Py_buffer *buffer);
@@ -764,8 +785,9 @@ PyDoc_STRVAR(_io__Buffered_readinto1__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _io__Buffered_readinto1_MethodName = {.name = "readinto1",};
 #define _IO__BUFFERED_READINTO1_METHODDEF    \
-    {"readinto1", (PyCFunction)_io__Buffered_readinto1, METH_O|METH_C_STACK_FRUGAL, _io__Buffered_readinto1__doc__},
+    {_io__Buffered_readinto1_MethodName.name, (PyCFunction)_io__Buffered_readinto1, METH_O|METH_C_STACK_FRUGAL, _io__Buffered_readinto1__doc__},
 
 static PyObject *
 _io__Buffered_readinto1_impl(buffered *self, Py_buffer *buffer);
@@ -798,8 +820,9 @@ PyDoc_STRVAR(_io__Buffered_readline__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _io__Buffered_readline_MethodName = {.name = "readline",};
 #define _IO__BUFFERED_READLINE_METHODDEF    \
-    {"readline", _PyCFunction_CAST(_io__Buffered_readline), METH_FASTCALL|METH_C_STACK_FRUGAL, _io__Buffered_readline__doc__},
+    {_io__Buffered_readline_MethodName.name, _PyCFunction_CAST(_io__Buffered_readline), METH_FASTCALL|METH_C_STACK_FRUGAL, _io__Buffered_readline__doc__},
 
 static PyObject *
 _io__Buffered_readline_impl(buffered *self, Py_ssize_t size);
@@ -833,8 +856,9 @@ PyDoc_STRVAR(_io__Buffered_tell__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _io__Buffered_tell_MethodName = {.name = "tell",};
 #define _IO__BUFFERED_TELL_METHODDEF    \
-    {"tell", (PyCFunction)_io__Buffered_tell, METH_NOARGS|METH_C_STACK_FRUGAL, _io__Buffered_tell__doc__},
+    {_io__Buffered_tell_MethodName.name, (PyCFunction)_io__Buffered_tell, METH_NOARGS|METH_C_STACK_FRUGAL, _io__Buffered_tell__doc__},
 
 static PyObject *
 _io__Buffered_tell_impl(buffered *self);
@@ -856,8 +880,9 @@ PyDoc_STRVAR(_io__Buffered_seek__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _io__Buffered_seek_MethodName = {.name = "seek",};
 #define _IO__BUFFERED_SEEK_METHODDEF    \
-    {"seek", _PyCFunction_CAST(_io__Buffered_seek), METH_FASTCALL|METH_C_STACK_FRUGAL, _io__Buffered_seek__doc__},
+    {_io__Buffered_seek_MethodName.name, _PyCFunction_CAST(_io__Buffered_seek), METH_FASTCALL|METH_C_STACK_FRUGAL, _io__Buffered_seek__doc__},
 
 static PyObject *
 _io__Buffered_seek_impl(buffered *self, PyObject *targetobj, int whence);
@@ -894,8 +919,9 @@ PyDoc_STRVAR(_io__Buffered_truncate__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _io__Buffered_truncate_MethodName = {.name = "truncate",};
 #define _IO__BUFFERED_TRUNCATE_METHODDEF    \
-    {"truncate", _PyCFunction_CAST(_io__Buffered_truncate), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__Buffered_truncate__doc__},
+    {_io__Buffered_truncate_MethodName.name, _PyCFunction_CAST(_io__Buffered_truncate), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__Buffered_truncate__doc__},
 
 static PyObject *
 _io__Buffered_truncate_impl(buffered *self, PyTypeObject *cls, PyObject *pos);
@@ -1099,8 +1125,9 @@ PyDoc_STRVAR(_io_BufferedWriter_write__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _io_BufferedWriter_write_MethodName = {.name = "write",};
 #define _IO_BUFFEREDWRITER_WRITE_METHODDEF    \
-    {"write", (PyCFunction)_io_BufferedWriter_write, METH_O|METH_C_STACK_FRUGAL, _io_BufferedWriter_write__doc__},
+    {_io_BufferedWriter_write_MethodName.name, (PyCFunction)_io_BufferedWriter_write, METH_O|METH_C_STACK_FRUGAL, _io_BufferedWriter_write__doc__},
 
 static PyObject *
 _io_BufferedWriter_write_impl(buffered *self, Py_buffer *buffer);
@@ -1265,4 +1292,4 @@ skip_optional_pos:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=e7e5fe87afa35ccc input=a9049054013a1b77]*/
+/*[clinic end generated code: output=5dd9a2fb4fc48972 input=a9049054013a1b77]*/

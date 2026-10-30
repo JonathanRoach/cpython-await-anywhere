@@ -16,8 +16,9 @@ PyDoc_STRVAR(signal_default_int_handler__doc__,
 "\n"
 "It raises KeyboardInterrupt.");
 
+static struct {char name[];} signal_default_int_handler_MethodName = {.name = "default_int_handler",};
 #define SIGNAL_DEFAULT_INT_HANDLER_METHODDEF    \
-    {"default_int_handler", _PyCFunction_CAST(signal_default_int_handler), METH_FASTCALL|METH_C_STACK_FRUGAL, signal_default_int_handler__doc__},
+    {signal_default_int_handler_MethodName.name, _PyCFunction_CAST(signal_default_int_handler), METH_FASTCALL|METH_C_STACK_FRUGAL, signal_default_int_handler__doc__},
 
 static PyObject *
 signal_default_int_handler_impl(PyObject *module, int signalnum,
@@ -52,8 +53,9 @@ PyDoc_STRVAR(signal_alarm__doc__,
 "\n"
 "Arrange for SIGALRM to arrive after the given number of seconds.");
 
+static struct {char name[];} signal_alarm_MethodName = {.name = "alarm",};
 #define SIGNAL_ALARM_METHODDEF    \
-    {"alarm", (PyCFunction)signal_alarm, METH_O|METH_C_STACK_FRUGAL, signal_alarm__doc__},
+    {signal_alarm_MethodName.name, (PyCFunction)signal_alarm, METH_O|METH_C_STACK_FRUGAL, signal_alarm__doc__},
 
 static long
 signal_alarm_impl(PyObject *module, int seconds);
@@ -89,8 +91,9 @@ PyDoc_STRVAR(signal_pause__doc__,
 "\n"
 "Wait until a signal arrives.");
 
+static struct {char name[];} signal_pause_MethodName = {.name = "pause",};
 #define SIGNAL_PAUSE_METHODDEF    \
-    {"pause", (PyCFunction)signal_pause, METH_NOARGS|METH_C_STACK_FRUGAL, signal_pause__doc__},
+    {signal_pause_MethodName.name, (PyCFunction)signal_pause, METH_NOARGS|METH_C_STACK_FRUGAL, signal_pause__doc__},
 
 static PyObject *
 signal_pause_impl(PyObject *module);
@@ -109,8 +112,9 @@ PyDoc_STRVAR(signal_raise_signal__doc__,
 "\n"
 "Send a signal to the executing process.");
 
+static struct {char name[];} signal_raise_signal_MethodName = {.name = "raise_signal",};
 #define SIGNAL_RAISE_SIGNAL_METHODDEF    \
-    {"raise_signal", (PyCFunction)signal_raise_signal, METH_O|METH_C_STACK_FRUGAL, signal_raise_signal__doc__},
+    {signal_raise_signal_MethodName.name, (PyCFunction)signal_raise_signal, METH_O|METH_C_STACK_FRUGAL, signal_raise_signal__doc__},
 
 static PyObject *
 signal_raise_signal_impl(PyObject *module, int signalnum);
@@ -144,8 +148,9 @@ PyDoc_STRVAR(signal_delay_signal__doc__,
 "If there is some signal-sensitive code which needs to complete to avoid an inconsistent state, this is when\n"
 "you might use this.");
 
+static struct {char name[];} signal_delay_signal_MethodName = {.name = "delay_signal",};
 #define SIGNAL_DELAY_SIGNAL_METHODDEF    \
-    {"delay_signal", (PyCFunction)signal_delay_signal, METH_O|METH_C_STACK_FRUGAL, signal_delay_signal__doc__},
+    {signal_delay_signal_MethodName.name, (PyCFunction)signal_delay_signal, METH_O|METH_C_STACK_FRUGAL, signal_delay_signal__doc__},
 
 static PyObject *
 signal_delay_signal_impl(PyObject *module, int amount);
@@ -179,8 +184,9 @@ PyDoc_STRVAR(signal_signal__doc__,
 "A signal handler function is called with two arguments:\n"
 "the first is the signal number, the second is the interrupted stack frame.");
 
+static struct {char name[];} signal_signal_MethodName = {.name = "signal",};
 #define SIGNAL_SIGNAL_METHODDEF    \
-    {"signal", _PyCFunction_CAST(signal_signal), METH_FASTCALL|METH_C_STACK_FRUGAL, signal_signal__doc__},
+    {signal_signal_MethodName.name, _PyCFunction_CAST(signal_signal), METH_FASTCALL|METH_C_STACK_FRUGAL, signal_signal__doc__},
 
 static PyObject *
 signal_signal_impl(PyObject *module, int signalnum, PyObject *handler);
@@ -218,8 +224,9 @@ PyDoc_STRVAR(signal_getsignal__doc__,
 "  None    -- if an unknown handler is in effect\n"
 "  anything else -- the callable Python object used as a handler");
 
+static struct {char name[];} signal_getsignal_MethodName = {.name = "getsignal",};
 #define SIGNAL_GETSIGNAL_METHODDEF    \
-    {"getsignal", (PyCFunction)signal_getsignal, METH_O|METH_C_STACK_FRUGAL, signal_getsignal__doc__},
+    {signal_getsignal_MethodName.name, (PyCFunction)signal_getsignal, METH_O|METH_C_STACK_FRUGAL, signal_getsignal__doc__},
 
 static PyObject *
 signal_getsignal_impl(PyObject *module, int signalnum);
@@ -250,8 +257,9 @@ PyDoc_STRVAR(signal_strsignal__doc__,
 "for :const:`SIGINT`. Returns :const:`None` if *signalnum* has no\n"
 "description. Raises :exc:`ValueError` if *signalnum* is invalid.");
 
+static struct {char name[];} signal_strsignal_MethodName = {.name = "strsignal",};
 #define SIGNAL_STRSIGNAL_METHODDEF    \
-    {"strsignal", (PyCFunction)signal_strsignal, METH_O|METH_C_STACK_FRUGAL, signal_strsignal__doc__},
+    {signal_strsignal_MethodName.name, (PyCFunction)signal_strsignal, METH_O|METH_C_STACK_FRUGAL, signal_strsignal__doc__},
 
 static PyObject *
 signal_strsignal_impl(PyObject *module, int signalnum);
@@ -283,8 +291,9 @@ PyDoc_STRVAR(signal_siginterrupt__doc__,
 "If flag is False, system calls will be restarted when interrupted by\n"
 "signal sig, else system calls will be interrupted.");
 
+static struct {char name[];} signal_siginterrupt_MethodName = {.name = "siginterrupt",};
 #define SIGNAL_SIGINTERRUPT_METHODDEF    \
-    {"siginterrupt", _PyCFunction_CAST(signal_siginterrupt), METH_FASTCALL|METH_C_STACK_FRUGAL, signal_siginterrupt__doc__},
+    {signal_siginterrupt_MethodName.name, _PyCFunction_CAST(signal_siginterrupt), METH_FASTCALL|METH_C_STACK_FRUGAL, signal_siginterrupt__doc__},
 
 static PyObject *
 signal_siginterrupt_impl(PyObject *module, int signalnum, int flag);
@@ -326,8 +335,9 @@ PyDoc_STRVAR(signal_set_wakeup_fd__doc__,
 "\n"
 "The fd must be non-blocking.");
 
+static struct {char name[];} signal_set_wakeup_fd_MethodName = {.name = "set_wakeup_fd",};
 #define SIGNAL_SET_WAKEUP_FD_METHODDEF    \
-    {"set_wakeup_fd", _PyCFunction_CAST(signal_set_wakeup_fd), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, signal_set_wakeup_fd__doc__},
+    {signal_set_wakeup_fd_MethodName.name, _PyCFunction_CAST(signal_set_wakeup_fd), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, signal_set_wakeup_fd__doc__},
 
 static PyObject *
 signal_set_wakeup_fd_impl(PyObject *module, PyObject *fdobj,
@@ -402,8 +412,9 @@ PyDoc_STRVAR(signal_setitimer__doc__,
 "\n"
 "Returns old values as a tuple: (delay, interval).");
 
+static struct {char name[];} signal_setitimer_MethodName = {.name = "setitimer",};
 #define SIGNAL_SETITIMER_METHODDEF    \
-    {"setitimer", _PyCFunction_CAST(signal_setitimer), METH_FASTCALL|METH_C_STACK_FRUGAL, signal_setitimer__doc__},
+    {signal_setitimer_MethodName.name, _PyCFunction_CAST(signal_setitimer), METH_FASTCALL|METH_C_STACK_FRUGAL, signal_setitimer__doc__},
 
 static PyObject *
 signal_setitimer_impl(PyObject *module, int which, PyObject *seconds,
@@ -446,8 +457,9 @@ PyDoc_STRVAR(signal_getitimer__doc__,
 "\n"
 "Returns current value of given itimer.");
 
+static struct {char name[];} signal_getitimer_MethodName = {.name = "getitimer",};
 #define SIGNAL_GETITIMER_METHODDEF    \
-    {"getitimer", (PyCFunction)signal_getitimer, METH_O|METH_C_STACK_FRUGAL, signal_getitimer__doc__},
+    {signal_getitimer_MethodName.name, (PyCFunction)signal_getitimer, METH_O|METH_C_STACK_FRUGAL, signal_getitimer__doc__},
 
 static PyObject *
 signal_getitimer_impl(PyObject *module, int which);
@@ -478,8 +490,9 @@ PyDoc_STRVAR(signal_pthread_sigmask__doc__,
 "\n"
 "Fetch and/or change the signal mask of the calling thread.");
 
+static struct {char name[];} signal_pthread_sigmask_MethodName = {.name = "pthread_sigmask",};
 #define SIGNAL_PTHREAD_SIGMASK_METHODDEF    \
-    {"pthread_sigmask", _PyCFunction_CAST(signal_pthread_sigmask), METH_FASTCALL|METH_C_STACK_FRUGAL, signal_pthread_sigmask__doc__},
+    {signal_pthread_sigmask_MethodName.name, _PyCFunction_CAST(signal_pthread_sigmask), METH_FASTCALL|METH_C_STACK_FRUGAL, signal_pthread_sigmask__doc__},
 
 static PyObject *
 signal_pthread_sigmask_impl(PyObject *module, int how, sigset_t mask);
@@ -520,8 +533,9 @@ PyDoc_STRVAR(signal_sigpending__doc__,
 "Returns a set of signal numbers that are pending for delivery to\n"
 "the calling thread.");
 
+static struct {char name[];} signal_sigpending_MethodName = {.name = "sigpending",};
 #define SIGNAL_SIGPENDING_METHODDEF    \
-    {"sigpending", (PyCFunction)signal_sigpending, METH_NOARGS|METH_C_STACK_FRUGAL, signal_sigpending__doc__},
+    {signal_sigpending_MethodName.name, (PyCFunction)signal_sigpending, METH_NOARGS|METH_C_STACK_FRUGAL, signal_sigpending__doc__},
 
 static PyObject *
 signal_sigpending_impl(PyObject *module);
@@ -546,8 +560,9 @@ PyDoc_STRVAR(signal_sigwait__doc__,
 "signals specified in the signal set sigset.  The function accepts the signal\n"
 "and returns the signal number.");
 
+static struct {char name[];} signal_sigwait_MethodName = {.name = "sigwait",};
 #define SIGNAL_SIGWAIT_METHODDEF    \
-    {"sigwait", (PyCFunction)signal_sigwait, METH_O|METH_C_STACK_FRUGAL, signal_sigwait__doc__},
+    {signal_sigwait_MethodName.name, (PyCFunction)signal_sigwait, METH_O|METH_C_STACK_FRUGAL, signal_sigwait__doc__},
 
 static PyObject *
 signal_sigwait_impl(PyObject *module, sigset_t sigset);
@@ -580,8 +595,9 @@ PyDoc_STRVAR(signal_valid_signals__doc__,
 "The signal numbers returned by this function can be safely passed to\n"
 "functions like `pthread_sigmask`.");
 
+static struct {char name[];} signal_valid_signals_MethodName = {.name = "valid_signals",};
 #define SIGNAL_VALID_SIGNALS_METHODDEF    \
-    {"valid_signals", (PyCFunction)signal_valid_signals, METH_NOARGS|METH_C_STACK_FRUGAL, signal_valid_signals__doc__},
+    {signal_valid_signals_MethodName.name, (PyCFunction)signal_valid_signals, METH_NOARGS|METH_C_STACK_FRUGAL, signal_valid_signals__doc__},
 
 static PyObject *
 signal_valid_signals_impl(PyObject *module);
@@ -604,8 +620,9 @@ PyDoc_STRVAR(signal_sigwaitinfo__doc__,
 "\n"
 "Returns a struct_siginfo containing information about the signal.");
 
+static struct {char name[];} signal_sigwaitinfo_MethodName = {.name = "sigwaitinfo",};
 #define SIGNAL_SIGWAITINFO_METHODDEF    \
-    {"sigwaitinfo", (PyCFunction)signal_sigwaitinfo, METH_O|METH_C_STACK_FRUGAL, signal_sigwaitinfo__doc__},
+    {signal_sigwaitinfo_MethodName.name, (PyCFunction)signal_sigwaitinfo, METH_O|METH_C_STACK_FRUGAL, signal_sigwaitinfo__doc__},
 
 static PyObject *
 signal_sigwaitinfo_impl(PyObject *module, sigset_t sigset);
@@ -637,8 +654,9 @@ PyDoc_STRVAR(signal_sigtimedwait__doc__,
 "\n"
 "The timeout is specified in seconds, with floating-point numbers allowed.");
 
+static struct {char name[];} signal_sigtimedwait_MethodName = {.name = "sigtimedwait",};
 #define SIGNAL_SIGTIMEDWAIT_METHODDEF    \
-    {"sigtimedwait", _PyCFunction_CAST(signal_sigtimedwait), METH_FASTCALL|METH_C_STACK_FRUGAL, signal_sigtimedwait__doc__},
+    {signal_sigtimedwait_MethodName.name, _PyCFunction_CAST(signal_sigtimedwait), METH_FASTCALL|METH_C_STACK_FRUGAL, signal_sigtimedwait__doc__},
 
 static PyObject *
 signal_sigtimedwait_impl(PyObject *module, sigset_t sigset,
@@ -674,8 +692,9 @@ PyDoc_STRVAR(signal_pthread_kill__doc__,
 "\n"
 "Send a signal to a thread.");
 
+static struct {char name[];} signal_pthread_kill_MethodName = {.name = "pthread_kill",};
 #define SIGNAL_PTHREAD_KILL_METHODDEF    \
-    {"pthread_kill", _PyCFunction_CAST(signal_pthread_kill), METH_FASTCALL|METH_C_STACK_FRUGAL, signal_pthread_kill__doc__},
+    {signal_pthread_kill_MethodName.name, _PyCFunction_CAST(signal_pthread_kill), METH_FASTCALL|METH_C_STACK_FRUGAL, signal_pthread_kill__doc__},
 
 static PyObject *
 signal_pthread_kill_impl(PyObject *module, unsigned long thread_id,
@@ -716,8 +735,9 @@ PyDoc_STRVAR(signal_pidfd_send_signal__doc__,
 "\n"
 "Send a signal to a process referred to by a pid file descriptor.");
 
+static struct {char name[];} signal_pidfd_send_signal_MethodName = {.name = "pidfd_send_signal",};
 #define SIGNAL_PIDFD_SEND_SIGNAL_METHODDEF    \
-    {"pidfd_send_signal", _PyCFunction_CAST(signal_pidfd_send_signal), METH_FASTCALL|METH_C_STACK_FRUGAL, signal_pidfd_send_signal__doc__},
+    {signal_pidfd_send_signal_MethodName.name, _PyCFunction_CAST(signal_pidfd_send_signal), METH_FASTCALL|METH_C_STACK_FRUGAL, signal_pidfd_send_signal__doc__},
 
 static PyObject *
 signal_pidfd_send_signal_impl(PyObject *module, int pidfd, int signalnum,
@@ -814,4 +834,4 @@ exit:
 #ifndef SIGNAL_PIDFD_SEND_SIGNAL_METHODDEF
     #define SIGNAL_PIDFD_SEND_SIGNAL_METHODDEF
 #endif /* !defined(SIGNAL_PIDFD_SEND_SIGNAL_METHODDEF) */
-/*[clinic end generated code: output=0a3d93063a56fda7 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=89150763da9f327a input=a9049054013a1b77]*/

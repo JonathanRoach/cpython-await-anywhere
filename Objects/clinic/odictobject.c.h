@@ -14,8 +14,9 @@ PyDoc_STRVAR(OrderedDict_fromkeys__doc__,
 "\n"
 "Create a new ordered dictionary with keys from iterable and values set to value.");
 
+static struct {char name[];} OrderedDict_fromkeys_MethodName = {.name = "fromkeys",};
 #define ORDEREDDICT_FROMKEYS_METHODDEF    \
-    {"fromkeys", _PyCFunction_CAST(OrderedDict_fromkeys), METH_FASTCALL|METH_KEYWORDS|METH_CLASS|METH_C_STACK_FRUGAL, OrderedDict_fromkeys__doc__},
+    {OrderedDict_fromkeys_MethodName.name, _PyCFunction_CAST(OrderedDict_fromkeys), METH_FASTCALL|METH_KEYWORDS|METH_CLASS|METH_C_STACK_FRUGAL, OrderedDict_fromkeys__doc__},
 
 static PyObject *
 OrderedDict_fromkeys_impl(PyTypeObject *type, PyObject *seq, PyObject *value);
@@ -81,8 +82,9 @@ PyDoc_STRVAR(OrderedDict_setdefault__doc__,
 "\n"
 "Return the value for key if key is in the dictionary, else default.");
 
+static struct {char name[];} OrderedDict_setdefault_MethodName = {.name = "setdefault",};
 #define ORDEREDDICT_SETDEFAULT_METHODDEF    \
-    {"setdefault", _PyCFunction_CAST(OrderedDict_setdefault), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, OrderedDict_setdefault__doc__},
+    {OrderedDict_setdefault_MethodName.name, _PyCFunction_CAST(OrderedDict_setdefault), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, OrderedDict_setdefault__doc__},
 
 static PyObject *
 OrderedDict_setdefault_impl(PyODictObject *self, PyObject *key,
@@ -150,8 +152,9 @@ PyDoc_STRVAR(OrderedDict_pop__doc__,
 "If the key is not found, return the default if given; otherwise,\n"
 "raise a KeyError.");
 
+static struct {char name[];} OrderedDict_pop_MethodName = {.name = "pop",};
 #define ORDEREDDICT_POP_METHODDEF    \
-    {"pop", _PyCFunction_CAST(OrderedDict_pop), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, OrderedDict_pop__doc__},
+    {OrderedDict_pop_MethodName.name, _PyCFunction_CAST(OrderedDict_pop), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, OrderedDict_pop__doc__},
 
 static PyObject *
 OrderedDict_pop_impl(PyODictObject *self, PyObject *key,
@@ -218,8 +221,9 @@ PyDoc_STRVAR(OrderedDict_popitem__doc__,
 "\n"
 "Pairs are returned in LIFO order if last is true or FIFO order if false.");
 
+static struct {char name[];} OrderedDict_popitem_MethodName = {.name = "popitem",};
 #define ORDEREDDICT_POPITEM_METHODDEF    \
-    {"popitem", _PyCFunction_CAST(OrderedDict_popitem), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, OrderedDict_popitem__doc__},
+    {OrderedDict_popitem_MethodName.name, _PyCFunction_CAST(OrderedDict_popitem), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, OrderedDict_popitem__doc__},
 
 static PyObject *
 OrderedDict_popitem_impl(PyODictObject *self, int last);
@@ -286,8 +290,9 @@ PyDoc_STRVAR(OrderedDict_move_to_end__doc__,
 "\n"
 "Raise KeyError if the element does not exist.");
 
+static struct {char name[];} OrderedDict_move_to_end_MethodName = {.name = "move_to_end",};
 #define ORDEREDDICT_MOVE_TO_END_METHODDEF    \
-    {"move_to_end", _PyCFunction_CAST(OrderedDict_move_to_end), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, OrderedDict_move_to_end__doc__},
+    {OrderedDict_move_to_end_MethodName.name, _PyCFunction_CAST(OrderedDict_move_to_end), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, OrderedDict_move_to_end__doc__},
 
 static PyObject *
 OrderedDict_move_to_end_impl(PyODictObject *self, PyObject *key, int last);
@@ -347,4 +352,4 @@ skip_optional_pos:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=6610f2d5be07a142 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=3b56feea5df3be6f input=a9049054013a1b77]*/

@@ -24,8 +24,9 @@ PyDoc_STRVAR(_bisect_bisect_right__doc__,
 "\n"
 "A custom key function can be supplied to customize the sort order.");
 
+static struct {char name[];} _bisect_bisect_right_MethodName = {.name = "bisect_right",};
 #define _BISECT_BISECT_RIGHT_METHODDEF    \
-    {"bisect_right", _PyCFunction_CAST(_bisect_bisect_right), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _bisect_bisect_right__doc__},
+    {_bisect_bisect_right_MethodName.name, _PyCFunction_CAST(_bisect_bisect_right), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _bisect_bisect_right__doc__},
 
 static Py_ssize_t
 _bisect_bisect_right_impl(PyObject *module, PyObject *a, PyObject *x,
@@ -135,8 +136,9 @@ PyDoc_STRVAR(_bisect_insort_right__doc__,
 "\n"
 "A custom key function can be supplied to customize the sort order.");
 
+static struct {char name[];} _bisect_insort_right_MethodName = {.name = "insort_right",};
 #define _BISECT_INSORT_RIGHT_METHODDEF    \
-    {"insort_right", _PyCFunction_CAST(_bisect_insort_right), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _bisect_insort_right__doc__},
+    {_bisect_insort_right_MethodName.name, _PyCFunction_CAST(_bisect_insort_right), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _bisect_insort_right__doc__},
 
 static PyObject *
 _bisect_insort_right_impl(PyObject *module, PyObject *a, PyObject *x,
@@ -243,8 +245,9 @@ PyDoc_STRVAR(_bisect_bisect_left__doc__,
 "\n"
 "A custom key function can be supplied to customize the sort order.");
 
+static struct {char name[];} _bisect_bisect_left_MethodName = {.name = "bisect_left",};
 #define _BISECT_BISECT_LEFT_METHODDEF    \
-    {"bisect_left", _PyCFunction_CAST(_bisect_bisect_left), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _bisect_bisect_left__doc__},
+    {_bisect_bisect_left_MethodName.name, _PyCFunction_CAST(_bisect_bisect_left), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _bisect_bisect_left__doc__},
 
 static Py_ssize_t
 _bisect_bisect_left_impl(PyObject *module, PyObject *a, PyObject *x,
@@ -354,8 +357,9 @@ PyDoc_STRVAR(_bisect_insort_left__doc__,
 "\n"
 "A custom key function can be supplied to customize the sort order.");
 
+static struct {char name[];} _bisect_insort_left_MethodName = {.name = "insort_left",};
 #define _BISECT_INSORT_LEFT_METHODDEF    \
-    {"insort_left", _PyCFunction_CAST(_bisect_insort_left), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _bisect_insort_left__doc__},
+    {_bisect_insort_left_MethodName.name, _PyCFunction_CAST(_bisect_insort_left), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _bisect_insort_left__doc__},
 
 static PyObject *
 _bisect_insort_left_impl(PyObject *module, PyObject *a, PyObject *x,
@@ -446,4 +450,4 @@ skip_optional_kwonly:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=8d35e89fccab5d99 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=7d44e3cbb6da9ed9 input=a9049054013a1b77]*/

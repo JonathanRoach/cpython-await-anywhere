@@ -17,6 +17,7 @@ PyAPI_DATA(PyTypeObject) PyCFunction_Type;
 #define PyCFunction_Check(op) PyObject_TypeCheck((op), &PyCFunction_Type)
 
 typedef PyObject *(*PyCFunction)(PyObject *, PyObject *);
+typedef PyObject *(*PyCFunction_Inlineable)(PyObject *, PyObject *, struct _PyInterpreterFrame **inlined);
 typedef PyObject *(*PyCFunctionFast) (PyObject *, PyObject *const *, Py_ssize_t);
 typedef PyObject *(*PyCFunctionWithKeywords)(PyObject *, PyObject *,
                                              PyObject *);
@@ -161,6 +162,11 @@ before and after the call of how much guard pattern is there is the stack
 usage. 1M may seem a great deal, but some functions use 100's of k
 that it's worth it. */
 #define METH_C_STACK_MEASURE 0x0800
+
+/* METH_C_INLINEABLE means an inlineable version of the function is
+available. When set, in a struct PyMethodDef a pointer to the inlineable version
+of the function must be stored before the function's name string */
+#define METH_C_INLINEABLE 0x1000
 
 #ifndef Py_LIMITED_API
 #  define Py_CPYTHON_METHODOBJECT_H

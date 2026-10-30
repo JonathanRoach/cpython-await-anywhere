@@ -16,6 +16,7 @@
 #include "pycore_pythonrun.h"     // _Py_SourceAsString()
 #include "pycore_tuple.h"         // _PyTuple_FromArray()
 #include "pycore_cell.h"          // PyCell_GetRef()
+#include "pycore_abstract.h"      // PyNumber_Absolute_Inlineable()
 
 #include "clinic/bltinmodule.c.h"
 
@@ -289,6 +290,7 @@ builtin___import___impl(PyObject *module, PyObject *name, PyObject *globals,
 
 /*[clinic input]
 @c_stack_frugal
+@c_inlineable
 abs as builtin_abs
 
     x: object
@@ -298,10 +300,18 @@ Return the absolute value of the argument.
 [clinic start generated code]*/
 
 static PyObject *
-builtin_abs(PyObject *module, PyObject *x)
-/*[clinic end generated code: output=b1b433b9e51356f5 input=8aaf9c9a111bbd34]*/
+builtin_abs_Inlineable(PyObject *module, PyObject *x,
+                       struct _PyInterpreterFrame **inlined);
+static PyObject *
+builtin_abs(PyObject *module, PyObject *x){
+    return builtin_abs_Inlineable(module, x, NULL);
+}
+static PyObject *
+builtin_abs_Inlineable(PyObject *module, PyObject *x,
+                       struct _PyInterpreterFrame **inlined)
+/*[clinic end generated code: output=e52a0da7b9b98300 input=9b518ac308385558]*/
 {
-    return PyNumber_Absolute(x);
+    return PyNumber_Absolute_Inlineable(x, inlined);
 }
 
 /*[clinic input]

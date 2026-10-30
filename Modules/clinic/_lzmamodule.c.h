@@ -20,8 +20,9 @@ PyDoc_STRVAR(_lzma_LZMACompressor_compress__doc__,
 "When you have finished providing data to the compressor, call the\n"
 "flush() method to finish the compression process.");
 
+static struct {char name[];} _lzma_LZMACompressor_compress_MethodName = {.name = "compress",};
 #define _LZMA_LZMACOMPRESSOR_COMPRESS_METHODDEF    \
-    {"compress", (PyCFunction)_lzma_LZMACompressor_compress, METH_O|METH_C_STACK_FRUGAL, _lzma_LZMACompressor_compress__doc__},
+    {_lzma_LZMACompressor_compress_MethodName.name, (PyCFunction)_lzma_LZMACompressor_compress, METH_O|METH_C_STACK_FRUGAL, _lzma_LZMACompressor_compress__doc__},
 
 static PyObject *
 _lzma_LZMACompressor_compress_impl(Compressor *self, Py_buffer *data);
@@ -56,8 +57,9 @@ PyDoc_STRVAR(_lzma_LZMACompressor_flush__doc__,
 "\n"
 "The compressor object may not be used after this method is called.");
 
+static struct {char name[];} _lzma_LZMACompressor_flush_MethodName = {.name = "flush",};
 #define _LZMA_LZMACOMPRESSOR_FLUSH_METHODDEF    \
-    {"flush", (PyCFunction)_lzma_LZMACompressor_flush, METH_NOARGS|METH_C_STACK_FRUGAL, _lzma_LZMACompressor_flush__doc__},
+    {_lzma_LZMACompressor_flush_MethodName.name, (PyCFunction)_lzma_LZMACompressor_flush, METH_NOARGS|METH_C_STACK_FRUGAL, _lzma_LZMACompressor_flush__doc__},
 
 static PyObject *
 _lzma_LZMACompressor_flush_impl(Compressor *self);
@@ -87,8 +89,9 @@ PyDoc_STRVAR(_lzma_LZMADecompressor_decompress__doc__,
 "EOFError.  Any data found after the end of the stream is ignored and saved in\n"
 "the unused_data attribute.");
 
+static struct {char name[];} _lzma_LZMADecompressor_decompress_MethodName = {.name = "decompress",};
 #define _LZMA_LZMADECOMPRESSOR_DECOMPRESS_METHODDEF    \
-    {"decompress", _PyCFunction_CAST(_lzma_LZMADecompressor_decompress), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _lzma_LZMADecompressor_decompress__doc__},
+    {_lzma_LZMADecompressor_decompress_MethodName.name, _PyCFunction_CAST(_lzma_LZMADecompressor_decompress), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _lzma_LZMADecompressor_decompress__doc__},
 
 static PyObject *
 _lzma_LZMADecompressor_decompress_impl(Decompressor *self, Py_buffer *data,
@@ -270,8 +273,9 @@ PyDoc_STRVAR(_lzma_is_check_supported__doc__,
 "\n"
 "Always returns True for CHECK_NONE and CHECK_CRC32.");
 
+static struct {char name[];} _lzma_is_check_supported_MethodName = {.name = "is_check_supported",};
 #define _LZMA_IS_CHECK_SUPPORTED_METHODDEF    \
-    {"is_check_supported", (PyCFunction)_lzma_is_check_supported, METH_O|METH_C_STACK_FRUGAL, _lzma_is_check_supported__doc__},
+    {_lzma_is_check_supported_MethodName.name, (PyCFunction)_lzma_is_check_supported, METH_O|METH_C_STACK_FRUGAL, _lzma_is_check_supported__doc__},
 
 static PyObject *
 _lzma_is_check_supported_impl(PyObject *module, int check_id);
@@ -300,8 +304,9 @@ PyDoc_STRVAR(_lzma__decode_filter_properties__doc__,
 "\n"
 "The result does not include the filter ID itself, only the options.");
 
+static struct {char name[];} _lzma__decode_filter_properties_MethodName = {.name = "_decode_filter_properties",};
 #define _LZMA__DECODE_FILTER_PROPERTIES_METHODDEF    \
-    {"_decode_filter_properties", _PyCFunction_CAST(_lzma__decode_filter_properties), METH_FASTCALL|METH_C_STACK_FRUGAL, _lzma__decode_filter_properties__doc__},
+    {_lzma__decode_filter_properties_MethodName.name, _PyCFunction_CAST(_lzma__decode_filter_properties), METH_FASTCALL|METH_C_STACK_FRUGAL, _lzma__decode_filter_properties__doc__},
 
 static PyObject *
 _lzma__decode_filter_properties_impl(PyObject *module, lzma_vli filter_id,
@@ -333,4 +338,4 @@ exit:
 
     return return_value;
 }
-/*[clinic end generated code: output=13ec2f937d7bc437 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=3f268840fded6ab0 input=a9049054013a1b77]*/

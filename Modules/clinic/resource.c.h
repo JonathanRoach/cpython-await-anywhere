@@ -9,8 +9,9 @@ PyDoc_STRVAR(resource_getrusage__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} resource_getrusage_MethodName = {.name = "getrusage",};
 #define RESOURCE_GETRUSAGE_METHODDEF    \
-    {"getrusage", (PyCFunction)resource_getrusage, METH_O|METH_C_STACK_FRUGAL, resource_getrusage__doc__},
+    {resource_getrusage_MethodName.name, (PyCFunction)resource_getrusage, METH_O|METH_C_STACK_FRUGAL, resource_getrusage__doc__},
 
 static PyObject *
 resource_getrusage_impl(PyObject *module, int who);
@@ -38,8 +39,9 @@ PyDoc_STRVAR(resource_getrlimit__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} resource_getrlimit_MethodName = {.name = "getrlimit",};
 #define RESOURCE_GETRLIMIT_METHODDEF    \
-    {"getrlimit", (PyCFunction)resource_getrlimit, METH_O|METH_C_STACK_FRUGAL, resource_getrlimit__doc__},
+    {resource_getrlimit_MethodName.name, (PyCFunction)resource_getrlimit, METH_O|METH_C_STACK_FRUGAL, resource_getrlimit__doc__},
 
 static PyObject *
 resource_getrlimit_impl(PyObject *module, int resource);
@@ -65,8 +67,9 @@ PyDoc_STRVAR(resource_setrlimit__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} resource_setrlimit_MethodName = {.name = "setrlimit",};
 #define RESOURCE_SETRLIMIT_METHODDEF    \
-    {"setrlimit", (PyCFunction)(void(*)(void))resource_setrlimit, METH_FASTCALL|METH_C_STACK_FRUGAL, resource_setrlimit__doc__},
+    {resource_setrlimit_MethodName.name, (PyCFunction)(void(*)(void))resource_setrlimit, METH_FASTCALL|METH_C_STACK_FRUGAL, resource_setrlimit__doc__},
 
 static PyObject *
 resource_setrlimit_impl(PyObject *module, int resource, PyObject *limits);
@@ -100,8 +103,9 @@ PyDoc_STRVAR(resource_prlimit__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} resource_prlimit_MethodName = {.name = "prlimit",};
 #define RESOURCE_PRLIMIT_METHODDEF    \
-    {"prlimit", (PyCFunction)(void(*)(void))resource_prlimit, METH_FASTCALL|METH_C_STACK_FRUGAL, resource_prlimit__doc__},
+    {resource_prlimit_MethodName.name, (PyCFunction)(void(*)(void))resource_prlimit, METH_FASTCALL|METH_C_STACK_FRUGAL, resource_prlimit__doc__},
 
 static PyObject *
 resource_prlimit_impl(PyObject *module, pid_t pid, int resource,
@@ -149,8 +153,9 @@ PyDoc_STRVAR(resource_getpagesize__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} resource_getpagesize_MethodName = {.name = "getpagesize",};
 #define RESOURCE_GETPAGESIZE_METHODDEF    \
-    {"getpagesize", (PyCFunction)resource_getpagesize, METH_NOARGS|METH_C_STACK_FRUGAL, resource_getpagesize__doc__},
+    {resource_getpagesize_MethodName.name, (PyCFunction)resource_getpagesize, METH_NOARGS|METH_C_STACK_FRUGAL, resource_getpagesize__doc__},
 
 static int
 resource_getpagesize_impl(PyObject *module);
@@ -178,4 +183,4 @@ exit:
 #ifndef RESOURCE_PRLIMIT_METHODDEF
     #define RESOURCE_PRLIMIT_METHODDEF
 #endif /* !defined(RESOURCE_PRLIMIT_METHODDEF) */
-/*[clinic end generated code: output=3bbdb85bfa5b645e input=a9049054013a1b77]*/
+/*[clinic end generated code: output=f574c131f015fab3 input=a9049054013a1b77]*/

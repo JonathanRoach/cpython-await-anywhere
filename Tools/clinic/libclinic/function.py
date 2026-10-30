@@ -100,6 +100,7 @@ class Function:
     return_converter: CReturnConverter
     kind: FunctionKind
     c_stack_frugal: bool
+    c_inlineable: bool
     coexist: bool
     return_annotation: object = inspect.Signature.empty
     docstring: str = ''
@@ -168,6 +169,8 @@ class Function:
             flags.append('METH_COEXIST')
         if self.c_stack_frugal:
             flags.append('METH_C_STACK_FRUGAL')
+        if self.c_inlineable:
+            flags.append('METH_C_INLINEABLE')
         return '|'.join(flags)
 
     def __repr__(self) -> str:

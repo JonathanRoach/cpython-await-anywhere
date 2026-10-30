@@ -44,6 +44,9 @@ _PyEM_TrampolineCall(PyCFunctionWithKeywords func,
 _PY_MAX_STACK_FOR_CALL_IF_4(static inline, PyObject *, _PyCFunction_TrampolineCall, PyCFunction func, PyObject*, self, PyObject*, args)
     return _PyEM_TrampolineCall(*_PyCFunctionWithKeywords_CAST(meth), self, args, NULL);
 }
+_PY_MAX_STACK_FOR_CALL_IF_5(static inline, PyObject *, _PyCFunction_Inlineable_TrampolineCall, PyCFunction_Inlineable func, PyObject*, self, PyObject*, args, struct _PyInterpreterFrame **, inlined)
+    return _PyEM_TrampolineCall(*_PyCFunctionWithKeywords_CAST(meth), self, args, (PyObject *)inlined);
+}
 
 _PY_MAX_STACK_FOR_CALL_IF_4(static inline, PyObject *, _PyCFunctionWithKeywords_TrampolineCall, PyCFunctionWithKeywords meth, PyObject*, self, PyObject*, args, PyObject*, kw)
     return _PyEM_TrampolineCall(meth, self, args, kw);
@@ -51,6 +54,8 @@ _PY_MAX_STACK_FOR_CALL_IF_4(static inline, PyObject *, _PyCFunctionWithKeywords_
 #else
 #define _PyCFunction_TrampolineCall(meth, self, args) \
     _PyEM_TrampolineCall(*_PyCFunctionWithKeywords_CAST(meth), (self), (args), NULL)
+#define _PyCFunction_Inlineable_TrampolineCall(meth, self, args, inlined) \
+    _PyEM_TrampolineCall(*_PyCFunctionWithKeywords_CAST(meth), (self), (args), (PyObject *)(inlined))
 
 #define _PyCFunctionWithKeywords_TrampolineCall(meth, self, args, kw) \
     _PyEM_TrampolineCall((meth), (self), (args), (kw))
@@ -71,6 +76,9 @@ _PY_MAX_STACK_FOR_CALL_IF_4(static inline, PyObject *, _PyCFunctionWithKeywords_
 _PY_MAX_STACK_FOR_CALL_IF_3(static inline, PyObject *, _PyCFunction_TrampolineCall, PyCFunction, meth, PyObject*, self, PyObject*, args)
     return meth(self, args);
 }
+_PY_MAX_STACK_FOR_CALL_IF_4(static inline, PyObject *, _PyCFunction_Inlineable_TrampolineCall, PyCFunction, meth, PyObject*, self, PyObject*, args, struct _PyInterpreterFrame **, inlined)
+    return meth(self, args, inlined);
+}
 
 _PY_MAX_STACK_FOR_CALL_IF_4(static inline, PyObject *, _PyCFunctionWithKeywords_TrampolineCall, PyCFunctionWithKeywords, meth, PyObject*, self, PyObject*, args, PyObject*, kw)
     return meth(self, args, kw);
@@ -78,6 +86,8 @@ _PY_MAX_STACK_FOR_CALL_IF_4(static inline, PyObject *, _PyCFunctionWithKeywords_
 #else
 #define _PyCFunction_TrampolineCall(meth, self, args) \
     (meth)((self), (args))
+#define _PyCFunction_Inlineable_TrampolineCall(meth, self, args, inlined) \
+    (meth)((self), (args), (inlined))
 
 #define _PyCFunctionWithKeywords_TrampolineCall(meth, self, args, kw) \
     (meth)((self), (args), (kw))

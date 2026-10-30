@@ -14,8 +14,9 @@ PyDoc_STRVAR(pysqlite_complete_statement__doc__,
 "\n"
 "Checks if a string contains a complete SQL statement.");
 
+static struct {char name[];} pysqlite_complete_statement_MethodName = {.name = "complete_statement",};
 #define PYSQLITE_COMPLETE_STATEMENT_METHODDEF    \
-    {"complete_statement", _PyCFunction_CAST(pysqlite_complete_statement), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pysqlite_complete_statement__doc__},
+    {pysqlite_complete_statement_MethodName.name, _PyCFunction_CAST(pysqlite_complete_statement), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pysqlite_complete_statement__doc__},
 
 static PyObject *
 pysqlite_complete_statement_impl(PyObject *module, const char *statement);
@@ -84,8 +85,9 @@ PyDoc_STRVAR(pysqlite_register_adapter__doc__,
 "\n"
 "Register a function to adapt Python objects to SQLite values.");
 
+static struct {char name[];} pysqlite_register_adapter_MethodName = {.name = "register_adapter",};
 #define PYSQLITE_REGISTER_ADAPTER_METHODDEF    \
-    {"register_adapter", _PyCFunction_CAST(pysqlite_register_adapter), METH_FASTCALL|METH_C_STACK_FRUGAL, pysqlite_register_adapter__doc__},
+    {pysqlite_register_adapter_MethodName.name, _PyCFunction_CAST(pysqlite_register_adapter), METH_FASTCALL|METH_C_STACK_FRUGAL, pysqlite_register_adapter__doc__},
 
 static PyObject *
 pysqlite_register_adapter_impl(PyObject *module, PyTypeObject *type,
@@ -115,8 +117,9 @@ PyDoc_STRVAR(pysqlite_register_converter__doc__,
 "\n"
 "Register a function to convert SQLite values to Python objects.");
 
+static struct {char name[];} pysqlite_register_converter_MethodName = {.name = "register_converter",};
 #define PYSQLITE_REGISTER_CONVERTER_METHODDEF    \
-    {"register_converter", _PyCFunction_CAST(pysqlite_register_converter), METH_FASTCALL|METH_C_STACK_FRUGAL, pysqlite_register_converter__doc__},
+    {pysqlite_register_converter_MethodName.name, _PyCFunction_CAST(pysqlite_register_converter), METH_FASTCALL|METH_C_STACK_FRUGAL, pysqlite_register_converter__doc__},
 
 static PyObject *
 pysqlite_register_converter_impl(PyObject *module, PyObject *orig_name,
@@ -150,8 +153,9 @@ PyDoc_STRVAR(pysqlite_enable_callback_trace__doc__,
 "\n"
 "Enable or disable callback functions throwing errors to stderr.");
 
+static struct {char name[];} pysqlite_enable_callback_trace_MethodName = {.name = "enable_callback_tracebacks",};
 #define PYSQLITE_ENABLE_CALLBACK_TRACE_METHODDEF    \
-    {"enable_callback_tracebacks", (PyCFunction)pysqlite_enable_callback_trace, METH_O|METH_C_STACK_FRUGAL, pysqlite_enable_callback_trace__doc__},
+    {pysqlite_enable_callback_trace_MethodName.name, (PyCFunction)pysqlite_enable_callback_trace, METH_O|METH_C_STACK_FRUGAL, pysqlite_enable_callback_trace__doc__},
 
 static PyObject *
 pysqlite_enable_callback_trace_impl(PyObject *module, int enable);
@@ -178,8 +182,9 @@ PyDoc_STRVAR(pysqlite_adapt__doc__,
 "\n"
 "Adapt given object to given protocol.");
 
+static struct {char name[];} pysqlite_adapt_MethodName = {.name = "adapt",};
 #define PYSQLITE_ADAPT_METHODDEF    \
-    {"adapt", _PyCFunction_CAST(pysqlite_adapt), METH_FASTCALL|METH_C_STACK_FRUGAL, pysqlite_adapt__doc__},
+    {pysqlite_adapt_MethodName.name, _PyCFunction_CAST(pysqlite_adapt), METH_FASTCALL|METH_C_STACK_FRUGAL, pysqlite_adapt__doc__},
 
 static PyObject *
 pysqlite_adapt_impl(PyObject *module, PyObject *obj, PyObject *proto,
@@ -211,4 +216,4 @@ skip_optional:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=72395d363dd608af input=a9049054013a1b77]*/
+/*[clinic end generated code: output=e15b39959686e75d input=a9049054013a1b77]*/

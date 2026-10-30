@@ -10,8 +10,9 @@ PyDoc_STRVAR(BaseException___reduce____doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} BaseException___reduce___MethodName = {.name = "__reduce__",};
 #define BASEEXCEPTION___REDUCE___METHODDEF    \
-    {"__reduce__", (PyCFunction)BaseException___reduce__, METH_NOARGS|METH_C_STACK_FRUGAL, BaseException___reduce____doc__},
+    {BaseException___reduce___MethodName.name, (PyCFunction)BaseException___reduce__, METH_NOARGS|METH_C_STACK_FRUGAL, BaseException___reduce____doc__},
 
 static PyObject *
 BaseException___reduce___impl(PyBaseExceptionObject *self);
@@ -33,8 +34,9 @@ PyDoc_STRVAR(BaseException___setstate____doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} BaseException___setstate___MethodName = {.name = "__setstate__",};
 #define BASEEXCEPTION___SETSTATE___METHODDEF    \
-    {"__setstate__", (PyCFunction)BaseException___setstate__, METH_O|METH_C_STACK_FRUGAL, BaseException___setstate____doc__},
+    {BaseException___setstate___MethodName.name, (PyCFunction)BaseException___setstate__, METH_O|METH_C_STACK_FRUGAL, BaseException___setstate____doc__},
 
 static PyObject *
 BaseException___setstate___impl(PyBaseExceptionObject *self, PyObject *state);
@@ -57,8 +59,9 @@ PyDoc_STRVAR(BaseException_with_traceback__doc__,
 "\n"
 "Set self.__traceback__ to tb and return self.");
 
+static struct {char name[];} BaseException_with_traceback_MethodName = {.name = "with_traceback",};
 #define BASEEXCEPTION_WITH_TRACEBACK_METHODDEF    \
-    {"with_traceback", (PyCFunction)BaseException_with_traceback, METH_O|METH_C_STACK_FRUGAL, BaseException_with_traceback__doc__},
+    {BaseException_with_traceback_MethodName.name, (PyCFunction)BaseException_with_traceback, METH_O|METH_C_STACK_FRUGAL, BaseException_with_traceback__doc__},
 
 static PyObject *
 BaseException_with_traceback_impl(PyBaseExceptionObject *self, PyObject *tb);
@@ -81,8 +84,9 @@ PyDoc_STRVAR(BaseException_add_note__doc__,
 "\n"
 "Add a note to the exception");
 
+static struct {char name[];} BaseException_add_note_MethodName = {.name = "add_note",};
 #define BASEEXCEPTION_ADD_NOTE_METHODDEF    \
-    {"add_note", (PyCFunction)BaseException_add_note, METH_O|METH_C_STACK_FRUGAL, BaseException_add_note__doc__},
+    {BaseException_add_note_MethodName.name, (PyCFunction)BaseException_add_note, METH_O|METH_C_STACK_FRUGAL, BaseException_add_note__doc__},
 
 static PyObject *
 BaseException_add_note_impl(PyBaseExceptionObject *self, PyObject *note);
@@ -314,8 +318,9 @@ PyDoc_STRVAR(BaseExceptionGroup_derive__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} BaseExceptionGroup_derive_MethodName = {.name = "derive",};
 #define BASEEXCEPTIONGROUP_DERIVE_METHODDEF    \
-    {"derive", (PyCFunction)BaseExceptionGroup_derive, METH_O|METH_C_STACK_FRUGAL, BaseExceptionGroup_derive__doc__},
+    {BaseExceptionGroup_derive_MethodName.name, (PyCFunction)BaseExceptionGroup_derive, METH_O|METH_C_STACK_FRUGAL, BaseExceptionGroup_derive__doc__},
 
 static PyObject *
 BaseExceptionGroup_derive_impl(PyBaseExceptionGroupObject *self,
@@ -338,8 +343,9 @@ PyDoc_STRVAR(BaseExceptionGroup_split__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} BaseExceptionGroup_split_MethodName = {.name = "split",};
 #define BASEEXCEPTIONGROUP_SPLIT_METHODDEF    \
-    {"split", (PyCFunction)BaseExceptionGroup_split, METH_O|METH_C_STACK_FRUGAL, BaseExceptionGroup_split__doc__},
+    {BaseExceptionGroup_split_MethodName.name, (PyCFunction)BaseExceptionGroup_split, METH_O|METH_C_STACK_FRUGAL, BaseExceptionGroup_split__doc__},
 
 static PyObject *
 BaseExceptionGroup_split_impl(PyBaseExceptionGroupObject *self,
@@ -362,8 +368,9 @@ PyDoc_STRVAR(BaseExceptionGroup_subgroup__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} BaseExceptionGroup_subgroup_MethodName = {.name = "subgroup",};
 #define BASEEXCEPTIONGROUP_SUBGROUP_METHODDEF    \
-    {"subgroup", (PyCFunction)BaseExceptionGroup_subgroup, METH_O|METH_C_STACK_FRUGAL, BaseExceptionGroup_subgroup__doc__},
+    {BaseExceptionGroup_subgroup_MethodName.name, (PyCFunction)BaseExceptionGroup_subgroup, METH_O|METH_C_STACK_FRUGAL, BaseExceptionGroup_subgroup__doc__},
 
 static PyObject *
 BaseExceptionGroup_subgroup_impl(PyBaseExceptionGroupObject *self,
@@ -380,4 +387,4 @@ BaseExceptionGroup_subgroup(PyObject *self, PyObject *matcher_value)
 
     return return_value;
 }
-/*[clinic end generated code: output=18c0a960d6375a84 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=557f3d7db851c9d0 input=a9049054013a1b77]*/

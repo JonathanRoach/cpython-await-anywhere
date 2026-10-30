@@ -138,6 +138,16 @@ METH_O_PROTOTYPE: Final[str] = libclinic.normalize_snippet("""
     static PyObject *
     {c_basename}({self_type}{self_name}, {parser_parameters})
 """)
+METH_O_PROTOTYPE_INLINEABLE: Final[str] = libclinic.normalize_snippet("""
+    static PyObject *
+    {c_basename}_Inlineable({self_type}{self_name}, {parser_parameters}, struct _PyInterpreterFrame **inlined);
+    static PyObject *
+    {c_basename}({self_type}{self_name}, {parser_parameters}){{
+        return {c_basename}_Inlineable({impl_arguments}, NULL);
+    }}
+    static PyObject *
+    {c_basename}_Inlineable({self_type}{self_name}, {parser_parameters}, struct _PyInterpreterFrame **inlined)
+""")
 DOCSTRING_PROTOTYPE_VAR: Final[str] = libclinic.normalize_snippet("""
     PyDoc_VAR({c_basename}__doc__);
 """)
@@ -158,8 +168,16 @@ IMPL_DEFINITION_PROTOTYPE: Final[str] = libclinic.normalize_snippet("""
     {c_basename}_impl({impl_parameters})
 """)
 METHODDEF_PROTOTYPE_DEFINE: Final[str] = libclinic.normalize_snippet(r"""
+    static struct {{char name[];}} {c_basename}_MethodName = {{.name = "{name}",}};
     #define {methoddef_name}    \
-        {{"{name}", {methoddef_cast}{c_basename}{methoddef_cast_end}, {methoddef_flags}, {c_basename}__doc__}},
+        {{{c_basename}_MethodName.name, {methoddef_cast}{c_basename}{methoddef_cast_end}, {methoddef_flags}, {c_basename}__doc__}},
+""")
+METHODDEF_PROTOTYPE_DEFINE_INLINEABLE: Final[str] = libclinic.normalize_snippet(r"""
+    static PyObject *
+    {c_basename}_Inlineable({self_type}{self_name}, {parser_parameters}, struct _PyInterpreterFrame **inlined);
+    static struct {{void *func_inlineable; char name[];}} {c_basename}_MethodName = {{.func_inlineable = {c_basename}_Inlineable, .name = "{name}",}};
+    #define {methoddef_name}    \
+        {{{c_basename}_MethodName.name, {methoddef_cast}{c_basename}{methoddef_cast_end}, {methoddef_flags}, {c_basename}__doc__}},
 """)
 GETTERDEF_PROTOTYPE_DEFINE: Final[str] = libclinic.normalize_snippet(r"""
     #if !defined({getset_basename}_DOCSTR)
@@ -306,7 +324,7 @@ class ParseArgsCodeGen:
     def select_prototypes(self) -> None:
         self.docstring_prototype = ''
         self.docstring_definition = ''
-        self.methoddef_define = METHODDEF_PROTOTYPE_DEFINE
+        self.methoddef_define = METHODDEF_PROTOTYPE_DEFINE_INLINEABLE if self.func.c_inlineable else METHODDEF_PROTOTYPE_DEFINE
         self.return_value_declaration = "PyObject *return_value = NULL;"
 
         if self.is_new_or_init() and not self.func.docstring:
@@ -411,7 +429,7 @@ class ParseArgsCodeGen:
 
         if (isinstance(self.converters[0], object_converter) and
             self.converters[0].format_unit == 'O'):
-            meth_o_prototype = METH_O_PROTOTYPE
+            meth_o_prototype = METH_O_PROTOTYPE_INLINEABLE if self.func.c_inlineable else METH_O_PROTOTYPE
 
             if self.use_simple_return() and self.use_pyobject_self():
                 # maps perfectly to METH_O, doesn't need a return converter.

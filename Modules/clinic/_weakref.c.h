@@ -10,8 +10,9 @@ PyDoc_STRVAR(_weakref_getweakrefcount__doc__,
 "\n"
 "Return the number of weak references to \'object\'.");
 
+static struct {char name[];} _weakref_getweakrefcount_MethodName = {.name = "getweakrefcount",};
 #define _WEAKREF_GETWEAKREFCOUNT_METHODDEF    \
-    {"getweakrefcount", (PyCFunction)_weakref_getweakrefcount, METH_O|METH_C_STACK_FRUGAL, _weakref_getweakrefcount__doc__},
+    {_weakref_getweakrefcount_MethodName.name, (PyCFunction)_weakref_getweakrefcount, METH_O|METH_C_STACK_FRUGAL, _weakref_getweakrefcount__doc__},
 
 static Py_ssize_t
 _weakref_getweakrefcount_impl(PyObject *module, PyObject *object);
@@ -38,8 +39,9 @@ PyDoc_STRVAR(_weakref__remove_dead_weakref__doc__,
 "\n"
 "Atomically remove key from dict if it points to a dead weakref.");
 
+static struct {char name[];} _weakref__remove_dead_weakref_MethodName = {.name = "_remove_dead_weakref",};
 #define _WEAKREF__REMOVE_DEAD_WEAKREF_METHODDEF    \
-    {"_remove_dead_weakref", _PyCFunction_CAST(_weakref__remove_dead_weakref), METH_FASTCALL|METH_C_STACK_FRUGAL, _weakref__remove_dead_weakref__doc__},
+    {_weakref__remove_dead_weakref_MethodName.name, _PyCFunction_CAST(_weakref__remove_dead_weakref), METH_FASTCALL|METH_C_STACK_FRUGAL, _weakref__remove_dead_weakref__doc__},
 
 static PyObject *
 _weakref__remove_dead_weakref_impl(PyObject *module, PyObject *dct,
@@ -73,8 +75,9 @@ PyDoc_STRVAR(_weakref_getweakrefs__doc__,
 "\n"
 "Return a list of all weak reference objects pointing to \'object\'.");
 
+static struct {char name[];} _weakref_getweakrefs_MethodName = {.name = "getweakrefs",};
 #define _WEAKREF_GETWEAKREFS_METHODDEF    \
-    {"getweakrefs", (PyCFunction)_weakref_getweakrefs, METH_O|METH_C_STACK_FRUGAL, _weakref_getweakrefs__doc__},
+    {_weakref_getweakrefs_MethodName.name, (PyCFunction)_weakref_getweakrefs, METH_O|METH_C_STACK_FRUGAL, _weakref_getweakrefs__doc__},
 
 PyDoc_STRVAR(_weakref_proxy__doc__,
 "proxy($module, object, callback=None, /)\n"
@@ -85,8 +88,9 @@ PyDoc_STRVAR(_weakref_proxy__doc__,
 "\'callback\', if given, is called with a reference to the\n"
 "proxy when \'object\' is about to be finalized.");
 
+static struct {char name[];} _weakref_proxy_MethodName = {.name = "proxy",};
 #define _WEAKREF_PROXY_METHODDEF    \
-    {"proxy", _PyCFunction_CAST(_weakref_proxy), METH_FASTCALL|METH_C_STACK_FRUGAL, _weakref_proxy__doc__},
+    {_weakref_proxy_MethodName.name, _PyCFunction_CAST(_weakref_proxy), METH_FASTCALL|METH_C_STACK_FRUGAL, _weakref_proxy__doc__},
 
 static PyObject *
 _weakref_proxy_impl(PyObject *module, PyObject *object, PyObject *callback);
@@ -112,4 +116,4 @@ skip_optional:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=a9c3d5239b5750d3 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=fec8f1cc782f7ca2 input=a9049054013a1b77]*/

@@ -433,8 +433,9 @@ PyDoc_STRVAR(_blake2_blake2b_copy__doc__,
 "\n"
 "Return a copy of the hash object.");
 
+static struct {char name[];} _blake2_blake2b_copy_MethodName = {.name = "copy",};
 #define _BLAKE2_BLAKE2B_COPY_METHODDEF    \
-    {"copy", (PyCFunction)_blake2_blake2b_copy, METH_NOARGS|METH_C_STACK_FRUGAL, _blake2_blake2b_copy__doc__},
+    {_blake2_blake2b_copy_MethodName.name, (PyCFunction)_blake2_blake2b_copy, METH_NOARGS|METH_C_STACK_FRUGAL, _blake2_blake2b_copy__doc__},
 
 static PyObject *
 _blake2_blake2b_copy_impl(Blake2Object *self);
@@ -451,8 +452,9 @@ PyDoc_STRVAR(_blake2_blake2b_update__doc__,
 "\n"
 "Update this hash object\'s state with the provided bytes-like object.");
 
+static struct {char name[];} _blake2_blake2b_update_MethodName = {.name = "update",};
 #define _BLAKE2_BLAKE2B_UPDATE_METHODDEF    \
-    {"update", (PyCFunction)_blake2_blake2b_update, METH_O|METH_C_STACK_FRUGAL, _blake2_blake2b_update__doc__},
+    {_blake2_blake2b_update_MethodName.name, (PyCFunction)_blake2_blake2b_update, METH_O|METH_C_STACK_FRUGAL, _blake2_blake2b_update__doc__},
 
 static PyObject *
 _blake2_blake2b_update_impl(Blake2Object *self, PyObject *data);
@@ -473,8 +475,9 @@ PyDoc_STRVAR(_blake2_blake2b_digest__doc__,
 "\n"
 "Return the digest value as a bytes object.");
 
+static struct {char name[];} _blake2_blake2b_digest_MethodName = {.name = "digest",};
 #define _BLAKE2_BLAKE2B_DIGEST_METHODDEF    \
-    {"digest", (PyCFunction)_blake2_blake2b_digest, METH_NOARGS|METH_C_STACK_FRUGAL, _blake2_blake2b_digest__doc__},
+    {_blake2_blake2b_digest_MethodName.name, (PyCFunction)_blake2_blake2b_digest, METH_NOARGS|METH_C_STACK_FRUGAL, _blake2_blake2b_digest__doc__},
 
 static PyObject *
 _blake2_blake2b_digest_impl(Blake2Object *self);
@@ -491,8 +494,9 @@ PyDoc_STRVAR(_blake2_blake2b_hexdigest__doc__,
 "\n"
 "Return the digest value as a string of hexadecimal digits.");
 
+static struct {char name[];} _blake2_blake2b_hexdigest_MethodName = {.name = "hexdigest",};
 #define _BLAKE2_BLAKE2B_HEXDIGEST_METHODDEF    \
-    {"hexdigest", (PyCFunction)_blake2_blake2b_hexdigest, METH_NOARGS|METH_C_STACK_FRUGAL, _blake2_blake2b_hexdigest__doc__},
+    {_blake2_blake2b_hexdigest_MethodName.name, (PyCFunction)_blake2_blake2b_hexdigest, METH_NOARGS|METH_C_STACK_FRUGAL, _blake2_blake2b_hexdigest__doc__},
 
 static PyObject *
 _blake2_blake2b_hexdigest_impl(Blake2Object *self);
@@ -502,4 +506,4 @@ _blake2_blake2b_hexdigest(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return _blake2_blake2b_hexdigest_impl((Blake2Object *)self);
 }
-/*[clinic end generated code: output=073bda1407872769 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=0ff765b682e09703 input=a9049054013a1b77]*/

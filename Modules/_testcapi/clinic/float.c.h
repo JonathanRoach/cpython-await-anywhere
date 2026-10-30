@@ -10,8 +10,9 @@ PyDoc_STRVAR(_testcapi_float_pack__doc__,
 "\n"
 "Test PyFloat_Pack2(), PyFloat_Pack4() and PyFloat_Pack8()");
 
+static struct {char name[];} _testcapi_float_pack_MethodName = {.name = "float_pack",};
 #define _TESTCAPI_FLOAT_PACK_METHODDEF    \
-    {"float_pack", _PyCFunction_CAST(_testcapi_float_pack), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_float_pack__doc__},
+    {_testcapi_float_pack_MethodName.name, _PyCFunction_CAST(_testcapi_float_pack), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_float_pack__doc__},
 
 static PyObject *
 _testcapi_float_pack_impl(PyObject *module, int size, double d, int le);
@@ -57,8 +58,9 @@ PyDoc_STRVAR(_testcapi_float_unpack__doc__,
 "\n"
 "Test PyFloat_Unpack2(), PyFloat_Unpack4() and PyFloat_Unpack8()");
 
+static struct {char name[];} _testcapi_float_unpack_MethodName = {.name = "float_unpack",};
 #define _TESTCAPI_FLOAT_UNPACK_METHODDEF    \
-    {"float_unpack", _PyCFunction_CAST(_testcapi_float_unpack), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_float_unpack__doc__},
+    {_testcapi_float_unpack_MethodName.name, _PyCFunction_CAST(_testcapi_float_unpack), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_float_unpack__doc__},
 
 static PyObject *
 _testcapi_float_unpack_impl(PyObject *module, const char *data,
@@ -81,4 +83,4 @@ _testcapi_float_unpack(PyObject *module, PyObject *const *args, Py_ssize_t nargs
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=971c5f6d758e0fa1 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=59eb7f06a9e849b5 input=a9049054013a1b77]*/

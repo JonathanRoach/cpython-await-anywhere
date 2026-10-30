@@ -16,8 +16,9 @@ PyDoc_STRVAR(test_empty_function__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_empty_function_MethodName = {.name = "test_empty_function",};
 #define TEST_EMPTY_FUNCTION_METHODDEF    \
-    {"test_empty_function", (PyCFunction)test_empty_function, METH_NOARGS, test_empty_function__doc__},
+    {test_empty_function_MethodName.name, (PyCFunction)test_empty_function, METH_NOARGS, test_empty_function__doc__},
 
 static PyObject *
 test_empty_function_impl(PyObject *module);
@@ -33,8 +34,9 @@ PyDoc_STRVAR(objects_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} objects_converter_MethodName = {.name = "objects_converter",};
 #define OBJECTS_CONVERTER_METHODDEF    \
-    {"objects_converter", _PyCFunction_CAST(objects_converter), METH_FASTCALL, objects_converter__doc__},
+    {objects_converter_MethodName.name, _PyCFunction_CAST(objects_converter), METH_FASTCALL, objects_converter__doc__},
 
 static PyObject *
 objects_converter_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -66,8 +68,9 @@ PyDoc_STRVAR(bytes_object_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} bytes_object_converter_MethodName = {.name = "bytes_object_converter",};
 #define BYTES_OBJECT_CONVERTER_METHODDEF    \
-    {"bytes_object_converter", (PyCFunction)bytes_object_converter, METH_O, bytes_object_converter__doc__},
+    {bytes_object_converter_MethodName.name, (PyCFunction)bytes_object_converter, METH_O, bytes_object_converter__doc__},
 
 static PyObject *
 bytes_object_converter_impl(PyObject *module, PyBytesObject *a);
@@ -94,8 +97,9 @@ PyDoc_STRVAR(byte_array_object_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} byte_array_object_converter_MethodName = {.name = "byte_array_object_converter",};
 #define BYTE_ARRAY_OBJECT_CONVERTER_METHODDEF    \
-    {"byte_array_object_converter", (PyCFunction)byte_array_object_converter, METH_O, byte_array_object_converter__doc__},
+    {byte_array_object_converter_MethodName.name, (PyCFunction)byte_array_object_converter, METH_O, byte_array_object_converter__doc__},
 
 static PyObject *
 byte_array_object_converter_impl(PyObject *module, PyByteArrayObject *a);
@@ -122,8 +126,9 @@ PyDoc_STRVAR(unicode_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} unicode_converter_MethodName = {.name = "unicode_converter",};
 #define UNICODE_CONVERTER_METHODDEF    \
-    {"unicode_converter", (PyCFunction)unicode_converter, METH_O, unicode_converter__doc__},
+    {unicode_converter_MethodName.name, (PyCFunction)unicode_converter, METH_O, unicode_converter__doc__},
 
 static PyObject *
 unicode_converter_impl(PyObject *module, PyObject *a);
@@ -150,8 +155,9 @@ PyDoc_STRVAR(bool_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} bool_converter_MethodName = {.name = "bool_converter",};
 #define BOOL_CONVERTER_METHODDEF    \
-    {"bool_converter", _PyCFunction_CAST(bool_converter), METH_FASTCALL, bool_converter__doc__},
+    {bool_converter_MethodName.name, _PyCFunction_CAST(bool_converter), METH_FASTCALL, bool_converter__doc__},
 
 static PyObject *
 bool_converter_impl(PyObject *module, int a, int b, int c);
@@ -200,8 +206,9 @@ PyDoc_STRVAR(bool_converter_c_default__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} bool_converter_c_default_MethodName = {.name = "bool_converter_c_default",};
 #define BOOL_CONVERTER_C_DEFAULT_METHODDEF    \
-    {"bool_converter_c_default", _PyCFunction_CAST(bool_converter_c_default), METH_FASTCALL, bool_converter_c_default__doc__},
+    {bool_converter_c_default_MethodName.name, _PyCFunction_CAST(bool_converter_c_default), METH_FASTCALL, bool_converter_c_default__doc__},
 
 static PyObject *
 bool_converter_c_default_impl(PyObject *module, int a, int b, int c, int d);
@@ -260,8 +267,9 @@ PyDoc_STRVAR(char_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} char_converter_MethodName = {.name = "char_converter",};
 #define CHAR_CONVERTER_METHODDEF    \
-    {"char_converter", _PyCFunction_CAST(char_converter), METH_FASTCALL, char_converter__doc__},
+    {char_converter_MethodName.name, _PyCFunction_CAST(char_converter), METH_FASTCALL, char_converter__doc__},
 
 static PyObject *
 char_converter_impl(PyObject *module, char a, char b, char c, char d, char e,
@@ -680,8 +688,9 @@ PyDoc_STRVAR(unsigned_char_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} unsigned_char_converter_MethodName = {.name = "unsigned_char_converter",};
 #define UNSIGNED_CHAR_CONVERTER_METHODDEF    \
-    {"unsigned_char_converter", _PyCFunction_CAST(unsigned_char_converter), METH_FASTCALL, unsigned_char_converter__doc__},
+    {unsigned_char_converter_MethodName.name, _PyCFunction_CAST(unsigned_char_converter), METH_FASTCALL, unsigned_char_converter__doc__},
 
 static PyObject *
 unsigned_char_converter_impl(PyObject *module, unsigned char a,
@@ -766,8 +775,9 @@ PyDoc_STRVAR(short_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} short_converter_MethodName = {.name = "short_converter",};
 #define SHORT_CONVERTER_METHODDEF    \
-    {"short_converter", _PyCFunction_CAST(short_converter), METH_FASTCALL, short_converter__doc__},
+    {short_converter_MethodName.name, _PyCFunction_CAST(short_converter), METH_FASTCALL, short_converter__doc__},
 
 static PyObject *
 short_converter_impl(PyObject *module, short a);
@@ -815,8 +825,9 @@ PyDoc_STRVAR(unsigned_short_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} unsigned_short_converter_MethodName = {.name = "unsigned_short_converter",};
 #define UNSIGNED_SHORT_CONVERTER_METHODDEF    \
-    {"unsigned_short_converter", _PyCFunction_CAST(unsigned_short_converter), METH_FASTCALL, unsigned_short_converter__doc__},
+    {unsigned_short_converter_MethodName.name, _PyCFunction_CAST(unsigned_short_converter), METH_FASTCALL, unsigned_short_converter__doc__},
 
 static PyObject *
 unsigned_short_converter_impl(PyObject *module, unsigned short a,
@@ -864,8 +875,9 @@ PyDoc_STRVAR(int_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} int_converter_MethodName = {.name = "int_converter",};
 #define INT_CONVERTER_METHODDEF    \
-    {"int_converter", _PyCFunction_CAST(int_converter), METH_FASTCALL, int_converter__doc__},
+    {int_converter_MethodName.name, _PyCFunction_CAST(int_converter), METH_FASTCALL, int_converter__doc__},
 
 static PyObject *
 int_converter_impl(PyObject *module, int a, int b, int c);
@@ -922,8 +934,9 @@ PyDoc_STRVAR(unsigned_int_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} unsigned_int_converter_MethodName = {.name = "unsigned_int_converter",};
 #define UNSIGNED_INT_CONVERTER_METHODDEF    \
-    {"unsigned_int_converter", _PyCFunction_CAST(unsigned_int_converter), METH_FASTCALL, unsigned_int_converter__doc__},
+    {unsigned_int_converter_MethodName.name, _PyCFunction_CAST(unsigned_int_converter), METH_FASTCALL, unsigned_int_converter__doc__},
 
 static PyObject *
 unsigned_int_converter_impl(PyObject *module, unsigned int a, unsigned int b,
@@ -971,8 +984,9 @@ PyDoc_STRVAR(long_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} long_converter_MethodName = {.name = "long_converter",};
 #define LONG_CONVERTER_METHODDEF    \
-    {"long_converter", _PyCFunction_CAST(long_converter), METH_FASTCALL, long_converter__doc__},
+    {long_converter_MethodName.name, _PyCFunction_CAST(long_converter), METH_FASTCALL, long_converter__doc__},
 
 static PyObject *
 long_converter_impl(PyObject *module, long a);
@@ -1005,8 +1019,9 @@ PyDoc_STRVAR(unsigned_long_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} unsigned_long_converter_MethodName = {.name = "unsigned_long_converter",};
 #define UNSIGNED_LONG_CONVERTER_METHODDEF    \
-    {"unsigned_long_converter", _PyCFunction_CAST(unsigned_long_converter), METH_FASTCALL, unsigned_long_converter__doc__},
+    {unsigned_long_converter_MethodName.name, _PyCFunction_CAST(unsigned_long_converter), METH_FASTCALL, unsigned_long_converter__doc__},
 
 static PyObject *
 unsigned_long_converter_impl(PyObject *module, unsigned long a,
@@ -1055,8 +1070,9 @@ PyDoc_STRVAR(long_long_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} long_long_converter_MethodName = {.name = "long_long_converter",};
 #define LONG_LONG_CONVERTER_METHODDEF    \
-    {"long_long_converter", _PyCFunction_CAST(long_long_converter), METH_FASTCALL, long_long_converter__doc__},
+    {long_long_converter_MethodName.name, _PyCFunction_CAST(long_long_converter), METH_FASTCALL, long_long_converter__doc__},
 
 static PyObject *
 long_long_converter_impl(PyObject *module, long long a);
@@ -1089,8 +1105,9 @@ PyDoc_STRVAR(unsigned_long_long_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} unsigned_long_long_converter_MethodName = {.name = "unsigned_long_long_converter",};
 #define UNSIGNED_LONG_LONG_CONVERTER_METHODDEF    \
-    {"unsigned_long_long_converter", _PyCFunction_CAST(unsigned_long_long_converter), METH_FASTCALL, unsigned_long_long_converter__doc__},
+    {unsigned_long_long_converter_MethodName.name, _PyCFunction_CAST(unsigned_long_long_converter), METH_FASTCALL, unsigned_long_long_converter__doc__},
 
 static PyObject *
 unsigned_long_long_converter_impl(PyObject *module, unsigned long long a,
@@ -1139,8 +1156,9 @@ PyDoc_STRVAR(py_ssize_t_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} py_ssize_t_converter_MethodName = {.name = "py_ssize_t_converter",};
 #define PY_SSIZE_T_CONVERTER_METHODDEF    \
-    {"py_ssize_t_converter", _PyCFunction_CAST(py_ssize_t_converter), METH_FASTCALL, py_ssize_t_converter__doc__},
+    {py_ssize_t_converter_MethodName.name, _PyCFunction_CAST(py_ssize_t_converter), METH_FASTCALL, py_ssize_t_converter__doc__},
 
 static PyObject *
 py_ssize_t_converter_impl(PyObject *module, Py_ssize_t a, Py_ssize_t b,
@@ -1205,8 +1223,9 @@ PyDoc_STRVAR(slice_index_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} slice_index_converter_MethodName = {.name = "slice_index_converter",};
 #define SLICE_INDEX_CONVERTER_METHODDEF    \
-    {"slice_index_converter", _PyCFunction_CAST(slice_index_converter), METH_FASTCALL, slice_index_converter__doc__},
+    {slice_index_converter_MethodName.name, _PyCFunction_CAST(slice_index_converter), METH_FASTCALL, slice_index_converter__doc__},
 
 static PyObject *
 slice_index_converter_impl(PyObject *module, Py_ssize_t a, Py_ssize_t b,
@@ -1253,8 +1272,9 @@ PyDoc_STRVAR(size_t_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} size_t_converter_MethodName = {.name = "size_t_converter",};
 #define SIZE_T_CONVERTER_METHODDEF    \
-    {"size_t_converter", _PyCFunction_CAST(size_t_converter), METH_FASTCALL, size_t_converter__doc__},
+    {size_t_converter_MethodName.name, _PyCFunction_CAST(size_t_converter), METH_FASTCALL, size_t_converter__doc__},
 
 static PyObject *
 size_t_converter_impl(PyObject *module, size_t a);
@@ -1286,8 +1306,9 @@ PyDoc_STRVAR(float_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} float_converter_MethodName = {.name = "float_converter",};
 #define FLOAT_CONVERTER_METHODDEF    \
-    {"float_converter", _PyCFunction_CAST(float_converter), METH_FASTCALL, float_converter__doc__},
+    {float_converter_MethodName.name, _PyCFunction_CAST(float_converter), METH_FASTCALL, float_converter__doc__},
 
 static PyObject *
 float_converter_impl(PyObject *module, float a);
@@ -1326,8 +1347,9 @@ PyDoc_STRVAR(double_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} double_converter_MethodName = {.name = "double_converter",};
 #define DOUBLE_CONVERTER_METHODDEF    \
-    {"double_converter", _PyCFunction_CAST(double_converter), METH_FASTCALL, double_converter__doc__},
+    {double_converter_MethodName.name, _PyCFunction_CAST(double_converter), METH_FASTCALL, double_converter__doc__},
 
 static PyObject *
 double_converter_impl(PyObject *module, double a);
@@ -1366,8 +1388,9 @@ PyDoc_STRVAR(py_complex_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} py_complex_converter_MethodName = {.name = "py_complex_converter",};
 #define PY_COMPLEX_CONVERTER_METHODDEF    \
-    {"py_complex_converter", (PyCFunction)py_complex_converter, METH_O, py_complex_converter__doc__},
+    {py_complex_converter_MethodName.name, (PyCFunction)py_complex_converter, METH_O, py_complex_converter__doc__},
 
 static PyObject *
 py_complex_converter_impl(PyObject *module, Py_complex a);
@@ -1393,8 +1416,9 @@ PyDoc_STRVAR(str_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} str_converter_MethodName = {.name = "str_converter",};
 #define STR_CONVERTER_METHODDEF    \
-    {"str_converter", _PyCFunction_CAST(str_converter), METH_FASTCALL, str_converter__doc__},
+    {str_converter_MethodName.name, _PyCFunction_CAST(str_converter), METH_FASTCALL, str_converter__doc__},
 
 static PyObject *
 str_converter_impl(PyObject *module, const char *a, const char *b,
@@ -1424,8 +1448,9 @@ PyDoc_STRVAR(str_converter_encoding__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} str_converter_encoding_MethodName = {.name = "str_converter_encoding",};
 #define STR_CONVERTER_ENCODING_METHODDEF    \
-    {"str_converter_encoding", _PyCFunction_CAST(str_converter_encoding), METH_FASTCALL, str_converter_encoding__doc__},
+    {str_converter_encoding_MethodName.name, _PyCFunction_CAST(str_converter_encoding), METH_FASTCALL, str_converter_encoding__doc__},
 
 static PyObject *
 str_converter_encoding_impl(PyObject *module, char *a, char *b, char *c,
@@ -1461,8 +1486,9 @@ PyDoc_STRVAR(py_buffer_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} py_buffer_converter_MethodName = {.name = "py_buffer_converter",};
 #define PY_BUFFER_CONVERTER_METHODDEF    \
-    {"py_buffer_converter", _PyCFunction_CAST(py_buffer_converter), METH_FASTCALL, py_buffer_converter__doc__},
+    {py_buffer_converter_MethodName.name, _PyCFunction_CAST(py_buffer_converter), METH_FASTCALL, py_buffer_converter__doc__},
 
 static PyObject *
 py_buffer_converter_impl(PyObject *module, Py_buffer *a, Py_buffer *b);
@@ -1498,8 +1524,9 @@ PyDoc_STRVAR(keywords__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} keywords_MethodName = {.name = "keywords",};
 #define KEYWORDS_METHODDEF    \
-    {"keywords", _PyCFunction_CAST(keywords), METH_FASTCALL|METH_KEYWORDS, keywords__doc__},
+    {keywords_MethodName.name, _PyCFunction_CAST(keywords), METH_FASTCALL|METH_KEYWORDS, keywords__doc__},
 
 static PyObject *
 keywords_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -1557,8 +1584,9 @@ PyDoc_STRVAR(keywords_kwonly__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} keywords_kwonly_MethodName = {.name = "keywords_kwonly",};
 #define KEYWORDS_KWONLY_METHODDEF    \
-    {"keywords_kwonly", _PyCFunction_CAST(keywords_kwonly), METH_FASTCALL|METH_KEYWORDS, keywords_kwonly__doc__},
+    {keywords_kwonly_MethodName.name, _PyCFunction_CAST(keywords_kwonly), METH_FASTCALL|METH_KEYWORDS, keywords_kwonly__doc__},
 
 static PyObject *
 keywords_kwonly_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -1616,8 +1644,9 @@ PyDoc_STRVAR(keywords_opt__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} keywords_opt_MethodName = {.name = "keywords_opt",};
 #define KEYWORDS_OPT_METHODDEF    \
-    {"keywords_opt", _PyCFunction_CAST(keywords_opt), METH_FASTCALL|METH_KEYWORDS, keywords_opt__doc__},
+    {keywords_opt_MethodName.name, _PyCFunction_CAST(keywords_opt), METH_FASTCALL|METH_KEYWORDS, keywords_opt__doc__},
 
 static PyObject *
 keywords_opt_impl(PyObject *module, PyObject *a, PyObject *b, PyObject *c);
@@ -1687,8 +1716,9 @@ PyDoc_STRVAR(keywords_opt_kwonly__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} keywords_opt_kwonly_MethodName = {.name = "keywords_opt_kwonly",};
 #define KEYWORDS_OPT_KWONLY_METHODDEF    \
-    {"keywords_opt_kwonly", _PyCFunction_CAST(keywords_opt_kwonly), METH_FASTCALL|METH_KEYWORDS, keywords_opt_kwonly__doc__},
+    {keywords_opt_kwonly_MethodName.name, _PyCFunction_CAST(keywords_opt_kwonly), METH_FASTCALL|METH_KEYWORDS, keywords_opt_kwonly__doc__},
 
 static PyObject *
 keywords_opt_kwonly_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -1770,8 +1800,9 @@ PyDoc_STRVAR(keywords_kwonly_opt__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} keywords_kwonly_opt_MethodName = {.name = "keywords_kwonly_opt",};
 #define KEYWORDS_KWONLY_OPT_METHODDEF    \
-    {"keywords_kwonly_opt", _PyCFunction_CAST(keywords_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, keywords_kwonly_opt__doc__},
+    {keywords_kwonly_opt_MethodName.name, _PyCFunction_CAST(keywords_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, keywords_kwonly_opt__doc__},
 
 static PyObject *
 keywords_kwonly_opt_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -1842,8 +1873,9 @@ PyDoc_STRVAR(posonly_keywords__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} posonly_keywords_MethodName = {.name = "posonly_keywords",};
 #define POSONLY_KEYWORDS_METHODDEF    \
-    {"posonly_keywords", _PyCFunction_CAST(posonly_keywords), METH_FASTCALL|METH_KEYWORDS, posonly_keywords__doc__},
+    {posonly_keywords_MethodName.name, _PyCFunction_CAST(posonly_keywords), METH_FASTCALL|METH_KEYWORDS, posonly_keywords__doc__},
 
 static PyObject *
 posonly_keywords_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -1901,8 +1933,9 @@ PyDoc_STRVAR(posonly_kwonly__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} posonly_kwonly_MethodName = {.name = "posonly_kwonly",};
 #define POSONLY_KWONLY_METHODDEF    \
-    {"posonly_kwonly", _PyCFunction_CAST(posonly_kwonly), METH_FASTCALL|METH_KEYWORDS, posonly_kwonly__doc__},
+    {posonly_kwonly_MethodName.name, _PyCFunction_CAST(posonly_kwonly), METH_FASTCALL|METH_KEYWORDS, posonly_kwonly__doc__},
 
 static PyObject *
 posonly_kwonly_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -1960,8 +1993,9 @@ PyDoc_STRVAR(posonly_keywords_kwonly__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} posonly_keywords_kwonly_MethodName = {.name = "posonly_keywords_kwonly",};
 #define POSONLY_KEYWORDS_KWONLY_METHODDEF    \
-    {"posonly_keywords_kwonly", _PyCFunction_CAST(posonly_keywords_kwonly), METH_FASTCALL|METH_KEYWORDS, posonly_keywords_kwonly__doc__},
+    {posonly_keywords_kwonly_MethodName.name, _PyCFunction_CAST(posonly_keywords_kwonly), METH_FASTCALL|METH_KEYWORDS, posonly_keywords_kwonly__doc__},
 
 static PyObject *
 posonly_keywords_kwonly_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -2022,8 +2056,9 @@ PyDoc_STRVAR(posonly_keywords_opt__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} posonly_keywords_opt_MethodName = {.name = "posonly_keywords_opt",};
 #define POSONLY_KEYWORDS_OPT_METHODDEF    \
-    {"posonly_keywords_opt", _PyCFunction_CAST(posonly_keywords_opt), METH_FASTCALL|METH_KEYWORDS, posonly_keywords_opt__doc__},
+    {posonly_keywords_opt_MethodName.name, _PyCFunction_CAST(posonly_keywords_opt), METH_FASTCALL|METH_KEYWORDS, posonly_keywords_opt__doc__},
 
 static PyObject *
 posonly_keywords_opt_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -2096,8 +2131,9 @@ PyDoc_STRVAR(posonly_opt_keywords_opt__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} posonly_opt_keywords_opt_MethodName = {.name = "posonly_opt_keywords_opt",};
 #define POSONLY_OPT_KEYWORDS_OPT_METHODDEF    \
-    {"posonly_opt_keywords_opt", _PyCFunction_CAST(posonly_opt_keywords_opt), METH_FASTCALL|METH_KEYWORDS, posonly_opt_keywords_opt__doc__},
+    {posonly_opt_keywords_opt_MethodName.name, _PyCFunction_CAST(posonly_opt_keywords_opt), METH_FASTCALL|METH_KEYWORDS, posonly_opt_keywords_opt__doc__},
 
 static PyObject *
 posonly_opt_keywords_opt_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -2175,8 +2211,9 @@ PyDoc_STRVAR(posonly_kwonly_opt__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} posonly_kwonly_opt_MethodName = {.name = "posonly_kwonly_opt",};
 #define POSONLY_KWONLY_OPT_METHODDEF    \
-    {"posonly_kwonly_opt", _PyCFunction_CAST(posonly_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, posonly_kwonly_opt__doc__},
+    {posonly_kwonly_opt_MethodName.name, _PyCFunction_CAST(posonly_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, posonly_kwonly_opt__doc__},
 
 static PyObject *
 posonly_kwonly_opt_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -2249,8 +2286,9 @@ PyDoc_STRVAR(posonly_opt_kwonly_opt__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} posonly_opt_kwonly_opt_MethodName = {.name = "posonly_opt_kwonly_opt",};
 #define POSONLY_OPT_KWONLY_OPT_METHODDEF    \
-    {"posonly_opt_kwonly_opt", _PyCFunction_CAST(posonly_opt_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, posonly_opt_kwonly_opt__doc__},
+    {posonly_opt_kwonly_opt_MethodName.name, _PyCFunction_CAST(posonly_opt_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, posonly_opt_kwonly_opt__doc__},
 
 static PyObject *
 posonly_opt_kwonly_opt_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -2328,8 +2366,9 @@ PyDoc_STRVAR(posonly_keywords_kwonly_opt__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} posonly_keywords_kwonly_opt_MethodName = {.name = "posonly_keywords_kwonly_opt",};
 #define POSONLY_KEYWORDS_KWONLY_OPT_METHODDEF    \
-    {"posonly_keywords_kwonly_opt", _PyCFunction_CAST(posonly_keywords_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, posonly_keywords_kwonly_opt__doc__},
+    {posonly_keywords_kwonly_opt_MethodName.name, _PyCFunction_CAST(posonly_keywords_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, posonly_keywords_kwonly_opt__doc__},
 
 static PyObject *
 posonly_keywords_kwonly_opt_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -2405,8 +2444,9 @@ PyDoc_STRVAR(posonly_keywords_opt_kwonly_opt__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} posonly_keywords_opt_kwonly_opt_MethodName = {.name = "posonly_keywords_opt_kwonly_opt",};
 #define POSONLY_KEYWORDS_OPT_KWONLY_OPT_METHODDEF    \
-    {"posonly_keywords_opt_kwonly_opt", _PyCFunction_CAST(posonly_keywords_opt_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, posonly_keywords_opt_kwonly_opt__doc__},
+    {posonly_keywords_opt_kwonly_opt_MethodName.name, _PyCFunction_CAST(posonly_keywords_opt_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, posonly_keywords_opt_kwonly_opt__doc__},
 
 static PyObject *
 posonly_keywords_opt_kwonly_opt_impl(PyObject *module, PyObject *a,
@@ -2492,8 +2532,9 @@ PyDoc_STRVAR(posonly_opt_keywords_opt_kwonly_opt__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} posonly_opt_keywords_opt_kwonly_opt_MethodName = {.name = "posonly_opt_keywords_opt_kwonly_opt",};
 #define POSONLY_OPT_KEYWORDS_OPT_KWONLY_OPT_METHODDEF    \
-    {"posonly_opt_keywords_opt_kwonly_opt", _PyCFunction_CAST(posonly_opt_keywords_opt_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, posonly_opt_keywords_opt_kwonly_opt__doc__},
+    {posonly_opt_keywords_opt_kwonly_opt_MethodName.name, _PyCFunction_CAST(posonly_opt_keywords_opt_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, posonly_opt_keywords_opt_kwonly_opt__doc__},
 
 static PyObject *
 posonly_opt_keywords_opt_kwonly_opt_impl(PyObject *module, PyObject *a,
@@ -2576,8 +2617,9 @@ PyDoc_STRVAR(keyword_only_parameter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} keyword_only_parameter_MethodName = {.name = "keyword_only_parameter",};
 #define KEYWORD_ONLY_PARAMETER_METHODDEF    \
-    {"keyword_only_parameter", _PyCFunction_CAST(keyword_only_parameter), METH_FASTCALL|METH_KEYWORDS, keyword_only_parameter__doc__},
+    {keyword_only_parameter_MethodName.name, _PyCFunction_CAST(keyword_only_parameter), METH_FASTCALL|METH_KEYWORDS, keyword_only_parameter__doc__},
 
 static PyObject *
 keyword_only_parameter_impl(PyObject *module, PyObject *a);
@@ -2633,8 +2675,9 @@ PyDoc_STRVAR(varpos__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} varpos_MethodName = {.name = "varpos",};
 #define VARPOS_METHODDEF    \
-    {"varpos", _PyCFunction_CAST(varpos), METH_FASTCALL, varpos__doc__},
+    {varpos_MethodName.name, _PyCFunction_CAST(varpos), METH_FASTCALL, varpos__doc__},
 
 static PyObject *
 varpos_impl(PyObject *module, PyObject *args);
@@ -2663,8 +2706,9 @@ PyDoc_STRVAR(posonly_varpos__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} posonly_varpos_MethodName = {.name = "posonly_varpos",};
 #define POSONLY_VARPOS_METHODDEF    \
-    {"posonly_varpos", _PyCFunction_CAST(posonly_varpos), METH_FASTCALL, posonly_varpos__doc__},
+    {posonly_varpos_MethodName.name, _PyCFunction_CAST(posonly_varpos), METH_FASTCALL, posonly_varpos__doc__},
 
 static PyObject *
 posonly_varpos_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -2701,8 +2745,9 @@ PyDoc_STRVAR(posonly_req_opt_varpos__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} posonly_req_opt_varpos_MethodName = {.name = "posonly_req_opt_varpos",};
 #define POSONLY_REQ_OPT_VARPOS_METHODDEF    \
-    {"posonly_req_opt_varpos", _PyCFunction_CAST(posonly_req_opt_varpos), METH_FASTCALL, posonly_req_opt_varpos__doc__},
+    {posonly_req_opt_varpos_MethodName.name, _PyCFunction_CAST(posonly_req_opt_varpos), METH_FASTCALL, posonly_req_opt_varpos__doc__},
 
 static PyObject *
 posonly_req_opt_varpos_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -2745,8 +2790,9 @@ PyDoc_STRVAR(posonly_poskw_varpos__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} posonly_poskw_varpos_MethodName = {.name = "posonly_poskw_varpos",};
 #define POSONLY_POSKW_VARPOS_METHODDEF    \
-    {"posonly_poskw_varpos", _PyCFunction_CAST(posonly_poskw_varpos), METH_FASTCALL|METH_KEYWORDS, posonly_poskw_varpos__doc__},
+    {posonly_poskw_varpos_MethodName.name, _PyCFunction_CAST(posonly_poskw_varpos), METH_FASTCALL|METH_KEYWORDS, posonly_poskw_varpos__doc__},
 
 static PyObject *
 posonly_poskw_varpos_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -2816,8 +2862,9 @@ PyDoc_STRVAR(poskw_varpos__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} poskw_varpos_MethodName = {.name = "poskw_varpos",};
 #define POSKW_VARPOS_METHODDEF    \
-    {"poskw_varpos", _PyCFunction_CAST(poskw_varpos), METH_FASTCALL|METH_KEYWORDS, poskw_varpos__doc__},
+    {poskw_varpos_MethodName.name, _PyCFunction_CAST(poskw_varpos), METH_FASTCALL|METH_KEYWORDS, poskw_varpos__doc__},
 
 static PyObject *
 poskw_varpos_impl(PyObject *module, PyObject *a, PyObject *args);
@@ -2884,8 +2931,9 @@ PyDoc_STRVAR(poskw_varpos_kwonly_opt__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} poskw_varpos_kwonly_opt_MethodName = {.name = "poskw_varpos_kwonly_opt",};
 #define POSKW_VARPOS_KWONLY_OPT_METHODDEF    \
-    {"poskw_varpos_kwonly_opt", _PyCFunction_CAST(poskw_varpos_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, poskw_varpos_kwonly_opt__doc__},
+    {poskw_varpos_kwonly_opt_MethodName.name, _PyCFunction_CAST(poskw_varpos_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, poskw_varpos_kwonly_opt__doc__},
 
 static PyObject *
 poskw_varpos_kwonly_opt_impl(PyObject *module, PyObject *a, PyObject *args,
@@ -2963,8 +3011,9 @@ PyDoc_STRVAR(poskw_varpos_kwonly_opt2__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} poskw_varpos_kwonly_opt2_MethodName = {.name = "poskw_varpos_kwonly_opt2",};
 #define POSKW_VARPOS_KWONLY_OPT2_METHODDEF    \
-    {"poskw_varpos_kwonly_opt2", _PyCFunction_CAST(poskw_varpos_kwonly_opt2), METH_FASTCALL|METH_KEYWORDS, poskw_varpos_kwonly_opt2__doc__},
+    {poskw_varpos_kwonly_opt2_MethodName.name, _PyCFunction_CAST(poskw_varpos_kwonly_opt2), METH_FASTCALL|METH_KEYWORDS, poskw_varpos_kwonly_opt2__doc__},
 
 static PyObject *
 poskw_varpos_kwonly_opt2_impl(PyObject *module, PyObject *a, PyObject *args,
@@ -3046,8 +3095,9 @@ PyDoc_STRVAR(varpos_kwonly_opt__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} varpos_kwonly_opt_MethodName = {.name = "varpos_kwonly_opt",};
 #define VARPOS_KWONLY_OPT_METHODDEF    \
-    {"varpos_kwonly_opt", _PyCFunction_CAST(varpos_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, varpos_kwonly_opt__doc__},
+    {varpos_kwonly_opt_MethodName.name, _PyCFunction_CAST(varpos_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, varpos_kwonly_opt__doc__},
 
 static PyObject *
 varpos_kwonly_opt_impl(PyObject *module, PyObject *args, PyObject *b);
@@ -3117,8 +3167,9 @@ PyDoc_STRVAR(varpos_kwonly_req_opt__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} varpos_kwonly_req_opt_MethodName = {.name = "varpos_kwonly_req_opt",};
 #define VARPOS_KWONLY_REQ_OPT_METHODDEF    \
-    {"varpos_kwonly_req_opt", _PyCFunction_CAST(varpos_kwonly_req_opt), METH_FASTCALL|METH_KEYWORDS, varpos_kwonly_req_opt__doc__},
+    {varpos_kwonly_req_opt_MethodName.name, _PyCFunction_CAST(varpos_kwonly_req_opt), METH_FASTCALL|METH_KEYWORDS, varpos_kwonly_req_opt__doc__},
 
 static PyObject *
 varpos_kwonly_req_opt_impl(PyObject *module, PyObject *args, PyObject *a,
@@ -3198,8 +3249,9 @@ PyDoc_STRVAR(varpos_array__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} varpos_array_MethodName = {.name = "varpos_array",};
 #define VARPOS_ARRAY_METHODDEF    \
-    {"varpos_array", _PyCFunction_CAST(varpos_array), METH_FASTCALL, varpos_array__doc__},
+    {varpos_array_MethodName.name, _PyCFunction_CAST(varpos_array), METH_FASTCALL, varpos_array__doc__},
 
 static PyObject *
 varpos_array_impl(PyObject *module, PyObject * const *args,
@@ -3224,8 +3276,9 @@ PyDoc_STRVAR(posonly_varpos_array__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} posonly_varpos_array_MethodName = {.name = "posonly_varpos_array",};
 #define POSONLY_VARPOS_ARRAY_METHODDEF    \
-    {"posonly_varpos_array", _PyCFunction_CAST(posonly_varpos_array), METH_FASTCALL, posonly_varpos_array__doc__},
+    {posonly_varpos_array_MethodName.name, _PyCFunction_CAST(posonly_varpos_array), METH_FASTCALL, posonly_varpos_array__doc__},
 
 static PyObject *
 posonly_varpos_array_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -3258,8 +3311,9 @@ PyDoc_STRVAR(posonly_req_opt_varpos_array__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} posonly_req_opt_varpos_array_MethodName = {.name = "posonly_req_opt_varpos_array",};
 #define POSONLY_REQ_OPT_VARPOS_ARRAY_METHODDEF    \
-    {"posonly_req_opt_varpos_array", _PyCFunction_CAST(posonly_req_opt_varpos_array), METH_FASTCALL, posonly_req_opt_varpos_array__doc__},
+    {posonly_req_opt_varpos_array_MethodName.name, _PyCFunction_CAST(posonly_req_opt_varpos_array), METH_FASTCALL, posonly_req_opt_varpos_array__doc__},
 
 static PyObject *
 posonly_req_opt_varpos_array_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -3297,8 +3351,9 @@ PyDoc_STRVAR(posonly_poskw_varpos_array__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} posonly_poskw_varpos_array_MethodName = {.name = "posonly_poskw_varpos_array",};
 #define POSONLY_POSKW_VARPOS_ARRAY_METHODDEF    \
-    {"posonly_poskw_varpos_array", _PyCFunction_CAST(posonly_poskw_varpos_array), METH_FASTCALL|METH_KEYWORDS, posonly_poskw_varpos_array__doc__},
+    {posonly_poskw_varpos_array_MethodName.name, _PyCFunction_CAST(posonly_poskw_varpos_array), METH_FASTCALL|METH_KEYWORDS, posonly_poskw_varpos_array__doc__},
 
 static PyObject *
 posonly_poskw_varpos_array_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -3364,8 +3419,9 @@ PyDoc_STRVAR(gh_32092_oob__doc__,
 "\n"
 "Proof-of-concept of GH-32092 OOB bug.");
 
+static struct {char name[];} gh_32092_oob_MethodName = {.name = "gh_32092_oob",};
 #define GH_32092_OOB_METHODDEF    \
-    {"gh_32092_oob", _PyCFunction_CAST(gh_32092_oob), METH_FASTCALL|METH_KEYWORDS, gh_32092_oob__doc__},
+    {gh_32092_oob_MethodName.name, _PyCFunction_CAST(gh_32092_oob), METH_FASTCALL|METH_KEYWORDS, gh_32092_oob__doc__},
 
 static PyObject *
 gh_32092_oob_impl(PyObject *module, PyObject *pos1, PyObject *pos2,
@@ -3450,8 +3506,9 @@ PyDoc_STRVAR(gh_32092_kw_pass__doc__,
 "\n"
 "Proof-of-concept of GH-32092 keyword args passing bug.");
 
+static struct {char name[];} gh_32092_kw_pass_MethodName = {.name = "gh_32092_kw_pass",};
 #define GH_32092_KW_PASS_METHODDEF    \
-    {"gh_32092_kw_pass", _PyCFunction_CAST(gh_32092_kw_pass), METH_FASTCALL|METH_KEYWORDS, gh_32092_kw_pass__doc__},
+    {gh_32092_kw_pass_MethodName.name, _PyCFunction_CAST(gh_32092_kw_pass), METH_FASTCALL|METH_KEYWORDS, gh_32092_kw_pass__doc__},
 
 static PyObject *
 gh_32092_kw_pass_impl(PyObject *module, PyObject *pos, PyObject *args,
@@ -3527,8 +3584,9 @@ PyDoc_STRVAR(gh_99233_refcount__doc__,
 "\n"
 "Proof-of-concept of GH-99233 refcount error bug.");
 
+static struct {char name[];} gh_99233_refcount_MethodName = {.name = "gh_99233_refcount",};
 #define GH_99233_REFCOUNT_METHODDEF    \
-    {"gh_99233_refcount", _PyCFunction_CAST(gh_99233_refcount), METH_FASTCALL, gh_99233_refcount__doc__},
+    {gh_99233_refcount_MethodName.name, _PyCFunction_CAST(gh_99233_refcount), METH_FASTCALL, gh_99233_refcount__doc__},
 
 static PyObject *
 gh_99233_refcount_impl(PyObject *module, PyObject *args);
@@ -3558,8 +3616,9 @@ PyDoc_STRVAR(gh_99240_double_free__doc__,
 "\n"
 "Proof-of-concept of GH-99240 double-free bug.");
 
+static struct {char name[];} gh_99240_double_free_MethodName = {.name = "gh_99240_double_free",};
 #define GH_99240_DOUBLE_FREE_METHODDEF    \
-    {"gh_99240_double_free", _PyCFunction_CAST(gh_99240_double_free), METH_FASTCALL, gh_99240_double_free__doc__},
+    {gh_99240_double_free_MethodName.name, _PyCFunction_CAST(gh_99240_double_free), METH_FASTCALL, gh_99240_double_free__doc__},
 
 static PyObject *
 gh_99240_double_free_impl(PyObject *module, char *a, char *b);
@@ -3592,8 +3651,9 @@ PyDoc_STRVAR(null_or_tuple_for_varargs__doc__,
 "\n"
 "See https://github.com/python/cpython/issues/110864");
 
+static struct {char name[];} null_or_tuple_for_varargs_MethodName = {.name = "null_or_tuple_for_varargs",};
 #define NULL_OR_TUPLE_FOR_VARARGS_METHODDEF    \
-    {"null_or_tuple_for_varargs", _PyCFunction_CAST(null_or_tuple_for_varargs), METH_FASTCALL|METH_KEYWORDS, null_or_tuple_for_varargs__doc__},
+    {null_or_tuple_for_varargs_MethodName.name, _PyCFunction_CAST(null_or_tuple_for_varargs), METH_FASTCALL|METH_KEYWORDS, null_or_tuple_for_varargs__doc__},
 
 static PyObject *
 null_or_tuple_for_varargs_impl(PyObject *module, PyObject *name,
@@ -3671,8 +3731,9 @@ PyDoc_STRVAR(clone_f1__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} clone_f1_MethodName = {.name = "clone_f1",};
 #define CLONE_F1_METHODDEF    \
-    {"clone_f1", _PyCFunction_CAST(clone_f1), METH_FASTCALL|METH_KEYWORDS, clone_f1__doc__},
+    {clone_f1_MethodName.name, _PyCFunction_CAST(clone_f1), METH_FASTCALL|METH_KEYWORDS, clone_f1__doc__},
 
 static PyObject *
 clone_f1_impl(PyObject *module, const char *path);
@@ -3740,8 +3801,9 @@ PyDoc_STRVAR(clone_f2__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} clone_f2_MethodName = {.name = "clone_f2",};
 #define CLONE_F2_METHODDEF    \
-    {"clone_f2", _PyCFunction_CAST(clone_f2), METH_FASTCALL|METH_KEYWORDS, clone_f2__doc__},
+    {clone_f2_MethodName.name, _PyCFunction_CAST(clone_f2), METH_FASTCALL|METH_KEYWORDS, clone_f2__doc__},
 
 static PyObject *
 clone_f2_impl(PyObject *module, const char *path);
@@ -3809,8 +3871,9 @@ PyDoc_STRVAR(clone_with_conv_f1__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} clone_with_conv_f1_MethodName = {.name = "clone_with_conv_f1",};
 #define CLONE_WITH_CONV_F1_METHODDEF    \
-    {"clone_with_conv_f1", _PyCFunction_CAST(clone_with_conv_f1), METH_FASTCALL|METH_KEYWORDS, clone_with_conv_f1__doc__},
+    {clone_with_conv_f1_MethodName.name, _PyCFunction_CAST(clone_with_conv_f1), METH_FASTCALL|METH_KEYWORDS, clone_with_conv_f1__doc__},
 
 static PyObject *
 clone_with_conv_f1_impl(PyObject *module, custom_t path);
@@ -3875,8 +3938,9 @@ PyDoc_STRVAR(clone_with_conv_f2__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} clone_with_conv_f2_MethodName = {.name = "clone_with_conv_f2",};
 #define CLONE_WITH_CONV_F2_METHODDEF    \
-    {"clone_with_conv_f2", _PyCFunction_CAST(clone_with_conv_f2), METH_FASTCALL|METH_KEYWORDS, clone_with_conv_f2__doc__},
+    {clone_with_conv_f2_MethodName.name, _PyCFunction_CAST(clone_with_conv_f2), METH_FASTCALL|METH_KEYWORDS, clone_with_conv_f2__doc__},
 
 static PyObject *
 clone_with_conv_f2_impl(PyObject *module, custom_t path);
@@ -3941,8 +4005,9 @@ PyDoc_STRVAR(_testclinic_TestClass_get_defining_class__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _testclinic_TestClass_get_defining_class_MethodName = {.name = "get_defining_class",};
 #define _TESTCLINIC_TESTCLASS_GET_DEFINING_CLASS_METHODDEF    \
-    {"get_defining_class", _PyCFunction_CAST(_testclinic_TestClass_get_defining_class), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _testclinic_TestClass_get_defining_class__doc__},
+    {_testclinic_TestClass_get_defining_class_MethodName.name, _PyCFunction_CAST(_testclinic_TestClass_get_defining_class), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _testclinic_TestClass_get_defining_class__doc__},
 
 static PyObject *
 _testclinic_TestClass_get_defining_class_impl(PyObject *self,
@@ -3963,8 +4028,9 @@ PyDoc_STRVAR(_testclinic_TestClass_get_defining_class_arg__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _testclinic_TestClass_get_defining_class_arg_MethodName = {.name = "get_defining_class_arg",};
 #define _TESTCLINIC_TESTCLASS_GET_DEFINING_CLASS_ARG_METHODDEF    \
-    {"get_defining_class_arg", _PyCFunction_CAST(_testclinic_TestClass_get_defining_class_arg), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _testclinic_TestClass_get_defining_class_arg__doc__},
+    {_testclinic_TestClass_get_defining_class_arg_MethodName.name, _PyCFunction_CAST(_testclinic_TestClass_get_defining_class_arg), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _testclinic_TestClass_get_defining_class_arg__doc__},
 
 static PyObject *
 _testclinic_TestClass_get_defining_class_arg_impl(PyObject *self,
@@ -4022,8 +4088,9 @@ PyDoc_STRVAR(_testclinic_TestClass_defclass_varpos__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _testclinic_TestClass_defclass_varpos_MethodName = {.name = "defclass_varpos",};
 #define _TESTCLINIC_TESTCLASS_DEFCLASS_VARPOS_METHODDEF    \
-    {"defclass_varpos", _PyCFunction_CAST(_testclinic_TestClass_defclass_varpos), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _testclinic_TestClass_defclass_varpos__doc__},
+    {_testclinic_TestClass_defclass_varpos_MethodName.name, _PyCFunction_CAST(_testclinic_TestClass_defclass_varpos), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _testclinic_TestClass_defclass_varpos__doc__},
 
 static PyObject *
 _testclinic_TestClass_defclass_varpos_impl(PyObject *self, PyTypeObject *cls,
@@ -4073,8 +4140,9 @@ PyDoc_STRVAR(_testclinic_TestClass_defclass_posonly_varpos__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _testclinic_TestClass_defclass_posonly_varpos_MethodName = {.name = "defclass_posonly_varpos",};
 #define _TESTCLINIC_TESTCLASS_DEFCLASS_POSONLY_VARPOS_METHODDEF    \
-    {"defclass_posonly_varpos", _PyCFunction_CAST(_testclinic_TestClass_defclass_posonly_varpos), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _testclinic_TestClass_defclass_posonly_varpos__doc__},
+    {_testclinic_TestClass_defclass_posonly_varpos_MethodName.name, _PyCFunction_CAST(_testclinic_TestClass_defclass_posonly_varpos), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _testclinic_TestClass_defclass_posonly_varpos__doc__},
 
 static PyObject *
 _testclinic_TestClass_defclass_posonly_varpos_impl(PyObject *self,
@@ -4130,8 +4198,9 @@ PyDoc_STRVAR(_testclinic_TestClass_varpos_no_fastcall__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _testclinic_TestClass_varpos_no_fastcall_MethodName = {.name = "varpos_no_fastcall",};
 #define _TESTCLINIC_TESTCLASS_VARPOS_NO_FASTCALL_METHODDEF    \
-    {"varpos_no_fastcall", (PyCFunction)_testclinic_TestClass_varpos_no_fastcall, METH_VARARGS|METH_CLASS, _testclinic_TestClass_varpos_no_fastcall__doc__},
+    {_testclinic_TestClass_varpos_no_fastcall_MethodName.name, (PyCFunction)_testclinic_TestClass_varpos_no_fastcall, METH_VARARGS|METH_CLASS, _testclinic_TestClass_varpos_no_fastcall__doc__},
 
 static PyObject *
 _testclinic_TestClass_varpos_no_fastcall_impl(PyTypeObject *type,
@@ -4157,8 +4226,9 @@ PyDoc_STRVAR(_testclinic_TestClass_posonly_varpos_no_fastcall__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _testclinic_TestClass_posonly_varpos_no_fastcall_MethodName = {.name = "posonly_varpos_no_fastcall",};
 #define _TESTCLINIC_TESTCLASS_POSONLY_VARPOS_NO_FASTCALL_METHODDEF    \
-    {"posonly_varpos_no_fastcall", (PyCFunction)_testclinic_TestClass_posonly_varpos_no_fastcall, METH_VARARGS|METH_CLASS, _testclinic_TestClass_posonly_varpos_no_fastcall__doc__},
+    {_testclinic_TestClass_posonly_varpos_no_fastcall_MethodName.name, (PyCFunction)_testclinic_TestClass_posonly_varpos_no_fastcall, METH_VARARGS|METH_CLASS, _testclinic_TestClass_posonly_varpos_no_fastcall__doc__},
 
 static PyObject *
 _testclinic_TestClass_posonly_varpos_no_fastcall_impl(PyTypeObject *type,
@@ -4197,8 +4267,9 @@ PyDoc_STRVAR(_testclinic_TestClass_posonly_req_opt_varpos_no_fastcall__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _testclinic_TestClass_posonly_req_opt_varpos_no_fastcall_MethodName = {.name = "posonly_req_opt_varpos_no_fastcall",};
 #define _TESTCLINIC_TESTCLASS_POSONLY_REQ_OPT_VARPOS_NO_FASTCALL_METHODDEF    \
-    {"posonly_req_opt_varpos_no_fastcall", (PyCFunction)_testclinic_TestClass_posonly_req_opt_varpos_no_fastcall, METH_VARARGS|METH_CLASS, _testclinic_TestClass_posonly_req_opt_varpos_no_fastcall__doc__},
+    {_testclinic_TestClass_posonly_req_opt_varpos_no_fastcall_MethodName.name, (PyCFunction)_testclinic_TestClass_posonly_req_opt_varpos_no_fastcall, METH_VARARGS|METH_CLASS, _testclinic_TestClass_posonly_req_opt_varpos_no_fastcall__doc__},
 
 static PyObject *
 _testclinic_TestClass_posonly_req_opt_varpos_no_fastcall_impl(PyTypeObject *type,
@@ -4241,8 +4312,9 @@ PyDoc_STRVAR(_testclinic_TestClass_posonly_poskw_varpos_no_fastcall__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _testclinic_TestClass_posonly_poskw_varpos_no_fastcall_MethodName = {.name = "posonly_poskw_varpos_no_fastcall",};
 #define _TESTCLINIC_TESTCLASS_POSONLY_POSKW_VARPOS_NO_FASTCALL_METHODDEF    \
-    {"posonly_poskw_varpos_no_fastcall", _PyCFunction_CAST(_testclinic_TestClass_posonly_poskw_varpos_no_fastcall), METH_VARARGS|METH_KEYWORDS|METH_CLASS, _testclinic_TestClass_posonly_poskw_varpos_no_fastcall__doc__},
+    {_testclinic_TestClass_posonly_poskw_varpos_no_fastcall_MethodName.name, _PyCFunction_CAST(_testclinic_TestClass_posonly_poskw_varpos_no_fastcall), METH_VARARGS|METH_KEYWORDS|METH_CLASS, _testclinic_TestClass_posonly_poskw_varpos_no_fastcall__doc__},
 
 static PyObject *
 _testclinic_TestClass_posonly_poskw_varpos_no_fastcall_impl(PyTypeObject *type,
@@ -4313,8 +4385,9 @@ PyDoc_STRVAR(_testclinic_TestClass_varpos_array_no_fastcall__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _testclinic_TestClass_varpos_array_no_fastcall_MethodName = {.name = "varpos_array_no_fastcall",};
 #define _TESTCLINIC_TESTCLASS_VARPOS_ARRAY_NO_FASTCALL_METHODDEF    \
-    {"varpos_array_no_fastcall", (PyCFunction)_testclinic_TestClass_varpos_array_no_fastcall, METH_VARARGS|METH_CLASS, _testclinic_TestClass_varpos_array_no_fastcall__doc__},
+    {_testclinic_TestClass_varpos_array_no_fastcall_MethodName.name, (PyCFunction)_testclinic_TestClass_varpos_array_no_fastcall, METH_VARARGS|METH_CLASS, _testclinic_TestClass_varpos_array_no_fastcall__doc__},
 
 static PyObject *
 _testclinic_TestClass_varpos_array_no_fastcall_impl(PyTypeObject *type,
@@ -4340,8 +4413,9 @@ PyDoc_STRVAR(_testclinic_TestClass_posonly_varpos_array_no_fastcall__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _testclinic_TestClass_posonly_varpos_array_no_fastcall_MethodName = {.name = "posonly_varpos_array_no_fastcall",};
 #define _TESTCLINIC_TESTCLASS_POSONLY_VARPOS_ARRAY_NO_FASTCALL_METHODDEF    \
-    {"posonly_varpos_array_no_fastcall", (PyCFunction)_testclinic_TestClass_posonly_varpos_array_no_fastcall, METH_VARARGS|METH_CLASS, _testclinic_TestClass_posonly_varpos_array_no_fastcall__doc__},
+    {_testclinic_TestClass_posonly_varpos_array_no_fastcall_MethodName.name, (PyCFunction)_testclinic_TestClass_posonly_varpos_array_no_fastcall, METH_VARARGS|METH_CLASS, _testclinic_TestClass_posonly_varpos_array_no_fastcall__doc__},
 
 static PyObject *
 _testclinic_TestClass_posonly_varpos_array_no_fastcall_impl(PyTypeObject *type,
@@ -4377,8 +4451,9 @@ PyDoc_STRVAR(_testclinic_TestClass_posonly_req_opt_varpos_array_no_fastcall__doc
 "--\n"
 "\n");
 
+static struct {char name[];} _testclinic_TestClass_posonly_req_opt_varpos_array_no_fastcall_MethodName = {.name = "posonly_req_opt_varpos_array_no_fastcall",};
 #define _TESTCLINIC_TESTCLASS_POSONLY_REQ_OPT_VARPOS_ARRAY_NO_FASTCALL_METHODDEF    \
-    {"posonly_req_opt_varpos_array_no_fastcall", (PyCFunction)_testclinic_TestClass_posonly_req_opt_varpos_array_no_fastcall, METH_VARARGS|METH_CLASS, _testclinic_TestClass_posonly_req_opt_varpos_array_no_fastcall__doc__},
+    {_testclinic_TestClass_posonly_req_opt_varpos_array_no_fastcall_MethodName.name, (PyCFunction)_testclinic_TestClass_posonly_req_opt_varpos_array_no_fastcall, METH_VARARGS|METH_CLASS, _testclinic_TestClass_posonly_req_opt_varpos_array_no_fastcall__doc__},
 
 static PyObject *
 _testclinic_TestClass_posonly_req_opt_varpos_array_no_fastcall_impl(PyTypeObject *type,
@@ -4418,8 +4493,9 @@ PyDoc_STRVAR(_testclinic_TestClass_posonly_poskw_varpos_array_no_fastcall__doc__
 "--\n"
 "\n");
 
+static struct {char name[];} _testclinic_TestClass_posonly_poskw_varpos_array_no_fastcall_MethodName = {.name = "posonly_poskw_varpos_array_no_fastcall",};
 #define _TESTCLINIC_TESTCLASS_POSONLY_POSKW_VARPOS_ARRAY_NO_FASTCALL_METHODDEF    \
-    {"posonly_poskw_varpos_array_no_fastcall", _PyCFunction_CAST(_testclinic_TestClass_posonly_poskw_varpos_array_no_fastcall), METH_VARARGS|METH_KEYWORDS|METH_CLASS, _testclinic_TestClass_posonly_poskw_varpos_array_no_fastcall__doc__},
+    {_testclinic_TestClass_posonly_poskw_varpos_array_no_fastcall_MethodName.name, _PyCFunction_CAST(_testclinic_TestClass_posonly_poskw_varpos_array_no_fastcall), METH_VARARGS|METH_KEYWORDS|METH_CLASS, _testclinic_TestClass_posonly_poskw_varpos_array_no_fastcall__doc__},
 
 static PyObject *
 _testclinic_TestClass_posonly_poskw_varpos_array_no_fastcall_impl(PyTypeObject *type,
@@ -4481,4 +4557,4 @@ _testclinic_TestClass_posonly_poskw_varpos_array_no_fastcall(PyObject *type, PyO
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=84ffc31f27215baa input=a9049054013a1b77]*/
+/*[clinic end generated code: output=175a5e8639e8efe9 input=a9049054013a1b77]*/

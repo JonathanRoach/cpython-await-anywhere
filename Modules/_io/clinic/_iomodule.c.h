@@ -127,8 +127,9 @@ PyDoc_STRVAR(_io_open__doc__,
 "opened in a text mode, and for bytes a BytesIO can be used like a file\n"
 "opened in a binary mode.");
 
+static struct {char name[];} _io_open_MethodName = {.name = "open",};
 #define _IO_OPEN_METHODDEF    \
-    {"open", _PyCFunction_CAST(_io_open), METH_FASTCALL|METH_KEYWORDS, _io_open__doc__},
+    {_io_open_MethodName.name, _PyCFunction_CAST(_io_open), METH_FASTCALL|METH_KEYWORDS, _io_open__doc__},
 
 static PyObject *
 _io_open_impl(PyObject *module, PyObject *file, const char *mode,
@@ -315,8 +316,9 @@ PyDoc_STRVAR(_io_text_encoding__doc__,
 "This can be used in APIs with an encoding=None parameter.\n"
 "However, please consider using encoding=\"utf-8\" for new APIs.");
 
+static struct {char name[];} _io_text_encoding_MethodName = {.name = "text_encoding",};
 #define _IO_TEXT_ENCODING_METHODDEF    \
-    {"text_encoding", _PyCFunction_CAST(_io_text_encoding), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_text_encoding__doc__},
+    {_io_text_encoding_MethodName.name, _PyCFunction_CAST(_io_text_encoding), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_text_encoding__doc__},
 
 static PyObject *
 _io_text_encoding_impl(PyObject *module, PyObject *encoding, int stacklevel);
@@ -355,8 +357,9 @@ PyDoc_STRVAR(_io_open_code__doc__,
 "This may perform extra validation beyond open(), but is otherwise interchangeable\n"
 "with calling open(path, \'rb\').");
 
+static struct {char name[];} _io_open_code_MethodName = {.name = "open_code",};
 #define _IO_OPEN_CODE_METHODDEF    \
-    {"open_code", _PyCFunction_CAST(_io_open_code), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io_open_code__doc__},
+    {_io_open_code_MethodName.name, _PyCFunction_CAST(_io_open_code), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io_open_code__doc__},
 
 static PyObject *
 _io_open_code_impl(PyObject *module, PyObject *path);
@@ -410,4 +413,4 @@ _io_open_code(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObjec
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=2f43db86cda4c353 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=5603eee9a4fce586 input=a9049054013a1b77]*/

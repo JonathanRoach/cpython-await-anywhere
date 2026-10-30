@@ -11,6 +11,7 @@ typedef struct {
     PyObject    *m_module; /* The __module__ attribute, can be anything */
     PyObject    *m_weakreflist; /* List of weak references */
     vectorcallfunc vectorcall;
+    _vectorcallfunc_inlineable vectorcall_inlineable;
 } PyCFunctionObject;
 
 #define _PyCFunctionObject_CAST(func) \
@@ -41,6 +42,11 @@ static inline PyCFunction PyCFunction_GET_FUNCTION(PyObject *func) {
     return _PyCFunctionObject_CAST(func)->m_ml->ml_meth;
 }
 #define PyCFunction_GET_FUNCTION(func) PyCFunction_GET_FUNCTION(_PyObject_CAST(func))
+
+static inline PyCFunction_Inlineable PyCFunction_Inlineable_GET_FUNCTION(PyObject *func) {
+    return ((PyCFunction_Inlineable *)(void *)_PyCFunctionObject_CAST(func)->m_ml->ml_name)[-1];
+}
+#define PyCFunction_GET_FUNCTION_Inlineable(func) PyCFunction_GET_FUNCTION_Inlineable(_PyObject_CAST(func))
 
 static inline PyObject* PyCFunction_GET_SELF(PyObject *func_obj) {
     PyCFunctionObject *func = _PyCFunctionObject_CAST(func_obj);

@@ -17,8 +17,9 @@ PyDoc_STRVAR(_multiprocessing_SemLock_acquire__doc__,
 "\n"
 "Acquire the semaphore/lock.");
 
+static struct {char name[];} _multiprocessing_SemLock_acquire_MethodName = {.name = "acquire",};
 #define _MULTIPROCESSING_SEMLOCK_ACQUIRE_METHODDEF    \
-    {"acquire", _PyCFunction_CAST(_multiprocessing_SemLock_acquire), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _multiprocessing_SemLock_acquire__doc__},
+    {_multiprocessing_SemLock_acquire_MethodName.name, _PyCFunction_CAST(_multiprocessing_SemLock_acquire), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _multiprocessing_SemLock_acquire__doc__},
 
 static PyObject *
 _multiprocessing_SemLock_acquire_impl(SemLockObject *self, int blocking,
@@ -97,8 +98,9 @@ PyDoc_STRVAR(_multiprocessing_SemLock_release__doc__,
 "\n"
 "Release the semaphore/lock.");
 
+static struct {char name[];} _multiprocessing_SemLock_release_MethodName = {.name = "release",};
 #define _MULTIPROCESSING_SEMLOCK_RELEASE_METHODDEF    \
-    {"release", (PyCFunction)_multiprocessing_SemLock_release, METH_NOARGS|METH_C_STACK_FRUGAL, _multiprocessing_SemLock_release__doc__},
+    {_multiprocessing_SemLock_release_MethodName.name, (PyCFunction)_multiprocessing_SemLock_release, METH_NOARGS|METH_C_STACK_FRUGAL, _multiprocessing_SemLock_release__doc__},
 
 static PyObject *
 _multiprocessing_SemLock_release_impl(SemLockObject *self);
@@ -125,8 +127,9 @@ PyDoc_STRVAR(_multiprocessing_SemLock_acquire__doc__,
 "\n"
 "Acquire the semaphore/lock.");
 
+static struct {char name[];} _multiprocessing_SemLock_acquire_MethodName = {.name = "acquire",};
 #define _MULTIPROCESSING_SEMLOCK_ACQUIRE_METHODDEF    \
-    {"acquire", _PyCFunction_CAST(_multiprocessing_SemLock_acquire), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _multiprocessing_SemLock_acquire__doc__},
+    {_multiprocessing_SemLock_acquire_MethodName.name, _PyCFunction_CAST(_multiprocessing_SemLock_acquire), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _multiprocessing_SemLock_acquire__doc__},
 
 static PyObject *
 _multiprocessing_SemLock_acquire_impl(SemLockObject *self, int blocking,
@@ -205,8 +208,9 @@ PyDoc_STRVAR(_multiprocessing_SemLock_release__doc__,
 "\n"
 "Release the semaphore/lock.");
 
+static struct {char name[];} _multiprocessing_SemLock_release_MethodName = {.name = "release",};
 #define _MULTIPROCESSING_SEMLOCK_RELEASE_METHODDEF    \
-    {"release", (PyCFunction)_multiprocessing_SemLock_release, METH_NOARGS|METH_C_STACK_FRUGAL, _multiprocessing_SemLock_release__doc__},
+    {_multiprocessing_SemLock_release_MethodName.name, (PyCFunction)_multiprocessing_SemLock_release, METH_NOARGS|METH_C_STACK_FRUGAL, _multiprocessing_SemLock_release__doc__},
 
 static PyObject *
 _multiprocessing_SemLock_release_impl(SemLockObject *self);
@@ -320,8 +324,9 @@ PyDoc_STRVAR(_multiprocessing_SemLock__rebuild__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _multiprocessing_SemLock__rebuild_MethodName = {.name = "_rebuild",};
 #define _MULTIPROCESSING_SEMLOCK__REBUILD_METHODDEF    \
-    {"_rebuild", _PyCFunction_CAST(_multiprocessing_SemLock__rebuild), METH_FASTCALL|METH_CLASS|METH_C_STACK_FRUGAL, _multiprocessing_SemLock__rebuild__doc__},
+    {_multiprocessing_SemLock__rebuild_MethodName.name, _PyCFunction_CAST(_multiprocessing_SemLock__rebuild), METH_FASTCALL|METH_CLASS|METH_C_STACK_FRUGAL, _multiprocessing_SemLock__rebuild__doc__},
 
 static PyObject *
 _multiprocessing_SemLock__rebuild_impl(PyTypeObject *type, SEM_HANDLE handle,
@@ -357,8 +362,9 @@ PyDoc_STRVAR(_multiprocessing_SemLock__count__doc__,
 "\n"
 "Num of `acquire()`s minus num of `release()`s for this process.");
 
+static struct {char name[];} _multiprocessing_SemLock__count_MethodName = {.name = "_count",};
 #define _MULTIPROCESSING_SEMLOCK__COUNT_METHODDEF    \
-    {"_count", (PyCFunction)_multiprocessing_SemLock__count, METH_NOARGS|METH_C_STACK_FRUGAL, _multiprocessing_SemLock__count__doc__},
+    {_multiprocessing_SemLock__count_MethodName.name, (PyCFunction)_multiprocessing_SemLock__count, METH_NOARGS|METH_C_STACK_FRUGAL, _multiprocessing_SemLock__count__doc__},
 
 static PyObject *
 _multiprocessing_SemLock__count_impl(SemLockObject *self);
@@ -385,8 +391,9 @@ PyDoc_STRVAR(_multiprocessing_SemLock__is_mine__doc__,
 "\n"
 "Whether the lock is owned by this thread.");
 
+static struct {char name[];} _multiprocessing_SemLock__is_mine_MethodName = {.name = "_is_mine",};
 #define _MULTIPROCESSING_SEMLOCK__IS_MINE_METHODDEF    \
-    {"_is_mine", (PyCFunction)_multiprocessing_SemLock__is_mine, METH_NOARGS|METH_C_STACK_FRUGAL, _multiprocessing_SemLock__is_mine__doc__},
+    {_multiprocessing_SemLock__is_mine_MethodName.name, (PyCFunction)_multiprocessing_SemLock__is_mine, METH_NOARGS|METH_C_STACK_FRUGAL, _multiprocessing_SemLock__is_mine__doc__},
 
 static PyObject *
 _multiprocessing_SemLock__is_mine_impl(SemLockObject *self);
@@ -407,8 +414,9 @@ PyDoc_STRVAR(_multiprocessing_SemLock__get_value__doc__,
 "\n"
 "Get the value of the semaphore.");
 
+static struct {char name[];} _multiprocessing_SemLock__get_value_MethodName = {.name = "_get_value",};
 #define _MULTIPROCESSING_SEMLOCK__GET_VALUE_METHODDEF    \
-    {"_get_value", (PyCFunction)_multiprocessing_SemLock__get_value, METH_NOARGS|METH_C_STACK_FRUGAL, _multiprocessing_SemLock__get_value__doc__},
+    {_multiprocessing_SemLock__get_value_MethodName.name, (PyCFunction)_multiprocessing_SemLock__get_value, METH_NOARGS|METH_C_STACK_FRUGAL, _multiprocessing_SemLock__get_value__doc__},
 
 static PyObject *
 _multiprocessing_SemLock__get_value_impl(SemLockObject *self);
@@ -429,8 +437,9 @@ PyDoc_STRVAR(_multiprocessing_SemLock__is_zero__doc__,
 "\n"
 "Return whether semaphore has value zero.");
 
+static struct {char name[];} _multiprocessing_SemLock__is_zero_MethodName = {.name = "_is_zero",};
 #define _MULTIPROCESSING_SEMLOCK__IS_ZERO_METHODDEF    \
-    {"_is_zero", (PyCFunction)_multiprocessing_SemLock__is_zero, METH_NOARGS|METH_C_STACK_FRUGAL, _multiprocessing_SemLock__is_zero__doc__},
+    {_multiprocessing_SemLock__is_zero_MethodName.name, (PyCFunction)_multiprocessing_SemLock__is_zero, METH_NOARGS|METH_C_STACK_FRUGAL, _multiprocessing_SemLock__is_zero__doc__},
 
 static PyObject *
 _multiprocessing_SemLock__is_zero_impl(SemLockObject *self);
@@ -451,8 +460,9 @@ PyDoc_STRVAR(_multiprocessing_SemLock__after_fork__doc__,
 "\n"
 "Rezero the net acquisition count after fork().");
 
+static struct {char name[];} _multiprocessing_SemLock__after_fork_MethodName = {.name = "_after_fork",};
 #define _MULTIPROCESSING_SEMLOCK__AFTER_FORK_METHODDEF    \
-    {"_after_fork", (PyCFunction)_multiprocessing_SemLock__after_fork, METH_NOARGS|METH_C_STACK_FRUGAL, _multiprocessing_SemLock__after_fork__doc__},
+    {_multiprocessing_SemLock__after_fork_MethodName.name, (PyCFunction)_multiprocessing_SemLock__after_fork, METH_NOARGS|METH_C_STACK_FRUGAL, _multiprocessing_SemLock__after_fork__doc__},
 
 static PyObject *
 _multiprocessing_SemLock__after_fork_impl(SemLockObject *self);
@@ -473,8 +483,9 @@ PyDoc_STRVAR(_multiprocessing_SemLock___enter____doc__,
 "\n"
 "Enter the semaphore/lock.");
 
+static struct {char name[];} _multiprocessing_SemLock___enter___MethodName = {.name = "__enter__",};
 #define _MULTIPROCESSING_SEMLOCK___ENTER___METHODDEF    \
-    {"__enter__", (PyCFunction)_multiprocessing_SemLock___enter__, METH_NOARGS|METH_C_STACK_FRUGAL, _multiprocessing_SemLock___enter____doc__},
+    {_multiprocessing_SemLock___enter___MethodName.name, (PyCFunction)_multiprocessing_SemLock___enter__, METH_NOARGS|METH_C_STACK_FRUGAL, _multiprocessing_SemLock___enter____doc__},
 
 static PyObject *
 _multiprocessing_SemLock___enter___impl(SemLockObject *self);
@@ -501,8 +512,9 @@ PyDoc_STRVAR(_multiprocessing_SemLock___exit____doc__,
 "\n"
 "Exit the semaphore/lock.");
 
+static struct {char name[];} _multiprocessing_SemLock___exit___MethodName = {.name = "__exit__",};
 #define _MULTIPROCESSING_SEMLOCK___EXIT___METHODDEF    \
-    {"__exit__", _PyCFunction_CAST(_multiprocessing_SemLock___exit__), METH_FASTCALL|METH_C_STACK_FRUGAL, _multiprocessing_SemLock___exit____doc__},
+    {_multiprocessing_SemLock___exit___MethodName.name, _PyCFunction_CAST(_multiprocessing_SemLock___exit__), METH_FASTCALL|METH_C_STACK_FRUGAL, _multiprocessing_SemLock___exit____doc__},
 
 static PyObject *
 _multiprocessing_SemLock___exit___impl(SemLockObject *self,
@@ -582,4 +594,4 @@ exit:
 #ifndef _MULTIPROCESSING_SEMLOCK___EXIT___METHODDEF
     #define _MULTIPROCESSING_SEMLOCK___EXIT___METHODDEF
 #endif /* !defined(_MULTIPROCESSING_SEMLOCK___EXIT___METHODDEF) */
-/*[clinic end generated code: output=8f4a8f03a9c50a7e input=a9049054013a1b77]*/
+/*[clinic end generated code: output=fc06f5fd50f16cbe input=a9049054013a1b77]*/

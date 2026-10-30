@@ -55,6 +55,8 @@ static PyObject * cfunction_vectorcall_NOARGS(
     PyObject *func, PyObject *const *args, size_t nargsf, PyObject *kwnames);
 static PyObject * cfunction_vectorcall_O(
     PyObject *func, PyObject *const *args, size_t nargsf, PyObject *kwnames);
+static PyObject * cfunction_vectorcall_O_Inlineable(
+    PyObject *func, PyObject *const *args, size_t nargsf, PyObject *kwnames, struct _PyInterpreterFrame **inlined);
 static PyObject * cfunction_call(
     PyObject *func, PyObject *args, PyObject *kwargs);
 
@@ -76,29 +78,46 @@ PyCMethod_New(PyMethodDef *ml, PyObject *self, PyObject *module, PyTypeObject *c
 {
     /* Figure out correct vectorcall function to use */
     vectorcallfunc vectorcall;
+    _vectorcallfunc_inlineable vectorcall_inlineable;
     switch (ml->ml_flags & (METH_VARARGS | METH_FASTCALL | METH_NOARGS |
-                            METH_O | METH_KEYWORDS | METH_METHOD))
+                            METH_O | METH_KEYWORDS | METH_METHOD | METH_C_INLINEABLE))
     {
         case METH_VARARGS:
+        case METH_VARARGS | METH_C_INLINEABLE:
         case METH_VARARGS | METH_KEYWORDS:
+        case METH_VARARGS | METH_KEYWORDS | METH_C_INLINEABLE:
             /* For METH_VARARGS functions, it's more efficient to use tp_call
              * instead of vectorcall. */
             vectorcall = NULL;
+            vectorcall_inlineable = NULL;
             break;
         case METH_FASTCALL:
+        case METH_FASTCALL | METH_C_INLINEABLE:
             vectorcall = cfunction_vectorcall_FASTCALL;
+            vectorcall_inlineable = NULL;
             break;
         case METH_FASTCALL | METH_KEYWORDS:
+        case METH_FASTCALL | METH_KEYWORDS | METH_C_INLINEABLE:
             vectorcall = cfunction_vectorcall_FASTCALL_KEYWORDS;
+            vectorcall_inlineable = NULL;
             break;
         case METH_NOARGS:
+        case METH_NOARGS | METH_C_INLINEABLE:
             vectorcall = cfunction_vectorcall_NOARGS;
+            vectorcall_inlineable = NULL;
             break;
         case METH_O:
             vectorcall = cfunction_vectorcall_O;
+            vectorcall_inlineable = NULL;
+            break;
+        case METH_O | METH_C_INLINEABLE:
+            vectorcall = cfunction_vectorcall_O;
+            vectorcall_inlineable = cfunction_vectorcall_O_Inlineable;
             break;
         case METH_METHOD | METH_FASTCALL | METH_KEYWORDS:
+        case METH_METHOD | METH_FASTCALL | METH_KEYWORDS | METH_C_INLINEABLE:
             vectorcall = cfunction_vectorcall_FASTCALL_KEYWORDS_METHOD;
+            vectorcall_inlineable = NULL;
             break;
         default:
             PyErr_Format(PyExc_SystemError,
@@ -145,6 +164,7 @@ PyCMethod_New(PyMethodDef *ml, PyObject *self, PyObject *module, PyTypeObject *c
     op->m_self = Py_XNewRef(self);
     op->m_module = Py_XNewRef(module);
     op->vectorcall = vectorcall;
+    op->vectorcall_inlineable = vectorcall_inlineable;
     _PyObject_GC_TRACK(op);
     return (PyObject *)op;
 }
@@ -157,6 +177,16 @@ PyCFunction_GetFunction(PyObject *op)
         return NULL;
     }
     return PyCFunction_GET_FUNCTION(op);
+}
+
+PyCFunction_Inlineable
+PyCFunction_Inlineable_GetFunction(PyObject *op)
+{
+    if (!PyCFunction_Check(op)) {
+        PyErr_BadInternalCall();
+        return NULL;
+    }
+    return PyCFunction_Inlineable_GET_FUNCTION(op);
 }
 
 PyObject *
@@ -404,7 +434,8 @@ PyTypeObject PyCFunction_Type = {
     0,                                          /* tp_setattro */
     0,                                          /* tp_as_buffer */
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
-    Py_TPFLAGS_HAVE_VECTORCALL,                 /* tp_flags */
+    Py_TPFLAGS_HAVE_VECTORCALL |
+    Py_TPFLAGS_VECTORCALL_INLINEABLE,           /* tp_flags */
     0,                                          /* tp_doc */
     meth_traverse,                /* tp_traverse */
     0,                                          /* tp_clear */
@@ -466,6 +497,15 @@ cfunction_enter_call(PyThreadState *tstate, PyObject *func)
         return NULL;
     }
     return (funcptr)PyCFunction_GET_FUNCTION(func);
+}
+
+static inline funcptr
+cfunction_enter_call_Inlineable(PyThreadState *tstate, PyObject *func)
+{
+    if (_Py_EnterRecursiveCallTstate(tstate, " while calling a Python object")) {
+        return NULL;
+    }
+    return (funcptr)PyCFunction_Inlineable_GET_FUNCTION(func);
 }
 
 
@@ -684,6 +724,48 @@ cfunction_vectorcall_O(
     }
     PyObject *result = docfunction_vectorcall_O(
         meth, func, args[0]);
+    _Py_LeaveRecursiveCallTstate(tstate);
+    return result;
+}
+
+static inline PyObject *docfunction_vectorcall_O_Inlineable(
+    PyCFunction_Inlineable meth, PyObject *func_obj, PyObject *arg, struct _PyInterpreterFrame **inlined)
+{
+    PyObject *ret;
+    MeasureCStackUsage(_PyCFunctionObject_CAST(func_obj)->m_ml->ml_flags, _PyCFunctionObject_CAST(func_obj)->m_ml->ml_name, _PyCFunction_Inlineable_TrampolineCall(
+#if PY_ASYNC_BY_COROUTINE_C
+        PyCFunction_GET_FLAGS(func_obj) & METH_C_STACK_FRUGAL,
+#else
+#endif
+        meth, PyCFunction_GET_SELF(func_obj), arg, inlined));
+    CheckCoroutineIntegrity(func_obj);
+    return ret;
+}
+
+static PyObject *
+cfunction_vectorcall_O_Inlineable(
+    PyObject *func, PyObject *const *args, size_t nargsf, PyObject *kwnames, struct _PyInterpreterFrame **inlined)
+{
+    PyThreadState *tstate = _PyThreadState_GET();
+    if (cfunction_check_kwargs(tstate, func, kwnames)) {
+        return NULL;
+    }
+    Py_ssize_t nargs = PyVectorcall_NARGS(nargsf);
+    if (nargs != 1) {
+        PyObject *funcstr = _PyObject_FunctionStr(func);
+        if (funcstr != NULL) {
+            _PyErr_Format(tstate, PyExc_TypeError,
+                "%U takes exactly one argument (%zd given)", funcstr, nargs);
+            Py_DECREF(funcstr);
+        }
+        return NULL;
+    }
+    PyCFunction_Inlineable meth = (PyCFunction_Inlineable)cfunction_enter_call_Inlineable(tstate, func);
+    if (meth == NULL) {
+        return NULL;
+    }
+    PyObject *result = docfunction_vectorcall_O_Inlineable(
+        meth, func, args[0], inlined);
     _Py_LeaveRecursiveCallTstate(tstate);
     return result;
 }

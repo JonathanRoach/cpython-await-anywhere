@@ -10,8 +10,9 @@ PyDoc_STRVAR(type___instancecheck____doc__,
 "\n"
 "Check if an object is an instance.");
 
+static struct {char name[];} type___instancecheck___MethodName = {.name = "__instancecheck__",};
 #define TYPE___INSTANCECHECK___METHODDEF    \
-    {"__instancecheck__", (PyCFunction)type___instancecheck__, METH_O|METH_C_STACK_FRUGAL, type___instancecheck____doc__},
+    {type___instancecheck___MethodName.name, (PyCFunction)type___instancecheck__, METH_O|METH_C_STACK_FRUGAL, type___instancecheck____doc__},
 
 static int
 type___instancecheck___impl(PyTypeObject *self, PyObject *instance);
@@ -38,8 +39,9 @@ PyDoc_STRVAR(type___subclasscheck____doc__,
 "\n"
 "Check if a class is a subclass.");
 
+static struct {char name[];} type___subclasscheck___MethodName = {.name = "__subclasscheck__",};
 #define TYPE___SUBCLASSCHECK___METHODDEF    \
-    {"__subclasscheck__", (PyCFunction)type___subclasscheck__, METH_O|METH_C_STACK_FRUGAL, type___subclasscheck____doc__},
+    {type___subclasscheck___MethodName.name, (PyCFunction)type___subclasscheck__, METH_O|METH_C_STACK_FRUGAL, type___subclasscheck____doc__},
 
 static int
 type___subclasscheck___impl(PyTypeObject *self, PyObject *subclass);
@@ -66,8 +68,9 @@ PyDoc_STRVAR(type_mro__doc__,
 "\n"
 "Return a type\'s method resolution order.");
 
+static struct {char name[];} type_mro_MethodName = {.name = "mro",};
 #define TYPE_MRO_METHODDEF    \
-    {"mro", (PyCFunction)type_mro, METH_NOARGS|METH_C_STACK_FRUGAL, type_mro__doc__},
+    {type_mro_MethodName.name, (PyCFunction)type_mro, METH_NOARGS|METH_C_STACK_FRUGAL, type_mro__doc__},
 
 static PyObject *
 type_mro_impl(PyTypeObject *self);
@@ -84,8 +87,9 @@ PyDoc_STRVAR(type___subclasses____doc__,
 "\n"
 "Return a list of immediate subclasses.");
 
+static struct {char name[];} type___subclasses___MethodName = {.name = "__subclasses__",};
 #define TYPE___SUBCLASSES___METHODDEF    \
-    {"__subclasses__", (PyCFunction)type___subclasses__, METH_NOARGS|METH_C_STACK_FRUGAL, type___subclasses____doc__},
+    {type___subclasses___MethodName.name, (PyCFunction)type___subclasses__, METH_NOARGS|METH_C_STACK_FRUGAL, type___subclasses____doc__},
 
 static PyObject *
 type___subclasses___impl(PyTypeObject *self);
@@ -102,8 +106,9 @@ PyDoc_STRVAR(type___dir____doc__,
 "\n"
 "Specialized __dir__ implementation for types.");
 
+static struct {char name[];} type___dir___MethodName = {.name = "__dir__",};
 #define TYPE___DIR___METHODDEF    \
-    {"__dir__", (PyCFunction)type___dir__, METH_NOARGS|METH_C_STACK_FRUGAL, type___dir____doc__},
+    {type___dir___MethodName.name, (PyCFunction)type___dir__, METH_NOARGS|METH_C_STACK_FRUGAL, type___dir____doc__},
 
 static PyObject *
 type___dir___impl(PyTypeObject *self);
@@ -120,8 +125,9 @@ PyDoc_STRVAR(type___sizeof____doc__,
 "\n"
 "Return memory consumption of the type object.");
 
+static struct {char name[];} type___sizeof___MethodName = {.name = "__sizeof__",};
 #define TYPE___SIZEOF___METHODDEF    \
-    {"__sizeof__", (PyCFunction)type___sizeof__, METH_NOARGS|METH_C_STACK_FRUGAL, type___sizeof____doc__},
+    {type___sizeof___MethodName.name, (PyCFunction)type___sizeof__, METH_NOARGS|METH_C_STACK_FRUGAL, type___sizeof____doc__},
 
 static PyObject *
 type___sizeof___impl(PyTypeObject *self);
@@ -138,8 +144,9 @@ PyDoc_STRVAR(object___getstate____doc__,
 "\n"
 "Helper for pickle.");
 
+static struct {char name[];} object___getstate___MethodName = {.name = "__getstate__",};
 #define OBJECT___GETSTATE___METHODDEF    \
-    {"__getstate__", (PyCFunction)object___getstate__, METH_NOARGS|METH_C_STACK_FRUGAL, object___getstate____doc__},
+    {object___getstate___MethodName.name, (PyCFunction)object___getstate__, METH_NOARGS|METH_C_STACK_FRUGAL, object___getstate____doc__},
 
 static PyObject *
 object___getstate___impl(PyObject *self);
@@ -156,8 +163,9 @@ PyDoc_STRVAR(object___reduce____doc__,
 "\n"
 "Helper for pickle.");
 
+static struct {char name[];} object___reduce___MethodName = {.name = "__reduce__",};
 #define OBJECT___REDUCE___METHODDEF    \
-    {"__reduce__", (PyCFunction)object___reduce__, METH_NOARGS|METH_C_STACK_FRUGAL, object___reduce____doc__},
+    {object___reduce___MethodName.name, (PyCFunction)object___reduce__, METH_NOARGS|METH_C_STACK_FRUGAL, object___reduce____doc__},
 
 static PyObject *
 object___reduce___impl(PyObject *self);
@@ -174,8 +182,9 @@ PyDoc_STRVAR(object___reduce_ex____doc__,
 "\n"
 "Helper for pickle.");
 
+static struct {char name[];} object___reduce_ex___MethodName = {.name = "__reduce_ex__",};
 #define OBJECT___REDUCE_EX___METHODDEF    \
-    {"__reduce_ex__", (PyCFunction)object___reduce_ex__, METH_O|METH_C_STACK_FRUGAL, object___reduce_ex____doc__},
+    {object___reduce_ex___MethodName.name, (PyCFunction)object___reduce_ex__, METH_O|METH_C_STACK_FRUGAL, object___reduce_ex____doc__},
 
 static PyObject *
 object___reduce_ex___impl(PyObject *self, int protocol);
@@ -204,8 +213,9 @@ PyDoc_STRVAR(object___format____doc__,
 "\n"
 "Return str(self) if format_spec is empty. Raise TypeError otherwise.");
 
+static struct {char name[];} object___format___MethodName = {.name = "__format__",};
 #define OBJECT___FORMAT___METHODDEF    \
-    {"__format__", (PyCFunction)object___format__, METH_O|METH_C_STACK_FRUGAL, object___format____doc__},
+    {object___format___MethodName.name, (PyCFunction)object___format__, METH_O|METH_C_STACK_FRUGAL, object___format____doc__},
 
 static PyObject *
 object___format___impl(PyObject *self, PyObject *format_spec);
@@ -233,8 +243,9 @@ PyDoc_STRVAR(object___sizeof____doc__,
 "\n"
 "Size of object in memory, in bytes.");
 
+static struct {char name[];} object___sizeof___MethodName = {.name = "__sizeof__",};
 #define OBJECT___SIZEOF___METHODDEF    \
-    {"__sizeof__", (PyCFunction)object___sizeof__, METH_NOARGS|METH_C_STACK_FRUGAL, object___sizeof____doc__},
+    {object___sizeof___MethodName.name, (PyCFunction)object___sizeof__, METH_NOARGS|METH_C_STACK_FRUGAL, object___sizeof____doc__},
 
 static PyObject *
 object___sizeof___impl(PyObject *self);
@@ -251,8 +262,9 @@ PyDoc_STRVAR(object___dir____doc__,
 "\n"
 "Default dir() implementation.");
 
+static struct {char name[];} object___dir___MethodName = {.name = "__dir__",};
 #define OBJECT___DIR___METHODDEF    \
-    {"__dir__", (PyCFunction)object___dir__, METH_NOARGS|METH_C_STACK_FRUGAL, object___dir____doc__},
+    {object___dir___MethodName.name, (PyCFunction)object___dir__, METH_NOARGS|METH_C_STACK_FRUGAL, object___dir____doc__},
 
 static PyObject *
 object___dir___impl(PyObject *self);
@@ -262,4 +274,4 @@ object___dir__(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return object___dir___impl(self);
 }
-/*[clinic end generated code: output=61f8e7c60925f81d input=a9049054013a1b77]*/
+/*[clinic end generated code: output=018cbc9836dd61fb input=a9049054013a1b77]*/

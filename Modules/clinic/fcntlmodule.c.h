@@ -18,8 +18,9 @@ PyDoc_STRVAR(fcntl_fcntl__doc__,
 "is an integer or if none is specified, the result value is an integer\n"
 "corresponding to the return value of the fcntl call in the C code.");
 
+static struct {char name[];} fcntl_fcntl_MethodName = {.name = "fcntl",};
 #define FCNTL_FCNTL_METHODDEF    \
-    {"fcntl", (PyCFunction)(void(*)(void))fcntl_fcntl, METH_FASTCALL|METH_C_STACK_FRUGAL, fcntl_fcntl__doc__},
+    {fcntl_fcntl_MethodName.name, (PyCFunction)(void(*)(void))fcntl_fcntl, METH_FASTCALL|METH_C_STACK_FRUGAL, fcntl_fcntl__doc__},
 
 static PyObject *
 fcntl_fcntl_impl(PyObject *module, int fd, int code, PyObject *arg);
@@ -92,8 +93,9 @@ PyDoc_STRVAR(fcntl_ioctl__doc__,
 "an integer corresponding to the return value of the ioctl call in the C\n"
 "code.");
 
+static struct {char name[];} fcntl_ioctl_MethodName = {.name = "ioctl",};
 #define FCNTL_IOCTL_METHODDEF    \
-    {"ioctl", (PyCFunction)(void(*)(void))fcntl_ioctl, METH_FASTCALL|METH_C_STACK_FRUGAL, fcntl_ioctl__doc__},
+    {fcntl_ioctl_MethodName.name, (PyCFunction)(void(*)(void))fcntl_ioctl, METH_FASTCALL|METH_C_STACK_FRUGAL, fcntl_ioctl__doc__},
 
 static PyObject *
 fcntl_ioctl_impl(PyObject *module, int fd, unsigned long code, PyObject *arg,
@@ -152,8 +154,9 @@ PyDoc_STRVAR(fcntl_flock__doc__,
 "See the Unix manual page for flock(2) for details (On some systems, this\n"
 "function is emulated using fcntl()).");
 
+static struct {char name[];} fcntl_flock_MethodName = {.name = "flock",};
 #define FCNTL_FLOCK_METHODDEF    \
-    {"flock", (PyCFunction)(void(*)(void))fcntl_flock, METH_FASTCALL|METH_C_STACK_FRUGAL, fcntl_flock__doc__},
+    {fcntl_flock_MethodName.name, (PyCFunction)(void(*)(void))fcntl_flock, METH_FASTCALL|METH_C_STACK_FRUGAL, fcntl_flock__doc__},
 
 static PyObject *
 fcntl_flock_impl(PyObject *module, int fd, int code);
@@ -210,8 +213,9 @@ PyDoc_STRVAR(fcntl_lockf__doc__,
 "    1 - relative to the current buffer position (SEEK_CUR)\n"
 "    2 - relative to the end of the file (SEEK_END)");
 
+static struct {char name[];} fcntl_lockf_MethodName = {.name = "lockf",};
 #define FCNTL_LOCKF_METHODDEF    \
-    {"lockf", (PyCFunction)(void(*)(void))fcntl_lockf, METH_FASTCALL|METH_C_STACK_FRUGAL, fcntl_lockf__doc__},
+    {fcntl_lockf_MethodName.name, (PyCFunction)(void(*)(void))fcntl_lockf, METH_FASTCALL|METH_C_STACK_FRUGAL, fcntl_lockf__doc__},
 
 static PyObject *
 fcntl_lockf_impl(PyObject *module, int fd, int code, PyObject *lenobj,
@@ -264,4 +268,4 @@ skip_optional:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=c1cace5830a1ca41 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=75978953cd4df8f4 input=a9049054013a1b77]*/

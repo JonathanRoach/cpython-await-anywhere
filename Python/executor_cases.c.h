@@ -612,15 +612,9 @@
             _PyStackRef res;
             value = stack_pointer[-1];
             _PyInterpreterFrame *inlined = frame;
-            #if PY_ASYNC_BY_COROUTINE_C
             _PyFrame_SetStackPointer(frame, stack_pointer);
             PyObject *res_o = PyNumber_Negative_Inlineable(PyStackRef_AsPyObjectBorrow(value), tstate->interp->eval_frame ? NULL : &inlined);
             stack_pointer = _PyFrame_GetStackPointer(frame);
-            #else
-            _PyFrame_SetStackPointer(frame, stack_pointer);
-            PyObject *res_o = PyNumber_Negative_Inlineable(PyStackRef_AsPyObjectBorrow(value), &inlined);
-            stack_pointer = _PyFrame_GetStackPointer(frame);
-            #endif
             if ( inlined != frame ){
                 _PyFrame_SetStackPointer(frame, stack_pointer);
                 _PyStackRef tmp = value;
@@ -850,15 +844,9 @@
             _PyStackRef res;
             value = stack_pointer[-1];
             _PyInterpreterFrame *inlined = frame;
-            #if PY_ASYNC_BY_COROUTINE_C
             _PyFrame_SetStackPointer(frame, stack_pointer);
             PyObject *res_o = PyNumber_Invert_Inlineable(PyStackRef_AsPyObjectBorrow(value), tstate->interp->eval_frame ? NULL : &inlined);
             stack_pointer = _PyFrame_GetStackPointer(frame);
-            #else
-            _PyFrame_SetStackPointer(frame, stack_pointer);
-            PyObject *res_o = PyNumber_Invert_Inlineable(PyStackRef_AsPyObjectBorrow(value), &inlined);
-            stack_pointer = _PyFrame_GetStackPointer(frame);
-            #endif
             if ( inlined != frame ){
                 _PyFrame_SetStackPointer(frame, stack_pointer);
                 _PyStackRef tmp = value;
@@ -1772,15 +1760,9 @@
             value = stack_pointer[-1];
             assert(oparg <= MAX_INTRINSIC_1);
             _PyInterpreterFrame *inlined = frame;
-            #if PY_ASYNC_BY_COROUTINE_C
             _PyFrame_SetStackPointer(frame, stack_pointer);
             PyObject *res_o = _PyIntrinsics_UnaryFunctions[oparg].func(tstate, PyStackRef_AsPyObjectBorrow(value), tstate->interp->eval_frame ? NULL : &inlined);
             stack_pointer = _PyFrame_GetStackPointer(frame);
-            #else
-            _PyFrame_SetStackPointer(frame, stack_pointer);
-            PyObject *res_o = _PyIntrinsics_UnaryFunctions[oparg].func(tstate, PyStackRef_AsPyObjectBorrow(value), &inlined);
-            stack_pointer = _PyFrame_GetStackPointer(frame);
-            #endif
             if ( inlined != frame ){
                 _PyFrame_SetStackPointer(frame, stack_pointer);
                 _PyStackRef tmp = value;
@@ -7083,15 +7065,9 @@
             PyObject *rhs_o = PyStackRef_AsPyObjectBorrow(rhs);
             _PyInterpreterFrame *inlined = frame;
             assert(_PyEval_BinaryOps[oparg]);
-            #if PY_ASYNC_BY_COROUTINE_C
             _PyFrame_SetStackPointer(frame, stack_pointer);
             PyObject *res_o = _PyEval_BinaryOps[oparg](lhs_o, rhs_o, tstate->interp->eval_frame ? NULL : &inlined);
             stack_pointer = _PyFrame_GetStackPointer(frame);
-            #else
-            _PyFrame_SetStackPointer(frame, stack_pointer);
-            PyObject *res_o = _PyEval_BinaryOps[oparg](lhs_o, rhs_o, &inlined);
-            stack_pointer = _PyFrame_GetStackPointer(frame);
-            #endif
             if ( inlined != frame ){
                 _PyFrame_SetStackPointer(frame, stack_pointer);
                 _PyStackRef tmp = rhs;

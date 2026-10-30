@@ -13,8 +13,9 @@ PyDoc_STRVAR(_testcapi_err_set_raised__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _testcapi_err_set_raised_MethodName = {.name = "err_set_raised",};
 #define _TESTCAPI_ERR_SET_RAISED_METHODDEF    \
-    {"err_set_raised", (PyCFunction)_testcapi_err_set_raised, METH_O|METH_C_STACK_FRUGAL, _testcapi_err_set_raised__doc__},
+    {_testcapi_err_set_raised_MethodName.name, (PyCFunction)_testcapi_err_set_raised, METH_O|METH_C_STACK_FRUGAL, _testcapi_err_set_raised__doc__},
 
 PyDoc_STRVAR(_testcapi_exception_print__doc__,
 "exception_print($module, exception, legacy=False, /)\n"
@@ -22,8 +23,9 @@ PyDoc_STRVAR(_testcapi_exception_print__doc__,
 "\n"
 "To test the format of exceptions as printed out.");
 
+static struct {char name[];} _testcapi_exception_print_MethodName = {.name = "exception_print",};
 #define _TESTCAPI_EXCEPTION_PRINT_METHODDEF    \
-    {"exception_print", _PyCFunction_CAST(_testcapi_exception_print), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_exception_print__doc__},
+    {_testcapi_exception_print_MethodName.name, _PyCFunction_CAST(_testcapi_exception_print), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_exception_print__doc__},
 
 static PyObject *
 _testcapi_exception_print_impl(PyObject *module, PyObject *exc, int legacy);
@@ -60,8 +62,9 @@ PyDoc_STRVAR(_testcapi_make_exception_with_doc__doc__,
 "\n"
 "Test PyErr_NewExceptionWithDoc (also exercise PyErr_NewException). Run via Lib/test/test_exceptions.py");
 
+static struct {char name[];} _testcapi_make_exception_with_doc_MethodName = {.name = "make_exception_with_doc",};
 #define _TESTCAPI_MAKE_EXCEPTION_WITH_DOC_METHODDEF    \
-    {"make_exception_with_doc", _PyCFunction_CAST(_testcapi_make_exception_with_doc), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _testcapi_make_exception_with_doc__doc__},
+    {_testcapi_make_exception_with_doc_MethodName.name, _PyCFunction_CAST(_testcapi_make_exception_with_doc), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _testcapi_make_exception_with_doc__doc__},
 
 static PyObject *
 _testcapi_make_exception_with_doc_impl(PyObject *module, const char *name,
@@ -164,8 +167,9 @@ PyDoc_STRVAR(_testcapi_exc_set_object__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _testcapi_exc_set_object_MethodName = {.name = "exc_set_object",};
 #define _TESTCAPI_EXC_SET_OBJECT_METHODDEF    \
-    {"exc_set_object", _PyCFunction_CAST(_testcapi_exc_set_object), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_exc_set_object__doc__},
+    {_testcapi_exc_set_object_MethodName.name, _PyCFunction_CAST(_testcapi_exc_set_object), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_exc_set_object__doc__},
 
 static PyObject *
 _testcapi_exc_set_object_impl(PyObject *module, PyObject *exc, PyObject *obj);
@@ -193,8 +197,9 @@ PyDoc_STRVAR(_testcapi_exc_set_object_fetch__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _testcapi_exc_set_object_fetch_MethodName = {.name = "exc_set_object_fetch",};
 #define _TESTCAPI_EXC_SET_OBJECT_FETCH_METHODDEF    \
-    {"exc_set_object_fetch", _PyCFunction_CAST(_testcapi_exc_set_object_fetch), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_exc_set_object_fetch__doc__},
+    {_testcapi_exc_set_object_fetch_MethodName.name, _PyCFunction_CAST(_testcapi_exc_set_object_fetch), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_exc_set_object_fetch__doc__},
 
 static PyObject *
 _testcapi_exc_set_object_fetch_impl(PyObject *module, PyObject *exc,
@@ -223,8 +228,9 @@ PyDoc_STRVAR(_testcapi_err_setstring__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _testcapi_err_setstring_MethodName = {.name = "err_setstring",};
 #define _TESTCAPI_ERR_SETSTRING_METHODDEF    \
-    {"err_setstring", _PyCFunction_CAST(_testcapi_err_setstring), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_err_setstring__doc__},
+    {_testcapi_err_setstring_MethodName.name, _PyCFunction_CAST(_testcapi_err_setstring), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_err_setstring__doc__},
 
 static PyObject *
 _testcapi_err_setstring_impl(PyObject *module, PyObject *exc,
@@ -253,8 +259,9 @@ PyDoc_STRVAR(_testcapi_err_setfromerrnowithfilename__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _testcapi_err_setfromerrnowithfilename_MethodName = {.name = "err_setfromerrnowithfilename",};
 #define _TESTCAPI_ERR_SETFROMERRNOWITHFILENAME_METHODDEF    \
-    {"err_setfromerrnowithfilename", _PyCFunction_CAST(_testcapi_err_setfromerrnowithfilename), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_err_setfromerrnowithfilename__doc__},
+    {_testcapi_err_setfromerrnowithfilename_MethodName.name, _PyCFunction_CAST(_testcapi_err_setfromerrnowithfilename), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_err_setfromerrnowithfilename__doc__},
 
 static PyObject *
 _testcapi_err_setfromerrnowithfilename_impl(PyObject *module, int error,
@@ -285,8 +292,9 @@ PyDoc_STRVAR(_testcapi_raise_exception__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _testcapi_raise_exception_MethodName = {.name = "raise_exception",};
 #define _TESTCAPI_RAISE_EXCEPTION_METHODDEF    \
-    {"raise_exception", _PyCFunction_CAST(_testcapi_raise_exception), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_raise_exception__doc__},
+    {_testcapi_raise_exception_MethodName.name, _PyCFunction_CAST(_testcapi_raise_exception), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_raise_exception__doc__},
 
 static PyObject *
 _testcapi_raise_exception_impl(PyObject *module, PyObject *exc, int num_args);
@@ -317,8 +325,9 @@ PyDoc_STRVAR(_testcapi_raise_memoryerror__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _testcapi_raise_memoryerror_MethodName = {.name = "raise_memoryerror",};
 #define _TESTCAPI_RAISE_MEMORYERROR_METHODDEF    \
-    {"raise_memoryerror", (PyCFunction)_testcapi_raise_memoryerror, METH_NOARGS|METH_C_STACK_FRUGAL, _testcapi_raise_memoryerror__doc__},
+    {_testcapi_raise_memoryerror_MethodName.name, (PyCFunction)_testcapi_raise_memoryerror, METH_NOARGS|METH_C_STACK_FRUGAL, _testcapi_raise_memoryerror__doc__},
 
 static PyObject *
 _testcapi_raise_memoryerror_impl(PyObject *module);
@@ -334,8 +343,9 @@ PyDoc_STRVAR(_testcapi_fatal_error__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _testcapi_fatal_error_MethodName = {.name = "fatal_error",};
 #define _TESTCAPI_FATAL_ERROR_METHODDEF    \
-    {"fatal_error", _PyCFunction_CAST(_testcapi_fatal_error), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_fatal_error__doc__},
+    {_testcapi_fatal_error_MethodName.name, _PyCFunction_CAST(_testcapi_fatal_error), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_fatal_error__doc__},
 
 static PyObject *
 _testcapi_fatal_error_impl(PyObject *module, const char *message,
@@ -363,8 +373,9 @@ PyDoc_STRVAR(_testcapi_set_exc_info__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _testcapi_set_exc_info_MethodName = {.name = "set_exc_info",};
 #define _TESTCAPI_SET_EXC_INFO_METHODDEF    \
-    {"set_exc_info", _PyCFunction_CAST(_testcapi_set_exc_info), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_set_exc_info__doc__},
+    {_testcapi_set_exc_info_MethodName.name, _PyCFunction_CAST(_testcapi_set_exc_info), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_set_exc_info__doc__},
 
 static PyObject *
 _testcapi_set_exc_info_impl(PyObject *module, PyObject *new_type,
@@ -395,8 +406,9 @@ PyDoc_STRVAR(_testcapi_set_exception__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _testcapi_set_exception_MethodName = {.name = "set_exception",};
 #define _TESTCAPI_SET_EXCEPTION_METHODDEF    \
-    {"set_exception", (PyCFunction)_testcapi_set_exception, METH_O|METH_C_STACK_FRUGAL, _testcapi_set_exception__doc__},
+    {_testcapi_set_exception_MethodName.name, (PyCFunction)_testcapi_set_exception, METH_O|METH_C_STACK_FRUGAL, _testcapi_set_exception__doc__},
 
 PyDoc_STRVAR(_testcapi_traceback_print__doc__,
 "traceback_print($module, traceback, file, /)\n"
@@ -404,8 +416,9 @@ PyDoc_STRVAR(_testcapi_traceback_print__doc__,
 "\n"
 "To test the format of tracebacks as printed out.");
 
+static struct {char name[];} _testcapi_traceback_print_MethodName = {.name = "traceback_print",};
 #define _TESTCAPI_TRACEBACK_PRINT_METHODDEF    \
-    {"traceback_print", _PyCFunction_CAST(_testcapi_traceback_print), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_traceback_print__doc__},
+    {_testcapi_traceback_print_MethodName.name, _PyCFunction_CAST(_testcapi_traceback_print), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_traceback_print__doc__},
 
 static PyObject *
 _testcapi_traceback_print_impl(PyObject *module, PyObject *traceback,
@@ -435,8 +448,9 @@ PyDoc_STRVAR(_testcapi_unstable_exc_prep_reraise_star__doc__,
 "\n"
 "To test PyUnstable_Exc_PrepReraiseStar.");
 
+static struct {char name[];} _testcapi_unstable_exc_prep_reraise_star_MethodName = {.name = "unstable_exc_prep_reraise_star",};
 #define _TESTCAPI_UNSTABLE_EXC_PREP_RERAISE_STAR_METHODDEF    \
-    {"unstable_exc_prep_reraise_star", _PyCFunction_CAST(_testcapi_unstable_exc_prep_reraise_star), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_unstable_exc_prep_reraise_star__doc__},
+    {_testcapi_unstable_exc_prep_reraise_star_MethodName.name, _PyCFunction_CAST(_testcapi_unstable_exc_prep_reraise_star), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_unstable_exc_prep_reraise_star__doc__},
 
 static PyObject *
 _testcapi_unstable_exc_prep_reraise_star_impl(PyObject *module,
@@ -459,4 +473,4 @@ _testcapi_unstable_exc_prep_reraise_star(PyObject *module, PyObject *const *args
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=aa0d4b801d4afffa input=a9049054013a1b77]*/
+/*[clinic end generated code: output=8832763c65d7a7fd input=a9049054013a1b77]*/

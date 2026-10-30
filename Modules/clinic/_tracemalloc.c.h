@@ -10,8 +10,9 @@ PyDoc_STRVAR(_tracemalloc_is_tracing__doc__,
 "\n"
 "Return True if the tracemalloc module is tracing Python memory allocations.");
 
+static struct {char name[];} _tracemalloc_is_tracing_MethodName = {.name = "is_tracing",};
 #define _TRACEMALLOC_IS_TRACING_METHODDEF    \
-    {"is_tracing", (PyCFunction)_tracemalloc_is_tracing, METH_NOARGS|METH_C_STACK_FRUGAL, _tracemalloc_is_tracing__doc__},
+    {_tracemalloc_is_tracing_MethodName.name, (PyCFunction)_tracemalloc_is_tracing, METH_NOARGS|METH_C_STACK_FRUGAL, _tracemalloc_is_tracing__doc__},
 
 static PyObject *
 _tracemalloc_is_tracing_impl(PyObject *module);
@@ -28,8 +29,9 @@ PyDoc_STRVAR(_tracemalloc_clear_traces__doc__,
 "\n"
 "Clear traces of memory blocks allocated by Python.");
 
+static struct {char name[];} _tracemalloc_clear_traces_MethodName = {.name = "clear_traces",};
 #define _TRACEMALLOC_CLEAR_TRACES_METHODDEF    \
-    {"clear_traces", (PyCFunction)_tracemalloc_clear_traces, METH_NOARGS|METH_C_STACK_FRUGAL, _tracemalloc_clear_traces__doc__},
+    {_tracemalloc_clear_traces_MethodName.name, (PyCFunction)_tracemalloc_clear_traces, METH_NOARGS|METH_C_STACK_FRUGAL, _tracemalloc_clear_traces__doc__},
 
 static PyObject *
 _tracemalloc_clear_traces_impl(PyObject *module);
@@ -51,8 +53,9 @@ PyDoc_STRVAR(_tracemalloc__get_traces__doc__,
 "\n"
 "Return an empty list if the tracemalloc module is disabled.");
 
+static struct {char name[];} _tracemalloc__get_traces_MethodName = {.name = "_get_traces",};
 #define _TRACEMALLOC__GET_TRACES_METHODDEF    \
-    {"_get_traces", (PyCFunction)_tracemalloc__get_traces, METH_NOARGS|METH_C_STACK_FRUGAL, _tracemalloc__get_traces__doc__},
+    {_tracemalloc__get_traces_MethodName.name, (PyCFunction)_tracemalloc__get_traces, METH_NOARGS|METH_C_STACK_FRUGAL, _tracemalloc__get_traces__doc__},
 
 static PyObject *
 _tracemalloc__get_traces_impl(PyObject *module);
@@ -73,8 +76,9 @@ PyDoc_STRVAR(_tracemalloc__get_object_traceback__doc__,
 "Return None if the tracemalloc module is disabled or did not\n"
 "trace the allocation of the object.");
 
+static struct {char name[];} _tracemalloc__get_object_traceback_MethodName = {.name = "_get_object_traceback",};
 #define _TRACEMALLOC__GET_OBJECT_TRACEBACK_METHODDEF    \
-    {"_get_object_traceback", (PyCFunction)_tracemalloc__get_object_traceback, METH_O|METH_C_STACK_FRUGAL, _tracemalloc__get_object_traceback__doc__},
+    {_tracemalloc__get_object_traceback_MethodName.name, (PyCFunction)_tracemalloc__get_object_traceback, METH_O|METH_C_STACK_FRUGAL, _tracemalloc__get_object_traceback__doc__},
 
 PyDoc_STRVAR(_tracemalloc_start__doc__,
 "start($module, nframe=1, /)\n"
@@ -85,8 +89,9 @@ PyDoc_STRVAR(_tracemalloc_start__doc__,
 "Also set the maximum number of frames stored in the traceback of a\n"
 "trace to nframe.");
 
+static struct {char name[];} _tracemalloc_start_MethodName = {.name = "start",};
 #define _TRACEMALLOC_START_METHODDEF    \
-    {"start", _PyCFunction_CAST(_tracemalloc_start), METH_FASTCALL|METH_C_STACK_FRUGAL, _tracemalloc_start__doc__},
+    {_tracemalloc_start_MethodName.name, _PyCFunction_CAST(_tracemalloc_start), METH_FASTCALL|METH_C_STACK_FRUGAL, _tracemalloc_start__doc__},
 
 static PyObject *
 _tracemalloc_start_impl(PyObject *module, int nframe);
@@ -122,8 +127,9 @@ PyDoc_STRVAR(_tracemalloc_stop__doc__,
 "\n"
 "Also clear traces of memory blocks allocated by Python.");
 
+static struct {char name[];} _tracemalloc_stop_MethodName = {.name = "stop",};
 #define _TRACEMALLOC_STOP_METHODDEF    \
-    {"stop", (PyCFunction)_tracemalloc_stop, METH_NOARGS|METH_C_STACK_FRUGAL, _tracemalloc_stop__doc__},
+    {_tracemalloc_stop_MethodName.name, (PyCFunction)_tracemalloc_stop, METH_NOARGS|METH_C_STACK_FRUGAL, _tracemalloc_stop__doc__},
 
 static PyObject *
 _tracemalloc_stop_impl(PyObject *module);
@@ -143,8 +149,9 @@ PyDoc_STRVAR(_tracemalloc_get_traceback_limit__doc__,
 "By default, a trace of an allocated memory block only stores\n"
 "the most recent frame: the limit is 1.");
 
+static struct {char name[];} _tracemalloc_get_traceback_limit_MethodName = {.name = "get_traceback_limit",};
 #define _TRACEMALLOC_GET_TRACEBACK_LIMIT_METHODDEF    \
-    {"get_traceback_limit", (PyCFunction)_tracemalloc_get_traceback_limit, METH_NOARGS|METH_C_STACK_FRUGAL, _tracemalloc_get_traceback_limit__doc__},
+    {_tracemalloc_get_traceback_limit_MethodName.name, (PyCFunction)_tracemalloc_get_traceback_limit, METH_NOARGS|METH_C_STACK_FRUGAL, _tracemalloc_get_traceback_limit__doc__},
 
 static PyObject *
 _tracemalloc_get_traceback_limit_impl(PyObject *module);
@@ -163,8 +170,9 @@ PyDoc_STRVAR(_tracemalloc_get_tracemalloc_memory__doc__,
 "\n"
 "This memory is used internally to trace memory allocations.");
 
+static struct {char name[];} _tracemalloc_get_tracemalloc_memory_MethodName = {.name = "get_tracemalloc_memory",};
 #define _TRACEMALLOC_GET_TRACEMALLOC_MEMORY_METHODDEF    \
-    {"get_tracemalloc_memory", (PyCFunction)_tracemalloc_get_tracemalloc_memory, METH_NOARGS|METH_C_STACK_FRUGAL, _tracemalloc_get_tracemalloc_memory__doc__},
+    {_tracemalloc_get_tracemalloc_memory_MethodName.name, (PyCFunction)_tracemalloc_get_tracemalloc_memory, METH_NOARGS|METH_C_STACK_FRUGAL, _tracemalloc_get_tracemalloc_memory__doc__},
 
 static PyObject *
 _tracemalloc_get_tracemalloc_memory_impl(PyObject *module);
@@ -183,8 +191,9 @@ PyDoc_STRVAR(_tracemalloc_get_traced_memory__doc__,
 "\n"
 "Returns a tuple: (current: int, peak: int).");
 
+static struct {char name[];} _tracemalloc_get_traced_memory_MethodName = {.name = "get_traced_memory",};
 #define _TRACEMALLOC_GET_TRACED_MEMORY_METHODDEF    \
-    {"get_traced_memory", (PyCFunction)_tracemalloc_get_traced_memory, METH_NOARGS|METH_C_STACK_FRUGAL, _tracemalloc_get_traced_memory__doc__},
+    {_tracemalloc_get_traced_memory_MethodName.name, (PyCFunction)_tracemalloc_get_traced_memory, METH_NOARGS|METH_C_STACK_FRUGAL, _tracemalloc_get_traced_memory__doc__},
 
 static PyObject *
 _tracemalloc_get_traced_memory_impl(PyObject *module);
@@ -203,8 +212,9 @@ PyDoc_STRVAR(_tracemalloc_reset_peak__doc__,
 "\n"
 "Do nothing if the tracemalloc module is not tracing memory allocations.");
 
+static struct {char name[];} _tracemalloc_reset_peak_MethodName = {.name = "reset_peak",};
 #define _TRACEMALLOC_RESET_PEAK_METHODDEF    \
-    {"reset_peak", (PyCFunction)_tracemalloc_reset_peak, METH_NOARGS|METH_C_STACK_FRUGAL, _tracemalloc_reset_peak__doc__},
+    {_tracemalloc_reset_peak_MethodName.name, (PyCFunction)_tracemalloc_reset_peak, METH_NOARGS|METH_C_STACK_FRUGAL, _tracemalloc_reset_peak__doc__},
 
 static PyObject *
 _tracemalloc_reset_peak_impl(PyObject *module);
@@ -214,4 +224,4 @@ _tracemalloc_reset_peak(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return _tracemalloc_reset_peak_impl(module);
 }
-/*[clinic end generated code: output=c4f76383a69040f9 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=dda4c8ec8787e504 input=a9049054013a1b77]*/

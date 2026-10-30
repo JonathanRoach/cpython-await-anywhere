@@ -13,8 +13,9 @@ PyDoc_STRVAR(_curses_panel_panel_bottom__doc__,
 "\n"
 "Push the panel to the bottom of the stack.");
 
+static struct {char name[];} _curses_panel_panel_bottom_MethodName = {.name = "bottom",};
 #define _CURSES_PANEL_PANEL_BOTTOM_METHODDEF    \
-    {"bottom", _PyCFunction_CAST(_curses_panel_panel_bottom), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _curses_panel_panel_bottom__doc__},
+    {_curses_panel_panel_bottom_MethodName.name, _PyCFunction_CAST(_curses_panel_panel_bottom), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _curses_panel_panel_bottom__doc__},
 
 static PyObject *
 _curses_panel_panel_bottom_impl(PyCursesPanelObject *self, PyTypeObject *cls);
@@ -37,8 +38,9 @@ PyDoc_STRVAR(_curses_panel_panel_hide__doc__,
 "\n"
 "This does not delete the object, it just makes the window on screen invisible.");
 
+static struct {char name[];} _curses_panel_panel_hide_MethodName = {.name = "hide",};
 #define _CURSES_PANEL_PANEL_HIDE_METHODDEF    \
-    {"hide", _PyCFunction_CAST(_curses_panel_panel_hide), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _curses_panel_panel_hide__doc__},
+    {_curses_panel_panel_hide_MethodName.name, _PyCFunction_CAST(_curses_panel_panel_hide), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _curses_panel_panel_hide__doc__},
 
 static PyObject *
 _curses_panel_panel_hide_impl(PyCursesPanelObject *self, PyTypeObject *cls);
@@ -59,8 +61,9 @@ PyDoc_STRVAR(_curses_panel_panel_show__doc__,
 "\n"
 "Display the panel (which might have been hidden).");
 
+static struct {char name[];} _curses_panel_panel_show_MethodName = {.name = "show",};
 #define _CURSES_PANEL_PANEL_SHOW_METHODDEF    \
-    {"show", _PyCFunction_CAST(_curses_panel_panel_show), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _curses_panel_panel_show__doc__},
+    {_curses_panel_panel_show_MethodName.name, _PyCFunction_CAST(_curses_panel_panel_show), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _curses_panel_panel_show__doc__},
 
 static PyObject *
 _curses_panel_panel_show_impl(PyCursesPanelObject *self, PyTypeObject *cls);
@@ -81,8 +84,9 @@ PyDoc_STRVAR(_curses_panel_panel_top__doc__,
 "\n"
 "Push panel to the top of the stack.");
 
+static struct {char name[];} _curses_panel_panel_top_MethodName = {.name = "top",};
 #define _CURSES_PANEL_PANEL_TOP_METHODDEF    \
-    {"top", _PyCFunction_CAST(_curses_panel_panel_top), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _curses_panel_panel_top__doc__},
+    {_curses_panel_panel_top_MethodName.name, _PyCFunction_CAST(_curses_panel_panel_top), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _curses_panel_panel_top__doc__},
 
 static PyObject *
 _curses_panel_panel_top_impl(PyCursesPanelObject *self, PyTypeObject *cls);
@@ -103,8 +107,9 @@ PyDoc_STRVAR(_curses_panel_panel_above__doc__,
 "\n"
 "Return the panel above the current panel.");
 
+static struct {char name[];} _curses_panel_panel_above_MethodName = {.name = "above",};
 #define _CURSES_PANEL_PANEL_ABOVE_METHODDEF    \
-    {"above", (PyCFunction)_curses_panel_panel_above, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_panel_panel_above__doc__},
+    {_curses_panel_panel_above_MethodName.name, (PyCFunction)_curses_panel_panel_above, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_panel_panel_above__doc__},
 
 static PyObject *
 _curses_panel_panel_above_impl(PyCursesPanelObject *self);
@@ -121,8 +126,9 @@ PyDoc_STRVAR(_curses_panel_panel_below__doc__,
 "\n"
 "Return the panel below the current panel.");
 
+static struct {char name[];} _curses_panel_panel_below_MethodName = {.name = "below",};
 #define _CURSES_PANEL_PANEL_BELOW_METHODDEF    \
-    {"below", (PyCFunction)_curses_panel_panel_below, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_panel_panel_below__doc__},
+    {_curses_panel_panel_below_MethodName.name, (PyCFunction)_curses_panel_panel_below, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_panel_panel_below__doc__},
 
 static PyObject *
 _curses_panel_panel_below_impl(PyCursesPanelObject *self);
@@ -139,8 +145,9 @@ PyDoc_STRVAR(_curses_panel_panel_hidden__doc__,
 "\n"
 "Return True if the panel is hidden (not visible), False otherwise.");
 
+static struct {char name[];} _curses_panel_panel_hidden_MethodName = {.name = "hidden",};
 #define _CURSES_PANEL_PANEL_HIDDEN_METHODDEF    \
-    {"hidden", (PyCFunction)_curses_panel_panel_hidden, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_panel_panel_hidden__doc__},
+    {_curses_panel_panel_hidden_MethodName.name, (PyCFunction)_curses_panel_panel_hidden, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_panel_panel_hidden__doc__},
 
 static PyObject *
 _curses_panel_panel_hidden_impl(PyCursesPanelObject *self);
@@ -157,8 +164,9 @@ PyDoc_STRVAR(_curses_panel_panel_move__doc__,
 "\n"
 "Move the panel to the screen coordinates (y, x).");
 
+static struct {char name[];} _curses_panel_panel_move_MethodName = {.name = "move",};
 #define _CURSES_PANEL_PANEL_MOVE_METHODDEF    \
-    {"move", _PyCFunction_CAST(_curses_panel_panel_move), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _curses_panel_panel_move__doc__},
+    {_curses_panel_panel_move_MethodName.name, _PyCFunction_CAST(_curses_panel_panel_move), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _curses_panel_panel_move__doc__},
 
 static PyObject *
 _curses_panel_panel_move_impl(PyCursesPanelObject *self, PyTypeObject *cls,
@@ -210,8 +218,9 @@ PyDoc_STRVAR(_curses_panel_panel_window__doc__,
 "\n"
 "Return the window object associated with the panel.");
 
+static struct {char name[];} _curses_panel_panel_window_MethodName = {.name = "window",};
 #define _CURSES_PANEL_PANEL_WINDOW_METHODDEF    \
-    {"window", (PyCFunction)_curses_panel_panel_window, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_panel_panel_window__doc__},
+    {_curses_panel_panel_window_MethodName.name, (PyCFunction)_curses_panel_panel_window, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_panel_panel_window__doc__},
 
 static PyObject *
 _curses_panel_panel_window_impl(PyCursesPanelObject *self);
@@ -228,8 +237,9 @@ PyDoc_STRVAR(_curses_panel_panel_replace__doc__,
 "\n"
 "Change the window associated with the panel to the window win.");
 
+static struct {char name[];} _curses_panel_panel_replace_MethodName = {.name = "replace",};
 #define _CURSES_PANEL_PANEL_REPLACE_METHODDEF    \
-    {"replace", _PyCFunction_CAST(_curses_panel_panel_replace), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _curses_panel_panel_replace__doc__},
+    {_curses_panel_panel_replace_MethodName.name, _PyCFunction_CAST(_curses_panel_panel_replace), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _curses_panel_panel_replace__doc__},
 
 static PyObject *
 _curses_panel_panel_replace_impl(PyCursesPanelObject *self,
@@ -278,8 +288,9 @@ PyDoc_STRVAR(_curses_panel_panel_set_userptr__doc__,
 "\n"
 "Set the panel\'s user pointer to obj.");
 
+static struct {char name[];} _curses_panel_panel_set_userptr_MethodName = {.name = "set_userptr",};
 #define _CURSES_PANEL_PANEL_SET_USERPTR_METHODDEF    \
-    {"set_userptr", _PyCFunction_CAST(_curses_panel_panel_set_userptr), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _curses_panel_panel_set_userptr__doc__},
+    {_curses_panel_panel_set_userptr_MethodName.name, _PyCFunction_CAST(_curses_panel_panel_set_userptr), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _curses_panel_panel_set_userptr__doc__},
 
 static PyObject *
 _curses_panel_panel_set_userptr_impl(PyCursesPanelObject *self,
@@ -323,8 +334,9 @@ PyDoc_STRVAR(_curses_panel_panel_userptr__doc__,
 "\n"
 "Return the user pointer for the panel.");
 
+static struct {char name[];} _curses_panel_panel_userptr_MethodName = {.name = "userptr",};
 #define _CURSES_PANEL_PANEL_USERPTR_METHODDEF    \
-    {"userptr", _PyCFunction_CAST(_curses_panel_panel_userptr), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _curses_panel_panel_userptr__doc__},
+    {_curses_panel_panel_userptr_MethodName.name, _PyCFunction_CAST(_curses_panel_panel_userptr), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _curses_panel_panel_userptr__doc__},
 
 static PyObject *
 _curses_panel_panel_userptr_impl(PyCursesPanelObject *self,
@@ -346,8 +358,9 @@ PyDoc_STRVAR(_curses_panel_bottom_panel__doc__,
 "\n"
 "Return the bottom panel in the panel stack.");
 
+static struct {char name[];} _curses_panel_bottom_panel_MethodName = {.name = "bottom_panel",};
 #define _CURSES_PANEL_BOTTOM_PANEL_METHODDEF    \
-    {"bottom_panel", (PyCFunction)_curses_panel_bottom_panel, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_panel_bottom_panel__doc__},
+    {_curses_panel_bottom_panel_MethodName.name, (PyCFunction)_curses_panel_bottom_panel, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_panel_bottom_panel__doc__},
 
 static PyObject *
 _curses_panel_bottom_panel_impl(PyObject *module);
@@ -364,8 +377,9 @@ PyDoc_STRVAR(_curses_panel_new_panel__doc__,
 "\n"
 "Return a panel object, associating it with the given window win.");
 
+static struct {char name[];} _curses_panel_new_panel_MethodName = {.name = "new_panel",};
 #define _CURSES_PANEL_NEW_PANEL_METHODDEF    \
-    {"new_panel", (PyCFunction)_curses_panel_new_panel, METH_O|METH_C_STACK_FRUGAL, _curses_panel_new_panel__doc__},
+    {_curses_panel_new_panel_MethodName.name, (PyCFunction)_curses_panel_new_panel, METH_O|METH_C_STACK_FRUGAL, _curses_panel_new_panel__doc__},
 
 static PyObject *
 _curses_panel_new_panel_impl(PyObject *module, PyCursesWindowObject *win);
@@ -393,8 +407,9 @@ PyDoc_STRVAR(_curses_panel_top_panel__doc__,
 "\n"
 "Return the top panel in the panel stack.");
 
+static struct {char name[];} _curses_panel_top_panel_MethodName = {.name = "top_panel",};
 #define _CURSES_PANEL_TOP_PANEL_METHODDEF    \
-    {"top_panel", (PyCFunction)_curses_panel_top_panel, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_panel_top_panel__doc__},
+    {_curses_panel_top_panel_MethodName.name, (PyCFunction)_curses_panel_top_panel, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_panel_top_panel__doc__},
 
 static PyObject *
 _curses_panel_top_panel_impl(PyObject *module);
@@ -413,8 +428,9 @@ PyDoc_STRVAR(_curses_panel_update_panels__doc__,
 "\n"
 "This does not call curses.doupdate(), so you\'ll have to do this yourself.");
 
+static struct {char name[];} _curses_panel_update_panels_MethodName = {.name = "update_panels",};
 #define _CURSES_PANEL_UPDATE_PANELS_METHODDEF    \
-    {"update_panels", (PyCFunction)_curses_panel_update_panels, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_panel_update_panels__doc__},
+    {_curses_panel_update_panels_MethodName.name, (PyCFunction)_curses_panel_update_panels, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_panel_update_panels__doc__},
 
 static PyObject *
 _curses_panel_update_panels_impl(PyObject *module);
@@ -424,4 +440,4 @@ _curses_panel_update_panels(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return _curses_panel_update_panels_impl(module);
 }
-/*[clinic end generated code: output=2b54dd663fffad14 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=47271d6edfe65fb5 input=a9049054013a1b77]*/

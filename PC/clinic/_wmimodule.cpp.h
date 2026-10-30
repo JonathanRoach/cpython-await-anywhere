@@ -17,8 +17,9 @@ PyDoc_STRVAR(_wmi_exec_query__doc__,
 "This returns a single string with \'name=value\' pairs in a flat array separated\n"
 "by null characters.");
 
+static struct {char name[];} _wmi_exec_query_MethodName = {.name = "exec_query",};
 #define _WMI_EXEC_QUERY_METHODDEF    \
-    {"exec_query", _PyCFunction_CAST(_wmi_exec_query), METH_FASTCALL|METH_KEYWORDS, _wmi_exec_query__doc__},
+    {_wmi_exec_query_MethodName.name, _PyCFunction_CAST(_wmi_exec_query), METH_FASTCALL|METH_KEYWORDS, _wmi_exec_query__doc__},
 
 static PyObject *
 _wmi_exec_query_impl(PyObject *module, PyObject *query);
@@ -72,4 +73,4 @@ _wmi_exec_query(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObj
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=802bcbcba69e8d0e input=a9049054013a1b77]*/
+/*[clinic end generated code: output=0c2bc4d411eb31b5 input=a9049054013a1b77]*/

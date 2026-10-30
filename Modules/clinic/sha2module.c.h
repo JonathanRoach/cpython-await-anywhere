@@ -14,8 +14,9 @@ PyDoc_STRVAR(SHA256Type_copy__doc__,
 "\n"
 "Return a copy of the hash object.");
 
+static struct {char name[];} SHA256Type_copy_MethodName = {.name = "copy",};
 #define SHA256TYPE_COPY_METHODDEF    \
-    {"copy", _PyCFunction_CAST(SHA256Type_copy), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, SHA256Type_copy__doc__},
+    {SHA256Type_copy_MethodName.name, _PyCFunction_CAST(SHA256Type_copy), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, SHA256Type_copy__doc__},
 
 static PyObject *
 SHA256Type_copy_impl(SHA256object *self, PyTypeObject *cls);
@@ -36,8 +37,9 @@ PyDoc_STRVAR(SHA512Type_copy__doc__,
 "\n"
 "Return a copy of the hash object.");
 
+static struct {char name[];} SHA512Type_copy_MethodName = {.name = "copy",};
 #define SHA512TYPE_COPY_METHODDEF    \
-    {"copy", _PyCFunction_CAST(SHA512Type_copy), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, SHA512Type_copy__doc__},
+    {SHA512Type_copy_MethodName.name, _PyCFunction_CAST(SHA512Type_copy), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, SHA512Type_copy__doc__},
 
 static PyObject *
 SHA512Type_copy_impl(SHA512object *self, PyTypeObject *cls);
@@ -58,8 +60,9 @@ PyDoc_STRVAR(SHA256Type_digest__doc__,
 "\n"
 "Return the digest value as a bytes object.");
 
+static struct {char name[];} SHA256Type_digest_MethodName = {.name = "digest",};
 #define SHA256TYPE_DIGEST_METHODDEF    \
-    {"digest", (PyCFunction)SHA256Type_digest, METH_NOARGS|METH_C_STACK_FRUGAL, SHA256Type_digest__doc__},
+    {SHA256Type_digest_MethodName.name, (PyCFunction)SHA256Type_digest, METH_NOARGS|METH_C_STACK_FRUGAL, SHA256Type_digest__doc__},
 
 static PyObject *
 SHA256Type_digest_impl(SHA256object *self);
@@ -76,8 +79,9 @@ PyDoc_STRVAR(SHA512Type_digest__doc__,
 "\n"
 "Return the digest value as a bytes object.");
 
+static struct {char name[];} SHA512Type_digest_MethodName = {.name = "digest",};
 #define SHA512TYPE_DIGEST_METHODDEF    \
-    {"digest", (PyCFunction)SHA512Type_digest, METH_NOARGS|METH_C_STACK_FRUGAL, SHA512Type_digest__doc__},
+    {SHA512Type_digest_MethodName.name, (PyCFunction)SHA512Type_digest, METH_NOARGS|METH_C_STACK_FRUGAL, SHA512Type_digest__doc__},
 
 static PyObject *
 SHA512Type_digest_impl(SHA512object *self);
@@ -94,8 +98,9 @@ PyDoc_STRVAR(SHA256Type_hexdigest__doc__,
 "\n"
 "Return the digest value as a string of hexadecimal digits.");
 
+static struct {char name[];} SHA256Type_hexdigest_MethodName = {.name = "hexdigest",};
 #define SHA256TYPE_HEXDIGEST_METHODDEF    \
-    {"hexdigest", (PyCFunction)SHA256Type_hexdigest, METH_NOARGS|METH_C_STACK_FRUGAL, SHA256Type_hexdigest__doc__},
+    {SHA256Type_hexdigest_MethodName.name, (PyCFunction)SHA256Type_hexdigest, METH_NOARGS|METH_C_STACK_FRUGAL, SHA256Type_hexdigest__doc__},
 
 static PyObject *
 SHA256Type_hexdigest_impl(SHA256object *self);
@@ -112,8 +117,9 @@ PyDoc_STRVAR(SHA512Type_hexdigest__doc__,
 "\n"
 "Return the digest value as a string of hexadecimal digits.");
 
+static struct {char name[];} SHA512Type_hexdigest_MethodName = {.name = "hexdigest",};
 #define SHA512TYPE_HEXDIGEST_METHODDEF    \
-    {"hexdigest", (PyCFunction)SHA512Type_hexdigest, METH_NOARGS|METH_C_STACK_FRUGAL, SHA512Type_hexdigest__doc__},
+    {SHA512Type_hexdigest_MethodName.name, (PyCFunction)SHA512Type_hexdigest, METH_NOARGS|METH_C_STACK_FRUGAL, SHA512Type_hexdigest__doc__},
 
 static PyObject *
 SHA512Type_hexdigest_impl(SHA512object *self);
@@ -130,8 +136,9 @@ PyDoc_STRVAR(SHA256Type_update__doc__,
 "\n"
 "Update this hash object\'s state with the provided string.");
 
+static struct {char name[];} SHA256Type_update_MethodName = {.name = "update",};
 #define SHA256TYPE_UPDATE_METHODDEF    \
-    {"update", (PyCFunction)SHA256Type_update, METH_O|METH_C_STACK_FRUGAL, SHA256Type_update__doc__},
+    {SHA256Type_update_MethodName.name, (PyCFunction)SHA256Type_update, METH_O|METH_C_STACK_FRUGAL, SHA256Type_update__doc__},
 
 static PyObject *
 SHA256Type_update_impl(SHA256object *self, PyObject *obj);
@@ -152,8 +159,9 @@ PyDoc_STRVAR(SHA512Type_update__doc__,
 "\n"
 "Update this hash object\'s state with the provided string.");
 
+static struct {char name[];} SHA512Type_update_MethodName = {.name = "update",};
 #define SHA512TYPE_UPDATE_METHODDEF    \
-    {"update", (PyCFunction)SHA512Type_update, METH_O|METH_C_STACK_FRUGAL, SHA512Type_update__doc__},
+    {SHA512Type_update_MethodName.name, (PyCFunction)SHA512Type_update, METH_O|METH_C_STACK_FRUGAL, SHA512Type_update__doc__},
 
 static PyObject *
 SHA512Type_update_impl(SHA512object *self, PyObject *obj);
@@ -174,8 +182,9 @@ PyDoc_STRVAR(_sha2_sha256__doc__,
 "\n"
 "Return a new SHA-256 hash object; optionally initialized with a string.");
 
+static struct {char name[];} _sha2_sha256_MethodName = {.name = "sha256",};
 #define _SHA2_SHA256_METHODDEF    \
-    {"sha256", _PyCFunction_CAST(_sha2_sha256), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sha2_sha256__doc__},
+    {_sha2_sha256_MethodName.name, _PyCFunction_CAST(_sha2_sha256), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sha2_sha256__doc__},
 
 static PyObject *
 _sha2_sha256_impl(PyObject *module, PyObject *data, int usedforsecurity,
@@ -259,8 +268,9 @@ PyDoc_STRVAR(_sha2_sha224__doc__,
 "\n"
 "Return a new SHA-224 hash object; optionally initialized with a string.");
 
+static struct {char name[];} _sha2_sha224_MethodName = {.name = "sha224",};
 #define _SHA2_SHA224_METHODDEF    \
-    {"sha224", _PyCFunction_CAST(_sha2_sha224), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sha2_sha224__doc__},
+    {_sha2_sha224_MethodName.name, _PyCFunction_CAST(_sha2_sha224), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sha2_sha224__doc__},
 
 static PyObject *
 _sha2_sha224_impl(PyObject *module, PyObject *data, int usedforsecurity,
@@ -344,8 +354,9 @@ PyDoc_STRVAR(_sha2_sha512__doc__,
 "\n"
 "Return a new SHA-512 hash object; optionally initialized with a string.");
 
+static struct {char name[];} _sha2_sha512_MethodName = {.name = "sha512",};
 #define _SHA2_SHA512_METHODDEF    \
-    {"sha512", _PyCFunction_CAST(_sha2_sha512), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sha2_sha512__doc__},
+    {_sha2_sha512_MethodName.name, _PyCFunction_CAST(_sha2_sha512), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sha2_sha512__doc__},
 
 static PyObject *
 _sha2_sha512_impl(PyObject *module, PyObject *data, int usedforsecurity,
@@ -429,8 +440,9 @@ PyDoc_STRVAR(_sha2_sha384__doc__,
 "\n"
 "Return a new SHA-384 hash object; optionally initialized with a string.");
 
+static struct {char name[];} _sha2_sha384_MethodName = {.name = "sha384",};
 #define _SHA2_SHA384_METHODDEF    \
-    {"sha384", _PyCFunction_CAST(_sha2_sha384), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sha2_sha384__doc__},
+    {_sha2_sha384_MethodName.name, _PyCFunction_CAST(_sha2_sha384), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sha2_sha384__doc__},
 
 static PyObject *
 _sha2_sha384_impl(PyObject *module, PyObject *data, int usedforsecurity,
@@ -507,4 +519,4 @@ skip_optional_kwonly:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=d3dca001c83585fe input=a9049054013a1b77]*/
+/*[clinic end generated code: output=e587a739a9bf1d4b input=a9049054013a1b77]*/

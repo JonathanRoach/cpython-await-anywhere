@@ -13,8 +13,9 @@ PyDoc_STRVAR(winsound_PlaySound__doc__,
 "  flags\n"
 "    Flag values, ored together.  See module documentation.");
 
+static struct {char name[];} winsound_PlaySound_MethodName = {.name = "PlaySound",};
 #define WINSOUND_PLAYSOUND_METHODDEF    \
-    {"PlaySound", (PyCFunction)(void(*)(void))winsound_PlaySound, METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, winsound_PlaySound__doc__},
+    {winsound_PlaySound_MethodName.name, (PyCFunction)(void(*)(void))winsound_PlaySound, METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, winsound_PlaySound__doc__},
 
 static PyObject *
 winsound_PlaySound_impl(PyObject *module, PyObject *sound, int flags);
@@ -48,8 +49,9 @@ PyDoc_STRVAR(winsound_Beep__doc__,
 "  duration\n"
 "    How long the sound should play, in milliseconds.");
 
+static struct {char name[];} winsound_Beep_MethodName = {.name = "Beep",};
 #define WINSOUND_BEEP_METHODDEF    \
-    {"Beep", (PyCFunction)(void(*)(void))winsound_Beep, METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, winsound_Beep__doc__},
+    {winsound_Beep_MethodName.name, (PyCFunction)(void(*)(void))winsound_Beep, METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, winsound_Beep__doc__},
 
 static PyObject *
 winsound_Beep_impl(PyObject *module, int frequency, int duration);
@@ -79,8 +81,9 @@ PyDoc_STRVAR(winsound_MessageBeep__doc__,
 "\n"
 "x defaults to MB_OK.");
 
+static struct {char name[];} winsound_MessageBeep_MethodName = {.name = "MessageBeep",};
 #define WINSOUND_MESSAGEBEEP_METHODDEF    \
-    {"MessageBeep", (PyCFunction)(void(*)(void))winsound_MessageBeep, METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, winsound_MessageBeep__doc__},
+    {winsound_MessageBeep_MethodName.name, (PyCFunction)(void(*)(void))winsound_MessageBeep, METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, winsound_MessageBeep__doc__},
 
 static PyObject *
 winsound_MessageBeep_impl(PyObject *module, int type);
@@ -100,4 +103,4 @@ winsound_MessageBeep(PyObject *module, PyObject *args, PyObject *kwargs)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=89403a24f8d60db3 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=db8360cc77f798be input=a9049054013a1b77]*/

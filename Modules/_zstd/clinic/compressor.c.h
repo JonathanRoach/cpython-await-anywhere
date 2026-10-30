@@ -109,8 +109,9 @@ PyDoc_STRVAR(_zstd_ZstdCompressor_compress__doc__,
 "finished providing data to the compressor, call the flush() method to finish\n"
 "the compression process.");
 
+static struct {char name[];} _zstd_ZstdCompressor_compress_MethodName = {.name = "compress",};
 #define _ZSTD_ZSTDCOMPRESSOR_COMPRESS_METHODDEF    \
-    {"compress", _PyCFunction_CAST(_zstd_ZstdCompressor_compress), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _zstd_ZstdCompressor_compress__doc__},
+    {_zstd_ZstdCompressor_compress_MethodName.name, _PyCFunction_CAST(_zstd_ZstdCompressor_compress), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _zstd_ZstdCompressor_compress__doc__},
 
 static PyObject *
 _zstd_ZstdCompressor_compress_impl(ZstdCompressor *self, Py_buffer *data,
@@ -193,8 +194,9 @@ PyDoc_STRVAR(_zstd_ZstdCompressor_flush__doc__,
 "consists of one or more independent frames, the compressor object can still\n"
 "be used after this method is called.");
 
+static struct {char name[];} _zstd_ZstdCompressor_flush_MethodName = {.name = "flush",};
 #define _ZSTD_ZSTDCOMPRESSOR_FLUSH_METHODDEF    \
-    {"flush", _PyCFunction_CAST(_zstd_ZstdCompressor_flush), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _zstd_ZstdCompressor_flush__doc__},
+    {_zstd_ZstdCompressor_flush_MethodName.name, _PyCFunction_CAST(_zstd_ZstdCompressor_flush), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _zstd_ZstdCompressor_flush__doc__},
 
 static PyObject *
 _zstd_ZstdCompressor_flush_impl(ZstdCompressor *self, int mode);
@@ -252,4 +254,4 @@ skip_optional_pos:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=33f653ece73544d8 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=b1e19657f8411b12 input=a9049054013a1b77]*/

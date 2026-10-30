@@ -92,8 +92,9 @@ PyDoc_STRVAR(_asyncio_Future_result__doc__,
 "future\'s result isn\'t yet available, raises InvalidStateError.  If\n"
 "the future is done and has an exception set, this exception is raised.");
 
+static struct {char name[];} _asyncio_Future_result_MethodName = {.name = "result",};
 #define _ASYNCIO_FUTURE_RESULT_METHODDEF    \
-    {"result", (PyCFunction)_asyncio_Future_result, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Future_result__doc__},
+    {_asyncio_Future_result_MethodName.name, (PyCFunction)_asyncio_Future_result, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Future_result__doc__},
 
 static PyObject *
 _asyncio_Future_result_impl(FutureObj *self);
@@ -121,8 +122,9 @@ PyDoc_STRVAR(_asyncio_Future_exception__doc__,
 "CancelledError.  If the future isn\'t done yet, raises\n"
 "InvalidStateError.");
 
+static struct {char name[];} _asyncio_Future_exception_MethodName = {.name = "exception",};
 #define _ASYNCIO_FUTURE_EXCEPTION_METHODDEF    \
-    {"exception", _PyCFunction_CAST(_asyncio_Future_exception), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Future_exception__doc__},
+    {_asyncio_Future_exception_MethodName.name, _PyCFunction_CAST(_asyncio_Future_exception), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Future_exception__doc__},
 
 static PyObject *
 _asyncio_Future_exception_impl(FutureObj *self, PyTypeObject *cls);
@@ -153,8 +155,9 @@ PyDoc_STRVAR(_asyncio_Future_set_result__doc__,
 "If the future is already done when this method is called, raises\n"
 "InvalidStateError.");
 
+static struct {char name[];} _asyncio_Future_set_result_MethodName = {.name = "set_result",};
 #define _ASYNCIO_FUTURE_SET_RESULT_METHODDEF    \
-    {"set_result", _PyCFunction_CAST(_asyncio_Future_set_result), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Future_set_result__doc__},
+    {_asyncio_Future_set_result_MethodName.name, _PyCFunction_CAST(_asyncio_Future_set_result), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Future_set_result__doc__},
 
 static PyObject *
 _asyncio_Future_set_result_impl(FutureObj *self, PyTypeObject *cls,
@@ -203,8 +206,9 @@ PyDoc_STRVAR(_asyncio_Future_set_exception__doc__,
 "If the future is already done when this method is called, raises\n"
 "InvalidStateError.");
 
+static struct {char name[];} _asyncio_Future_set_exception_MethodName = {.name = "set_exception",};
 #define _ASYNCIO_FUTURE_SET_EXCEPTION_METHODDEF    \
-    {"set_exception", _PyCFunction_CAST(_asyncio_Future_set_exception), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Future_set_exception__doc__},
+    {_asyncio_Future_set_exception_MethodName.name, _PyCFunction_CAST(_asyncio_Future_set_exception), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Future_set_exception__doc__},
 
 static PyObject *
 _asyncio_Future_set_exception_impl(FutureObj *self, PyTypeObject *cls,
@@ -254,8 +258,9 @@ PyDoc_STRVAR(_asyncio_Future_add_done_callback__doc__,
 "the future is already done when this is called, the callback is\n"
 "scheduled with call_soon.");
 
+static struct {char name[];} _asyncio_Future_add_done_callback_MethodName = {.name = "add_done_callback",};
 #define _ASYNCIO_FUTURE_ADD_DONE_CALLBACK_METHODDEF    \
-    {"add_done_callback", _PyCFunction_CAST(_asyncio_Future_add_done_callback), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Future_add_done_callback__doc__},
+    {_asyncio_Future_add_done_callback_MethodName.name, _PyCFunction_CAST(_asyncio_Future_add_done_callback), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Future_add_done_callback__doc__},
 
 static PyObject *
 _asyncio_Future_add_done_callback_impl(FutureObj *self, PyTypeObject *cls,
@@ -324,8 +329,9 @@ PyDoc_STRVAR(_asyncio_Future_remove_done_callback__doc__,
 "\n"
 "Returns the number of callbacks removed.");
 
+static struct {char name[];} _asyncio_Future_remove_done_callback_MethodName = {.name = "remove_done_callback",};
 #define _ASYNCIO_FUTURE_REMOVE_DONE_CALLBACK_METHODDEF    \
-    {"remove_done_callback", _PyCFunction_CAST(_asyncio_Future_remove_done_callback), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Future_remove_done_callback__doc__},
+    {_asyncio_Future_remove_done_callback_MethodName.name, _PyCFunction_CAST(_asyncio_Future_remove_done_callback), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Future_remove_done_callback__doc__},
 
 static PyObject *
 _asyncio_Future_remove_done_callback_impl(FutureObj *self, PyTypeObject *cls,
@@ -375,8 +381,9 @@ PyDoc_STRVAR(_asyncio_Future_cancel__doc__,
 "change the future\'s state to cancelled, schedule the callbacks and\n"
 "return True.");
 
+static struct {char name[];} _asyncio_Future_cancel_MethodName = {.name = "cancel",};
 #define _ASYNCIO_FUTURE_CANCEL_METHODDEF    \
-    {"cancel", _PyCFunction_CAST(_asyncio_Future_cancel), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Future_cancel__doc__},
+    {_asyncio_Future_cancel_MethodName.name, _PyCFunction_CAST(_asyncio_Future_cancel), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Future_cancel__doc__},
 
 static PyObject *
 _asyncio_Future_cancel_impl(FutureObj *self, PyTypeObject *cls,
@@ -441,8 +448,9 @@ PyDoc_STRVAR(_asyncio_Future_cancelled__doc__,
 "\n"
 "Return True if the future was cancelled.");
 
+static struct {char name[];} _asyncio_Future_cancelled_MethodName = {.name = "cancelled",};
 #define _ASYNCIO_FUTURE_CANCELLED_METHODDEF    \
-    {"cancelled", (PyCFunction)_asyncio_Future_cancelled, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Future_cancelled__doc__},
+    {_asyncio_Future_cancelled_MethodName.name, (PyCFunction)_asyncio_Future_cancelled, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Future_cancelled__doc__},
 
 static PyObject *
 _asyncio_Future_cancelled_impl(FutureObj *self);
@@ -468,8 +476,9 @@ PyDoc_STRVAR(_asyncio_Future_done__doc__,
 "Done means either that a result / exception are available, or that the\n"
 "future was cancelled.");
 
+static struct {char name[];} _asyncio_Future_done_MethodName = {.name = "done",};
 #define _ASYNCIO_FUTURE_DONE_METHODDEF    \
-    {"done", (PyCFunction)_asyncio_Future_done, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Future_done__doc__},
+    {_asyncio_Future_done_MethodName.name, (PyCFunction)_asyncio_Future_done, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Future_done__doc__},
 
 static PyObject *
 _asyncio_Future_done_impl(FutureObj *self);
@@ -492,8 +501,9 @@ PyDoc_STRVAR(_asyncio_Future_get_loop__doc__,
 "\n"
 "Return the event loop the Future is bound to.");
 
+static struct {char name[];} _asyncio_Future_get_loop_MethodName = {.name = "get_loop",};
 #define _ASYNCIO_FUTURE_GET_LOOP_METHODDEF    \
-    {"get_loop", _PyCFunction_CAST(_asyncio_Future_get_loop), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Future_get_loop__doc__},
+    {_asyncio_Future_get_loop_MethodName.name, _PyCFunction_CAST(_asyncio_Future_get_loop), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Future_get_loop__doc__},
 
 static PyObject *
 _asyncio_Future_get_loop_impl(FutureObj *self, PyTypeObject *cls);
@@ -850,8 +860,9 @@ PyDoc_STRVAR(_asyncio_Future__make_cancelled_error__doc__,
 "This should only be called once when handling a cancellation since\n"
 "it erases the context exception value.");
 
+static struct {char name[];} _asyncio_Future__make_cancelled_error_MethodName = {.name = "_make_cancelled_error",};
 #define _ASYNCIO_FUTURE__MAKE_CANCELLED_ERROR_METHODDEF    \
-    {"_make_cancelled_error", (PyCFunction)_asyncio_Future__make_cancelled_error, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Future__make_cancelled_error__doc__},
+    {_asyncio_Future__make_cancelled_error_MethodName.name, (PyCFunction)_asyncio_Future__make_cancelled_error, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Future__make_cancelled_error__doc__},
 
 static PyObject *
 _asyncio_Future__make_cancelled_error_impl(FutureObj *self);
@@ -1092,8 +1103,9 @@ PyDoc_STRVAR(_asyncio_Task__make_cancelled_error__doc__,
 "This should only be called once when handling a cancellation since\n"
 "it erases the context exception value.");
 
+static struct {char name[];} _asyncio_Task__make_cancelled_error_MethodName = {.name = "_make_cancelled_error",};
 #define _ASYNCIO_TASK__MAKE_CANCELLED_ERROR_METHODDEF    \
-    {"_make_cancelled_error", (PyCFunction)_asyncio_Task__make_cancelled_error, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Task__make_cancelled_error__doc__},
+    {_asyncio_Task__make_cancelled_error_MethodName.name, (PyCFunction)_asyncio_Task__make_cancelled_error, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Task__make_cancelled_error__doc__},
 
 static PyObject *
 _asyncio_Task__make_cancelled_error_impl(TaskObj *self);
@@ -1135,8 +1147,9 @@ PyDoc_STRVAR(_asyncio_Task_cancel__doc__,
 "\n"
 "This also increases the task\'s count of cancellation requests.");
 
+static struct {char name[];} _asyncio_Task_cancel_MethodName = {.name = "cancel",};
 #define _ASYNCIO_TASK_CANCEL_METHODDEF    \
-    {"cancel", _PyCFunction_CAST(_asyncio_Task_cancel), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Task_cancel__doc__},
+    {_asyncio_Task_cancel_MethodName.name, _PyCFunction_CAST(_asyncio_Task_cancel), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Task_cancel__doc__},
 
 static PyObject *
 _asyncio_Task_cancel_impl(TaskObj *self, PyObject *msg);
@@ -1203,8 +1216,9 @@ PyDoc_STRVAR(_asyncio_Task_cancelling__doc__,
 "This count is incremented when .cancel() is called\n"
 "and may be decremented using .uncancel().");
 
+static struct {char name[];} _asyncio_Task_cancelling_MethodName = {.name = "cancelling",};
 #define _ASYNCIO_TASK_CANCELLING_METHODDEF    \
-    {"cancelling", (PyCFunction)_asyncio_Task_cancelling, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Task_cancelling__doc__},
+    {_asyncio_Task_cancelling_MethodName.name, (PyCFunction)_asyncio_Task_cancelling, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Task_cancelling__doc__},
 
 static PyObject *
 _asyncio_Task_cancelling_impl(TaskObj *self);
@@ -1232,8 +1246,9 @@ PyDoc_STRVAR(_asyncio_Task_uncancel__doc__,
 "\n"
 "Returns the remaining number of cancellation requests.");
 
+static struct {char name[];} _asyncio_Task_uncancel_MethodName = {.name = "uncancel",};
 #define _ASYNCIO_TASK_UNCANCEL_METHODDEF    \
-    {"uncancel", (PyCFunction)_asyncio_Task_uncancel, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Task_uncancel__doc__},
+    {_asyncio_Task_uncancel_MethodName.name, (PyCFunction)_asyncio_Task_uncancel, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Task_uncancel__doc__},
 
 static PyObject *
 _asyncio_Task_uncancel_impl(TaskObj *self);
@@ -1274,8 +1289,9 @@ PyDoc_STRVAR(_asyncio_Task_get_stack__doc__,
 "For reasons beyond our control, only one stack frame is\n"
 "returned for a suspended coroutine.");
 
+static struct {char name[];} _asyncio_Task_get_stack_MethodName = {.name = "get_stack",};
 #define _ASYNCIO_TASK_GET_STACK_METHODDEF    \
-    {"get_stack", _PyCFunction_CAST(_asyncio_Task_get_stack), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Task_get_stack__doc__},
+    {_asyncio_Task_get_stack_MethodName.name, _PyCFunction_CAST(_asyncio_Task_get_stack), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Task_get_stack__doc__},
 
 static PyObject *
 _asyncio_Task_get_stack_impl(TaskObj *self, PyTypeObject *cls,
@@ -1344,8 +1360,9 @@ PyDoc_STRVAR(_asyncio_Task_print_stack__doc__,
 "to which the output is written; by default output is written\n"
 "to sys.stderr.");
 
+static struct {char name[];} _asyncio_Task_print_stack_MethodName = {.name = "print_stack",};
 #define _ASYNCIO_TASK_PRINT_STACK_METHODDEF    \
-    {"print_stack", _PyCFunction_CAST(_asyncio_Task_print_stack), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Task_print_stack__doc__},
+    {_asyncio_Task_print_stack_MethodName.name, _PyCFunction_CAST(_asyncio_Task_print_stack), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_Task_print_stack__doc__},
 
 static PyObject *
 _asyncio_Task_print_stack_impl(TaskObj *self, PyTypeObject *cls,
@@ -1414,8 +1431,9 @@ PyDoc_STRVAR(_asyncio_Task_set_result__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _asyncio_Task_set_result_MethodName = {.name = "set_result",};
 #define _ASYNCIO_TASK_SET_RESULT_METHODDEF    \
-    {"set_result", (PyCFunction)_asyncio_Task_set_result, METH_O|METH_C_STACK_FRUGAL, _asyncio_Task_set_result__doc__},
+    {_asyncio_Task_set_result_MethodName.name, (PyCFunction)_asyncio_Task_set_result, METH_O|METH_C_STACK_FRUGAL, _asyncio_Task_set_result__doc__},
 
 static PyObject *
 _asyncio_Task_set_result_impl(TaskObj *self, PyObject *result);
@@ -1435,8 +1453,9 @@ PyDoc_STRVAR(_asyncio_Task_set_exception__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _asyncio_Task_set_exception_MethodName = {.name = "set_exception",};
 #define _ASYNCIO_TASK_SET_EXCEPTION_METHODDEF    \
-    {"set_exception", (PyCFunction)_asyncio_Task_set_exception, METH_O|METH_C_STACK_FRUGAL, _asyncio_Task_set_exception__doc__},
+    {_asyncio_Task_set_exception_MethodName.name, (PyCFunction)_asyncio_Task_set_exception, METH_O|METH_C_STACK_FRUGAL, _asyncio_Task_set_exception__doc__},
 
 static PyObject *
 _asyncio_Task_set_exception_impl(TaskObj *self, PyObject *exception);
@@ -1456,8 +1475,9 @@ PyDoc_STRVAR(_asyncio_Task_get_coro__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _asyncio_Task_get_coro_MethodName = {.name = "get_coro",};
 #define _ASYNCIO_TASK_GET_CORO_METHODDEF    \
-    {"get_coro", (PyCFunction)_asyncio_Task_get_coro, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Task_get_coro__doc__},
+    {_asyncio_Task_get_coro_MethodName.name, (PyCFunction)_asyncio_Task_get_coro, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Task_get_coro__doc__},
 
 static PyObject *
 _asyncio_Task_get_coro_impl(TaskObj *self);
@@ -1479,8 +1499,9 @@ PyDoc_STRVAR(_asyncio_Task_get_context__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _asyncio_Task_get_context_MethodName = {.name = "get_context",};
 #define _ASYNCIO_TASK_GET_CONTEXT_METHODDEF    \
-    {"get_context", (PyCFunction)_asyncio_Task_get_context, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Task_get_context__doc__},
+    {_asyncio_Task_get_context_MethodName.name, (PyCFunction)_asyncio_Task_get_context, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Task_get_context__doc__},
 
 static PyObject *
 _asyncio_Task_get_context_impl(TaskObj *self);
@@ -1496,8 +1517,9 @@ PyDoc_STRVAR(_asyncio_Task_get_name__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _asyncio_Task_get_name_MethodName = {.name = "get_name",};
 #define _ASYNCIO_TASK_GET_NAME_METHODDEF    \
-    {"get_name", (PyCFunction)_asyncio_Task_get_name, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Task_get_name__doc__},
+    {_asyncio_Task_get_name_MethodName.name, (PyCFunction)_asyncio_Task_get_name, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_Task_get_name__doc__},
 
 static PyObject *
 _asyncio_Task_get_name_impl(TaskObj *self);
@@ -1519,8 +1541,9 @@ PyDoc_STRVAR(_asyncio_Task_set_name__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _asyncio_Task_set_name_MethodName = {.name = "set_name",};
 #define _ASYNCIO_TASK_SET_NAME_METHODDEF    \
-    {"set_name", (PyCFunction)_asyncio_Task_set_name, METH_O|METH_C_STACK_FRUGAL, _asyncio_Task_set_name__doc__},
+    {_asyncio_Task_set_name_MethodName.name, (PyCFunction)_asyncio_Task_set_name, METH_O|METH_C_STACK_FRUGAL, _asyncio_Task_set_name__doc__},
 
 static PyObject *
 _asyncio_Task_set_name_impl(TaskObj *self, PyObject *value);
@@ -1546,8 +1569,9 @@ PyDoc_STRVAR(_asyncio__get_running_loop__doc__,
 "This is a low-level function intended to be used by event loops.\n"
 "This function is thread-specific.");
 
+static struct {char name[];} _asyncio__get_running_loop_MethodName = {.name = "_get_running_loop",};
 #define _ASYNCIO__GET_RUNNING_LOOP_METHODDEF    \
-    {"_get_running_loop", (PyCFunction)_asyncio__get_running_loop, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio__get_running_loop__doc__},
+    {_asyncio__get_running_loop_MethodName.name, (PyCFunction)_asyncio__get_running_loop, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio__get_running_loop__doc__},
 
 static PyObject *
 _asyncio__get_running_loop_impl(PyObject *module);
@@ -1567,8 +1591,9 @@ PyDoc_STRVAR(_asyncio__set_running_loop__doc__,
 "This is a low-level function intended to be used by event loops.\n"
 "This function is thread-specific.");
 
+static struct {char name[];} _asyncio__set_running_loop_MethodName = {.name = "_set_running_loop",};
 #define _ASYNCIO__SET_RUNNING_LOOP_METHODDEF    \
-    {"_set_running_loop", (PyCFunction)_asyncio__set_running_loop, METH_O|METH_C_STACK_FRUGAL, _asyncio__set_running_loop__doc__},
+    {_asyncio__set_running_loop_MethodName.name, (PyCFunction)_asyncio__set_running_loop, METH_O|METH_C_STACK_FRUGAL, _asyncio__set_running_loop__doc__},
 
 PyDoc_STRVAR(_asyncio_get_event_loop__doc__,
 "get_event_loop($module, /)\n"
@@ -1583,8 +1608,9 @@ PyDoc_STRVAR(_asyncio_get_event_loop__doc__,
 "If there is no running event loop set, the function will return\n"
 "the result of `get_event_loop_policy().get_event_loop()` call.");
 
+static struct {char name[];} _asyncio_get_event_loop_MethodName = {.name = "get_event_loop",};
 #define _ASYNCIO_GET_EVENT_LOOP_METHODDEF    \
-    {"get_event_loop", (PyCFunction)_asyncio_get_event_loop, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_get_event_loop__doc__},
+    {_asyncio_get_event_loop_MethodName.name, (PyCFunction)_asyncio_get_event_loop, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_get_event_loop__doc__},
 
 static PyObject *
 _asyncio_get_event_loop_impl(PyObject *module);
@@ -1603,8 +1629,9 @@ PyDoc_STRVAR(_asyncio_get_running_loop__doc__,
 "\n"
 "This function is thread-specific.");
 
+static struct {char name[];} _asyncio_get_running_loop_MethodName = {.name = "get_running_loop",};
 #define _ASYNCIO_GET_RUNNING_LOOP_METHODDEF    \
-    {"get_running_loop", (PyCFunction)_asyncio_get_running_loop, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_get_running_loop__doc__},
+    {_asyncio_get_running_loop_MethodName.name, (PyCFunction)_asyncio_get_running_loop, METH_NOARGS|METH_C_STACK_FRUGAL, _asyncio_get_running_loop__doc__},
 
 static PyObject *
 _asyncio_get_running_loop_impl(PyObject *module);
@@ -1623,8 +1650,9 @@ PyDoc_STRVAR(_asyncio__register_task__doc__,
 "\n"
 "Returns None.");
 
+static struct {char name[];} _asyncio__register_task_MethodName = {.name = "_register_task",};
 #define _ASYNCIO__REGISTER_TASK_METHODDEF    \
-    {"_register_task", _PyCFunction_CAST(_asyncio__register_task), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio__register_task__doc__},
+    {_asyncio__register_task_MethodName.name, _PyCFunction_CAST(_asyncio__register_task), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio__register_task__doc__},
 
 static PyObject *
 _asyncio__register_task_impl(PyObject *module, PyObject *task);
@@ -1683,8 +1711,9 @@ PyDoc_STRVAR(_asyncio__register_eager_task__doc__,
 "\n"
 "Returns None.");
 
+static struct {char name[];} _asyncio__register_eager_task_MethodName = {.name = "_register_eager_task",};
 #define _ASYNCIO__REGISTER_EAGER_TASK_METHODDEF    \
-    {"_register_eager_task", _PyCFunction_CAST(_asyncio__register_eager_task), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio__register_eager_task__doc__},
+    {_asyncio__register_eager_task_MethodName.name, _PyCFunction_CAST(_asyncio__register_eager_task), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio__register_eager_task__doc__},
 
 static PyObject *
 _asyncio__register_eager_task_impl(PyObject *module, PyObject *task);
@@ -1743,8 +1772,9 @@ PyDoc_STRVAR(_asyncio__unregister_task__doc__,
 "\n"
 "Returns None.");
 
+static struct {char name[];} _asyncio__unregister_task_MethodName = {.name = "_unregister_task",};
 #define _ASYNCIO__UNREGISTER_TASK_METHODDEF    \
-    {"_unregister_task", _PyCFunction_CAST(_asyncio__unregister_task), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio__unregister_task__doc__},
+    {_asyncio__unregister_task_MethodName.name, _PyCFunction_CAST(_asyncio__unregister_task), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio__unregister_task__doc__},
 
 static PyObject *
 _asyncio__unregister_task_impl(PyObject *module, PyObject *task);
@@ -1803,8 +1833,9 @@ PyDoc_STRVAR(_asyncio__unregister_eager_task__doc__,
 "\n"
 "Returns None.");
 
+static struct {char name[];} _asyncio__unregister_eager_task_MethodName = {.name = "_unregister_eager_task",};
 #define _ASYNCIO__UNREGISTER_EAGER_TASK_METHODDEF    \
-    {"_unregister_eager_task", _PyCFunction_CAST(_asyncio__unregister_eager_task), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio__unregister_eager_task__doc__},
+    {_asyncio__unregister_eager_task_MethodName.name, _PyCFunction_CAST(_asyncio__unregister_eager_task), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio__unregister_eager_task__doc__},
 
 static PyObject *
 _asyncio__unregister_eager_task_impl(PyObject *module, PyObject *task);
@@ -1865,8 +1896,9 @@ PyDoc_STRVAR(_asyncio__enter_task__doc__,
 "\n"
 "Returns None.");
 
+static struct {char name[];} _asyncio__enter_task_MethodName = {.name = "_enter_task",};
 #define _ASYNCIO__ENTER_TASK_METHODDEF    \
-    {"_enter_task", _PyCFunction_CAST(_asyncio__enter_task), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio__enter_task__doc__},
+    {_asyncio__enter_task_MethodName.name, _PyCFunction_CAST(_asyncio__enter_task), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio__enter_task__doc__},
 
 static PyObject *
 _asyncio__enter_task_impl(PyObject *module, PyObject *loop, PyObject *task);
@@ -1929,8 +1961,9 @@ PyDoc_STRVAR(_asyncio__leave_task__doc__,
 "\n"
 "Returns None.");
 
+static struct {char name[];} _asyncio__leave_task_MethodName = {.name = "_leave_task",};
 #define _ASYNCIO__LEAVE_TASK_METHODDEF    \
-    {"_leave_task", _PyCFunction_CAST(_asyncio__leave_task), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio__leave_task__doc__},
+    {_asyncio__leave_task_MethodName.name, _PyCFunction_CAST(_asyncio__leave_task), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio__leave_task__doc__},
 
 static PyObject *
 _asyncio__leave_task_impl(PyObject *module, PyObject *loop, PyObject *task);
@@ -1991,8 +2024,9 @@ PyDoc_STRVAR(_asyncio__swap_current_task__doc__,
 "\n"
 "This is intended for use during eager coroutine execution.");
 
+static struct {char name[];} _asyncio__swap_current_task_MethodName = {.name = "_swap_current_task",};
 #define _ASYNCIO__SWAP_CURRENT_TASK_METHODDEF    \
-    {"_swap_current_task", _PyCFunction_CAST(_asyncio__swap_current_task), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio__swap_current_task__doc__},
+    {_asyncio__swap_current_task_MethodName.name, _PyCFunction_CAST(_asyncio__swap_current_task), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio__swap_current_task__doc__},
 
 static PyObject *
 _asyncio__swap_current_task_impl(PyObject *module, PyObject *loop,
@@ -2052,8 +2086,9 @@ PyDoc_STRVAR(_asyncio_current_task__doc__,
 "\n"
 "Return a currently executed task.");
 
+static struct {char name[];} _asyncio_current_task_MethodName = {.name = "current_task",};
 #define _ASYNCIO_CURRENT_TASK_METHODDEF    \
-    {"current_task", _PyCFunction_CAST(_asyncio_current_task), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_current_task__doc__},
+    {_asyncio_current_task_MethodName.name, _PyCFunction_CAST(_asyncio_current_task), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_current_task__doc__},
 
 static PyObject *
 _asyncio_current_task_impl(PyObject *module, PyObject *loop);
@@ -2115,8 +2150,9 @@ PyDoc_STRVAR(_asyncio_all_tasks__doc__,
 "\n"
 "Return a set of all tasks for the loop.");
 
+static struct {char name[];} _asyncio_all_tasks_MethodName = {.name = "all_tasks",};
 #define _ASYNCIO_ALL_TASKS_METHODDEF    \
-    {"all_tasks", _PyCFunction_CAST(_asyncio_all_tasks), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_all_tasks__doc__},
+    {_asyncio_all_tasks_MethodName.name, _PyCFunction_CAST(_asyncio_all_tasks), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _asyncio_all_tasks__doc__},
 
 static PyObject *
 _asyncio_all_tasks_impl(PyObject *module, PyObject *loop);
@@ -2178,8 +2214,9 @@ PyDoc_STRVAR(_asyncio_future_add_to_awaited_by__doc__,
 "\n"
 "Record that `fut` is awaited on by `waiter`.");
 
+static struct {char name[];} _asyncio_future_add_to_awaited_by_MethodName = {.name = "future_add_to_awaited_by",};
 #define _ASYNCIO_FUTURE_ADD_TO_AWAITED_BY_METHODDEF    \
-    {"future_add_to_awaited_by", _PyCFunction_CAST(_asyncio_future_add_to_awaited_by), METH_FASTCALL|METH_C_STACK_FRUGAL, _asyncio_future_add_to_awaited_by__doc__},
+    {_asyncio_future_add_to_awaited_by_MethodName.name, _PyCFunction_CAST(_asyncio_future_add_to_awaited_by), METH_FASTCALL|METH_C_STACK_FRUGAL, _asyncio_future_add_to_awaited_by__doc__},
 
 static PyObject *
 _asyncio_future_add_to_awaited_by_impl(PyObject *module, PyObject *fut,
@@ -2208,8 +2245,9 @@ PyDoc_STRVAR(_asyncio_future_discard_from_awaited_by__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} _asyncio_future_discard_from_awaited_by_MethodName = {.name = "future_discard_from_awaited_by",};
 #define _ASYNCIO_FUTURE_DISCARD_FROM_AWAITED_BY_METHODDEF    \
-    {"future_discard_from_awaited_by", _PyCFunction_CAST(_asyncio_future_discard_from_awaited_by), METH_FASTCALL|METH_C_STACK_FRUGAL, _asyncio_future_discard_from_awaited_by__doc__},
+    {_asyncio_future_discard_from_awaited_by_MethodName.name, _PyCFunction_CAST(_asyncio_future_discard_from_awaited_by), METH_FASTCALL|METH_C_STACK_FRUGAL, _asyncio_future_discard_from_awaited_by__doc__},
 
 static PyObject *
 _asyncio_future_discard_from_awaited_by_impl(PyObject *module, PyObject *fut,
@@ -2232,4 +2270,4 @@ _asyncio_future_discard_from_awaited_by(PyObject *module, PyObject *const *args,
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=a4961b4074cdd571 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=c5e77e18c149dbcd input=a9049054013a1b77]*/

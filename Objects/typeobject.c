@@ -11600,7 +11600,7 @@ static pytype_slotdef slotdefs[] = {
            "__rpow__($self, value, mod=None, /)\n--\n\nReturn pow(value, self, mod)."),
     UNISLOT(__neg__, nb_negative, slot_nb_negative, wrap_unaryfunc, "-self"),
     UNISLOT(__pos__, nb_positive, slot_nb_positive, wrap_unaryfunc, "+self"),
-    UNSLOT(__abs__, nb_absolute, slot_nb_absolute, wrap_unaryfunc,
+    UNISLOT(__abs__, nb_absolute, slot_nb_absolute, wrap_unaryfunc,
            "abs(self)"),
     UNSLOT(__bool__, nb_bool, slot_nb_bool, wrap_inquirypred,
            "True if self else False"),

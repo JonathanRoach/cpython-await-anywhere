@@ -15,8 +15,9 @@ PyDoc_STRVAR(termios_tcgetattr__doc__,
 "flags and the speeds as well as the indexing in the cc array must be\n"
 "done using the symbolic constants defined in this module.");
 
+static struct {char name[];} termios_tcgetattr_MethodName = {.name = "tcgetattr",};
 #define TERMIOS_TCGETATTR_METHODDEF    \
-    {"tcgetattr", (PyCFunction)termios_tcgetattr, METH_O|METH_C_STACK_FRUGAL, termios_tcgetattr__doc__},
+    {termios_tcgetattr_MethodName.name, (PyCFunction)termios_tcgetattr, METH_O|METH_C_STACK_FRUGAL, termios_tcgetattr__doc__},
 
 static PyObject *
 termios_tcgetattr_impl(PyObject *module, int fd);
@@ -50,8 +51,9 @@ PyDoc_STRVAR(termios_tcsetattr__doc__,
 "queued output, or termios.TCSAFLUSH to change after transmitting all\n"
 "queued output and discarding all queued input.");
 
+static struct {char name[];} termios_tcsetattr_MethodName = {.name = "tcsetattr",};
 #define TERMIOS_TCSETATTR_METHODDEF    \
-    {"tcsetattr", (PyCFunction)(void(*)(void))termios_tcsetattr, METH_FASTCALL|METH_C_STACK_FRUGAL, termios_tcsetattr__doc__},
+    {termios_tcsetattr_MethodName.name, (PyCFunction)(void(*)(void))termios_tcsetattr, METH_FASTCALL|METH_C_STACK_FRUGAL, termios_tcsetattr__doc__},
 
 static PyObject *
 termios_tcsetattr_impl(PyObject *module, int fd, int when, PyObject *term);
@@ -92,8 +94,9 @@ PyDoc_STRVAR(termios_tcsendbreak__doc__,
 "A zero duration sends a break for 0.25-0.5 seconds; a nonzero duration\n"
 "has a system dependent meaning.");
 
+static struct {char name[];} termios_tcsendbreak_MethodName = {.name = "tcsendbreak",};
 #define TERMIOS_TCSENDBREAK_METHODDEF    \
-    {"tcsendbreak", (PyCFunction)(void(*)(void))termios_tcsendbreak, METH_FASTCALL|METH_C_STACK_FRUGAL, termios_tcsendbreak__doc__},
+    {termios_tcsendbreak_MethodName.name, (PyCFunction)(void(*)(void))termios_tcsendbreak, METH_FASTCALL|METH_C_STACK_FRUGAL, termios_tcsendbreak__doc__},
 
 static PyObject *
 termios_tcsendbreak_impl(PyObject *module, int fd, int duration);
@@ -129,8 +132,9 @@ PyDoc_STRVAR(termios_tcdrain__doc__,
 "\n"
 "Wait until all output written to file descriptor fd has been transmitted.");
 
+static struct {char name[];} termios_tcdrain_MethodName = {.name = "tcdrain",};
 #define TERMIOS_TCDRAIN_METHODDEF    \
-    {"tcdrain", (PyCFunction)termios_tcdrain, METH_O|METH_C_STACK_FRUGAL, termios_tcdrain__doc__},
+    {termios_tcdrain_MethodName.name, (PyCFunction)termios_tcdrain, METH_O|METH_C_STACK_FRUGAL, termios_tcdrain__doc__},
 
 static PyObject *
 termios_tcdrain_impl(PyObject *module, int fd);
@@ -161,8 +165,9 @@ PyDoc_STRVAR(termios_tcflush__doc__,
 "queue, termios.TCOFLUSH for the output queue, or termios.TCIOFLUSH for\n"
 "both queues.");
 
+static struct {char name[];} termios_tcflush_MethodName = {.name = "tcflush",};
 #define TERMIOS_TCFLUSH_METHODDEF    \
-    {"tcflush", (PyCFunction)(void(*)(void))termios_tcflush, METH_FASTCALL|METH_C_STACK_FRUGAL, termios_tcflush__doc__},
+    {termios_tcflush_MethodName.name, (PyCFunction)(void(*)(void))termios_tcflush, METH_FASTCALL|METH_C_STACK_FRUGAL, termios_tcflush__doc__},
 
 static PyObject *
 termios_tcflush_impl(PyObject *module, int fd, int queue);
@@ -202,8 +207,9 @@ PyDoc_STRVAR(termios_tcflow__doc__,
 "termios.TCOON to restart output, termios.TCIOFF to suspend input,\n"
 "or termios.TCION to restart input.");
 
+static struct {char name[];} termios_tcflow_MethodName = {.name = "tcflow",};
 #define TERMIOS_TCFLOW_METHODDEF    \
-    {"tcflow", (PyCFunction)(void(*)(void))termios_tcflow, METH_FASTCALL|METH_C_STACK_FRUGAL, termios_tcflow__doc__},
+    {termios_tcflow_MethodName.name, (PyCFunction)(void(*)(void))termios_tcflow, METH_FASTCALL|METH_C_STACK_FRUGAL, termios_tcflow__doc__},
 
 static PyObject *
 termios_tcflow_impl(PyObject *module, int fd, int action);
@@ -241,8 +247,9 @@ PyDoc_STRVAR(termios_tcgetwinsize__doc__,
 "\n"
 "Returns a tuple (ws_row, ws_col).");
 
+static struct {char name[];} termios_tcgetwinsize_MethodName = {.name = "tcgetwinsize",};
 #define TERMIOS_TCGETWINSIZE_METHODDEF    \
-    {"tcgetwinsize", (PyCFunction)termios_tcgetwinsize, METH_O|METH_C_STACK_FRUGAL, termios_tcgetwinsize__doc__},
+    {termios_tcgetwinsize_MethodName.name, (PyCFunction)termios_tcgetwinsize, METH_O|METH_C_STACK_FRUGAL, termios_tcgetwinsize__doc__},
 
 static PyObject *
 termios_tcgetwinsize_impl(PyObject *module, int fd);
@@ -272,8 +279,9 @@ PyDoc_STRVAR(termios_tcsetwinsize__doc__,
 "The winsize to be set is taken from the winsize argument, which\n"
 "is a two-item tuple (ws_row, ws_col) like the one returned by tcgetwinsize().");
 
+static struct {char name[];} termios_tcsetwinsize_MethodName = {.name = "tcsetwinsize",};
 #define TERMIOS_TCSETWINSIZE_METHODDEF    \
-    {"tcsetwinsize", (PyCFunction)(void(*)(void))termios_tcsetwinsize, METH_FASTCALL|METH_C_STACK_FRUGAL, termios_tcsetwinsize__doc__},
+    {termios_tcsetwinsize_MethodName.name, (PyCFunction)(void(*)(void))termios_tcsetwinsize, METH_FASTCALL|METH_C_STACK_FRUGAL, termios_tcsetwinsize__doc__},
 
 static PyObject *
 termios_tcsetwinsize_impl(PyObject *module, int fd, PyObject *winsz);
@@ -299,4 +307,4 @@ termios_tcsetwinsize(PyObject *module, PyObject *const *args, Py_ssize_t nargs)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=c1067a90110bf123 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=842735c88e4d2515 input=a9049054013a1b77]*/

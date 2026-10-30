@@ -136,8 +136,9 @@ PyDoc_STRVAR(_remote_debugging_RemoteUnwinder_get_stack_trace__doc__,
 "    PermissionError: If access to the target process is denied\n"
 "    UnicodeDecodeError: If there is an error decoding strings from the target process");
 
+static struct {char name[];} _remote_debugging_RemoteUnwinder_get_stack_trace_MethodName = {.name = "get_stack_trace",};
 #define _REMOTE_DEBUGGING_REMOTEUNWINDER_GET_STACK_TRACE_METHODDEF    \
-    {"get_stack_trace", (PyCFunction)_remote_debugging_RemoteUnwinder_get_stack_trace, METH_NOARGS|METH_C_STACK_FRUGAL, _remote_debugging_RemoteUnwinder_get_stack_trace__doc__},
+    {_remote_debugging_RemoteUnwinder_get_stack_trace_MethodName.name, (PyCFunction)_remote_debugging_RemoteUnwinder_get_stack_trace, METH_NOARGS|METH_C_STACK_FRUGAL, _remote_debugging_RemoteUnwinder_get_stack_trace__doc__},
 
 static PyObject *
 _remote_debugging_RemoteUnwinder_get_stack_trace_impl(RemoteUnwinderObject *self);
@@ -193,8 +194,9 @@ PyDoc_STRVAR(_remote_debugging_RemoteUnwinder_get_all_awaited_by__doc__,
 "    ]\n"
 "]");
 
+static struct {char name[];} _remote_debugging_RemoteUnwinder_get_all_awaited_by_MethodName = {.name = "get_all_awaited_by",};
 #define _REMOTE_DEBUGGING_REMOTEUNWINDER_GET_ALL_AWAITED_BY_METHODDEF    \
-    {"get_all_awaited_by", (PyCFunction)_remote_debugging_RemoteUnwinder_get_all_awaited_by, METH_NOARGS|METH_C_STACK_FRUGAL, _remote_debugging_RemoteUnwinder_get_all_awaited_by__doc__},
+    {_remote_debugging_RemoteUnwinder_get_all_awaited_by_MethodName.name, (PyCFunction)_remote_debugging_RemoteUnwinder_get_all_awaited_by, METH_NOARGS|METH_C_STACK_FRUGAL, _remote_debugging_RemoteUnwinder_get_all_awaited_by__doc__},
 
 static PyObject *
 _remote_debugging_RemoteUnwinder_get_all_awaited_by_impl(RemoteUnwinderObject *self);
@@ -236,8 +238,9 @@ PyDoc_STRVAR(_remote_debugging_RemoteUnwinder_get_async_stack_trace__doc__,
 "    PermissionError: If access to the target process is denied\n"
 "    UnicodeDecodeError: If there is an error decoding strings from the target process");
 
+static struct {char name[];} _remote_debugging_RemoteUnwinder_get_async_stack_trace_MethodName = {.name = "get_async_stack_trace",};
 #define _REMOTE_DEBUGGING_REMOTEUNWINDER_GET_ASYNC_STACK_TRACE_METHODDEF    \
-    {"get_async_stack_trace", (PyCFunction)_remote_debugging_RemoteUnwinder_get_async_stack_trace, METH_NOARGS|METH_C_STACK_FRUGAL, _remote_debugging_RemoteUnwinder_get_async_stack_trace__doc__},
+    {_remote_debugging_RemoteUnwinder_get_async_stack_trace_MethodName.name, (PyCFunction)_remote_debugging_RemoteUnwinder_get_async_stack_trace, METH_NOARGS|METH_C_STACK_FRUGAL, _remote_debugging_RemoteUnwinder_get_async_stack_trace__doc__},
 
 static PyObject *
 _remote_debugging_RemoteUnwinder_get_async_stack_trace_impl(RemoteUnwinderObject *self);
@@ -253,4 +256,4 @@ _remote_debugging_RemoteUnwinder_get_async_stack_trace(PyObject *self, PyObject 
 
     return return_value;
 }
-/*[clinic end generated code: output=5b70354ef1cb1ac6 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=c854a317225ad0ef input=a9049054013a1b77]*/

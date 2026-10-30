@@ -392,8 +392,9 @@ PyDoc_STRVAR(frame_clear__doc__,
 "\n"
 "Clear all references held by the frame.");
 
+static struct {char name[];} frame_clear_MethodName = {.name = "clear",};
 #define FRAME_CLEAR_METHODDEF    \
-    {"clear", (PyCFunction)frame_clear, METH_NOARGS|METH_C_STACK_FRUGAL, frame_clear__doc__},
+    {frame_clear_MethodName.name, (PyCFunction)frame_clear, METH_NOARGS|METH_C_STACK_FRUGAL, frame_clear__doc__},
 
 static PyObject *
 frame_clear_impl(PyFrameObject *self);
@@ -416,8 +417,9 @@ PyDoc_STRVAR(frame___sizeof____doc__,
 "\n"
 "Return the size of the frame in memory, in bytes.");
 
+static struct {char name[];} frame___sizeof___MethodName = {.name = "__sizeof__",};
 #define FRAME___SIZEOF___METHODDEF    \
-    {"__sizeof__", (PyCFunction)frame___sizeof__, METH_NOARGS|METH_C_STACK_FRUGAL, frame___sizeof____doc__},
+    {frame___sizeof___MethodName.name, (PyCFunction)frame___sizeof__, METH_NOARGS|METH_C_STACK_FRUGAL, frame___sizeof____doc__},
 
 static PyObject *
 frame___sizeof___impl(PyFrameObject *self);
@@ -433,4 +435,4 @@ frame___sizeof__(PyObject *self, PyObject *Py_UNUSED(ignored))
 
     return return_value;
 }
-/*[clinic end generated code: output=a5d01bdce72258b4 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=1a648a522bd40dc8 input=a9049054013a1b77]*/

@@ -15,8 +15,9 @@ PyDoc_STRVAR(EncodingMap_size__doc__,
 "\n"
 "Return the size (in bytes) of this object.");
 
+static struct {char name[];} EncodingMap_size_MethodName = {.name = "size",};
 #define ENCODINGMAP_SIZE_METHODDEF    \
-    {"size", (PyCFunction)EncodingMap_size, METH_NOARGS|METH_C_STACK_FRUGAL, EncodingMap_size__doc__},
+    {EncodingMap_size_MethodName.name, (PyCFunction)EncodingMap_size, METH_NOARGS|METH_C_STACK_FRUGAL, EncodingMap_size__doc__},
 
 static PyObject *
 EncodingMap_size_impl(struct encoding_map *self);
@@ -36,8 +37,9 @@ PyDoc_STRVAR(unicode_title__doc__,
 "More specifically, words start with uppercased characters and all remaining\n"
 "cased characters have lower case.");
 
+static struct {char name[];} unicode_title_MethodName = {.name = "title",};
 #define UNICODE_TITLE_METHODDEF    \
-    {"title", (PyCFunction)unicode_title, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_title__doc__},
+    {unicode_title_MethodName.name, (PyCFunction)unicode_title, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_title__doc__},
 
 static PyObject *
 unicode_title_impl(PyObject *self);
@@ -57,8 +59,9 @@ PyDoc_STRVAR(unicode_capitalize__doc__,
 "More specifically, make the first character have upper case and the rest lower\n"
 "case.");
 
+static struct {char name[];} unicode_capitalize_MethodName = {.name = "capitalize",};
 #define UNICODE_CAPITALIZE_METHODDEF    \
-    {"capitalize", (PyCFunction)unicode_capitalize, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_capitalize__doc__},
+    {unicode_capitalize_MethodName.name, (PyCFunction)unicode_capitalize, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_capitalize__doc__},
 
 static PyObject *
 unicode_capitalize_impl(PyObject *self);
@@ -75,8 +78,9 @@ PyDoc_STRVAR(unicode_casefold__doc__,
 "\n"
 "Return a version of the string suitable for caseless comparisons.");
 
+static struct {char name[];} unicode_casefold_MethodName = {.name = "casefold",};
 #define UNICODE_CASEFOLD_METHODDEF    \
-    {"casefold", (PyCFunction)unicode_casefold, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_casefold__doc__},
+    {unicode_casefold_MethodName.name, (PyCFunction)unicode_casefold, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_casefold__doc__},
 
 static PyObject *
 unicode_casefold_impl(PyObject *self);
@@ -95,8 +99,9 @@ PyDoc_STRVAR(unicode_center__doc__,
 "\n"
 "Padding is done using the specified fill character (default is a space).");
 
+static struct {char name[];} unicode_center_MethodName = {.name = "center",};
 #define UNICODE_CENTER_METHODDEF    \
-    {"center", _PyCFunction_CAST(unicode_center), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_center__doc__},
+    {unicode_center_MethodName.name, _PyCFunction_CAST(unicode_center), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_center__doc__},
 
 static PyObject *
 unicode_center_impl(PyObject *self, Py_ssize_t width, Py_UCS4 fillchar);
@@ -144,8 +149,9 @@ PyDoc_STRVAR(unicode_count__doc__,
 "\n"
 "Optional arguments start and end are interpreted as in slice notation.");
 
+static struct {char name[];} unicode_count_MethodName = {.name = "count",};
 #define UNICODE_COUNT_METHODDEF    \
-    {"count", _PyCFunction_CAST(unicode_count), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_count__doc__},
+    {unicode_count_MethodName.name, _PyCFunction_CAST(unicode_count), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_count__doc__},
 
 static Py_ssize_t
 unicode_count_impl(PyObject *str, PyObject *substr, Py_ssize_t start,
@@ -206,8 +212,9 @@ PyDoc_STRVAR(unicode_encode__doc__,
 "    \'xmlcharrefreplace\' as well as any other name registered with\n"
 "    codecs.register_error that can handle UnicodeEncodeErrors.");
 
+static struct {char name[];} unicode_encode_MethodName = {.name = "encode",};
 #define UNICODE_ENCODE_METHODDEF    \
-    {"encode", _PyCFunction_CAST(unicode_encode), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, unicode_encode__doc__},
+    {unicode_encode_MethodName.name, _PyCFunction_CAST(unicode_encode), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, unicode_encode__doc__},
 
 static PyObject *
 unicode_encode_impl(PyObject *self, const char *encoding, const char *errors);
@@ -302,8 +309,9 @@ PyDoc_STRVAR(unicode_expandtabs__doc__,
 "\n"
 "If tabsize is not given, a tab size of 8 characters is assumed.");
 
+static struct {char name[];} unicode_expandtabs_MethodName = {.name = "expandtabs",};
 #define UNICODE_EXPANDTABS_METHODDEF    \
-    {"expandtabs", _PyCFunction_CAST(unicode_expandtabs), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, unicode_expandtabs__doc__},
+    {unicode_expandtabs_MethodName.name, _PyCFunction_CAST(unicode_expandtabs), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, unicode_expandtabs__doc__},
 
 static PyObject *
 unicode_expandtabs_impl(PyObject *self, int tabsize);
@@ -371,8 +379,9 @@ PyDoc_STRVAR(unicode_find__doc__,
 "Optional arguments start and end are interpreted as in slice notation.\n"
 "Return -1 on failure.");
 
+static struct {char name[];} unicode_find_MethodName = {.name = "find",};
 #define UNICODE_FIND_METHODDEF    \
-    {"find", _PyCFunction_CAST(unicode_find), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_find__doc__},
+    {unicode_find_MethodName.name, _PyCFunction_CAST(unicode_find), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_find__doc__},
 
 static Py_ssize_t
 unicode_find_impl(PyObject *str, PyObject *substr, Py_ssize_t start,
@@ -427,8 +436,9 @@ PyDoc_STRVAR(unicode_index__doc__,
 "Optional arguments start and end are interpreted as in slice notation.\n"
 "Raises ValueError when the substring is not found.");
 
+static struct {char name[];} unicode_index_MethodName = {.name = "index",};
 #define UNICODE_INDEX_METHODDEF    \
-    {"index", _PyCFunction_CAST(unicode_index), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_index__doc__},
+    {unicode_index_MethodName.name, _PyCFunction_CAST(unicode_index), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_index__doc__},
 
 static Py_ssize_t
 unicode_index_impl(PyObject *str, PyObject *substr, Py_ssize_t start,
@@ -483,8 +493,9 @@ PyDoc_STRVAR(unicode_isascii__doc__,
 "ASCII characters have code points in the range U+0000-U+007F.\n"
 "Empty string is ASCII too.");
 
+static struct {char name[];} unicode_isascii_MethodName = {.name = "isascii",};
 #define UNICODE_ISASCII_METHODDEF    \
-    {"isascii", (PyCFunction)unicode_isascii, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_isascii__doc__},
+    {unicode_isascii_MethodName.name, (PyCFunction)unicode_isascii, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_isascii__doc__},
 
 static PyObject *
 unicode_isascii_impl(PyObject *self);
@@ -504,8 +515,9 @@ PyDoc_STRVAR(unicode_islower__doc__,
 "A string is lowercase if all cased characters in the string are lowercase and\n"
 "there is at least one cased character in the string.");
 
+static struct {char name[];} unicode_islower_MethodName = {.name = "islower",};
 #define UNICODE_ISLOWER_METHODDEF    \
-    {"islower", (PyCFunction)unicode_islower, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_islower__doc__},
+    {unicode_islower_MethodName.name, (PyCFunction)unicode_islower, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_islower__doc__},
 
 static PyObject *
 unicode_islower_impl(PyObject *self);
@@ -525,8 +537,9 @@ PyDoc_STRVAR(unicode_isupper__doc__,
 "A string is uppercase if all cased characters in the string are uppercase and\n"
 "there is at least one cased character in the string.");
 
+static struct {char name[];} unicode_isupper_MethodName = {.name = "isupper",};
 #define UNICODE_ISUPPER_METHODDEF    \
-    {"isupper", (PyCFunction)unicode_isupper, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_isupper__doc__},
+    {unicode_isupper_MethodName.name, (PyCFunction)unicode_isupper, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_isupper__doc__},
 
 static PyObject *
 unicode_isupper_impl(PyObject *self);
@@ -546,8 +559,9 @@ PyDoc_STRVAR(unicode_istitle__doc__,
 "In a title-cased string, upper- and title-case characters may only\n"
 "follow uncased characters and lowercase characters only cased ones.");
 
+static struct {char name[];} unicode_istitle_MethodName = {.name = "istitle",};
 #define UNICODE_ISTITLE_METHODDEF    \
-    {"istitle", (PyCFunction)unicode_istitle, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_istitle__doc__},
+    {unicode_istitle_MethodName.name, (PyCFunction)unicode_istitle, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_istitle__doc__},
 
 static PyObject *
 unicode_istitle_impl(PyObject *self);
@@ -567,8 +581,9 @@ PyDoc_STRVAR(unicode_isspace__doc__,
 "A string is whitespace if all characters in the string are whitespace and there\n"
 "is at least one character in the string.");
 
+static struct {char name[];} unicode_isspace_MethodName = {.name = "isspace",};
 #define UNICODE_ISSPACE_METHODDEF    \
-    {"isspace", (PyCFunction)unicode_isspace, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_isspace__doc__},
+    {unicode_isspace_MethodName.name, (PyCFunction)unicode_isspace, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_isspace__doc__},
 
 static PyObject *
 unicode_isspace_impl(PyObject *self);
@@ -588,8 +603,9 @@ PyDoc_STRVAR(unicode_isalpha__doc__,
 "A string is alphabetic if all characters in the string are alphabetic and there\n"
 "is at least one character in the string.");
 
+static struct {char name[];} unicode_isalpha_MethodName = {.name = "isalpha",};
 #define UNICODE_ISALPHA_METHODDEF    \
-    {"isalpha", (PyCFunction)unicode_isalpha, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_isalpha__doc__},
+    {unicode_isalpha_MethodName.name, (PyCFunction)unicode_isalpha, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_isalpha__doc__},
 
 static PyObject *
 unicode_isalpha_impl(PyObject *self);
@@ -609,8 +625,9 @@ PyDoc_STRVAR(unicode_isalnum__doc__,
 "A string is alpha-numeric if all characters in the string are alpha-numeric and\n"
 "there is at least one character in the string.");
 
+static struct {char name[];} unicode_isalnum_MethodName = {.name = "isalnum",};
 #define UNICODE_ISALNUM_METHODDEF    \
-    {"isalnum", (PyCFunction)unicode_isalnum, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_isalnum__doc__},
+    {unicode_isalnum_MethodName.name, (PyCFunction)unicode_isalnum, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_isalnum__doc__},
 
 static PyObject *
 unicode_isalnum_impl(PyObject *self);
@@ -630,8 +647,9 @@ PyDoc_STRVAR(unicode_isdecimal__doc__,
 "A string is a decimal string if all characters in the string are decimal and\n"
 "there is at least one character in the string.");
 
+static struct {char name[];} unicode_isdecimal_MethodName = {.name = "isdecimal",};
 #define UNICODE_ISDECIMAL_METHODDEF    \
-    {"isdecimal", (PyCFunction)unicode_isdecimal, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_isdecimal__doc__},
+    {unicode_isdecimal_MethodName.name, (PyCFunction)unicode_isdecimal, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_isdecimal__doc__},
 
 static PyObject *
 unicode_isdecimal_impl(PyObject *self);
@@ -651,8 +669,9 @@ PyDoc_STRVAR(unicode_isdigit__doc__,
 "A string is a digit string if all characters in the string are digits and there\n"
 "is at least one character in the string.");
 
+static struct {char name[];} unicode_isdigit_MethodName = {.name = "isdigit",};
 #define UNICODE_ISDIGIT_METHODDEF    \
-    {"isdigit", (PyCFunction)unicode_isdigit, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_isdigit__doc__},
+    {unicode_isdigit_MethodName.name, (PyCFunction)unicode_isdigit, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_isdigit__doc__},
 
 static PyObject *
 unicode_isdigit_impl(PyObject *self);
@@ -672,8 +691,9 @@ PyDoc_STRVAR(unicode_isnumeric__doc__,
 "A string is numeric if all characters in the string are numeric and there is at\n"
 "least one character in the string.");
 
+static struct {char name[];} unicode_isnumeric_MethodName = {.name = "isnumeric",};
 #define UNICODE_ISNUMERIC_METHODDEF    \
-    {"isnumeric", (PyCFunction)unicode_isnumeric, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_isnumeric__doc__},
+    {unicode_isnumeric_MethodName.name, (PyCFunction)unicode_isnumeric, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_isnumeric__doc__},
 
 static PyObject *
 unicode_isnumeric_impl(PyObject *self);
@@ -693,8 +713,9 @@ PyDoc_STRVAR(unicode_isidentifier__doc__,
 "Call keyword.iskeyword(s) to test whether string s is a reserved identifier,\n"
 "such as \"def\" or \"class\".");
 
+static struct {char name[];} unicode_isidentifier_MethodName = {.name = "isidentifier",};
 #define UNICODE_ISIDENTIFIER_METHODDEF    \
-    {"isidentifier", (PyCFunction)unicode_isidentifier, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_isidentifier__doc__},
+    {unicode_isidentifier_MethodName.name, (PyCFunction)unicode_isidentifier, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_isidentifier__doc__},
 
 static PyObject *
 unicode_isidentifier_impl(PyObject *self);
@@ -713,8 +734,9 @@ PyDoc_STRVAR(unicode_isprintable__doc__,
 "\n"
 "A character is printable if repr() may use it in its output.");
 
+static struct {char name[];} unicode_isprintable_MethodName = {.name = "isprintable",};
 #define UNICODE_ISPRINTABLE_METHODDEF    \
-    {"isprintable", (PyCFunction)unicode_isprintable, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_isprintable__doc__},
+    {unicode_isprintable_MethodName.name, (PyCFunction)unicode_isprintable, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_isprintable__doc__},
 
 static PyObject *
 unicode_isprintable_impl(PyObject *self);
@@ -736,8 +758,9 @@ PyDoc_STRVAR(unicode_join__doc__,
 "\n"
 "Example: \'.\'.join([\'ab\', \'pq\', \'rs\']) -> \'ab.pq.rs\'");
 
+static struct {char name[];} unicode_join_MethodName = {.name = "join",};
 #define UNICODE_JOIN_METHODDEF    \
-    {"join", (PyCFunction)unicode_join, METH_O|METH_C_STACK_FRUGAL, unicode_join__doc__},
+    {unicode_join_MethodName.name, (PyCFunction)unicode_join, METH_O|METH_C_STACK_FRUGAL, unicode_join__doc__},
 
 PyDoc_STRVAR(unicode_ljust__doc__,
 "ljust($self, width, fillchar=\' \', /)\n"
@@ -747,8 +770,9 @@ PyDoc_STRVAR(unicode_ljust__doc__,
 "\n"
 "Padding is done using the specified fill character (default is a space).");
 
+static struct {char name[];} unicode_ljust_MethodName = {.name = "ljust",};
 #define UNICODE_LJUST_METHODDEF    \
-    {"ljust", _PyCFunction_CAST(unicode_ljust), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_ljust__doc__},
+    {unicode_ljust_MethodName.name, _PyCFunction_CAST(unicode_ljust), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_ljust__doc__},
 
 static PyObject *
 unicode_ljust_impl(PyObject *self, Py_ssize_t width, Py_UCS4 fillchar);
@@ -794,8 +818,9 @@ PyDoc_STRVAR(unicode_lower__doc__,
 "\n"
 "Return a copy of the string converted to lowercase.");
 
+static struct {char name[];} unicode_lower_MethodName = {.name = "lower",};
 #define UNICODE_LOWER_METHODDEF    \
-    {"lower", (PyCFunction)unicode_lower, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_lower__doc__},
+    {unicode_lower_MethodName.name, (PyCFunction)unicode_lower, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_lower__doc__},
 
 static PyObject *
 unicode_lower_impl(PyObject *self);
@@ -814,8 +839,9 @@ PyDoc_STRVAR(unicode_strip__doc__,
 "\n"
 "If chars is given and not None, remove characters in chars instead.");
 
+static struct {char name[];} unicode_strip_MethodName = {.name = "strip",};
 #define UNICODE_STRIP_METHODDEF    \
-    {"strip", _PyCFunction_CAST(unicode_strip), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_strip__doc__},
+    {unicode_strip_MethodName.name, _PyCFunction_CAST(unicode_strip), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_strip__doc__},
 
 static PyObject *
 unicode_strip_impl(PyObject *self, PyObject *chars);
@@ -848,8 +874,9 @@ PyDoc_STRVAR(unicode_lstrip__doc__,
 "\n"
 "If chars is given and not None, remove characters in chars instead.");
 
+static struct {char name[];} unicode_lstrip_MethodName = {.name = "lstrip",};
 #define UNICODE_LSTRIP_METHODDEF    \
-    {"lstrip", _PyCFunction_CAST(unicode_lstrip), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_lstrip__doc__},
+    {unicode_lstrip_MethodName.name, _PyCFunction_CAST(unicode_lstrip), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_lstrip__doc__},
 
 static PyObject *
 unicode_lstrip_impl(PyObject *self, PyObject *chars);
@@ -882,8 +909,9 @@ PyDoc_STRVAR(unicode_rstrip__doc__,
 "\n"
 "If chars is given and not None, remove characters in chars instead.");
 
+static struct {char name[];} unicode_rstrip_MethodName = {.name = "rstrip",};
 #define UNICODE_RSTRIP_METHODDEF    \
-    {"rstrip", _PyCFunction_CAST(unicode_rstrip), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_rstrip__doc__},
+    {unicode_rstrip_MethodName.name, _PyCFunction_CAST(unicode_rstrip), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_rstrip__doc__},
 
 static PyObject *
 unicode_rstrip_impl(PyObject *self, PyObject *chars);
@@ -921,8 +949,9 @@ PyDoc_STRVAR(unicode_replace__doc__,
 "If the optional argument count is given, only the first count occurrences are\n"
 "replaced.");
 
+static struct {char name[];} unicode_replace_MethodName = {.name = "replace",};
 #define UNICODE_REPLACE_METHODDEF    \
-    {"replace", _PyCFunction_CAST(unicode_replace), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, unicode_replace__doc__},
+    {unicode_replace_MethodName.name, _PyCFunction_CAST(unicode_replace), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, unicode_replace__doc__},
 
 static PyObject *
 unicode_replace_impl(PyObject *self, PyObject *old, PyObject *new,
@@ -1011,8 +1040,9 @@ PyDoc_STRVAR(unicode_removeprefix__doc__,
 "If the string starts with the prefix string, return string[len(prefix):].\n"
 "Otherwise, return a copy of the original string.");
 
+static struct {char name[];} unicode_removeprefix_MethodName = {.name = "removeprefix",};
 #define UNICODE_REMOVEPREFIX_METHODDEF    \
-    {"removeprefix", (PyCFunction)unicode_removeprefix, METH_O|METH_C_STACK_FRUGAL, unicode_removeprefix__doc__},
+    {unicode_removeprefix_MethodName.name, (PyCFunction)unicode_removeprefix, METH_O|METH_C_STACK_FRUGAL, unicode_removeprefix__doc__},
 
 static PyObject *
 unicode_removeprefix_impl(PyObject *self, PyObject *prefix);
@@ -1044,8 +1074,9 @@ PyDoc_STRVAR(unicode_removesuffix__doc__,
 "return string[:-len(suffix)]. Otherwise, return a copy of the original\n"
 "string.");
 
+static struct {char name[];} unicode_removesuffix_MethodName = {.name = "removesuffix",};
 #define UNICODE_REMOVESUFFIX_METHODDEF    \
-    {"removesuffix", (PyCFunction)unicode_removesuffix, METH_O|METH_C_STACK_FRUGAL, unicode_removesuffix__doc__},
+    {unicode_removesuffix_MethodName.name, (PyCFunction)unicode_removesuffix, METH_O|METH_C_STACK_FRUGAL, unicode_removesuffix__doc__},
 
 static PyObject *
 unicode_removesuffix_impl(PyObject *self, PyObject *suffix);
@@ -1076,8 +1107,9 @@ PyDoc_STRVAR(unicode_rfind__doc__,
 "Optional arguments start and end are interpreted as in slice notation.\n"
 "Return -1 on failure.");
 
+static struct {char name[];} unicode_rfind_MethodName = {.name = "rfind",};
 #define UNICODE_RFIND_METHODDEF    \
-    {"rfind", _PyCFunction_CAST(unicode_rfind), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_rfind__doc__},
+    {unicode_rfind_MethodName.name, _PyCFunction_CAST(unicode_rfind), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_rfind__doc__},
 
 static Py_ssize_t
 unicode_rfind_impl(PyObject *str, PyObject *substr, Py_ssize_t start,
@@ -1132,8 +1164,9 @@ PyDoc_STRVAR(unicode_rindex__doc__,
 "Optional arguments start and end are interpreted as in slice notation.\n"
 "Raises ValueError when the substring is not found.");
 
+static struct {char name[];} unicode_rindex_MethodName = {.name = "rindex",};
 #define UNICODE_RINDEX_METHODDEF    \
-    {"rindex", _PyCFunction_CAST(unicode_rindex), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_rindex__doc__},
+    {unicode_rindex_MethodName.name, _PyCFunction_CAST(unicode_rindex), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_rindex__doc__},
 
 static Py_ssize_t
 unicode_rindex_impl(PyObject *str, PyObject *substr, Py_ssize_t start,
@@ -1187,8 +1220,9 @@ PyDoc_STRVAR(unicode_rjust__doc__,
 "\n"
 "Padding is done using the specified fill character (default is a space).");
 
+static struct {char name[];} unicode_rjust_MethodName = {.name = "rjust",};
 #define UNICODE_RJUST_METHODDEF    \
-    {"rjust", _PyCFunction_CAST(unicode_rjust), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_rjust__doc__},
+    {unicode_rjust_MethodName.name, _PyCFunction_CAST(unicode_rjust), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_rjust__doc__},
 
 static PyObject *
 unicode_rjust_impl(PyObject *self, Py_ssize_t width, Py_UCS4 fillchar);
@@ -1250,8 +1284,9 @@ PyDoc_STRVAR(unicode_split__doc__,
 "delimited.  With natural text that includes punctuation, consider using\n"
 "the regular expression module.");
 
+static struct {char name[];} unicode_split_MethodName = {.name = "split",};
 #define UNICODE_SPLIT_METHODDEF    \
-    {"split", _PyCFunction_CAST(unicode_split), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, unicode_split__doc__},
+    {unicode_split_MethodName.name, _PyCFunction_CAST(unicode_split), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, unicode_split__doc__},
 
 static PyObject *
 unicode_split_impl(PyObject *self, PyObject *sep, Py_ssize_t maxsplit);
@@ -1338,8 +1373,9 @@ PyDoc_STRVAR(unicode_partition__doc__,
 "If the separator is not found, returns a 3-tuple containing the original string\n"
 "and two empty strings.");
 
+static struct {char name[];} unicode_partition_MethodName = {.name = "partition",};
 #define UNICODE_PARTITION_METHODDEF    \
-    {"partition", (PyCFunction)unicode_partition, METH_O|METH_C_STACK_FRUGAL, unicode_partition__doc__},
+    {unicode_partition_MethodName.name, (PyCFunction)unicode_partition, METH_O|METH_C_STACK_FRUGAL, unicode_partition__doc__},
 
 PyDoc_STRVAR(unicode_rpartition__doc__,
 "rpartition($self, sep, /)\n"
@@ -1354,8 +1390,9 @@ PyDoc_STRVAR(unicode_rpartition__doc__,
 "If the separator is not found, returns a 3-tuple containing two empty strings\n"
 "and the original string.");
 
+static struct {char name[];} unicode_rpartition_MethodName = {.name = "rpartition",};
 #define UNICODE_RPARTITION_METHODDEF    \
-    {"rpartition", (PyCFunction)unicode_rpartition, METH_O|METH_C_STACK_FRUGAL, unicode_rpartition__doc__},
+    {unicode_rpartition_MethodName.name, (PyCFunction)unicode_rpartition, METH_O|METH_C_STACK_FRUGAL, unicode_rpartition__doc__},
 
 PyDoc_STRVAR(unicode_rsplit__doc__,
 "rsplit($self, /, sep=None, maxsplit=-1)\n"
@@ -1375,8 +1412,9 @@ PyDoc_STRVAR(unicode_rsplit__doc__,
 "\n"
 "Splitting starts at the end of the string and works to the front.");
 
+static struct {char name[];} unicode_rsplit_MethodName = {.name = "rsplit",};
 #define UNICODE_RSPLIT_METHODDEF    \
-    {"rsplit", _PyCFunction_CAST(unicode_rsplit), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, unicode_rsplit__doc__},
+    {unicode_rsplit_MethodName.name, _PyCFunction_CAST(unicode_rsplit), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, unicode_rsplit__doc__},
 
 static PyObject *
 unicode_rsplit_impl(PyObject *self, PyObject *sep, Py_ssize_t maxsplit);
@@ -1459,8 +1497,9 @@ PyDoc_STRVAR(unicode_splitlines__doc__,
 "Line breaks are not included in the resulting list unless keepends is given and\n"
 "true.");
 
+static struct {char name[];} unicode_splitlines_MethodName = {.name = "splitlines",};
 #define UNICODE_SPLITLINES_METHODDEF    \
-    {"splitlines", _PyCFunction_CAST(unicode_splitlines), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, unicode_splitlines__doc__},
+    {unicode_splitlines_MethodName.name, _PyCFunction_CAST(unicode_splitlines), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, unicode_splitlines__doc__},
 
 static PyObject *
 unicode_splitlines_impl(PyObject *self, int keepends);
@@ -1525,8 +1564,9 @@ PyDoc_STRVAR(unicode_swapcase__doc__,
 "\n"
 "Convert uppercase characters to lowercase and lowercase characters to uppercase.");
 
+static struct {char name[];} unicode_swapcase_MethodName = {.name = "swapcase",};
 #define UNICODE_SWAPCASE_METHODDEF    \
-    {"swapcase", (PyCFunction)unicode_swapcase, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_swapcase__doc__},
+    {unicode_swapcase_MethodName.name, (PyCFunction)unicode_swapcase, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_swapcase__doc__},
 
 static PyObject *
 unicode_swapcase_impl(PyObject *self);
@@ -1551,8 +1591,9 @@ PyDoc_STRVAR(unicode_maketrans__doc__,
 "character at the same position in y. If there is a third argument, it\n"
 "must be a string, whose characters will be mapped to None in the result.");
 
+static struct {char name[];} unicode_maketrans_MethodName = {.name = "maketrans",};
 #define UNICODE_MAKETRANS_METHODDEF    \
-    {"maketrans", _PyCFunction_CAST(unicode_maketrans), METH_FASTCALL|METH_STATIC|METH_C_STACK_FRUGAL, unicode_maketrans__doc__},
+    {unicode_maketrans_MethodName.name, _PyCFunction_CAST(unicode_maketrans), METH_FASTCALL|METH_STATIC|METH_C_STACK_FRUGAL, unicode_maketrans__doc__},
 
 static PyObject *
 unicode_maketrans_impl(PyObject *x, PyObject *y, PyObject *z);
@@ -1606,8 +1647,9 @@ PyDoc_STRVAR(unicode_translate__doc__,
 "dictionary or list.  If this operation raises LookupError, the character is\n"
 "left untouched.  Characters mapped to None are deleted.");
 
+static struct {char name[];} unicode_translate_MethodName = {.name = "translate",};
 #define UNICODE_TRANSLATE_METHODDEF    \
-    {"translate", (PyCFunction)unicode_translate, METH_O|METH_C_STACK_FRUGAL, unicode_translate__doc__},
+    {unicode_translate_MethodName.name, (PyCFunction)unicode_translate, METH_O|METH_C_STACK_FRUGAL, unicode_translate__doc__},
 
 PyDoc_STRVAR(unicode_upper__doc__,
 "upper($self, /)\n"
@@ -1615,8 +1657,9 @@ PyDoc_STRVAR(unicode_upper__doc__,
 "\n"
 "Return a copy of the string converted to uppercase.");
 
+static struct {char name[];} unicode_upper_MethodName = {.name = "upper",};
 #define UNICODE_UPPER_METHODDEF    \
-    {"upper", (PyCFunction)unicode_upper, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_upper__doc__},
+    {unicode_upper_MethodName.name, (PyCFunction)unicode_upper, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_upper__doc__},
 
 static PyObject *
 unicode_upper_impl(PyObject *self);
@@ -1635,8 +1678,9 @@ PyDoc_STRVAR(unicode_zfill__doc__,
 "\n"
 "The string is never truncated.");
 
+static struct {char name[];} unicode_zfill_MethodName = {.name = "zfill",};
 #define UNICODE_ZFILL_METHODDEF    \
-    {"zfill", (PyCFunction)unicode_zfill, METH_O|METH_C_STACK_FRUGAL, unicode_zfill__doc__},
+    {unicode_zfill_MethodName.name, (PyCFunction)unicode_zfill, METH_O|METH_C_STACK_FRUGAL, unicode_zfill__doc__},
 
 static PyObject *
 unicode_zfill_impl(PyObject *self, Py_ssize_t width);
@@ -1678,8 +1722,9 @@ PyDoc_STRVAR(unicode_startswith__doc__,
 "  end\n"
 "    Optional stop position. Default: end of the string.");
 
+static struct {char name[];} unicode_startswith_MethodName = {.name = "startswith",};
 #define UNICODE_STARTSWITH_METHODDEF    \
-    {"startswith", _PyCFunction_CAST(unicode_startswith), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_startswith__doc__},
+    {unicode_startswith_MethodName.name, _PyCFunction_CAST(unicode_startswith), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_startswith__doc__},
 
 static PyObject *
 unicode_startswith_impl(PyObject *self, PyObject *subobj, Py_ssize_t start,
@@ -1729,8 +1774,9 @@ PyDoc_STRVAR(unicode_endswith__doc__,
 "  end\n"
 "    Optional stop position. Default: end of the string.");
 
+static struct {char name[];} unicode_endswith_MethodName = {.name = "endswith",};
 #define UNICODE_ENDSWITH_METHODDEF    \
-    {"endswith", _PyCFunction_CAST(unicode_endswith), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_endswith__doc__},
+    {unicode_endswith_MethodName.name, _PyCFunction_CAST(unicode_endswith), METH_FASTCALL|METH_C_STACK_FRUGAL, unicode_endswith__doc__},
 
 static PyObject *
 unicode_endswith_impl(PyObject *self, PyObject *subobj, Py_ssize_t start,
@@ -1773,8 +1819,9 @@ PyDoc_STRVAR(unicode___format____doc__,
 "\n"
 "Return a formatted version of the string as described by format_spec.");
 
+static struct {char name[];} unicode___format___MethodName = {.name = "__format__",};
 #define UNICODE___FORMAT___METHODDEF    \
-    {"__format__", (PyCFunction)unicode___format__, METH_O|METH_C_STACK_FRUGAL, unicode___format____doc__},
+    {unicode___format___MethodName.name, (PyCFunction)unicode___format__, METH_O|METH_C_STACK_FRUGAL, unicode___format____doc__},
 
 static PyObject *
 unicode___format___impl(PyObject *self, PyObject *format_spec);
@@ -1802,8 +1849,9 @@ PyDoc_STRVAR(unicode_sizeof__doc__,
 "\n"
 "Return the size of the string in memory, in bytes.");
 
+static struct {char name[];} unicode_sizeof_MethodName = {.name = "__sizeof__",};
 #define UNICODE_SIZEOF_METHODDEF    \
-    {"__sizeof__", (PyCFunction)unicode_sizeof, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_sizeof__doc__},
+    {unicode_sizeof_MethodName.name, (PyCFunction)unicode_sizeof, METH_NOARGS|METH_C_STACK_FRUGAL, unicode_sizeof__doc__},
 
 static PyObject *
 unicode_sizeof_impl(PyObject *self);
@@ -1908,4 +1956,4 @@ skip_optional_pos:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=ae4629d5623f2e75 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=1ad03467b570d6a2 input=a9049054013a1b77]*/

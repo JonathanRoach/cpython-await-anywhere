@@ -12,8 +12,9 @@ PyDoc_STRVAR(tuple_index__doc__,
 "\n"
 "Raises ValueError if the value is not present.");
 
+static struct {char name[];} tuple_index_MethodName = {.name = "index",};
 #define TUPLE_INDEX_METHODDEF    \
-    {"index", _PyCFunction_CAST(tuple_index), METH_FASTCALL|METH_C_STACK_FRUGAL, tuple_index__doc__},
+    {tuple_index_MethodName.name, _PyCFunction_CAST(tuple_index), METH_FASTCALL|METH_C_STACK_FRUGAL, tuple_index__doc__},
 
 static PyObject *
 tuple_index_impl(PyTupleObject *self, PyObject *value, Py_ssize_t start,
@@ -56,8 +57,9 @@ PyDoc_STRVAR(tuple_count__doc__,
 "\n"
 "Return number of occurrences of value.");
 
+static struct {char name[];} tuple_count_MethodName = {.name = "count",};
 #define TUPLE_COUNT_METHODDEF    \
-    {"count", (PyCFunction)tuple_count, METH_O|METH_C_STACK_FRUGAL, tuple_count__doc__},
+    {tuple_count_MethodName.name, (PyCFunction)tuple_count, METH_O|METH_C_STACK_FRUGAL, tuple_count__doc__},
 
 static PyObject *
 tuple_count_impl(PyTupleObject *self, PyObject *value);
@@ -116,8 +118,9 @@ PyDoc_STRVAR(tuple___getnewargs____doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} tuple___getnewargs___MethodName = {.name = "__getnewargs__",};
 #define TUPLE___GETNEWARGS___METHODDEF    \
-    {"__getnewargs__", (PyCFunction)tuple___getnewargs__, METH_NOARGS|METH_C_STACK_FRUGAL, tuple___getnewargs____doc__},
+    {tuple___getnewargs___MethodName.name, (PyCFunction)tuple___getnewargs__, METH_NOARGS|METH_C_STACK_FRUGAL, tuple___getnewargs____doc__},
 
 static PyObject *
 tuple___getnewargs___impl(PyTupleObject *self);
@@ -127,4 +130,4 @@ tuple___getnewargs__(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return tuple___getnewargs___impl((PyTupleObject *)self);
 }
-/*[clinic end generated code: output=c876d84cd90a4e51 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=4ab77a5c52c45476 input=a9049054013a1b77]*/

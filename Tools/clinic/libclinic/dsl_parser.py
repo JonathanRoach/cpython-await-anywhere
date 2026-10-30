@@ -293,6 +293,7 @@ class DSLParser:
         self.indent = IndentStack()
         self.kind = CALLABLE
         self.c_stack_frugal = False
+        self.c_inlineable = False
         self.coexist = False
         self.forced_text_signature = None
         self.parameter_continuation = ''
@@ -425,6 +426,11 @@ class DSLParser:
         if self.kind is not CALLABLE:
             fail("Can't set @c_stack_frugal, function is not a normal callable")
         self.c_stack_frugal = True
+
+    def at_c_inlineable(self) -> None:
+        if self.kind is not CALLABLE:
+            fail("Can't set @c_inlineable, function is not a normal callable")
+        self.c_inlineable = True
 
     def at_critical_section(self, *args: str) -> None:
         if len(args) > 2:
@@ -711,6 +717,7 @@ class DSLParser:
             return_converter=return_converter,
             kind=self.kind,
             c_stack_frugal=self.c_stack_frugal,
+            c_inlineable=self.c_inlineable,
             coexist=self.coexist,
             critical_section=self.critical_section,
             disable_fastcall=self.disable_fastcall,

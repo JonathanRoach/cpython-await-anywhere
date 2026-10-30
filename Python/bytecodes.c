@@ -409,11 +409,7 @@ dummy_func(
 
         inst(UNARY_NEGATIVE, (value -- res)) {
             _PyInterpreterFrame *inlined = frame;
-#if PY_ASYNC_BY_COROUTINE_C
             PyObject *res_o = PyNumber_Negative_Inlineable(PyStackRef_AsPyObjectBorrow(value), tstate->interp->eval_frame ? NULL : &inlined);
-#else
-            PyObject *res_o = PyNumber_Negative_Inlineable(PyStackRef_AsPyObjectBorrow(value), &inlined);
-#endif
             if ( inlined != frame ){
                 // Manipulate stack directly because we exit with DISPATCH_INLINED().
                 DECREF_INPUTS();
@@ -555,11 +551,7 @@ dummy_func(
 
         inst(UNARY_INVERT, (value -- res)) {
             _PyInterpreterFrame *inlined = frame;
-#if PY_ASYNC_BY_COROUTINE_C
             PyObject *res_o = PyNumber_Invert_Inlineable(PyStackRef_AsPyObjectBorrow(value), tstate->interp->eval_frame ? NULL : &inlined);
-#else
-            PyObject *res_o = PyNumber_Invert_Inlineable(PyStackRef_AsPyObjectBorrow(value), &inlined);
-#endif
             if ( inlined != frame ){
                 // Manipulate stack directly because we exit with DISPATCH_INLINED().
                 DECREF_INPUTS();
@@ -1118,11 +1110,7 @@ dummy_func(
         inst(CALL_INTRINSIC_1, (value -- res)) {
             assert(oparg <= MAX_INTRINSIC_1);
             _PyInterpreterFrame *inlined = frame;
-#if PY_ASYNC_BY_COROUTINE_C
             PyObject *res_o = _PyIntrinsics_UnaryFunctions[oparg].func(tstate, PyStackRef_AsPyObjectBorrow(value), tstate->interp->eval_frame ? NULL : &inlined);
-#else
-            PyObject *res_o = _PyIntrinsics_UnaryFunctions[oparg].func(tstate, PyStackRef_AsPyObjectBorrow(value), &inlined);
-#endif
             if ( inlined != frame ){
                 // Manipulate stack directly because we exit with DISPATCH_INLINED().
                 DECREF_INPUTS();
@@ -3960,11 +3948,19 @@ dummy_func(
                 DECREF_INPUTS();
                 ERROR_IF(true);
             }
-            PyObject *res_o = PyObject_Vectorcall(
+
+            _PyInterpreterFrame *inlined = frame;
+            PyObject *res_o = _PyObject_Vectorcall_Inlineable(
                 callable_o, args_o,
-                total_args | PY_VECTORCALL_ARGUMENTS_OFFSET,
-                NULL);
+                total_args | PY_VECTORCALL_ARGUMENTS_OFFSET, NULL,
+                tstate->interp->eval_frame ? NULL : &inlined);
             STACKREFS_TO_PYOBJECTS_CLEANUP(args_o);
+            if ( inlined != frame ){
+                // Manipulate stack directly because we exit with DISPATCH_INLINED().
+                DECREF_INPUTS();
+                frame->return_offset = INSTRUCTION_SIZE;
+                DISPATCH_INLINED(inlined);
+            }
             if (opcode == INSTRUMENTED_CALL) {
                 PyObject *arg = total_args == 0 ?
                     &_PyInstrumentation_MISSING : PyStackRef_AsPyObjectBorrow(arguments[0]);
@@ -5313,11 +5309,7 @@ dummy_func(
 
             _PyInterpreterFrame *inlined = frame;
             assert(_PyEval_BinaryOps[oparg]);
-#if PY_ASYNC_BY_COROUTINE_C
             PyObject *res_o = _PyEval_BinaryOps[oparg](lhs_o, rhs_o, tstate->interp->eval_frame ? NULL : &inlined);
-#else
-            PyObject *res_o = _PyEval_BinaryOps[oparg](lhs_o, rhs_o, &inlined);
-#endif
             if ( inlined != frame ){
                 // Manipulate stack directly because we exit with DISPATCH_INLINED().
                 DECREF_INPUTS();

@@ -14,8 +14,9 @@ PyDoc_STRVAR(complex_conjugate__doc__,
 "\n"
 "Return the complex conjugate of its argument. (3-4j).conjugate() == 3+4j.");
 
+static struct {char name[];} complex_conjugate_MethodName = {.name = "conjugate",};
 #define COMPLEX_CONJUGATE_METHODDEF    \
-    {"conjugate", (PyCFunction)complex_conjugate, METH_NOARGS|METH_C_STACK_FRUGAL, complex_conjugate__doc__},
+    {complex_conjugate_MethodName.name, (PyCFunction)complex_conjugate, METH_NOARGS|METH_C_STACK_FRUGAL, complex_conjugate__doc__},
 
 static PyObject *
 complex_conjugate_impl(PyComplexObject *self);
@@ -31,8 +32,9 @@ PyDoc_STRVAR(complex___getnewargs____doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} complex___getnewargs___MethodName = {.name = "__getnewargs__",};
 #define COMPLEX___GETNEWARGS___METHODDEF    \
-    {"__getnewargs__", (PyCFunction)complex___getnewargs__, METH_NOARGS|METH_C_STACK_FRUGAL, complex___getnewargs____doc__},
+    {complex___getnewargs___MethodName.name, (PyCFunction)complex___getnewargs__, METH_NOARGS|METH_C_STACK_FRUGAL, complex___getnewargs____doc__},
 
 static PyObject *
 complex___getnewargs___impl(PyComplexObject *self);
@@ -49,8 +51,9 @@ PyDoc_STRVAR(complex___format____doc__,
 "\n"
 "Convert to a string according to format_spec.");
 
+static struct {char name[];} complex___format___MethodName = {.name = "__format__",};
 #define COMPLEX___FORMAT___METHODDEF    \
-    {"__format__", (PyCFunction)complex___format__, METH_O|METH_C_STACK_FRUGAL, complex___format____doc__},
+    {complex___format___MethodName.name, (PyCFunction)complex___format__, METH_O|METH_C_STACK_FRUGAL, complex___format____doc__},
 
 static PyObject *
 complex___format___impl(PyComplexObject *self, PyObject *format_spec);
@@ -78,8 +81,9 @@ PyDoc_STRVAR(complex___complex____doc__,
 "\n"
 "Convert this value to exact type complex.");
 
+static struct {char name[];} complex___complex___MethodName = {.name = "__complex__",};
 #define COMPLEX___COMPLEX___METHODDEF    \
-    {"__complex__", (PyCFunction)complex___complex__, METH_NOARGS|METH_C_STACK_FRUGAL, complex___complex____doc__},
+    {complex___complex___MethodName.name, (PyCFunction)complex___complex__, METH_NOARGS|METH_C_STACK_FRUGAL, complex___complex____doc__},
 
 static PyObject *
 complex___complex___impl(PyComplexObject *self);
@@ -170,8 +174,9 @@ PyDoc_STRVAR(complex_from_number__doc__,
 "\n"
 "Convert number to a complex floating-point number.");
 
+static struct {char name[];} complex_from_number_MethodName = {.name = "from_number",};
 #define COMPLEX_FROM_NUMBER_METHODDEF    \
-    {"from_number", (PyCFunction)complex_from_number, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, complex_from_number__doc__},
+    {complex_from_number_MethodName.name, (PyCFunction)complex_from_number, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, complex_from_number__doc__},
 
 static PyObject *
 complex_from_number_impl(PyTypeObject *type, PyObject *number);
@@ -185,4 +190,4 @@ complex_from_number(PyObject *type, PyObject *number)
 
     return return_value;
 }
-/*[clinic end generated code: output=c4abbf6e978051cc input=a9049054013a1b77]*/
+/*[clinic end generated code: output=7ec01113cab47b43 input=a9049054013a1b77]*/
