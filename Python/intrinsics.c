@@ -12,19 +12,20 @@
 #include "pycore_tuple.h"         // _PyTuple_FromArray()
 #include "pycore_typevarobject.h" // _Py_make_typevar()
 #include "pycore_unicodeobject.h" // _PyUnicode_FromASCII()
+#include "pycore_abstract.h"      // PyNumber_Positive_Inlineable()
 
 
 /******** Unary functions ********/
 
 static PyObject *
-no_intrinsic1(PyThreadState* tstate, PyObject *unused)
+no_intrinsic1(PyThreadState* tstate, PyObject *unused, struct _PyInterpreterFrame **Py_UNUSED(inlined))
 {
     _PyErr_SetString(tstate, PyExc_SystemError, "invalid intrinsic function");
     return NULL;
 }
 
 static PyObject *
-print_expr(PyThreadState* Py_UNUSED(ignored), PyObject *value)
+print_expr(PyThreadState* Py_UNUSED(ignored), PyObject *value, struct _PyInterpreterFrame **Py_UNUSED(inlined))
 {
     PyObject *hook = PySys_GetAttr(&_Py_ID(displayhook));
     if (hook == NULL) {
@@ -120,7 +121,7 @@ import_all_from(PyThreadState *tstate, PyObject *locals, PyObject *v)
 }
 
 static PyObject *
-import_star(PyThreadState* tstate, PyObject *from)
+import_star(PyThreadState* tstate, PyObject *from, struct _PyInterpreterFrame **Py_UNUSED(inlined))
 {
     _PyInterpreterFrame *frame = tstate->current_frame;
 
@@ -139,7 +140,7 @@ import_star(PyThreadState* tstate, PyObject *from)
 }
 
 static PyObject *
-stopiteration_error(PyThreadState* tstate, PyObject *exc)
+stopiteration_error(PyThreadState* tstate, PyObject *exc, struct _PyInterpreterFrame **Py_UNUSED(inlined))
 {
     _PyInterpreterFrame *frame = tstate->current_frame;
     assert(frame->owner == FRAME_OWNED_BY_GENERATOR);
@@ -183,20 +184,20 @@ stopiteration_error(PyThreadState* tstate, PyObject *exc)
 }
 
 static PyObject *
-unary_pos(PyThreadState* unused, PyObject *value)
+unary_pos(PyThreadState* unused, PyObject *value, struct _PyInterpreterFrame **inlined)
 {
-    return PyNumber_Positive(value);
+    return PyNumber_Positive_Inlineable(value, inlined);
 }
 
 static PyObject *
-list_to_tuple(PyThreadState* unused, PyObject *v)
+list_to_tuple(PyThreadState* unused, PyObject *v, struct _PyInterpreterFrame **Py_UNUSED(inlined))
 {
     assert(PyList_Check(v));
     return _PyTuple_FromArray(((PyListObject *)v)->ob_item, Py_SIZE(v));
 }
 
 static PyObject *
-make_typevar(PyThreadState* Py_UNUSED(ignored), PyObject *v)
+make_typevar(PyThreadState* Py_UNUSED(ignored), PyObject *v, struct _PyInterpreterFrame **Py_UNUSED(inlined))
 {
     assert(PyUnicode_Check(v));
     return _Py_make_typevar(v, NULL, NULL);
@@ -204,7 +205,8 @@ make_typevar(PyThreadState* Py_UNUSED(ignored), PyObject *v)
 
 
 #define INTRINSIC_FUNC_ENTRY(N, F) \
-    [N] = {F, #N},
+    [N].func = F, \
+    [N].name = #N,
 
 const intrinsic_func1_info
 _PyIntrinsics_UnaryFunctions[] = {

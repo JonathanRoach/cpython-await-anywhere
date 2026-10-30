@@ -2953,7 +2953,7 @@ PyTypeObject _PyAsyncGenWrappedValue_Type = {
 
 
 PyObject *
-_PyAsyncGenValueWrapperNew(PyThreadState *tstate, PyObject *val)
+_PyAsyncGenValueWrapperNew(PyThreadState *tstate, PyObject *val, struct _PyInterpreterFrame **Py_UNUSED(inlined))
 {
     assert(val);
 

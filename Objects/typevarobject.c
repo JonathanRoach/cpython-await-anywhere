@@ -1900,14 +1900,14 @@ _Py_make_typevar(PyObject *name, PyObject *evaluate_bound, PyObject *evaluate_co
 }
 
 PyObject *
-_Py_make_paramspec(PyThreadState *Py_UNUSED(ignored), PyObject *v)
+_Py_make_paramspec(PyThreadState *Py_UNUSED(ignored), PyObject *v, struct _PyInterpreterFrame **Py_UNUSED(inlined))
 {
     assert(PyUnicode_Check(v));
     return (PyObject *)paramspec_alloc(v, NULL, NULL, false, false, true, NULL);
 }
 
 PyObject *
-_Py_make_typevartuple(PyThreadState *Py_UNUSED(ignored), PyObject *v)
+_Py_make_typevartuple(PyThreadState *Py_UNUSED(ignored), PyObject *v, struct _PyInterpreterFrame **Py_UNUSED(inlined))
 {
     assert(PyUnicode_Check(v));
     return (PyObject *)typevartuple_alloc(v, NULL, NULL);
@@ -2270,7 +2270,7 @@ PyTypeObject _PyTypeAlias_Type = {
 };
 
 PyObject *
-_Py_make_typealias(PyThreadState* unused, PyObject *args)
+_Py_make_typealias(PyThreadState* unused, PyObject *args, struct _PyInterpreterFrame **Py_UNUSED(inlined))
 {
     assert(PyTuple_Check(args));
     assert(PyTuple_GET_SIZE(args) == 3);
@@ -2367,7 +2367,7 @@ generic_class_getitem(PyObject *cls, PyObject *args, PyObject *kwargs)
 }
 
 PyObject *
-_Py_subscript_generic(PyThreadState* unused, PyObject *params)
+_Py_subscript_generic(PyThreadState* unused, PyObject *params, struct _PyInterpreterFrame **Py_UNUSED(inlined))
 {
     params = unpack_typevartuples(params);
 

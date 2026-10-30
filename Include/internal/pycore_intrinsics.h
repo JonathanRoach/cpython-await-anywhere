@@ -32,7 +32,7 @@
 
 #define MAX_INTRINSIC_2                          5
 
-typedef PyObject *(*intrinsic_func1)(PyThreadState* tstate, PyObject *value);
+typedef PyObject *(*intrinsic_func1)(PyThreadState* tstate, PyObject *value, struct _PyInterpreterFrame **inlined);
 typedef PyObject *(*intrinsic_func2)(PyThreadState* tstate, PyObject *value1, PyObject *value2);
 
 typedef struct {

@@ -10266,10 +10266,16 @@ add_tp_new_wrapper(PyTypeObject *type)
 
 #define SLOT0(FUNCNAME, DUNDER) \
 static PyObject * \
-FUNCNAME(PyObject *self) \
+FUNCNAME##_Inlineable(PyObject *self, struct _PyInterpreterFrame **inlined) \
 { \
     PyObject* stack[1] = {self}; \
-    return vectorcall_method(&_Py_ID(DUNDER), stack, 1, NULL); \
+    return vectorcall_method(&_Py_ID(DUNDER), stack, 1, inlined); \
+} \
+ \
+static PyObject * \
+FUNCNAME(PyObject *self) \
+{ \
+    return FUNCNAME##_Inlineable(self, NULL); \
 }
 
 #define SLOT1(FUNCNAME, DUNDER, ARG1TYPE) \
@@ -11476,6 +11482,9 @@ an all-zero entry.
 #define UNSLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
     ETSLOT(NAME, as_number.SLOT, FUNCTION, WRAPPER, \
            #NAME "($self, /)\n--\n\n" DOC)
+#define UNISLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
+    ETISLOT(NAME, as_number.SLOT, FUNCTION, WRAPPER, \
+           #NAME "($self, /)\n--\n\n" DOC)
 #define IBISLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
     ETISLOT(NAME, as_number.SLOT, FUNCTION, WRAPPER, \
            #NAME "($self, value, /)\n--\n\nReturn self" DOC "value.")
@@ -11589,13 +11598,13 @@ static pytype_slotdef slotdefs[] = {
            "__pow__($self, value, mod=None, /)\n--\n\nReturn pow(self, value, mod)."),
     NBISLOT(__rpow__, nb_power, _PyType_Slot_nb_power, wrap_ternaryfunc_r,
            "__rpow__($self, value, mod=None, /)\n--\n\nReturn pow(value, self, mod)."),
-    UNSLOT(__neg__, nb_negative, slot_nb_negative, wrap_unaryfunc, "-self"),
-    UNSLOT(__pos__, nb_positive, slot_nb_positive, wrap_unaryfunc, "+self"),
+    UNISLOT(__neg__, nb_negative, slot_nb_negative, wrap_unaryfunc, "-self"),
+    UNISLOT(__pos__, nb_positive, slot_nb_positive, wrap_unaryfunc, "+self"),
     UNSLOT(__abs__, nb_absolute, slot_nb_absolute, wrap_unaryfunc,
            "abs(self)"),
     UNSLOT(__bool__, nb_bool, slot_nb_bool, wrap_inquirypred,
            "True if self else False"),
-    UNSLOT(__invert__, nb_invert, slot_nb_invert, wrap_unaryfunc, "~self"),
+    UNISLOT(__invert__, nb_invert, slot_nb_invert, wrap_unaryfunc, "~self"),
     BINSLOT(__lshift__, nb_lshift, _PyType_Slot_nb_lshift, "<<"),
     RBINSLOT(__rlshift__, nb_lshift, _PyType_Slot_nb_lshift, "<<"),
     BINSLOT(__rshift__, nb_rshift, _PyType_Slot_nb_rshift, ">>"),

@@ -2740,9 +2740,28 @@
             _PyStackRef res;
             value = stack_pointer[-1];
             assert(oparg <= MAX_INTRINSIC_1);
+            _PyInterpreterFrame *inlined = frame;
+            #if PY_ASYNC_BY_COROUTINE_C
             _PyFrame_SetStackPointer(frame, stack_pointer);
-            PyObject *res_o = _PyIntrinsics_UnaryFunctions[oparg].func(tstate, PyStackRef_AsPyObjectBorrow(value));
+            PyObject *res_o = _PyIntrinsics_UnaryFunctions[oparg].func(tstate, PyStackRef_AsPyObjectBorrow(value), tstate->interp->eval_frame ? NULL : &inlined);
             stack_pointer = _PyFrame_GetStackPointer(frame);
+            #else
+            _PyFrame_SetStackPointer(frame, stack_pointer);
+            PyObject *res_o = _PyIntrinsics_UnaryFunctions[oparg].func(tstate, PyStackRef_AsPyObjectBorrow(value), &inlined);
+            stack_pointer = _PyFrame_GetStackPointer(frame);
+            #endif
+            if ( inlined != frame ){
+                _PyFrame_SetStackPointer(frame, stack_pointer);
+                _PyStackRef tmp = value;
+                value = PyStackRef_NULL;
+                stack_pointer[-1] = value;
+                PyStackRef_CLOSE(tmp);
+                stack_pointer = _PyFrame_GetStackPointer(frame);
+                stack_pointer += -1;
+                assert(WITHIN_STACK_BOUNDS());
+                frame->return_offset = 1 ;
+                DISPATCH_INLINED(inlined);
+            }
             stack_pointer += -1;
             assert(WITHIN_STACK_BOUNDS());
             _PyFrame_SetStackPointer(frame, stack_pointer);
@@ -12214,9 +12233,28 @@
             _PyStackRef value;
             _PyStackRef res;
             value = stack_pointer[-1];
+            _PyInterpreterFrame *inlined = frame;
+            #if PY_ASYNC_BY_COROUTINE_C
             _PyFrame_SetStackPointer(frame, stack_pointer);
-            PyObject *res_o = PyNumber_Invert(PyStackRef_AsPyObjectBorrow(value));
+            PyObject *res_o = PyNumber_Invert_Inlineable(PyStackRef_AsPyObjectBorrow(value), tstate->interp->eval_frame ? NULL : &inlined);
             stack_pointer = _PyFrame_GetStackPointer(frame);
+            #else
+            _PyFrame_SetStackPointer(frame, stack_pointer);
+            PyObject *res_o = PyNumber_Invert_Inlineable(PyStackRef_AsPyObjectBorrow(value), &inlined);
+            stack_pointer = _PyFrame_GetStackPointer(frame);
+            #endif
+            if ( inlined != frame ){
+                _PyFrame_SetStackPointer(frame, stack_pointer);
+                _PyStackRef tmp = value;
+                value = PyStackRef_NULL;
+                stack_pointer[-1] = value;
+                PyStackRef_CLOSE(tmp);
+                stack_pointer = _PyFrame_GetStackPointer(frame);
+                stack_pointer += -1;
+                assert(WITHIN_STACK_BOUNDS());
+                frame->return_offset = 1 ;
+                DISPATCH_INLINED(inlined);
+            }
             stack_pointer += -1;
             assert(WITHIN_STACK_BOUNDS());
             _PyFrame_SetStackPointer(frame, stack_pointer);
@@ -12243,9 +12281,28 @@
             _PyStackRef value;
             _PyStackRef res;
             value = stack_pointer[-1];
+            _PyInterpreterFrame *inlined = frame;
+            #if PY_ASYNC_BY_COROUTINE_C
             _PyFrame_SetStackPointer(frame, stack_pointer);
-            PyObject *res_o = PyNumber_Negative(PyStackRef_AsPyObjectBorrow(value));
+            PyObject *res_o = PyNumber_Negative_Inlineable(PyStackRef_AsPyObjectBorrow(value), tstate->interp->eval_frame ? NULL : &inlined);
             stack_pointer = _PyFrame_GetStackPointer(frame);
+            #else
+            _PyFrame_SetStackPointer(frame, stack_pointer);
+            PyObject *res_o = PyNumber_Negative_Inlineable(PyStackRef_AsPyObjectBorrow(value), &inlined);
+            stack_pointer = _PyFrame_GetStackPointer(frame);
+            #endif
+            if ( inlined != frame ){
+                _PyFrame_SetStackPointer(frame, stack_pointer);
+                _PyStackRef tmp = value;
+                value = PyStackRef_NULL;
+                stack_pointer[-1] = value;
+                PyStackRef_CLOSE(tmp);
+                stack_pointer = _PyFrame_GetStackPointer(frame);
+                stack_pointer += -1;
+                assert(WITHIN_STACK_BOUNDS());
+                frame->return_offset = 1 ;
+                DISPATCH_INLINED(inlined);
+            }
             stack_pointer += -1;
             assert(WITHIN_STACK_BOUNDS());
             _PyFrame_SetStackPointer(frame, stack_pointer);

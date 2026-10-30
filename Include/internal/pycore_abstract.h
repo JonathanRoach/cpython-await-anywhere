@@ -16,6 +16,13 @@ _PyIndex_Check(PyObject *obj)
     return (tp_as_number != NULL && tp_as_number->nb_index != NULL);
 }
 
+// Inlineable unary ops
+PyObject * PyNumber_Negative_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined);
+PyObject * PyNumber_Positive_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined);
+PyObject * PyNumber_Invert_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined);
+PyObject * PyNumber_Absolute_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined);
+
+// Inlineable binary ops
 PyObject *_PyNumber_Add_Inlineable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
 PyObject *_PyNumber_And_Inlineable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
 PyObject *_PyNumber_FloorDivide_Inlineable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);

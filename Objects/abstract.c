@@ -2001,21 +2001,31 @@ _PyNumber_InPlacePowerNoMod_Inlineable(PyObject *lhs, PyObject *rhs, struct _PyI
 
 /* Unary operators and functions */
 
-#define UNARY_FUNC(func, op, meth_name, descr)                           \
-    PyObject *                                                           \
-    func(PyObject *o) {                                                  \
-        if (o == NULL) {                                                 \
-            return null_error();                                         \
-        }                                                                \
-                                                                         \
-        PyNumberMethods *m = Py_TYPE(o)->tp_as_number;                   \
-        if (m && m->op) {                                                \
-            PyObject *res = (*m->op)(o);                                 \
-            assert(_Py_CheckSlotResult(o, #meth_name, res != NULL));     \
-            return res;                                                  \
-        }                                                                \
-                                                                         \
-        return type_error("bad operand type for "descr": '%.200s'", o);  \
+#define UNARY_FUNC(func, op, meth_name, descr) \
+    PyObject * \
+    func##_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined) { \
+        if (o == NULL) { \
+            return null_error(); \
+        } \
+ \
+        PyTypeObject *tp = Py_TYPE(o); \
+        PyNumberMethods *m = tp->tp_as_number; \
+        if (m && m->op) { \
+            if (PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) && m->op##_inlineable){ \
+                return PyType_Call_##op##_inlineable(tp, o, inlined); \
+            } else { \
+                PyObject *res = PyType_Call_##op(tp, o); \
+                assert(_Py_CheckSlotResult(o, #meth_name, res != NULL)); \
+                return res; \
+            } \
+        } \
+ \
+        return type_error("bad operand type for "descr": '%.200s'", o); \
+    } \
+ \
+    PyObject * \
+    func(PyObject *o) { \
+        return func##_Inlineable(o, NULL); \
     }
 
 UNARY_FUNC(PyNumber_Negative, nb_negative, __neg__, "unary -")
