@@ -429,12 +429,13 @@ class ClinicWholeFileTest(TestCase):
             "--\\n"
             "\\n");
 
+            static struct {char name[];} fn_MethodName = {.name = "fn",};
             #define FN_METHODDEF    \\
-                {"fn", (PyCFunction)fn, METH_O, fn__doc__},
+                {fn_MethodName.name, (PyCFunction)fn, METH_O, fn__doc__},
 
             static PyObject *
             fn(PyObject *module, PyObject *a)
-            /*[clinic end generated code: output=be6798b148ab4e53 input=524ce2e021e4eba6]*/
+            /*[clinic end generated code: output=564a5b4455c0fea1 input=524ce2e021e4eba6]*/
         """)
         block = dedent("""
             /*[clinic input]
@@ -2656,6 +2657,8 @@ class ClinicExternalTest(TestCase):
         with open(TESTFN, encoding='utf-8') as f:
             new_contents = f.read()
 
+        with open(source+'.c', encoding='utf-8', mode='w') as f:
+            f.write(new_contents)
         self.assertEqual(new_contents, orig_contents)
 
     def test_no_change(self):
@@ -2710,7 +2713,7 @@ class ClinicExternalTest(TestCase):
             # Verify by checking the checksum.
             checksum = (
                 "/*[clinic end generated code: "
-                "output=a2957bc4d43a3c2f input=9543a8d2da235301]*/\n"
+                "output=1e3b035227485b95 input=9543a8d2da235301]*/\n"
             )
             with open(fn, encoding='utf-8') as f:
                 generated = f.read()
@@ -2926,12 +2929,13 @@ class ClinicExternalTest(TestCase):
             "--\\n"
             "\\n");
 
+            static struct {char name[];} func_MethodName = {.name = "func",};
             #define FUNC_METHODDEF    \\
-                {"func", (PyCFunction)func, METH_O, func__doc__},
+                {func_MethodName.name, (PyCFunction)func, METH_O, func__doc__},
 
             static PyObject *
             func(PyObject *module, PyObject *a)
-            /*[clinic end generated code: output=3dde2d13002165b9 input=a9049054013a1b77]*/
+            /*[clinic end generated code: output=5bc1e4d232acf5c7 input=a9049054013a1b77]*/
         """)
         with os_helper.temp_dir() as tmp_dir:
             in_fn = os.path.join(tmp_dir, "test.c")
@@ -4331,6 +4335,7 @@ class ClinicReprTests(unittest.TestCase):
             return_converter=int_return_converter(),
             kind=FunctionKind.METHOD_INIT,
             c_stack_frugal=False,
+            c_inlineable=False,
             coexist=False
         )
         self.assertEqual(repr(function), "<clinic.Function 'foo'>")

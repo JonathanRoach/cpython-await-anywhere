@@ -26,8 +26,9 @@ PyDoc_STRVAR(test_object_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_object_converter_MethodName = {.name = "test_object_converter",};
 #define TEST_OBJECT_CONVERTER_METHODDEF    \
-    {"test_object_converter", _PyCFunction_CAST(test_object_converter), METH_FASTCALL, test_object_converter__doc__},
+    {test_object_converter_MethodName.name, _PyCFunction_CAST(test_object_converter), METH_FASTCALL, test_object_converter__doc__},
 
 static PyObject *
 test_object_converter_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -64,7 +65,7 @@ exit:
 static PyObject *
 test_object_converter_impl(PyObject *module, PyObject *a, PyObject *b,
                            PyObject *c, PyUnicode_Object *d)
-/*[clinic end generated code: output=886f4f9b598726b6 input=005e6a8a711a869b]*/
+/*[clinic end generated code: output=ce10ea8ee66413b1 input=005e6a8a711a869b]*/
 
 
 /*[clinic input]
@@ -78,8 +79,9 @@ PyDoc_STRVAR(cloned__doc__,
 "\n"
 "Check the clone feature.");
 
+static struct {char name[];} cloned_MethodName = {.name = "cloned",};
 #define CLONED_METHODDEF    \
-    {"cloned", _PyCFunction_CAST(cloned), METH_FASTCALL, cloned__doc__},
+    {cloned_MethodName.name, _PyCFunction_CAST(cloned), METH_FASTCALL, cloned__doc__},
 
 static PyObject *
 cloned_impl(PyObject *module, PyObject *a, PyObject *b, PyObject *c,
@@ -116,7 +118,7 @@ exit:
 static PyObject *
 cloned_impl(PyObject *module, PyObject *a, PyObject *b, PyObject *c,
             PyUnicode_Object *d)
-/*[clinic end generated code: output=026b483e27c38065 input=0543614019d6fcc7]*/
+/*[clinic end generated code: output=dce71ef498f16c86 input=0543614019d6fcc7]*/
 
 
 /*[clinic input]
@@ -132,12 +134,13 @@ PyDoc_STRVAR(test_object_converter_one_arg__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_object_converter_one_arg_MethodName = {.name = "test_object_converter_one_arg",};
 #define TEST_OBJECT_CONVERTER_ONE_ARG_METHODDEF    \
-    {"test_object_converter_one_arg", (PyCFunction)test_object_converter_one_arg, METH_O, test_object_converter_one_arg__doc__},
+    {test_object_converter_one_arg_MethodName.name, (PyCFunction)test_object_converter_one_arg, METH_O, test_object_converter_one_arg__doc__},
 
 static PyObject *
 test_object_converter_one_arg(PyObject *module, PyObject *a)
-/*[clinic end generated code: output=6da755f8502139df input=d635d92a421f1ca3]*/
+/*[clinic end generated code: output=4d77a55824a2c6c9 input=d635d92a421f1ca3]*/
 
 
 /*[clinic input]
@@ -154,8 +157,9 @@ PyDoc_STRVAR(test_objects_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_objects_converter_MethodName = {.name = "test_objects_converter",};
 #define TEST_OBJECTS_CONVERTER_METHODDEF    \
-    {"test_objects_converter", _PyCFunction_CAST(test_objects_converter), METH_FASTCALL, test_objects_converter__doc__},
+    {test_objects_converter_MethodName.name, _PyCFunction_CAST(test_objects_converter), METH_FASTCALL, test_objects_converter__doc__},
 
 static PyObject *
 test_objects_converter_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -184,7 +188,7 @@ exit:
 
 static PyObject *
 test_objects_converter_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=fc26328b79d46bb7 input=4cbb3d9edd2a36f3]*/
+/*[clinic end generated code: output=5e34689e1a255cf4 input=4cbb3d9edd2a36f3]*/
 
 
 /*[clinic input]
@@ -210,8 +214,9 @@ PyDoc_STRVAR(test_object_converter_subclass_of__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_object_converter_subclass_of_MethodName = {.name = "test_object_converter_subclass_of",};
 #define TEST_OBJECT_CONVERTER_SUBCLASS_OF_METHODDEF    \
-    {"test_object_converter_subclass_of", _PyCFunction_CAST(test_object_converter_subclass_of), METH_FASTCALL, test_object_converter_subclass_of__doc__},
+    {test_object_converter_subclass_of_MethodName.name, _PyCFunction_CAST(test_object_converter_subclass_of), METH_FASTCALL, test_object_converter_subclass_of__doc__},
 
 static PyObject *
 test_object_converter_subclass_of_impl(PyObject *module, PyObject *a,
@@ -298,7 +303,7 @@ test_object_converter_subclass_of_impl(PyObject *module, PyObject *a,
                                        PyObject *b, PyObject *c, PyObject *d,
                                        PyObject *e, PyObject *f, PyObject *g,
                                        PyObject *h, PyObject *i, PyObject *j)
-/*[clinic end generated code: output=e4b07c9a54479a40 input=31b06b772d5f983e]*/
+/*[clinic end generated code: output=ec6362f787b90b26 input=31b06b772d5f983e]*/
 
 
 /*[clinic input]
@@ -314,8 +319,9 @@ PyDoc_STRVAR(test_PyBytesObject_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_PyBytesObject_converter_MethodName = {.name = "test_PyBytesObject_converter",};
 #define TEST_PYBYTESOBJECT_CONVERTER_METHODDEF    \
-    {"test_PyBytesObject_converter", (PyCFunction)test_PyBytesObject_converter, METH_O, test_PyBytesObject_converter__doc__},
+    {test_PyBytesObject_converter_MethodName.name, (PyCFunction)test_PyBytesObject_converter, METH_O, test_PyBytesObject_converter__doc__},
 
 static PyObject *
 test_PyBytesObject_converter_impl(PyObject *module, PyBytesObject *a);
@@ -339,7 +345,7 @@ exit:
 
 static PyObject *
 test_PyBytesObject_converter_impl(PyObject *module, PyBytesObject *a)
-/*[clinic end generated code: output=7539d628e6fceace input=12b10c7cb5750400]*/
+/*[clinic end generated code: output=0b855538b4ba876d input=12b10c7cb5750400]*/
 
 
 /*[clinic input]
@@ -355,8 +361,9 @@ PyDoc_STRVAR(test_PyByteArrayObject_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_PyByteArrayObject_converter_MethodName = {.name = "test_PyByteArrayObject_converter",};
 #define TEST_PYBYTEARRAYOBJECT_CONVERTER_METHODDEF    \
-    {"test_PyByteArrayObject_converter", (PyCFunction)test_PyByteArrayObject_converter, METH_O, test_PyByteArrayObject_converter__doc__},
+    {test_PyByteArrayObject_converter_MethodName.name, (PyCFunction)test_PyByteArrayObject_converter, METH_O, test_PyByteArrayObject_converter__doc__},
 
 static PyObject *
 test_PyByteArrayObject_converter_impl(PyObject *module, PyByteArrayObject *a);
@@ -380,7 +387,7 @@ exit:
 
 static PyObject *
 test_PyByteArrayObject_converter_impl(PyObject *module, PyByteArrayObject *a)
-/*[clinic end generated code: output=1245af9f5b3e355e input=5a657da535d194ae]*/
+/*[clinic end generated code: output=9cd16843d358893c input=5a657da535d194ae]*/
 
 
 /*[clinic input]
@@ -396,8 +403,9 @@ PyDoc_STRVAR(test_unicode_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_unicode_converter_MethodName = {.name = "test_unicode_converter",};
 #define TEST_UNICODE_CONVERTER_METHODDEF    \
-    {"test_unicode_converter", (PyCFunction)test_unicode_converter, METH_O, test_unicode_converter__doc__},
+    {test_unicode_converter_MethodName.name, (PyCFunction)test_unicode_converter, METH_O, test_unicode_converter__doc__},
 
 static PyObject *
 test_unicode_converter_impl(PyObject *module, PyObject *a);
@@ -421,7 +429,7 @@ exit:
 
 static PyObject *
 test_unicode_converter_impl(PyObject *module, PyObject *a)
-/*[clinic end generated code: output=8c1625cc272c1f3d input=aa33612df92aa9c5]*/
+/*[clinic end generated code: output=5f7e026ff2f46809 input=aa33612df92aa9c5]*/
 
 
 /*[clinic input]
@@ -439,8 +447,9 @@ PyDoc_STRVAR(test_bool_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_bool_converter_MethodName = {.name = "test_bool_converter",};
 #define TEST_BOOL_CONVERTER_METHODDEF    \
-    {"test_bool_converter", _PyCFunction_CAST(test_bool_converter), METH_FASTCALL, test_bool_converter__doc__},
+    {test_bool_converter_MethodName.name, _PyCFunction_CAST(test_bool_converter), METH_FASTCALL, test_bool_converter__doc__},
 
 static PyObject *
 test_bool_converter_impl(PyObject *module, int a, int b, int c);
@@ -486,7 +495,7 @@ exit:
 
 static PyObject *
 test_bool_converter_impl(PyObject *module, int a, int b, int c)
-/*[clinic end generated code: output=3190e46490de0644 input=939854fa9f248c60]*/
+/*[clinic end generated code: output=7c3ade902c8edf00 input=939854fa9f248c60]*/
 
 
 /*[clinic input]
@@ -517,8 +526,9 @@ PyDoc_STRVAR(test_char_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_char_converter_MethodName = {.name = "test_char_converter",};
 #define TEST_CHAR_CONVERTER_METHODDEF    \
-    {"test_char_converter", _PyCFunction_CAST(test_char_converter), METH_FASTCALL, test_char_converter__doc__},
+    {test_char_converter_MethodName.name, _PyCFunction_CAST(test_char_converter), METH_FASTCALL, test_char_converter__doc__},
 
 static PyObject *
 test_char_converter_impl(PyObject *module, char a, char b, char c, char d,
@@ -936,7 +946,7 @@ static PyObject *
 test_char_converter_impl(PyObject *module, char a, char b, char c, char d,
                          char e, char f, char g, char h, char i, char j,
                          char k, char l, char m, char n)
-/*[clinic end generated code: output=ff11e203248582df input=e42330417a44feac]*/
+/*[clinic end generated code: output=5d05eeb9221c5993 input=e42330417a44feac]*/
 
 
 /*[clinic input]
@@ -954,8 +964,9 @@ PyDoc_STRVAR(test_unsigned_char_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_unsigned_char_converter_MethodName = {.name = "test_unsigned_char_converter",};
 #define TEST_UNSIGNED_CHAR_CONVERTER_METHODDEF    \
-    {"test_unsigned_char_converter", _PyCFunction_CAST(test_unsigned_char_converter), METH_FASTCALL, test_unsigned_char_converter__doc__},
+    {test_unsigned_char_converter_MethodName.name, _PyCFunction_CAST(test_unsigned_char_converter), METH_FASTCALL, test_unsigned_char_converter__doc__},
 
 static PyObject *
 test_unsigned_char_converter_impl(PyObject *module, unsigned char a,
@@ -1038,7 +1049,7 @@ exit:
 static PyObject *
 test_unsigned_char_converter_impl(PyObject *module, unsigned char a,
                                   unsigned char b, unsigned char c)
-/*[clinic end generated code: output=45920dbedc22eb55 input=021414060993e289]*/
+/*[clinic end generated code: output=56bd416ed236fc1b input=021414060993e289]*/
 
 
 /*[clinic input]
@@ -1054,8 +1065,9 @@ PyDoc_STRVAR(test_short_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_short_converter_MethodName = {.name = "test_short_converter",};
 #define TEST_SHORT_CONVERTER_METHODDEF    \
-    {"test_short_converter", _PyCFunction_CAST(test_short_converter), METH_FASTCALL, test_short_converter__doc__},
+    {test_short_converter_MethodName.name, _PyCFunction_CAST(test_short_converter), METH_FASTCALL, test_short_converter__doc__},
 
 static PyObject *
 test_short_converter_impl(PyObject *module, short a);
@@ -1100,7 +1112,7 @@ exit:
 
 static PyObject *
 test_short_converter_impl(PyObject *module, short a)
-/*[clinic end generated code: output=a580945bd6963d45 input=6a8a7a509a498ff4]*/
+/*[clinic end generated code: output=98e78f4d173ea833 input=6a8a7a509a498ff4]*/
 
 
 /*[clinic input]
@@ -1118,8 +1130,9 @@ PyDoc_STRVAR(test_unsigned_short_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_unsigned_short_converter_MethodName = {.name = "test_unsigned_short_converter",};
 #define TEST_UNSIGNED_SHORT_CONVERTER_METHODDEF    \
-    {"test_unsigned_short_converter", _PyCFunction_CAST(test_unsigned_short_converter), METH_FASTCALL, test_unsigned_short_converter__doc__},
+    {test_unsigned_short_converter_MethodName.name, _PyCFunction_CAST(test_unsigned_short_converter), METH_FASTCALL, test_unsigned_short_converter__doc__},
 
 static PyObject *
 test_unsigned_short_converter_impl(PyObject *module, unsigned short a,
@@ -1165,7 +1178,7 @@ exit:
 static PyObject *
 test_unsigned_short_converter_impl(PyObject *module, unsigned short a,
                                    unsigned short b, unsigned short c)
-/*[clinic end generated code: output=e6e990df729114fc input=cdfd8eff3d9176b4]*/
+/*[clinic end generated code: output=bfce14f4972c49fb input=cdfd8eff3d9176b4]*/
 
 
 /*[clinic input]
@@ -1184,8 +1197,9 @@ PyDoc_STRVAR(test_int_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_int_converter_MethodName = {.name = "test_int_converter",};
 #define TEST_INT_CONVERTER_METHODDEF    \
-    {"test_int_converter", _PyCFunction_CAST(test_int_converter), METH_FASTCALL, test_int_converter__doc__},
+    {test_int_converter_MethodName.name, _PyCFunction_CAST(test_int_converter), METH_FASTCALL, test_int_converter__doc__},
 
 static PyObject *
 test_int_converter_impl(PyObject *module, int a, int b, int c, myenum d);
@@ -1247,7 +1261,7 @@ exit:
 
 static PyObject *
 test_int_converter_impl(PyObject *module, int a, int b, int c, myenum d)
-/*[clinic end generated code: output=fbcfb7554688663d input=d20541fc1ca0553e]*/
+/*[clinic end generated code: output=497b5fe9cafd6403 input=d20541fc1ca0553e]*/
 
 
 /*[clinic input]
@@ -1265,8 +1279,9 @@ PyDoc_STRVAR(test_unsigned_int_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_unsigned_int_converter_MethodName = {.name = "test_unsigned_int_converter",};
 #define TEST_UNSIGNED_INT_CONVERTER_METHODDEF    \
-    {"test_unsigned_int_converter", _PyCFunction_CAST(test_unsigned_int_converter), METH_FASTCALL, test_unsigned_int_converter__doc__},
+    {test_unsigned_int_converter_MethodName.name, _PyCFunction_CAST(test_unsigned_int_converter), METH_FASTCALL, test_unsigned_int_converter__doc__},
 
 static PyObject *
 test_unsigned_int_converter_impl(PyObject *module, unsigned int a,
@@ -1312,7 +1327,7 @@ exit:
 static PyObject *
 test_unsigned_int_converter_impl(PyObject *module, unsigned int a,
                                  unsigned int b, unsigned int c)
-/*[clinic end generated code: output=f9cdbe410ccc98a3 input=5533534828b62fc0]*/
+/*[clinic end generated code: output=803d10401c89ed42 input=5533534828b62fc0]*/
 
 
 /*[clinic input]
@@ -1328,8 +1343,9 @@ PyDoc_STRVAR(test_long_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_long_converter_MethodName = {.name = "test_long_converter",};
 #define TEST_LONG_CONVERTER_METHODDEF    \
-    {"test_long_converter", _PyCFunction_CAST(test_long_converter), METH_FASTCALL, test_long_converter__doc__},
+    {test_long_converter_MethodName.name, _PyCFunction_CAST(test_long_converter), METH_FASTCALL, test_long_converter__doc__},
 
 static PyObject *
 test_long_converter_impl(PyObject *module, long a);
@@ -1359,7 +1375,7 @@ exit:
 
 static PyObject *
 test_long_converter_impl(PyObject *module, long a)
-/*[clinic end generated code: output=02b3a83495c1d236 input=d2179e3c9cdcde89]*/
+/*[clinic end generated code: output=b361eeaa623e31e7 input=d2179e3c9cdcde89]*/
 
 
 /*[clinic input]
@@ -1377,8 +1393,9 @@ PyDoc_STRVAR(test_unsigned_long_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_unsigned_long_converter_MethodName = {.name = "test_unsigned_long_converter",};
 #define TEST_UNSIGNED_LONG_CONVERTER_METHODDEF    \
-    {"test_unsigned_long_converter", _PyCFunction_CAST(test_unsigned_long_converter), METH_FASTCALL, test_unsigned_long_converter__doc__},
+    {test_unsigned_long_converter_MethodName.name, _PyCFunction_CAST(test_unsigned_long_converter), METH_FASTCALL, test_unsigned_long_converter__doc__},
 
 static PyObject *
 test_unsigned_long_converter_impl(PyObject *module, unsigned long a,
@@ -1425,7 +1442,7 @@ exit:
 static PyObject *
 test_unsigned_long_converter_impl(PyObject *module, unsigned long a,
                                   unsigned long b, unsigned long c)
-/*[clinic end generated code: output=d74eed227d77a31b input=f450d94cae1ef73b]*/
+/*[clinic end generated code: output=ed7388d5a29086e3 input=f450d94cae1ef73b]*/
 
 
 /*[clinic input]
@@ -1441,8 +1458,9 @@ PyDoc_STRVAR(test_long_long_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_long_long_converter_MethodName = {.name = "test_long_long_converter",};
 #define TEST_LONG_LONG_CONVERTER_METHODDEF    \
-    {"test_long_long_converter", _PyCFunction_CAST(test_long_long_converter), METH_FASTCALL, test_long_long_converter__doc__},
+    {test_long_long_converter_MethodName.name, _PyCFunction_CAST(test_long_long_converter), METH_FASTCALL, test_long_long_converter__doc__},
 
 static PyObject *
 test_long_long_converter_impl(PyObject *module, long long a);
@@ -1472,7 +1490,7 @@ exit:
 
 static PyObject *
 test_long_long_converter_impl(PyObject *module, long long a)
-/*[clinic end generated code: output=f9d4ed79ad2db857 input=d5fc81577ff4dd02]*/
+/*[clinic end generated code: output=94a6897e95c691ea input=d5fc81577ff4dd02]*/
 
 
 /*[clinic input]
@@ -1490,8 +1508,9 @@ PyDoc_STRVAR(test_unsigned_long_long_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_unsigned_long_long_converter_MethodName = {.name = "test_unsigned_long_long_converter",};
 #define TEST_UNSIGNED_LONG_LONG_CONVERTER_METHODDEF    \
-    {"test_unsigned_long_long_converter", _PyCFunction_CAST(test_unsigned_long_long_converter), METH_FASTCALL, test_unsigned_long_long_converter__doc__},
+    {test_unsigned_long_long_converter_MethodName.name, _PyCFunction_CAST(test_unsigned_long_long_converter), METH_FASTCALL, test_unsigned_long_long_converter__doc__},
 
 static PyObject *
 test_unsigned_long_long_converter_impl(PyObject *module,
@@ -1542,7 +1561,7 @@ test_unsigned_long_long_converter_impl(PyObject *module,
                                        unsigned long long a,
                                        unsigned long long b,
                                        unsigned long long c)
-/*[clinic end generated code: output=5ca4e4dfb3db644b input=a15115dc41866ff4]*/
+/*[clinic end generated code: output=ea6227d7cb2aeb00 input=a15115dc41866ff4]*/
 
 
 /*[clinic input]
@@ -1560,8 +1579,9 @@ PyDoc_STRVAR(test_Py_ssize_t_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_Py_ssize_t_converter_MethodName = {.name = "test_Py_ssize_t_converter",};
 #define TEST_PY_SSIZE_T_CONVERTER_METHODDEF    \
-    {"test_Py_ssize_t_converter", _PyCFunction_CAST(test_Py_ssize_t_converter), METH_FASTCALL, test_Py_ssize_t_converter__doc__},
+    {test_Py_ssize_t_converter_MethodName.name, _PyCFunction_CAST(test_Py_ssize_t_converter), METH_FASTCALL, test_Py_ssize_t_converter__doc__},
 
 static PyObject *
 test_Py_ssize_t_converter_impl(PyObject *module, Py_ssize_t a, Py_ssize_t b,
@@ -1624,7 +1644,7 @@ exit:
 static PyObject *
 test_Py_ssize_t_converter_impl(PyObject *module, Py_ssize_t a, Py_ssize_t b,
                                Py_ssize_t c)
-/*[clinic end generated code: output=48214bc3d01f4dd7 input=3855f184bb3f299d]*/
+/*[clinic end generated code: output=2bad45f8e1eeff63 input=3855f184bb3f299d]*/
 
 
 /*[clinic input]
@@ -1642,8 +1662,9 @@ PyDoc_STRVAR(test_slice_index_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_slice_index_converter_MethodName = {.name = "test_slice_index_converter",};
 #define TEST_SLICE_INDEX_CONVERTER_METHODDEF    \
-    {"test_slice_index_converter", _PyCFunction_CAST(test_slice_index_converter), METH_FASTCALL, test_slice_index_converter__doc__},
+    {test_slice_index_converter_MethodName.name, _PyCFunction_CAST(test_slice_index_converter), METH_FASTCALL, test_slice_index_converter__doc__},
 
 static PyObject *
 test_slice_index_converter_impl(PyObject *module, Py_ssize_t a, Py_ssize_t b,
@@ -1688,7 +1709,7 @@ exit:
 static PyObject *
 test_slice_index_converter_impl(PyObject *module, Py_ssize_t a, Py_ssize_t b,
                                 Py_ssize_t c)
-/*[clinic end generated code: output=67506ed999361212 input=edeadb0ee126f531]*/
+/*[clinic end generated code: output=7afa5e21944699da input=edeadb0ee126f531]*/
 
 
 /*[clinic input]
@@ -1704,8 +1725,9 @@ PyDoc_STRVAR(test_size_t_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_size_t_converter_MethodName = {.name = "test_size_t_converter",};
 #define TEST_SIZE_T_CONVERTER_METHODDEF    \
-    {"test_size_t_converter", _PyCFunction_CAST(test_size_t_converter), METH_FASTCALL, test_size_t_converter__doc__},
+    {test_size_t_converter_MethodName.name, _PyCFunction_CAST(test_size_t_converter), METH_FASTCALL, test_size_t_converter__doc__},
 
 static PyObject *
 test_size_t_converter_impl(PyObject *module, size_t a);
@@ -1734,7 +1756,7 @@ exit:
 
 static PyObject *
 test_size_t_converter_impl(PyObject *module, size_t a)
-/*[clinic end generated code: output=1653ecb5cbf775aa input=52e93a0fed0f1fb3]*/
+/*[clinic end generated code: output=aad5bbaf1636c8ec input=52e93a0fed0f1fb3]*/
 
 
 /*[clinic input]
@@ -1750,8 +1772,9 @@ PyDoc_STRVAR(test_float_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_float_converter_MethodName = {.name = "test_float_converter",};
 #define TEST_FLOAT_CONVERTER_METHODDEF    \
-    {"test_float_converter", _PyCFunction_CAST(test_float_converter), METH_FASTCALL, test_float_converter__doc__},
+    {test_float_converter_MethodName.name, _PyCFunction_CAST(test_float_converter), METH_FASTCALL, test_float_converter__doc__},
 
 static PyObject *
 test_float_converter_impl(PyObject *module, float a);
@@ -1787,7 +1810,7 @@ exit:
 
 static PyObject *
 test_float_converter_impl(PyObject *module, float a)
-/*[clinic end generated code: output=36ad006990a8a91e input=259c0d98eca35034]*/
+/*[clinic end generated code: output=ff420206bbca1600 input=259c0d98eca35034]*/
 
 
 /*[clinic input]
@@ -1803,8 +1826,9 @@ PyDoc_STRVAR(test_double_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_double_converter_MethodName = {.name = "test_double_converter",};
 #define TEST_DOUBLE_CONVERTER_METHODDEF    \
-    {"test_double_converter", _PyCFunction_CAST(test_double_converter), METH_FASTCALL, test_double_converter__doc__},
+    {test_double_converter_MethodName.name, _PyCFunction_CAST(test_double_converter), METH_FASTCALL, test_double_converter__doc__},
 
 static PyObject *
 test_double_converter_impl(PyObject *module, double a);
@@ -1840,7 +1864,7 @@ exit:
 
 static PyObject *
 test_double_converter_impl(PyObject *module, double a)
-/*[clinic end generated code: output=7435925592bac795 input=c6a9945706a41c27]*/
+/*[clinic end generated code: output=01373a88ea6704e5 input=c6a9945706a41c27]*/
 
 
 /*[clinic input]
@@ -1856,8 +1880,9 @@ PyDoc_STRVAR(test_Py_complex_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_Py_complex_converter_MethodName = {.name = "test_Py_complex_converter",};
 #define TEST_PY_COMPLEX_CONVERTER_METHODDEF    \
-    {"test_Py_complex_converter", (PyCFunction)test_Py_complex_converter, METH_O, test_Py_complex_converter__doc__},
+    {test_Py_complex_converter_MethodName.name, (PyCFunction)test_Py_complex_converter, METH_O, test_Py_complex_converter__doc__},
 
 static PyObject *
 test_Py_complex_converter_impl(PyObject *module, Py_complex a);
@@ -1880,7 +1905,7 @@ exit:
 
 static PyObject *
 test_Py_complex_converter_impl(PyObject *module, Py_complex a)
-/*[clinic end generated code: output=c2ecbec2144ca540 input=070f216a515beb79]*/
+/*[clinic end generated code: output=b31f237a129d43fc input=070f216a515beb79]*/
 
 
 /*[clinic input]
@@ -1904,8 +1929,9 @@ PyDoc_STRVAR(test_str_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_str_converter_MethodName = {.name = "test_str_converter",};
 #define TEST_STR_CONVERTER_METHODDEF    \
-    {"test_str_converter", _PyCFunction_CAST(test_str_converter), METH_FASTCALL, test_str_converter__doc__},
+    {test_str_converter_MethodName.name, _PyCFunction_CAST(test_str_converter), METH_FASTCALL, test_str_converter__doc__},
 
 static PyObject *
 test_str_converter_impl(PyObject *module, const char *a, const char *b,
@@ -1946,7 +1972,7 @@ test_str_converter_impl(PyObject *module, const char *a, const char *b,
                         const char *f, Py_ssize_t f_length, const char *g,
                         Py_ssize_t g_length, const char *h,
                         Py_ssize_t h_length)
-/*[clinic end generated code: output=82cb06d5237ef062 input=8afe9da8185cd38c]*/
+/*[clinic end generated code: output=411a400cc2b873cf input=8afe9da8185cd38c]*/
 
 
 /*[clinic input]
@@ -1966,8 +1992,9 @@ PyDoc_STRVAR(test_str_converter_encoding__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_str_converter_encoding_MethodName = {.name = "test_str_converter_encoding",};
 #define TEST_STR_CONVERTER_ENCODING_METHODDEF    \
-    {"test_str_converter_encoding", _PyCFunction_CAST(test_str_converter_encoding), METH_FASTCALL, test_str_converter_encoding__doc__},
+    {test_str_converter_encoding_MethodName.name, _PyCFunction_CAST(test_str_converter_encoding), METH_FASTCALL, test_str_converter_encoding__doc__},
 
 static PyObject *
 test_str_converter_encoding_impl(PyObject *module, char *a, char *b, char *c,
@@ -2010,7 +2037,7 @@ static PyObject *
 test_str_converter_encoding_impl(PyObject *module, char *a, char *b, char *c,
                                  char *d, Py_ssize_t d_length, char *e,
                                  Py_ssize_t e_length)
-/*[clinic end generated code: output=999c1deecfa15b0a input=eb4c38e1f898f402]*/
+/*[clinic end generated code: output=b3d4c5c5e46fb778 input=eb4c38e1f898f402]*/
 
 
 /*[clinic input]
@@ -2030,8 +2057,9 @@ PyDoc_STRVAR(test_Py_UNICODE_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_Py_UNICODE_converter_MethodName = {.name = "test_Py_UNICODE_converter",};
 #define TEST_PY_UNICODE_CONVERTER_METHODDEF    \
-    {"test_Py_UNICODE_converter", _PyCFunction_CAST(test_Py_UNICODE_converter), METH_FASTCALL, test_Py_UNICODE_converter__doc__},
+    {test_Py_UNICODE_converter_MethodName.name, _PyCFunction_CAST(test_Py_UNICODE_converter), METH_FASTCALL, test_Py_UNICODE_converter__doc__},
 
 static PyObject *
 test_Py_UNICODE_converter_impl(PyObject *module, const wchar_t *a,
@@ -2073,7 +2101,7 @@ test_Py_UNICODE_converter_impl(PyObject *module, const wchar_t *a,
                                const wchar_t *b, const wchar_t *c,
                                const wchar_t *d, Py_ssize_t d_length,
                                const wchar_t *e, Py_ssize_t e_length)
-/*[clinic end generated code: output=529af9cda2a20349 input=064a3b68ad7f04b0]*/
+/*[clinic end generated code: output=13392316427a5f1d input=064a3b68ad7f04b0]*/
 
 
 /*[clinic input]
@@ -2093,8 +2121,9 @@ PyDoc_STRVAR(test_Py_buffer_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_Py_buffer_converter_MethodName = {.name = "test_Py_buffer_converter",};
 #define TEST_PY_BUFFER_CONVERTER_METHODDEF    \
-    {"test_Py_buffer_converter", _PyCFunction_CAST(test_Py_buffer_converter), METH_FASTCALL, test_Py_buffer_converter__doc__},
+    {test_Py_buffer_converter_MethodName.name, _PyCFunction_CAST(test_Py_buffer_converter), METH_FASTCALL, test_Py_buffer_converter__doc__},
 
 static PyObject *
 test_Py_buffer_converter_impl(PyObject *module, Py_buffer *a, Py_buffer *b,
@@ -2144,7 +2173,7 @@ exit:
 static PyObject *
 test_Py_buffer_converter_impl(PyObject *module, Py_buffer *a, Py_buffer *b,
                               Py_buffer *c, Py_buffer *d, Py_buffer *e)
-/*[clinic end generated code: output=a153b71b4f45f952 input=6a9da0f56f9525fd]*/
+/*[clinic end generated code: output=a4405a9e3c0b5a09 input=6a9da0f56f9525fd]*/
 
 
 /*[clinic input]
@@ -2160,8 +2189,9 @@ PyDoc_STRVAR(test_keywords__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_keywords_MethodName = {.name = "test_keywords",};
 #define TEST_KEYWORDS_METHODDEF    \
-    {"test_keywords", _PyCFunction_CAST(test_keywords), METH_FASTCALL|METH_KEYWORDS, test_keywords__doc__},
+    {test_keywords_MethodName.name, _PyCFunction_CAST(test_keywords), METH_FASTCALL|METH_KEYWORDS, test_keywords__doc__},
 
 static PyObject *
 test_keywords_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -2216,7 +2246,7 @@ exit:
 
 static PyObject *
 test_keywords_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=591462ba3858e446 input=0d3484844749c05b]*/
+/*[clinic end generated code: output=69a177c5583d948c input=0d3484844749c05b]*/
 
 
 /*[clinic input]
@@ -2233,8 +2263,9 @@ PyDoc_STRVAR(test_keywords_kwonly__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_keywords_kwonly_MethodName = {.name = "test_keywords_kwonly",};
 #define TEST_KEYWORDS_KWONLY_METHODDEF    \
-    {"test_keywords_kwonly", _PyCFunction_CAST(test_keywords_kwonly), METH_FASTCALL|METH_KEYWORDS, test_keywords_kwonly__doc__},
+    {test_keywords_kwonly_MethodName.name, _PyCFunction_CAST(test_keywords_kwonly), METH_FASTCALL|METH_KEYWORDS, test_keywords_kwonly__doc__},
 
 static PyObject *
 test_keywords_kwonly_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -2289,7 +2320,7 @@ exit:
 
 static PyObject *
 test_keywords_kwonly_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=620bb64efa62d69b input=384adc78bfa0bff7]*/
+/*[clinic end generated code: output=dfb6a8ad74d097e0 input=384adc78bfa0bff7]*/
 
 
 /*[clinic input]
@@ -2306,8 +2337,9 @@ PyDoc_STRVAR(test_keywords_opt__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_keywords_opt_MethodName = {.name = "test_keywords_opt",};
 #define TEST_KEYWORDS_OPT_METHODDEF    \
-    {"test_keywords_opt", _PyCFunction_CAST(test_keywords_opt), METH_FASTCALL|METH_KEYWORDS, test_keywords_opt__doc__},
+    {test_keywords_opt_MethodName.name, _PyCFunction_CAST(test_keywords_opt), METH_FASTCALL|METH_KEYWORDS, test_keywords_opt__doc__},
 
 static PyObject *
 test_keywords_opt_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -2376,7 +2408,7 @@ exit:
 static PyObject *
 test_keywords_opt_impl(PyObject *module, PyObject *a, PyObject *b,
                        PyObject *c)
-/*[clinic end generated code: output=3ea21673d129218c input=eda7964f784f4607]*/
+/*[clinic end generated code: output=847ac22ce0b04b10 input=eda7964f784f4607]*/
 
 
 /*[clinic input]
@@ -2395,8 +2427,9 @@ PyDoc_STRVAR(test_keywords_opt_kwonly__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_keywords_opt_kwonly_MethodName = {.name = "test_keywords_opt_kwonly",};
 #define TEST_KEYWORDS_OPT_KWONLY_METHODDEF    \
-    {"test_keywords_opt_kwonly", _PyCFunction_CAST(test_keywords_opt_kwonly), METH_FASTCALL|METH_KEYWORDS, test_keywords_opt_kwonly__doc__},
+    {test_keywords_opt_kwonly_MethodName.name, _PyCFunction_CAST(test_keywords_opt_kwonly), METH_FASTCALL|METH_KEYWORDS, test_keywords_opt_kwonly__doc__},
 
 static PyObject *
 test_keywords_opt_kwonly_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -2476,7 +2509,7 @@ exit:
 static PyObject *
 test_keywords_opt_kwonly_impl(PyObject *module, PyObject *a, PyObject *b,
                               PyObject *c, PyObject *d)
-/*[clinic end generated code: output=1e5fbe4eebfd40a5 input=209387a4815e5082]*/
+/*[clinic end generated code: output=7401393e66629971 input=209387a4815e5082]*/
 
 
 /*[clinic input]
@@ -2494,8 +2527,9 @@ PyDoc_STRVAR(test_keywords_kwonly_opt__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_keywords_kwonly_opt_MethodName = {.name = "test_keywords_kwonly_opt",};
 #define TEST_KEYWORDS_KWONLY_OPT_METHODDEF    \
-    {"test_keywords_kwonly_opt", _PyCFunction_CAST(test_keywords_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, test_keywords_kwonly_opt__doc__},
+    {test_keywords_kwonly_opt_MethodName.name, _PyCFunction_CAST(test_keywords_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, test_keywords_kwonly_opt__doc__},
 
 static PyObject *
 test_keywords_kwonly_opt_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -2564,7 +2598,7 @@ exit:
 static PyObject *
 test_keywords_kwonly_opt_impl(PyObject *module, PyObject *a, PyObject *b,
                               PyObject *c)
-/*[clinic end generated code: output=bac8882cbcd50151 input=18393cc64fa000f4]*/
+/*[clinic end generated code: output=57ae5640a4f27c78 input=18393cc64fa000f4]*/
 
 
 /*[clinic input]
@@ -2581,8 +2615,9 @@ PyDoc_STRVAR(test_posonly_keywords__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_posonly_keywords_MethodName = {.name = "test_posonly_keywords",};
 #define TEST_POSONLY_KEYWORDS_METHODDEF    \
-    {"test_posonly_keywords", _PyCFunction_CAST(test_posonly_keywords), METH_FASTCALL|METH_KEYWORDS, test_posonly_keywords__doc__},
+    {test_posonly_keywords_MethodName.name, _PyCFunction_CAST(test_posonly_keywords), METH_FASTCALL|METH_KEYWORDS, test_posonly_keywords__doc__},
 
 static PyObject *
 test_posonly_keywords_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -2637,7 +2672,7 @@ exit:
 
 static PyObject *
 test_posonly_keywords_impl(PyObject *module, PyObject *a, PyObject *b)
-/*[clinic end generated code: output=7ddf55a744ba53dc input=1767b0ebdf06060e]*/
+/*[clinic end generated code: output=c1cab88ade3126c9 input=1767b0ebdf06060e]*/
 
 
 /*[clinic input]
@@ -2655,8 +2690,9 @@ PyDoc_STRVAR(test_posonly_kwonly__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_posonly_kwonly_MethodName = {.name = "test_posonly_kwonly",};
 #define TEST_POSONLY_KWONLY_METHODDEF    \
-    {"test_posonly_kwonly", _PyCFunction_CAST(test_posonly_kwonly), METH_FASTCALL|METH_KEYWORDS, test_posonly_kwonly__doc__},
+    {test_posonly_kwonly_MethodName.name, _PyCFunction_CAST(test_posonly_kwonly), METH_FASTCALL|METH_KEYWORDS, test_posonly_kwonly__doc__},
 
 static PyObject *
 test_posonly_kwonly_impl(PyObject *module, PyObject *a, PyObject *c);
@@ -2711,7 +2747,7 @@ exit:
 
 static PyObject *
 test_posonly_kwonly_impl(PyObject *module, PyObject *a, PyObject *c)
-/*[clinic end generated code: output=095a4e17e22609bc input=9042f2818f664839]*/
+/*[clinic end generated code: output=e363ce6643d94f19 input=9042f2818f664839]*/
 
 
 /*[clinic input]
@@ -2730,8 +2766,9 @@ PyDoc_STRVAR(test_posonly_keywords_kwonly__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_posonly_keywords_kwonly_MethodName = {.name = "test_posonly_keywords_kwonly",};
 #define TEST_POSONLY_KEYWORDS_KWONLY_METHODDEF    \
-    {"test_posonly_keywords_kwonly", _PyCFunction_CAST(test_posonly_keywords_kwonly), METH_FASTCALL|METH_KEYWORDS, test_posonly_keywords_kwonly__doc__},
+    {test_posonly_keywords_kwonly_MethodName.name, _PyCFunction_CAST(test_posonly_keywords_kwonly), METH_FASTCALL|METH_KEYWORDS, test_posonly_keywords_kwonly__doc__},
 
 static PyObject *
 test_posonly_keywords_kwonly_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -2790,7 +2827,7 @@ exit:
 static PyObject *
 test_posonly_keywords_kwonly_impl(PyObject *module, PyObject *a, PyObject *b,
                                   PyObject *c)
-/*[clinic end generated code: output=2f03aff955026341 input=29546ebdca492fea]*/
+/*[clinic end generated code: output=f0680afe50f06302 input=29546ebdca492fea]*/
 
 
 /*[clinic input]
@@ -2809,8 +2846,9 @@ PyDoc_STRVAR(test_posonly_keywords_opt__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_posonly_keywords_opt_MethodName = {.name = "test_posonly_keywords_opt",};
 #define TEST_POSONLY_KEYWORDS_OPT_METHODDEF    \
-    {"test_posonly_keywords_opt", _PyCFunction_CAST(test_posonly_keywords_opt), METH_FASTCALL|METH_KEYWORDS, test_posonly_keywords_opt__doc__},
+    {test_posonly_keywords_opt_MethodName.name, _PyCFunction_CAST(test_posonly_keywords_opt), METH_FASTCALL|METH_KEYWORDS, test_posonly_keywords_opt__doc__},
 
 static PyObject *
 test_posonly_keywords_opt_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -2881,7 +2919,7 @@ exit:
 static PyObject *
 test_posonly_keywords_opt_impl(PyObject *module, PyObject *a, PyObject *b,
                                PyObject *c, PyObject *d)
-/*[clinic end generated code: output=2c8b2ca42f821c66 input=cdf5a9625e554e9b]*/
+/*[clinic end generated code: output=6f9ddd60401a9ed1 input=cdf5a9625e554e9b]*/
 
 
 /*[clinic input]
@@ -2899,8 +2937,9 @@ PyDoc_STRVAR(test_posonly_keywords_opt2__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_posonly_keywords_opt2_MethodName = {.name = "test_posonly_keywords_opt2",};
 #define TEST_POSONLY_KEYWORDS_OPT2_METHODDEF    \
-    {"test_posonly_keywords_opt2", _PyCFunction_CAST(test_posonly_keywords_opt2), METH_FASTCALL|METH_KEYWORDS, test_posonly_keywords_opt2__doc__},
+    {test_posonly_keywords_opt2_MethodName.name, _PyCFunction_CAST(test_posonly_keywords_opt2), METH_FASTCALL|METH_KEYWORDS, test_posonly_keywords_opt2__doc__},
 
 static PyObject *
 test_posonly_keywords_opt2_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -2969,7 +3008,7 @@ exit:
 static PyObject *
 test_posonly_keywords_opt2_impl(PyObject *module, PyObject *a, PyObject *b,
                                 PyObject *c)
-/*[clinic end generated code: output=969a3b2b020310f1 input=1581299d21d16f14]*/
+/*[clinic end generated code: output=5806d2ce29adce54 input=1581299d21d16f14]*/
 
 
 /*[clinic input]
@@ -2988,8 +3027,9 @@ PyDoc_STRVAR(test_posonly_opt_keywords_opt__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_posonly_opt_keywords_opt_MethodName = {.name = "test_posonly_opt_keywords_opt",};
 #define TEST_POSONLY_OPT_KEYWORDS_OPT_METHODDEF    \
-    {"test_posonly_opt_keywords_opt", _PyCFunction_CAST(test_posonly_opt_keywords_opt), METH_FASTCALL|METH_KEYWORDS, test_posonly_opt_keywords_opt__doc__},
+    {test_posonly_opt_keywords_opt_MethodName.name, _PyCFunction_CAST(test_posonly_opt_keywords_opt), METH_FASTCALL|METH_KEYWORDS, test_posonly_opt_keywords_opt__doc__},
 
 static PyObject *
 test_posonly_opt_keywords_opt_impl(PyObject *module, PyObject *a,
@@ -3065,7 +3105,7 @@ exit:
 static PyObject *
 test_posonly_opt_keywords_opt_impl(PyObject *module, PyObject *a,
                                    PyObject *b, PyObject *c, PyObject *d)
-/*[clinic end generated code: output=02bf5e64403946fc input=408798ec3d42949f]*/
+/*[clinic end generated code: output=4fdc978211f5e7ae input=408798ec3d42949f]*/
 
 
 /*[clinic input]
@@ -3085,8 +3125,9 @@ PyDoc_STRVAR(test_posonly_kwonly_opt__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_posonly_kwonly_opt_MethodName = {.name = "test_posonly_kwonly_opt",};
 #define TEST_POSONLY_KWONLY_OPT_METHODDEF    \
-    {"test_posonly_kwonly_opt", _PyCFunction_CAST(test_posonly_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, test_posonly_kwonly_opt__doc__},
+    {test_posonly_kwonly_opt_MethodName.name, _PyCFunction_CAST(test_posonly_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, test_posonly_kwonly_opt__doc__},
 
 static PyObject *
 test_posonly_kwonly_opt_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -3157,7 +3198,7 @@ exit:
 static PyObject *
 test_posonly_kwonly_opt_impl(PyObject *module, PyObject *a, PyObject *b,
                              PyObject *c, PyObject *d)
-/*[clinic end generated code: output=26510e61948015e8 input=8d8e5643bbbc2309]*/
+/*[clinic end generated code: output=d7b29aa1bad26453 input=8d8e5643bbbc2309]*/
 
 
 /*[clinic input]
@@ -3176,8 +3217,9 @@ PyDoc_STRVAR(test_posonly_kwonly_opt2__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_posonly_kwonly_opt2_MethodName = {.name = "test_posonly_kwonly_opt2",};
 #define TEST_POSONLY_KWONLY_OPT2_METHODDEF    \
-    {"test_posonly_kwonly_opt2", _PyCFunction_CAST(test_posonly_kwonly_opt2), METH_FASTCALL|METH_KEYWORDS, test_posonly_kwonly_opt2__doc__},
+    {test_posonly_kwonly_opt2_MethodName.name, _PyCFunction_CAST(test_posonly_kwonly_opt2), METH_FASTCALL|METH_KEYWORDS, test_posonly_kwonly_opt2__doc__},
 
 static PyObject *
 test_posonly_kwonly_opt2_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -3246,7 +3288,7 @@ exit:
 static PyObject *
 test_posonly_kwonly_opt2_impl(PyObject *module, PyObject *a, PyObject *b,
                               PyObject *c)
-/*[clinic end generated code: output=b31416e16c908756 input=f7e5eed94f75fff0]*/
+/*[clinic end generated code: output=d99eb4e5dc1ef51d input=f7e5eed94f75fff0]*/
 
 
 /*[clinic input]
@@ -3266,8 +3308,9 @@ PyDoc_STRVAR(test_posonly_opt_kwonly_opt__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_posonly_opt_kwonly_opt_MethodName = {.name = "test_posonly_opt_kwonly_opt",};
 #define TEST_POSONLY_OPT_KWONLY_OPT_METHODDEF    \
-    {"test_posonly_opt_kwonly_opt", _PyCFunction_CAST(test_posonly_opt_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, test_posonly_opt_kwonly_opt__doc__},
+    {test_posonly_opt_kwonly_opt_MethodName.name, _PyCFunction_CAST(test_posonly_opt_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, test_posonly_opt_kwonly_opt__doc__},
 
 static PyObject *
 test_posonly_opt_kwonly_opt_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -3343,7 +3386,7 @@ exit:
 static PyObject *
 test_posonly_opt_kwonly_opt_impl(PyObject *module, PyObject *a, PyObject *b,
                                  PyObject *c, PyObject *d)
-/*[clinic end generated code: output=dc2337647059cb51 input=1e557dc979d120fd]*/
+/*[clinic end generated code: output=31db1e5c8530f51e input=1e557dc979d120fd]*/
 
 
 /*[clinic input]
@@ -3364,8 +3407,9 @@ PyDoc_STRVAR(test_posonly_keywords_kwonly_opt__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_posonly_keywords_kwonly_opt_MethodName = {.name = "test_posonly_keywords_kwonly_opt",};
 #define TEST_POSONLY_KEYWORDS_KWONLY_OPT_METHODDEF    \
-    {"test_posonly_keywords_kwonly_opt", _PyCFunction_CAST(test_posonly_keywords_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, test_posonly_keywords_kwonly_opt__doc__},
+    {test_posonly_keywords_kwonly_opt_MethodName.name, _PyCFunction_CAST(test_posonly_keywords_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, test_posonly_keywords_kwonly_opt__doc__},
 
 static PyObject *
 test_posonly_keywords_kwonly_opt_impl(PyObject *module, PyObject *a,
@@ -3440,7 +3484,7 @@ static PyObject *
 test_posonly_keywords_kwonly_opt_impl(PyObject *module, PyObject *a,
                                       PyObject *b, PyObject *c, PyObject *d,
                                       PyObject *e)
-/*[clinic end generated code: output=b7adeae40c9833a4 input=c3884a4f956fdc89]*/
+/*[clinic end generated code: output=2a559bbaa9fd6899 input=c3884a4f956fdc89]*/
 
 
 /*[clinic input]
@@ -3460,8 +3504,9 @@ PyDoc_STRVAR(test_posonly_keywords_kwonly_opt2__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_posonly_keywords_kwonly_opt2_MethodName = {.name = "test_posonly_keywords_kwonly_opt2",};
 #define TEST_POSONLY_KEYWORDS_KWONLY_OPT2_METHODDEF    \
-    {"test_posonly_keywords_kwonly_opt2", _PyCFunction_CAST(test_posonly_keywords_kwonly_opt2), METH_FASTCALL|METH_KEYWORDS, test_posonly_keywords_kwonly_opt2__doc__},
+    {test_posonly_keywords_kwonly_opt2_MethodName.name, _PyCFunction_CAST(test_posonly_keywords_kwonly_opt2), METH_FASTCALL|METH_KEYWORDS, test_posonly_keywords_kwonly_opt2__doc__},
 
 static PyObject *
 test_posonly_keywords_kwonly_opt2_impl(PyObject *module, PyObject *a,
@@ -3532,7 +3577,7 @@ exit:
 static PyObject *
 test_posonly_keywords_kwonly_opt2_impl(PyObject *module, PyObject *a,
                                        PyObject *b, PyObject *c, PyObject *d)
-/*[clinic end generated code: output=827a349e36e89c82 input=68d01d7c0f6dafb0]*/
+/*[clinic end generated code: output=33a056d12186ebf5 input=68d01d7c0f6dafb0]*/
 
 
 /*[clinic input]
@@ -3554,8 +3599,9 @@ PyDoc_STRVAR(test_posonly_keywords_opt_kwonly_opt__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_posonly_keywords_opt_kwonly_opt_MethodName = {.name = "test_posonly_keywords_opt_kwonly_opt",};
 #define TEST_POSONLY_KEYWORDS_OPT_KWONLY_OPT_METHODDEF    \
-    {"test_posonly_keywords_opt_kwonly_opt", _PyCFunction_CAST(test_posonly_keywords_opt_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, test_posonly_keywords_opt_kwonly_opt__doc__},
+    {test_posonly_keywords_opt_kwonly_opt_MethodName.name, _PyCFunction_CAST(test_posonly_keywords_opt_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, test_posonly_keywords_opt_kwonly_opt__doc__},
 
 static PyObject *
 test_posonly_keywords_opt_kwonly_opt_impl(PyObject *module, PyObject *a,
@@ -3639,7 +3685,7 @@ static PyObject *
 test_posonly_keywords_opt_kwonly_opt_impl(PyObject *module, PyObject *a,
                                           PyObject *b, PyObject *c,
                                           PyObject *d, PyObject *e)
-/*[clinic end generated code: output=bcb0088555123966 input=d0883d45876f186c]*/
+/*[clinic end generated code: output=334386c7d46327bd input=d0883d45876f186c]*/
 
 
 /*[clinic input]
@@ -3661,8 +3707,9 @@ PyDoc_STRVAR(test_posonly_keywords_opt2_kwonly_opt__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_posonly_keywords_opt2_kwonly_opt_MethodName = {.name = "test_posonly_keywords_opt2_kwonly_opt",};
 #define TEST_POSONLY_KEYWORDS_OPT2_KWONLY_OPT_METHODDEF    \
-    {"test_posonly_keywords_opt2_kwonly_opt", _PyCFunction_CAST(test_posonly_keywords_opt2_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, test_posonly_keywords_opt2_kwonly_opt__doc__},
+    {test_posonly_keywords_opt2_kwonly_opt_MethodName.name, _PyCFunction_CAST(test_posonly_keywords_opt2_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, test_posonly_keywords_opt2_kwonly_opt__doc__},
 
 static PyObject *
 test_posonly_keywords_opt2_kwonly_opt_impl(PyObject *module, PyObject *a,
@@ -3751,7 +3798,7 @@ static PyObject *
 test_posonly_keywords_opt2_kwonly_opt_impl(PyObject *module, PyObject *a,
                                            PyObject *b, PyObject *c,
                                            PyObject *d, PyObject *e)
-/*[clinic end generated code: output=a22d1276d4c2c9c7 input=c95e2e1ec93035ad]*/
+/*[clinic end generated code: output=22d7432502f08d41 input=c95e2e1ec93035ad]*/
 
 
 /*[clinic input]
@@ -3774,8 +3821,9 @@ PyDoc_STRVAR(test_posonly_opt_keywords_opt_kwonly_opt__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_posonly_opt_keywords_opt_kwonly_opt_MethodName = {.name = "test_posonly_opt_keywords_opt_kwonly_opt",};
 #define TEST_POSONLY_OPT_KEYWORDS_OPT_KWONLY_OPT_METHODDEF    \
-    {"test_posonly_opt_keywords_opt_kwonly_opt", _PyCFunction_CAST(test_posonly_opt_keywords_opt_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, test_posonly_opt_keywords_opt_kwonly_opt__doc__},
+    {test_posonly_opt_keywords_opt_kwonly_opt_MethodName.name, _PyCFunction_CAST(test_posonly_opt_keywords_opt_kwonly_opt), METH_FASTCALL|METH_KEYWORDS, test_posonly_opt_keywords_opt_kwonly_opt__doc__},
 
 static PyObject *
 test_posonly_opt_keywords_opt_kwonly_opt_impl(PyObject *module, PyObject *a,
@@ -3873,7 +3921,7 @@ test_posonly_opt_keywords_opt_kwonly_opt_impl(PyObject *module, PyObject *a,
                                               PyObject *b, PyObject *c,
                                               PyObject *d, PyObject *e,
                                               PyObject *f)
-/*[clinic end generated code: output=ebdbe695ee85a2ea input=9914857713c5bbf8]*/
+/*[clinic end generated code: output=69ee7729369cb55b input=9914857713c5bbf8]*/
 
 /*[clinic input]
 test_keyword_only_parameter
@@ -3889,8 +3937,9 @@ PyDoc_STRVAR(test_keyword_only_parameter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_keyword_only_parameter_MethodName = {.name = "test_keyword_only_parameter",};
 #define TEST_KEYWORD_ONLY_PARAMETER_METHODDEF    \
-    {"test_keyword_only_parameter", _PyCFunction_CAST(test_keyword_only_parameter), METH_FASTCALL|METH_KEYWORDS, test_keyword_only_parameter__doc__},
+    {test_keyword_only_parameter_MethodName.name, _PyCFunction_CAST(test_keyword_only_parameter), METH_FASTCALL|METH_KEYWORDS, test_keyword_only_parameter__doc__},
 
 static PyObject *
 test_keyword_only_parameter_impl(PyObject *module, PyBytesObject *co_lnotab);
@@ -3952,7 +4001,7 @@ exit:
 
 static PyObject *
 test_keyword_only_parameter_impl(PyObject *module, PyBytesObject *co_lnotab)
-/*[clinic end generated code: output=bcad654ee66b0972 input=303df5046c7e37a3]*/
+/*[clinic end generated code: output=352f937d937a68db input=303df5046c7e37a3]*/
 
 
 /*[clinic input]
@@ -4040,8 +4089,9 @@ PyDoc_STRVAR(test_preprocessor_guarded_condition_a__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_preprocessor_guarded_condition_a_MethodName = {.name = "test_preprocessor_guarded_condition_a",};
 #define TEST_PREPROCESSOR_GUARDED_CONDITION_A_METHODDEF    \
-    {"test_preprocessor_guarded_condition_a", (PyCFunction)test_preprocessor_guarded_condition_a, METH_NOARGS, test_preprocessor_guarded_condition_a__doc__},
+    {test_preprocessor_guarded_condition_a_MethodName.name, (PyCFunction)test_preprocessor_guarded_condition_a, METH_NOARGS, test_preprocessor_guarded_condition_a__doc__},
 
 static PyObject *
 test_preprocessor_guarded_condition_a(PyObject *module, PyObject *Py_UNUSED(ignored))
@@ -4058,8 +4108,9 @@ PyDoc_STRVAR(test_preprocessor_guarded_elif_condition_b__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_preprocessor_guarded_elif_condition_b_MethodName = {.name = "test_preprocessor_guarded_elif_condition_b",};
 #define TEST_PREPROCESSOR_GUARDED_ELIF_CONDITION_B_METHODDEF    \
-    {"test_preprocessor_guarded_elif_condition_b", (PyCFunction)test_preprocessor_guarded_elif_condition_b, METH_NOARGS, test_preprocessor_guarded_elif_condition_b__doc__},
+    {test_preprocessor_guarded_elif_condition_b_MethodName.name, (PyCFunction)test_preprocessor_guarded_elif_condition_b, METH_NOARGS, test_preprocessor_guarded_elif_condition_b__doc__},
 
 static PyObject *
 test_preprocessor_guarded_elif_condition_b(PyObject *module, PyObject *Py_UNUSED(ignored))
@@ -4076,8 +4127,9 @@ PyDoc_STRVAR(test_preprocessor_guarded_else__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_preprocessor_guarded_else_MethodName = {.name = "test_preprocessor_guarded_else",};
 #define TEST_PREPROCESSOR_GUARDED_ELSE_METHODDEF    \
-    {"test_preprocessor_guarded_else", (PyCFunction)test_preprocessor_guarded_else, METH_NOARGS, test_preprocessor_guarded_else__doc__},
+    {test_preprocessor_guarded_else_MethodName.name, (PyCFunction)test_preprocessor_guarded_else, METH_NOARGS, test_preprocessor_guarded_else__doc__},
 
 static PyObject *
 test_preprocessor_guarded_else(PyObject *module, PyObject *Py_UNUSED(ignored))
@@ -4094,8 +4146,9 @@ PyDoc_STRVAR(test_preprocessor_guarded_ifndef_condition_c__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_preprocessor_guarded_ifndef_condition_c_MethodName = {.name = "test_preprocessor_guarded_ifndef_condition_c",};
 #define TEST_PREPROCESSOR_GUARDED_IFNDEF_CONDITION_C_METHODDEF    \
-    {"test_preprocessor_guarded_ifndef_condition_c", (PyCFunction)test_preprocessor_guarded_ifndef_condition_c, METH_NOARGS, test_preprocessor_guarded_ifndef_condition_c__doc__},
+    {test_preprocessor_guarded_ifndef_condition_c_MethodName.name, (PyCFunction)test_preprocessor_guarded_ifndef_condition_c, METH_NOARGS, test_preprocessor_guarded_ifndef_condition_c__doc__},
 
 static PyObject *
 test_preprocessor_guarded_ifndef_condition_c(PyObject *module, PyObject *Py_UNUSED(ignored))
@@ -4112,8 +4165,9 @@ PyDoc_STRVAR(test_preprocessor_guarded_ifndef_not_condition_c__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_preprocessor_guarded_ifndef_not_condition_c_MethodName = {.name = "test_preprocessor_guarded_ifndef_not_condition_c",};
 #define TEST_PREPROCESSOR_GUARDED_IFNDEF_NOT_CONDITION_C_METHODDEF    \
-    {"test_preprocessor_guarded_ifndef_not_condition_c", (PyCFunction)test_preprocessor_guarded_ifndef_not_condition_c, METH_NOARGS, test_preprocessor_guarded_ifndef_not_condition_c__doc__},
+    {test_preprocessor_guarded_ifndef_not_condition_c_MethodName.name, (PyCFunction)test_preprocessor_guarded_ifndef_not_condition_c, METH_NOARGS, test_preprocessor_guarded_ifndef_not_condition_c__doc__},
 
 static PyObject *
 test_preprocessor_guarded_ifndef_not_condition_c(PyObject *module, PyObject *Py_UNUSED(ignored))
@@ -4130,8 +4184,9 @@ PyDoc_STRVAR(test_preprocessor_guarded_if_with_continuation__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_preprocessor_guarded_if_with_continuation_MethodName = {.name = "test_preprocessor_guarded_if_with_continuation",};
 #define TEST_PREPROCESSOR_GUARDED_IF_WITH_CONTINUATION_METHODDEF    \
-    {"test_preprocessor_guarded_if_with_continuation", (PyCFunction)test_preprocessor_guarded_if_with_continuation, METH_NOARGS, test_preprocessor_guarded_if_with_continuation__doc__},
+    {test_preprocessor_guarded_if_with_continuation_MethodName.name, (PyCFunction)test_preprocessor_guarded_if_with_continuation, METH_NOARGS, test_preprocessor_guarded_if_with_continuation__doc__},
 
 static PyObject *
 test_preprocessor_guarded_if_with_continuation(PyObject *module, PyObject *Py_UNUSED(ignored))
@@ -4149,8 +4204,9 @@ PyDoc_STRVAR(test_preprocessor_guarded_if_e_or_f__doc__,
 "\n"
 "Makes sure cpp.Monitor handles other directives than preprocessor conditionals.");
 
+static struct {char name[];} test_preprocessor_guarded_if_e_or_f_MethodName = {.name = "test_preprocessor_guarded_if_e_or_f",};
 #define TEST_PREPROCESSOR_GUARDED_IF_E_OR_F_METHODDEF    \
-    {"test_preprocessor_guarded_if_e_or_f", (PyCFunction)test_preprocessor_guarded_if_e_or_f, METH_NOARGS, test_preprocessor_guarded_if_e_or_f__doc__},
+    {test_preprocessor_guarded_if_e_or_f_MethodName.name, (PyCFunction)test_preprocessor_guarded_if_e_or_f, METH_NOARGS, test_preprocessor_guarded_if_e_or_f__doc__},
 
 static PyObject *
 test_preprocessor_guarded_if_e_or_f(PyObject *module, PyObject *Py_UNUSED(ignored))
@@ -4187,7 +4243,7 @@ test_preprocessor_guarded_if_e_or_f(PyObject *module, PyObject *Py_UNUSED(ignore
 #ifndef TEST_PREPROCESSOR_GUARDED_IF_E_OR_F_METHODDEF
     #define TEST_PREPROCESSOR_GUARDED_IF_E_OR_F_METHODDEF
 #endif /* !defined(TEST_PREPROCESSOR_GUARDED_IF_E_OR_F_METHODDEF) */
-/*[clinic end generated code: output=fcfae7cac7a99e62 input=3fc80c9989d2f2e1]*/
+/*[clinic end generated code: output=0af4bc37e8be95cf input=3fc80c9989d2f2e1]*/
 
 /*[clinic input]
 test_vararg_and_posonly
@@ -4204,8 +4260,9 @@ PyDoc_STRVAR(test_vararg_and_posonly__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_vararg_and_posonly_MethodName = {.name = "test_vararg_and_posonly",};
 #define TEST_VARARG_AND_POSONLY_METHODDEF    \
-    {"test_vararg_and_posonly", _PyCFunction_CAST(test_vararg_and_posonly), METH_FASTCALL, test_vararg_and_posonly__doc__},
+    {test_vararg_and_posonly_MethodName.name, _PyCFunction_CAST(test_vararg_and_posonly), METH_FASTCALL, test_vararg_and_posonly__doc__},
 
 static PyObject *
 test_vararg_and_posonly_impl(PyObject *module, PyObject *a, PyObject *args);
@@ -4236,7 +4293,7 @@ exit:
 
 static PyObject *
 test_vararg_and_posonly_impl(PyObject *module, PyObject *a, PyObject *args)
-/*[clinic end generated code: output=0c11c475e240869e input=2c49a482f68545c0]*/
+/*[clinic end generated code: output=2ec81cad2247be79 input=2c49a482f68545c0]*/
 
 /*[clinic input]
 test_vararg
@@ -4252,8 +4309,9 @@ PyDoc_STRVAR(test_vararg__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_vararg_MethodName = {.name = "test_vararg",};
 #define TEST_VARARG_METHODDEF    \
-    {"test_vararg", _PyCFunction_CAST(test_vararg), METH_FASTCALL|METH_KEYWORDS, test_vararg__doc__},
+    {test_vararg_MethodName.name, _PyCFunction_CAST(test_vararg), METH_FASTCALL|METH_KEYWORDS, test_vararg__doc__},
 
 static PyObject *
 test_vararg_impl(PyObject *module, PyObject *a, PyObject *args);
@@ -4317,7 +4375,7 @@ exit:
 
 static PyObject *
 test_vararg_impl(PyObject *module, PyObject *a, PyObject *args)
-/*[clinic end generated code: output=17ba625cdd0369c1 input=7448995636d9186a]*/
+/*[clinic end generated code: output=68cde0b168114dff input=7448995636d9186a]*/
 
 /*[clinic input]
 test_vararg_with_default
@@ -4334,8 +4392,9 @@ PyDoc_STRVAR(test_vararg_with_default__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_vararg_with_default_MethodName = {.name = "test_vararg_with_default",};
 #define TEST_VARARG_WITH_DEFAULT_METHODDEF    \
-    {"test_vararg_with_default", _PyCFunction_CAST(test_vararg_with_default), METH_FASTCALL|METH_KEYWORDS, test_vararg_with_default__doc__},
+    {test_vararg_with_default_MethodName.name, _PyCFunction_CAST(test_vararg_with_default), METH_FASTCALL|METH_KEYWORDS, test_vararg_with_default__doc__},
 
 static PyObject *
 test_vararg_with_default_impl(PyObject *module, PyObject *a, PyObject *args,
@@ -4411,7 +4470,7 @@ exit:
 static PyObject *
 test_vararg_with_default_impl(PyObject *module, PyObject *a, PyObject *args,
                               int b)
-/*[clinic end generated code: output=3f2b06ab08d5d0be input=3a0f9f557ce1f712]*/
+/*[clinic end generated code: output=a3b2c199f036e862 input=3a0f9f557ce1f712]*/
 
 /*[clinic input]
 test_vararg_with_only_defaults
@@ -4428,8 +4487,9 @@ PyDoc_STRVAR(test_vararg_with_only_defaults__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_vararg_with_only_defaults_MethodName = {.name = "test_vararg_with_only_defaults",};
 #define TEST_VARARG_WITH_ONLY_DEFAULTS_METHODDEF    \
-    {"test_vararg_with_only_defaults", _PyCFunction_CAST(test_vararg_with_only_defaults), METH_FASTCALL|METH_KEYWORDS, test_vararg_with_only_defaults__doc__},
+    {test_vararg_with_only_defaults_MethodName.name, _PyCFunction_CAST(test_vararg_with_only_defaults), METH_FASTCALL|METH_KEYWORDS, test_vararg_with_only_defaults__doc__},
 
 static PyObject *
 test_vararg_with_only_defaults_impl(PyObject *module, PyObject *args, int b,
@@ -4508,7 +4568,7 @@ exit:
 static PyObject *
 test_vararg_with_only_defaults_impl(PyObject *module, PyObject *args, int b,
                                     PyObject *c)
-/*[clinic end generated code: output=f46666f0b1bf86b9 input=6983e66817f82924]*/
+/*[clinic end generated code: output=35e354e54d91b008 input=6983e66817f82924]*/
 
 /*[clinic input]
 test_paramname_module
@@ -4521,8 +4581,9 @@ PyDoc_STRVAR(test_paramname_module__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_paramname_module_MethodName = {.name = "test_paramname_module",};
 #define TEST_PARAMNAME_MODULE_METHODDEF    \
-    {"test_paramname_module", _PyCFunction_CAST(test_paramname_module), METH_FASTCALL|METH_KEYWORDS, test_paramname_module__doc__},
+    {test_paramname_module_MethodName.name, _PyCFunction_CAST(test_paramname_module), METH_FASTCALL|METH_KEYWORDS, test_paramname_module__doc__},
 
 static PyObject *
 test_paramname_module_impl(PyObject *module, PyObject *mod);
@@ -4575,7 +4636,7 @@ exit:
 
 static PyObject *
 test_paramname_module_impl(PyObject *module, PyObject *mod)
-/*[clinic end generated code: output=b979bb1c03b16911 input=afefe259667f13ba]*/
+/*[clinic end generated code: output=a2edd104978eae5a input=afefe259667f13ba]*/
 
 /*[clinic input]
 mangle1
@@ -4598,8 +4659,9 @@ PyDoc_STRVAR(mangle1__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} mangle1_MethodName = {.name = "mangle1",};
 #define MANGLE1_METHODDEF    \
-    {"mangle1", _PyCFunction_CAST(mangle1), METH_FASTCALL|METH_KEYWORDS, mangle1__doc__},
+    {mangle1_MethodName.name, _PyCFunction_CAST(mangle1), METH_FASTCALL|METH_KEYWORDS, mangle1__doc__},
 
 static PyObject *
 mangle1_impl(PyObject *module, PyObject *args, PyObject *kwnames,
@@ -4674,7 +4736,7 @@ mangle1_impl(PyObject *module, PyObject *args, PyObject *kwnames,
              PyObject *return_value, PyObject *_keywords, PyObject *_parser,
              PyObject *argsbuf, PyObject *fastargs, PyObject *nargs,
              PyObject *noptargs)
-/*[clinic end generated code: output=8993a3111845dfc3 input=a3ed51bdedf8a3c7]*/
+/*[clinic end generated code: output=3bc648ea5f891f70 input=a3ed51bdedf8a3c7]*/
 
 /*[clinic input]
 mangle2
@@ -4690,8 +4752,9 @@ PyDoc_STRVAR(mangle2__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} mangle2_MethodName = {.name = "mangle2",};
 #define MANGLE2_METHODDEF    \
-    {"mangle2", _PyCFunction_CAST(mangle2), METH_FASTCALL|METH_KEYWORDS, mangle2__doc__},
+    {mangle2_MethodName.name, _PyCFunction_CAST(mangle2), METH_FASTCALL|METH_KEYWORDS, mangle2__doc__},
 
 static PyObject *
 mangle2_impl(PyObject *module, PyObject *args, PyObject *kwargs,
@@ -4750,7 +4813,7 @@ exit:
 static PyObject *
 mangle2_impl(PyObject *module, PyObject *args, PyObject *kwargs,
              PyObject *return_value)
-/*[clinic end generated code: output=bbbe696e52e0267f input=391766fee51bad7a]*/
+/*[clinic end generated code: output=1c926d3ff77295f9 input=391766fee51bad7a]*/
 
 
 /*[clinic input]
@@ -4765,8 +4828,9 @@ PyDoc_STRVAR(Test_cls_with_param__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} Test_cls_with_param_MethodName = {.name = "cls_with_param",};
 #define TEST_CLS_WITH_PARAM_METHODDEF    \
-    {"cls_with_param", _PyCFunction_CAST(Test_cls_with_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, Test_cls_with_param__doc__},
+    {Test_cls_with_param_MethodName.name, _PyCFunction_CAST(Test_cls_with_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, Test_cls_with_param__doc__},
 
 static PyObject *
 Test_cls_with_param_impl(TestObj *self, PyTypeObject *cls, int a);
@@ -4822,7 +4886,7 @@ exit:
 
 static PyObject *
 Test_cls_with_param_impl(TestObj *self, PyTypeObject *cls, int a)
-/*[clinic end generated code: output=bd3883003f57d02b input=af158077bd237ef9]*/
+/*[clinic end generated code: output=a86ccd09c50a3e75 input=af158077bd237ef9]*/
 
 
 /*[clinic input]
@@ -4917,8 +4981,9 @@ PyDoc_STRVAR(Test_cls_no_params__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} Test_cls_no_params_MethodName = {.name = "cls_no_params",};
 #define TEST_CLS_NO_PARAMS_METHODDEF    \
-    {"cls_no_params", _PyCFunction_CAST(Test_cls_no_params), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, Test_cls_no_params__doc__},
+    {Test_cls_no_params_MethodName.name, _PyCFunction_CAST(Test_cls_no_params), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, Test_cls_no_params__doc__},
 
 static PyObject *
 Test_cls_no_params_impl(TestObj *self, PyTypeObject *cls);
@@ -4935,7 +5000,7 @@ Test_cls_no_params(PyObject *self, PyTypeObject *cls, PyObject *const *args, Py_
 
 static PyObject *
 Test_cls_no_params_impl(TestObj *self, PyTypeObject *cls)
-/*[clinic end generated code: output=8845de054449f40a input=e7e2e4e344e96a11]*/
+/*[clinic end generated code: output=7b8cc7b14f087591 input=e7e2e4e344e96a11]*/
 
 
 /*[clinic input]
@@ -4949,8 +5014,9 @@ PyDoc_STRVAR(Test_metho_not_default_return_converter__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} Test_metho_not_default_return_converter_MethodName = {.name = "metho_not_default_return_converter",};
 #define TEST_METHO_NOT_DEFAULT_RETURN_CONVERTER_METHODDEF    \
-    {"metho_not_default_return_converter", (PyCFunction)Test_metho_not_default_return_converter, METH_O, Test_metho_not_default_return_converter__doc__},
+    {Test_metho_not_default_return_converter_MethodName.name, (PyCFunction)Test_metho_not_default_return_converter, METH_O, Test_metho_not_default_return_converter__doc__},
 
 static int
 Test_metho_not_default_return_converter_impl(TestObj *self, PyObject *a);
@@ -4973,7 +5039,7 @@ exit:
 
 static int
 Test_metho_not_default_return_converter_impl(TestObj *self, PyObject *a)
-/*[clinic end generated code: output=8b03f5213c312138 input=428657129b521177]*/
+/*[clinic end generated code: output=6d63017a8fcc4e80 input=428657129b521177]*/
 
 
 /*[clinic input]
@@ -4992,8 +5058,9 @@ PyDoc_STRVAR(Test_an_metho_arg_named_arg__doc__,
 "  arg\n"
 "    Name should be mangled to \'arg_\' in generated output.");
 
+static struct {char name[];} Test_an_metho_arg_named_arg_MethodName = {.name = "an_metho_arg_named_arg",};
 #define TEST_AN_METHO_ARG_NAMED_ARG_METHODDEF    \
-    {"an_metho_arg_named_arg", (PyCFunction)Test_an_metho_arg_named_arg, METH_O, Test_an_metho_arg_named_arg__doc__},
+    {Test_an_metho_arg_named_arg_MethodName.name, (PyCFunction)Test_an_metho_arg_named_arg, METH_O, Test_an_metho_arg_named_arg__doc__},
 
 static PyObject *
 Test_an_metho_arg_named_arg_impl(TestObj *self, int arg);
@@ -5016,7 +5083,7 @@ exit:
 
 static PyObject *
 Test_an_metho_arg_named_arg_impl(TestObj *self, int arg)
-/*[clinic end generated code: output=38554f09950d07e7 input=2a53a57cf5624f95]*/
+/*[clinic end generated code: output=a5d284908808d3b4 input=2a53a57cf5624f95]*/
 
 
 /*[clinic input]
@@ -5182,8 +5249,9 @@ PyDoc_STRVAR(Test_class_method__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} Test_class_method_MethodName = {.name = "class_method",};
 #define TEST_CLASS_METHOD_METHODDEF    \
-    {"class_method", (PyCFunction)Test_class_method, METH_NOARGS|METH_CLASS, Test_class_method__doc__},
+    {Test_class_method_MethodName.name, (PyCFunction)Test_class_method, METH_NOARGS|METH_CLASS, Test_class_method__doc__},
 
 static PyObject *
 Test_class_method_impl(PyTypeObject *type);
@@ -5196,7 +5264,7 @@ Test_class_method(PyObject *type, PyObject *Py_UNUSED(ignored))
 
 static PyObject *
 Test_class_method_impl(PyTypeObject *type)
-/*[clinic end generated code: output=64f93e6252bde409 input=43bc4a0494547b80]*/
+/*[clinic end generated code: output=cc2e8524dd62d4a8 input=43bc4a0494547b80]*/
 
 
 /*[clinic input]
@@ -5209,8 +5277,9 @@ PyDoc_STRVAR(Test_static_method__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} Test_static_method_MethodName = {.name = "static_method",};
 #define TEST_STATIC_METHOD_METHODDEF    \
-    {"static_method", (PyCFunction)Test_static_method, METH_NOARGS|METH_STATIC, Test_static_method__doc__},
+    {Test_static_method_MethodName.name, (PyCFunction)Test_static_method, METH_NOARGS|METH_STATIC, Test_static_method__doc__},
 
 static PyObject *
 Test_static_method_impl();
@@ -5223,7 +5292,7 @@ Test_static_method(PyObject *null, PyObject *Py_UNUSED(ignored))
 
 static PyObject *
 Test_static_method_impl()
-/*[clinic end generated code: output=9e401fb6ed56a4f3 input=dae892fac55ae72b]*/
+/*[clinic end generated code: output=3092e178fd698edc input=dae892fac55ae72b]*/
 
 
 /*[clinic input]
@@ -5236,8 +5305,9 @@ PyDoc_STRVAR(Test_meth_coexist__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} Test_meth_coexist_MethodName = {.name = "meth_coexist",};
 #define TEST_METH_COEXIST_METHODDEF    \
-    {"meth_coexist", (PyCFunction)Test_meth_coexist, METH_NOARGS|METH_COEXIST, Test_meth_coexist__doc__},
+    {Test_meth_coexist_MethodName.name, (PyCFunction)Test_meth_coexist, METH_NOARGS|METH_COEXIST, Test_meth_coexist__doc__},
 
 static PyObject *
 Test_meth_coexist_impl(TestObj *self);
@@ -5250,7 +5320,7 @@ Test_meth_coexist(PyObject *self, PyObject *Py_UNUSED(ignored))
 
 static PyObject *
 Test_meth_coexist_impl(TestObj *self)
-/*[clinic end generated code: output=7edf4e95b29f06fa input=2a1d75b5e6fec6dd]*/
+/*[clinic end generated code: output=e50edf37f72c74f8 input=2a1d75b5e6fec6dd]*/
 
 /*[clinic input]
 @getter
@@ -5449,8 +5519,9 @@ PyDoc_STRVAR(mangled_c_keyword_identifier__doc__,
 "\n"
 "The \'int\' param should be mangled as \'int_value\'");
 
+static struct {char name[];} mangled_c_keyword_identifier_MethodName = {.name = "mangled_c_keyword_identifier",};
 #define MANGLED_C_KEYWORD_IDENTIFIER_METHODDEF    \
-    {"mangled_c_keyword_identifier", _PyCFunction_CAST(mangled_c_keyword_identifier), METH_FASTCALL|METH_KEYWORDS, mangled_c_keyword_identifier__doc__},
+    {mangled_c_keyword_identifier_MethodName.name, _PyCFunction_CAST(mangled_c_keyword_identifier), METH_FASTCALL|METH_KEYWORDS, mangled_c_keyword_identifier__doc__},
 
 static PyObject *
 mangled_c_keyword_identifier_impl(PyObject *module, int int_value);
@@ -5506,7 +5577,7 @@ exit:
 
 static PyObject *
 mangled_c_keyword_identifier_impl(PyObject *module, int int_value)
-/*[clinic end generated code: output=49365b3b96b23980 input=060876448ab567a2]*/
+/*[clinic end generated code: output=9c0a9706692db01d input=060876448ab567a2]*/
 
 
 /*[clinic input]
@@ -5518,8 +5589,9 @@ PyDoc_STRVAR(bool_return__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} bool_return_MethodName = {.name = "bool_return",};
 #define BOOL_RETURN_METHODDEF    \
-    {"bool_return", (PyCFunction)bool_return, METH_NOARGS, bool_return__doc__},
+    {bool_return_MethodName.name, (PyCFunction)bool_return, METH_NOARGS, bool_return__doc__},
 
 static int
 bool_return_impl(PyObject *module);
@@ -5542,7 +5614,7 @@ exit:
 
 static int
 bool_return_impl(PyObject *module)
-/*[clinic end generated code: output=3a65f07830e48e98 input=93ba95d39ee98f39]*/
+/*[clinic end generated code: output=c56bd9506b75c7c3 input=93ba95d39ee98f39]*/
 
 
 /*[clinic input]
@@ -5554,8 +5626,9 @@ PyDoc_STRVAR(double_return__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} double_return_MethodName = {.name = "double_return",};
 #define DOUBLE_RETURN_METHODDEF    \
-    {"double_return", (PyCFunction)double_return, METH_NOARGS, double_return__doc__},
+    {double_return_MethodName.name, (PyCFunction)double_return, METH_NOARGS, double_return__doc__},
 
 static double
 double_return_impl(PyObject *module);
@@ -5578,7 +5651,7 @@ exit:
 
 static double
 double_return_impl(PyObject *module)
-/*[clinic end generated code: output=076dc72595d3f66d input=da11b6255e4cbfd7]*/
+/*[clinic end generated code: output=5014f8f7ad082e4c input=da11b6255e4cbfd7]*/
 
 
 /*[clinic input]
@@ -5655,8 +5728,9 @@ PyDoc_STRVAR(Test__pyarg_parsestackandkeywords__doc__,
 "\n"
 "Check that _PyArg_ParseStackAndKeywords() is generated.");
 
+static struct {char name[];} Test__pyarg_parsestackandkeywords_MethodName = {.name = "_pyarg_parsestackandkeywords",};
 #define TEST__PYARG_PARSESTACKANDKEYWORDS_METHODDEF    \
-    {"_pyarg_parsestackandkeywords", _PyCFunction_CAST(Test__pyarg_parsestackandkeywords), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, Test__pyarg_parsestackandkeywords__doc__},
+    {Test__pyarg_parsestackandkeywords_MethodName.name, _PyCFunction_CAST(Test__pyarg_parsestackandkeywords), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, Test__pyarg_parsestackandkeywords__doc__},
 
 static PyObject *
 Test__pyarg_parsestackandkeywords_impl(TestObj *self, PyTypeObject *cls,
@@ -5697,7 +5771,7 @@ static PyObject *
 Test__pyarg_parsestackandkeywords_impl(TestObj *self, PyTypeObject *cls,
                                        const char *key,
                                        Py_ssize_t key_length)
-/*[clinic end generated code: output=7060c213d7b8200e input=fc72ef4b4cfafabc]*/
+/*[clinic end generated code: output=c990463391974626 input=fc72ef4b4cfafabc]*/
 
 
 /*[clinic input]
@@ -5710,8 +5784,9 @@ PyDoc_STRVAR(fn_with_default_binop_expr__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} fn_with_default_binop_expr_MethodName = {.name = "fn_with_default_binop_expr",};
 #define FN_WITH_DEFAULT_BINOP_EXPR_METHODDEF    \
-    {"fn_with_default_binop_expr", _PyCFunction_CAST(fn_with_default_binop_expr), METH_FASTCALL|METH_KEYWORDS, fn_with_default_binop_expr__doc__},
+    {fn_with_default_binop_expr_MethodName.name, _PyCFunction_CAST(fn_with_default_binop_expr), METH_FASTCALL|METH_KEYWORDS, fn_with_default_binop_expr__doc__},
 
 static PyObject *
 fn_with_default_binop_expr_impl(PyObject *module, PyObject *arg);
@@ -5769,7 +5844,7 @@ exit:
 
 static PyObject *
 fn_with_default_binop_expr_impl(PyObject *module, PyObject *arg)
-/*[clinic end generated code: output=6613a7a96537bcf2 input=1b55c8ae68d89453]*/
+/*[clinic end generated code: output=94ef4ce17deffc7f input=1b55c8ae68d89453]*/
 
 
 /*[python input]
@@ -5802,8 +5877,9 @@ PyDoc_STRVAR(docstr_fallback_to_converter_default__doc__,
 "The signature should have the default a=\'Hello!\',\n"
 "as given by the Custom converter.");
 
+static struct {char name[];} docstr_fallback_to_converter_default_MethodName = {.name = "docstr_fallback_to_converter_default",};
 #define DOCSTR_FALLBACK_TO_CONVERTER_DEFAULT_METHODDEF    \
-    {"docstr_fallback_to_converter_default", _PyCFunction_CAST(docstr_fallback_to_converter_default), METH_FASTCALL|METH_KEYWORDS, docstr_fallback_to_converter_default__doc__},
+    {docstr_fallback_to_converter_default_MethodName.name, _PyCFunction_CAST(docstr_fallback_to_converter_default), METH_FASTCALL|METH_KEYWORDS, docstr_fallback_to_converter_default__doc__},
 
 static PyObject *
 docstr_fallback_to_converter_default_impl(PyObject *module, str a);
@@ -5858,7 +5934,7 @@ exit:
 
 static PyObject *
 docstr_fallback_to_converter_default_impl(PyObject *module, str a)
-/*[clinic end generated code: output=4405b7050a5f6fb9 input=0cbe6a4d24bc2274]*/
+/*[clinic end generated code: output=a4edbac3c61ac388 input=0cbe6a4d24bc2274]*/
 
 
 /*[clinic input]
@@ -5871,8 +5947,9 @@ PyDoc_STRVAR(test_critical_section__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_critical_section_MethodName = {.name = "test_critical_section",};
 #define TEST_CRITICAL_SECTION_METHODDEF    \
-    {"test_critical_section", (PyCFunction)test_critical_section, METH_NOARGS, test_critical_section__doc__},
+    {test_critical_section_MethodName.name, (PyCFunction)test_critical_section, METH_NOARGS, test_critical_section__doc__},
 
 static PyObject *
 test_critical_section_impl(PyObject *module);
@@ -5891,7 +5968,7 @@ test_critical_section(PyObject *module, PyObject *Py_UNUSED(ignored))
 
 static PyObject *
 test_critical_section_impl(PyObject *module)
-/*[clinic end generated code: output=9d5a87bb28aa3f0c input=8c58956d6ff00f80]*/
+/*[clinic end generated code: output=f78a27f4193be582 input=8c58956d6ff00f80]*/
 
 
 /*[clinic input]
@@ -5906,8 +5983,9 @@ PyDoc_STRVAR(test_critical_section_meth_o__doc__,
 "--\n"
 "\n");
 
+static struct {char name[];} test_critical_section_meth_o_MethodName = {.name = "test_critical_section_meth_o",};
 #define TEST_CRITICAL_SECTION_METH_O_METHODDEF    \
-    {"test_critical_section_meth_o", (PyCFunction)test_critical_section_meth_o, METH_O, test_critical_section_meth_o__doc__},
+    {test_critical_section_meth_o_MethodName.name, (PyCFunction)test_critical_section_meth_o, METH_O, test_critical_section_meth_o__doc__},
 
 static PyObject *
 test_critical_section_meth_o_impl(PyObject *module, PyObject *a);
@@ -5933,7 +6011,7 @@ exit:
 
 static PyObject *
 test_critical_section_meth_o_impl(PyObject *module, PyObject *a)
-/*[clinic end generated code: output=7a9d7420802d1202 input=376533f51eceb6c3]*/
+/*[clinic end generated code: output=5277828bd36cdefe input=376533f51eceb6c3]*/
 
 /*[clinic input]
 @critical_section a
@@ -5949,8 +6027,9 @@ PyDoc_STRVAR(test_critical_section_object__doc__,
 "\n"
 "test_critical_section_object");
 
+static struct {char name[];} test_critical_section_object_MethodName = {.name = "test_critical_section_object",};
 #define TEST_CRITICAL_SECTION_OBJECT_METHODDEF    \
-    {"test_critical_section_object", (PyCFunction)test_critical_section_object, METH_O, test_critical_section_object__doc__},
+    {test_critical_section_object_MethodName.name, (PyCFunction)test_critical_section_object, METH_O, test_critical_section_object__doc__},
 
 static PyObject *
 test_critical_section_object_impl(PyObject *module, PyObject *a);
@@ -5976,7 +6055,7 @@ exit:
 
 static PyObject *
 test_critical_section_object_impl(PyObject *module, PyObject *a)
-/*[clinic end generated code: output=ec06df92232b0fb5 input=6f67f91b523c875f]*/
+/*[clinic end generated code: output=800496e05d78995b input=6f67f91b523c875f]*/
 
 /*[clinic input]
 @critical_section a b
@@ -5993,8 +6072,9 @@ PyDoc_STRVAR(test_critical_section_object2__doc__,
 "\n"
 "test_critical_section_object2");
 
+static struct {char name[];} test_critical_section_object2_MethodName = {.name = "test_critical_section_object2",};
 #define TEST_CRITICAL_SECTION_OBJECT2_METHODDEF    \
-    {"test_critical_section_object2", _PyCFunction_CAST(test_critical_section_object2), METH_FASTCALL, test_critical_section_object2__doc__},
+    {test_critical_section_object2_MethodName.name, _PyCFunction_CAST(test_critical_section_object2), METH_FASTCALL, test_critical_section_object2__doc__},
 
 static PyObject *
 test_critical_section_object2_impl(PyObject *module, PyObject *a,
@@ -6031,4 +6111,4 @@ exit:
 static PyObject *
 test_critical_section_object2_impl(PyObject *module, PyObject *a,
                                    PyObject *b)
-/*[clinic end generated code: output=d73a1657c18df17a input=638824e41419a466]*/
+/*[clinic end generated code: output=fe41fbc55ef59400 input=638824e41419a466]*/
