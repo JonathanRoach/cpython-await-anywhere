@@ -235,6 +235,8 @@ enum {
     _PyFunctionIndex_sq_inplace_concat,
     _PyFunctionIndex_sq_inplace_repeat,
 
+    _PyFunctionIndex_sq_length_inlineable,
+
     _PyFunctionIndex_sq_COUNT
 };
 
@@ -254,6 +256,8 @@ typedef struct {
 //
 // Fields below here only present if Py_TPFLAGS_IS_EXTENDED
 //
+
+    lenfunc_inlineable sq_length_inlineable;
 
     unsigned char sq_functionflags[_PyFunctionIndex_sq_COUNT];
 } PySequenceMethods;

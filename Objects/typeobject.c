@@ -10409,32 +10409,62 @@ FUNCNAME(PyObject *self, PyObject *other) \
 #define SLOT1BIN(FUNCNAME, SLOTNAME, DUNDER, RDUNDER) \
     SLOT1BINFULL(FUNCNAME, FUNCNAME, SLOTNAME, DUNDER, RDUNDER)
 
-static Py_ssize_t
-slot_sq_length(PyObject *self)
-{
-    PyObject* stack[1] = {self};
-    PyObject *res = vectorcall_method(&_Py_ID(__len__), stack, 1, NULL);
+RETURNACTION_STDCLASSDECLARATION_R(Py_ssize_t, slot_sq_length_Inlineable)
+struct slot_sq_length_Inlineable_State {
+    ReturnAction_State base;
+    PyObject *self;
+};
+
+static void slot_sq_length_Inlineable_WrappedInit(slot_sq_length_Inlineable_State *wrapped, slot_sq_length_Inlineable_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+    wrapped->self = Py_NewRef(state->self);
+}
+
+static void slot_sq_length_Inlineable_WrappedDtor(slot_sq_length_Inlineable_State *wrapped){
+    Py_DECREF(wrapped->self);
+}
+
+RETURNACTION_STEPDEFINITION_R(Py_ssize_t, slot_sq_length_Inlineable, 1)
+    PyObject* stack[1] = {state->self};
+    result = vectorcall_method(&_Py_ID(__len__), stack, 1, inlined);
+    RETURNACTION_CHECKINLINED_R(Py_ssize_t, 1)
     Py_ssize_t len;
 
-    if (res == NULL)
+    if (result == NULL)
         return -1;
 
-    Py_SETREF(res, _PyNumber_Index(res));
-    if (res == NULL)
+    Py_SETREF(result, _PyNumber_Index(result));
+    if (result == NULL)
         return -1;
 
-    assert(PyLong_Check(res));
-    if (_PyLong_IsNegative((PyLongObject *)res)) {
-        Py_DECREF(res);
+    assert(PyLong_Check(result));
+    if (_PyLong_IsNegative((PyLongObject *)result)) {
+        Py_DECREF(result);
         PyErr_SetString(PyExc_ValueError,
                         "__len__() should return >= 0");
         return -1;
     }
 
-    len = PyNumber_AsSsize_t(res, PyExc_OverflowError);
+    len = PyNumber_AsSsize_t(result, PyExc_OverflowError);
     assert(len >= 0 || PyErr_ExceptionMatches(PyExc_OverflowError));
-    Py_DECREF(res);
+    Py_DECREF(result);
     return len;
+}
+
+static Py_ssize_t
+slot_sq_length_Inlineable(PyObject *self, struct _PyInterpreterFrame **inlined)
+{
+    slot_sq_length_Inlineable_State state = {
+        .base.step = 0,
+        .self = self,
+    };
+    return slot_sq_length_Inlineable_Step(&state, NULL, inlined);
+}
+
+static Py_ssize_t
+slot_sq_length(PyObject *self)
+{
+    return slot_sq_length_Inlineable(self, NULL);
 }
 
 static PyObject *
@@ -11471,6 +11501,8 @@ an all-zero entry.
     ETSLOT(NAME, as_async.SLOT, FUNCTION, WRAPPER, DOC)
 #define SQSLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
     ETSLOT(NAME, as_sequence.SLOT, FUNCTION, WRAPPER, DOC)
+#define SQISLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
+    ETISLOT(NAME, as_sequence.SLOT, FUNCTION, WRAPPER, DOC)
 #define MPSLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
     ETSLOT(NAME, as_mapping.SLOT, FUNCTION, WRAPPER, DOC)
 #define MPISLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
@@ -11669,7 +11701,7 @@ static pytype_slotdef slotdefs[] = {
            wrap_delitem,
            "__delitem__($self, key, /)\n--\n\nDelete self[key]."),
 
-    SQSLOT(__len__, sq_length, slot_sq_length, wrap_lenfunc,
+    SQISLOT(__len__, sq_length, slot_sq_length, wrap_lenfunc,
            "__len__($self, /)\n--\n\nReturn len(self)."),
     /* Heap types defining __add__/__mul__ have sq_concat/sq_repeat == NULL.
        The logic in abstract.c always falls back to nb_add/nb_multiply in
@@ -11821,7 +11853,7 @@ static struct SlotInfos {
     SLOTIINFO(nb,matrix_multiply)
     SLOTIINFO(nb,inplace_matrix_multiply)
 
-    SLOTINFO(sq,length)
+    SLOTIINFO(sq,length)
     SLOTINFO(sq,concat)
     SLOTINFO(sq,repeat)
     SLOTINFO(sq,item)
@@ -13431,6 +13463,7 @@ PyType_DefineCallTypeFunction3(R, int, sq, ass_item, PyObject *, Py_ssize_t, PyO
 PyType_DefineCallTypeFunction2(R, int, sq, contains, PyObject *, PyObject *);
 PyType_DefineCallTypeFunction2(R, PyObject *, sq, inplace_concat, PyObject *, PyObject *);
 PyType_DefineCallTypeFunction2(R, PyObject *, sq, inplace_repeat, PyObject *, Py_ssize_t);
+PyType_DefineCallTypeFunction2(R, Py_ssize_t, sq, length_inlineable, PyObject *, struct _PyInterpreterFrame **);
 
 PyType_DefineCallTypeFunction1(R, Py_ssize_t, mp, length, PyObject *);
 PyType_DefineCallTypeFunction2(R, PyObject *, mp, subscript, PyObject *, PyObject *);

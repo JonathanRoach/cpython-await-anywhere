@@ -41,6 +41,23 @@ null_error(void)
     return NULL;
 }
 
+#ifndef NDEBUG
+    static inline bool checkimmediateslotresult(struct _PyInterpreterFrame *frame,
+        struct _PyInterpreterFrame **inlined, PyObject *v, bool res,
+        char const *op_name
+    )
+    {
+        if (!inlined || *inlined == frame) {
+            assert(_Py_CheckSlotResult(v, op_name, res));
+        }
+        return true;
+    }
+
+    #define CHECKIMMEDIATESLOTRESULT(frame, inlined, ob, res, op_name) checkimmediateslotresult(frame, inlined, ob, (bool)(res), op_name)
+#else
+    #define CHECKIMMEDIATESLOTRESULT(frame, inlined, ob, res, op_name) checkimmediateslotresult(frame, inlined, ob, res)
+#endif
+
 /* Operations on any object */
 
 PyObject *
@@ -57,30 +74,52 @@ PyObject_Type(PyObject *o)
 }
 
 Py_ssize_t
-PyObject_Size(PyObject *o)
+_PyObject_Size_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined)
 {
     if (o == NULL) {
         null_error();
         return -1;
     }
 
-    PySequenceMethods *m = Py_TYPE(o)->tp_as_sequence;
+    PyTypeObject *tp = Py_TYPE(o);
+    PySequenceMethods *m = tp->tp_as_sequence;
     if (m && m->sq_length) {
-        Py_ssize_t len = PyType_Call_sq_length(Py_TYPE(o), o);
-        assert(_Py_CheckSlotResult(o, "__len__", len >= 0));
+#ifndef NDEBUG
+        struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
+#endif
+        Py_ssize_t len;
+        if (PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) && m->sq_length_inlineable){
+            len = PyType_Call_sq_length_inlineable(tp, o, inlined);
+        } else {
+            len = PyType_Call_sq_length(tp, o);
+        }
+        assert(CHECKIMMEDIATESLOTRESULT(frame, inlined, o, len >= 0, "__len__"));
         return len;
     }
 
-    return PyMapping_Size(o);
+    return _PyMapping_Size_Inlineable(o, inlined);
+}
+
+Py_ssize_t
+PyObject_Size(PyObject *o)
+{
+    return _PyObject_Size_Inlineable(o, NULL);
 }
 
 #undef PyObject_Length
+#undef _PyObject_Length_Inlineable
+Py_ssize_t
+_PyObject_Length_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined)
+{
+    return _PyObject_Size_Inlineable(o, inlined);
+}
 Py_ssize_t
 PyObject_Length(PyObject *o)
 {
-    return PyObject_Size(o);
+    return _PyObject_Length_Inlineable(o, NULL);
 }
 #define PyObject_Length PyObject_Size
+#define _PyObject_Length_Inlineable _PyObject_Size_Inlineable
 
 int
 _PyObject_HasLen(PyObject *o) {
@@ -152,23 +191,6 @@ PyObject_LengthHint(PyObject *o, Py_ssize_t defaultvalue)
     return res;
 }
 
-#ifndef NDEBUG
-    static inline bool checkimmediateslotresult(struct _PyInterpreterFrame *frame,
-        struct _PyInterpreterFrame **inlined, PyObject *v, PyObject *res,
-        char const *op_name
-    )
-    {
-        if (!inlined || *inlined == frame) {
-            assert(_Py_CheckSlotResult(v, op_name, res != NULL));
-        }
-        return true;
-    }
-
-    #define CHECKIMMEDIATESLOTRESULT(frame, inlined, ob, res, op_name) checkimmediateslotresult(frame, inlined, ob, res, op_name)
-#else
-    #define CHECKIMMEDIATESLOTRESULT(frame, inlined, ob, res, op_name) checkimmediateslotresult(frame, inlined, ob, res)
-#endif
-
 PyObject *
 _PyObject_GetItem_Inlineable(PyObject *o, PyObject *key, struct _PyInterpreterFrame **inlined)
 {
@@ -176,16 +198,17 @@ _PyObject_GetItem_Inlineable(PyObject *o, PyObject *key, struct _PyInterpreterFr
         return null_error();
     }
 
-    PyMappingMethods *m = Py_TYPE(o)->tp_as_mapping;
+    PyTypeObject *tp = Py_TYPE(o);
+    PyMappingMethods *m = tp->tp_as_mapping;
     if (m && m->mp_subscript) {
 #ifndef NDEBUG
         struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
 #endif
         PyObject *item;
-        if (PyType_HasFeature(Py_TYPE(o), Py_TPFLAGS_IS_EXTENDED) && m->mp_subscript_inlineable){
-            item = PyType_Call_mp_subscript_inlineable(Py_TYPE(o), o, key, inlined);
+        if (PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) && m->mp_subscript_inlineable){
+            item = PyType_Call_mp_subscript_inlineable(tp, o, key, inlined);
         } else {
-            item = PyType_Call_mp_subscript(Py_TYPE(o), o, key);
+            item = PyType_Call_mp_subscript(tp, o, key);
         }
         assert(CHECKIMMEDIATESLOTRESULT(frame, inlined, o, item, "__getitem__"));
         return item;
@@ -2328,26 +2351,41 @@ PySequence_Check(PyObject *s)
 }
 
 Py_ssize_t
-PySequence_Size(PyObject *s)
+_PySequence_Size_Inlineable(PyObject *s, struct _PyInterpreterFrame **inlined)
 {
     if (s == NULL) {
         null_error();
         return -1;
     }
 
-    PySequenceMethods *m = Py_TYPE(s)->tp_as_sequence;
+    PyTypeObject *tp = Py_TYPE(s);
+    PySequenceMethods *m = tp->tp_as_sequence;
     if (m && m->sq_length) {
-        Py_ssize_t len = PyType_Call_sq_length(Py_TYPE(s), s);
-        assert(_Py_CheckSlotResult(s, "__len__", len >= 0));
+#ifndef NDEBUG
+        struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
+#endif
+        Py_ssize_t len;
+        if (PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) && m->sq_length_inlineable){
+            len = PyType_Call_sq_length_inlineable(tp, s, inlined);
+        } else {
+            len = PyType_Call_sq_length(tp, s);
+        }
+        assert(CHECKIMMEDIATESLOTRESULT(frame, inlined, s, len >= 0, "__len__"));
         return len;
     }
 
-    if (Py_TYPE(s)->tp_as_mapping && Py_TYPE(s)->tp_as_mapping->mp_length) {
+    if (tp->tp_as_mapping && tp->tp_as_mapping->mp_length) {
         type_error("%.200s is not a sequence", s);
         return -1;
     }
     type_error("object of type '%.200s' has no len()", s);
     return -1;
+}
+
+Py_ssize_t
+PySequence_Size(PyObject *s)
+{
+    return _PySequence_Size_Inlineable(s, NULL);
 }
 
 #undef PySequence_Length
@@ -2920,27 +2958,42 @@ PyMapping_Check(PyObject *o)
 }
 
 Py_ssize_t
-PyMapping_Size(PyObject *o)
+_PyMapping_Size_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined)
 {
     if (o == NULL) {
         null_error();
         return -1;
     }
 
-    PyMappingMethods *m = Py_TYPE(o)->tp_as_mapping;
+    PyTypeObject *tp = Py_TYPE(o);
+    PyMappingMethods *m = tp->tp_as_mapping;
     if (m && m->mp_length) {
-        Py_ssize_t len = PyType_Call_mp_length(Py_TYPE(o), o);
-        assert(_Py_CheckSlotResult(o, "__len__", len >= 0));
+#ifndef NDEBUG
+        struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
+#endif
+        Py_ssize_t len;
+        if (PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) && m->mp_length_inlineable){
+            len = PyType_Call_mp_length_inlineable(tp, o, inlined);
+        } else {
+            len = PyType_Call_mp_length(tp, o);
+        }
+        assert(CHECKIMMEDIATESLOTRESULT(frame, inlined, o, len >= 0, "__len__"));
         return len;
     }
 
-    if (Py_TYPE(o)->tp_as_sequence && Py_TYPE(o)->tp_as_sequence->sq_length) {
+    if (tp->tp_as_sequence && tp->tp_as_sequence->sq_length) {
         type_error("%.200s is not a mapping", o);
         return -1;
     }
     /* PyMapping_Size() can be called from PyObject_Size(). */
     type_error("object of type '%.200s' has no len()", o);
     return -1;
+}
+
+Py_ssize_t
+PyMapping_Size(PyObject *o)
+{
+    return _PyMapping_Size_Inlineable(o, NULL);
 }
 
 #undef PyMapping_Length

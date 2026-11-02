@@ -990,6 +990,7 @@ PyAPI_FUNC(int) PyType_Call_sq_ass_item(PyTypeObject *tp, PyObject *, Py_ssize_t
 PyAPI_FUNC(int) PyType_Call_sq_contains(PyTypeObject *tp, PyObject *, PyObject *);
 PyAPI_FUNC(PyObject *) PyType_Call_sq_inplace_concat(PyTypeObject *tp, PyObject *, PyObject *);
 PyAPI_FUNC(PyObject *) PyType_Call_sq_inplace_repeat(PyTypeObject *tp, PyObject *, Py_ssize_t);
+PyAPI_FUNC(Py_ssize_t) PyType_Call_sq_length_inlineable(PyTypeObject *tp, PyObject *, struct _PyInterpreterFrame **);
 
 PyAPI_FUNC(Py_ssize_t) PyType_Call_mp_length(PyTypeObject *tp, PyObject *);
 PyAPI_FUNC(PyObject *) PyType_Call_mp_subscript(PyTypeObject *tp, PyObject *, PyObject *);

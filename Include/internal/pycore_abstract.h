@@ -16,6 +16,15 @@ _PyIndex_Check(PyObject *obj)
     return (tp_as_number != NULL && tp_as_number->nb_index != NULL);
 }
 
+PyAPI_FUNC(Py_ssize_t) _PyObject_Size_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined);
+#undef _PyObject_Length_Inlineable
+PyAPI_FUNC(Py_ssize_t) _PyObject_Length_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined);
+#define _PyObject_Length_Inlineable _PyObject_Size_Inlineable
+PyAPI_FUNC(Py_ssize_t) _PyMapping_Size_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined);
+#undef _PyMapping_Length_Inlineable
+PyAPI_FUNC(Py_ssize_t) _PyMapping_Length_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined);
+#define _PyMapping_Length_Inlineable _PyMapping_Size_Inlineable
+
 // Inlineable unary ops
 PyObject * PyNumber_Negative_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined);
 PyObject * PyNumber_Positive_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined);

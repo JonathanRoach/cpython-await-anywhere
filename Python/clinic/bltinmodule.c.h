@@ -817,9 +817,11 @@ PyDoc_STRVAR(builtin_len__doc__,
 "\n"
 "Return the number of items in a container.");
 
-static struct {char name[];} builtin_len_MethodName = {.name = "len",};
+static PyObject *
+builtin_len_Inlineable(PyObject *module, PyObject *obj, struct _PyInterpreterFrame **inlined);
+static struct {void *func_inlineable; char name[];} builtin_len_MethodName = {.func_inlineable = builtin_len_Inlineable, .name = "len",};
 #define BUILTIN_LEN_METHODDEF    \
-    {builtin_len_MethodName.name, (PyCFunction)builtin_len, METH_O|METH_C_STACK_FRUGAL, builtin_len__doc__},
+    {builtin_len_MethodName.name, (PyCFunction)builtin_len, METH_O|METH_C_STACK_FRUGAL|METH_C_INLINEABLE, builtin_len__doc__},
 
 PyDoc_STRVAR(builtin_locals__doc__,
 "locals($module, /)\n"
@@ -1304,4 +1306,4 @@ builtin_issubclass(PyObject *module, PyObject *const *args, Py_ssize_t nargs)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=3f08028bbfe7e276 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=8bbdc339e8ba7249 input=a9049054013a1b77]*/

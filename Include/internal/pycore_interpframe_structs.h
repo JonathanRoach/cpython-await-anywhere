@@ -68,20 +68,25 @@ struct ReturnAction_Class {
 
 #define RETURNACTION_SETSTEP(N) (state->base.step = (state->base.step & ~ReturnAction_State_Flags) | (N))
 
-#define RETURNACTION_STDCLASSDECLARATION(name) \
-typedef struct name##_State name##_State; \
-static void name##_WrappedInit(name##_State *wrapped, name##_State *state); \
-static void name##_WrappedDtor(name##_State *wrapped); \
-static PyObject *name##_Step(name##_State *wrapped, PyObject *result, struct _PyInterpreterFrame **inlined);
+#define RETURNACTION_STDCLASSDECLARATION_R(TP, NAME) \
+typedef struct NAME##_State NAME##_State; \
+static void NAME##_WrappedInit(NAME##_State *wrapped, NAME##_State *state); \
+static void NAME##_WrappedDtor(NAME##_State *wrapped); \
+static TP NAME##_Step(NAME##_State *wrapped, PyObject *result, struct _PyInterpreterFrame **inlined);
 
-#define RETURNACTION_CHECKINLINED(N) \
+#define RETURNACTION_STDCLASSDECLARATION(NAME) RETURNACTION_STDCLASSDECLARATION_R(PyObject *, NAME)
+
+#define RETURNACTION_CHECKINLINED_R(TP, N, ...) \
     if (inlined && *inlined != frame) \
     { \
         RETURNACTION_SETSTEP(N); \
         _PyFrame_AddReturnAction(*inlined, &state->base, &MyReturnAction_Class); \
-        return result; \
-    } \
-    l##N:;
+        return (TP)Py_None; \
+l##N:; \
+        __VA_ARGS__ \
+    }
+
+#define RETURNACTION_CHECKINLINED(N, ...) RETURNACTION_CHECKINLINED_R(PyObject *, N __VA_OPT__(,) __VA_ARGS__)
 
 #define RETURNACTION_STEPPREAMBLE_INNER_1 \
     case 1: goto l1;
@@ -106,19 +111,12 @@ static PyObject *name##_Step(name##_State *wrapped, PyObject *result, struct _Py
     RETURNACTION_STEPPREAMBLE_INNER_5 \
     case 6: goto l6;
 
-#define RETURNACTION_STEPDEFINITION(name, N) \
-static PyObject * \
-name##_Step( \
-    name##_State *state, \
-    PyObject *result, \
-    struct _PyInterpreterFrame **inlined \
-) \
-{ \
+#define RETURNACTION_STEPPREAMBLE(NAME, STEPNAME, N) \
     static ReturnAction_Class MyReturnAction_Class = { \
-        .size = sizeof(name##_State), \
-        .init = (ReturnAction_WrappedInit *)&name##_WrappedInit, \
-        .dtor = (ReturnAction_WrappedDtor *)&name##_WrappedDtor, \
-        .step = (ReturnAction_Step *)&name##_Step, \
+        .size = sizeof(NAME##_State), \
+        .init = (ReturnAction_WrappedInit *)&NAME##_WrappedInit, \
+        .dtor = (ReturnAction_WrappedDtor *)&NAME##_WrappedDtor, \
+        .step = (ReturnAction_Step *)(void *)&STEPNAME, \
     }; \
  \
     struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL; \
@@ -128,6 +126,18 @@ name##_Step( \
     default: assert(0); \
     } \
 l0:;
+
+#define RETURNACTION_STEPDEFINITION_R(TP, NAME, N) \
+static TP \
+NAME##_Step( \
+    NAME##_State *state, \
+    PyObject *result, \
+    struct _PyInterpreterFrame **inlined \
+) \
+{ \
+    RETURNACTION_STEPPREAMBLE(NAME, NAME##_Step, N)
+
+#define RETURNACTION_STEPDEFINITION(NAME, N) RETURNACTION_STEPDEFINITION_R(PyObject *, NAME, N)
 
 
 struct _PyInterpreterFrame {

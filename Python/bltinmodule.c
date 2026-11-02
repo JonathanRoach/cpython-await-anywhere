@@ -8,6 +8,7 @@
 #include "pycore_fileutils.h"     // _PyFile_Flush
 #include "pycore_floatobject.h"   // _PyFloat_ExactDealloc()
 #include "pycore_interp.h"        // _PyInterpreterState_GetConfig()
+#include "pycore_interpframe.h"   // _PyFrame_AddReturnAction()
 #include "pycore_long.h"          // _PyLong_CompactValue
 #include "pycore_modsupport.h"    // _PyArg_NoKwnames()
 #include "pycore_object.h"        // _Py_AddToAllObjects()
@@ -1895,9 +1896,37 @@ builtin_anext_impl(PyObject *module, PyObject *aiterator,
     return new_awaitable;
 }
 
+RETURNACTION_STDCLASSDECLARATION(builtin_len_Inlineable)
+
+struct builtin_len_Inlineable_State {
+    ReturnAction_State base;
+    PyObject *obj;
+};
+
+static void builtin_len_Inlineable_WrappedInit(builtin_len_Inlineable_State *wrapped, builtin_len_Inlineable_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+    wrapped->obj = Py_NewRef(state->obj);
+}
+
+static void builtin_len_Inlineable_WrappedDtor(builtin_len_Inlineable_State *wrapped){
+    Py_DECREF(wrapped->obj);
+}
+
+RETURNACTION_STEPDEFINITION(builtin_len_Inlineable, 1)
+    Py_ssize_t res;
+
+    res = _PyObject_Size_Inlineable(state->obj, inlined);
+    RETURNACTION_CHECKINLINED(1, res=(Py_ssize_t)result;)
+    if (res < 0) {
+        assert(PyErr_Occurred());
+        return NULL;
+    }
+    return PyLong_FromSsize_t(res);
+}
 
 /*[clinic input]
 @c_stack_frugal
+@c_inlineable
 len as builtin_len
 
     obj: object
@@ -1907,10 +1936,16 @@ Return the number of items in a container.
 [clinic start generated code]*/
 
 static PyObject *
-builtin_len(PyObject *module, PyObject *obj)
-/*[clinic end generated code: output=fa7a270d314dfb6c input=ca5f039c313a6836]*/
-{
-    Py_ssize_t res;
+builtin_len_Inlineable(PyObject *module, PyObject *obj,
+                       struct _PyInterpreterFrame **inlined);
+static PyObject *
+builtin_len(PyObject *module, PyObject *obj){
+    return builtin_len_Inlineable(module, obj, NULL);
+}
+static PyObject *
+builtin_len_Inlineable(PyObject *module, PyObject *obj,
+                       struct _PyInterpreterFrame **inlined)
+/*[clinic end generated code: output=0f7840eb11176347     Py_ssize_t res;
 
     res = PyObject_Size(obj);
     if (res < 0) {
@@ -1918,6 +1953,26 @@ builtin_len(PyObject *module, PyObject *obj)
         return NULL;
     }
     return PyLong_FromSsize_t(res);
+}
+input=a7df30a70f437fe8]*/
+{
+    builtin_len_Inlineable_State state = {
+        .base.step = 0,
+        .obj = obj,
+    };
+    return builtin_len_Inlineable_Step(&state, NULL, inlined);
+    // Py_ssize_t res;
+
+    // struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL; \
+    // res = _PyObject_Size_Inlineable(obj, inlined);
+    // if (inlined && *inlined != frame){
+    //     return Py_None;
+    // }
+    // if (res < 0) {
+    //     assert(PyErr_Occurred());
+    //     return NULL;
+    // }
+    // return PyLong_FromSsize_t(res);
 }
 
 
