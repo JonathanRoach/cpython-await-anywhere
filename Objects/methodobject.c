@@ -434,10 +434,9 @@ PyTypeObject PyCFunction_Type = {
     0,                                          /* tp_setattro */
     0,                                          /* tp_as_buffer */
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
-    Py_TPFLAGS_HAVE_VECTORCALL |
-    Py_TPFLAGS_VECTORCALL_INLINEABLE,           /* tp_flags */
+    Py_TPFLAGS_HAVE_VECTORCALL,                 /* tp_flags */
     0,                                          /* tp_doc */
-    meth_traverse,                /* tp_traverse */
+    meth_traverse,                              /* tp_traverse */
     0,                                          /* tp_clear */
     meth_richcompare,                           /* tp_richcompare */
     offsetof(PyCFunctionObject, m_weakreflist), /* tp_weaklistoffset */
@@ -455,6 +454,9 @@ PyTypeObject PyCFunction_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_traverse] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
+
+    .tp_vectorcall_offset_inlineable = offsetof(PyCFunctionObject, vectorcall_inlineable),
+    .tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset_inlineable] = Py_FNFLAGS_FRUGAL,
 };
 
 PyTypeObject PyCMethod_Type = {

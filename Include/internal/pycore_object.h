@@ -969,10 +969,12 @@ PyAPI_FUNC(int) _PyObject_LookupSpecialMethod(PyObject *attr, _PyStackRef *metho
 // Calls the method named `attr` on `self`, but does not set an exception if
 // the attribute does not exist.
 PyAPI_FUNC(PyObject *)
-_PyObject_MaybeCallSpecialNoArgs(PyObject *self, PyObject *attr);
+_PyObject_MaybeCallSpecialNoArgs(PyObject *self, PyObject *attr,
+                           struct _PyInterpreterFrame **inlined);
 
 PyAPI_FUNC(PyObject *)
-_PyObject_MaybeCallSpecialOneArg(PyObject *self, PyObject *attr, PyObject *arg);
+_PyObject_MaybeCallSpecialOneArg(PyObject *self, PyObject *attr, PyObject *arg,
+                           struct _PyInterpreterFrame **inlined);
 
 extern int _PyObject_IsAbstract(PyObject *);
 

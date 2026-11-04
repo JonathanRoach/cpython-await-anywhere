@@ -88,11 +88,7 @@ _PyObject_Size_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined)
         struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
 #endif
         Py_ssize_t len;
-        if (PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) && m->sq_length_inlineable){
-            len = PyType_Call_sq_length_inlineable(tp, o, inlined);
-        } else {
-            len = PyType_Call_sq_length(tp, o);
-        }
+        len = PyType_Call_sq_length_Inlineable(tp, o, inlined);
         assert(CHECKIMMEDIATESLOTRESULT(frame, inlined, o, len >= 0, "__len__"));
         return len;
     }
@@ -205,11 +201,7 @@ _PyObject_GetItem_Inlineable(PyObject *o, PyObject *key, struct _PyInterpreterFr
         struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
 #endif
         PyObject *item;
-        if (PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) && m->mp_subscript_inlineable){
-            item = PyType_Call_mp_subscript_inlineable(tp, o, key, inlined);
-        } else {
-            item = PyType_Call_mp_subscript(tp, o, key);
-        }
+        item = PyType_Call_mp_subscript_Inlineable(tp, o, key, inlined);
         assert(CHECKIMMEDIATESLOTRESULT(frame, inlined, o, item, "__getitem__"));
         return item;
     }
@@ -972,25 +964,21 @@ PyNumber_Check(PyObject *o)
 typedef struct {
     ptrdiff_t slot;
     ptrdiff_t slot_inlineable;
-    int (*call)(PyTypeObject *tp, PyObject *);
     int (*call_inlineable)(PyTypeObject *tp, PyObject *, struct _PyInterpreterFrame **);
 } InquirySlotDetails;
 typedef struct {
     ptrdiff_t slot;
     ptrdiff_t slot_inlineable;
-    PyObject * (*call)(PyTypeObject *tp, PyObject *);
     PyObject * (*call_inlineable)(PyTypeObject *tp, PyObject *, struct _PyInterpreterFrame **);
 } UnarySlotDetails;
 typedef struct {
     ptrdiff_t slot;
     ptrdiff_t slot_inlineable;
-    PyObject * (*call)(PyTypeObject *tp, PyObject *, PyObject *);
     PyObject * (*call_inlineable)(PyTypeObject *tp, PyObject *, PyObject *, struct _PyInterpreterFrame **);
 } BinarySlotDetails;
 typedef struct {
     ptrdiff_t slot;
     ptrdiff_t slot_inlineable;
-    PyObject * (*call)(PyTypeObject *tp, PyObject *, PyObject *, PyObject *);
     PyObject * (*call_inlineable)(PyTypeObject *tp, PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **);
 } TernarySlotDetails;
 
@@ -1000,38 +988,20 @@ Nb_BinOp(PyTypeObject *tp, BinarySlotDetails const *slot)
     return *(binaryfunc*)((char*)tp->tp_as_number + slot->slot);
 }
 
-static inline binaryfunc_inlineable
-Nb_BinOp_Inlineable(PyTypeObject *tp, BinarySlotDetails const *slot)
-{
-    if (PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED)){
-        return *(binaryfunc_inlineable*)((char*)tp->tp_as_number + slot->slot_inlineable);
-    }
-    return NULL;
-}
-
 static inline ternaryfunc
 Nb_TernOp(PyTypeObject *tp, TernarySlotDetails const *slot)
 {
     return *(ternaryfunc*)((char*)tp->tp_as_number + slot->slot);
 }
 
-static inline ternaryfunc_inlineable
-Nb_TernOp_Inlineable(PyTypeObject *tp, TernarySlotDetails const *slot)
-{
-    if (PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED)){
-        return *(ternaryfunc_inlineable*)((char*)tp->tp_as_number + slot->slot_inlineable);
-    }
-    return NULL;
-}
-
 #define NB_DEFINE_INQSLOTDETAILS(slot) \
-    static InquirySlotDetails SlotDetails_nb_##slot = {NB_SLOT(nb_##slot), NB_SLOT(nb_##slot##_inlineable), PyType_Call_nb_##slot, PyType_Call_nb_##slot##_inlineable,};
+    static InquirySlotDetails SlotDetails_nb_##slot = {NB_SLOT(nb_##slot), NB_SLOT(nb_##slot##_inlineable), PyType_Call_nb_##slot##_Inlineable,};
 #define NB_DEFINE_UNSLOTDETAILS(slot) \
-    static UnarySlotDetails SlotDetails_nb_##slot = {NB_SLOT(nb_##slot), NB_SLOT(nb_##slot##_inlineable), PyType_Call_nb_##slot, PyType_Call_nb_##slot##_inlineable,};
+    static UnarySlotDetails SlotDetails_nb_##slot = {NB_SLOT(nb_##slot), NB_SLOT(nb_##slot##_inlineable), PyType_Call_nb_##slot##_Inlineable,};
 #define NB_DEFINE_BINSLOTDETAILS(slot) \
-    static BinarySlotDetails SlotDetails_nb_##slot = {NB_SLOT(nb_##slot), NB_SLOT(nb_##slot##_inlineable), PyType_Call_nb_##slot, PyType_Call_nb_##slot##_inlineable,};
+    static BinarySlotDetails SlotDetails_nb_##slot = {NB_SLOT(nb_##slot), NB_SLOT(nb_##slot##_inlineable), PyType_Call_nb_##slot##_Inlineable,};
 #define NB_DEFINE_TERNSLOTDETAILS(slot) \
-    static TernarySlotDetails SlotDetails_nb_##slot = {NB_SLOT(nb_##slot), NB_SLOT(nb_##slot##_inlineable), PyType_Call_nb_##slot, PyType_Call_nb_##slot##_inlineable,};
+    static TernarySlotDetails SlotDetails_nb_##slot = {NB_SLOT(nb_##slot), NB_SLOT(nb_##slot##_inlineable), PyType_Call_nb_##slot##_Inlineable,};
 
 NB_DEFINE_BINSLOTDETAILS(add)
 NB_DEFINE_BINSLOTDETAILS(subtract)
@@ -1078,11 +1048,7 @@ Call_BinOp(
     struct _PyInterpreterFrame **inlined
 ){
     PyTypeObject *tp = Py_TYPE(focus);
-    if (Nb_BinOp_Inlineable(tp, op_slot)){
-        return op_slot->call_inlineable(tp, v, w, inlined);
-    } else {
-        return op_slot->call(tp, v, w);
-    }
+    return op_slot->call_inlineable(tp, v, w, inlined);
 }
 
 static inline PyObject *
@@ -1095,11 +1061,7 @@ Call_TernOp(
     struct _PyInterpreterFrame **inlined
 ){
     PyTypeObject *tp = Py_TYPE(focus);
-    if (Nb_TernOp_Inlineable(tp, op_slot)){
-        return op_slot->call_inlineable(tp, v, w, z, inlined);
-    } else {
-        return op_slot->call(tp, v, w, z);
-    }
+    return op_slot->call_inlineable(tp, v, w, z, inlined);
 }
 
 /*
@@ -1801,16 +1763,17 @@ static void ternary_iop_WrappedInit(ternary_iop_State *wrapped, ternary_iop_Stat
 static void ternary_iop_WrappedDtor(ternary_iop_State *wrapped){
     Py_DECREF(wrapped->v);
     Py_DECREF(wrapped->w);
+    Py_DECREF(wrapped->z);
 }
 
 RETURNACTION_STEPDEFINITION(ternary_iop, 1)
 
-    PyNumberMethods *mv = Py_TYPE(state->v)->tp_as_number;
+    PyTypeObject *tp = Py_TYPE(state->v);
+    PyNumberMethods *mv = tp->tp_as_number;
     if (mv != NULL) {
-        ternaryfunc slot = Nb_TernOp(Py_TYPE(state->v), state->iop_slot);
-        ternaryfunc_inlineable slot_inlineable = Nb_TernOp_Inlineable(Py_TYPE(state->v), state->iop_slot);
+        ternaryfunc slot = Nb_TernOp(tp, state->iop_slot);
         if (slot) {
-            result = slot_inlineable ? slot_inlineable(state->v, state->w, state->z, inlined) : slot(state->v, state->w, state->z);
+            result = state->iop_slot->call_inlineable(tp, state->v, state->w, state->z, inlined);
             RETURNACTION_CHECKINLINED(1)
             assert(_Py_CheckSlotResult(state->v, state->op_name, result != NULL));
             if (result != Py_NotImplemented) {
@@ -2034,13 +1997,12 @@ _PyNumber_InPlacePowerNoMod_Inlineable(PyObject *lhs, PyObject *rhs, struct _PyI
         PyTypeObject *tp = Py_TYPE(o); \
         PyNumberMethods *m = tp->tp_as_number; \
         if (m && m->op) { \
-            if (PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) && m->op##_inlineable){ \
-                return PyType_Call_##op##_inlineable(tp, o, inlined); \
-            } else { \
-                PyObject *res = PyType_Call_##op(tp, o); \
+            struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL; \
+            PyObject *res = PyType_Call_##op##_Inlineable(tp, o, inlined); \
+            if (!inlined || frame == *inlined) { \
                 assert(_Py_CheckSlotResult(o, #meth_name, res != NULL)); \
-                return res; \
             } \
+            return res; \
         } \
  \
         return type_error("bad operand type for "descr": '%.200s'", o); \
@@ -2365,11 +2327,7 @@ _PySequence_Size_Inlineable(PyObject *s, struct _PyInterpreterFrame **inlined)
         struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
 #endif
         Py_ssize_t len;
-        if (PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) && m->sq_length_inlineable){
-            len = PyType_Call_sq_length_inlineable(tp, s, inlined);
-        } else {
-            len = PyType_Call_sq_length(tp, s);
-        }
+        len = PyType_Call_sq_length_Inlineable(tp, s, inlined);
         assert(CHECKIMMEDIATESLOTRESULT(frame, inlined, s, len >= 0, "__len__"));
         return len;
     }
@@ -2971,12 +2929,7 @@ _PyMapping_Size_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined)
 #ifndef NDEBUG
         struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
 #endif
-        Py_ssize_t len;
-        if (PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) && m->mp_length_inlineable){
-            len = PyType_Call_mp_length_inlineable(tp, o, inlined);
-        } else {
-            len = PyType_Call_mp_length(tp, o);
-        }
+        Py_ssize_t len = PyType_Call_mp_length_Inlineable(tp, o, inlined);
         assert(CHECKIMMEDIATESLOTRESULT(frame, inlined, o, len >= 0, "__len__"));
         return len;
     }

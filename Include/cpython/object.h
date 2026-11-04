@@ -362,12 +362,14 @@ enum {
     _PyFunctionIndex_tp_del,
     _PyFunctionIndex_tp_finalize,
     _PyFunctionIndex_tp_vectorcall,
+    _PyFunctionIndex_tp_vectorcall_offset_inlineable,
     _PyFunctionIndex_tp_getattr_inlineable,
     _PyFunctionIndex_tp_setattr_inlineable,
     _PyFunctionIndex_tp_getattro_inlineable,
     _PyFunctionIndex_tp_setattro_inlineable,
     _PyFunctionIndex_tp_descr_get_inlineable,
     _PyFunctionIndex_tp_descr_set_inlineable,
+    _PyFunctionIndex_tp_vectorcall_inlineable,
     _PyFunctionIndex_tp_COUNT
 };
 
@@ -473,12 +475,14 @@ struct _typeobject {
 //
     unsigned long tp_ex_flags;
     unsigned char tp_functionflags[_PyFunctionIndex_tp_COUNT];
+    Py_ssize_t tp_vectorcall_offset_inlineable;
     getattrfunc_inlineable tp_getattr_inlineable;
     setattrfunc_inlineable tp_setattr_inlineable;
     getattrofunc_inlineable tp_getattro_inlineable;
     setattrofunc_inlineable tp_setattro_inlineable;
     descrgetfunc_inlineable tp_descr_get_inlineable;
     descrsetfunc_inlineable tp_descr_set_inlineable;
+    _vectorcallfunc_inlineable tp_vectorcall_inlineable;
 };
 
 #define _Py_ATTR_CACHE_UNUSED (30000)  // (see tp_versions_used)
@@ -731,3 +735,4 @@ PyAPI_FUNC(int) PyUnstable_TryIncRef(PyObject *);
 PyAPI_FUNC(void) PyUnstable_EnableTryIncRef(PyObject *);
 
 PyAPI_FUNC(int) PyUnstable_Object_IsUniquelyReferenced(PyObject *);
+PyAPI_FUNC(int) _PyObject_IsTrue_Inlineable(PyObject *, struct _PyInterpreterFrame **inlined);

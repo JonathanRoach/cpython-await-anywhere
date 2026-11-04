@@ -5,6 +5,7 @@
 #include "pycore_modsupport.h"    // _PyArg_NoKwnames()
 #include "pycore_object.h"        // _Py_FatalRefcountError()
 #include "pycore_runtime.h"       // _Py_ID()
+#include "pycore_interpframe.h"   // _PyFrame_AddReturnAction()
 
 #include <stddef.h>
 
@@ -41,29 +42,67 @@ bool_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
     return PyBool_FromLong(ok);
 }
 
-static PyObject *
-bool_vectorcall(PyObject *type, PyObject * const*args,
-                size_t nargsf, PyObject *kwnames)
-{
+RETURNACTION_STDCLASSDECLARATION(bool_vectorcall_inlineable)
+
+struct bool_vectorcall_inlineable_State {
+    ReturnAction_State base;
+    PyObject *type;
+    PyObject * const*args;
+    size_t nargsf;
+    PyObject *kwnames;
+};
+
+static void bool_vectorcall_inlineable_WrappedInit(bool_vectorcall_inlineable_State *wrapped, bool_vectorcall_inlineable_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+}
+
+static void bool_vectorcall_inlineable_WrappedDtor(bool_vectorcall_inlineable_State *wrapped){
+}
+
+RETURNACTION_STEPDEFINITION(bool_vectorcall_inlineable, 1)
+
     long ok = 0;
-    if (!_PyArg_NoKwnames("bool", kwnames)) {
+    if (!_PyArg_NoKwnames("bool", state->kwnames)) {
         return NULL;
     }
 
-    Py_ssize_t nargs = PyVectorcall_NARGS(nargsf);
+    Py_ssize_t nargs = PyVectorcall_NARGS(state->nargsf);
     if (!_PyArg_CheckPositional("bool", nargs, 0, 1)) {
         return NULL;
     }
 
-    assert(PyType_Check(type));
+    assert(PyType_Check(state->type));
     if (nargs) {
-        ok = PyObject_IsTrue(args[0]);
+        ok = _PyObject_IsTrue_Inlineable(state->args[0], inlined);
+        RETURNACTION_CHECKINLINED(1, ok = (long)(Py_ssize_t)result;);
         if (ok < 0) {
             return NULL;
         }
     }
     return PyBool_FromLong(ok);
 }
+
+static PyObject *
+bool_vectorcall_inlineable(PyObject *type, PyObject * const*args,
+                size_t nargsf, PyObject *kwnames, struct _PyInterpreterFrame **inlined)
+{
+    bool_vectorcall_inlineable_State state = {
+        .base.step = 0,
+        .type = type,
+        .args = args,
+        .nargsf = nargsf,
+        .kwnames = kwnames,
+    };
+    return bool_vectorcall_inlineable_Step(&state, NULL, inlined);
+}
+
+static PyObject *
+bool_vectorcall(PyObject *type, PyObject * const*args,
+                size_t nargsf, PyObject *kwnames)
+{
+    return bool_vectorcall_inlineable(type, args, nargsf, kwnames, NULL);
+}
+
 
 /* Arithmetic operations redefined to return bool if both args are bool. */
 
@@ -216,6 +255,8 @@ PyTypeObject PyBool_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_dealloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_repr] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
+    .tp_vectorcall_inlineable = bool_vectorcall_inlineable,
+    .tp_functionflags[_PyFunctionIndex_tp_vectorcall_inlineable] = Py_FNFLAGS_FRUGAL,
 };
 
 /* The objects representing bool values False and True */

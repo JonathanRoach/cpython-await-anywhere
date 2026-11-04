@@ -81,7 +81,7 @@ static TP NAME##_Step(NAME##_State *wrapped, PyObject *result, struct _PyInterpr
     { \
         RETURNACTION_SETSTEP(N); \
         _PyFrame_AddReturnAction(*inlined, &state->base, &MyReturnAction_Class); \
-        return (TP)Py_None; \
+        return (TP)(Py_ssize_t)Py_None; \
 l##N:; \
         __VA_ARGS__ \
     }

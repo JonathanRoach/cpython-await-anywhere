@@ -179,17 +179,24 @@ _PyObject_VectorcallTstate(PyThreadState *tstate, PyObject *callable,
     if (PyType_HasFeature(tp, Py_TPFLAGS_HAVE_VECTORCALL)) {
         assert(PyCallable_Check(callable));
 
-        Py_ssize_t offset = tp->tp_vectorcall_offset;
-        assert(offset > 0);
-
-        if (PyType_HasFeature(tp, Py_TPFLAGS_VECTORCALL_INLINEABLE)) {
+        // If callable is a type, check that is is an extended type before getting its tp_vectorcall_inlineable
+        if (PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) &&
+            tp->tp_vectorcall_offset_inlineable &&
+            (tp != &PyType_Type || PyType_HasFeature((PyTypeObject *)callable, Py_TPFLAGS_IS_EXTENDED)))
+            {
             _vectorcallfunc_inlineable func_inlineable;
-            memcpy(&func_inlineable, (char *) callable + offset + sizeof(func), sizeof(func_inlineable));
+            Py_ssize_t offset = tp->tp_vectorcall_offset_inlineable;
+            assert(offset > 0);
+            memcpy(&func_inlineable, (char *) callable + offset, sizeof(func_inlineable));
             if (func_inlineable){
                 res = func_inlineable(callable, args, nargsf, kwnames, inlined);
                 goto done;
             }
         }
+
+        Py_ssize_t offset = tp->tp_vectorcall_offset;
+        assert(offset > 0);
+
         memcpy(&func, (char *) callable + offset, sizeof(func));
         if (func) {
             res = func(callable, args, nargsf, kwnames);
@@ -210,6 +217,10 @@ static inline PyObject *
 _PyObject_CallNoArgsTstate(PyThreadState *tstate, PyObject *func) {
     return _PyObject_VectorcallTstate(tstate, func, NULL, 0, NULL, NULL);
 }
+static inline PyObject *
+_PyObject_CallNoArgsTstate_Inlineable(PyThreadState *tstate, PyObject *func, struct _PyInterpreterFrame **inlined) {
+    return _PyObject_VectorcallTstate(tstate, func, NULL, 0, NULL, inlined);
+}
 
 
 // Private static inline function variant of public PyObject_CallNoArgs()
@@ -218,6 +229,12 @@ _PyObject_CallNoArgs(PyObject *func) {
     EVAL_CALL_STAT_INC_IF_FUNCTION(EVAL_CALL_API, func);
     PyThreadState *tstate = _PyThreadState_GET();
     return _PyObject_VectorcallTstate(tstate, func, NULL, 0, NULL, NULL);
+}
+static inline PyObject *
+_PyObject_CallNoArgs_Inlineable(PyObject *func, struct _PyInterpreterFrame **inlined) {
+    EVAL_CALL_STAT_INC_IF_FUNCTION(EVAL_CALL_API, func);
+    PyThreadState *tstate = _PyThreadState_GET();
+    return _PyObject_VectorcallTstate(tstate, func, NULL, 0, NULL, inlined);
 }
 
 

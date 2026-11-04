@@ -1310,10 +1310,8 @@ _PyObject_GetAttrInlineable(PyObject *v, PyObject *name, _PyInterpreterFrame **i
         if (getattro == PyObject_GenericGetAttr) {
             // covers @property properties
             result = _PyObject_GenericGetAttr_Inlineable(v, name, inlined);
-        } else if (PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) && tp->tp_getattro_inlineable) {
-            result = PyType_Call_tp_getattro_inlineable(tp, v, name, inlined);
         } else {
-            result = PyType_Call_tp_getattro(tp, v, name);
+            result = PyType_Call_tp_getattro_Inlineable(tp, v, name, inlined);
         }
     }
     else if (tp->tp_getattr != NULL) {
@@ -1478,10 +1476,8 @@ _PyObject_SetAttrInlineable(PyObject *v, PyObject *name, PyObject *value,
         if (inlined && tp->tp_setattro == PyObject_GenericSetAttr){
             err = _PyObject_GenericSetAttrInlineable(v, name, value, inlined);
         }
-        else if (inlined && PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) && tp->tp_setattro_inlineable){
-            err = PyType_Call_tp_setattro_inlineable(tp, v, name, value, inlined);
-        } else {
-            err = PyType_Call_tp_setattro(tp, v, name, value);
+        else {
+            err = PyType_Call_tp_setattro_Inlineable(tp, v, name, value, inlined);
         }
         Py_DECREF(name);
         return err;
@@ -1866,11 +1862,7 @@ _PyObject_GenericGetAttrWithDict(PyObject *obj, PyObject *name,
         tpd = Py_TYPE(descr);
         f = tpd->tp_descr_get;
         if (f != NULL && PyDescr_IsData(descr)) {
-            if (PyType_HasFeature(tpd, Py_TPFLAGS_IS_EXTENDED) && tpd->tp_descr_get_inlineable){
-                res = PyType_Call_tp_descr_get_inlineable(tpd, descr, obj, (PyObject *)Py_TYPE(obj), inlined);
-            } else {
-                res = PyType_Call_tp_descr_get(tpd, descr, obj, (PyObject *)Py_TYPE(obj));
-            }
+            res = PyType_Call_tp_descr_get_Inlineable(tpd, descr, obj, (PyObject *)Py_TYPE(obj), inlined);
             if (res == NULL && suppress &&
                     PyErr_ExceptionMatches(PyExc_AttributeError)) {
                 PyErr_Clear();
@@ -1926,11 +1918,7 @@ _PyObject_GenericGetAttrWithDict(PyObject *obj, PyObject *name,
     }
 
     if (f != NULL) {
-        if (PyType_HasFeature(tpd, Py_TPFLAGS_IS_EXTENDED) && tpd->tp_descr_get_inlineable){
-            res = PyType_Call_tp_descr_get_inlineable(tpd, descr, obj, (PyObject *)Py_TYPE(obj), inlined);
-        } else {
-            res = PyType_Call_tp_descr_get(tpd, descr, obj, (PyObject *)Py_TYPE(obj));
-        }
+        res = PyType_Call_tp_descr_get_Inlineable(tpd, descr, obj, (PyObject *)Py_TYPE(obj), inlined);
         if (res == NULL && suppress &&
                 PyErr_ExceptionMatches(PyExc_AttributeError)) {
             PyErr_Clear();
@@ -2013,11 +2001,7 @@ _PyObject_GenericSetAttrWithDict(PyObject *obj, PyObject *name,
         PyTypeObject *tpd = Py_TYPE(descr);
         f = tpd->tp_descr_set;
         if (f) {
-            if (PyType_HasFeature(tpd, Py_TPFLAGS_IS_EXTENDED) && tpd->tp_descr_set_inlineable){
-                res = PyType_Call_tp_descr_set_inlineable(tpd, descr, obj, value, inlined);
-            } else {
-                res = PyType_Call_tp_descr_set(tpd, descr, obj, value);
-            }
+            res = PyType_Call_tp_descr_set_Inlineable(tpd, descr, obj, value, inlined);
             goto done;
         }
     }
@@ -2108,33 +2092,70 @@ PyObject_GenericSetDict(PyObject *obj, PyObject *value, void *context)
     return _PyObject_SetDict(obj, value);
 }
 
+RETURNACTION_STDCLASSDECLARATION_R(int, _PyObject_IsTrue_Inlineable)
+
+struct _PyObject_IsTrue_Inlineable_State {
+    ReturnAction_State base;
+    PyObject *v;
+};
+
+static void _PyObject_IsTrue_Inlineable_WrappedInit(_PyObject_IsTrue_Inlineable_State *wrapped, _PyObject_IsTrue_Inlineable_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+    wrapped->v = Py_NewRef(state->v);
+}
+
+static void _PyObject_IsTrue_Inlineable_WrappedDtor(_PyObject_IsTrue_Inlineable_State *wrapped){
+    Py_DECREF(wrapped->v);
+}
+
+RETURNACTION_STEPDEFINITION_R(int, _PyObject_IsTrue_Inlineable, 1)
+
+    Py_ssize_t res;
+    if (state->v == Py_True)
+        return 1;
+    if (state->v == Py_False)
+        return 0;
+    if (state->v == Py_None)
+        return 0;
+
+    PyTypeObject *tp = Py_TYPE(state->v);
+    if (tp->tp_as_number != NULL &&
+             tp->tp_as_number->nb_bool != NULL)
+        res = PyType_Call_nb_bool_Inlineable(tp, state->v, inlined);
+    else if (tp->tp_as_mapping != NULL &&
+             tp->tp_as_mapping->mp_length != NULL)
+        res = PyType_Call_mp_length_Inlineable(tp, state->v, inlined);
+    else if (tp->tp_as_sequence != NULL &&
+             tp->tp_as_sequence->sq_length != NULL)
+        res = PyType_Call_sq_length_Inlineable(tp, state->v, inlined);
+    else
+        return 1;
+
+    RETURNACTION_CHECKINLINED_R(int, 1, res = (Py_ssize_t)result;);
+
+    /* if it is negative, it should be either -1 or -2 */
+    return (res > 0) ? 1 : Py_SAFE_DOWNCAST(res, Py_ssize_t, int);
+}
 
 /* Test a value used as condition, e.g., in a while or if statement.
    Return -1 if an error occurred */
 
 int
-PyObject_IsTrue(PyObject *v)
+_PyObject_IsTrue_Inlineable(PyObject *v, struct _PyInterpreterFrame **inlined)
 {
-    Py_ssize_t res;
-    if (v == Py_True)
-        return 1;
-    if (v == Py_False)
-        return 0;
-    if (v == Py_None)
-        return 0;
-    else if (Py_TYPE(v)->tp_as_number != NULL &&
-             Py_TYPE(v)->tp_as_number->nb_bool != NULL)
-        res = PyType_Call_nb_bool(Py_TYPE(v), v);
-    else if (Py_TYPE(v)->tp_as_mapping != NULL &&
-             Py_TYPE(v)->tp_as_mapping->mp_length != NULL)
-        res = PyType_Call_mp_length(Py_TYPE(v), v);
-    else if (Py_TYPE(v)->tp_as_sequence != NULL &&
-             Py_TYPE(v)->tp_as_sequence->sq_length != NULL)
-        res = PyType_Call_sq_length(Py_TYPE(v), v);
-    else
-        return 1;
-    /* if it is negative, it should be either -1 or -2 */
-    return (res > 0) ? 1 : Py_SAFE_DOWNCAST(res, Py_ssize_t, int);
+    _PyObject_IsTrue_Inlineable_State state = {
+        .base.step = 0,
+        .v = v,
+    };
+    return _PyObject_IsTrue_Inlineable_Step(&state, NULL, inlined);
+}
+
+/* Test a value used as condition, e.g., in a while or if statement.
+   Return -1 if an error occurred */
+
+int
+PyObject_IsTrue(PyObject *v){
+    return _PyObject_IsTrue_Inlineable(v, NULL);
 }
 
 /* equivalent of 'not v'

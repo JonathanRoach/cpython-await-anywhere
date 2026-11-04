@@ -1133,7 +1133,7 @@ math_ceil(PyObject *module, PyObject *number)
         x = PyFloat_AS_DOUBLE(number);
     }
     else {
-        PyObject *result = _PyObject_MaybeCallSpecialNoArgs(number, &_Py_ID(__ceil__));
+        PyObject *result = _PyObject_MaybeCallSpecialNoArgs(number, &_Py_ID(__ceil__), NULL);
         if (result != NULL) {
             return result;
         }
@@ -1203,7 +1203,7 @@ math_floor(PyObject *module, PyObject *number)
         x = PyFloat_AS_DOUBLE(number);
     }
     else {
-        PyObject *result = _PyObject_MaybeCallSpecialNoArgs(number, &_Py_ID(__floor__));
+        PyObject *result = _PyObject_MaybeCallSpecialNoArgs(number, &_Py_ID(__floor__), NULL);
         if (result != NULL) {
             return result;
         }
@@ -2077,7 +2077,7 @@ math_trunc(PyObject *module, PyObject *x)
         return PyFloat_Type.tp_as_number->nb_int(x);
     }
 
-    PyObject *result = _PyObject_MaybeCallSpecialNoArgs(x, &_Py_ID(__trunc__));
+    PyObject *result = _PyObject_MaybeCallSpecialNoArgs(x, &_Py_ID(__trunc__), NULL);
     if (result != NULL) {
         return result;
     }

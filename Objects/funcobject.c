@@ -1230,7 +1230,6 @@ PyTypeObject PyFunction_Type = {
     0,                                          /* tp_as_buffer */
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_HAVE_GC |
     Py_TPFLAGS_HAVE_VECTORCALL |
-    Py_TPFLAGS_VECTORCALL_INLINEABLE |
     Py_TPFLAGS_METHOD_DESCRIPTOR,               /* tp_flags */
     func_new__doc__,                            /* tp_doc */
     func_traverse,                              /* tp_traverse */
@@ -1258,6 +1257,9 @@ PyTypeObject PyFunction_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_clear] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_descr_get] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
+
+    .tp_vectorcall_offset_inlineable = offsetof(PyFunctionObject, vectorcall_inlineable),
+    .tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset_inlineable] = Py_FNFLAGS_FRUGAL,
 };
 
 

@@ -3008,20 +3008,22 @@ vectorcall_unbound(PyThreadState *tstate, int unbound, PyObject *func,
 }
 
 static PyObject*
-call_unbound_noarg(int unbound, PyObject *func, PyObject *self)
+call_unbound_noarg(int unbound, PyObject *func, PyObject *self,
+                   struct _PyInterpreterFrame **inlined)
 {
     if (unbound) {
-        return PyObject_CallOneArg(func, self);
+        return _PyObject_CallOneArg_Inlineable(func, self, inlined);
     }
     else {
-        return _PyObject_CallNoArgs(func);
+        return _PyObject_CallNoArgs_Inlineable(func, inlined);
     }
 }
 
 // Call the method with the name `attr` on `self`. Returns NULL with an
 // exception set if the method is missing or an error occurs.
 static PyObject *
-call_method_noarg(PyObject *self, PyObject *attr)
+call_method_noarg(PyObject *self, PyObject *attr,
+                   struct _PyInterpreterFrame **inlined)
 {
     PyThreadState *tstate = _PyThreadState_GET();
     _PyCStackRef cref;
@@ -3030,7 +3032,7 @@ call_method_noarg(PyObject *self, PyObject *attr)
     int unbound = lookup_method(self, attr, &cref.ref);
     if (unbound >= 0) {
         PyObject *func = PyStackRef_AsPyObjectBorrow(cref.ref);
-        res = call_unbound_noarg(unbound, func, self);
+        res = call_unbound_noarg(unbound, func, self, inlined);
     }
     _PyThreadState_PopCStackRef(tstate, &cref);
     return res;
@@ -3113,7 +3115,8 @@ vectorcall_maybe(PyThreadState *tstate, PyObject *name,
    the method is missing. If attr_is_none is not NULL, it is set to 1 if
    the attribute was found and was None, or 0 if it was not found. */
 static PyObject *
-maybe_call_special_no_args(PyObject *self, PyObject *attr, int *attr_is_none)
+maybe_call_special_no_args(PyObject *self, PyObject *attr, int *attr_is_none,
+                   struct _PyInterpreterFrame **inlined)
 {
     PyThreadState *tstate = _PyThreadState_GET();
     _PyCStackRef cref;
@@ -3126,7 +3129,7 @@ maybe_call_special_no_args(PyObject *self, PyObject *attr, int *attr_is_none)
         *attr_is_none = (func == Py_None);
     }
     if (func != NULL && (func != Py_None || attr_is_none == NULL)) {
-        res = call_unbound_noarg(unbound, func, self);
+        res = call_unbound_noarg(unbound, func, self, inlined);
     }
     _PyThreadState_PopCStackRef(tstate, &cref);
     return res;
@@ -3156,15 +3159,17 @@ maybe_call_special_one_arg(PyObject *self, PyObject *attr, PyObject *arg,
 }
 
 PyObject *
-_PyObject_MaybeCallSpecialNoArgs(PyObject *self, PyObject *attr)
+_PyObject_MaybeCallSpecialNoArgs(PyObject *self, PyObject *attr,
+                           struct _PyInterpreterFrame **inlined)
 {
-    return maybe_call_special_no_args(self, attr, NULL);
+    return maybe_call_special_no_args(self, attr, NULL, inlined);
 }
 
 PyObject *
-_PyObject_MaybeCallSpecialOneArg(PyObject *self, PyObject *attr, PyObject *arg)
+_PyObject_MaybeCallSpecialOneArg(PyObject *self, PyObject *attr, PyObject *arg,
+                           struct _PyInterpreterFrame **inlined)
 {
-    return maybe_call_special_one_arg(self, attr, arg, NULL, NULL);
+    return maybe_call_special_one_arg(self, attr, arg, NULL, inlined);
 }
 
 /*
@@ -3552,7 +3557,7 @@ mro_invoke(PyTypeObject *type)
     if (custom) {
         // Custom mro() method on metaclass.  This is potentially re-entrant.
         // We are called either from type_ready() or from type_set_bases().
-        mro_result = call_method_noarg((PyObject *)type, &_Py_ID(mro));
+        mro_result = call_method_noarg((PyObject *)type, &_Py_ID(mro), NULL);
     }
     else {
         // In this case, the mro() method on the type object is being used and
@@ -5160,8 +5165,15 @@ check_basicsize_includes_size_and_offsets(PyTypeObject* type)
     }
     if (type->tp_vectorcall_offset + (Py_ssize_t)sizeof(vectorcallfunc*) > max) {
         PyErr_Format(PyExc_TypeError,
-                     "vectorcall offset %d is out of bounds for type '%s' (tp_basicsize = %d)",
+                     "vectorcall_offset %d is out of bounds for type '%s' (tp_basicsize = %d)",
                      type->tp_vectorcall_offset,
+                     type->tp_name, type->tp_basicsize);
+        return 0;
+    }
+    if (type->tp_vectorcall_offset_inlineable + (Py_ssize_t)sizeof(vectorcallfunc*) > max) {
+        PyErr_Format(PyExc_TypeError,
+                     "vectorcall_offset_inlineable %d is out of bounds for type '%s' (tp_basicsize = %d)",
+                     type->tp_vectorcall_offset_inlineable,
                      type->tp_name, type->tp_basicsize);
         return 0;
     }
@@ -5257,6 +5269,7 @@ PyType_FromMetaclass(
     const PyMemberDef *weaklistoffset_member = NULL;
     const PyMemberDef *dictoffset_member = NULL;
     const PyMemberDef *vectorcalloffset_member = NULL;
+    const PyMemberDef *vectorcalloffset_inlineable_member = NULL;
     char *res_start;
 
     for (slot = spec->slots; slot->slot; slot++) {
@@ -5297,6 +5310,9 @@ PyType_FromMetaclass(
                 }
                 else if (strcmp(memb->name, "__vectorcalloffset__") == 0) {
                     vectorcalloffset_member = memb;
+                }
+                else if (strcmp(memb->name, "__vectorcalloffset_inlineable__") == 0) {
+                    vectorcalloffset_inlineable_member = memb;
                 }
             }
             break;
@@ -5454,6 +5470,11 @@ PyType_FromMetaclass(
     Py_ssize_t vectorcalloffset = 0;
     if (special_offset_from_member(vectorcalloffset_member, type_data_offset,
                                   &vectorcalloffset) < 0) {
+        goto finally;
+    }
+    Py_ssize_t vectorcalloffset_inlineable = 0;
+    if (special_offset_from_member(vectorcalloffset_inlineable_member, type_data_offset,
+                                  &vectorcalloffset_inlineable) < 0) {
         goto finally;
     }
 
@@ -5621,6 +5642,12 @@ PyType_FromMetaclass(
         type->tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset] = vectorcalloffset_member->flags;
     } else {
         type->tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset] = 0;
+    }
+    type->tp_vectorcall_offset_inlineable = vectorcalloffset_inlineable;
+    if (vectorcalloffset_inlineable_member && (spec->flags & Py_TPFLAGS_IS_EXTENDED)){
+        type->tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset_inlineable] = vectorcalloffset_inlineable_member->flags;
+    } else {
+        type->tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset_inlineable] = 0;
     }
     type->tp_weaklistoffset = weaklistoffset;
     type->tp_dictoffset = dictoffset;
@@ -7096,6 +7123,9 @@ PyTypeObject PyType_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_is_gc] = Py_FNFLAGS_FRUGAL,
+
+    .tp_vectorcall_offset_inlineable = offsetof(PyTypeObject, tp_vectorcall_inlineable),
+    .tp_functionflags[_PyFunctionIndex_tp_vectorcall_inlineable] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -8618,13 +8648,34 @@ inherit_slots(PyTypeObject *type, PyTypeObject *base)
 // into
 //      (tp_as_number->, nm_add, nm_functionflags, _PyFunctionIndex_nm_add)
 #define COPYSLOT(KIND, SLOT) \
-COPYSLOT_INNER(PYTYPE_SLOTLOC_##KIND, KIND##_##SLOT, KIND##_functionflags, _PyFunctionIndex_##KIND##_##SLOT, FN)
+COPYSLOT_INNER(PYTYPE_SLOTLOC_##KIND, KIND##SLOT, KIND##_functionflags, _PyFunctionIndex_##KIND##SLOT, FN)
+#define COPYSLOTI(KIND, SLOT) \
+    do { \
+        COPYSLOT_INNER(PYTYPE_SLOTLOC_##KIND, KIND##SLOT, KIND##_functionflags, _PyFunctionIndex_##KIND##SLOT, FN); \
+        if (PyType_HasFeature(base, Py_TPFLAGS_IS_EXTENDED)) { \
+            COPYSLOT_INNER(PYTYPE_SLOTLOC_##KIND, KIND##SLOT##_inlineable, KIND##_functionflags, _PyFunctionIndex_##KIND##SLOT##_inlineable, FN); \
+        } \
+    } while (0)
 
 #define COPYSLOT_FN(KIND, SLOT) \
-COPYSLOT_INNER_FN(PYTYPE_SLOTLOC_##KIND, KIND##_##SLOT, KIND##_functionflags, _PyFunctionIndex_##KIND##_##SLOT)
+COPYSLOT_INNER_FN(PYTYPE_SLOTLOC_##KIND, KIND##SLOT, KIND##_functionflags, _PyFunctionIndex_##KIND##SLOT)
+#define COPYSLOTI_FN(KIND, SLOT) \
+    do { \
+        COPYSLOT_INNER_FN(PYTYPE_SLOTLOC_##KIND, KIND##SLOT, KIND##_functionflags, _PyFunctionIndex_##KIND##SLOT); \
+        if (PyType_HasFeature(base, Py_TPFLAGS_IS_EXTENDED)) { \
+            COPYSLOT_INNER_FN(PYTYPE_SLOTLOC_##KIND, KIND##SLOT##_inlineable, KIND##_functionflags, _PyFunctionIndex_##KIND##SLOT##_inlineable); \
+        } \
+    } while (0)
 
 #define COPYSLOT_VAL(KIND, SLOT) \
-COPYSLOT_INNER(PYTYPE_SLOTLOC_##KIND, KIND##_##SLOT, KIND##_functionflags, _PyFunctionIndex_##KIND##_##SLOT, VAL)
+COPYSLOT_INNER(PYTYPE_SLOTLOC_##KIND, KIND##SLOT, KIND##_functionflags, _PyFunctionIndex_##KIND##SLOT, VAL)
+#define COPYSLOTI_VAL(KIND, SLOT) \
+    do { \
+        COPYSLOT_INNER(PYTYPE_SLOTLOC_##KIND, KIND##SLOT, KIND##_functionflags, _PyFunctionIndex_##KIND##SLOT, VAL); \
+        if (PyType_HasFeature(base, Py_TPFLAGS_IS_EXTENDED)) { \
+            COPYSLOT_INNER(PYTYPE_SLOTLOC_##KIND, KIND##SLOT##_inlineable, KIND##_functionflags, _PyFunctionIndex_##KIND##SLOT##_inlineable, VAL); \
+        } \
+    } while (0)
 
     /* This won't inherit indirect slots (from tp_as_number etc.)
        if type doesn't provide the space. */
@@ -8633,101 +8684,101 @@ COPYSLOT_INNER(PYTYPE_SLOTLOC_##KIND, KIND##_##SLOT, KIND##_functionflags, _PyFu
         basebase = base->tp_base;
         if (basebase->tp_as_number == NULL)
             basebase = NULL;
-        COPYSLOT(nb,add);
-        COPYSLOT(nb,subtract);
-        COPYSLOT(nb,multiply);
-        COPYSLOT(nb,remainder);
-        COPYSLOT(nb,divmod);
-        COPYSLOT(nb,power);
-        COPYSLOT(nb,negative);
-        COPYSLOT(nb,positive);
-        COPYSLOT(nb,absolute);
-        COPYSLOT(nb,bool);
-        COPYSLOT(nb,invert);
-        COPYSLOT(nb,lshift);
-        COPYSLOT(nb,rshift);
-        COPYSLOT(nb,and);
-        COPYSLOT(nb,xor);
-        COPYSLOT(nb,or);
-        COPYSLOT(nb,int);
-        COPYSLOT(nb,float);
-        COPYSLOT(nb,inplace_add);
-        COPYSLOT(nb,inplace_subtract);
-        COPYSLOT(nb,inplace_multiply);
-        COPYSLOT(nb,inplace_remainder);
-        COPYSLOT(nb,inplace_power);
-        COPYSLOT(nb,inplace_lshift);
-        COPYSLOT(nb,inplace_rshift);
-        COPYSLOT(nb,inplace_and);
-        COPYSLOT(nb,inplace_xor);
-        COPYSLOT(nb,inplace_or);
-        COPYSLOT(nb,true_divide);
-        COPYSLOT(nb,floor_divide);
-        COPYSLOT(nb,inplace_true_divide);
-        COPYSLOT(nb,inplace_floor_divide);
-        COPYSLOT(nb,index);
-        COPYSLOT(nb,matrix_multiply);
-        COPYSLOT(nb,inplace_matrix_multiply);
+        COPYSLOTI(nb,_add);
+        COPYSLOTI(nb,_subtract);
+        COPYSLOTI(nb,_multiply);
+        COPYSLOTI(nb,_remainder);
+        COPYSLOTI(nb,_divmod);
+        COPYSLOTI(nb,_power);
+        COPYSLOTI(nb,_negative);
+        COPYSLOTI(nb,_positive);
+        COPYSLOTI(nb,_absolute);
+        COPYSLOTI(nb,_bool);
+        COPYSLOTI(nb,_invert);
+        COPYSLOTI(nb,_lshift);
+        COPYSLOTI(nb,_rshift);
+        COPYSLOTI(nb,_and);
+        COPYSLOTI(nb,_xor);
+        COPYSLOTI(nb,_or);
+        COPYSLOTI(nb,_int);
+        COPYSLOTI(nb,_float);
+        COPYSLOTI(nb,_inplace_add);
+        COPYSLOTI(nb,_inplace_subtract);
+        COPYSLOTI(nb,_inplace_multiply);
+        COPYSLOTI(nb,_inplace_remainder);
+        COPYSLOTI(nb,_inplace_power);
+        COPYSLOTI(nb,_inplace_lshift);
+        COPYSLOTI(nb,_inplace_rshift);
+        COPYSLOTI(nb,_inplace_and);
+        COPYSLOTI(nb,_inplace_xor);
+        COPYSLOTI(nb,_inplace_or);
+        COPYSLOTI(nb,_true_divide);
+        COPYSLOTI(nb,_floor_divide);
+        COPYSLOTI(nb,_inplace_true_divide);
+        COPYSLOTI(nb,_inplace_floor_divide);
+        COPYSLOTI(nb,_index);
+        COPYSLOTI(nb,_matrix_multiply);
+        COPYSLOTI(nb,_inplace_matrix_multiply);
     }
 
     if (type->tp_as_async != NULL && base->tp_as_async != NULL) {
         basebase = base->tp_base;
         if (basebase->tp_as_async == NULL)
             basebase = NULL;
-        COPYSLOT(am,await);
-        COPYSLOT(am,aiter);
-        COPYSLOT(am,anext);
+        COPYSLOT(am,_await);
+        COPYSLOT(am,_aiter);
+        COPYSLOT(am,_anext);
     }
 
     if (type->tp_as_sequence != NULL && base->tp_as_sequence != NULL) {
         basebase = base->tp_base;
         if (basebase->tp_as_sequence == NULL)
             basebase = NULL;
-        COPYSLOT(sq,length);
-        COPYSLOT(sq,concat);
-        COPYSLOT(sq,repeat);
-        COPYSLOT(sq,item);
-        COPYSLOT(sq,ass_item);
-        COPYSLOT(sq,contains);
-        COPYSLOT(sq,inplace_concat);
-        COPYSLOT(sq,inplace_repeat);
+        COPYSLOT(sq,_length);
+        COPYSLOT(sq,_concat);
+        COPYSLOT(sq,_repeat);
+        COPYSLOT(sq,_item);
+        COPYSLOT(sq,_ass_item);
+        COPYSLOT(sq,_contains);
+        COPYSLOT(sq,_inplace_concat);
+        COPYSLOT(sq,_inplace_repeat);
     }
 
     if (type->tp_as_mapping != NULL && base->tp_as_mapping != NULL) {
         basebase = base->tp_base;
         if (basebase->tp_as_mapping == NULL)
             basebase = NULL;
-        COPYSLOT(mp,length);
-        COPYSLOT(mp,subscript);
-        COPYSLOT(mp,ass_subscript);
+        COPYSLOT(mp,_length);
+        COPYSLOT(mp,_subscript);
+        COPYSLOT(mp,_ass_subscript);
     }
 
     if (type->tp_as_buffer != NULL && base->tp_as_buffer != NULL) {
         basebase = base->tp_base;
         if (basebase->tp_as_buffer == NULL)
             basebase = NULL;
-        COPYSLOT(bf,getbuffer);
-        COPYSLOT(bf,releasebuffer);
+        COPYSLOT(bf,_getbuffer);
+        COPYSLOT(bf,_releasebuffer);
     }
 
     basebase = base->tp_base;
 
-    COPYSLOT(tp,dealloc);
+    COPYSLOT(tp,_dealloc);
     if (type->tp_getattr == NULL && type->tp_getattro == NULL) {
-        COPYSLOT_FN(tp,getattr);
-        COPYSLOT_FN(tp,getattro);
+        COPYSLOTI_FN(tp,_getattr);
+        COPYSLOTI_FN(tp,_getattro);
     }
     if (type->tp_setattr == NULL && type->tp_setattro == NULL) {
-        COPYSLOT_FN(tp,setattr);
-        COPYSLOT_FN(tp,setattro);
+        COPYSLOTI_FN(tp,_setattr);
+        COPYSLOTI_FN(tp,_setattro);
     }
-    COPYSLOT(tp,repr);
+    COPYSLOT(tp,_repr);
     /* tp_hash see tp_richcompare */
     {
         /* Always inherit tp_vectorcall_offset to support PyVectorcall_Call().
          * If Py_TPFLAGS_HAVE_VECTORCALL is not inherited, then vectorcall
          * won't be used automatically. */
-        COPYSLOT(tp,vectorcall_offset);
+        COPYSLOTI(tp,_vectorcall_offset);
 
         /* Inherit Py_TPFLAGS_HAVE_VECTORCALL if tp_call is not overridden */
         if (!type->tp_call &&
@@ -8735,9 +8786,9 @@ COPYSLOT_INNER(PYTYPE_SLOTLOC_##KIND, KIND##_##SLOT, KIND##_functionflags, _PyFu
         {
             type_add_flags(type, Py_TPFLAGS_HAVE_VECTORCALL, 0);
         }
-        COPYSLOT(tp,call);
+        COPYSLOT(tp,_call);
     }
-    COPYSLOT(tp,str);
+    COPYSLOT(tp,_str);
     {
         /* Copy comparison-related slots only when
            not overriding them anywhere */
@@ -8749,17 +8800,17 @@ COPYSLOT_INNER(PYTYPE_SLOTLOC_##KIND, KIND##_##SLOT, KIND##_functionflags, _PyFu
                 return -1;
             }
             if (!r) {
-                COPYSLOT_FN(tp,richcompare);
-                COPYSLOT_FN(tp,hash);
+                COPYSLOT_FN(tp,_richcompare);
+                COPYSLOT_FN(tp,_hash);
             }
         }
     }
     {
-        COPYSLOT(tp,iter);
-        COPYSLOT(tp,iternext);
+        COPYSLOT(tp,_iter);
+        COPYSLOT(tp,_iternext);
     }
     {
-        COPYSLOT(tp,descr_get);
+        COPYSLOTI(tp,_descr_get);
         /* Inherit Py_TPFLAGS_METHOD_DESCRIPTOR if tp_descr_get was inherited,
          * but only for extension types */
         if (base->tp_descr_get &&
@@ -8769,16 +8820,16 @@ COPYSLOT_INNER(PYTYPE_SLOTLOC_##KIND, KIND##_##SLOT, KIND##_functionflags, _PyFu
         {
             type_add_flags(type, Py_TPFLAGS_METHOD_DESCRIPTOR, 0);
         }
-        COPYSLOT(tp,descr_set);
-        COPYSLOT_VAL(tp,dictoffset);
-        COPYSLOT(tp,init);
-        COPYSLOT(tp,alloc);
-        COPYSLOT(tp,is_gc);
-        COPYSLOT(tp,finalize);
+        COPYSLOTI(tp,_descr_set);
+        COPYSLOT_VAL(tp,_dictoffset);
+        COPYSLOT(tp,_init);
+        COPYSLOT(tp,_alloc);
+        COPYSLOT(tp,_is_gc);
+        COPYSLOT(tp,_finalize);
         if ((type->tp_flags & Py_TPFLAGS_HAVE_GC) ==
             (base->tp_flags & Py_TPFLAGS_HAVE_GC)) {
             /* They agree about gc. */
-            COPYSLOT(tp,free);
+            COPYSLOT(tp,_free);
         }
         else if ((type->tp_flags & Py_TPFLAGS_HAVE_GC) &&
                  type->tp_free == NULL &&
@@ -10636,50 +10687,86 @@ SLOT0(slot_nb_negative, __neg__)
 SLOT0(slot_nb_positive, __pos__)
 SLOT0(slot_nb_absolute, __abs__)
 
-static int
-slot_nb_bool(PyObject *self)
-{
-    int using_len = 0;
-    int attr_is_none = 0;
-    PyObject *value = maybe_call_special_no_args(self, &_Py_ID(__bool__),
-                                                 &attr_is_none);
-    if (attr_is_none) {
+RETURNACTION_STDCLASSDECLARATION_R(int, slot_nb_bool_Inlineable)
+
+struct slot_nb_bool_Inlineable_State {
+    ReturnAction_State base;
+    PyObject *self;
+    int using_len;
+    int attr_is_none;
+};
+
+static void slot_nb_bool_Inlineable_WrappedInit(slot_nb_bool_Inlineable_State *wrapped, slot_nb_bool_Inlineable_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+    wrapped->self = Py_NewRef(state->self);
+    wrapped->using_len = state->using_len;
+    wrapped->attr_is_none = state->attr_is_none;
+}
+
+static void slot_nb_bool_Inlineable_WrappedDtor(slot_nb_bool_Inlineable_State *wrapped){
+    Py_DECREF(wrapped->self);
+}
+
+RETURNACTION_STEPDEFINITION_R(int, slot_nb_bool_Inlineable, 2)
+
+    result = maybe_call_special_no_args(state->self, &_Py_ID(__bool__),
+                                                 &state->attr_is_none, inlined);
+    RETURNACTION_CHECKINLINED_R(int, 1)
+    if (state->attr_is_none) {
         PyErr_Format(PyExc_TypeError,
                      "'%.200s' cannot be interpreted as a boolean",
-                     Py_TYPE(self)->tp_name);
+                     Py_TYPE(state->self)->tp_name);
         return -1;
     }
-    else if (value == NULL && !PyErr_Occurred()) {
-        value = _PyObject_MaybeCallSpecialNoArgs(self, &_Py_ID(__len__));
-        if (value == NULL && !PyErr_Occurred()) {
+    else if (result == NULL && !PyErr_Occurred()) {
+        result = _PyObject_MaybeCallSpecialNoArgs(state->self, &_Py_ID(__len__), inlined);
+        RETURNACTION_CHECKINLINED_R(int, 2)
+        if (result == NULL && !PyErr_Occurred()) {
             return 1;
         }
-        using_len = 1;
+        state->using_len = 1;
     }
 
-    if (value == NULL) {
+    if (result == NULL) {
         return -1;
     }
 
-    int result;
-    if (using_len) {
+    int res;
+    if (state->using_len) {
         /* bool type enforced by slot_nb_len */
-        result = PyObject_IsTrue(value);
+        res = PyObject_IsTrue(result);
     }
-    else if (PyBool_Check(value)) {
-        result = PyObject_IsTrue(value);
+    else if (PyBool_Check(result)) {
+        res = PyObject_IsTrue(result);
     }
     else {
         PyErr_Format(PyExc_TypeError,
                      "__bool__ should return "
                      "bool, returned %s",
-                     Py_TYPE(value)->tp_name);
-        result = -1;
+                     Py_TYPE(result)->tp_name);
+        res = -1;
     }
-    Py_DECREF(value);
-    return result;
+    Py_DECREF(result);
+    return res;
 }
 
+static int
+slot_nb_bool_Inlineable(PyObject *self, struct _PyInterpreterFrame **inlined)
+{
+    slot_nb_bool_Inlineable_State state = {
+        .base.step = 0,
+        .self = self,
+        .using_len = 0,
+        .attr_is_none = 0,
+    };
+    return slot_nb_bool_Inlineable_Step(&state, NULL, inlined);
+}
+
+static int
+slot_nb_bool(PyObject *self)
+{
+    return slot_nb_bool_Inlineable(self, NULL);
+}
 
 static PyObject *
 slot_nb_index(PyObject *self)
@@ -10729,7 +10816,7 @@ SLOT1(_PyType_Slot_nb_inplace_true_divide, __itruediv__, PyObject *)
 static PyObject *
 slot_tp_repr(PyObject *self)
 {
-    PyObject *res = _PyObject_MaybeCallSpecialNoArgs(self, &_Py_ID(__repr__));
+    PyObject *res = _PyObject_MaybeCallSpecialNoArgs(self, &_Py_ID(__repr__), NULL);
     if (res != NULL) {
         return res;
     }
@@ -10747,7 +10834,7 @@ slot_tp_hash(PyObject *self)
 {
     PyObject *res;
     int attr_is_none = 0;
-    res  = maybe_call_special_no_args(self, &_Py_ID(__hash__), &attr_is_none);
+    res  = maybe_call_special_no_args(self, &_Py_ID(__hash__), &attr_is_none, NULL);
     if (attr_is_none || res == NULL) {
         if (PyErr_Occurred()) {
             return -1;
@@ -10987,7 +11074,7 @@ static PyObject *name_op[] = {
 static PyObject *
 slot_tp_richcompare(PyObject *self, PyObject *other, int op)
 {
-    PyObject *res = _PyObject_MaybeCallSpecialOneArg(self, name_op[op], other);
+    PyObject *res = _PyObject_MaybeCallSpecialOneArg(self, name_op[op], other, NULL);
     if (res == NULL) {
         if (PyErr_Occurred()) {
             return NULL;
@@ -11014,7 +11101,7 @@ slot_tp_iter(PyObject *self)
 {
     int attr_is_none = 0;
     PyObject *res = maybe_call_special_no_args(self, &_Py_ID(__iter__),
-                                               &attr_is_none);
+                                               &attr_is_none, NULL);
     if (res != NULL) {
         return res;
     }
@@ -11160,7 +11247,7 @@ slot_tp_finalize(PyObject *self)
     int unbound = lookup_maybe_method(self, &_Py_ID(__del__), &cref.ref);
     if (unbound >= 0) {
         PyObject *del = PyStackRef_AsPyObjectBorrow(cref.ref);
-        PyObject *res = call_unbound_noarg(unbound, del, self);
+        PyObject *res = call_unbound_noarg(unbound, del, self, NULL);
         if (res == NULL) {
             PyErr_FormatUnraisable("Exception ignored while "
                                    "calling deallocator %R", del);
@@ -11428,7 +11515,7 @@ slot_bf_releasebuffer(PyObject *self, Py_buffer *buffer)
 static PyObject *
 slot_am_generic(PyObject *self, PyObject *name)
 {
-    PyObject *res = _PyObject_MaybeCallSpecialNoArgs(self, name);
+    PyObject *res = _PyObject_MaybeCallSpecialNoArgs(self, name, NULL);
     if (res == NULL && !PyErr_Occurred()) {
         PyErr_Format(PyExc_AttributeError,
             "object %.50s does not have %U method",
@@ -11634,7 +11721,7 @@ static pytype_slotdef slotdefs[] = {
     UNISLOT(__pos__, nb_positive, slot_nb_positive, wrap_unaryfunc, "+self"),
     UNISLOT(__abs__, nb_absolute, slot_nb_absolute, wrap_unaryfunc,
            "abs(self)"),
-    UNSLOT(__bool__, nb_bool, slot_nb_bool, wrap_inquirypred,
+    UNISLOT(__bool__, nb_bool, slot_nb_bool, wrap_inquirypred,
            "True if self else False"),
     UNISLOT(__invert__, nb_invert, slot_nb_invert, wrap_unaryfunc, "~self"),
     BINSLOT(__lshift__, nb_lshift, _PyType_Slot_nb_lshift, "<<"),
@@ -11764,110 +11851,110 @@ struct SlotInfo {
 #define SLOTINFO_SLOTLOCTYPE_bf PyBufferProcs
 
 #define SLOTINFO(KIND, SLOT) \
-    .i[offsetof(PyHeapTypeObject, SLOTINFO_SLOTLOC_##KIND.KIND##_##SLOT)] = \
+    .i[offsetof(PyHeapTypeObject, SLOTINFO_SLOTLOC_##KIND.KIND##SLOT)] = \
         { \
             .group = offsetof(PyHeapTypeObject, SLOTINFO_SLOTLOCP_##KIND), \
-            .fn = offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##_##SLOT), \
+            .fn = offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##SLOT), \
             .fn_inlineable = 0, \
-            .fnflags = offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##_functionflags[_PyFunctionIndex_##KIND##_##SLOT]), \
+            .fnflags = offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##_functionflags[_PyFunctionIndex_##KIND##SLOT]), \
             .fnflags_inlineable = 0, \
-            .fnindex = _PyFunctionIndex_##KIND##_##SLOT, \
+            .fnindex = _PyFunctionIndex_##KIND##SLOT, \
         },
 #define SLOTIINFO(KIND, SLOT) \
-    .i[offsetof(PyHeapTypeObject, SLOTINFO_SLOTLOC_##KIND.KIND##_##SLOT)] = \
+    .i[offsetof(PyHeapTypeObject, SLOTINFO_SLOTLOC_##KIND.KIND##SLOT)] = \
         { \
             .group = offsetof(PyHeapTypeObject, SLOTINFO_SLOTLOCP_##KIND), \
-            .fn = offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##_##SLOT), \
-            .fn_inlineable = offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##_##SLOT##_inlineable), \
-            .fnflags = offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##_functionflags[_PyFunctionIndex_##KIND##_##SLOT]), \
-            .fnflags_inlineable = offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##_functionflags[_PyFunctionIndex_##KIND##_##SLOT##_inlineable]), \
-            .fnindex = _PyFunctionIndex_##KIND##_##SLOT, \
+            .fn = offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##SLOT), \
+            .fn_inlineable = offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##SLOT##_inlineable), \
+            .fnflags = offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##_functionflags[_PyFunctionIndex_##KIND##SLOT]), \
+            .fnflags_inlineable = offsetof(SLOTINFO_SLOTLOCTYPE_##KIND, KIND##_functionflags[_PyFunctionIndex_##KIND##SLOT##_inlineable]), \
+            .fnindex = _PyFunctionIndex_##KIND##SLOT, \
         },
 
 static struct SlotInfos {
     struct SlotInfo i[offsetof(PyHeapTypeObject, ht_name)];
 } offset_to_info = {
-    SLOTINFO(tp,dealloc)
-    SLOTIINFO(tp,getattr)
-    SLOTIINFO(tp,setattr)
-    SLOTINFO(tp,repr)
-    SLOTINFO(tp,hash)
-    SLOTINFO(tp,call)
-    SLOTINFO(tp,str)
-    SLOTIINFO(tp,getattro)
-    SLOTIINFO(tp,setattro)
-    SLOTINFO(tp,traverse)
-    SLOTINFO(tp,clear)
-    SLOTINFO(tp,richcompare)
-    SLOTINFO(tp,iter)
-    SLOTINFO(tp,iternext)
-    SLOTIINFO(tp,descr_get)
-    SLOTIINFO(tp,descr_set)
-    SLOTINFO(tp,init)
-    SLOTINFO(tp,alloc)
-    SLOTINFO(tp,new)
-    SLOTINFO(tp,free)
-    SLOTINFO(tp,is_gc)
-    SLOTINFO(tp,del)
-    SLOTINFO(tp,finalize)
-    SLOTINFO(tp,vectorcall)
+    SLOTINFO(tp,_dealloc)
+    SLOTIINFO(tp,_getattr)
+    SLOTIINFO(tp,_setattr)
+    SLOTINFO(tp,_repr)
+    SLOTINFO(tp,_hash)
+    SLOTINFO(tp,_call)
+    SLOTINFO(tp,_str)
+    SLOTIINFO(tp,_getattro)
+    SLOTIINFO(tp,_setattro)
+    SLOTINFO(tp,_traverse)
+    SLOTINFO(tp,_clear)
+    SLOTINFO(tp,_richcompare)
+    SLOTINFO(tp,_iter)
+    SLOTINFO(tp,_iternext)
+    SLOTIINFO(tp,_descr_get)
+    SLOTIINFO(tp,_descr_set)
+    SLOTINFO(tp,_init)
+    SLOTINFO(tp,_alloc)
+    SLOTINFO(tp,_new)
+    SLOTINFO(tp,_free)
+    SLOTINFO(tp,_is_gc)
+    SLOTINFO(tp,_del)
+    SLOTINFO(tp,_finalize)
+    SLOTIINFO(tp,_vectorcall)
 
-    SLOTINFO(am,await)
-    SLOTINFO(am,aiter)
-    SLOTINFO(am,anext)
-    SLOTINFO(am,send)
+    SLOTINFO(am,_await)
+    SLOTINFO(am,_aiter)
+    SLOTINFO(am,_anext)
+    SLOTINFO(am,_send)
 
-    SLOTIINFO(nb,add)
-    SLOTIINFO(nb,subtract)
-    SLOTIINFO(nb,multiply)
-    SLOTIINFO(nb,remainder)
-    SLOTIINFO(nb,divmod)
-    SLOTIINFO(nb,power)
-    SLOTIINFO(nb,negative)
-    SLOTIINFO(nb,positive)
-    SLOTIINFO(nb,absolute)
-    SLOTIINFO(nb,bool)
-    SLOTIINFO(nb,invert)
-    SLOTIINFO(nb,lshift)
-    SLOTIINFO(nb,rshift)
-    SLOTIINFO(nb,and)
-    SLOTIINFO(nb,xor)
-    SLOTIINFO(nb,or)
-    SLOTIINFO(nb,int)
-    SLOTIINFO(nb,float)
-    SLOTIINFO(nb,inplace_add)
-    SLOTIINFO(nb,inplace_subtract)
-    SLOTIINFO(nb,inplace_multiply)
-    SLOTIINFO(nb,inplace_remainder)
-    SLOTIINFO(nb,inplace_power)
-    SLOTIINFO(nb,inplace_lshift)
-    SLOTIINFO(nb,inplace_rshift)
-    SLOTIINFO(nb,inplace_and)
-    SLOTIINFO(nb,inplace_xor)
-    SLOTIINFO(nb,inplace_or)
-    SLOTIINFO(nb,floor_divide)
-    SLOTIINFO(nb,true_divide)
-    SLOTIINFO(nb,inplace_floor_divide)
-    SLOTIINFO(nb,inplace_true_divide)
-    SLOTINFO(nb,index)
-    SLOTIINFO(nb,matrix_multiply)
-    SLOTIINFO(nb,inplace_matrix_multiply)
+    SLOTIINFO(nb,_add)
+    SLOTIINFO(nb,_subtract)
+    SLOTIINFO(nb,_multiply)
+    SLOTIINFO(nb,_remainder)
+    SLOTIINFO(nb,_divmod)
+    SLOTIINFO(nb,_power)
+    SLOTIINFO(nb,_negative)
+    SLOTIINFO(nb,_positive)
+    SLOTIINFO(nb,_absolute)
+    SLOTIINFO(nb,_bool)
+    SLOTIINFO(nb,_invert)
+    SLOTIINFO(nb,_lshift)
+    SLOTIINFO(nb,_rshift)
+    SLOTIINFO(nb,_and)
+    SLOTIINFO(nb,_xor)
+    SLOTIINFO(nb,_or)
+    SLOTIINFO(nb,_int)
+    SLOTIINFO(nb,_float)
+    SLOTIINFO(nb,_inplace_add)
+    SLOTIINFO(nb,_inplace_subtract)
+    SLOTIINFO(nb,_inplace_multiply)
+    SLOTIINFO(nb,_inplace_remainder)
+    SLOTIINFO(nb,_inplace_power)
+    SLOTIINFO(nb,_inplace_lshift)
+    SLOTIINFO(nb,_inplace_rshift)
+    SLOTIINFO(nb,_inplace_and)
+    SLOTIINFO(nb,_inplace_xor)
+    SLOTIINFO(nb,_inplace_or)
+    SLOTIINFO(nb,_floor_divide)
+    SLOTIINFO(nb,_true_divide)
+    SLOTIINFO(nb,_inplace_floor_divide)
+    SLOTIINFO(nb,_inplace_true_divide)
+    SLOTINFO(nb,_index)
+    SLOTIINFO(nb,_matrix_multiply)
+    SLOTIINFO(nb,_inplace_matrix_multiply)
 
-    SLOTIINFO(sq,length)
-    SLOTINFO(sq,concat)
-    SLOTINFO(sq,repeat)
-    SLOTINFO(sq,item)
-    SLOTINFO(sq,ass_item)
-    SLOTINFO(sq,contains)
-    SLOTINFO(sq,inplace_concat)
-    SLOTINFO(sq,inplace_repeat)
+    SLOTIINFO(sq,_length)
+    SLOTINFO(sq,_concat)
+    SLOTINFO(sq,_repeat)
+    SLOTINFO(sq,_item)
+    SLOTINFO(sq,_ass_item)
+    SLOTINFO(sq,_contains)
+    SLOTINFO(sq,_inplace_concat)
+    SLOTINFO(sq,_inplace_repeat)
 
-    SLOTINFO(mp,length)
-    SLOTINFO(mp,subscript)
-    SLOTINFO(mp,ass_subscript)
+    SLOTINFO(mp,_length)
+    SLOTINFO(mp,_subscript)
+    SLOTINFO(mp,_ass_subscript)
 
-     SLOTINFO(bf,getbuffer)
-     SLOTINFO(bf,releasebuffer)
+     SLOTINFO(bf,_getbuffer)
+     SLOTINFO(bf,_releasebuffer)
 };
 
 /* Given a type pointer and an offset gotten from a slotdef entry, return a
@@ -13189,84 +13276,84 @@ PyTypeObject PySuper_Type = {
 #define PyType_DefineCallTypeFunction_DoCall_Part3_V(RT)
 
 #define PyType_DefineCallTypeFunction1(RET, RT, KIND, SLOT, T0) \
-struct Do_PyType_Call_##KIND##_##SLOT##_Params { \
+struct Do_PyType_Call_##KIND##SLOT##_Params { \
     PyTypeObject *tp; \
     T0 v0; \
 }; \
  \
-void *Do_PyType_Call_##KIND##_##SLOT(void *_params){ \
-    struct Do_PyType_Call_##KIND##_##SLOT##_Params *params = (struct Do_PyType_Call_##KIND##_##SLOT##_Params *)_params; \
-    PyType_DefineCallTypeFunction_DoCall_Part0_##RET params->tp->PYTYPE_SLOTLOC_##KIND KIND##_##SLOT( \
+void *Do_PyType_Call_##KIND##SLOT(void *_params){ \
+    struct Do_PyType_Call_##KIND##SLOT##_Params *params = (struct Do_PyType_Call_##KIND##SLOT##_Params *)_params; \
+    PyType_DefineCallTypeFunction_DoCall_Part0_##RET params->tp->PYTYPE_SLOTLOC_##KIND KIND##SLOT( \
         params->v0 \
     ); \
     PyType_DefineCallTypeFunction_DoCall_Part1_##RET \
 } \
  \
-RT PyType_Call_##KIND##_##SLOT( \
+RT PyType_Call_##KIND##SLOT( \
     PyTypeObject *tp, \
     T0 v0 \
 ) \
 { \
-    struct Do_PyType_Call_##KIND##_##SLOT##_Params params = { \
+    struct Do_PyType_Call_##KIND##SLOT##_Params params = { \
         .tp = tp, \
         .v0 = v0, \
     }; \
     PyType_DefineCallTypeFunction_DoCall_Part2_##RET _PyType_CallFunction( \
         tp, \
-        Do_PyType_Call_##KIND##_##SLOT, \
+        Do_PyType_Call_##KIND##SLOT, \
         &params, \
         tp->tp_functionflags, \
-        _PyFunctionIndex_##KIND##_##SLOT); \
+        _PyFunctionIndex_##KIND##SLOT); \
     PyType_DefineCallTypeFunction_DoCall_Part3_##RET(RT) \
 }
 
 #define PyType_DefineCallTypeFunction2(RET, RT, KIND, SLOT, T0, T1) \
-struct Do_PyType_Call_##KIND##_##SLOT##_Params { \
+struct Do_PyType_Call_##KIND##SLOT##_Params { \
     PyTypeObject *tp; \
     T0 v0; \
     T1 v1; \
 }; \
  \
-void *Do_PyType_Call_##KIND##_##SLOT(void *_params){ \
-    struct Do_PyType_Call_##KIND##_##SLOT##_Params *params = (struct Do_PyType_Call_##KIND##_##SLOT##_Params *)_params; \
-    PyType_DefineCallTypeFunction_DoCall_Part0_##RET params->tp->PYTYPE_SLOTLOC_##KIND KIND##_##SLOT( \
+void *Do_PyType_Call_##KIND##SLOT(void *_params){ \
+    struct Do_PyType_Call_##KIND##SLOT##_Params *params = (struct Do_PyType_Call_##KIND##SLOT##_Params *)_params; \
+    PyType_DefineCallTypeFunction_DoCall_Part0_##RET params->tp->PYTYPE_SLOTLOC_##KIND KIND##SLOT( \
         params->v0, \
         params->v1 \
     ); \
     PyType_DefineCallTypeFunction_DoCall_Part1_##RET \
 } \
  \
-RT PyType_Call_##KIND##_##SLOT( \
+RT PyType_Call_##KIND##SLOT( \
     PyTypeObject *tp, \
     T0 v0, \
     T1 v1 \
 ) \
 { \
-    struct Do_PyType_Call_##KIND##_##SLOT##_Params params = { \
+    struct Do_PyType_Call_##KIND##SLOT##_Params params = { \
         .tp = tp, \
         .v0 = v0, \
         .v1 = v1, \
     }; \
     PyType_DefineCallTypeFunction_DoCall_Part2_##RET _PyType_CallFunction( \
         tp, \
-        Do_PyType_Call_##KIND##_##SLOT, \
+        Do_PyType_Call_##KIND##SLOT, \
         &params, \
         tp->tp_functionflags, \
-        _PyFunctionIndex_##KIND##_##SLOT); \
+        _PyFunctionIndex_##KIND##SLOT); \
         PyType_DefineCallTypeFunction_DoCall_Part3_##RET(RT) \
 }
 
 #define PyType_DefineCallTypeFunction3(RET, RT, KIND, SLOT, T0, T1, T2) \
-struct Do_PyType_Call_##KIND##_##SLOT##_Params { \
+struct Do_PyType_Call_##KIND##SLOT##_Params { \
     PyTypeObject *tp; \
     T0 v0; \
     T1 v1; \
     T2 v2; \
 }; \
  \
-void *Do_PyType_Call_##KIND##_##SLOT(void *_params){ \
-    struct Do_PyType_Call_##KIND##_##SLOT##_Params *params = (struct Do_PyType_Call_##KIND##_##SLOT##_Params *)_params; \
-    PyType_DefineCallTypeFunction_DoCall_Part0_##RET params->tp->PYTYPE_SLOTLOC_##KIND KIND##_##SLOT( \
+void *Do_PyType_Call_##KIND##SLOT(void *_params){ \
+    struct Do_PyType_Call_##KIND##SLOT##_Params *params = (struct Do_PyType_Call_##KIND##SLOT##_Params *)_params; \
+    PyType_DefineCallTypeFunction_DoCall_Part0_##RET params->tp->PYTYPE_SLOTLOC_##KIND KIND##SLOT( \
         params->v0, \
         params->v1, \
         params->v2 \
@@ -13274,14 +13361,14 @@ void *Do_PyType_Call_##KIND##_##SLOT(void *_params){ \
     PyType_DefineCallTypeFunction_DoCall_Part1_##RET \
 } \
  \
-RT PyType_Call_##KIND##_##SLOT( \
+RT PyType_Call_##KIND##SLOT( \
     PyTypeObject *tp, \
     T0 v0, \
     T1 v1, \
     T2 v2 \
 ) \
 { \
-    struct Do_PyType_Call_##KIND##_##SLOT##_Params params = { \
+    struct Do_PyType_Call_##KIND##SLOT##_Params params = { \
         .tp = tp, \
         .v0 = v0, \
         .v1 = v1, \
@@ -13289,15 +13376,15 @@ RT PyType_Call_##KIND##_##SLOT( \
     }; \
     PyType_DefineCallTypeFunction_DoCall_Part2_##RET _PyType_CallFunction( \
         tp, \
-        Do_PyType_Call_##KIND##_##SLOT, \
+        Do_PyType_Call_##KIND##SLOT, \
         &params, \
         tp->tp_functionflags, \
-        _PyFunctionIndex_##KIND##_##SLOT); \
+        _PyFunctionIndex_##KIND##SLOT); \
     PyType_DefineCallTypeFunction_DoCall_Part3_##RET(RT) \
 }
 
 #define PyType_DefineCallTypeFunction4(RET, RT, KIND, SLOT, T0, T1, T2, T3) \
-struct Do_PyType_Call_##KIND##_##SLOT##_Params { \
+struct Do_PyType_Call_##KIND##SLOT##_Params { \
     PyTypeObject *tp; \
     T0 v0; \
     T1 v1; \
@@ -13305,9 +13392,9 @@ struct Do_PyType_Call_##KIND##_##SLOT##_Params { \
     T3 v3; \
 }; \
  \
-void *Do_PyType_Call_##KIND##_##SLOT(void *_params){ \
-    struct Do_PyType_Call_##KIND##_##SLOT##_Params *params = (struct Do_PyType_Call_##KIND##_##SLOT##_Params *)_params; \
-    PyType_DefineCallTypeFunction_DoCall_Part0_##RET params->tp->PYTYPE_SLOTLOC_##KIND KIND##_##SLOT( \
+void *Do_PyType_Call_##KIND##SLOT(void *_params){ \
+    struct Do_PyType_Call_##KIND##SLOT##_Params *params = (struct Do_PyType_Call_##KIND##SLOT##_Params *)_params; \
+    PyType_DefineCallTypeFunction_DoCall_Part0_##RET params->tp->PYTYPE_SLOTLOC_##KIND KIND##SLOT( \
         params->v0, \
         params->v1, \
         params->v2, \
@@ -13316,7 +13403,7 @@ void *Do_PyType_Call_##KIND##_##SLOT(void *_params){ \
     PyType_DefineCallTypeFunction_DoCall_Part1_##RET \
 } \
  \
-RT PyType_Call_##KIND##_##SLOT( \
+RT PyType_Call_##KIND##SLOT( \
     PyTypeObject *tp, \
     T0 v0, \
     T1 v1, \
@@ -13324,7 +13411,7 @@ RT PyType_Call_##KIND##_##SLOT( \
     T3 v3 \
 ) \
 { \
-    struct Do_PyType_Call_##KIND##_##SLOT##_Params params = { \
+    struct Do_PyType_Call_##KIND##SLOT##_Params params = { \
         .tp = tp, \
         .v0 = v0, \
         .v1 = v1, \
@@ -13333,144 +13420,147 @@ RT PyType_Call_##KIND##_##SLOT( \
     }; \
     PyType_DefineCallTypeFunction_DoCall_Part2_##RET _PyType_CallFunction( \
         tp, \
-        Do_PyType_Call_##KIND##_##SLOT, \
+        Do_PyType_Call_##KIND##SLOT, \
         &params, \
         tp->tp_functionflags, \
-        _PyFunctionIndex_##KIND##_##SLOT); \
+        _PyFunctionIndex_##KIND##SLOT); \
     PyType_DefineCallTypeFunction_DoCall_Part3_##RET(RT) \
+}
+
+#define PyType_DefineCallTypeFunction1I(RET, RT, KIND, SLOT, T0) \
+PyType_DefineCallTypeFunction1(RET, RT, KIND, SLOT, T0) \
+PyType_DefineCallTypeFunction2(RET, RT, KIND, SLOT##_inlineable, T0, struct _PyInterpreterFrame **) \
+RT PyType_Call_##KIND##SLOT##_Inlineable( \
+    PyTypeObject *tp, \
+    T0 v0, \
+    struct _PyInterpreterFrame **v1 \
+) \
+{ \
+    if (PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) && tp->PYTYPE_SLOTLOC_##KIND KIND##SLOT##_inlineable) { \
+        return PyType_Call_##KIND##SLOT##_inlineable(tp, v0, v1); \
+    } else { \
+        return PyType_Call_##KIND##SLOT(tp, v0); \
+    } \
+}
+
+#define PyType_DefineCallTypeFunction2I(RET, RT, KIND, SLOT, T0, T1) \
+PyType_DefineCallTypeFunction2(RET, RT, KIND, SLOT, T0, T1) \
+PyType_DefineCallTypeFunction3(RET, RT, KIND, SLOT##_inlineable, T0, T1, struct _PyInterpreterFrame **) \
+RT PyType_Call_##KIND##SLOT##_Inlineable( \
+    PyTypeObject *tp, \
+    T0 v0, \
+    T1 v1, \
+    struct _PyInterpreterFrame **v2 \
+) \
+{ \
+    if (PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) && tp->PYTYPE_SLOTLOC_##KIND KIND##SLOT##_inlineable) { \
+        return PyType_Call_##KIND##SLOT##_inlineable(tp, v0, v1, v2); \
+    } else { \
+        return PyType_Call_##KIND##SLOT(tp, v0, v1); \
+    } \
+}
+
+#define PyType_DefineCallTypeFunction3I(RET, RT, KIND, SLOT, T0, T1, T2) \
+PyType_DefineCallTypeFunction3(RET, RT, KIND, SLOT, T0, T1, T2) \
+PyType_DefineCallTypeFunction4(RET, RT, KIND, SLOT##_inlineable, T0, T1, T2, struct _PyInterpreterFrame **) \
+RT PyType_Call_##KIND##SLOT##_Inlineable( \
+    PyTypeObject *tp, \
+    T0 v0, \
+    T1 v1, \
+    T2 v2, \
+    struct _PyInterpreterFrame **v3 \
+) \
+{ \
+    if (PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) && tp->PYTYPE_SLOTLOC_##KIND KIND##SLOT##_inlineable) { \
+        return PyType_Call_##KIND##SLOT##_inlineable(tp, v0, v1, v2, v3); \
+    } else { \
+        return PyType_Call_##KIND##SLOT(tp, v0, v1, v2); \
+    } \
 }
 
 // First parameter: R - it returns a value; V - it returns void
 // Second parameter: return type
 // 3rd & 4th parameters: the method, eg tp, getattr for tp_getattr or np, add for nb_add
 // 5th+ parameters are the method parameter types
-PyType_DefineCallTypeFunction1(V, void, tp, dealloc, PyObject *)
-PyType_DefineCallTypeFunction2(R, PyObject *, tp, getattr, PyObject *, char *)
-PyType_DefineCallTypeFunction3(R, int, tp, setattr, PyObject *, char *, PyObject *)
-PyType_DefineCallTypeFunction1(R, PyObject *, tp, repr, PyObject *)
-PyType_DefineCallTypeFunction1(R, PyObject *, tp, hash, PyObject *)
-PyType_DefineCallTypeFunction1(R, PyObject *, tp, str, PyObject *)
-PyType_DefineCallTypeFunction2(R, PyObject *, tp, getattro, PyObject *, PyObject *)
-PyType_DefineCallTypeFunction3(R, int, tp, setattro, PyObject *, PyObject *, PyObject *)
-PyType_DefineCallTypeFunction3(R, int, tp, traverse, PyObject *, visitproc, void *)
-PyType_DefineCallTypeFunction1(V, void, tp, clear, PyObject *)
-PyType_DefineCallTypeFunction3(R, PyObject *, tp, richcompare, PyObject *, PyObject *, int)
-PyType_DefineCallTypeFunction1(R, PyObject *, tp, iter, PyObject *)
-PyType_DefineCallTypeFunction1(R, PyObject *, tp, iternext, PyObject *)
-PyType_DefineCallTypeFunction3(R, PyObject *, tp, descr_get, PyObject *, PyObject *, PyObject *)
-PyType_DefineCallTypeFunction3(R, int, tp, descr_set, PyObject *, PyObject *, PyObject *)
-PyType_DefineCallTypeFunction3(R, int, tp, init, PyObject *, PyObject *, PyObject *)
-PyType_DefineCallTypeFunction2(R, PyObject *, tp, alloc, PyTypeObject *, Py_ssize_t)
-PyType_DefineCallTypeFunction3(R, PyObject *, tp, new, PyTypeObject *, PyObject *, PyObject *)
-PyType_DefineCallTypeFunction1(V, void, tp, free, void *)
-PyType_DefineCallTypeFunction1(R, int, tp, is_gc, PyObject *)
-PyType_DefineCallTypeFunction1(V, void, tp, del, PyObject *)
-PyType_DefineCallTypeFunction1(V, void, tp, finalize, PyObject *)
-PyType_DefineCallTypeFunction4(R, PyObject *, tp, vectorcall, PyObject *, PyObject *const *, size_t, PyObject *)
+PyType_DefineCallTypeFunction1(V, void, tp, _dealloc, PyObject *)
+PyType_DefineCallTypeFunction2I(R, PyObject *, tp, _getattr, PyObject *, char *)
+PyType_DefineCallTypeFunction3I(R, int, tp, _setattr, PyObject *, char *, PyObject *)
+PyType_DefineCallTypeFunction1(R, PyObject *, tp, _repr, PyObject *)
+PyType_DefineCallTypeFunction1(R, PyObject *, tp, _hash, PyObject *)
+PyType_DefineCallTypeFunction1(R, PyObject *, tp, _str, PyObject *)
+PyType_DefineCallTypeFunction2I(R, PyObject *, tp, _getattro, PyObject *, PyObject *)
+PyType_DefineCallTypeFunction3I(R, int, tp, _setattro, PyObject *, PyObject *, PyObject *)
+PyType_DefineCallTypeFunction3(R, int, tp, _traverse, PyObject *, visitproc, void *)
+PyType_DefineCallTypeFunction1(V, void, tp, _clear, PyObject *)
+PyType_DefineCallTypeFunction3(R, PyObject *, tp, _richcompare, PyObject *, PyObject *, int)
+PyType_DefineCallTypeFunction1(R, PyObject *, tp, _iter, PyObject *)
+PyType_DefineCallTypeFunction1(R, PyObject *, tp, _iternext, PyObject *)
+PyType_DefineCallTypeFunction3I(R, PyObject *, tp, _descr_get, PyObject *, PyObject *, PyObject *)
+PyType_DefineCallTypeFunction3I(R, int, tp, _descr_set, PyObject *, PyObject *, PyObject *)
+PyType_DefineCallTypeFunction3(R, int, tp, _init, PyObject *, PyObject *, PyObject *)
+PyType_DefineCallTypeFunction2(R, PyObject *, tp, _alloc, PyTypeObject *, Py_ssize_t)
+PyType_DefineCallTypeFunction3(R, PyObject *, tp, _new, PyTypeObject *, PyObject *, PyObject *)
+PyType_DefineCallTypeFunction1(V, void, tp, _free, void *)
+PyType_DefineCallTypeFunction1(R, int, tp, _is_gc, PyObject *)
+PyType_DefineCallTypeFunction1(V, void, tp, _del, PyObject *)
+PyType_DefineCallTypeFunction1(V, void, tp, _finalize, PyObject *)
+PyType_DefineCallTypeFunction4(R, PyObject *, tp, _vectorcall, PyObject *, PyObject *const *, size_t, PyObject *)
 
-PyType_DefineCallTypeFunction3(R, PyObject *, tp, getattr_inlineable, PyObject *, char *, struct _PyInterpreterFrame **)
-PyType_DefineCallTypeFunction4(R, int, tp, setattr_inlineable, PyObject *, char *, PyObject *, struct _PyInterpreterFrame **)
-PyType_DefineCallTypeFunction3(R, PyObject *, tp, getattro_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **)
-PyType_DefineCallTypeFunction4(R, int, tp, setattro_inlineable, PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **)
-PyType_DefineCallTypeFunction4(R, PyObject *, tp, descr_get_inlineable, PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **)
-PyType_DefineCallTypeFunction4(R, int, tp, descr_set_inlineable, PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **)
-
-
-PyType_DefineCallTypeFunction1(R, PyObject *, am, await, PyObject *)
-PyType_DefineCallTypeFunction1(R, PyObject *, am, aiter, PyObject *)
-PyType_DefineCallTypeFunction1(R, PyObject *, am, anext, PyObject *)
+PyType_DefineCallTypeFunction1(R, PyObject *, am, _await, PyObject *)
+PyType_DefineCallTypeFunction1(R, PyObject *, am, _aiter, PyObject *)
+PyType_DefineCallTypeFunction1(R, PyObject *, am, _anext, PyObject *)
 #if !defined(Py_LIMITED_API) || Py_LIMITED_API+0 >= 0x030A0000
- PyType_DefineCallTypeFunction3(R, PySendResult, am, send, PyObject *, PyObject *, PyObject **)
+ PyType_DefineCallTypeFunction3(R, PySendResult, am, _send, PyObject *, PyObject *, PyObject **)
 #endif
 
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, add, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, subtract, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, multiply, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, remainder, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, divmod, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, power, PyObject *, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction1(R, PyObject *, nb, negative, PyObject *);
-PyType_DefineCallTypeFunction1(R, PyObject *, nb, positive, PyObject *);
-PyType_DefineCallTypeFunction1(R, PyObject *, nb, absolute, PyObject *);
-PyType_DefineCallTypeFunction1(R, int, nb, bool, PyObject *);
-PyType_DefineCallTypeFunction1(R, PyObject *, nb, invert, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, lshift, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, rshift, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, and, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, xor, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, or, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction1(R, PyObject *, nb, int, PyObject *);
-PyType_DefineCallTypeFunction1(R, PyObject *, nb, float, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, inplace_add, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, inplace_subtract, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, inplace_multiply, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, inplace_remainder, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_power, PyObject *, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, inplace_lshift, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, inplace_rshift, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, inplace_and, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, inplace_xor, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, inplace_or, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, floor_divide, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, true_divide, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, inplace_floor_divide, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, inplace_true_divide, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction1(R, PyObject *, nb, index, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, matrix_multiply, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, inplace_matrix_multiply, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, nb, _add, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, nb, _subtract, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, nb, _multiply, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, nb, _remainder, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, nb, _divmod, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction3I(R, PyObject *, nb, _power, PyObject *, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction1I(R, PyObject *, nb, _negative, PyObject *);
+PyType_DefineCallTypeFunction1I(R, PyObject *, nb, _positive, PyObject *);
+PyType_DefineCallTypeFunction1I(R, PyObject *, nb, _absolute, PyObject *);
+PyType_DefineCallTypeFunction1I(R, int, nb, _bool, PyObject *);
+PyType_DefineCallTypeFunction1I(R, PyObject *, nb, _invert, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, nb, _lshift, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, nb, _rshift, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, nb, _and, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, nb, _xor, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, nb, _or, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction1I(R, PyObject *, nb, _int, PyObject *);
+PyType_DefineCallTypeFunction1I(R, PyObject *, nb, _float, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, nb, _inplace_add, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, nb, _inplace_subtract, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, nb, _inplace_multiply, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, nb, _inplace_remainder, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction3I(R, PyObject *, nb, _inplace_power, PyObject *, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, nb, _inplace_lshift, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, nb, _inplace_rshift, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, nb, _inplace_and, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, nb, _inplace_xor, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, nb, _inplace_or, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, nb, _floor_divide, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, nb, _true_divide, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, nb, _inplace_floor_divide, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, nb, _inplace_true_divide, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction1I(R, PyObject *, nb, _index, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, nb, _matrix_multiply, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, nb, _inplace_matrix_multiply, PyObject *, PyObject *);
 
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, add_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, subtract_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, multiply_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, remainder_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, divmod_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction4(R, PyObject *, nb, power_inlineable, PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, negative_inlineable, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, positive_inlineable, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, absolute_inlineable, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction2(R, int, nb, bool_inlineable, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, invert_inlineable, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, lshift_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, rshift_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, and_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, xor_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, or_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, int_inlineable, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, float_inlineable, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_add_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_subtract_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_multiply_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_remainder_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction4(R, PyObject *, nb, inplace_power_inlineable, PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_lshift_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_rshift_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_and_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_xor_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_or_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, floor_divide_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, true_divide_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_floor_divide_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_true_divide_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction2(R, PyObject *, nb, index_inlineable, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, matrix_multiply_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction3(R, PyObject *, nb, inplace_matrix_multiply_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction1I(R, Py_ssize_t, sq, _length, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, sq, _concat, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, sq, _repeat, PyObject *, Py_ssize_t);
+PyType_DefineCallTypeFunction2(R, PyObject *, sq, _item, PyObject *, Py_ssize_t);
+PyType_DefineCallTypeFunction3(R, int, sq, _ass_item, PyObject *, Py_ssize_t, PyObject *);
+PyType_DefineCallTypeFunction2(R, int, sq, _contains, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, sq, _inplace_concat, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction2(R, PyObject *, sq, _inplace_repeat, PyObject *, Py_ssize_t);
 
-PyType_DefineCallTypeFunction1(R, Py_ssize_t, sq, length, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, sq, concat, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, sq, repeat, PyObject *, Py_ssize_t);
-PyType_DefineCallTypeFunction2(R, PyObject *, sq, item, PyObject *, Py_ssize_t);
-PyType_DefineCallTypeFunction3(R, int, sq, ass_item, PyObject *, Py_ssize_t, PyObject *);
-PyType_DefineCallTypeFunction2(R, int, sq, contains, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, sq, inplace_concat, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, sq, inplace_repeat, PyObject *, Py_ssize_t);
-PyType_DefineCallTypeFunction2(R, Py_ssize_t, sq, length_inlineable, PyObject *, struct _PyInterpreterFrame **);
+PyType_DefineCallTypeFunction1I(R, Py_ssize_t, mp, _length, PyObject *);
+PyType_DefineCallTypeFunction2I(R, PyObject *, mp, _subscript, PyObject *, PyObject *);
+PyType_DefineCallTypeFunction3I(R, int, mp, _ass_subscript, PyObject *, PyObject *, PyObject *);
 
-PyType_DefineCallTypeFunction1(R, Py_ssize_t, mp, length, PyObject *);
-PyType_DefineCallTypeFunction2(R, PyObject *, mp, subscript, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction3(R, int, mp, ass_subscript, PyObject *, PyObject *, PyObject *);
-PyType_DefineCallTypeFunction2(R, Py_ssize_t, mp, length_inlineable, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction3(R, PyObject *, mp, subscript_inlineable, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-PyType_DefineCallTypeFunction4(R, int, mp, ass_subscript_inlineable, PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **);
-
-PyType_DefineCallTypeFunction3(R, int, bf, getbuffer, PyObject *, Py_buffer *, int);
-PyType_DefineCallTypeFunction2(V, void, bf, releasebuffer, PyObject *, Py_buffer *);
+PyType_DefineCallTypeFunction3(R, int, bf, _getbuffer, PyObject *, Py_buffer *, int);
+PyType_DefineCallTypeFunction2(V, void, bf, _releasebuffer, PyObject *, Py_buffer *);

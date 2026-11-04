@@ -2648,11 +2648,11 @@ builtin_round_impl(PyObject *module, PyObject *number, PyObject *ndigits)
 {
     PyObject *result;
     if (ndigits == Py_None) {
-        result = _PyObject_MaybeCallSpecialNoArgs(number, &_Py_ID(__round__));
+        result = _PyObject_MaybeCallSpecialNoArgs(number, &_Py_ID(__round__), NULL);
     }
     else {
         result = _PyObject_MaybeCallSpecialOneArg(number, &_Py_ID(__round__),
-                                                  ndigits);
+                                                  ndigits, NULL);
     }
     if (result == NULL && !PyErr_Occurred()) {
         PyErr_Format(PyExc_TypeError,
