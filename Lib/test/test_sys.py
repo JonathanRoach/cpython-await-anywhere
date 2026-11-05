@@ -1764,7 +1764,7 @@ class SizeofTest(unittest.TestCase):
         check((1,2,3), vsize('') + self.P + 3*self.P)
         # type
         # static type: PyTypeObject
-        fmt = 'P2nPn13PL4Pn9Pn11PI2PBHL32s6P'
+        fmt = 'P2nPn13PL4Pn9Pn11PI2PBHL34sn7P'
         s = vsize(fmt)
         check(int, s)
         typeid = 'n' if support.Py_GIL_DISABLED else ''
@@ -1772,8 +1772,8 @@ class SizeofTest(unittest.TestCase):
         s = vsize(fmt +                 # PyTypeObject
                   '4P4s'                # PyAsyncMethods
                   '36P71s35P'           # PyNumberMethods
-                  '3P3P3s'                # PyMappingMethods
-                  '10P10s'              # PySequenceMethods
+                  '3P3P6s'              # PyMappingMethods
+                  '11P11s'              # PySequenceMethods
                   '2P2s'                # PyBufferProcs
                   '7P'
                   '1PIP'                # Specializer cache
