@@ -76,7 +76,7 @@ _PY_MAX_STACK_FOR_CALL_IF_4(static inline, PyObject *, _PyCFunctionWithKeywords_
 _PY_MAX_STACK_FOR_CALL_IF_3(static inline, PyObject *, _PyCFunction_TrampolineCall, PyCFunction, meth, PyObject*, self, PyObject*, args)
     return meth(self, args);
 }
-_PY_MAX_STACK_FOR_CALL_IF_4(static inline, PyObject *, _PyCFunction_Inlineable_TrampolineCall, PyCFunction, meth, PyObject*, self, PyObject*, args, struct _PyInterpreterFrame **, inlined)
+_PY_MAX_STACK_FOR_CALL_IF_4(static inline, PyObject *, _PyCFunction_Inlineable_TrampolineCall, PyCFunction_Inlineable, meth, PyObject*, self, PyObject*, args, struct _PyInterpreterFrame **, inlined)
     return meth(self, args, inlined);
 }
 
