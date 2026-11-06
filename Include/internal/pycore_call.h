@@ -36,14 +36,15 @@ extern PyObject* _PyObject_Call_Prepend(
     PyObject *callable,
     PyObject *obj,
     PyObject *args,
-    PyObject *kwargs);
+    PyObject *kwargs,
+    struct _PyInterpreterFrame **inlined);
 
 extern PyObject* _PyObject_VectorcallDictTstate(
     PyThreadState *tstate,
     PyObject *callable,
     PyObject *const *args,
     size_t nargsf,
-    PyObject *kwargs);
+    PyObject *kwargs, struct _PyInterpreterFrame **inlined);
 
 extern PyObject* _PyObject_Call(
     PyThreadState *tstate,
@@ -119,7 +120,7 @@ PyAPI_FUNC(PyObject*) _PyObject_MakeTpCall(
     PyThreadState *tstate,
     PyObject *callable,
     PyObject *const *args, Py_ssize_t nargs,
-    PyObject *keywords);
+    PyObject *keywords, struct _PyInterpreterFrame **inlined);
 
 // Static inline variant of public PyVectorcall_Function().
 static inline vectorcallfunc
@@ -184,7 +185,7 @@ _PyObject_VectorcallTstate(PyThreadState *tstate, PyObject *callable,
             tp->tp_vectorcall_offset_inlineable &&
             (tp != &PyType_Type || PyType_HasFeature((PyTypeObject *)callable, Py_TPFLAGS_IS_EXTENDED)))
             {
-            _vectorcallfunc_inlineable func_inlineable;
+            vectorcallfunc_inlineable func_inlineable;
             Py_ssize_t offset = tp->tp_vectorcall_offset_inlineable;
             assert(offset > 0);
             memcpy(&func_inlineable, (char *) callable + offset, sizeof(func_inlineable));
@@ -206,7 +207,7 @@ _PyObject_VectorcallTstate(PyThreadState *tstate, PyObject *callable,
 
     // _PyObject_MakeTpCall does _Py_CheckFunctionResult
     Py_ssize_t nargs = PyVectorcall_NARGS(nargsf);
-    return _PyObject_MakeTpCall(tstate, callable, args, nargs, kwnames);
+    return _PyObject_MakeTpCall(tstate, callable, args, nargs, kwnames, inlined);
 
 done:
     return _Py_CheckFunctionResult(tstate, callable, res, NULL);

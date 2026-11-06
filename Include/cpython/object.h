@@ -365,10 +365,13 @@ enum {
     _PyFunctionIndex_tp_vectorcall_offset_inlineable,
     _PyFunctionIndex_tp_getattr_inlineable,
     _PyFunctionIndex_tp_setattr_inlineable,
+    _PyFunctionIndex_tp_call_inlineable,
     _PyFunctionIndex_tp_getattro_inlineable,
     _PyFunctionIndex_tp_setattro_inlineable,
     _PyFunctionIndex_tp_descr_get_inlineable,
     _PyFunctionIndex_tp_descr_set_inlineable,
+    _PyFunctionIndex_tp_init_inlineable,
+    _PyFunctionIndex_tp_new_inlineable,
     _PyFunctionIndex_tp_vectorcall_inlineable,
     _PyFunctionIndex_tp_COUNT
 };
@@ -478,11 +481,14 @@ struct _typeobject {
     Py_ssize_t tp_vectorcall_offset_inlineable;
     getattrfunc_inlineable tp_getattr_inlineable;
     setattrfunc_inlineable tp_setattr_inlineable;
+    ternaryfunc_inlineable tp_call_inlineable;
     getattrofunc_inlineable tp_getattro_inlineable;
     setattrofunc_inlineable tp_setattro_inlineable;
     descrgetfunc_inlineable tp_descr_get_inlineable;
     descrsetfunc_inlineable tp_descr_set_inlineable;
-    _vectorcallfunc_inlineable tp_vectorcall_inlineable;
+    initproc_inlineable tp_init_inlineable;
+    newfunc_inlineable tp_new_inlineable;
+    vectorcallfunc_inlineable tp_vectorcall_inlineable;
 };
 
 #define _Py_ATTR_CACHE_UNUSED (30000)  // (see tp_versions_used)

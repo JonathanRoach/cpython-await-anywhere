@@ -6433,19 +6433,19 @@ int_is_integer_impl(PyObject *self)
 }
 
 static PyObject *
-long_vectorcall(PyObject *type, PyObject * const*args,
-                 size_t nargsf, PyObject *kwnames)
+long_vectorcall_inlineable(PyObject *type, PyObject * const*args,
+                 size_t nargsf, PyObject *kwnames, struct _PyInterpreterFrame **inlined)
 {
     Py_ssize_t nargs = PyVectorcall_NARGS(nargsf);
     if (kwnames != NULL) {
         PyThreadState *tstate = PyThreadState_GET();
-        return _PyObject_MakeTpCall(tstate, type, args, nargs, kwnames);
+        return _PyObject_MakeTpCall(tstate, type, args, nargs, kwnames, inlined);
     }
     switch (nargs) {
         case 0:
             return _PyLong_GetZero();
         case 1:
-            return PyNumber_Long(args[0]);
+            return PyNumber_Long_Inlineable(args[0], inlined);
         case 2:
             return long_new_impl(_PyType_CAST(type), args[0], args[1]);
         default:
@@ -6453,6 +6453,13 @@ long_vectorcall(PyObject *type, PyObject * const*args,
                                 "int expected at most 2 arguments, got %zd",
                                 nargs);
     }
+}
+
+static PyObject *
+long_vectorcall(PyObject *type, PyObject * const*args,
+                 size_t nargsf, PyObject *kwnames)
+{
+    return long_vectorcall_inlineable(type, args, nargsf, kwnames, NULL);
 }
 
 static PyMethodDef long_methods[] = {
@@ -6621,6 +6628,8 @@ PyTypeObject PyLong_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
+    .tp_vectorcall_inlineable = long_vectorcall_inlineable,
+    .tp_functionflags[_PyFunctionIndex_tp_vectorcall_inlineable] = Py_FNFLAGS_FRUGAL,
 };
 
 static PyTypeObject Int_InfoType;

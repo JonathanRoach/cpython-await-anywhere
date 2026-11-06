@@ -377,7 +377,9 @@ typedef PyObject *(*descrgetfunc_inlineable) (PyObject *, PyObject *, PyObject *
 typedef int (*descrsetfunc) (PyObject *, PyObject *, PyObject *);
 typedef int (*descrsetfunc_inlineable) (PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **);
 typedef int (*initproc)(PyObject *, PyObject *, PyObject *);
+typedef int (*initproc_inlineable)(PyObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **);
 typedef PyObject *(*newfunc)(PyTypeObject *, PyObject *, PyObject *);
+typedef PyObject *(*newfunc_inlineable)(PyTypeObject *, PyObject *, PyObject *, struct _PyInterpreterFrame **);
 typedef PyObject *(*allocfunc)(PyTypeObject *, Py_ssize_t);
 
 #if !defined(Py_LIMITED_API) || Py_LIMITED_API+0 >= 0x030c0000 // 3.12
@@ -386,7 +388,7 @@ typedef PyObject *(*vectorcallfunc)(PyObject *callable, PyObject *const *args,
 
 // like vectorcallfunc, but inlineable
 struct _PyInterpreterFrame;
-typedef PyObject *(*_vectorcallfunc_inlineable)(
+typedef PyObject *(*vectorcallfunc_inlineable)(
     PyObject *callable,
     PyObject *const *args,
     size_t nargsf,

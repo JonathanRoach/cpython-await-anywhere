@@ -151,6 +151,7 @@ typedef struct {
     PyObject *placeholder; /* Placeholder for positional arguments */
     Py_ssize_t phcount;    /* Number of placeholders */
     vectorcallfunc vectorcall;
+    vectorcallfunc_inlineable vectorcall_inlineable;
 } partialobject;
 
 // cast a PyObject pointer PTR to a partialobject pointer (no type checks)
@@ -383,16 +384,16 @@ partial_descr_get(PyObject *self, PyObject *obj, PyObject *type)
 Py_NO_INLINE static PyObject *
 partial_vectorcall_fallback(PyThreadState *tstate, partialobject *pto,
                             PyObject *const *args, size_t nargsf,
-                            PyObject *kwnames)
+                            PyObject *kwnames, struct _PyInterpreterFrame **inlined)
 {
     pto->vectorcall = NULL;
     Py_ssize_t nargs = PyVectorcall_NARGS(nargsf);
-    return _PyObject_MakeTpCall(tstate, (PyObject *)pto, args, nargs, kwnames);
+    return _PyObject_MakeTpCall(tstate, (PyObject *)pto, args, nargs, kwnames, inlined);
 }
 
 static PyObject *
-partial_vectorcall(PyObject *self, PyObject *const *args,
-                   size_t nargsf, PyObject *kwnames)
+partial_vectorcall_Inlineable(PyObject *self, PyObject *const *args,
+                   size_t nargsf, PyObject *kwnames, struct _PyInterpreterFrame **inlined)
 {
     partialobject *pto = partialobject_CAST(self);;
     PyThreadState *tstate = _PyThreadState_GET();
@@ -400,7 +401,7 @@ partial_vectorcall(PyObject *self, PyObject *const *args,
 
     /* pto->kw is mutable, so need to check every time */
     if (PyDict_GET_SIZE(pto->kw)) {
-        return partial_vectorcall_fallback(tstate, pto, args, nargsf, kwnames);
+        return partial_vectorcall_fallback(tstate, pto, args, nargsf, kwnames, inlined);
     }
     Py_ssize_t pto_phcount = pto->phcount;
     if (nargs < pto_phcount) {
@@ -421,7 +422,7 @@ partial_vectorcall(PyObject *self, PyObject *const *args,
     /* Fast path if we're called without arguments */
     if (nargskw == 0) {
         return _PyObject_VectorcallTstate(tstate, pto->fn,
-                                          pto_args, pto_nargs, NULL, NULL);
+                                          pto_args, pto_nargs, NULL, inlined);
     }
 
     /* Fast path using PY_VECTORCALL_ARGUMENTS_OFFSET to prepend a single
@@ -431,7 +432,7 @@ partial_vectorcall(PyObject *self, PyObject *const *args,
         PyObject *tmp = newargs[0];
         newargs[0] = pto_args[0];
         PyObject *ret = _PyObject_VectorcallTstate(tstate, pto->fn,
-                                                   newargs, nargs + 1, kwnames, NULL);
+                                                   newargs, nargs + 1, kwnames, inlined);
         newargs[0] = tmp;
         return ret;
     }
@@ -476,11 +477,18 @@ partial_vectorcall(PyObject *self, PyObject *const *args,
         memcpy(stack + pto_nargs, args, nargskw * sizeof(PyObject*));
     }
     PyObject *ret = _PyObject_VectorcallTstate(tstate, pto->fn,
-                                               stack, tot_nargs, kwnames, NULL);
+                                               stack, tot_nargs, kwnames, inlined);
     if (stack != small_stack) {
         PyMem_Free(stack);
     }
     return ret;
+}
+
+static PyObject *
+partial_vectorcall(PyObject *self, PyObject *const *args,
+                   size_t nargsf, PyObject *kwnames)
+{
+    return partial_vectorcall_Inlineable(self, args, nargsf, kwnames, NULL);
 }
 
 /* Set pto->vectorcall depending on the parameters of the partial object */
@@ -490,12 +498,14 @@ partial_setvectorcall(partialobject *pto)
     if (PyVectorcall_Function(pto->fn) == NULL) {
         /* Don't use vectorcall if the underlying function doesn't support it */
         pto->vectorcall = NULL;
+        pto->vectorcall_inlineable = NULL;
     }
     /* We could have a special case if there are no arguments,
      * but that is unlikely (why use partial without arguments?),
      * so we don't optimize that */
     else {
         pto->vectorcall = partial_vectorcall;
+        pto->vectorcall_inlineable = partial_vectorcall_Inlineable;
     }
 }
 
@@ -606,6 +616,8 @@ static PyMemberDef partial_memberlist[] = {
      offsetof(partialobject, dict), Py_READONLY},
     {"__vectorcalloffset__", Py_T_PYSSIZET,
      offsetof(partialobject, vectorcall), Py_READONLY},
+    {"__vectorcalloffset_inlineable__", Py_T_PYSSIZET,
+     offsetof(partialobject, vectorcall_inlineable), Py_READONLY},
     {NULL}  /* Sentinel */
 };
 

@@ -3039,7 +3039,7 @@ call_method_noarg(PyObject *self, PyObject *attr,
 }
 
 static PyObject *
-call_method(PyObject *self, PyObject *attr, PyObject *args, PyObject *kwds)
+call_method(PyObject *self, PyObject *attr, PyObject *args, PyObject *kwds, struct _PyInterpreterFrame **inlined)
 {
     PyThreadState *tstate = _PyThreadState_GET();
     _PyCStackRef cref;
@@ -3049,7 +3049,7 @@ call_method(PyObject *self, PyObject *attr, PyObject *args, PyObject *kwds)
     if (unbound >= 0) {
         PyObject *meth = PyStackRef_AsPyObjectBorrow(cref.ref);
         if (unbound) {
-            res = _PyObject_Call_Prepend(tstate, meth, self, args, kwds);
+            res = _PyObject_Call_Prepend(tstate, meth, self, args, kwds, inlined);
         }
         else {
             res = _PyObject_Call(tstate, meth, args, kwds);
@@ -5056,8 +5056,8 @@ type_new(PyTypeObject *metatype, PyObject *args, PyObject *kwds)
 
 
 static PyObject *
-type_vectorcall(PyObject *metatype, PyObject *const *args,
-                 size_t nargsf, PyObject *kwnames)
+type_vectorcall_inlineable(PyObject *metatype, PyObject *const *args,
+                 size_t nargsf, PyObject *kwnames, struct _PyInterpreterFrame **inlined)
 {
     Py_ssize_t nargs = PyVectorcall_NARGS(nargsf);
     if (nargs == 1 && metatype == (PyObject *)&PyType_Type){
@@ -5069,8 +5069,18 @@ type_vectorcall(PyObject *metatype, PyObject *const *args,
     /* In other (much less common) cases, fall back to
        more flexible calling conventions. */
     PyThreadState *tstate = _PyThreadState_GET();
-    return _PyObject_MakeTpCall(tstate, metatype, args, nargs, kwnames);
+    return _PyObject_MakeTpCall(tstate, metatype, args, nargs, kwnames, inlined);
 }
+
+
+
+static PyObject *
+type_vectorcall(PyObject *metatype, PyObject *const *args,
+                 size_t nargsf, PyObject *kwnames)
+{
+    return type_vectorcall_inlineable(metatype, args, nargsf, kwnames, NULL);
+}
+
 
 /* An array of type slot offsets corresponding to Py_tp_* constants,
   * for use in e.g. PyType_Spec and PyType_GetSlot.
@@ -7124,8 +7134,11 @@ PyTypeObject PyType_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_is_gc] = Py_FNFLAGS_FRUGAL,
 
-    .tp_vectorcall_offset_inlineable = offsetof(PyTypeObject, tp_vectorcall_inlineable),
+    .tp_vectorcall_inlineable = type_vectorcall_inlineable,
     .tp_functionflags[_PyFunctionIndex_tp_vectorcall_inlineable] = Py_FNFLAGS_FRUGAL,
+
+    .tp_vectorcall_offset_inlineable = offsetof(PyTypeObject, tp_vectorcall_inlineable),
+    .tp_functionflags[_PyFunctionIndex_tp_vectorcall_offset_inlineable] = Py_FNFLAGS_FRUGAL,
 };
 
 
@@ -10867,9 +10880,15 @@ slot_tp_hash(PyObject *self)
 }
 
 static PyObject *
+slot_tp_call_Inlineable(PyObject *self, PyObject *args, PyObject *kwds, struct _PyInterpreterFrame **inlined)
+{
+    return call_method(self, &_Py_ID(__call__), args, kwds, inlined);
+}
+
+static PyObject *
 slot_tp_call(PyObject *self, PyObject *args, PyObject *kwds)
 {
-    return call_method(self, &_Py_ID(__call__), args, kwds);
+    return slot_tp_call_Inlineable(self, args, kwds, NULL);
 }
 
 /* There are two slot dispatch functions for tp_getattro.
@@ -11200,25 +11219,61 @@ _PyType_Slot_tp_descr_set(PyObject *self, PyObject *target, PyObject *value)
     return _PyType_Slot_tp_descr_set_Inlineable(self, target, value, NULL);
 }
 
-static int
-slot_tp_init(PyObject *self, PyObject *args, PyObject *kwds)
-{
-    PyObject *res = call_method(self, &_Py_ID(__init__), args, kwds);
-    if (res == NULL)
+
+RETURNACTION_STDCLASSDECLARATION_R(int, slot_tp_init_Inlineable)
+
+struct slot_tp_init_Inlineable_State {
+    ReturnAction_State base;
+    PyObject *self;
+    PyObject *args;
+    PyObject *kwds;
+};
+
+static void slot_tp_init_Inlineable_WrappedInit(slot_tp_init_Inlineable_State *wrapped, slot_tp_init_Inlineable_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+}
+
+static void slot_tp_init_Inlineable_WrappedDtor(slot_tp_init_Inlineable_State *wrapped){
+}
+
+RETURNACTION_STEPDEFINITION_R(int, slot_tp_init_Inlineable, 1)
+
+    result = call_method(state->self, &_Py_ID(__init__), state->args, state->kwds, inlined);
+    RETURNACTION_CHECKINLINED_R(int, 1)
+    if (result == NULL)
         return -1;
-    if (res != Py_None) {
+    if (result != Py_None) {
         PyErr_Format(PyExc_TypeError,
                      "__init__() should return None, not '%.200s'",
-                     Py_TYPE(res)->tp_name);
-        Py_DECREF(res);
+                     Py_TYPE(result)->tp_name);
+        Py_DECREF(result);
         return -1;
     }
-    Py_DECREF(res);
+    Py_DECREF(result);
     return 0;
 }
 
+static int
+slot_tp_init_Inlineable(PyObject *self, PyObject *args, PyObject *kwds, struct _PyInterpreterFrame **inlined)
+{
+    slot_tp_init_Inlineable_State state = {
+        .base.step = 0,
+        .self = self, 
+        .args = args,
+        .kwds = kwds,
+    };
+    return slot_tp_init_Inlineable_Step(&state, NULL, inlined);
+}
+
+static int
+slot_tp_init(PyObject *self, PyObject *args, PyObject *kwds)
+{
+    return slot_tp_init_Inlineable(self, args, kwds, NULL);
+}
+
+
 static PyObject *
-slot_tp_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
+slot_tp_new_Inlineable(PyTypeObject *type, PyObject *args, PyObject *kwds, struct _PyInterpreterFrame **inlined)
 {
     PyThreadState *tstate = _PyThreadState_GET();
     PyObject *func, *result;
@@ -11228,9 +11283,15 @@ slot_tp_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
         return NULL;
     }
 
-    result = _PyObject_Call_Prepend(tstate, func, (PyObject *)type, args, kwds);
+    result = _PyObject_Call_Prepend(tstate, func, (PyObject *)type, args, kwds, inlined);
     Py_DECREF(func);
     return result;
+}
+
+static PyObject *
+slot_tp_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
+{
+    return slot_tp_new_Inlineable(type, args, kwds, NULL);
 }
 
 static void
@@ -11575,6 +11636,10 @@ an all-zero entry.
 #define FLSLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC, FLAGS) \
     {{#NAME, offsetof(PyTypeObject, SLOT), (void *)(FUNCTION), WRAPPER, \
      PyDoc_STR(DOC), FLAGS, .name_strobj = &_Py_ID(NAME) }}
+#define FLISLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC, FLAGS) \
+    {{#NAME, offsetof(PyTypeObject, SLOT), (void *)(FUNCTION), WRAPPER, \
+     PyDoc_STR(DOC), FLAGS, .name_strobj = &_Py_ID(NAME) }, \
+     offsetof(PyTypeObject, SLOT##_inlineable), (void *)(FUNCTION##_Inlineable) }
 #define ETSLOT(NAME, SLOT, FUNCTION, WRAPPER, DOC) \
     {{#NAME, offsetof(PyHeapTypeObject, SLOT), (void *)(FUNCTION), WRAPPER, \
      PyDoc_STR(DOC), .name_strobj = &_Py_ID(NAME) }}
@@ -11629,7 +11694,7 @@ static pytype_slotdef slotdefs[] = {
            "__repr__($self, /)\n--\n\nReturn repr(self)."),
     TPSLOT(__hash__, tp_hash, slot_tp_hash, wrap_hashfunc,
            "__hash__($self, /)\n--\n\nReturn hash(self)."),
-    FLSLOT(__call__, tp_call, slot_tp_call,
+    FLISLOT(__call__, tp_call, slot_tp_call,
            _Py_FUNC_CAST(wrapperfunc, wrap_call),
            "__call__($self, /, *args, **kwargs)\n--\n\nCall self as a function.",
            PyWrapperFlag_KEYWORDS),
@@ -11667,12 +11732,12 @@ static pytype_slotdef slotdefs[] = {
     TPISLOT(__delete__, tp_descr_set, _PyType_Slot_tp_descr_set,
            wrap_descr_delete,
            "__delete__($self, instance, /)\n--\n\nDelete an attribute of instance."),
-    FLSLOT(__init__, tp_init, slot_tp_init,
+    FLISLOT(__init__, tp_init, slot_tp_init,
            _Py_FUNC_CAST(wrapperfunc, wrap_init),
            "__init__($self, /, *args, **kwargs)\n--\n\n"
            "Initialize self.  See help(type(self)) for accurate signature.",
            PyWrapperFlag_KEYWORDS),
-    TPSLOT(__new__, tp_new, slot_tp_new, NULL,
+    TPISLOT(__new__, tp_new, slot_tp_new, NULL,
            "__new__(type, /, *args, **kwargs)\n--\n\n"
            "Create and return new object.  See help(type) for accurate signature."),
     TPSLOT(__del__, tp_finalize, slot_tp_finalize, (wrapperfunc)wrap_del,
@@ -11734,9 +11799,9 @@ static pytype_slotdef slotdefs[] = {
     RBINSLOT(__rxor__, nb_xor, _PyType_Slot_nb_xor, "^"),
     BINSLOT(__or__, nb_or, _PyType_Slot_nb_or, "|"),
     RBINSLOT(__ror__, nb_or, _PyType_Slot_nb_or, "|"),
-    UNSLOT(__int__, nb_int, slot_nb_int, wrap_unaryfunc,
+    UNISLOT(__int__, nb_int, slot_nb_int, wrap_unaryfunc,
            "int(self)"),
-    UNSLOT(__float__, nb_float, slot_nb_float, wrap_unaryfunc,
+    UNISLOT(__float__, nb_float, slot_nb_float, wrap_unaryfunc,
            "float(self)"),
     IBISLOT(__iadd__, nb_inplace_add, _PyType_Slot_nb_inplace_add,
            wrap_binaryfunc, "+="),

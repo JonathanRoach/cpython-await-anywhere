@@ -1410,8 +1410,8 @@ map_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
 }
 
 static PyObject *
-map_vectorcall(PyObject *type, PyObject * const*args,
-                size_t nargsf, PyObject *kwnames)
+map_vectorcall_inlineable(PyObject *type, PyObject * const*args,
+                size_t nargsf, PyObject *kwnames, struct _PyInterpreterFrame **inlined)
 {
     PyTypeObject *tp = _PyType_CAST(type);
 
@@ -1419,7 +1419,7 @@ map_vectorcall(PyObject *type, PyObject * const*args,
     if (kwnames != NULL && PyTuple_GET_SIZE(kwnames) != 0) {
         // Fallback to map_new()
         PyThreadState *tstate = _PyThreadState_GET();
-        return _PyObject_MakeTpCall(tstate, type, args, nargs, kwnames);
+        return _PyObject_MakeTpCall(tstate, type, args, nargs, kwnames, inlined);
     }
 
     if (nargs < 2) {
@@ -1453,6 +1453,15 @@ map_vectorcall(PyObject *type, PyObject * const*args,
 
     return (PyObject *)lz;
 }
+
+
+static PyObject *
+map_vectorcall(PyObject *type, PyObject * const*args,
+                size_t nargsf, PyObject *kwnames)
+{
+    return map_vectorcall_inlineable(type, args, nargsf, kwnames, NULL);
+}
+
 
 static void
 map_dealloc(PyObject *self)
@@ -1662,6 +1671,9 @@ PyTypeObject PyMap_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_alloc] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_free] = Py_FNFLAGS_FRUGAL,
+
+    .tp_vectorcall_inlineable = map_vectorcall_inlineable,
+    .tp_functionflags[_PyFunctionIndex_tp_vectorcall_inlineable] = Py_FNFLAGS_FRUGAL,
 };
 
 

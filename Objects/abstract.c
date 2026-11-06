@@ -2031,25 +2031,41 @@ PyIndex_Check(PyObject *obj)
    Raise TypeError if the result is not an int
    or if the object cannot be interpreted as an index.
 */
-PyObject *
-_PyNumber_Index(PyObject *item)
-{
-    if (item == NULL) {
+RETURNACTION_STDCLASSDECLARATION(_PyNumber_Index_Inlineable)
+
+struct _PyNumber_Index_Inlineable_State {
+    ReturnAction_State base;
+    PyObject *item;
+};
+
+static void _PyNumber_Index_Inlineable_WrappedInit(_PyNumber_Index_Inlineable_State *wrapped, _PyNumber_Index_Inlineable_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+    wrapped->item = Py_NewRef(state->item);
+}
+
+static void _PyNumber_Index_Inlineable_WrappedDtor(_PyNumber_Index_Inlineable_State *wrapped){
+    Py_DECREF(wrapped->item);
+}
+
+RETURNACTION_STEPDEFINITION(_PyNumber_Index_Inlineable, 1)
+
+    if (state->item == NULL) {
         return null_error();
     }
 
-    if (PyLong_Check(item)) {
-        return Py_NewRef(item);
+    if (PyLong_Check(state->item)) {
+        return Py_NewRef(state->item);
     }
-    if (!_PyIndex_Check(item)) {
+    if (!_PyIndex_Check(state->item)) {
         PyErr_Format(PyExc_TypeError,
                      "'%.200s' object cannot be interpreted "
-                     "as an integer", Py_TYPE(item)->tp_name);
+                     "as an integer", Py_TYPE(state->item)->tp_name);
         return NULL;
     }
 
-    PyObject *result = PyType_Call_nb_index(Py_TYPE(item), item);
-    assert(_Py_CheckSlotResult(item, "__index__", result != NULL));
+    result = PyType_Call_nb_index_Inlineable(Py_TYPE(state->item), state->item, inlined);
+    RETURNACTION_CHECKINLINED(1)
+    assert(_Py_CheckSlotResult(state->item, "__index__", result != NULL));
     if (!result || PyLong_CheckExact(result)) {
         return result;
     }
@@ -2073,18 +2089,64 @@ _PyNumber_Index(PyObject *item)
     return result;
 }
 
+PyObject *
+_PyNumber_Index_Inlineable(PyObject *item, struct _PyInterpreterFrame **inlined)
+{
+    _PyNumber_Index_Inlineable_State state = {
+        .base.step = 0,
+        .item = item,
+    };
+    return _PyNumber_Index_Inlineable_Step(&state, NULL, inlined);
+}
+
+PyObject *
+_PyNumber_Index(PyObject *item)
+{
+    return _PyNumber_Index_Inlineable(item, NULL);
+}
+
 /* Return an exact Python int from the object item.
    Raise TypeError if the result is not an int
    or if the object cannot be interpreted as an index.
 */
-PyObject *
-PyNumber_Index(PyObject *item)
-{
-    PyObject *result = _PyNumber_Index(item);
+RETURNACTION_STDCLASSDECLARATION(PyNumber_Index_Inlineable)
+
+struct PyNumber_Index_Inlineable_State {
+    ReturnAction_State base;
+    PyObject *item;
+};
+
+static void PyNumber_Index_Inlineable_WrappedInit(PyNumber_Index_Inlineable_State *wrapped, PyNumber_Index_Inlineable_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+}
+
+static void PyNumber_Index_Inlineable_WrappedDtor(PyNumber_Index_Inlineable_State *wrapped){
+}
+
+RETURNACTION_STEPDEFINITION(PyNumber_Index_Inlineable, 1)
+
+    result = _PyNumber_Index_Inlineable(state->item, inlined);
+    RETURNACTION_CHECKINLINED(1)
     if (result != NULL && !PyLong_CheckExact(result)) {
         Py_SETREF(result, _PyLong_Copy((PyLongObject *)result));
     }
     return result;
+}
+
+PyObject *
+PyNumber_Index_Inlineable(PyObject *item, struct _PyInterpreterFrame **inlined)
+{
+    PyNumber_Index_Inlineable_State state = {
+        .base.step = 0,
+        .item = item,
+    };
+    return PyNumber_Index_Inlineable_Step(&state, NULL, inlined);
+}
+
+PyObject *
+PyNumber_Index(PyObject *item)
+{
+    return PyNumber_Index_Inlineable(item, NULL);
 }
 
 /* Return an error on Overflow only if err is not NULL*/
@@ -2140,26 +2202,42 @@ PyNumber_AsSsize_t(PyObject *item, PyObject *err)
 }
 
 
-PyObject *
-PyNumber_Long(PyObject *o)
-{
-    PyObject *result;
+
+RETURNACTION_STDCLASSDECLARATION(PyNumber_Long_Inlineable)
+
+struct PyNumber_Long_Inlineable_State {
+    ReturnAction_State base;
+    PyObject *o;
+};
+
+static void PyNumber_Long_Inlineable_WrappedInit(PyNumber_Long_Inlineable_State *wrapped, PyNumber_Long_Inlineable_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+    wrapped->o = Py_NewRef(state->o);
+}
+
+static void PyNumber_Long_Inlineable_WrappedDtor(PyNumber_Long_Inlineable_State *wrapped){
+    Py_DECREF(wrapped->o);
+}
+
+RETURNACTION_STEPDEFINITION(PyNumber_Long_Inlineable, 1)
+
     PyNumberMethods *m;
     Py_buffer view;
 
-    if (o == NULL) {
+    if (state->o == NULL) {
         return null_error();
     }
 
-    if (PyLong_CheckExact(o)) {
-        return Py_NewRef(o);
+    if (PyLong_CheckExact(state->o)) {
+        return Py_NewRef(state->o);
     }
-    m = Py_TYPE(o)->tp_as_number;
+    m = Py_TYPE(state->o)->tp_as_number;
     if (m && m->nb_int) { /* This should include subclasses of int */
         /* Convert using the nb_int slot, which should return something
            of exact type int. */
-        result = PyType_Call_nb_int(Py_TYPE(o), o);
-        assert(_Py_CheckSlotResult(o, "__int__", result != NULL));
+        result = PyType_Call_nb_int_Inlineable(Py_TYPE(state->o), state->o, inlined);
+        RETURNACTION_CHECKINLINED(1)
+        assert(_Py_CheckSlotResult(state->o, "__int__", result != NULL));
         if (!result || PyLong_CheckExact(result)) {
             return result;
         }
@@ -2184,26 +2262,26 @@ PyNumber_Long(PyObject *o)
         return result;
     }
     if (m && m->nb_index) {
-        return PyNumber_Index(o);
+        return PyNumber_Index_Inlineable(state->o, inlined);
     }
 
-    if (PyUnicode_Check(o))
+    if (PyUnicode_Check(state->o))
         /* The below check is done in PyLong_FromUnicodeObject(). */
-        return PyLong_FromUnicodeObject(o, 10);
+        return PyLong_FromUnicodeObject(state->o, 10);
 
-    if (PyBytes_Check(o))
+    if (PyBytes_Check(state->o))
         /* need to do extra error checking that PyLong_FromString()
          * doesn't do.  In particular int('9\x005') must raise an
          * exception, not truncate at the null.
          */
-        return _PyLong_FromBytes(PyBytes_AS_STRING(o),
-                                 PyBytes_GET_SIZE(o), 10);
+        return _PyLong_FromBytes(PyBytes_AS_STRING(state->o),
+                                 PyBytes_GET_SIZE(state->o), 10);
 
-    if (PyByteArray_Check(o))
-        return _PyLong_FromBytes(PyByteArray_AS_STRING(o),
-                                 PyByteArray_GET_SIZE(o), 10);
+    if (PyByteArray_Check(state->o))
+        return _PyLong_FromBytes(PyByteArray_AS_STRING(state->o),
+                                 PyByteArray_GET_SIZE(state->o), 10);
 
-    if (PyObject_GetBuffer(o, &view, PyBUF_SIMPLE) == 0) {
+    if (PyObject_GetBuffer(state->o, &view, PyBUF_SIMPLE) == 0) {
         PyObject *bytes;
 
         /* Copy to NUL-terminated buffer. */
@@ -2220,7 +2298,23 @@ PyNumber_Long(PyObject *o)
     }
 
     return type_error("int() argument must be a string, a bytes-like object "
-                      "or a real number, not '%.200s'", o);
+                      "or a real number, not '%.200s'", state->o);
+}
+
+PyObject *
+PyNumber_Long_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined)
+{
+    PyNumber_Long_Inlineable_State state = {
+        .base.step = 0,
+        .o = o,
+    };
+    return PyNumber_Long_Inlineable_Step(&state, NULL, inlined);
+}
+
+PyObject *
+PyNumber_Long(PyObject *o)
+{
+    return PyNumber_Long_Inlineable(o, NULL);
 }
 
 PyObject *

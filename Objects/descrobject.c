@@ -978,7 +978,7 @@ PyDescr_NewMethod(PyTypeObject *type, PyMethodDef *method)
 {
     /* Figure out correct vectorcall function to use */
     vectorcallfunc vectorcall;
-    _vectorcallfunc_inlineable vectorcall_inlineable;
+    vectorcallfunc_inlineable vectorcall_inlineable;
     switch (method->ml_flags & (METH_VARARGS | METH_FASTCALL | METH_NOARGS |
                                 METH_O | METH_KEYWORDS | METH_METHOD | METH_C_INLINEABLE))
     {

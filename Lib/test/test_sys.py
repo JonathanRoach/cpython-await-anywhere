@@ -1764,7 +1764,7 @@ class SizeofTest(unittest.TestCase):
         check((1,2,3), vsize('') + self.P + 3*self.P)
         # type
         # static type: PyTypeObject
-        fmt = 'P2nPn13PL4Pn9Pn11PI2PBHL34sn7P'
+        fmt = 'P2nPn13PL4Pn9Pn11PI2PBHL37sn10P'
         s = vsize(fmt)
         check(int, s)
         typeid = 'n' if support.Py_GIL_DISABLED else ''

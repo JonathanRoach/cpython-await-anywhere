@@ -26,10 +26,11 @@ PyAPI_FUNC(Py_ssize_t) _PyMapping_Length_Inlineable(PyObject *o, struct _PyInter
 #define _PyMapping_Length_Inlineable _PyMapping_Size_Inlineable
 
 // Inlineable unary ops
-PyObject * PyNumber_Negative_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined);
-PyObject * PyNumber_Positive_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined);
-PyObject * PyNumber_Invert_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined);
-PyObject * PyNumber_Absolute_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined);
+PyObject *PyNumber_Negative_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined);
+PyObject *PyNumber_Positive_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined);
+PyObject *PyNumber_Invert_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined);
+PyObject *PyNumber_Absolute_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined);
+PyObject *PyNumber_Long_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined);
 
 // Inlineable binary ops
 PyObject *_PyNumber_Add_Inlineable(PyObject *lhs, PyObject *rhs, struct _PyInterpreterFrame **inlined);
@@ -94,7 +95,9 @@ PyAPI_FUNC(int) _Py_convert_optional_to_ssize_t(PyObject *, void *);
 
 // Same as PyNumber_Index() but can return an instance of a subclass of int.
 // Export for 'math' shared extension.
+PyAPI_FUNC(PyObject*) _PyNumber_Index_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined);
 PyAPI_FUNC(PyObject*) _PyNumber_Index(PyObject *o);
+PyAPI_FUNC(PyObject*) PyNumber_Index_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined);
 
 #ifdef __cplusplus
 }

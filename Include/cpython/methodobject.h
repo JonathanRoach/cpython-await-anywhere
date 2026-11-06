@@ -11,7 +11,7 @@ typedef struct {
     PyObject    *m_module; /* The __module__ attribute, can be anything */
     PyObject    *m_weakreflist; /* List of weak references */
     vectorcallfunc vectorcall;
-    _vectorcallfunc_inlineable vectorcall_inlineable;
+    vectorcallfunc_inlineable vectorcall_inlineable;
 } PyCFunctionObject;
 
 #define _PyCFunctionObject_CAST(func) \

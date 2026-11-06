@@ -133,7 +133,7 @@ PyObject_CallNoArgs(PyObject *func)
 PyObject *
 _PyObject_VectorcallDictTstate(PyThreadState *tstate, PyObject *callable,
                                PyObject *const *args, size_t nargsf,
-                               PyObject *kwargs)
+                               PyObject *kwargs, struct _PyInterpreterFrame **inlined)
 {
     assert(callable != NULL);
 
@@ -150,7 +150,7 @@ _PyObject_VectorcallDictTstate(PyThreadState *tstate, PyObject *callable,
     vectorcallfunc func = PyVectorcall_Function(callable);
     if (func == NULL) {
         /* Use tp_call instead */
-        return _PyObject_MakeTpCall(tstate, callable, args, nargs, kwargs);
+        return _PyObject_MakeTpCall(tstate, callable, args, nargs, kwargs, inlined);
     }
 
     PyObject *res;
@@ -179,7 +179,7 @@ PyObject_VectorcallDict(PyObject *callable, PyObject *const *args,
                        size_t nargsf, PyObject *kwargs)
 {
     PyThreadState *tstate = _PyThreadState_GET();
-    return _PyObject_VectorcallDictTstate(tstate, callable, args, nargsf, kwargs);
+    return _PyObject_VectorcallDictTstate(tstate, callable, args, nargsf, kwargs, NULL);
 }
 
 static void
@@ -222,7 +222,7 @@ basic_type_error:
 PyObject *
 _PyObject_MakeTpCall(PyThreadState *tstate, PyObject *callable,
                      PyObject *const *args, Py_ssize_t nargs,
-                     PyObject *keywords)
+                     PyObject *keywords, struct _PyInterpreterFrame **inlined)
 {
     assert(nargs >= 0);
     assert(nargs == 0 || args != NULL);
@@ -630,7 +630,7 @@ PyEval_CallObjectWithKeywords(PyObject *callable,
 
     if (args == NULL) {
         return _PyObject_VectorcallDictTstate(tstate, callable,
-                                              NULL, 0, kwargs);
+                                              NULL, 0, kwargs, NULL);
     }
     else {
         return _PyObject_Call(tstate, callable, args, kwargs);
@@ -692,7 +692,7 @@ PyObject_CallObject(PyObject *callable, PyObject *args)
 /* Call callable(obj, *args, **kwargs). */
 PyObject *
 _PyObject_Call_Prepend(PyThreadState *tstate, PyObject *callable,
-                       PyObject *obj, PyObject *args, PyObject *kwargs)
+                       PyObject *obj, PyObject *args, PyObject *kwargs, struct _PyInterpreterFrame **inlined)
 {
     assert(PyTuple_Check(args));
 
@@ -719,7 +719,7 @@ _PyObject_Call_Prepend(PyThreadState *tstate, PyObject *callable,
 
     PyObject *result = _PyObject_VectorcallDictTstate(tstate, callable,
                                                       stack, argcount + 1,
-                                                      kwargs);
+                                                      kwargs, inlined);
     if (stack != small_stack) {
         PyMem_Free(stack);
     }

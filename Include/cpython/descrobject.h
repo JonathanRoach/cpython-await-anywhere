@@ -39,7 +39,7 @@ typedef struct {
     PyDescr_COMMON;
     PyMethodDef *d_method;
     vectorcallfunc vectorcall;
-    _vectorcallfunc_inlineable vectorcall_inlineable;
+    vectorcallfunc_inlineable vectorcall_inlineable;
 } PyMethodDescrObject;
 
 typedef struct {
