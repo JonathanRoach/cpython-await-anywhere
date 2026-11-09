@@ -2317,30 +2317,46 @@ PyNumber_Long(PyObject *o)
     return PyNumber_Long_Inlineable(o, NULL);
 }
 
-PyObject *
-PyNumber_Float(PyObject *o)
-{
-    if (o == NULL) {
+
+RETURNACTION_STDCLASSDECLARATION(PyNumber_Float_Inlineable)
+
+struct PyNumber_Float_Inlineable_State {
+    ReturnAction_State base;
+    PyObject *o;
+};
+
+static void PyNumber_Float_Inlineable_WrappedInit(PyNumber_Float_Inlineable_State *wrapped, PyNumber_Float_Inlineable_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+    wrapped->o = Py_NewRef(state->o);
+}
+
+static void PyNumber_Float_Inlineable_WrappedDtor(PyNumber_Float_Inlineable_State *wrapped){
+    Py_DECREF(wrapped->o);
+}
+
+RETURNACTION_STEPDEFINITION(PyNumber_Float_Inlineable, 2)
+    if (state->o == NULL) {
         return null_error();
     }
 
-    if (PyFloat_CheckExact(o)) {
-        return Py_NewRef(o);
+    if (PyFloat_CheckExact(state->o)) {
+        return Py_NewRef(state->o);
     }
 
-    PyNumberMethods *m = Py_TYPE(o)->tp_as_number;
+    PyNumberMethods *m = Py_TYPE(state->o)->tp_as_number;
     if (m && m->nb_float) { /* This should include subclasses of float */
-        PyObject *res = PyType_Call_nb_float(Py_TYPE(o), o);
-        assert(_Py_CheckSlotResult(o, "__float__", res != NULL));
-        if (!res || PyFloat_CheckExact(res)) {
-            return res;
+        result = PyType_Call_nb_float_Inlineable(Py_TYPE(state->o), state->o, inlined);
+        RETURNACTION_CHECKINLINED(1)
+        assert(_Py_CheckSlotResult(state->o, "__float__", result != NULL));
+        if (!result || PyFloat_CheckExact(result)) {
+            return result;
         }
 
-        if (!PyFloat_Check(res)) {
+        if (!PyFloat_Check(result)) {
             PyErr_Format(PyExc_TypeError,
                          "%.50s.__float__ returned non-float (type %.50s)",
-                         Py_TYPE(o)->tp_name, Py_TYPE(res)->tp_name);
-            Py_DECREF(res);
+                         Py_TYPE(state->o)->tp_name, Py_TYPE(result)->tp_name);
+            Py_DECREF(result);
             return NULL;
         }
         /* Issue #26983: warn if 'res' not of exact type float. */
@@ -2348,22 +2364,23 @@ PyNumber_Float(PyObject *o)
                 "%.50s.__float__ returned non-float (type %.50s).  "
                 "The ability to return an instance of a strict subclass of float "
                 "is deprecated, and may be removed in a future version of Python.",
-                Py_TYPE(o)->tp_name, Py_TYPE(res)->tp_name)) {
-            Py_DECREF(res);
+                Py_TYPE(state->o)->tp_name, Py_TYPE(result)->tp_name)) {
+            Py_DECREF(result);
             return NULL;
         }
-        double val = PyFloat_AS_DOUBLE(res);
-        Py_DECREF(res);
+        double val = PyFloat_AS_DOUBLE(result);
+        Py_DECREF(result);
         return PyFloat_FromDouble(val);
     }
 
     if (m && m->nb_index) {
-        PyObject *res = _PyNumber_Index(o);
-        if (!res) {
+        result = _PyNumber_Index_Inlineable(state->o, inlined);
+        RETURNACTION_CHECKINLINED(2)
+        if (!result) {
             return NULL;
         }
-        double val = PyLong_AsDouble(res);
-        Py_DECREF(res);
+        double val = PyLong_AsDouble(result);
+        Py_DECREF(result);
         if (val == -1.0 && PyErr_Occurred()) {
             return NULL;
         }
@@ -2371,12 +2388,27 @@ PyNumber_Float(PyObject *o)
     }
 
     /* A float subclass with nb_float == NULL */
-    if (PyFloat_Check(o)) {
-        return PyFloat_FromDouble(PyFloat_AS_DOUBLE(o));
+    if (PyFloat_Check(state->o)) {
+        return PyFloat_FromDouble(PyFloat_AS_DOUBLE(state->o));
     }
-    return PyFloat_FromString(o);
+    return PyFloat_FromString(state->o);
 }
 
+PyObject *
+PyNumber_Float_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined)
+{
+    PyNumber_Float_Inlineable_State state = {
+        .base.step = 0,
+        .o = o,
+    };
+    return PyNumber_Float_Inlineable_Step(&state, NULL, inlined);
+}
+
+PyObject *
+PyNumber_Float(PyObject *o)
+{
+    return PyNumber_Float_Inlineable(o, NULL);
+}
 
 PyObject *
 PyNumber_ToBase(PyObject *n, int base)

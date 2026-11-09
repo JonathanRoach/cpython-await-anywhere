@@ -102,9 +102,37 @@ PARSER_PROTOTYPE_KEYWORD: Final[str] = libclinic.normalize_snippet("""
     static PyObject *
     {c_basename}({self_type}{self_name}, PyObject *args, PyObject *kwargs)
 """)
+PARSER_PROTOTYPE_KEYWORD_C_INLINEABLE: Final[str] = libclinic.normalize_snippet("""
+    static PyObject *
+    {c_basename}_Inlineable({self_type}{self_name}, PyObject *args, PyObject *kwargs,
+               struct _PyInterpreterFrame **inlined);
+
+    static PyObject *
+    {c_basename}({self_type}{self_name}, PyObject *args, PyObject *kwargs) {{
+        return {c_basename}_Inlineable({self_name}, args, kwargs, NULL);
+    }}
+
+    static PyObject *
+    {c_basename}_Inlineable({self_type}{self_name}, PyObject *args, PyObject *kwargs,
+               struct _PyInterpreterFrame **inlined)
+""")
 PARSER_PROTOTYPE_KEYWORD___INIT__: Final[str] = libclinic.normalize_snippet("""
     static int
     {c_basename}({self_type}{self_name}, PyObject *args, PyObject *kwargs)
+""")
+PARSER_PROTOTYPE_KEYWORD___INIT___C_INLINEABLE: Final[str] = libclinic.normalize_snippet("""
+    static int
+    {c_basename}_Inlineable({self_type}{self_name}, PyObject *args, PyObject *kwargs,
+               struct _PyInterpreterFrame **inlined);
+
+    static int
+    {c_basename}({self_type}{self_name}, PyObject *args, PyObject *kwargs) {{
+        return {c_basename}_Inlineable({self_name}, args, kwargs, NULL);
+    }}
+
+    static int
+    {c_basename}_Inlineable({self_type}{self_name}, PyObject *args, PyObject *kwargs,
+               struct _PyInterpreterFrame **inlined)
 """)
 PARSER_PROTOTYPE_VARARGS: Final[str] = libclinic.normalize_snippet("""
     static PyObject *
@@ -143,7 +171,7 @@ METH_O_PROTOTYPE_INLINEABLE: Final[str] = libclinic.normalize_snippet("""
     {c_basename}_Inlineable({self_type}{self_name}, {parser_parameters}, struct _PyInterpreterFrame **inlined);
     static PyObject *
     {c_basename}({self_type}{self_name}, {parser_parameters}){{
-        return {c_basename}_Inlineable({impl_arguments}, NULL);
+        return {c_basename}_Inlineable({parser_arguments}, NULL);
     }}
     static PyObject *
     {c_basename}_Inlineable({self_type}{self_name}, {parser_parameters}, struct _PyInterpreterFrame **inlined)
@@ -654,7 +682,7 @@ class ParseArgsCodeGen:
             else:
                 # positional-or-keyword arguments
                 self.flags = "METH_VARARGS|METH_KEYWORDS"
-                self.parser_prototype = PARSER_PROTOTYPE_KEYWORD
+                self.parser_prototype = PARSER_PROTOTYPE_KEYWORD_C_INLINEABLE if self.func.c_inlineable else PARSER_PROTOTYPE_KEYWORD
                 argsname = 'fastargs'
                 argname_fmt = 'fastargs[%d]'
                 self.declarations = declare_parser(self.func, codegen=self.codegen)
@@ -756,7 +784,7 @@ class ParseArgsCodeGen:
                 # positional-or-keyword arguments
                 assert not self.fastcall
                 self.flags = "METH_VARARGS|METH_KEYWORDS"
-                self.parser_prototype = PARSER_PROTOTYPE_KEYWORD
+                self.parser_prototype = PARSER_PROTOTYPE_KEYWORD_C_INLINEABLE if self.func.c_inlineable else PARSER_PROTOTYPE_KEYWORD
                 parser_code = [libclinic.normalize_snippet("""
                     if (!PyArg_ParseTupleAndKeywords(args, kwargs, "{format_units}:{name}", _keywords,
                         {parse_arguments}))
@@ -817,10 +845,10 @@ class ParseArgsCodeGen:
         self.methoddef_define = ''
 
         if self.func.kind is METHOD_NEW:
-            self.parser_prototype = PARSER_PROTOTYPE_KEYWORD
+            self.parser_prototype = PARSER_PROTOTYPE_KEYWORD_C_INLINEABLE if self.func.c_inlineable else PARSER_PROTOTYPE_KEYWORD
         else:
             self.return_value_declaration = "int return_value = -1;"
-            self.parser_prototype = PARSER_PROTOTYPE_KEYWORD___INIT__
+            self.parser_prototype = PARSER_PROTOTYPE_KEYWORD___INIT___C_INLINEABLE if self.func.c_inlineable else PARSER_PROTOTYPE_KEYWORD___INIT__
 
         fields: list[str] = list(self.parser_body_fields)
         parses_positional = 'METH_NOARGS' not in self.flags

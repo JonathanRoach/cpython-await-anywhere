@@ -222,10 +222,21 @@ PyDoc_STRVAR(float_new__doc__,
 "Convert a string or number to a floating-point number, if possible.");
 
 static PyObject *
-float_new_impl(PyTypeObject *type, PyObject *x);
+float_new_impl(PyTypeObject *type, PyObject *x,
+               struct _PyInterpreterFrame **inlined);
 
 static PyObject *
-float_new(PyTypeObject *type, PyObject *args, PyObject *kwargs)
+float_new_Inlineable(PyTypeObject *type, PyObject *args, PyObject *kwargs,
+           struct _PyInterpreterFrame **inlined);
+
+static PyObject *
+float_new(PyTypeObject *type, PyObject *args, PyObject *kwargs) {
+    return float_new_Inlineable(type, args, kwargs, NULL);
+}
+
+static PyObject *
+float_new_Inlineable(PyTypeObject *type, PyObject *args, PyObject *kwargs,
+           struct _PyInterpreterFrame **inlined)
 {
     PyObject *return_value = NULL;
     PyTypeObject *base_tp = &PyFloat_Type;
@@ -243,7 +254,7 @@ float_new(PyTypeObject *type, PyObject *args, PyObject *kwargs)
     }
     x = PyTuple_GET_ITEM(args, 0);
 skip_optional:
-    return_value = float_new_impl(type, x);
+    return_value = float_new_impl(type, x, inlined);
 
 exit:
     return return_value;
@@ -366,4 +377,4 @@ float___format__(PyObject *self, PyObject *arg)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=b6e7ea285f5f6da9 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=5f8f8accd67c3d1e input=a9049054013a1b77]*/

@@ -9,6 +9,7 @@
 #include "pycore_floatobject.h"   // _PyFloat_FormatAdvancedWriter()
 #include "pycore_freelist.h"      // _Py_FREELIST_FREE(), _Py_FREELIST_POP()
 #include "pycore_initconfig.h"    // _PyStatus_OK()
+#include "pycore_interpframe.h"   // _PyFrame_AddReturnAction()
 #include "pycore_long.h"          // _PyLong_GetOne()
 #include "pycore_modsupport.h"    // _PyArg_NoKwnames()
 #include "pycore_object.h"        // _PyObject_Init(), _PyDebugAllocatorStats()
@@ -1580,10 +1581,12 @@ error:
 }
 
 static PyObject *
-float_subtype_new(PyTypeObject *type, PyObject *x);
+float_subtype_new(PyTypeObject *type, PyObject *x,
+               struct _PyInterpreterFrame **inlined);
 
 /*[clinic input]
 @c_stack_frugal
+@c_inlineable
 @classmethod
 float.__new__ as float_new
     x: object(c_default="NULL") = 0
@@ -1593,14 +1596,15 @@ Convert a string or number to a floating-point number, if possible.
 [clinic start generated code]*/
 
 static PyObject *
-float_new_impl(PyTypeObject *type, PyObject *x)
-/*[clinic end generated code: output=ccf1e8dc460ba6ba input=bfe929cba349f25f]*/
+float_new_impl(PyTypeObject *type, PyObject *x,
+               struct _PyInterpreterFrame **inlined)
+/*[clinic end generated code: output=2172a3030cddc2d6 input=8d2ffcc7991350e3]*/
 {
     if (type != &PyFloat_Type) {
         if (x == NULL) {
             x = _PyLong_GetZero();
         }
-        return float_subtype_new(type, x); /* Wimp out */
+        return float_subtype_new(type, x, inlined); /* Wimp out */
     }
 
     if (x == NULL) {
@@ -1610,7 +1614,7 @@ float_new_impl(PyTypeObject *type, PyObject *x)
        PyFloat_FromString. */
     if (PyUnicode_CheckExact(x))
         return PyFloat_FromString(x);
-    return PyNumber_Float(x);
+    return PyNumber_Float_Inlineable(x, inlined);
 }
 
 /* Wimpy, slow approach to tp_new calls for subtypes of float:
@@ -1618,29 +1622,63 @@ float_new_impl(PyTypeObject *type, PyObject *x)
    then allocate a subtype instance and initialize its ob_fval
    from the regular float.  The regular float is then thrown away.
 */
-static PyObject *
-float_subtype_new(PyTypeObject *type, PyObject *x)
-{
-    PyObject *tmp, *newobj;
+RETURNACTION_STDCLASSDECLARATION(float_subtype_new)
 
-    assert(PyType_IsSubtype(type, &PyFloat_Type));
-    tmp = float_new_impl(&PyFloat_Type, x);
-    if (tmp == NULL)
+struct float_subtype_new_State {
+    ReturnAction_State base;
+    PyTypeObject *type;
+    PyObject *x;
+    float f_val;
+};
+
+static void float_subtype_new_WrappedInit(float_subtype_new_State *wrapped, float_subtype_new_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+    wrapped->type = (PyTypeObject *)Py_NewRef((PyObject *)state->type);
+    // unused beyond the first CHECKINLINED
+    // wrapped->x = Py_NewRef(state->x);
+    wrapped->f_val = state->f_val;
+}
+
+static void float_subtype_new_WrappedDtor(float_subtype_new_State *wrapped){
+    Py_DECREF((PyObject *)wrapped->type);
+    // unused beyond the first CHECKINLINED
+    // Py_DECREF(wrapped->x);
+}
+
+RETURNACTION_STEPDEFINITION(float_subtype_new, 1)
+    PyObject *newobj;
+
+    assert(PyType_IsSubtype(state->type, &PyFloat_Type));
+    result = float_new_impl(&PyFloat_Type, state->x, inlined);
+    RETURNACTION_CHECKINLINED(1)
+    if (result == NULL)
         return NULL;
-    assert(PyFloat_Check(tmp));
-    newobj = PyType_Call_tp_alloc(type, type, 0);
+    assert(PyFloat_Check(result));
+    state->f_val = ((PyFloatObject *)result)->ob_fval;
+    Py_DECREF(result);
+    newobj = PyType_Call_tp_alloc(state->type, state->type, 0);
     if (newobj == NULL) {
-        Py_DECREF(tmp);
         return NULL;
     }
-    ((PyFloatObject *)newobj)->ob_fval = ((PyFloatObject *)tmp)->ob_fval;
-    Py_DECREF(tmp);
+    ((PyFloatObject *)newobj)->ob_fval = state->f_val;
     return newobj;
 }
 
 static PyObject *
-float_vectorcall(PyObject *type, PyObject *const *args,
-                 size_t nargsf, PyObject *kwnames)
+float_subtype_new(PyTypeObject *type, PyObject *x,
+               struct _PyInterpreterFrame **inlined)
+{
+    float_subtype_new_State state = {
+        .base.step = 0,
+        .type = type,
+        .x = x,
+    };
+    return float_subtype_new_Step(&state, NULL, inlined);
+}
+
+static PyObject *
+float_vectorcall_Inlineable(PyObject *type, PyObject *const *args,
+                 size_t nargsf, PyObject *kwnames, struct _PyInterpreterFrame **inlined)
 {
     if (!_PyArg_NoKwnames("float", kwnames)) {
         return NULL;
@@ -1652,9 +1690,15 @@ float_vectorcall(PyObject *type, PyObject *const *args,
     }
 
     PyObject *x = nargs >= 1 ? args[0] : NULL;
-    return float_new_impl(_PyType_CAST(type), x);
+    return float_new_impl(_PyType_CAST(type), x, inlined);
 }
 
+static PyObject *
+float_vectorcall(PyObject *type, PyObject *const *args,
+                 size_t nargsf, PyObject *kwnames)
+{
+    return float_vectorcall_Inlineable(type, args, nargsf, kwnames, NULL);
+}
 
 /*[clinic input]
 @c_stack_frugal
@@ -1929,6 +1973,9 @@ PyTypeObject PyFloat_Type = {
     .tp_functionflags[_PyFunctionIndex_tp_getattro] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_richcompare] = Py_FNFLAGS_FRUGAL,
     .tp_functionflags[_PyFunctionIndex_tp_new] = Py_FNFLAGS_FRUGAL,
+
+    .tp_vectorcall_inlineable = float_vectorcall_Inlineable,
+    .tp_functionflags[_PyFunctionIndex_tp_vectorcall_inlineable] = Py_FNFLAGS_FRUGAL,
 };
 
 static void

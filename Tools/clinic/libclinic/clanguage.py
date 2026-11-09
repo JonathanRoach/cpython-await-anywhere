@@ -450,6 +450,10 @@ class CLanguage(Language):
             template_dict['methoddef_name'] = f.c_basename.upper() + "_METHODDEF"
             template_dict['c_basename'] = f.c_basename
 
+        if f.c_inlineable:
+            data.impl_parameters.append("struct _PyInterpreterFrame **inlined")
+            data.impl_arguments.append("inlined")
+
         template_dict['docstring'] = libclinic.docstring_for_c_string(f.docstring)
         template_dict['self_name'] = template_dict['self_type'] = template_dict['self_type_check'] = ''
         template_dict['target_critical_section'] = ', '.join(f.target_critical_section)
@@ -475,8 +479,9 @@ class CLanguage(Language):
         else:
             template_dict['parse_arguments_comma'] = '';
         template_dict['impl_parameters'] = ", ".join(data.impl_parameters)
-        template_dict['parser_parameters'] = ", ".join(data.impl_parameters[1:])
+        template_dict['parser_parameters'] = ", ".join(data.impl_parameters[1:-1] if f.c_inlineable else data.impl_parameters[1:])
         template_dict['impl_arguments'] = ", ".join(data.impl_arguments)
+        template_dict['parser_arguments'] = ", ".join(data.impl_arguments[:-1] if f.c_inlineable else data.impl_arguments)
 
         template_dict['return_conversion'] = libclinic.format_escape("".join(data.return_conversion).rstrip())
         template_dict['post_parsing'] = libclinic.format_escape("".join(data.post_parsing).rstrip())

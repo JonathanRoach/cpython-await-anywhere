@@ -1957,16 +1957,7 @@ builtin_len(PyObject *module, PyObject *obj){
 static PyObject *
 builtin_len_Inlineable(PyObject *module, PyObject *obj,
                        struct _PyInterpreterFrame **inlined)
-/*[clinic end generated code: output=0f7840eb11176347     Py_ssize_t res;
-
-    res = PyObject_Size(obj);
-    if (res < 0) {
-        assert(PyErr_Occurred());
-        return NULL;
-    }
-    return PyLong_FromSsize_t(res);
-}
-input=a7df30a70f437fe8]*/
+/*[clinic end generated code: output=0f7840eb11176347 input=a7df30a70f437fe8]*/
 {
     builtin_len_Inlineable_State state = {
         .base.step = 0,
