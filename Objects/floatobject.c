@@ -1628,7 +1628,7 @@ struct float_subtype_new_State {
     ReturnAction_State base;
     PyTypeObject *type;
     PyObject *x;
-    float f_val;
+    double f_val;
 };
 
 static void float_subtype_new_WrappedInit(float_subtype_new_State *wrapped, float_subtype_new_State *state){
