@@ -8324,7 +8324,7 @@
                     if ( !tstate->interp->eval_frame ){
                         _PyInterpreterFrame *inlined = frame;
                         _PyFrame_SetStackPointer(frame, stack_pointer);
-                        attr_o = _PyObject_GetAttrInlineable(PyStackRef_AsPyObjectBorrow(owner), name, &inlined);
+                        attr_o = PyObject_GetAttr_Inlineable(PyStackRef_AsPyObjectBorrow(owner), name, &inlined);
                         stack_pointer = _PyFrame_GetStackPointer(frame);
                         if ( inlined != frame ){
                             stack_pointer += -1;
@@ -12898,6 +12898,7 @@ JUMP_TO_LABEL(error);
             assert(frame->owner != FRAME_OWNED_BY_INTERPRETER);
             _PyInterpreterFrame *dying = frame;
             ReturnAction_StateWrapper *returnaction = dying->returnaction;
+            dying->returnaction = NULL;
             frame = tstate->current_frame = dying->previous;
             _PyEval_FrameClearAndPop(tstate, dying);
             if (returnaction){
@@ -12908,11 +12909,13 @@ JUMP_TO_LABEL(error);
                     DISPATCH_INLINED(inlined);
                 }
                 if (res){
-                    _PyFrame_StackPush(frame, PyStackRef_FromPyObjectSteal(res));
                     stack_pointer = _PyFrame_GetStackPointer(frame);
                     LOAD_IP(frame->return_offset);
                     LLTRACE_RESUME_FRAME();
-                    DISPATCH_INLINED(frame);
+                    stack_pointer[0] = PyStackRef_FromPyObjectSteal(res);
+                    stack_pointer += 1;
+                    assert(WITHIN_STACK_BOUNDS());
+                    DISPATCH();
                 }
             }
             frame->return_offset = 0;

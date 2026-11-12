@@ -47,6 +47,8 @@
 /* Forward declarations */
 static PyObject * cfunction_vectorcall_FASTCALL(
     PyObject *func, PyObject *const *args, size_t nargsf, PyObject *kwnames);
+static PyObject * cfunction_vectorcall_FASTCALL_Inlineable(
+    PyObject *func, PyObject *const *args, size_t nargsf, PyObject *kwnames, struct _PyInterpreterFrame **inlined);
 static PyObject * cfunction_vectorcall_FASTCALL_KEYWORDS(
     PyObject *func, PyObject *const *args, size_t nargsf, PyObject *kwnames);
 static PyObject * cfunction_vectorcall_FASTCALL_KEYWORDS_METHOD(
@@ -92,9 +94,12 @@ PyCMethod_New(PyMethodDef *ml, PyObject *self, PyObject *module, PyTypeObject *c
             vectorcall_inlineable = NULL;
             break;
         case METH_FASTCALL:
-        case METH_FASTCALL | METH_C_INLINEABLE:
             vectorcall = cfunction_vectorcall_FASTCALL;
             vectorcall_inlineable = NULL;
+            break;
+        case METH_FASTCALL | METH_C_INLINEABLE:
+            vectorcall = cfunction_vectorcall_FASTCALL;
+            vectorcall_inlineable = cfunction_vectorcall_FASTCALL_Inlineable;
             break;
         case METH_FASTCALL | METH_KEYWORDS:
         case METH_FASTCALL | METH_KEYWORDS | METH_C_INLINEABLE:
@@ -553,6 +558,61 @@ cfunction_vectorcall_FASTCALL(
     }
 #else
     result = dovectorcall_FASTCALL(&params);
+#endif
+    _Py_LeaveRecursiveCallTstate(tstate);
+    return result;
+}
+
+struct dovectorcall_FASTCALL_Inlineable_Params {
+    PyCFunctionFast_Inlineable meth;
+    PyObject *func_obj;
+    PyObject *const *args;
+    Py_ssize_t nargs;
+    struct _PyInterpreterFrame **inlined;
+};
+
+/* Now the actual vectorcall functions */
+static inline PyObject *dovectorcall_FASTCALL_Inlineable(
+    struct dovectorcall_FASTCALL_Inlineable_Params *params
+){
+    PyCFunctionObject *func = _PyCFunctionObject_CAST(params->func_obj);
+    PyObject *ret;
+    MeasureCStackUsage(func->m_ml->ml_flags, func->m_ml->ml_name, params->meth(PyCFunction_GET_SELF(params->func_obj), params->args, params->nargs, params->inlined));
+    return ret;
+}
+
+static PyObject *
+cfunction_vectorcall_FASTCALL_Inlineable(
+    PyObject *func, PyObject *const *args, size_t nargsf, PyObject *kwnames,
+    struct _PyInterpreterFrame **inlined)
+{
+    PyThreadState *tstate = _PyThreadState_GET();
+    if (cfunction_check_kwargs(tstate, func, kwnames)) {
+        return NULL;
+    }
+    Py_ssize_t nargs = PyVectorcall_NARGS(nargsf);
+    PyCFunctionFast_Inlineable meth = (PyCFunctionFast_Inlineable)
+                            cfunction_enter_call_Inlineable(tstate, func);
+    if (meth == NULL) {
+        return NULL;
+    }
+    struct dovectorcall_FASTCALL_Inlineable_Params params = {
+        .meth = meth,
+        .func_obj = func,
+        .args = args,
+        .nargs = nargs,
+        .inlined = inlined,
+    };
+    PyObject *result;
+#if PY_ASYNC_BY_COROUTINE_C
+    PyCFunctionObject *func_func = _PyCFunctionObject_CAST(func);
+    if (func_func->m_ml->ml_flags & METH_C_STACK_FRUGAL
+        || _Py_Coroutine_CallWithMaxStack((Coroutine_Start)dovectorcall_FASTCALL_Inlineable, &params, (void **)&result)
+    ){
+        result = dovectorcall_FASTCALL_Inlineable(&params);
+    }
+#else
+    result = dovectorcall_FASTCALL_Inlineable(&params);
 #endif
     _Py_LeaveRecursiveCallTstate(tstate);
     return result;

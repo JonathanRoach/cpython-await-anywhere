@@ -10965,7 +10965,7 @@ static void _PyType_Slot_tp_getattr_hook_Inlineable_WrappedDtor(_PyType_Slot_tp_
     Py_DECREF(wrapped->getattr);
 }
 
-RETURNACTION_STEPDEFINITION(_PyType_Slot_tp_getattr_hook_Inlineable, 1)
+RETURNACTION_STEPDEFINITION(_PyType_Slot_tp_getattr_hook_Inlineable, 2)
 
     PyTypeObject *tp = Py_TYPE(state->self);
     PyObject *getattribute;
@@ -10995,7 +10995,8 @@ RETURNACTION_STEPDEFINITION(_PyType_Slot_tp_getattr_hook_Inlineable, 1)
          ((PyWrapperDescrObject *)getattribute)->d_wrapped ==
              (void *)PyObject_GenericGetAttr)) {
         Py_XDECREF(getattribute);
-        result = _PyObject_GenericGetAttrWithDict(state->self, state->name, NULL, 1, NULL);
+        result = _PyObject_GenericGetAttrWithDict(state->self, state->name, NULL, 1, inlined);
+        RETURNACTION_CHECKINLINED(2)
         /* if res == NULL with no exception set, then it must be an
            AttributeError suppressed by us. */
         if (result == NULL && !PyErr_Occurred()) {

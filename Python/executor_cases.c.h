@@ -3404,7 +3404,7 @@
                 if ( !tstate->interp->eval_frame ){
                     _PyInterpreterFrame *inlined = frame;
                     _PyFrame_SetStackPointer(frame, stack_pointer);
-                    attr_o = _PyObject_GetAttrInlineable(PyStackRef_AsPyObjectBorrow(owner), name, &inlined);
+                    attr_o = PyObject_GetAttr_Inlineable(PyStackRef_AsPyObjectBorrow(owner), name, &inlined);
                     stack_pointer = _PyFrame_GetStackPointer(frame);
                     if ( inlined != frame ){
                         stack_pointer += -1;

@@ -1293,118 +1293,193 @@ restore:
     If the getattr code is not inlineable, then
         The attribute is returned
    */
-PyObject *
-_PyObject_GetAttrInlineable(PyObject *v, PyObject *name, _PyInterpreterFrame **inlined)
-{
-    PyTypeObject *tp = Py_TYPE(v);
-    if (!PyUnicode_Check(name)) {
+RETURNACTION_STDCLASSDECLARATION(PyObject_GetAttr_Inlineable)
+
+struct PyObject_GetAttr_Inlineable_State {
+    ReturnAction_State base;
+    PyObject *v;
+    PyObject *name;
+};
+
+static void PyObject_GetAttr_Inlineable_WrappedInit(PyObject_GetAttr_Inlineable_State *wrapped, PyObject_GetAttr_Inlineable_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+    wrapped->v = Py_NewRef(state->v);
+    wrapped->name = Py_NewRef(state->name);
+}
+
+static void PyObject_GetAttr_Inlineable_WrappedDtor(PyObject_GetAttr_Inlineable_State *wrapped){
+    Py_DECREF(wrapped->v);
+    Py_DECREF(wrapped->name);
+}
+
+RETURNACTION_STEPDEFINITION(PyObject_GetAttr_Inlineable, 2)
+    PyTypeObject *tp = Py_TYPE(state->v);
+    if (!PyUnicode_Check(state->name)) {
         PyErr_Format(PyExc_TypeError,
                      "attribute name must be string, not '%.200s'",
-                     Py_TYPE(name)->tp_name);
+                     Py_TYPE(state->name)->tp_name);
         return NULL;
     }
 
-    PyObject* result = NULL;
     if (tp->tp_getattro != NULL) {
         getattrofunc getattro = tp->tp_getattro;
         if (getattro == PyObject_GenericGetAttr) {
             // covers @property properties
-            result = _PyObject_GenericGetAttr_Inlineable(v, name, inlined);
+            result = _PyObject_GenericGetAttr_Inlineable(state->v, state->name, inlined);
         } else {
-            result = PyType_Call_tp_getattro_Inlineable(tp, v, name, inlined);
+            result = PyType_Call_tp_getattro_Inlineable(tp, state->v, state->name, inlined);
         }
+        RETURNACTION_CHECKINLINED(1)
     }
     else if (tp->tp_getattr != NULL) {
-        const char *name_str = PyUnicode_AsUTF8(name);
+        const char *name_str = PyUnicode_AsUTF8(state->name);
         if (name_str == NULL) {
             return NULL;
         }
-        result = PyType_Call_tp_getattr(tp, v, (char *)name_str);
+        result = PyType_Call_tp_getattr_Inlineable(tp, state->v, (char *)name_str, inlined);
+        RETURNACTION_CHECKINLINED(2)
     }
     else {
         PyErr_Format(PyExc_AttributeError,
                     "'%.100s' object has no attribute '%U'",
-                    tp->tp_name, name);
+                    tp->tp_name, state->name);
     }
 
     if (result == NULL) {
-        _PyObject_SetAttributeErrorContext(v, name);
+        _PyObject_SetAttributeErrorContext(state->v, state->name);
     }
     return result;
 }
 
 PyObject *
+PyObject_GetAttr_Inlineable(PyObject *v, PyObject *name, _PyInterpreterFrame **inlined)
+{
+    PyObject_GetAttr_Inlineable_State state = {
+        .base.step = 0,
+        .v = v,
+        .name = name,
+    };
+    return PyObject_GetAttr_Inlineable_Step(&state, NULL, inlined);
+}
+
+PyObject *
 PyObject_GetAttr(PyObject *v, PyObject *name)
 {
-    return _PyObject_GetAttrInlineable(v, name, NULL);
+    return PyObject_GetAttr_Inlineable(v, name, NULL);
+}
+
+// The address of needs to be somewhere which won't be a valid address of any PyObject
+char _PyObject_Absent;
+
+RETURNACTION_STDCLASSDECLARATION(PyObject_GetOptionalAttr_Inlineable)
+
+struct PyObject_GetOptionalAttr_Inlineable_State {
+    ReturnAction_State base;
+    PyObject *v;
+    PyObject *name;
+};
+
+static void PyObject_GetOptionalAttr_Inlineable_WrappedInit(PyObject_GetOptionalAttr_Inlineable_State *wrapped, PyObject_GetOptionalAttr_Inlineable_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+    wrapped->v = Py_NewRef(state->v);
+    wrapped->name = Py_NewRef(state->name);
+}
+
+static void PyObject_GetOptionalAttr_Inlineable_WrappedDtor(PyObject_GetOptionalAttr_Inlineable_State *wrapped){
+    Py_DECREF(wrapped->v);
+    Py_DECREF(wrapped->name);
+}
+
+RETURNACTION_STEPDEFINITION(PyObject_GetOptionalAttr_Inlineable, 3)
+    PyTypeObject *tp = Py_TYPE(state->v);
+
+    if (!PyUnicode_Check(state->name)) {
+        PyErr_Format(PyExc_TypeError,
+                     "attribute name must be string, not '%.200s'",
+                     Py_TYPE(state->name)->tp_name);
+        return NULL;
+    }
+
+    if (tp->tp_getattro == PyObject_GenericGetAttr) {
+        result = _PyObject_GenericGetAttrWithDict(state->v, state->name, NULL, 1, inlined);
+        RETURNACTION_CHECKINLINED(1)
+        if (result != NULL) {
+            return result;
+        }
+        if (PyErr_Occurred()) {
+            return NULL;
+        }
+        return PyObject_Absent;
+    }
+    if (tp->tp_getattro == _Py_type_getattro) {
+        int suppress_missing_attribute_exception = 0;
+        result = _Py_type_getattro_impl((PyTypeObject*)state->v, state->name, &suppress_missing_attribute_exception);
+        if (suppress_missing_attribute_exception) {
+            // return 0 without having to clear the exception
+            return PyObject_Absent;
+        }
+    }
+    else if (tp->tp_getattro == (getattrofunc)_Py_module_getattro) {
+        // optimization: suppress attribute error from module getattro method
+        result = _Py_module_getattro_impl((PyModuleObject*)state->v, state->name, 1);
+        if (result != NULL) {
+            return result;
+        }
+        if (PyErr_Occurred()) {
+            return NULL;
+        }
+        return PyObject_Absent;
+     }
+    else if (tp->tp_getattro != NULL) {
+        result = PyType_Call_tp_getattro_Inlineable(tp, state->v, state->name, inlined);
+        RETURNACTION_CHECKINLINED(2)
+    }
+    else if (tp->tp_getattr != NULL) {
+        const char *name_str = PyUnicode_AsUTF8(state->name);
+        if (name_str == NULL) {
+            return NULL;
+        }
+        result = PyType_Call_tp_getattr_Inlineable(tp, state->v, (char *)name_str, inlined);
+        RETURNACTION_CHECKINLINED(3)
+    }
+    else {
+        return PyObject_Absent;
+    }
+
+    if (result != NULL) {
+        return result;
+    }
+    if (!PyErr_ExceptionMatches(PyExc_AttributeError)) {
+        return NULL;
+    }
+    PyErr_Clear();
+    return PyObject_Absent;
+}
+
+PyObject *
+PyObject_GetOptionalAttr_Inlineable(PyObject *v, PyObject *name, struct _PyInterpreterFrame **inlined)
+{
+    PyObject_GetOptionalAttr_Inlineable_State state = {
+        .base.step = 0,
+        .v = v,
+        .name = name,
+    };
+    return PyObject_GetOptionalAttr_Inlineable_Step(&state, NULL, inlined);
 }
 
 int
 PyObject_GetOptionalAttr(PyObject *v, PyObject *name, PyObject **result)
 {
-    PyTypeObject *tp = Py_TYPE(v);
-
-    if (!PyUnicode_Check(name)) {
-        PyErr_Format(PyExc_TypeError,
-                     "attribute name must be string, not '%.200s'",
-                     Py_TYPE(name)->tp_name);
+    PyObject *r = PyObject_GetOptionalAttr_Inlineable(v, name, NULL);
+    if (!r) {
         *result = NULL;
         return -1;
-    }
-
-    if (tp->tp_getattro == PyObject_GenericGetAttr) {
-        *result = _PyObject_GenericGetAttrWithDict(v, name, NULL, 1, NULL);
-        if (*result != NULL) {
-            return 1;
-        }
-        if (PyErr_Occurred()) {
-            return -1;
-        }
-        return 0;
-    }
-    if (tp->tp_getattro == _Py_type_getattro) {
-        int suppress_missing_attribute_exception = 0;
-        *result = _Py_type_getattro_impl((PyTypeObject*)v, name, &suppress_missing_attribute_exception);
-        if (suppress_missing_attribute_exception) {
-            // return 0 without having to clear the exception
-            return 0;
-        }
-    }
-    else if (tp->tp_getattro == (getattrofunc)_Py_module_getattro) {
-        // optimization: suppress attribute error from module getattro method
-        *result = _Py_module_getattro_impl((PyModuleObject*)v, name, 1);
-        if (*result != NULL) {
-            return 1;
-        }
-        if (PyErr_Occurred()) {
-            return -1;
-        }
-        return 0;
-    }
-    else if (tp->tp_getattro != NULL) {
-        *result = PyType_Call_tp_getattro(tp, v, name);
-    }
-    else if (tp->tp_getattr != NULL) {
-        const char *name_str = PyUnicode_AsUTF8(name);
-        if (name_str == NULL) {
-            *result = NULL;
-            return -1;
-        }
-        *result = PyType_Call_tp_getattr(tp, v, (char *)name_str);
-    }
-    else {
+    } else if (r == PyObject_Absent){
         *result = NULL;
         return 0;
     }
-
-    if (*result != NULL) {
-        return 1;
-    }
-    if (!PyErr_ExceptionMatches(PyExc_AttributeError)) {
-        return -1;
-    }
-    PyErr_Clear();
-    return 0;
+    *result = r;
+    return 1;
 }
 
 int
@@ -1817,28 +1892,47 @@ _PyObject_GetMethodStackRef(PyThreadState *ts, PyObject *obj,
 
 /* Generic GetAttr functions - put these in your tp_[gs]etattro slot. */
 
-PyObject *
-_PyObject_GenericGetAttrWithDict(PyObject *obj, PyObject *name,
-                                 PyObject *dict, int suppress, struct _PyInterpreterFrame **inlined)
-{
+RETURNACTION_STDCLASSDECLARATION(_PyObject_GenericGetAttrWithDict)
+
+struct _PyObject_GenericGetAttrWithDict_State {
+    ReturnAction_State base;
+    PyObject *obj;
+    PyObject *name;
+    PyObject *dict;
+    int suppress;
+    PyThreadState *tstate;
+};
+
+static void _PyObject_GenericGetAttrWithDict_WrappedInit(_PyObject_GenericGetAttrWithDict_State *wrapped, _PyObject_GenericGetAttrWithDict_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+    wrapped->obj = Py_NewRef(state->obj);
+    wrapped->name = Py_NewRef(state->name);
+    wrapped->dict = Py_XNewRef(state->dict);
+    wrapped->suppress = state->suppress;
+    wrapped->tstate = state->tstate;
+}
+
+static void _PyObject_GenericGetAttrWithDict_WrappedDtor(_PyObject_GenericGetAttrWithDict_State *wrapped){
+    Py_DECREF(wrapped->obj);
+    Py_DECREF(wrapped->name);
+    Py_XDECREF(wrapped->dict);
+}
+
+RETURNACTION_STEPDEFINITION(_PyObject_GenericGetAttrWithDict, 2)
     /* Make sure the logic of _PyObject_GetMethod is in sync with
        this method.
 
        When suppress=1, this function suppresses AttributeError.
     */
 
-    // Can't have suppress and inlined
-    assert(!(suppress && inlined != NULL));
-
-    PyTypeObject *tp = Py_TYPE(obj);
+    PyTypeObject *tp = Py_TYPE(state->obj);
     PyObject *descr = NULL;
-    PyObject *res = NULL;
     descrgetfunc f;
 
-    if (!PyUnicode_Check(name)){
+    if (!PyUnicode_Check(state->name)){
         PyErr_Format(PyExc_TypeError,
                      "attribute name must be string, not '%.200s'",
-                     Py_TYPE(name)->tp_name);
+                     Py_TYPE(state->name)->tp_name);
         return NULL;
     }
 
@@ -1847,13 +1941,13 @@ _PyObject_GenericGetAttrWithDict(PyObject *obj, PyObject *name,
             return NULL;
     }
 
-    Py_INCREF(name);
+    Py_INCREF(state->name);
 
-    PyThreadState *tstate = _PyThreadState_GET();
+    state->tstate = _PyThreadState_GET();
     _PyCStackRef cref;
-    _PyThreadState_PushCStackRef(tstate, &cref);
+    _PyThreadState_PushCStackRef(state->tstate, &cref);
 
-    _PyType_LookupStackRefAndVersion(tp, name, &cref.ref);
+    _PyType_LookupStackRefAndVersion(tp, state->name, &cref.ref);
     descr = PyStackRef_AsPyObjectBorrow(cref.ref);
 
     f = NULL;
@@ -1862,53 +1956,55 @@ _PyObject_GenericGetAttrWithDict(PyObject *obj, PyObject *name,
         tpd = Py_TYPE(descr);
         f = tpd->tp_descr_get;
         if (f != NULL && PyDescr_IsData(descr)) {
-            res = PyType_Call_tp_descr_get_Inlineable(tpd, descr, obj, (PyObject *)Py_TYPE(obj), inlined);
-            if (res == NULL && suppress &&
+            result = PyType_Call_tp_descr_get_Inlineable(tpd, descr, state->obj, (PyObject *)tp, inlined);
+            _PyThreadState_PopCStackRef(state->tstate, &cref);
+            RETURNACTION_CHECKINLINED(1)
+            if (result == NULL && state->suppress &&
                     PyErr_ExceptionMatches(PyExc_AttributeError)) {
                 PyErr_Clear();
             }
-            goto done;
+            goto done2;
         }
     }
-    if (dict == NULL) {
+    if (state->dict == NULL) {
         if ((tp->tp_flags & Py_TPFLAGS_INLINE_VALUES)) {
-            if (PyUnicode_CheckExact(name) &&
-                _PyObject_TryGetInstanceAttribute(obj, name, &res)) {
-                if (res != NULL) {
+            if (PyUnicode_CheckExact(state->name) &&
+                _PyObject_TryGetInstanceAttribute(state->obj, state->name, &result)) {
+                if (result != NULL) {
                     goto done;
                 }
             }
             else {
-                dict = (PyObject *)_PyObject_MaterializeManagedDict(obj);
-                if (dict == NULL) {
-                    res = NULL;
+                state->dict = (PyObject *)_PyObject_MaterializeManagedDict(state->obj);
+                if (state->dict == NULL) {
+                    result = NULL;
                     goto done;
                 }
             }
         }
         else if ((tp->tp_flags & Py_TPFLAGS_MANAGED_DICT)) {
-            dict = (PyObject *)_PyObject_GetManagedDict(obj);
+            state->dict = (PyObject *)_PyObject_GetManagedDict(state->obj);
         }
         else {
-            PyObject **dictptr = _PyObject_ComputedDictPointer(obj);
+            PyObject **dictptr = _PyObject_ComputedDictPointer(state->obj);
             if (dictptr) {
 #ifdef Py_GIL_DISABLED
-                dict = _Py_atomic_load_ptr_acquire(dictptr);
+                state->dict = _Py_atomic_load_ptr_acquire(dictptr);
 #else
-                dict = *dictptr;
+                state->dict = *dictptr;
 #endif
             }
         }
     }
-    if (dict != NULL) {
-        Py_INCREF(dict);
-        int rc = PyDict_GetItemRef(dict, name, &res);
-        Py_DECREF(dict);
-        if (res != NULL) {
+    if (state->dict != NULL) {
+        Py_INCREF(state->dict);
+        int rc = PyDict_GetItemRef(state->dict, state->name, &result);
+        Py_DECREF(state->dict);
+        if (result != NULL) {
             goto done;
         }
         else if (rc < 0) {
-            if (suppress && PyErr_ExceptionMatches(PyExc_AttributeError)) {
+            if (state->suppress && PyErr_ExceptionMatches(PyExc_AttributeError)) {
                 PyErr_Clear();
             }
             else {
@@ -1918,32 +2014,50 @@ _PyObject_GenericGetAttrWithDict(PyObject *obj, PyObject *name,
     }
 
     if (f != NULL) {
-        res = PyType_Call_tp_descr_get_Inlineable(tpd, descr, obj, (PyObject *)Py_TYPE(obj), inlined);
-        if (res == NULL && suppress &&
+        result = PyType_Call_tp_descr_get_Inlineable(tpd, descr, state->obj, (PyObject *)tp, inlined);
+        _PyThreadState_PopCStackRef(state->tstate, &cref);
+        RETURNACTION_CHECKINLINED(2)
+        if (result == NULL && state->suppress &&
                 PyErr_ExceptionMatches(PyExc_AttributeError)) {
             PyErr_Clear();
         }
-        goto done;
+        goto done2;
     }
 
     if (descr != NULL) {
-        res = PyStackRef_AsPyObjectSteal(cref.ref);
+        result = PyStackRef_AsPyObjectSteal(cref.ref);
         cref.ref = PyStackRef_NULL;
         goto done;
     }
 
-    if (!suppress) {
+    if (!state->suppress) {
         PyErr_Format(PyExc_AttributeError,
                      "'%.100s' object has no attribute '%U'",
-                     tp->tp_name, name);
+                     tp->tp_name, state->name);
 
-        _PyObject_SetAttributeErrorContext(obj, name);
+        _PyObject_SetAttributeErrorContext(state->obj, state->name);
     }
   done:
-    _PyThreadState_PopCStackRef(tstate, &cref);
-    Py_DECREF(name);
-    return res;
+    _PyThreadState_PopCStackRef(state->tstate, &cref);
+  done2:
+    Py_DECREF(state->name);
+    return result;
 }
+
+PyObject *
+_PyObject_GenericGetAttrWithDict(PyObject *obj, PyObject *name,
+                                 PyObject *dict, int suppress, struct _PyInterpreterFrame **inlined)
+{
+    _PyObject_GenericGetAttrWithDict_State state = {
+        .base.step = 0,
+        .obj = obj,
+        .name = name,
+        .dict = dict,
+        .suppress = suppress,
+    };
+    return _PyObject_GenericGetAttrWithDict_Step(&state, NULL, inlined);
+}
+
 
 /* Like PyObject_GenericGetAttr, but with the inlined parameter.
    inlined = NULL

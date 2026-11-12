@@ -2473,7 +2473,7 @@ dummy_func(
                 /* Classic, pushes one value. */
                 if ( !tstate->interp->eval_frame ){
                     _PyInterpreterFrame *inlined = frame;
-                    attr_o = _PyObject_GetAttrInlineable(PyStackRef_AsPyObjectBorrow(owner), name, &inlined);
+                    attr_o = PyObject_GetAttr_Inlineable(PyStackRef_AsPyObjectBorrow(owner), name, &inlined);
                     if ( inlined != frame ){
                         // Manipulate stack directly because we exit with DISPATCH_INLINED().
                         PyStackRef_CLOSE(owner);
@@ -5790,6 +5790,7 @@ dummy_func(
             // GH-99729: We need to unlink the frame *before* clearing it:
             _PyInterpreterFrame *dying = frame;
             ReturnAction_StateWrapper *returnaction = dying->returnaction;
+            dying->returnaction = NULL;
             frame = tstate->current_frame = dying->previous;
             _PyEval_FrameClearAndPop(tstate, dying);
             if (returnaction){
@@ -5802,11 +5803,13 @@ dummy_func(
                 }
                 if (res){
                     // exit_unwind changes to a RETURN_VALUE
-                    _PyFrame_StackPush(frame, PyStackRef_FromPyObjectSteal(res));
                     RELOAD_STACK();
                     LOAD_IP(frame->return_offset);
                     LLTRACE_RESUME_FRAME();
-                    DISPATCH_INLINED(frame);
+                    stack_pointer[0] = PyStackRef_FromPyObjectSteal(res);
+                    stack_pointer += 1;
+                    assert(WITHIN_STACK_BOUNDS());
+                    DISPATCH();
                 }
             }
             frame->return_offset = 0;

@@ -742,3 +742,9 @@ PyAPI_FUNC(void) PyUnstable_EnableTryIncRef(PyObject *);
 
 PyAPI_FUNC(int) PyUnstable_Object_IsUniquelyReferenced(PyObject *);
 PyAPI_FUNC(int) _PyObject_IsTrue_Inlineable(PyObject *, struct _PyInterpreterFrame **inlined);
+
+// A magic value to indicate the attribute is missing
+extern char _PyObject_Absent;
+#define PyObject_Absent ((PyObject *)&_PyObject_Absent)
+
+PyAPI_FUNC(PyObject *) PyObject_GetOptionalAttr_Inlineable(PyObject *, PyObject *, struct _PyInterpreterFrame **inlined);

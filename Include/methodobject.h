@@ -19,6 +19,7 @@ PyAPI_DATA(PyTypeObject) PyCFunction_Type;
 typedef PyObject *(*PyCFunction)(PyObject *, PyObject *);
 typedef PyObject *(*PyCFunction_Inlineable)(PyObject *, PyObject *, struct _PyInterpreterFrame **inlined);
 typedef PyObject *(*PyCFunctionFast) (PyObject *, PyObject *const *, Py_ssize_t);
+typedef PyObject *(*PyCFunctionFast_Inlineable) (PyObject *, PyObject *const *, Py_ssize_t, struct _PyInterpreterFrame **inlined);
 typedef PyObject *(*PyCFunctionWithKeywords)(PyObject *, PyObject *,
                                              PyObject *);
 typedef PyObject *(*PyCFunctionFastWithKeywords) (PyObject *,

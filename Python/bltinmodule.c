@@ -1227,26 +1227,62 @@ builtin_exec_impl(PyObject *module, PyObject *source, PyObject *globals,
 
 
 /* AC: cannot convert yet, as needs PEP 457 group support in inspect */
-static PyObject *
-builtin_getattr(PyObject *self, PyObject *const *args, Py_ssize_t nargs)
-{
-    PyObject *v, *name, *result;
+RETURNACTION_STDCLASSDECLARATION(builtin_getattr_Inlineable)
 
-    if (!_PyArg_CheckPositional("getattr", nargs, 2, 3))
+struct builtin_getattr_Inlineable_State {
+    ReturnAction_State base;
+    PyObject *self;
+    PyObject *const *args;
+    Py_ssize_t nargs;
+    PyObject *dflt;
+};
+
+static void builtin_getattr_Inlineable_WrappedInit(builtin_getattr_Inlineable_State *wrapped, builtin_getattr_Inlineable_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+    wrapped->dflt = Py_NewRef(state->dflt);
+}
+
+static void builtin_getattr_Inlineable_WrappedDtor(builtin_getattr_Inlineable_State *wrapped){
+    Py_DECREF(wrapped->dflt);
+}
+
+RETURNACTION_STEPDEFINITION(builtin_getattr_Inlineable, 1)
+    if (!_PyArg_CheckPositional("getattr", state->nargs, 2, 3))
         return NULL;
 
-    v = args[0];
-    name = args[1];
-    if (nargs > 2) {
-        if (PyObject_GetOptionalAttr(v, name, &result) == 0) {
-            PyObject *dflt = args[2];
-            return Py_NewRef(dflt);
+    PyObject *v = state->args[0];
+    PyObject *name = state->args[1];
+    if (state->nargs > 2) {
+        state->dflt = state->args[2];
+        result = PyObject_GetOptionalAttr_Inlineable(v, name, inlined);
+        RETURNACTION_CHECKINLINED(1)
+        if (result == PyObject_Absent) {
+            return Py_NewRef(state->dflt);
         }
     }
     else {
-        result = PyObject_GetAttr(v, name);
+        result = PyObject_GetAttr_Inlineable(v, name, inlined);
     }
     return result;
+}
+
+static PyObject *
+builtin_getattr_Inlineable(PyObject *self, PyObject *const *args, Py_ssize_t nargs,
+                       struct _PyInterpreterFrame **inlined)
+{
+    builtin_getattr_Inlineable_State state = {
+        .base.step = 0,
+        .self = self,
+        .args = args,
+        .nargs = nargs,
+    };
+    return builtin_getattr_Inlineable_Step(&state, NULL, inlined);
+}
+
+static PyObject *
+builtin_getattr(PyObject *self, PyObject *const *args, Py_ssize_t nargs)
+{
+    return builtin_getattr_Inlineable(self, args, nargs, NULL);
 }
 
 PyDoc_STRVAR(getattr_doc,
@@ -1255,6 +1291,10 @@ PyDoc_STRVAR(getattr_doc,
 Get a named attribute from an object; getattr(x, 'y') is equivalent to x.y.\n\
 When a default argument is given, it is returned when the attribute doesn't\n\
 exist; without it, an exception is raised in that case.");
+
+static struct {void *func_inlineable; char name[];} builtin_getattr_MethodName = {.func_inlineable = builtin_getattr_Inlineable, .name = "getattr",};
+#define BUILTIN_GETATTR_METHODDEF    \
+    {builtin_getattr_MethodName.name, (PyCFunction)(void *)builtin_getattr, METH_FASTCALL|METH_C_STACK_FRUGAL|METH_C_INLINEABLE, getattr_doc},
 
 
 /*[clinic input]
@@ -3410,7 +3450,7 @@ static PyMethodDef builtin_methods[] = {
     BUILTIN_EVAL_METHODDEF
     BUILTIN_EXEC_METHODDEF
     BUILTIN_FORMAT_METHODDEF
-    {"getattr", _PyCFunction_CAST(builtin_getattr), METH_FASTCALL|METH_C_STACK_FRUGAL, getattr_doc},
+    BUILTIN_GETATTR_METHODDEF
     BUILTIN_GLOBALS_METHODDEF
     BUILTIN_HASATTR_METHODDEF
     BUILTIN_HASH_METHODDEF
