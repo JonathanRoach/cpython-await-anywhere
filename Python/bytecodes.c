@@ -1774,7 +1774,7 @@ dummy_func(
                                         name, PyStackRef_AsPyObjectBorrow(v));
             } else {
                 _PyInterpreterFrame *inlined = frame;
-                err = _PyObject_SetAttrInlineable(PyStackRef_AsPyObjectBorrow(owner),
+                err = PyObject_SetAttr_Inlineable(PyStackRef_AsPyObjectBorrow(owner),
                             name, PyStackRef_AsPyObjectBorrow(v), &inlined);
                 if ( inlined != frame ){
                     // Manipulate stack directly because we exit with DISPATCH_INLINED().

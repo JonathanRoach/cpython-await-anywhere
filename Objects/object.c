@@ -1531,7 +1531,7 @@ PyObject_HasAttr(PyObject *obj, PyObject *name)
 }
 
 int
-_PyObject_SetAttrInlineable(PyObject *v, PyObject *name, PyObject *value,
+PyObject_SetAttr_Inlineable(PyObject *v, PyObject *name, PyObject *value,
     struct _PyInterpreterFrame **inlined)
 {
     PyTypeObject *tp = Py_TYPE(v);
@@ -1563,7 +1563,7 @@ _PyObject_SetAttrInlineable(PyObject *v, PyObject *name, PyObject *value,
             Py_DECREF(name);
             return -1;
         }
-        err = PyType_Call_tp_setattr(tp, v, (char *)name_str, value);
+        err = PyType_Call_tp_setattr_Inlineable(tp, v, (char *)name_str, value, inlined);
         Py_DECREF(name);
         return err;
     }
@@ -1589,20 +1589,20 @@ _PyObject_SetAttrInlineable(PyObject *v, PyObject *name, PyObject *value,
 int
 PyObject_SetAttr(PyObject *v, PyObject *name, PyObject *value)
 {
-    return _PyObject_SetAttrInlineable(v, name, value, NULL);
+    return PyObject_SetAttr_Inlineable(v, name, value, NULL);
 }
 
 int
 _PyObject_DelAttrInlineable(PyObject *v, PyObject *name,
     struct _PyInterpreterFrame **inlined)
 {
-    return _PyObject_SetAttrInlineable(v, name, NULL, inlined);
+    return PyObject_SetAttr_Inlineable(v, name, NULL, inlined);
 }
 
 int
 PyObject_DelAttr(PyObject *v, PyObject *name)
 {
-    return _PyObject_SetAttrInlineable(v, name, NULL, NULL);
+    return PyObject_SetAttr_Inlineable(v, name, NULL, NULL);
 }
 
 PyObject **

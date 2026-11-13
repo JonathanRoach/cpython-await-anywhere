@@ -891,7 +891,7 @@ extern int _PyObject_SetAttributeErrorContext(PyObject *v, PyObject* name);
 extern PyObject *_PyObject_GenericGetAttr_Inlineable(PyObject *obj, PyObject *name, struct _PyInterpreterFrame **inlined);
 extern PyObject* PyObject_GetAttr_Inlineable(PyObject *v, PyObject *name, struct _PyInterpreterFrame **inlined);
 extern int _PyObject_GenericSetAttrInlineable(PyObject *obj, PyObject *name, PyObject *value, struct _PyInterpreterFrame **inlined);
-extern int _PyObject_SetAttrInlineable(PyObject *v, PyObject *name, PyObject *value, struct _PyInterpreterFrame **inlined);
+extern int PyObject_SetAttr_Inlineable(PyObject *v, PyObject *name, PyObject *value, struct _PyInterpreterFrame **inlined);
 extern int _PyObject_DelAttrInlineable(PyObject *o, PyObject *attr_name, struct _PyInterpreterFrame **inlined);
 
 void _PyObject_InitInlineValues(PyObject *obj, PyTypeObject *tp);

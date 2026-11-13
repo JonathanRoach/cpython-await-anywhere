@@ -11275,7 +11275,7 @@
                 } else {
                     _PyInterpreterFrame *inlined = frame;
                     _PyFrame_SetStackPointer(frame, stack_pointer);
-                    err = _PyObject_SetAttrInlineable(PyStackRef_AsPyObjectBorrow(owner),
+                    err = PyObject_SetAttr_Inlineable(PyStackRef_AsPyObjectBorrow(owner),
                         name, PyStackRef_AsPyObjectBorrow(v), &inlined);
                     stack_pointer = _PyFrame_GetStackPointer(frame);
                     if ( inlined != frame ){
