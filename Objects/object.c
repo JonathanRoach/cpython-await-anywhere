@@ -1530,70 +1530,116 @@ PyObject_HasAttr(PyObject *obj, PyObject *name)
     return rc;
 }
 
-int
-PyObject_SetAttr_Inlineable(PyObject *v, PyObject *name, PyObject *value,
-    struct _PyInterpreterFrame **inlined)
-{
-    PyTypeObject *tp = Py_TYPE(v);
+RETURNACTION_STDCLASSDECLARATION(PyObject_SetAttr_Inlineable)
+
+struct PyObject_SetAttr_Inlineable_State {
+    ReturnAction_State base;
+    PyObject *v;
+    PyObject *name;
+    PyObject *value;
+};
+
+static void PyObject_SetAttr_Inlineable_WrappedInit(PyObject_SetAttr_Inlineable_State *wrapped, PyObject_SetAttr_Inlineable_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+    wrapped->v = Py_NewRef(state->v);
+    wrapped->name = Py_NewRef(state->name);
+    wrapped->value = Py_XNewRef(state->value);
+}
+
+static void PyObject_SetAttr_Inlineable_WrappedDtor(PyObject_SetAttr_Inlineable_State *wrapped){
+    Py_DECREF(wrapped->v);
+    Py_DECREF(wrapped->name);
+    Py_XDECREF(wrapped->value);
+}
+
+RETURNACTION_STEPDEFINITION(PyObject_SetAttr_Inlineable, 2)
+    PyTypeObject *tp = Py_TYPE(state->v);
     int err;
 
-    if (!PyUnicode_Check(name)) {
+    if (!PyUnicode_Check(state->name)) {
         PyErr_Format(PyExc_TypeError,
                      "attribute name must be string, not '%.200s'",
-                     Py_TYPE(name)->tp_name);
-        return -1;
+                     Py_TYPE(state->name)->tp_name);
+        return NULL;
     }
-    Py_INCREF(name);
+    Py_INCREF(state->name);
 
     PyInterpreterState *interp = _PyInterpreterState_GET();
-    _PyUnicode_InternMortal(interp, &name);
+    _PyUnicode_InternMortal(interp, &state->name);
     if (tp->tp_setattro != NULL) {
         if (inlined && tp->tp_setattro == PyObject_GenericSetAttr){
-            err = _PyObject_GenericSetAttrInlineable(v, name, value, inlined);
+            err = PyObject_GenericSetAttr_Inlineable(state->v, state->name, state->value, inlined);
+            assert((inlined && frame != *inlined) || !err == !_PyThreadState_GET()->current_exception);
         }
         else {
-            err = PyType_Call_tp_setattro_Inlineable(tp, v, name, value, inlined);
+            err = PyType_Call_tp_setattro_Inlineable(tp, state->v, state->name, state->value, inlined);
+            assert((inlined && frame != *inlined) || !err == !_PyThreadState_GET()->current_exception);
         }
-        Py_DECREF(name);
-        return err;
+        RETURNACTION_CHECKINLINED(1, err = (int)(Py_ssize_t)result;)
+        if (inlined && Py_TYPE(state->v)->tp_setattro == PyObject_GenericSetAttr){
+            assert(!err == !_PyThreadState_GET()->current_exception);
+        } else {
+            if (!err != !_PyThreadState_GET()->current_exception){
+                printf("%s\n", Py_TYPE(state->v)->tp_name);
+                assert(!err == !_PyThreadState_GET()->current_exception);
+            }
+        }
+        Py_DECREF(state->name);
+        return err ? NULL : Py_None;
     }
     if (tp->tp_setattr != NULL) {
-        const char *name_str = PyUnicode_AsUTF8(name);
+        const char *name_str = PyUnicode_AsUTF8(state->name);
         if (name_str == NULL) {
-            Py_DECREF(name);
-            return -1;
+            Py_DECREF(state->name);
+            return NULL;
         }
-        err = PyType_Call_tp_setattr_Inlineable(tp, v, (char *)name_str, value, inlined);
-        Py_DECREF(name);
-        return err;
+        err = PyType_Call_tp_setattr_Inlineable(tp, state->v, (char *)name_str, state->value, inlined);
+        assert((inlined && frame != *inlined) || !err == !_PyThreadState_GET()->current_exception);
+        RETURNACTION_CHECKINLINED(2, err = (int)(Py_ssize_t)result;)
+        assert(!err == !_PyThreadState_GET()->current_exception);
+        Py_DECREF(state->name);
+        return err ? NULL : Py_None;
     }
-    Py_DECREF(name);
-    _PyObject_ASSERT(name, Py_REFCNT(name) >= 1);
+    Py_DECREF(state->name);
+    _PyObject_ASSERT(state->name, Py_REFCNT(state->name) >= 1);
     if (tp->tp_getattr == NULL && tp->tp_getattro == NULL)
         PyErr_Format(PyExc_TypeError,
                      "'%.100s' object has no attributes "
                      "(%s .%U)",
                      tp->tp_name,
-                     value==NULL ? "del" : "assign to",
-                     name);
+                     state->value==NULL ? "del" : "assign to",
+                     state->name);
     else
         PyErr_Format(PyExc_TypeError,
                      "'%.100s' object has only read-only attributes "
                      "(%s .%U)",
                      tp->tp_name,
-                     value==NULL ? "del" : "assign to",
-                     name);
-    return -1;
+                     state->value==NULL ? "del" : "assign to",
+                     state->name);
+    return NULL;
+}
+
+PyObject *
+PyObject_SetAttr_Inlineable(PyObject *v, PyObject *name, PyObject *value,
+    struct _PyInterpreterFrame **inlined)
+{
+    PyObject_SetAttr_Inlineable_State state = {
+        .base.step = 0,
+        .v = v,
+        .name = name,
+        .value = value,
+    };
+    return PyObject_SetAttr_Inlineable_Step(&state, NULL, inlined);
 }
 
 int
 PyObject_SetAttr(PyObject *v, PyObject *name, PyObject *value)
 {
-    return PyObject_SetAttr_Inlineable(v, name, value, NULL);
+    return PyObject_SetAttr_Inlineable(v, name, value, NULL) ? 0 : -1;
 }
 
-int
-_PyObject_DelAttrInlineable(PyObject *v, PyObject *name,
+PyObject *
+PyObject_DelAttr_Inlineable(PyObject *v, PyObject *name,
     struct _PyInterpreterFrame **inlined)
 {
     return PyObject_SetAttr_Inlineable(v, name, NULL, inlined);
@@ -1602,7 +1648,7 @@ _PyObject_DelAttrInlineable(PyObject *v, PyObject *name,
 int
 PyObject_DelAttr(PyObject *v, PyObject *name)
 {
-    return PyObject_SetAttr_Inlineable(v, name, NULL, NULL);
+    return PyObject_SetAttr_Inlineable(v, name, NULL, NULL) ? 0 : -1;
 }
 
 PyObject **
@@ -2079,21 +2125,44 @@ PyObject_GenericGetAttr(PyObject *obj, PyObject *name)
     return _PyObject_GenericGetAttrWithDict(obj, name, NULL, 0, NULL);
 }
 
-int
-_PyObject_GenericSetAttrWithDict(PyObject *obj, PyObject *name,
-                                 PyObject *value, PyObject *dict,
-                                 struct _PyInterpreterFrame **inlined)
-{
-    PyTypeObject *tp = Py_TYPE(obj);
+RETURNACTION_STDCLASSDECLARATION_R(int, _PyObject_GenericSetAttrWithDict)
+
+struct _PyObject_GenericSetAttrWithDict_State {
+    ReturnAction_State base;
+    PyObject *obj;
+    PyObject *name;
+    PyObject *value;
+    PyObject *dict;
+    PyObject *descr;
+};
+
+static void _PyObject_GenericSetAttrWithDict_WrappedInit(_PyObject_GenericSetAttrWithDict_State *wrapped, _PyObject_GenericSetAttrWithDict_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+    wrapped->obj = Py_NewRef(state->obj);
+    wrapped->name = Py_NewRef(state->name);
+    wrapped->value = Py_XNewRef(state->value);
+    wrapped->dict = Py_XNewRef(state->dict);
+    wrapped->descr = state->descr;
+}
+
+static void _PyObject_GenericSetAttrWithDict_WrappedDtor(_PyObject_GenericSetAttrWithDict_State *wrapped){
+    Py_DECREF(wrapped->obj);
+    Py_DECREF(wrapped->name);
+    Py_XDECREF(wrapped->value);
+    Py_XDECREF(wrapped->dict);
+}
+
+RETURNACTION_STEPDEFINITION_R(int, _PyObject_GenericSetAttrWithDict, 1)
+    PyTypeObject *tp = Py_TYPE(state->obj);
     PyObject *descr;
     descrsetfunc f;
     int res = -1;
 
     assert(!PyType_IsSubtype(tp, &PyType_Type));
-    if (!PyUnicode_Check(name)){
+    if (!PyUnicode_Check(state->name)){
         PyErr_Format(PyExc_TypeError,
                      "attribute name must be string, not '%.200s'",
-                     Py_TYPE(name)->tp_name);
+                     Py_TYPE(state->name)->tp_name);
         return -1;
     }
 
@@ -2101,39 +2170,44 @@ _PyObject_GenericSetAttrWithDict(PyObject *obj, PyObject *name,
         return -1;
     }
 
-    Py_INCREF(name);
+    Py_INCREF(state->name);
     Py_INCREF(tp);
 
     PyThreadState *tstate = _PyThreadState_GET();
     _PyCStackRef cref;
     _PyThreadState_PushCStackRef(tstate, &cref);
 
-    _PyType_LookupStackRefAndVersion(tp, name, &cref.ref);
+    _PyType_LookupStackRefAndVersion(tp, state->name, &cref.ref);
     descr = PyStackRef_AsPyObjectBorrow(cref.ref);
+    state->descr = descr;
 
     if (descr != NULL) {
         PyTypeObject *tpd = Py_TYPE(descr);
         f = tpd->tp_descr_set;
         if (f) {
-            res = PyType_Call_tp_descr_set_Inlineable(tpd, descr, obj, value, inlined);
-            goto done;
+            res = PyType_Call_tp_descr_set_Inlineable(tpd, descr, state->obj, state->value, inlined);
+            _PyThreadState_PopCStackRef(tstate, &cref);
+            Py_DECREF(tp);
+            RETURNACTION_CHECKINLINED_R(int, 1, res=(int)(Py_ssize_t)result;)
+            goto done2;
         }
     }
+    _PyThreadState_PopCStackRef(tstate, &cref);
 
-    if (dict == NULL) {
+    if (state->dict == NULL) {
         PyObject **dictptr;
 
         if ((tp->tp_flags & Py_TPFLAGS_INLINE_VALUES)) {
-            res = _PyObject_StoreInstanceAttribute(obj, name, value);
+            res = _PyObject_StoreInstanceAttribute(state->obj, state->name, state->value);
             goto error_check;
         }
 
         if ((tp->tp_flags & Py_TPFLAGS_MANAGED_DICT)) {
-            PyManagedDictPointer *managed_dict = _PyObject_ManagedDictPointer(obj);
+            PyManagedDictPointer *managed_dict = _PyObject_ManagedDictPointer(state->obj);
             dictptr = (PyObject **)&managed_dict->dict;
         }
         else {
-            dictptr = _PyObject_ComputedDictPointer(obj);
+            dictptr = _PyObject_ComputedDictPointer(state->obj);
         }
         if (dictptr == NULL) {
             if (descr == NULL) {
@@ -2141,50 +2215,65 @@ _PyObject_GenericSetAttrWithDict(PyObject *obj, PyObject *name,
                     PyErr_Format(PyExc_AttributeError,
                                 "'%.100s' object has no attribute '%U' and no "
                                 "__dict__ for setting new attributes",
-                                tp->tp_name, name);
+                                tp->tp_name, state->name);
                 }
                 else {
                     PyErr_Format(PyExc_AttributeError,
                                 "'%.100s' object has no attribute '%U'",
-                                tp->tp_name, name);
+                                tp->tp_name, state->name);
                 }
-                _PyObject_SetAttributeErrorContext(obj, name);
+                _PyObject_SetAttributeErrorContext(state->obj, state->name);
             }
             else {
                 PyErr_Format(PyExc_AttributeError,
                             "'%.100s' object attribute '%U' is read-only",
-                            tp->tp_name, name);
+                            tp->tp_name, state->name);
             }
             goto done;
         }
         else {
-            res = _PyObjectDict_SetItem(tp, obj, dictptr, name, value);
+            res = _PyObjectDict_SetItem(tp, state->obj, dictptr, state->name, state->value);
         }
     }
     else {
-        Py_INCREF(dict);
-        if (value == NULL)
-            res = PyDict_DelItem(dict, name);
+        Py_INCREF(state->dict);
+        if (state->value == NULL)
+            res = PyDict_DelItem(state->dict, state->name);
         else
-            res = PyDict_SetItem(dict, name, value);
-        Py_DECREF(dict);
+            res = PyDict_SetItem(state->dict, state->name, state->value);
+        Py_DECREF(state->dict);
     }
   error_check:
     if (res < 0 && PyErr_ExceptionMatches(PyExc_KeyError)) {
         PyErr_Format(PyExc_AttributeError,
                         "'%.100s' object has no attribute '%U'",
-                        tp->tp_name, name);
-        _PyObject_SetAttributeErrorContext(obj, name);
+                        tp->tp_name, state->name);
+        _PyObject_SetAttributeErrorContext(state->obj, state->name);
     }
   done:
-    _PyThreadState_PopCStackRef(tstate, &cref);
     Py_DECREF(tp);
-    Py_DECREF(name);
+  done2:
+    Py_DECREF(state->name);
     return res;
 }
 
+Py_ssize_t
+_PyObject_GenericSetAttrWithDict(PyObject *obj, PyObject *name,
+                                 PyObject *value, PyObject *dict,
+                                 struct _PyInterpreterFrame **inlined)
+{
+    _PyObject_GenericSetAttrWithDict_State state = {
+        .base.step = 0,
+        .obj = obj,
+        .name = name,
+        .value = value,
+        .dict = dict,
+    };
+    return _PyObject_GenericSetAttrWithDict_Step(&state, NULL, inlined);
+}
+
 int
-_PyObject_GenericSetAttrInlineable(PyObject *obj, PyObject *name, PyObject *value,
+PyObject_GenericSetAttr_Inlineable(PyObject *obj, PyObject *name, PyObject *value,
     struct _PyInterpreterFrame **inlined)
 {
     return _PyObject_GenericSetAttrWithDict(obj, name, value, NULL, inlined);

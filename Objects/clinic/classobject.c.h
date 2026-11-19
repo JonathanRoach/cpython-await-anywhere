@@ -9,10 +9,6 @@ PyDoc_STRVAR(method___reduce____doc__,
 "--\n"
 "\n");
 
-static struct {char name[];} method___reduce___MethodName = {.name = "__reduce__",};
-#define METHOD___REDUCE___METHODDEF    \
-    {method___reduce___MethodName.name, (PyCFunction)method___reduce__, METH_NOARGS|METH_C_STACK_FRUGAL, method___reduce____doc__},
-
 static PyObject *
 method___reduce___impl(PyMethodObject *self);
 
@@ -21,6 +17,10 @@ method___reduce__(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return method___reduce___impl((PyMethodObject *)self);
 }
+
+static struct {char name[];} method___reduce___MethodName = {.name = "__reduce__",};
+#define METHOD___REDUCE___METHODDEF    \
+    {method___reduce___MethodName.name, (PyCFunction)method___reduce__, METH_NOARGS|METH_C_STACK_FRUGAL, method___reduce____doc__},
 
 PyDoc_STRVAR(method_new__doc__,
 "method(function, instance, /)\n"
@@ -83,4 +83,4 @@ instancemethod_new(PyTypeObject *type, PyObject *args, PyObject *kwargs)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=f02d85aec7ee1aa8 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=f2e316dfb8918429 input=a9049054013a1b77]*/

@@ -76,6 +76,7 @@ static TP NAME##_Step(NAME##_State *wrapped, PyObject *result, struct _PyInterpr
 
 #define RETURNACTION_STDCLASSDECLARATION(NAME) RETURNACTION_STDCLASSDECLARATION_R(PyObject *, NAME)
 
+// TP - the type which is to be returned
 #define RETURNACTION_CHECKINLINED_R(TP, N, ...) \
     if (inlined && *inlined != frame) \
     { \

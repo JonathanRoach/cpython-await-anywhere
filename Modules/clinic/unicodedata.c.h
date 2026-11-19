@@ -14,10 +14,6 @@ PyDoc_STRVAR(unicodedata_UCD_decimal__doc__,
 "If no such value is defined, default is returned, or, if not given,\n"
 "ValueError is raised.");
 
-static struct {char name[];} unicodedata_UCD_decimal_MethodName = {.name = "decimal",};
-#define UNICODEDATA_UCD_DECIMAL_METHODDEF    \
-    {unicodedata_UCD_decimal_MethodName.name, _PyCFunction_CAST(unicodedata_UCD_decimal), METH_FASTCALL|METH_C_STACK_FRUGAL, unicodedata_UCD_decimal__doc__},
-
 static PyObject *
 unicodedata_UCD_decimal_impl(PyObject *self, int chr,
                              PyObject *default_value);
@@ -55,6 +51,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} unicodedata_UCD_decimal_MethodName = {.name = "decimal",};
+#define UNICODEDATA_UCD_DECIMAL_METHODDEF    \
+    {unicodedata_UCD_decimal_MethodName.name, _PyCFunction_CAST(unicodedata_UCD_decimal), METH_FASTCALL|METH_C_STACK_FRUGAL, unicodedata_UCD_decimal__doc__},
+
 PyDoc_STRVAR(unicodedata_UCD_digit__doc__,
 "digit($self, chr, default=<unrepresentable>, /)\n"
 "--\n"
@@ -64,10 +64,6 @@ PyDoc_STRVAR(unicodedata_UCD_digit__doc__,
 "Returns the digit value assigned to the character chr as integer.\n"
 "If no such value is defined, default is returned, or, if not given,\n"
 "ValueError is raised.");
-
-static struct {char name[];} unicodedata_UCD_digit_MethodName = {.name = "digit",};
-#define UNICODEDATA_UCD_DIGIT_METHODDEF    \
-    {unicodedata_UCD_digit_MethodName.name, _PyCFunction_CAST(unicodedata_UCD_digit), METH_FASTCALL|METH_C_STACK_FRUGAL, unicodedata_UCD_digit__doc__},
 
 static PyObject *
 unicodedata_UCD_digit_impl(PyObject *self, int chr, PyObject *default_value);
@@ -105,6 +101,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} unicodedata_UCD_digit_MethodName = {.name = "digit",};
+#define UNICODEDATA_UCD_DIGIT_METHODDEF    \
+    {unicodedata_UCD_digit_MethodName.name, _PyCFunction_CAST(unicodedata_UCD_digit), METH_FASTCALL|METH_C_STACK_FRUGAL, unicodedata_UCD_digit__doc__},
+
 PyDoc_STRVAR(unicodedata_UCD_numeric__doc__,
 "numeric($self, chr, default=<unrepresentable>, /)\n"
 "--\n"
@@ -114,10 +114,6 @@ PyDoc_STRVAR(unicodedata_UCD_numeric__doc__,
 "Returns the numeric value assigned to the character chr as float.\n"
 "If no such value is defined, default is returned, or, if not given,\n"
 "ValueError is raised.");
-
-static struct {char name[];} unicodedata_UCD_numeric_MethodName = {.name = "numeric",};
-#define UNICODEDATA_UCD_NUMERIC_METHODDEF    \
-    {unicodedata_UCD_numeric_MethodName.name, _PyCFunction_CAST(unicodedata_UCD_numeric), METH_FASTCALL|METH_C_STACK_FRUGAL, unicodedata_UCD_numeric__doc__},
 
 static PyObject *
 unicodedata_UCD_numeric_impl(PyObject *self, int chr,
@@ -156,15 +152,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} unicodedata_UCD_numeric_MethodName = {.name = "numeric",};
+#define UNICODEDATA_UCD_NUMERIC_METHODDEF    \
+    {unicodedata_UCD_numeric_MethodName.name, _PyCFunction_CAST(unicodedata_UCD_numeric), METH_FASTCALL|METH_C_STACK_FRUGAL, unicodedata_UCD_numeric__doc__},
+
 PyDoc_STRVAR(unicodedata_UCD_category__doc__,
 "category($self, chr, /)\n"
 "--\n"
 "\n"
 "Returns the general category assigned to the character chr as string.");
-
-static struct {char name[];} unicodedata_UCD_category_MethodName = {.name = "category",};
-#define UNICODEDATA_UCD_CATEGORY_METHODDEF    \
-    {unicodedata_UCD_category_MethodName.name, (PyCFunction)unicodedata_UCD_category, METH_O|METH_C_STACK_FRUGAL, unicodedata_UCD_category__doc__},
 
 static PyObject *
 unicodedata_UCD_category_impl(PyObject *self, int chr);
@@ -193,6 +189,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} unicodedata_UCD_category_MethodName = {.name = "category",};
+#define UNICODEDATA_UCD_CATEGORY_METHODDEF    \
+    {unicodedata_UCD_category_MethodName.name, (PyCFunction)unicodedata_UCD_category, METH_O|METH_C_STACK_FRUGAL, unicodedata_UCD_category__doc__},
+
 PyDoc_STRVAR(unicodedata_UCD_bidirectional__doc__,
 "bidirectional($self, chr, /)\n"
 "--\n"
@@ -200,10 +200,6 @@ PyDoc_STRVAR(unicodedata_UCD_bidirectional__doc__,
 "Returns the bidirectional class assigned to the character chr as string.\n"
 "\n"
 "If no such value is defined, an empty string is returned.");
-
-static struct {char name[];} unicodedata_UCD_bidirectional_MethodName = {.name = "bidirectional",};
-#define UNICODEDATA_UCD_BIDIRECTIONAL_METHODDEF    \
-    {unicodedata_UCD_bidirectional_MethodName.name, (PyCFunction)unicodedata_UCD_bidirectional, METH_O|METH_C_STACK_FRUGAL, unicodedata_UCD_bidirectional__doc__},
 
 static PyObject *
 unicodedata_UCD_bidirectional_impl(PyObject *self, int chr);
@@ -232,6 +228,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} unicodedata_UCD_bidirectional_MethodName = {.name = "bidirectional",};
+#define UNICODEDATA_UCD_BIDIRECTIONAL_METHODDEF    \
+    {unicodedata_UCD_bidirectional_MethodName.name, (PyCFunction)unicodedata_UCD_bidirectional, METH_O|METH_C_STACK_FRUGAL, unicodedata_UCD_bidirectional__doc__},
+
 PyDoc_STRVAR(unicodedata_UCD_combining__doc__,
 "combining($self, chr, /)\n"
 "--\n"
@@ -239,10 +239,6 @@ PyDoc_STRVAR(unicodedata_UCD_combining__doc__,
 "Returns the canonical combining class assigned to the character chr as integer.\n"
 "\n"
 "Returns 0 if no combining class is defined.");
-
-static struct {char name[];} unicodedata_UCD_combining_MethodName = {.name = "combining",};
-#define UNICODEDATA_UCD_COMBINING_METHODDEF    \
-    {unicodedata_UCD_combining_MethodName.name, (PyCFunction)unicodedata_UCD_combining, METH_O|METH_C_STACK_FRUGAL, unicodedata_UCD_combining__doc__},
 
 static int
 unicodedata_UCD_combining_impl(PyObject *self, int chr);
@@ -276,6 +272,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} unicodedata_UCD_combining_MethodName = {.name = "combining",};
+#define UNICODEDATA_UCD_COMBINING_METHODDEF    \
+    {unicodedata_UCD_combining_MethodName.name, (PyCFunction)unicodedata_UCD_combining, METH_O|METH_C_STACK_FRUGAL, unicodedata_UCD_combining__doc__},
+
 PyDoc_STRVAR(unicodedata_UCD_mirrored__doc__,
 "mirrored($self, chr, /)\n"
 "--\n"
@@ -284,10 +284,6 @@ PyDoc_STRVAR(unicodedata_UCD_mirrored__doc__,
 "\n"
 "Returns 1 if the character has been identified as a \"mirrored\"\n"
 "character in bidirectional text, 0 otherwise.");
-
-static struct {char name[];} unicodedata_UCD_mirrored_MethodName = {.name = "mirrored",};
-#define UNICODEDATA_UCD_MIRRORED_METHODDEF    \
-    {unicodedata_UCD_mirrored_MethodName.name, (PyCFunction)unicodedata_UCD_mirrored, METH_O|METH_C_STACK_FRUGAL, unicodedata_UCD_mirrored__doc__},
 
 static int
 unicodedata_UCD_mirrored_impl(PyObject *self, int chr);
@@ -321,15 +317,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} unicodedata_UCD_mirrored_MethodName = {.name = "mirrored",};
+#define UNICODEDATA_UCD_MIRRORED_METHODDEF    \
+    {unicodedata_UCD_mirrored_MethodName.name, (PyCFunction)unicodedata_UCD_mirrored, METH_O|METH_C_STACK_FRUGAL, unicodedata_UCD_mirrored__doc__},
+
 PyDoc_STRVAR(unicodedata_UCD_east_asian_width__doc__,
 "east_asian_width($self, chr, /)\n"
 "--\n"
 "\n"
 "Returns the east asian width assigned to the character chr as string.");
-
-static struct {char name[];} unicodedata_UCD_east_asian_width_MethodName = {.name = "east_asian_width",};
-#define UNICODEDATA_UCD_EAST_ASIAN_WIDTH_METHODDEF    \
-    {unicodedata_UCD_east_asian_width_MethodName.name, (PyCFunction)unicodedata_UCD_east_asian_width, METH_O|METH_C_STACK_FRUGAL, unicodedata_UCD_east_asian_width__doc__},
 
 static PyObject *
 unicodedata_UCD_east_asian_width_impl(PyObject *self, int chr);
@@ -358,6 +354,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} unicodedata_UCD_east_asian_width_MethodName = {.name = "east_asian_width",};
+#define UNICODEDATA_UCD_EAST_ASIAN_WIDTH_METHODDEF    \
+    {unicodedata_UCD_east_asian_width_MethodName.name, (PyCFunction)unicodedata_UCD_east_asian_width, METH_O|METH_C_STACK_FRUGAL, unicodedata_UCD_east_asian_width__doc__},
+
 PyDoc_STRVAR(unicodedata_UCD_decomposition__doc__,
 "decomposition($self, chr, /)\n"
 "--\n"
@@ -365,10 +365,6 @@ PyDoc_STRVAR(unicodedata_UCD_decomposition__doc__,
 "Returns the character decomposition mapping assigned to the character chr as string.\n"
 "\n"
 "An empty string is returned in case no such mapping is defined.");
-
-static struct {char name[];} unicodedata_UCD_decomposition_MethodName = {.name = "decomposition",};
-#define UNICODEDATA_UCD_DECOMPOSITION_METHODDEF    \
-    {unicodedata_UCD_decomposition_MethodName.name, (PyCFunction)unicodedata_UCD_decomposition, METH_O|METH_C_STACK_FRUGAL, unicodedata_UCD_decomposition__doc__},
 
 static PyObject *
 unicodedata_UCD_decomposition_impl(PyObject *self, int chr);
@@ -397,6 +393,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} unicodedata_UCD_decomposition_MethodName = {.name = "decomposition",};
+#define UNICODEDATA_UCD_DECOMPOSITION_METHODDEF    \
+    {unicodedata_UCD_decomposition_MethodName.name, (PyCFunction)unicodedata_UCD_decomposition, METH_O|METH_C_STACK_FRUGAL, unicodedata_UCD_decomposition__doc__},
+
 PyDoc_STRVAR(unicodedata_UCD_is_normalized__doc__,
 "is_normalized($self, form, unistr, /)\n"
 "--\n"
@@ -404,10 +404,6 @@ PyDoc_STRVAR(unicodedata_UCD_is_normalized__doc__,
 "Return whether the Unicode string unistr is in the normal form \'form\'.\n"
 "\n"
 "Valid values for form are \'NFC\', \'NFKC\', \'NFD\', and \'NFKD\'.");
-
-static struct {char name[];} unicodedata_UCD_is_normalized_MethodName = {.name = "is_normalized",};
-#define UNICODEDATA_UCD_IS_NORMALIZED_METHODDEF    \
-    {unicodedata_UCD_is_normalized_MethodName.name, _PyCFunction_CAST(unicodedata_UCD_is_normalized), METH_FASTCALL|METH_C_STACK_FRUGAL, unicodedata_UCD_is_normalized__doc__},
 
 static PyObject *
 unicodedata_UCD_is_normalized_impl(PyObject *self, PyObject *form,
@@ -439,6 +435,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} unicodedata_UCD_is_normalized_MethodName = {.name = "is_normalized",};
+#define UNICODEDATA_UCD_IS_NORMALIZED_METHODDEF    \
+    {unicodedata_UCD_is_normalized_MethodName.name, _PyCFunction_CAST(unicodedata_UCD_is_normalized), METH_FASTCALL|METH_C_STACK_FRUGAL, unicodedata_UCD_is_normalized__doc__},
+
 PyDoc_STRVAR(unicodedata_UCD_normalize__doc__,
 "normalize($self, form, unistr, /)\n"
 "--\n"
@@ -446,10 +446,6 @@ PyDoc_STRVAR(unicodedata_UCD_normalize__doc__,
 "Return the normal form \'form\' for the Unicode string unistr.\n"
 "\n"
 "Valid values for form are \'NFC\', \'NFKC\', \'NFD\', and \'NFKD\'.");
-
-static struct {char name[];} unicodedata_UCD_normalize_MethodName = {.name = "normalize",};
-#define UNICODEDATA_UCD_NORMALIZE_METHODDEF    \
-    {unicodedata_UCD_normalize_MethodName.name, _PyCFunction_CAST(unicodedata_UCD_normalize), METH_FASTCALL|METH_C_STACK_FRUGAL, unicodedata_UCD_normalize__doc__},
 
 static PyObject *
 unicodedata_UCD_normalize_impl(PyObject *self, PyObject *form,
@@ -481,6 +477,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} unicodedata_UCD_normalize_MethodName = {.name = "normalize",};
+#define UNICODEDATA_UCD_NORMALIZE_METHODDEF    \
+    {unicodedata_UCD_normalize_MethodName.name, _PyCFunction_CAST(unicodedata_UCD_normalize), METH_FASTCALL|METH_C_STACK_FRUGAL, unicodedata_UCD_normalize__doc__},
+
 PyDoc_STRVAR(unicodedata_UCD_name__doc__,
 "name($self, chr, default=<unrepresentable>, /)\n"
 "--\n"
@@ -489,10 +489,6 @@ PyDoc_STRVAR(unicodedata_UCD_name__doc__,
 "\n"
 "If no name is defined, default is returned, or, if not given,\n"
 "ValueError is raised.");
-
-static struct {char name[];} unicodedata_UCD_name_MethodName = {.name = "name",};
-#define UNICODEDATA_UCD_NAME_METHODDEF    \
-    {unicodedata_UCD_name_MethodName.name, _PyCFunction_CAST(unicodedata_UCD_name), METH_FASTCALL|METH_C_STACK_FRUGAL, unicodedata_UCD_name__doc__},
 
 static PyObject *
 unicodedata_UCD_name_impl(PyObject *self, int chr, PyObject *default_value);
@@ -530,6 +526,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} unicodedata_UCD_name_MethodName = {.name = "name",};
+#define UNICODEDATA_UCD_NAME_METHODDEF    \
+    {unicodedata_UCD_name_MethodName.name, _PyCFunction_CAST(unicodedata_UCD_name), METH_FASTCALL|METH_C_STACK_FRUGAL, unicodedata_UCD_name__doc__},
+
 PyDoc_STRVAR(unicodedata_UCD_lookup__doc__,
 "lookup($self, name, /)\n"
 "--\n"
@@ -538,10 +538,6 @@ PyDoc_STRVAR(unicodedata_UCD_lookup__doc__,
 "\n"
 "If a character with the given name is found, return the\n"
 "corresponding character.  If not found, KeyError is raised.");
-
-static struct {char name[];} unicodedata_UCD_lookup_MethodName = {.name = "lookup",};
-#define UNICODEDATA_UCD_LOOKUP_METHODDEF    \
-    {unicodedata_UCD_lookup_MethodName.name, (PyCFunction)unicodedata_UCD_lookup, METH_O|METH_C_STACK_FRUGAL, unicodedata_UCD_lookup__doc__},
 
 static PyObject *
 unicodedata_UCD_lookup_impl(PyObject *self, const char *name,
@@ -562,4 +558,8 @@ unicodedata_UCD_lookup(PyObject *self, PyObject *arg)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=63dfb490f9a07b60 input=a9049054013a1b77]*/
+
+static struct {char name[];} unicodedata_UCD_lookup_MethodName = {.name = "lookup",};
+#define UNICODEDATA_UCD_LOOKUP_METHODDEF    \
+    {unicodedata_UCD_lookup_MethodName.name, (PyCFunction)unicodedata_UCD_lookup, METH_O|METH_C_STACK_FRUGAL, unicodedata_UCD_lookup__doc__},
+/*[clinic end generated code: output=f0fc3be3da6d1840 input=a9049054013a1b77]*/

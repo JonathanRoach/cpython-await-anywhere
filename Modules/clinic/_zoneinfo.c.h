@@ -74,10 +74,6 @@ PyDoc_STRVAR(zoneinfo_ZoneInfo_from_file__doc__,
 "\n"
 "Create a ZoneInfo file from a file object.");
 
-static struct {char name[];} zoneinfo_ZoneInfo_from_file_MethodName = {.name = "from_file",};
-#define ZONEINFO_ZONEINFO_FROM_FILE_METHODDEF    \
-    {zoneinfo_ZoneInfo_from_file_MethodName.name, _PyCFunction_CAST(zoneinfo_ZoneInfo_from_file), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_CLASS|METH_C_STACK_FRUGAL, zoneinfo_ZoneInfo_from_file__doc__},
-
 static PyObject *
 zoneinfo_ZoneInfo_from_file_impl(PyTypeObject *type, PyTypeObject *cls,
                                  PyObject *file_obj, PyObject *key);
@@ -135,15 +131,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} zoneinfo_ZoneInfo_from_file_MethodName = {.name = "from_file",};
+#define ZONEINFO_ZONEINFO_FROM_FILE_METHODDEF    \
+    {zoneinfo_ZoneInfo_from_file_MethodName.name, _PyCFunction_CAST(zoneinfo_ZoneInfo_from_file), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_CLASS|METH_C_STACK_FRUGAL, zoneinfo_ZoneInfo_from_file__doc__},
+
 PyDoc_STRVAR(zoneinfo_ZoneInfo_no_cache__doc__,
 "no_cache($type, /, key)\n"
 "--\n"
 "\n"
 "Get a new instance of ZoneInfo, bypassing the cache.");
-
-static struct {char name[];} zoneinfo_ZoneInfo_no_cache_MethodName = {.name = "no_cache",};
-#define ZONEINFO_ZONEINFO_NO_CACHE_METHODDEF    \
-    {zoneinfo_ZoneInfo_no_cache_MethodName.name, _PyCFunction_CAST(zoneinfo_ZoneInfo_no_cache), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_CLASS|METH_C_STACK_FRUGAL, zoneinfo_ZoneInfo_no_cache__doc__},
 
 static PyObject *
 zoneinfo_ZoneInfo_no_cache_impl(PyTypeObject *type, PyTypeObject *cls,
@@ -195,15 +191,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} zoneinfo_ZoneInfo_no_cache_MethodName = {.name = "no_cache",};
+#define ZONEINFO_ZONEINFO_NO_CACHE_METHODDEF    \
+    {zoneinfo_ZoneInfo_no_cache_MethodName.name, _PyCFunction_CAST(zoneinfo_ZoneInfo_no_cache), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_CLASS|METH_C_STACK_FRUGAL, zoneinfo_ZoneInfo_no_cache__doc__},
+
 PyDoc_STRVAR(zoneinfo_ZoneInfo_clear_cache__doc__,
 "clear_cache($type, /, *, only_keys=None)\n"
 "--\n"
 "\n"
 "Clear the ZoneInfo cache.");
-
-static struct {char name[];} zoneinfo_ZoneInfo_clear_cache_MethodName = {.name = "clear_cache",};
-#define ZONEINFO_ZONEINFO_CLEAR_CACHE_METHODDEF    \
-    {zoneinfo_ZoneInfo_clear_cache_MethodName.name, _PyCFunction_CAST(zoneinfo_ZoneInfo_clear_cache), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_CLASS|METH_C_STACK_FRUGAL, zoneinfo_ZoneInfo_clear_cache__doc__},
 
 static PyObject *
 zoneinfo_ZoneInfo_clear_cache_impl(PyTypeObject *type, PyTypeObject *cls,
@@ -262,15 +258,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} zoneinfo_ZoneInfo_clear_cache_MethodName = {.name = "clear_cache",};
+#define ZONEINFO_ZONEINFO_CLEAR_CACHE_METHODDEF    \
+    {zoneinfo_ZoneInfo_clear_cache_MethodName.name, _PyCFunction_CAST(zoneinfo_ZoneInfo_clear_cache), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_CLASS|METH_C_STACK_FRUGAL, zoneinfo_ZoneInfo_clear_cache__doc__},
+
 PyDoc_STRVAR(zoneinfo_ZoneInfo_utcoffset__doc__,
 "utcoffset($self, dt, /)\n"
 "--\n"
 "\n"
 "Retrieve a timedelta representing the UTC offset in a zone at the given datetime.");
-
-static struct {char name[];} zoneinfo_ZoneInfo_utcoffset_MethodName = {.name = "utcoffset",};
-#define ZONEINFO_ZONEINFO_UTCOFFSET_METHODDEF    \
-    {zoneinfo_ZoneInfo_utcoffset_MethodName.name, _PyCFunction_CAST(zoneinfo_ZoneInfo_utcoffset), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zoneinfo_ZoneInfo_utcoffset__doc__},
 
 static PyObject *
 zoneinfo_ZoneInfo_utcoffset_impl(PyObject *self, PyTypeObject *cls,
@@ -308,15 +304,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} zoneinfo_ZoneInfo_utcoffset_MethodName = {.name = "utcoffset",};
+#define ZONEINFO_ZONEINFO_UTCOFFSET_METHODDEF    \
+    {zoneinfo_ZoneInfo_utcoffset_MethodName.name, _PyCFunction_CAST(zoneinfo_ZoneInfo_utcoffset), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zoneinfo_ZoneInfo_utcoffset__doc__},
+
 PyDoc_STRVAR(zoneinfo_ZoneInfo_dst__doc__,
 "dst($self, dt, /)\n"
 "--\n"
 "\n"
 "Retrieve a timedelta representing the amount of DST applied in a zone at the given datetime.");
-
-static struct {char name[];} zoneinfo_ZoneInfo_dst_MethodName = {.name = "dst",};
-#define ZONEINFO_ZONEINFO_DST_METHODDEF    \
-    {zoneinfo_ZoneInfo_dst_MethodName.name, _PyCFunction_CAST(zoneinfo_ZoneInfo_dst), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zoneinfo_ZoneInfo_dst__doc__},
 
 static PyObject *
 zoneinfo_ZoneInfo_dst_impl(PyObject *self, PyTypeObject *cls, PyObject *dt);
@@ -353,15 +349,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} zoneinfo_ZoneInfo_dst_MethodName = {.name = "dst",};
+#define ZONEINFO_ZONEINFO_DST_METHODDEF    \
+    {zoneinfo_ZoneInfo_dst_MethodName.name, _PyCFunction_CAST(zoneinfo_ZoneInfo_dst), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zoneinfo_ZoneInfo_dst__doc__},
+
 PyDoc_STRVAR(zoneinfo_ZoneInfo_tzname__doc__,
 "tzname($self, dt, /)\n"
 "--\n"
 "\n"
 "Retrieve a string containing the abbreviation for the time zone that applies in a zone at a given datetime.");
-
-static struct {char name[];} zoneinfo_ZoneInfo_tzname_MethodName = {.name = "tzname",};
-#define ZONEINFO_ZONEINFO_TZNAME_METHODDEF    \
-    {zoneinfo_ZoneInfo_tzname_MethodName.name, _PyCFunction_CAST(zoneinfo_ZoneInfo_tzname), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zoneinfo_ZoneInfo_tzname__doc__},
 
 static PyObject *
 zoneinfo_ZoneInfo_tzname_impl(PyObject *self, PyTypeObject *cls,
@@ -399,15 +395,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} zoneinfo_ZoneInfo_tzname_MethodName = {.name = "tzname",};
+#define ZONEINFO_ZONEINFO_TZNAME_METHODDEF    \
+    {zoneinfo_ZoneInfo_tzname_MethodName.name, _PyCFunction_CAST(zoneinfo_ZoneInfo_tzname), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zoneinfo_ZoneInfo_tzname__doc__},
+
 PyDoc_STRVAR(zoneinfo_ZoneInfo__unpickle__doc__,
 "_unpickle($type, key, from_cache, /)\n"
 "--\n"
 "\n"
 "Private method used in unpickling.");
-
-static struct {char name[];} zoneinfo_ZoneInfo__unpickle_MethodName = {.name = "_unpickle",};
-#define ZONEINFO_ZONEINFO__UNPICKLE_METHODDEF    \
-    {zoneinfo_ZoneInfo__unpickle_MethodName.name, _PyCFunction_CAST(zoneinfo_ZoneInfo__unpickle), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_CLASS|METH_C_STACK_FRUGAL, zoneinfo_ZoneInfo__unpickle__doc__},
 
 static PyObject *
 zoneinfo_ZoneInfo__unpickle_impl(PyTypeObject *type, PyTypeObject *cls,
@@ -454,4 +450,8 @@ zoneinfo_ZoneInfo__unpickle(PyObject *type, PyTypeObject *cls, PyObject *const *
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=b22ea414abc8bf7e input=a9049054013a1b77]*/
+
+static struct {char name[];} zoneinfo_ZoneInfo__unpickle_MethodName = {.name = "_unpickle",};
+#define ZONEINFO_ZONEINFO__UNPICKLE_METHODDEF    \
+    {zoneinfo_ZoneInfo__unpickle_MethodName.name, _PyCFunction_CAST(zoneinfo_ZoneInfo__unpickle), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_CLASS|METH_C_STACK_FRUGAL, zoneinfo_ZoneInfo__unpickle__doc__},
+/*[clinic end generated code: output=1b28c5ef7bcd20aa input=a9049054013a1b77]*/

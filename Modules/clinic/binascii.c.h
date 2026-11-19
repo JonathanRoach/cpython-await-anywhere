@@ -14,10 +14,6 @@ PyDoc_STRVAR(binascii_a2b_uu__doc__,
 "\n"
 "Decode a line of uuencoded data.");
 
-static struct {char name[];} binascii_a2b_uu_MethodName = {.name = "a2b_uu",};
-#define BINASCII_A2B_UU_METHODDEF    \
-    {binascii_a2b_uu_MethodName.name, (PyCFunction)binascii_a2b_uu, METH_O|METH_C_STACK_FRUGAL, binascii_a2b_uu__doc__},
-
 static PyObject *
 binascii_a2b_uu_impl(PyObject *module, Py_buffer *data);
 
@@ -40,15 +36,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} binascii_a2b_uu_MethodName = {.name = "a2b_uu",};
+#define BINASCII_A2B_UU_METHODDEF    \
+    {binascii_a2b_uu_MethodName.name, (PyCFunction)binascii_a2b_uu, METH_O|METH_C_STACK_FRUGAL, binascii_a2b_uu__doc__},
+
 PyDoc_STRVAR(binascii_b2a_uu__doc__,
 "b2a_uu($module, data, /, *, backtick=False)\n"
 "--\n"
 "\n"
 "Uuencode line of data.");
-
-static struct {char name[];} binascii_b2a_uu_MethodName = {.name = "b2a_uu",};
-#define BINASCII_B2A_UU_METHODDEF    \
-    {binascii_b2a_uu_MethodName.name, _PyCFunction_CAST(binascii_b2a_uu), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, binascii_b2a_uu__doc__},
 
 static PyObject *
 binascii_b2a_uu_impl(PyObject *module, Py_buffer *data, int backtick);
@@ -116,6 +112,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} binascii_b2a_uu_MethodName = {.name = "b2a_uu",};
+#define BINASCII_B2A_UU_METHODDEF    \
+    {binascii_b2a_uu_MethodName.name, _PyCFunction_CAST(binascii_b2a_uu), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, binascii_b2a_uu__doc__},
+
 PyDoc_STRVAR(binascii_a2b_base64__doc__,
 "a2b_base64($module, data, /, *, strict_mode=False)\n"
 "--\n"
@@ -125,10 +125,6 @@ PyDoc_STRVAR(binascii_a2b_base64__doc__,
 "  strict_mode\n"
 "    When set to True, bytes that are not part of the base64 standard are not allowed.\n"
 "    The same applies to excess data after padding (= / ==).");
-
-static struct {char name[];} binascii_a2b_base64_MethodName = {.name = "a2b_base64",};
-#define BINASCII_A2B_BASE64_METHODDEF    \
-    {binascii_a2b_base64_MethodName.name, _PyCFunction_CAST(binascii_a2b_base64), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, binascii_a2b_base64__doc__},
 
 static PyObject *
 binascii_a2b_base64_impl(PyObject *module, Py_buffer *data, int strict_mode);
@@ -195,15 +191,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} binascii_a2b_base64_MethodName = {.name = "a2b_base64",};
+#define BINASCII_A2B_BASE64_METHODDEF    \
+    {binascii_a2b_base64_MethodName.name, _PyCFunction_CAST(binascii_a2b_base64), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, binascii_a2b_base64__doc__},
+
 PyDoc_STRVAR(binascii_b2a_base64__doc__,
 "b2a_base64($module, data, /, *, newline=True)\n"
 "--\n"
 "\n"
 "Base64-code line of data.");
-
-static struct {char name[];} binascii_b2a_base64_MethodName = {.name = "b2a_base64",};
-#define BINASCII_B2A_BASE64_METHODDEF    \
-    {binascii_b2a_base64_MethodName.name, _PyCFunction_CAST(binascii_b2a_base64), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, binascii_b2a_base64__doc__},
 
 static PyObject *
 binascii_b2a_base64_impl(PyObject *module, Py_buffer *data, int newline);
@@ -271,15 +267,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} binascii_b2a_base64_MethodName = {.name = "b2a_base64",};
+#define BINASCII_B2A_BASE64_METHODDEF    \
+    {binascii_b2a_base64_MethodName.name, _PyCFunction_CAST(binascii_b2a_base64), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, binascii_b2a_base64__doc__},
+
 PyDoc_STRVAR(binascii_crc_hqx__doc__,
 "crc_hqx($module, data, crc, /)\n"
 "--\n"
 "\n"
 "Compute CRC-CCITT incrementally.");
-
-static struct {char name[];} binascii_crc_hqx_MethodName = {.name = "crc_hqx",};
-#define BINASCII_CRC_HQX_METHODDEF    \
-    {binascii_crc_hqx_MethodName.name, _PyCFunction_CAST(binascii_crc_hqx), METH_FASTCALL|METH_C_STACK_FRUGAL, binascii_crc_hqx__doc__},
 
 static PyObject *
 binascii_crc_hqx_impl(PyObject *module, Py_buffer *data, unsigned int crc);
@@ -312,15 +308,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} binascii_crc_hqx_MethodName = {.name = "crc_hqx",};
+#define BINASCII_CRC_HQX_METHODDEF    \
+    {binascii_crc_hqx_MethodName.name, _PyCFunction_CAST(binascii_crc_hqx), METH_FASTCALL|METH_C_STACK_FRUGAL, binascii_crc_hqx__doc__},
+
 PyDoc_STRVAR(binascii_crc32__doc__,
 "crc32($module, data, crc=0, /)\n"
 "--\n"
 "\n"
 "Compute CRC-32 incrementally.");
-
-static struct {char name[];} binascii_crc32_MethodName = {.name = "crc32",};
-#define BINASCII_CRC32_METHODDEF    \
-    {binascii_crc32_MethodName.name, _PyCFunction_CAST(binascii_crc32), METH_FASTCALL|METH_C_STACK_FRUGAL, binascii_crc32__doc__},
 
 static unsigned int
 binascii_crc32_impl(PyObject *module, Py_buffer *data, unsigned int crc);
@@ -362,6 +358,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} binascii_crc32_MethodName = {.name = "crc32",};
+#define BINASCII_CRC32_METHODDEF    \
+    {binascii_crc32_MethodName.name, _PyCFunction_CAST(binascii_crc32), METH_FASTCALL|METH_C_STACK_FRUGAL, binascii_crc32__doc__},
+
 PyDoc_STRVAR(binascii_b2a_hex__doc__,
 "b2a_hex($module, /, data, sep=<unrepresentable>, bytes_per_sep=1)\n"
 "--\n"
@@ -384,10 +384,6 @@ PyDoc_STRVAR(binascii_b2a_hex__doc__,
 "b\'b9:01:ef\'\n"
 ">>> binascii.b2a_hex(b\'\\xb9\\x01\\xef\', b\'_\', 2)\n"
 "b\'b9_01ef\'");
-
-static struct {char name[];} binascii_b2a_hex_MethodName = {.name = "b2a_hex",};
-#define BINASCII_B2A_HEX_METHODDEF    \
-    {binascii_b2a_hex_MethodName.name, _PyCFunction_CAST(binascii_b2a_hex), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, binascii_b2a_hex__doc__},
 
 static PyObject *
 binascii_b2a_hex_impl(PyObject *module, Py_buffer *data, PyObject *sep,
@@ -463,6 +459,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} binascii_b2a_hex_MethodName = {.name = "b2a_hex",};
+#define BINASCII_B2A_HEX_METHODDEF    \
+    {binascii_b2a_hex_MethodName.name, _PyCFunction_CAST(binascii_b2a_hex), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, binascii_b2a_hex__doc__},
+
 PyDoc_STRVAR(binascii_hexlify__doc__,
 "hexlify($module, /, data, sep=<unrepresentable>, bytes_per_sep=1)\n"
 "--\n"
@@ -477,10 +477,6 @@ PyDoc_STRVAR(binascii_hexlify__doc__,
 "\n"
 "The return value is a bytes object.  This function is also\n"
 "available as \"b2a_hex()\".");
-
-static struct {char name[];} binascii_hexlify_MethodName = {.name = "hexlify",};
-#define BINASCII_HEXLIFY_METHODDEF    \
-    {binascii_hexlify_MethodName.name, _PyCFunction_CAST(binascii_hexlify), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, binascii_hexlify__doc__},
 
 static PyObject *
 binascii_hexlify_impl(PyObject *module, Py_buffer *data, PyObject *sep,
@@ -556,6 +552,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} binascii_hexlify_MethodName = {.name = "hexlify",};
+#define BINASCII_HEXLIFY_METHODDEF    \
+    {binascii_hexlify_MethodName.name, _PyCFunction_CAST(binascii_hexlify), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, binascii_hexlify__doc__},
+
 PyDoc_STRVAR(binascii_a2b_hex__doc__,
 "a2b_hex($module, hexstr, /)\n"
 "--\n"
@@ -564,10 +564,6 @@ PyDoc_STRVAR(binascii_a2b_hex__doc__,
 "\n"
 "hexstr must contain an even number of hex digits (upper or lower case).\n"
 "This function is also available as \"unhexlify()\".");
-
-static struct {char name[];} binascii_a2b_hex_MethodName = {.name = "a2b_hex",};
-#define BINASCII_A2B_HEX_METHODDEF    \
-    {binascii_a2b_hex_MethodName.name, (PyCFunction)binascii_a2b_hex, METH_O|METH_C_STACK_FRUGAL, binascii_a2b_hex__doc__},
 
 static PyObject *
 binascii_a2b_hex_impl(PyObject *module, Py_buffer *hexstr);
@@ -591,6 +587,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} binascii_a2b_hex_MethodName = {.name = "a2b_hex",};
+#define BINASCII_A2B_HEX_METHODDEF    \
+    {binascii_a2b_hex_MethodName.name, (PyCFunction)binascii_a2b_hex, METH_O|METH_C_STACK_FRUGAL, binascii_a2b_hex__doc__},
+
 PyDoc_STRVAR(binascii_unhexlify__doc__,
 "unhexlify($module, hexstr, /)\n"
 "--\n"
@@ -598,10 +598,6 @@ PyDoc_STRVAR(binascii_unhexlify__doc__,
 "Binary data of hexadecimal representation.\n"
 "\n"
 "hexstr must contain an even number of hex digits (upper or lower case).");
-
-static struct {char name[];} binascii_unhexlify_MethodName = {.name = "unhexlify",};
-#define BINASCII_UNHEXLIFY_METHODDEF    \
-    {binascii_unhexlify_MethodName.name, (PyCFunction)binascii_unhexlify, METH_O|METH_C_STACK_FRUGAL, binascii_unhexlify__doc__},
 
 static PyObject *
 binascii_unhexlify_impl(PyObject *module, Py_buffer *hexstr);
@@ -625,15 +621,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} binascii_unhexlify_MethodName = {.name = "unhexlify",};
+#define BINASCII_UNHEXLIFY_METHODDEF    \
+    {binascii_unhexlify_MethodName.name, (PyCFunction)binascii_unhexlify, METH_O|METH_C_STACK_FRUGAL, binascii_unhexlify__doc__},
+
 PyDoc_STRVAR(binascii_a2b_qp__doc__,
 "a2b_qp($module, /, data, header=False)\n"
 "--\n"
 "\n"
 "Decode a string of qp-encoded data.");
-
-static struct {char name[];} binascii_a2b_qp_MethodName = {.name = "a2b_qp",};
-#define BINASCII_A2B_QP_METHODDEF    \
-    {binascii_a2b_qp_MethodName.name, _PyCFunction_CAST(binascii_a2b_qp), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, binascii_a2b_qp__doc__},
 
 static PyObject *
 binascii_a2b_qp_impl(PyObject *module, Py_buffer *data, int header);
@@ -700,6 +696,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} binascii_a2b_qp_MethodName = {.name = "a2b_qp",};
+#define BINASCII_A2B_QP_METHODDEF    \
+    {binascii_a2b_qp_MethodName.name, _PyCFunction_CAST(binascii_a2b_qp), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, binascii_a2b_qp__doc__},
+
 PyDoc_STRVAR(binascii_b2a_qp__doc__,
 "b2a_qp($module, /, data, quotetabs=False, istext=True, header=False)\n"
 "--\n"
@@ -709,10 +709,6 @@ PyDoc_STRVAR(binascii_b2a_qp__doc__,
 "On encoding, when istext is set, newlines are not encoded, and white\n"
 "space at end of lines is.  When istext is not set, \\r and \\n (CR/LF)\n"
 "are both encoded.  When quotetabs is set, space and tabs are encoded.");
-
-static struct {char name[];} binascii_b2a_qp_MethodName = {.name = "b2a_qp",};
-#define BINASCII_B2A_QP_METHODDEF    \
-    {binascii_b2a_qp_MethodName.name, _PyCFunction_CAST(binascii_b2a_qp), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, binascii_b2a_qp__doc__},
 
 static PyObject *
 binascii_b2a_qp_impl(PyObject *module, Py_buffer *data, int quotetabs,
@@ -800,4 +796,8 @@ exit:
 
     return return_value;
 }
-/*[clinic end generated code: output=5a0be3c950c0505d input=a9049054013a1b77]*/
+
+static struct {char name[];} binascii_b2a_qp_MethodName = {.name = "b2a_qp",};
+#define BINASCII_B2A_QP_METHODDEF    \
+    {binascii_b2a_qp_MethodName.name, _PyCFunction_CAST(binascii_b2a_qp), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, binascii_b2a_qp__doc__},
+/*[clinic end generated code: output=b01841b6566bfb21 input=a9049054013a1b77]*/

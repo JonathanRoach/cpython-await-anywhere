@@ -1774,7 +1774,7 @@ dummy_func(
                                         name, PyStackRef_AsPyObjectBorrow(v));
             } else {
                 _PyInterpreterFrame *inlined = frame;
-                err = PyObject_SetAttr_Inlineable(PyStackRef_AsPyObjectBorrow(owner),
+                PyObject *ret = PyObject_SetAttr_Inlineable(PyStackRef_AsPyObjectBorrow(owner),
                             name, PyStackRef_AsPyObjectBorrow(v), &inlined);
                 if ( inlined != frame ){
                     // Manipulate stack directly because we exit with DISPATCH_INLINED().
@@ -1782,6 +1782,7 @@ dummy_func(
                     frame->return_offset = INSTRUCTION_SIZE;
                     DISPATCH_INLINED(inlined);
                 }
+                err = (ret ? 0 : -1);
             }
             DECREF_INPUTS();
             ERROR_IF(err);
@@ -1799,13 +1800,14 @@ dummy_func(
                 err = PyObject_DelAttr(PyStackRef_AsPyObjectBorrow(owner), name);
             } else {
                 _PyInterpreterFrame *inlined = frame;
-                err = _PyObject_DelAttrInlineable(PyStackRef_AsPyObjectBorrow(owner), name, &inlined);
+                PyObject *ret = PyObject_DelAttr_Inlineable(PyStackRef_AsPyObjectBorrow(owner), name, &inlined);
                 if ( inlined != frame ){
                     // Manipulate stack directly because we exit with DISPATCH_INLINED().
                     DECREF_INPUTS();
                     frame->return_offset = INSTRUCTION_SIZE;
                     DISPATCH_INLINED(inlined);
                 }
+                err = (ret == NULL);
             }
             PyStackRef_CLOSE(owner);
             ERROR_IF(err);
@@ -3950,7 +3952,7 @@ dummy_func(
             }
 
             _PyInterpreterFrame *inlined = frame;
-            PyObject *res_o = _PyObject_Vectorcall_Inlineable(
+            PyObject *res_o = PyObject_Vectorcall_Inlineable(
                 callable_o, args_o,
                 total_args | PY_VECTORCALL_ARGUMENTS_OFFSET, NULL,
                 tstate->interp->eval_frame ? NULL : &inlined);

@@ -1804,7 +1804,7 @@ _PyProperty_Slot_tp_descr_get_Inlineable(PyObject *self, PyObject *obj, PyObject
         return NULL;
     }
 
-    return _PyObject_CallOneArg_Inlineable(gs->prop_get, obj, inlined);
+    return PyObject_CallOneArg_Inlineable(gs->prop_get, obj, inlined);
 }
 
 PyObject *
@@ -1812,32 +1812,50 @@ _PyProperty_Slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type){
     return _PyProperty_Slot_tp_descr_get_Inlineable(self, obj, type, NULL);
 }
 
-int
-_PyProperty_Slot_tp_descr_set_Inlineable(PyObject *self, PyObject *obj, PyObject *value,
-    struct _PyInterpreterFrame **inlined)
-{
-    propertyobject *gs = (propertyobject *)self;
-    PyObject *func, *res;
+RETURNACTION_STDCLASSDECLARATION_R(int, _PyProperty_Slot_tp_descr_set_Inlineable)
 
-    if (value == NULL) {
-        func = gs->prop_del;
+struct _PyProperty_Slot_tp_descr_set_Inlineable_State {
+    ReturnAction_State base;
+    propertyobject *gs;
+    PyObject *obj;
+    PyObject *value;
+};
+
+static void _PyProperty_Slot_tp_descr_set_Inlineable_WrappedInit(_PyProperty_Slot_tp_descr_set_Inlineable_State *wrapped, _PyProperty_Slot_tp_descr_set_Inlineable_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+    wrapped->gs = (propertyobject *)Py_NewRef((PyObject *)state->gs);
+    wrapped->obj = Py_NewRef(state->obj);
+    wrapped->value = Py_NewRef(state->value);
+}
+
+static void _PyProperty_Slot_tp_descr_set_Inlineable_WrappedDtor(_PyProperty_Slot_tp_descr_set_Inlineable_State *wrapped){
+    Py_DECREF((PyObject *)wrapped->gs);
+    Py_DECREF(wrapped->obj);
+    Py_DECREF(wrapped->value);
+}
+
+RETURNACTION_STEPDEFINITION_R(int, _PyProperty_Slot_tp_descr_set_Inlineable, 1)
+    PyObject *func;
+
+    if (state->value == NULL) {
+        func = state->gs->prop_del;
     }
     else {
-        func = gs->prop_set;
+        func = state->gs->prop_set;
     }
 
     if (func == NULL) {
         PyObject *propname;
-        if (property_name(gs, &propname) < 0) {
+        if (property_name(state->gs, &propname) < 0) {
             return -1;
         }
         PyObject *qualname = NULL;
-        if (obj != NULL) {
-            qualname = PyType_GetQualName(Py_TYPE(obj));
+        if (state->obj != NULL) {
+            qualname = PyType_GetQualName(Py_TYPE(state->obj));
         }
         if (propname != NULL && qualname != NULL) {
             PyErr_Format(PyExc_AttributeError,
-                        value == NULL ?
+                        state->value == NULL ?
                         "property %R of %R object has no deleter" :
                         "property %R of %R object has no setter",
                         propname,
@@ -1845,14 +1863,14 @@ _PyProperty_Slot_tp_descr_set_Inlineable(PyObject *self, PyObject *obj, PyObject
         }
         else if (qualname != NULL) {
             PyErr_Format(PyExc_AttributeError,
-                            value == NULL ?
+                            state->value == NULL ?
                             "property of %R object has no deleter" :
                             "property of %R object has no setter",
                             qualname);
         }
         else {
             PyErr_SetString(PyExc_AttributeError,
-                         value == NULL ?
+                         state->value == NULL ?
                          "property has no deleter" :
                          "property has no setter");
         }
@@ -1861,39 +1879,34 @@ _PyProperty_Slot_tp_descr_set_Inlineable(PyObject *self, PyObject *obj, PyObject
         return -1;
     }
 
-    if (inlined){
-        struct _PyInterpreterFrame *frame = *inlined;
-        if (value == NULL) {
-            res = _PyObject_CallOneArg_Inlineable(func, obj, inlined);
-        }
-        else {
-            EVAL_CALL_STAT_INC_IF_FUNCTION(EVAL_CALL_API, func);
-            PyObject *args[] = { obj, value };
-            res = _PyObject_Vectorcall_Inlineable(func, args, 2, NULL, inlined);
-        }
-        if (res) {
-            if (*inlined != frame){
-                return 0;
-            }
-            Py_DECREF(res);
-            return 0;
-        }
-    } else {
-        if (value == NULL) {
-            res = PyObject_CallOneArg(func, obj);
-        }
-        else {
-            EVAL_CALL_STAT_INC_IF_FUNCTION(EVAL_CALL_API, func);
-            PyObject *args[] = { obj, value };
-            res = PyObject_Vectorcall(func, args, 2, NULL);
-        }
-        if (res) {
-            Py_DECREF(res);
-            return 0;
-        }
+    if (state->value == NULL) {
+        result = PyObject_CallOneArg_Inlineable(func, state->obj, inlined);
+    }
+    else {
+        EVAL_CALL_STAT_INC_IF_FUNCTION(EVAL_CALL_API, func);
+        PyObject *args[] = { state->obj, state->value };
+        result = PyObject_Vectorcall_Inlineable(func, args, 2, NULL, inlined);
+    }
+    RETURNACTION_CHECKINLINED_R(int, 1)
+    if (result) {
+        Py_DECREF(result);
+        return 0;
     }
 
     return -1;
+}
+
+int
+_PyProperty_Slot_tp_descr_set_Inlineable(PyObject *self, PyObject *obj, PyObject *value,
+    struct _PyInterpreterFrame **inlined)
+{
+    _PyProperty_Slot_tp_descr_set_Inlineable_State state = {
+        .base.step = 0,
+        .gs = (propertyobject *)self,
+        .obj = obj,
+        .value = value,
+    };
+    return _PyProperty_Slot_tp_descr_set_Inlineable_Step(&state, NULL, inlined);
 }
 
 int

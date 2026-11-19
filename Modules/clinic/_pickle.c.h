@@ -19,10 +19,6 @@ PyDoc_STRVAR(_pickle_Pickler_clear_memo__doc__,
 "pickled by reference and not by value.  This method is useful when\n"
 "re-using picklers.");
 
-static struct {char name[];} _pickle_Pickler_clear_memo_MethodName = {.name = "clear_memo",};
-#define _PICKLE_PICKLER_CLEAR_MEMO_METHODDEF    \
-    {_pickle_Pickler_clear_memo_MethodName.name, (PyCFunction)_pickle_Pickler_clear_memo, METH_NOARGS|METH_C_STACK_FRUGAL, _pickle_Pickler_clear_memo__doc__},
-
 static PyObject *
 _pickle_Pickler_clear_memo_impl(PicklerObject *self);
 
@@ -32,15 +28,15 @@ _pickle_Pickler_clear_memo(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _pickle_Pickler_clear_memo_impl((PicklerObject *)self);
 }
 
+static struct {char name[];} _pickle_Pickler_clear_memo_MethodName = {.name = "clear_memo",};
+#define _PICKLE_PICKLER_CLEAR_MEMO_METHODDEF    \
+    {_pickle_Pickler_clear_memo_MethodName.name, (PyCFunction)_pickle_Pickler_clear_memo, METH_NOARGS|METH_C_STACK_FRUGAL, _pickle_Pickler_clear_memo__doc__},
+
 PyDoc_STRVAR(_pickle_Pickler_dump__doc__,
 "dump($self, obj, /)\n"
 "--\n"
 "\n"
 "Write a pickled representation of the given object to the open file.");
-
-static struct {char name[];} _pickle_Pickler_dump_MethodName = {.name = "dump",};
-#define _PICKLE_PICKLER_DUMP_METHODDEF    \
-    {_pickle_Pickler_dump_MethodName.name, _PyCFunction_CAST(_pickle_Pickler_dump), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _pickle_Pickler_dump__doc__},
 
 static PyObject *
 _pickle_Pickler_dump_impl(PicklerObject *self, PyTypeObject *cls,
@@ -78,15 +74,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _pickle_Pickler_dump_MethodName = {.name = "dump",};
+#define _PICKLE_PICKLER_DUMP_METHODDEF    \
+    {_pickle_Pickler_dump_MethodName.name, _PyCFunction_CAST(_pickle_Pickler_dump), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _pickle_Pickler_dump__doc__},
+
 PyDoc_STRVAR(_pickle_Pickler___sizeof____doc__,
 "__sizeof__($self, /)\n"
 "--\n"
 "\n"
 "Returns size in memory, in bytes.");
-
-static struct {char name[];} _pickle_Pickler___sizeof___MethodName = {.name = "__sizeof__",};
-#define _PICKLE_PICKLER___SIZEOF___METHODDEF    \
-    {_pickle_Pickler___sizeof___MethodName.name, (PyCFunction)_pickle_Pickler___sizeof__, METH_NOARGS|METH_C_STACK_FRUGAL, _pickle_Pickler___sizeof____doc__},
 
 static size_t
 _pickle_Pickler___sizeof___impl(PicklerObject *self);
@@ -106,6 +102,10 @@ _pickle_Pickler___sizeof__(PyObject *self, PyObject *Py_UNUSED(ignored))
 exit:
     return return_value;
 }
+
+static struct {char name[];} _pickle_Pickler___sizeof___MethodName = {.name = "__sizeof__",};
+#define _PICKLE_PICKLER___SIZEOF___METHODDEF    \
+    {_pickle_Pickler___sizeof___MethodName.name, (PyCFunction)_pickle_Pickler___sizeof__, METH_NOARGS|METH_C_STACK_FRUGAL, _pickle_Pickler___sizeof____doc__},
 
 PyDoc_STRVAR(_pickle_Pickler___init____doc__,
 "Pickler(file, protocol=None, fix_imports=True, buffer_callback=None)\n"
@@ -225,10 +225,6 @@ PyDoc_STRVAR(_pickle_PicklerMemoProxy_clear__doc__,
 "\n"
 "Remove all items from memo.");
 
-static struct {char name[];} _pickle_PicklerMemoProxy_clear_MethodName = {.name = "clear",};
-#define _PICKLE_PICKLERMEMOPROXY_CLEAR_METHODDEF    \
-    {_pickle_PicklerMemoProxy_clear_MethodName.name, (PyCFunction)_pickle_PicklerMemoProxy_clear, METH_NOARGS|METH_C_STACK_FRUGAL, _pickle_PicklerMemoProxy_clear__doc__},
-
 static PyObject *
 _pickle_PicklerMemoProxy_clear_impl(PicklerMemoProxyObject *self);
 
@@ -238,15 +234,15 @@ _pickle_PicklerMemoProxy_clear(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _pickle_PicklerMemoProxy_clear_impl((PicklerMemoProxyObject *)self);
 }
 
+static struct {char name[];} _pickle_PicklerMemoProxy_clear_MethodName = {.name = "clear",};
+#define _PICKLE_PICKLERMEMOPROXY_CLEAR_METHODDEF    \
+    {_pickle_PicklerMemoProxy_clear_MethodName.name, (PyCFunction)_pickle_PicklerMemoProxy_clear, METH_NOARGS|METH_C_STACK_FRUGAL, _pickle_PicklerMemoProxy_clear__doc__},
+
 PyDoc_STRVAR(_pickle_PicklerMemoProxy_copy__doc__,
 "copy($self, /)\n"
 "--\n"
 "\n"
 "Copy the memo to a new object.");
-
-static struct {char name[];} _pickle_PicklerMemoProxy_copy_MethodName = {.name = "copy",};
-#define _PICKLE_PICKLERMEMOPROXY_COPY_METHODDEF    \
-    {_pickle_PicklerMemoProxy_copy_MethodName.name, (PyCFunction)_pickle_PicklerMemoProxy_copy, METH_NOARGS|METH_C_STACK_FRUGAL, _pickle_PicklerMemoProxy_copy__doc__},
 
 static PyObject *
 _pickle_PicklerMemoProxy_copy_impl(PicklerMemoProxyObject *self);
@@ -257,15 +253,15 @@ _pickle_PicklerMemoProxy_copy(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _pickle_PicklerMemoProxy_copy_impl((PicklerMemoProxyObject *)self);
 }
 
+static struct {char name[];} _pickle_PicklerMemoProxy_copy_MethodName = {.name = "copy",};
+#define _PICKLE_PICKLERMEMOPROXY_COPY_METHODDEF    \
+    {_pickle_PicklerMemoProxy_copy_MethodName.name, (PyCFunction)_pickle_PicklerMemoProxy_copy, METH_NOARGS|METH_C_STACK_FRUGAL, _pickle_PicklerMemoProxy_copy__doc__},
+
 PyDoc_STRVAR(_pickle_PicklerMemoProxy___reduce____doc__,
 "__reduce__($self, /)\n"
 "--\n"
 "\n"
 "Implement pickle support.");
-
-static struct {char name[];} _pickle_PicklerMemoProxy___reduce___MethodName = {.name = "__reduce__",};
-#define _PICKLE_PICKLERMEMOPROXY___REDUCE___METHODDEF    \
-    {_pickle_PicklerMemoProxy___reduce___MethodName.name, (PyCFunction)_pickle_PicklerMemoProxy___reduce__, METH_NOARGS|METH_C_STACK_FRUGAL, _pickle_PicklerMemoProxy___reduce____doc__},
 
 static PyObject *
 _pickle_PicklerMemoProxy___reduce___impl(PicklerMemoProxyObject *self);
@@ -276,14 +272,14 @@ _pickle_PicklerMemoProxy___reduce__(PyObject *self, PyObject *Py_UNUSED(ignored)
     return _pickle_PicklerMemoProxy___reduce___impl((PicklerMemoProxyObject *)self);
 }
 
+static struct {char name[];} _pickle_PicklerMemoProxy___reduce___MethodName = {.name = "__reduce__",};
+#define _PICKLE_PICKLERMEMOPROXY___REDUCE___METHODDEF    \
+    {_pickle_PicklerMemoProxy___reduce___MethodName.name, (PyCFunction)_pickle_PicklerMemoProxy___reduce__, METH_NOARGS|METH_C_STACK_FRUGAL, _pickle_PicklerMemoProxy___reduce____doc__},
+
 PyDoc_STRVAR(_pickle_Unpickler_persistent_load__doc__,
 "persistent_load($self, pid, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _pickle_Unpickler_persistent_load_MethodName = {.name = "persistent_load",};
-#define _PICKLE_UNPICKLER_PERSISTENT_LOAD_METHODDEF    \
-    {_pickle_Unpickler_persistent_load_MethodName.name, _PyCFunction_CAST(_pickle_Unpickler_persistent_load), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _pickle_Unpickler_persistent_load__doc__},
 
 static PyObject *
 _pickle_Unpickler_persistent_load_impl(UnpicklerObject *self,
@@ -321,6 +317,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _pickle_Unpickler_persistent_load_MethodName = {.name = "persistent_load",};
+#define _PICKLE_UNPICKLER_PERSISTENT_LOAD_METHODDEF    \
+    {_pickle_Unpickler_persistent_load_MethodName.name, _PyCFunction_CAST(_pickle_Unpickler_persistent_load), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _pickle_Unpickler_persistent_load__doc__},
+
 PyDoc_STRVAR(_pickle_Unpickler_load__doc__,
 "load($self, /)\n"
 "--\n"
@@ -330,10 +330,6 @@ PyDoc_STRVAR(_pickle_Unpickler_load__doc__,
 "Read a pickled object representation from the open file object given\n"
 "in the constructor, and return the reconstituted object hierarchy\n"
 "specified therein.");
-
-static struct {char name[];} _pickle_Unpickler_load_MethodName = {.name = "load",};
-#define _PICKLE_UNPICKLER_LOAD_METHODDEF    \
-    {_pickle_Unpickler_load_MethodName.name, _PyCFunction_CAST(_pickle_Unpickler_load), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _pickle_Unpickler_load__doc__},
 
 static PyObject *
 _pickle_Unpickler_load_impl(UnpicklerObject *self, PyTypeObject *cls);
@@ -348,6 +344,10 @@ _pickle_Unpickler_load(PyObject *self, PyTypeObject *cls, PyObject *const *args,
     return _pickle_Unpickler_load_impl((UnpicklerObject *)self, cls);
 }
 
+static struct {char name[];} _pickle_Unpickler_load_MethodName = {.name = "load",};
+#define _PICKLE_UNPICKLER_LOAD_METHODDEF    \
+    {_pickle_Unpickler_load_MethodName.name, _PyCFunction_CAST(_pickle_Unpickler_load), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _pickle_Unpickler_load__doc__},
+
 PyDoc_STRVAR(_pickle_Unpickler_find_class__doc__,
 "find_class($self, module_name, global_name, /)\n"
 "--\n"
@@ -360,10 +360,6 @@ PyDoc_STRVAR(_pickle_Unpickler_find_class__doc__,
 "\n"
 "This method is called whenever a class or a function object is\n"
 "needed.  Both arguments passed are str objects.");
-
-static struct {char name[];} _pickle_Unpickler_find_class_MethodName = {.name = "find_class",};
-#define _PICKLE_UNPICKLER_FIND_CLASS_METHODDEF    \
-    {_pickle_Unpickler_find_class_MethodName.name, _PyCFunction_CAST(_pickle_Unpickler_find_class), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _pickle_Unpickler_find_class__doc__},
 
 static PyObject *
 _pickle_Unpickler_find_class_impl(UnpicklerObject *self, PyTypeObject *cls,
@@ -404,15 +400,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _pickle_Unpickler_find_class_MethodName = {.name = "find_class",};
+#define _PICKLE_UNPICKLER_FIND_CLASS_METHODDEF    \
+    {_pickle_Unpickler_find_class_MethodName.name, _PyCFunction_CAST(_pickle_Unpickler_find_class), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _pickle_Unpickler_find_class__doc__},
+
 PyDoc_STRVAR(_pickle_Unpickler___sizeof____doc__,
 "__sizeof__($self, /)\n"
 "--\n"
 "\n"
 "Returns size in memory, in bytes.");
-
-static struct {char name[];} _pickle_Unpickler___sizeof___MethodName = {.name = "__sizeof__",};
-#define _PICKLE_UNPICKLER___SIZEOF___METHODDEF    \
-    {_pickle_Unpickler___sizeof___MethodName.name, (PyCFunction)_pickle_Unpickler___sizeof__, METH_NOARGS|METH_C_STACK_FRUGAL, _pickle_Unpickler___sizeof____doc__},
 
 static size_t
 _pickle_Unpickler___sizeof___impl(UnpicklerObject *self);
@@ -432,6 +428,10 @@ _pickle_Unpickler___sizeof__(PyObject *self, PyObject *Py_UNUSED(ignored))
 exit:
     return return_value;
 }
+
+static struct {char name[];} _pickle_Unpickler___sizeof___MethodName = {.name = "__sizeof__",};
+#define _PICKLE_UNPICKLER___SIZEOF___METHODDEF    \
+    {_pickle_Unpickler___sizeof___MethodName.name, (PyCFunction)_pickle_Unpickler___sizeof__, METH_NOARGS|METH_C_STACK_FRUGAL, _pickle_Unpickler___sizeof____doc__},
 
 PyDoc_STRVAR(_pickle_Unpickler___init____doc__,
 "Unpickler(file, *, fix_imports=True, encoding=\'ASCII\', errors=\'strict\',\n"
@@ -573,10 +573,6 @@ PyDoc_STRVAR(_pickle_UnpicklerMemoProxy_clear__doc__,
 "\n"
 "Remove all items from memo.");
 
-static struct {char name[];} _pickle_UnpicklerMemoProxy_clear_MethodName = {.name = "clear",};
-#define _PICKLE_UNPICKLERMEMOPROXY_CLEAR_METHODDEF    \
-    {_pickle_UnpicklerMemoProxy_clear_MethodName.name, (PyCFunction)_pickle_UnpicklerMemoProxy_clear, METH_NOARGS|METH_C_STACK_FRUGAL, _pickle_UnpicklerMemoProxy_clear__doc__},
-
 static PyObject *
 _pickle_UnpicklerMemoProxy_clear_impl(UnpicklerMemoProxyObject *self);
 
@@ -586,15 +582,15 @@ _pickle_UnpicklerMemoProxy_clear(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _pickle_UnpicklerMemoProxy_clear_impl((UnpicklerMemoProxyObject *)self);
 }
 
+static struct {char name[];} _pickle_UnpicklerMemoProxy_clear_MethodName = {.name = "clear",};
+#define _PICKLE_UNPICKLERMEMOPROXY_CLEAR_METHODDEF    \
+    {_pickle_UnpicklerMemoProxy_clear_MethodName.name, (PyCFunction)_pickle_UnpicklerMemoProxy_clear, METH_NOARGS|METH_C_STACK_FRUGAL, _pickle_UnpicklerMemoProxy_clear__doc__},
+
 PyDoc_STRVAR(_pickle_UnpicklerMemoProxy_copy__doc__,
 "copy($self, /)\n"
 "--\n"
 "\n"
 "Copy the memo to a new object.");
-
-static struct {char name[];} _pickle_UnpicklerMemoProxy_copy_MethodName = {.name = "copy",};
-#define _PICKLE_UNPICKLERMEMOPROXY_COPY_METHODDEF    \
-    {_pickle_UnpicklerMemoProxy_copy_MethodName.name, (PyCFunction)_pickle_UnpicklerMemoProxy_copy, METH_NOARGS|METH_C_STACK_FRUGAL, _pickle_UnpicklerMemoProxy_copy__doc__},
 
 static PyObject *
 _pickle_UnpicklerMemoProxy_copy_impl(UnpicklerMemoProxyObject *self);
@@ -605,15 +601,15 @@ _pickle_UnpicklerMemoProxy_copy(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _pickle_UnpicklerMemoProxy_copy_impl((UnpicklerMemoProxyObject *)self);
 }
 
+static struct {char name[];} _pickle_UnpicklerMemoProxy_copy_MethodName = {.name = "copy",};
+#define _PICKLE_UNPICKLERMEMOPROXY_COPY_METHODDEF    \
+    {_pickle_UnpicklerMemoProxy_copy_MethodName.name, (PyCFunction)_pickle_UnpicklerMemoProxy_copy, METH_NOARGS|METH_C_STACK_FRUGAL, _pickle_UnpicklerMemoProxy_copy__doc__},
+
 PyDoc_STRVAR(_pickle_UnpicklerMemoProxy___reduce____doc__,
 "__reduce__($self, /)\n"
 "--\n"
 "\n"
 "Implement pickling support.");
-
-static struct {char name[];} _pickle_UnpicklerMemoProxy___reduce___MethodName = {.name = "__reduce__",};
-#define _PICKLE_UNPICKLERMEMOPROXY___REDUCE___METHODDEF    \
-    {_pickle_UnpicklerMemoProxy___reduce___MethodName.name, (PyCFunction)_pickle_UnpicklerMemoProxy___reduce__, METH_NOARGS|METH_C_STACK_FRUGAL, _pickle_UnpicklerMemoProxy___reduce____doc__},
 
 static PyObject *
 _pickle_UnpicklerMemoProxy___reduce___impl(UnpicklerMemoProxyObject *self);
@@ -623,6 +619,10 @@ _pickle_UnpicklerMemoProxy___reduce__(PyObject *self, PyObject *Py_UNUSED(ignore
 {
     return _pickle_UnpicklerMemoProxy___reduce___impl((UnpicklerMemoProxyObject *)self);
 }
+
+static struct {char name[];} _pickle_UnpicklerMemoProxy___reduce___MethodName = {.name = "__reduce__",};
+#define _PICKLE_UNPICKLERMEMOPROXY___REDUCE___METHODDEF    \
+    {_pickle_UnpicklerMemoProxy___reduce___MethodName.name, (PyCFunction)_pickle_UnpicklerMemoProxy___reduce__, METH_NOARGS|METH_C_STACK_FRUGAL, _pickle_UnpicklerMemoProxy___reduce____doc__},
 
 PyDoc_STRVAR(_pickle_dump__doc__,
 "dump($module, /, obj, file, protocol=None, *, fix_imports=True,\n"
@@ -655,10 +655,6 @@ PyDoc_STRVAR(_pickle_dump__doc__,
 "If *buffer_callback* is None (the default), buffer views are serialized\n"
 "into *file* as part of the pickle stream.  It is an error if\n"
 "*buffer_callback* is not None and *protocol* is None or smaller than 5.");
-
-static struct {char name[];} _pickle_dump_MethodName = {.name = "dump",};
-#define _PICKLE_DUMP_METHODDEF    \
-    {_pickle_dump_MethodName.name, _PyCFunction_CAST(_pickle_dump), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _pickle_dump__doc__},
 
 static PyObject *
 _pickle_dump_impl(PyObject *module, PyObject *obj, PyObject *file,
@@ -741,6 +737,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _pickle_dump_MethodName = {.name = "dump",};
+#define _PICKLE_DUMP_METHODDEF    \
+    {_pickle_dump_MethodName.name, _PyCFunction_CAST(_pickle_dump), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _pickle_dump__doc__},
+
 PyDoc_STRVAR(_pickle_dumps__doc__,
 "dumps($module, /, obj, protocol=None, *, fix_imports=True,\n"
 "      buffer_callback=None)\n"
@@ -764,10 +764,6 @@ PyDoc_STRVAR(_pickle_dumps__doc__,
 "If *buffer_callback* is None (the default), buffer views are serialized\n"
 "into *file* as part of the pickle stream.  It is an error if\n"
 "*buffer_callback* is not None and *protocol* is None or smaller than 5.");
-
-static struct {char name[];} _pickle_dumps_MethodName = {.name = "dumps",};
-#define _PICKLE_DUMPS_METHODDEF    \
-    {_pickle_dumps_MethodName.name, _PyCFunction_CAST(_pickle_dumps), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _pickle_dumps__doc__},
 
 static PyObject *
 _pickle_dumps_impl(PyObject *module, PyObject *obj, PyObject *protocol,
@@ -847,6 +843,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _pickle_dumps_MethodName = {.name = "dumps",};
+#define _PICKLE_DUMPS_METHODDEF    \
+    {_pickle_dumps_MethodName.name, _PyCFunction_CAST(_pickle_dumps), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _pickle_dumps__doc__},
+
 PyDoc_STRVAR(_pickle_load__doc__,
 "load($module, /, file, *, fix_imports=True, encoding=\'ASCII\',\n"
 "     errors=\'strict\', buffers=())\n"
@@ -875,10 +875,6 @@ PyDoc_STRVAR(_pickle_load__doc__,
 "instances pickled by Python 2; these default to \'ASCII\' and \'strict\',\n"
 "respectively.  The *encoding* can be \'bytes\' to read these 8-bit\n"
 "string instances as bytes objects.");
-
-static struct {char name[];} _pickle_load_MethodName = {.name = "load",};
-#define _PICKLE_LOAD_METHODDEF    \
-    {_pickle_load_MethodName.name, _PyCFunction_CAST(_pickle_load), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _pickle_load__doc__},
 
 static PyObject *
 _pickle_load_impl(PyObject *module, PyObject *file, int fix_imports,
@@ -986,6 +982,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _pickle_load_MethodName = {.name = "load",};
+#define _PICKLE_LOAD_METHODDEF    \
+    {_pickle_load_MethodName.name, _PyCFunction_CAST(_pickle_load), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _pickle_load__doc__},
+
 PyDoc_STRVAR(_pickle_loads__doc__,
 "loads($module, data, /, *, fix_imports=True, encoding=\'ASCII\',\n"
 "      errors=\'strict\', buffers=())\n"
@@ -1005,10 +1005,6 @@ PyDoc_STRVAR(_pickle_loads__doc__,
 "instances pickled by Python 2; these default to \'ASCII\' and \'strict\',\n"
 "respectively.  The *encoding* can be \'bytes\' to read these 8-bit\n"
 "string instances as bytes objects.");
-
-static struct {char name[];} _pickle_loads_MethodName = {.name = "loads",};
-#define _PICKLE_LOADS_METHODDEF    \
-    {_pickle_loads_MethodName.name, _PyCFunction_CAST(_pickle_loads), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _pickle_loads__doc__},
 
 static PyObject *
 _pickle_loads_impl(PyObject *module, PyObject *data, int fix_imports,
@@ -1115,4 +1111,8 @@ skip_optional_kwonly:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=5f375ef75dca5eeb input=a9049054013a1b77]*/
+
+static struct {char name[];} _pickle_loads_MethodName = {.name = "loads",};
+#define _PICKLE_LOADS_METHODDEF    \
+    {_pickle_loads_MethodName.name, _PyCFunction_CAST(_pickle_loads), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _pickle_loads__doc__},
+/*[clinic end generated code: output=7849029635d20553 input=a9049054013a1b77]*/

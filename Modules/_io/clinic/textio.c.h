@@ -18,10 +18,6 @@ PyDoc_STRVAR(_io__TextIOBase_detach__doc__,
 "\n"
 "After the underlying buffer has been detached, the TextIO is in an unusable state.");
 
-static struct {char name[];} _io__TextIOBase_detach_MethodName = {.name = "detach",};
-#define _IO__TEXTIOBASE_DETACH_METHODDEF    \
-    {_io__TextIOBase_detach_MethodName.name, _PyCFunction_CAST(_io__TextIOBase_detach), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__TextIOBase_detach__doc__},
-
 static PyObject *
 _io__TextIOBase_detach_impl(PyObject *self, PyTypeObject *cls);
 
@@ -35,6 +31,10 @@ _io__TextIOBase_detach(PyObject *self, PyTypeObject *cls, PyObject *const *args,
     return _io__TextIOBase_detach_impl(self, cls);
 }
 
+static struct {char name[];} _io__TextIOBase_detach_MethodName = {.name = "detach",};
+#define _IO__TEXTIOBASE_DETACH_METHODDEF    \
+    {_io__TextIOBase_detach_MethodName.name, _PyCFunction_CAST(_io__TextIOBase_detach), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__TextIOBase_detach__doc__},
+
 PyDoc_STRVAR(_io__TextIOBase_read__doc__,
 "read($self, size=-1, /)\n"
 "--\n"
@@ -43,10 +43,6 @@ PyDoc_STRVAR(_io__TextIOBase_read__doc__,
 "\n"
 "Read from underlying buffer until we have size characters or we hit EOF.\n"
 "If size is negative or omitted, read until EOF.");
-
-static struct {char name[];} _io__TextIOBase_read_MethodName = {.name = "read",};
-#define _IO__TEXTIOBASE_READ_METHODDEF    \
-    {_io__TextIOBase_read_MethodName.name, _PyCFunction_CAST(_io__TextIOBase_read), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__TextIOBase_read__doc__},
 
 static PyObject *
 _io__TextIOBase_read_impl(PyObject *self, PyTypeObject *cls,
@@ -91,6 +87,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io__TextIOBase_read_MethodName = {.name = "read",};
+#define _IO__TEXTIOBASE_READ_METHODDEF    \
+    {_io__TextIOBase_read_MethodName.name, _PyCFunction_CAST(_io__TextIOBase_read), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__TextIOBase_read__doc__},
+
 PyDoc_STRVAR(_io__TextIOBase_readline__doc__,
 "readline($self, size=-1, /)\n"
 "--\n"
@@ -99,10 +99,6 @@ PyDoc_STRVAR(_io__TextIOBase_readline__doc__,
 "\n"
 "Return an empty string if EOF is hit immediately.\n"
 "If size is specified, at most size characters will be read.");
-
-static struct {char name[];} _io__TextIOBase_readline_MethodName = {.name = "readline",};
-#define _IO__TEXTIOBASE_READLINE_METHODDEF    \
-    {_io__TextIOBase_readline_MethodName.name, _PyCFunction_CAST(_io__TextIOBase_readline), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__TextIOBase_readline__doc__},
 
 static PyObject *
 _io__TextIOBase_readline_impl(PyObject *self, PyTypeObject *cls,
@@ -147,6 +143,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io__TextIOBase_readline_MethodName = {.name = "readline",};
+#define _IO__TEXTIOBASE_READLINE_METHODDEF    \
+    {_io__TextIOBase_readline_MethodName.name, _PyCFunction_CAST(_io__TextIOBase_readline), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__TextIOBase_readline__doc__},
+
 PyDoc_STRVAR(_io__TextIOBase_write__doc__,
 "write($self, s, /)\n"
 "--\n"
@@ -155,10 +155,6 @@ PyDoc_STRVAR(_io__TextIOBase_write__doc__,
 "\n"
 "Return the number of characters written\n"
 "(which is always equal to the length of the string).");
-
-static struct {char name[];} _io__TextIOBase_write_MethodName = {.name = "write",};
-#define _IO__TEXTIOBASE_WRITE_METHODDEF    \
-    {_io__TextIOBase_write_MethodName.name, _PyCFunction_CAST(_io__TextIOBase_write), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__TextIOBase_write__doc__},
 
 static PyObject *
 _io__TextIOBase_write_impl(PyObject *self, PyTypeObject *cls,
@@ -208,6 +204,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io__TextIOBase_write_MethodName = {.name = "write",};
+#define _IO__TEXTIOBASE_WRITE_METHODDEF    \
+    {_io__TextIOBase_write_MethodName.name, _PyCFunction_CAST(_io__TextIOBase_write), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__TextIOBase_write__doc__},
+
 PyDoc_STRVAR(_io__TextIOBase_encoding__doc__,
 "Encoding of the text stream.\n"
 "\n"
@@ -216,6 +216,15 @@ PyDoc_STRVAR(_io__TextIOBase_encoding__doc__,
 #   undef _io__TextIOBase_encoding_DOCSTR
 #endif
 #define _io__TextIOBase_encoding_DOCSTR _io__TextIOBase_encoding__doc__
+
+static PyObject *
+_io__TextIOBase_encoding_get_impl(PyObject *self);
+
+static PyObject *
+_io__TextIOBase_encoding_get(PyObject *self, void *Py_UNUSED(context))
+{
+    return _io__TextIOBase_encoding_get_impl(self);
+}
 
 #if !defined(_io__TextIOBase_encoding_DOCSTR)
 #  define _io__TextIOBase_encoding_DOCSTR NULL
@@ -226,15 +235,6 @@ PyDoc_STRVAR(_io__TextIOBase_encoding__doc__,
 #else
 #  define _IO__TEXTIOBASE_ENCODING_GETSETDEF {"encoding", (getter)_io__TextIOBase_encoding_get, NULL, _io__TextIOBase_encoding_DOCSTR},
 #endif
-
-static PyObject *
-_io__TextIOBase_encoding_get_impl(PyObject *self);
-
-static PyObject *
-_io__TextIOBase_encoding_get(PyObject *self, void *Py_UNUSED(context))
-{
-    return _io__TextIOBase_encoding_get_impl(self);
-}
 
 PyDoc_STRVAR(_io__TextIOBase_newlines__doc__,
 "Line endings translated so far.\n"
@@ -247,6 +247,15 @@ PyDoc_STRVAR(_io__TextIOBase_newlines__doc__,
 #endif
 #define _io__TextIOBase_newlines_DOCSTR _io__TextIOBase_newlines__doc__
 
+static PyObject *
+_io__TextIOBase_newlines_get_impl(PyObject *self);
+
+static PyObject *
+_io__TextIOBase_newlines_get(PyObject *self, void *Py_UNUSED(context))
+{
+    return _io__TextIOBase_newlines_get_impl(self);
+}
+
 #if !defined(_io__TextIOBase_newlines_DOCSTR)
 #  define _io__TextIOBase_newlines_DOCSTR NULL
 #endif
@@ -257,15 +266,6 @@ PyDoc_STRVAR(_io__TextIOBase_newlines__doc__,
 #  define _IO__TEXTIOBASE_NEWLINES_GETSETDEF {"newlines", (getter)_io__TextIOBase_newlines_get, NULL, _io__TextIOBase_newlines_DOCSTR},
 #endif
 
-static PyObject *
-_io__TextIOBase_newlines_get_impl(PyObject *self);
-
-static PyObject *
-_io__TextIOBase_newlines_get(PyObject *self, void *Py_UNUSED(context))
-{
-    return _io__TextIOBase_newlines_get_impl(self);
-}
-
 PyDoc_STRVAR(_io__TextIOBase_errors__doc__,
 "The error setting of the decoder or encoder.\n"
 "\n"
@@ -274,6 +274,15 @@ PyDoc_STRVAR(_io__TextIOBase_errors__doc__,
 #   undef _io__TextIOBase_errors_DOCSTR
 #endif
 #define _io__TextIOBase_errors_DOCSTR _io__TextIOBase_errors__doc__
+
+static PyObject *
+_io__TextIOBase_errors_get_impl(PyObject *self);
+
+static PyObject *
+_io__TextIOBase_errors_get(PyObject *self, void *Py_UNUSED(context))
+{
+    return _io__TextIOBase_errors_get_impl(self);
+}
 
 #if !defined(_io__TextIOBase_errors_DOCSTR)
 #  define _io__TextIOBase_errors_DOCSTR NULL
@@ -284,15 +293,6 @@ PyDoc_STRVAR(_io__TextIOBase_errors__doc__,
 #else
 #  define _IO__TEXTIOBASE_ERRORS_GETSETDEF {"errors", (getter)_io__TextIOBase_errors_get, NULL, _io__TextIOBase_errors_DOCSTR},
 #endif
-
-static PyObject *
-_io__TextIOBase_errors_get_impl(PyObject *self);
-
-static PyObject *
-_io__TextIOBase_errors_get(PyObject *self, void *Py_UNUSED(context))
-{
-    return _io__TextIOBase_errors_get_impl(self);
-}
 
 PyDoc_STRVAR(_io_IncrementalNewlineDecoder___init____doc__,
 "IncrementalNewlineDecoder(decoder, translate, errors=\'strict\')\n"
@@ -377,10 +377,6 @@ PyDoc_STRVAR(_io_IncrementalNewlineDecoder_decode__doc__,
 "--\n"
 "\n");
 
-static struct {char name[];} _io_IncrementalNewlineDecoder_decode_MethodName = {.name = "decode",};
-#define _IO_INCREMENTALNEWLINEDECODER_DECODE_METHODDEF    \
-    {_io_IncrementalNewlineDecoder_decode_MethodName.name, _PyCFunction_CAST(_io_IncrementalNewlineDecoder_decode), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io_IncrementalNewlineDecoder_decode__doc__},
-
 static PyObject *
 _io_IncrementalNewlineDecoder_decode_impl(nldecoder_object *self,
                                           PyObject *input, int final);
@@ -441,14 +437,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io_IncrementalNewlineDecoder_decode_MethodName = {.name = "decode",};
+#define _IO_INCREMENTALNEWLINEDECODER_DECODE_METHODDEF    \
+    {_io_IncrementalNewlineDecoder_decode_MethodName.name, _PyCFunction_CAST(_io_IncrementalNewlineDecoder_decode), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io_IncrementalNewlineDecoder_decode__doc__},
+
 PyDoc_STRVAR(_io_IncrementalNewlineDecoder_getstate__doc__,
 "getstate($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _io_IncrementalNewlineDecoder_getstate_MethodName = {.name = "getstate",};
-#define _IO_INCREMENTALNEWLINEDECODER_GETSTATE_METHODDEF    \
-    {_io_IncrementalNewlineDecoder_getstate_MethodName.name, (PyCFunction)_io_IncrementalNewlineDecoder_getstate, METH_NOARGS|METH_C_STACK_FRUGAL, _io_IncrementalNewlineDecoder_getstate__doc__},
 
 static PyObject *
 _io_IncrementalNewlineDecoder_getstate_impl(nldecoder_object *self);
@@ -459,14 +455,14 @@ _io_IncrementalNewlineDecoder_getstate(PyObject *self, PyObject *Py_UNUSED(ignor
     return _io_IncrementalNewlineDecoder_getstate_impl((nldecoder_object *)self);
 }
 
+static struct {char name[];} _io_IncrementalNewlineDecoder_getstate_MethodName = {.name = "getstate",};
+#define _IO_INCREMENTALNEWLINEDECODER_GETSTATE_METHODDEF    \
+    {_io_IncrementalNewlineDecoder_getstate_MethodName.name, (PyCFunction)_io_IncrementalNewlineDecoder_getstate, METH_NOARGS|METH_C_STACK_FRUGAL, _io_IncrementalNewlineDecoder_getstate__doc__},
+
 PyDoc_STRVAR(_io_IncrementalNewlineDecoder_setstate__doc__,
 "setstate($self, state, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _io_IncrementalNewlineDecoder_setstate_MethodName = {.name = "setstate",};
-#define _IO_INCREMENTALNEWLINEDECODER_SETSTATE_METHODDEF    \
-    {_io_IncrementalNewlineDecoder_setstate_MethodName.name, (PyCFunction)_io_IncrementalNewlineDecoder_setstate, METH_O|METH_C_STACK_FRUGAL, _io_IncrementalNewlineDecoder_setstate__doc__},
 
 static PyObject *
 _io_IncrementalNewlineDecoder_setstate_impl(nldecoder_object *self,
@@ -482,14 +478,14 @@ _io_IncrementalNewlineDecoder_setstate(PyObject *self, PyObject *state)
     return return_value;
 }
 
+static struct {char name[];} _io_IncrementalNewlineDecoder_setstate_MethodName = {.name = "setstate",};
+#define _IO_INCREMENTALNEWLINEDECODER_SETSTATE_METHODDEF    \
+    {_io_IncrementalNewlineDecoder_setstate_MethodName.name, (PyCFunction)_io_IncrementalNewlineDecoder_setstate, METH_O|METH_C_STACK_FRUGAL, _io_IncrementalNewlineDecoder_setstate__doc__},
+
 PyDoc_STRVAR(_io_IncrementalNewlineDecoder_reset__doc__,
 "reset($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _io_IncrementalNewlineDecoder_reset_MethodName = {.name = "reset",};
-#define _IO_INCREMENTALNEWLINEDECODER_RESET_METHODDEF    \
-    {_io_IncrementalNewlineDecoder_reset_MethodName.name, (PyCFunction)_io_IncrementalNewlineDecoder_reset, METH_NOARGS|METH_C_STACK_FRUGAL, _io_IncrementalNewlineDecoder_reset__doc__},
 
 static PyObject *
 _io_IncrementalNewlineDecoder_reset_impl(nldecoder_object *self);
@@ -499,6 +495,10 @@ _io_IncrementalNewlineDecoder_reset(PyObject *self, PyObject *Py_UNUSED(ignored)
 {
     return _io_IncrementalNewlineDecoder_reset_impl((nldecoder_object *)self);
 }
+
+static struct {char name[];} _io_IncrementalNewlineDecoder_reset_MethodName = {.name = "reset",};
+#define _IO_INCREMENTALNEWLINEDECODER_RESET_METHODDEF    \
+    {_io_IncrementalNewlineDecoder_reset_MethodName.name, (PyCFunction)_io_IncrementalNewlineDecoder_reset, METH_NOARGS|METH_C_STACK_FRUGAL, _io_IncrementalNewlineDecoder_reset__doc__},
 
 PyDoc_STRVAR(_io_TextIOWrapper___init____doc__,
 "TextIOWrapper(buffer, encoding=None, errors=None, newline=None,\n"
@@ -672,10 +672,6 @@ PyDoc_STRVAR(_io_TextIOWrapper_reconfigure__doc__,
 "\n"
 "This also does an implicit stream flush.");
 
-static struct {char name[];} _io_TextIOWrapper_reconfigure_MethodName = {.name = "reconfigure",};
-#define _IO_TEXTIOWRAPPER_RECONFIGURE_METHODDEF    \
-    {_io_TextIOWrapper_reconfigure_MethodName.name, _PyCFunction_CAST(_io_TextIOWrapper_reconfigure), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io_TextIOWrapper_reconfigure__doc__},
-
 static PyObject *
 _io_TextIOWrapper_reconfigure_impl(textio *self, PyObject *encoding,
                                    PyObject *errors, PyObject *newline_obj,
@@ -763,14 +759,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io_TextIOWrapper_reconfigure_MethodName = {.name = "reconfigure",};
+#define _IO_TEXTIOWRAPPER_RECONFIGURE_METHODDEF    \
+    {_io_TextIOWrapper_reconfigure_MethodName.name, _PyCFunction_CAST(_io_TextIOWrapper_reconfigure), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io_TextIOWrapper_reconfigure__doc__},
+
 PyDoc_STRVAR(_io_TextIOWrapper_detach__doc__,
 "detach($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _io_TextIOWrapper_detach_MethodName = {.name = "detach",};
-#define _IO_TEXTIOWRAPPER_DETACH_METHODDEF    \
-    {_io_TextIOWrapper_detach_MethodName.name, (PyCFunction)_io_TextIOWrapper_detach, METH_NOARGS|METH_C_STACK_FRUGAL, _io_TextIOWrapper_detach__doc__},
 
 static PyObject *
 _io_TextIOWrapper_detach_impl(textio *self);
@@ -787,14 +783,14 @@ _io_TextIOWrapper_detach(PyObject *self, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} _io_TextIOWrapper_detach_MethodName = {.name = "detach",};
+#define _IO_TEXTIOWRAPPER_DETACH_METHODDEF    \
+    {_io_TextIOWrapper_detach_MethodName.name, (PyCFunction)_io_TextIOWrapper_detach, METH_NOARGS|METH_C_STACK_FRUGAL, _io_TextIOWrapper_detach__doc__},
+
 PyDoc_STRVAR(_io_TextIOWrapper_write__doc__,
 "write($self, text, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _io_TextIOWrapper_write_MethodName = {.name = "write",};
-#define _IO_TEXTIOWRAPPER_WRITE_METHODDEF    \
-    {_io_TextIOWrapper_write_MethodName.name, (PyCFunction)_io_TextIOWrapper_write, METH_O|METH_C_STACK_FRUGAL, _io_TextIOWrapper_write__doc__},
 
 static PyObject *
 _io_TextIOWrapper_write_impl(textio *self, PyObject *text);
@@ -818,14 +814,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io_TextIOWrapper_write_MethodName = {.name = "write",};
+#define _IO_TEXTIOWRAPPER_WRITE_METHODDEF    \
+    {_io_TextIOWrapper_write_MethodName.name, (PyCFunction)_io_TextIOWrapper_write, METH_O|METH_C_STACK_FRUGAL, _io_TextIOWrapper_write__doc__},
+
 PyDoc_STRVAR(_io_TextIOWrapper_read__doc__,
 "read($self, size=-1, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _io_TextIOWrapper_read_MethodName = {.name = "read",};
-#define _IO_TEXTIOWRAPPER_READ_METHODDEF    \
-    {_io_TextIOWrapper_read_MethodName.name, _PyCFunction_CAST(_io_TextIOWrapper_read), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_TextIOWrapper_read__doc__},
 
 static PyObject *
 _io_TextIOWrapper_read_impl(textio *self, Py_ssize_t n);
@@ -854,14 +850,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io_TextIOWrapper_read_MethodName = {.name = "read",};
+#define _IO_TEXTIOWRAPPER_READ_METHODDEF    \
+    {_io_TextIOWrapper_read_MethodName.name, _PyCFunction_CAST(_io_TextIOWrapper_read), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_TextIOWrapper_read__doc__},
+
 PyDoc_STRVAR(_io_TextIOWrapper_readline__doc__,
 "readline($self, size=-1, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _io_TextIOWrapper_readline_MethodName = {.name = "readline",};
-#define _IO_TEXTIOWRAPPER_READLINE_METHODDEF    \
-    {_io_TextIOWrapper_readline_MethodName.name, _PyCFunction_CAST(_io_TextIOWrapper_readline), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_TextIOWrapper_readline__doc__},
 
 static PyObject *
 _io_TextIOWrapper_readline_impl(textio *self, Py_ssize_t size);
@@ -899,6 +895,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io_TextIOWrapper_readline_MethodName = {.name = "readline",};
+#define _IO_TEXTIOWRAPPER_READLINE_METHODDEF    \
+    {_io_TextIOWrapper_readline_MethodName.name, _PyCFunction_CAST(_io_TextIOWrapper_readline), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_TextIOWrapper_readline__doc__},
+
 PyDoc_STRVAR(_io_TextIOWrapper_seek__doc__,
 "seek($self, cookie, whence=os.SEEK_SET, /)\n"
 "--\n"
@@ -921,10 +921,6 @@ PyDoc_STRVAR(_io_TextIOWrapper_seek__doc__,
 "\n"
 "Any other argument combinations are invalid,\n"
 "and may raise exceptions.");
-
-static struct {char name[];} _io_TextIOWrapper_seek_MethodName = {.name = "seek",};
-#define _IO_TEXTIOWRAPPER_SEEK_METHODDEF    \
-    {_io_TextIOWrapper_seek_MethodName.name, _PyCFunction_CAST(_io_TextIOWrapper_seek), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_TextIOWrapper_seek__doc__},
 
 static PyObject *
 _io_TextIOWrapper_seek_impl(textio *self, PyObject *cookieObj, int whence);
@@ -956,6 +952,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io_TextIOWrapper_seek_MethodName = {.name = "seek",};
+#define _IO_TEXTIOWRAPPER_SEEK_METHODDEF    \
+    {_io_TextIOWrapper_seek_MethodName.name, _PyCFunction_CAST(_io_TextIOWrapper_seek), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_TextIOWrapper_seek__doc__},
+
 PyDoc_STRVAR(_io_TextIOWrapper_tell__doc__,
 "tell($self, /)\n"
 "--\n"
@@ -964,10 +964,6 @@ PyDoc_STRVAR(_io_TextIOWrapper_tell__doc__,
 "\n"
 "The return value of tell() can be given as input to seek(), to restore a\n"
 "previous stream position.");
-
-static struct {char name[];} _io_TextIOWrapper_tell_MethodName = {.name = "tell",};
-#define _IO_TEXTIOWRAPPER_TELL_METHODDEF    \
-    {_io_TextIOWrapper_tell_MethodName.name, (PyCFunction)_io_TextIOWrapper_tell, METH_NOARGS|METH_C_STACK_FRUGAL, _io_TextIOWrapper_tell__doc__},
 
 static PyObject *
 _io_TextIOWrapper_tell_impl(textio *self);
@@ -984,14 +980,14 @@ _io_TextIOWrapper_tell(PyObject *self, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} _io_TextIOWrapper_tell_MethodName = {.name = "tell",};
+#define _IO_TEXTIOWRAPPER_TELL_METHODDEF    \
+    {_io_TextIOWrapper_tell_MethodName.name, (PyCFunction)_io_TextIOWrapper_tell, METH_NOARGS|METH_C_STACK_FRUGAL, _io_TextIOWrapper_tell__doc__},
+
 PyDoc_STRVAR(_io_TextIOWrapper_truncate__doc__,
 "truncate($self, pos=None, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _io_TextIOWrapper_truncate_MethodName = {.name = "truncate",};
-#define _IO_TEXTIOWRAPPER_TRUNCATE_METHODDEF    \
-    {_io_TextIOWrapper_truncate_MethodName.name, _PyCFunction_CAST(_io_TextIOWrapper_truncate), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_TextIOWrapper_truncate__doc__},
 
 static PyObject *
 _io_TextIOWrapper_truncate_impl(textio *self, PyObject *pos);
@@ -1018,14 +1014,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io_TextIOWrapper_truncate_MethodName = {.name = "truncate",};
+#define _IO_TEXTIOWRAPPER_TRUNCATE_METHODDEF    \
+    {_io_TextIOWrapper_truncate_MethodName.name, _PyCFunction_CAST(_io_TextIOWrapper_truncate), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_TextIOWrapper_truncate__doc__},
+
 PyDoc_STRVAR(_io_TextIOWrapper_fileno__doc__,
 "fileno($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _io_TextIOWrapper_fileno_MethodName = {.name = "fileno",};
-#define _IO_TEXTIOWRAPPER_FILENO_METHODDEF    \
-    {_io_TextIOWrapper_fileno_MethodName.name, (PyCFunction)_io_TextIOWrapper_fileno, METH_NOARGS|METH_C_STACK_FRUGAL, _io_TextIOWrapper_fileno__doc__},
 
 static PyObject *
 _io_TextIOWrapper_fileno_impl(textio *self);
@@ -1042,14 +1038,14 @@ _io_TextIOWrapper_fileno(PyObject *self, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} _io_TextIOWrapper_fileno_MethodName = {.name = "fileno",};
+#define _IO_TEXTIOWRAPPER_FILENO_METHODDEF    \
+    {_io_TextIOWrapper_fileno_MethodName.name, (PyCFunction)_io_TextIOWrapper_fileno, METH_NOARGS|METH_C_STACK_FRUGAL, _io_TextIOWrapper_fileno__doc__},
+
 PyDoc_STRVAR(_io_TextIOWrapper_seekable__doc__,
 "seekable($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _io_TextIOWrapper_seekable_MethodName = {.name = "seekable",};
-#define _IO_TEXTIOWRAPPER_SEEKABLE_METHODDEF    \
-    {_io_TextIOWrapper_seekable_MethodName.name, (PyCFunction)_io_TextIOWrapper_seekable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_TextIOWrapper_seekable__doc__},
 
 static PyObject *
 _io_TextIOWrapper_seekable_impl(textio *self);
@@ -1066,14 +1062,14 @@ _io_TextIOWrapper_seekable(PyObject *self, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} _io_TextIOWrapper_seekable_MethodName = {.name = "seekable",};
+#define _IO_TEXTIOWRAPPER_SEEKABLE_METHODDEF    \
+    {_io_TextIOWrapper_seekable_MethodName.name, (PyCFunction)_io_TextIOWrapper_seekable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_TextIOWrapper_seekable__doc__},
+
 PyDoc_STRVAR(_io_TextIOWrapper_readable__doc__,
 "readable($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _io_TextIOWrapper_readable_MethodName = {.name = "readable",};
-#define _IO_TEXTIOWRAPPER_READABLE_METHODDEF    \
-    {_io_TextIOWrapper_readable_MethodName.name, (PyCFunction)_io_TextIOWrapper_readable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_TextIOWrapper_readable__doc__},
 
 static PyObject *
 _io_TextIOWrapper_readable_impl(textio *self);
@@ -1090,14 +1086,14 @@ _io_TextIOWrapper_readable(PyObject *self, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} _io_TextIOWrapper_readable_MethodName = {.name = "readable",};
+#define _IO_TEXTIOWRAPPER_READABLE_METHODDEF    \
+    {_io_TextIOWrapper_readable_MethodName.name, (PyCFunction)_io_TextIOWrapper_readable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_TextIOWrapper_readable__doc__},
+
 PyDoc_STRVAR(_io_TextIOWrapper_writable__doc__,
 "writable($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _io_TextIOWrapper_writable_MethodName = {.name = "writable",};
-#define _IO_TEXTIOWRAPPER_WRITABLE_METHODDEF    \
-    {_io_TextIOWrapper_writable_MethodName.name, (PyCFunction)_io_TextIOWrapper_writable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_TextIOWrapper_writable__doc__},
 
 static PyObject *
 _io_TextIOWrapper_writable_impl(textio *self);
@@ -1114,14 +1110,14 @@ _io_TextIOWrapper_writable(PyObject *self, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} _io_TextIOWrapper_writable_MethodName = {.name = "writable",};
+#define _IO_TEXTIOWRAPPER_WRITABLE_METHODDEF    \
+    {_io_TextIOWrapper_writable_MethodName.name, (PyCFunction)_io_TextIOWrapper_writable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_TextIOWrapper_writable__doc__},
+
 PyDoc_STRVAR(_io_TextIOWrapper_isatty__doc__,
 "isatty($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _io_TextIOWrapper_isatty_MethodName = {.name = "isatty",};
-#define _IO_TEXTIOWRAPPER_ISATTY_METHODDEF    \
-    {_io_TextIOWrapper_isatty_MethodName.name, (PyCFunction)_io_TextIOWrapper_isatty, METH_NOARGS|METH_C_STACK_FRUGAL, _io_TextIOWrapper_isatty__doc__},
 
 static PyObject *
 _io_TextIOWrapper_isatty_impl(textio *self);
@@ -1138,14 +1134,14 @@ _io_TextIOWrapper_isatty(PyObject *self, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} _io_TextIOWrapper_isatty_MethodName = {.name = "isatty",};
+#define _IO_TEXTIOWRAPPER_ISATTY_METHODDEF    \
+    {_io_TextIOWrapper_isatty_MethodName.name, (PyCFunction)_io_TextIOWrapper_isatty, METH_NOARGS|METH_C_STACK_FRUGAL, _io_TextIOWrapper_isatty__doc__},
+
 PyDoc_STRVAR(_io_TextIOWrapper_flush__doc__,
 "flush($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _io_TextIOWrapper_flush_MethodName = {.name = "flush",};
-#define _IO_TEXTIOWRAPPER_FLUSH_METHODDEF    \
-    {_io_TextIOWrapper_flush_MethodName.name, (PyCFunction)_io_TextIOWrapper_flush, METH_NOARGS|METH_C_STACK_FRUGAL, _io_TextIOWrapper_flush__doc__},
 
 static PyObject *
 _io_TextIOWrapper_flush_impl(textio *self);
@@ -1162,14 +1158,14 @@ _io_TextIOWrapper_flush(PyObject *self, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} _io_TextIOWrapper_flush_MethodName = {.name = "flush",};
+#define _IO_TEXTIOWRAPPER_FLUSH_METHODDEF    \
+    {_io_TextIOWrapper_flush_MethodName.name, (PyCFunction)_io_TextIOWrapper_flush, METH_NOARGS|METH_C_STACK_FRUGAL, _io_TextIOWrapper_flush__doc__},
+
 PyDoc_STRVAR(_io_TextIOWrapper_close__doc__,
 "close($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _io_TextIOWrapper_close_MethodName = {.name = "close",};
-#define _IO_TEXTIOWRAPPER_CLOSE_METHODDEF    \
-    {_io_TextIOWrapper_close_MethodName.name, (PyCFunction)_io_TextIOWrapper_close, METH_NOARGS|METH_C_STACK_FRUGAL, _io_TextIOWrapper_close__doc__},
 
 static PyObject *
 _io_TextIOWrapper_close_impl(textio *self);
@@ -1186,15 +1182,9 @@ _io_TextIOWrapper_close(PyObject *self, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
-#if !defined(_io_TextIOWrapper_name_DOCSTR)
-#  define _io_TextIOWrapper_name_DOCSTR NULL
-#endif
-#if defined(_IO_TEXTIOWRAPPER_NAME_GETSETDEF)
-#  undef _IO_TEXTIOWRAPPER_NAME_GETSETDEF
-#  define _IO_TEXTIOWRAPPER_NAME_GETSETDEF {"name", (getter)_io_TextIOWrapper_name_get, (setter)_io_TextIOWrapper_name_set, _io_TextIOWrapper_name_DOCSTR},
-#else
-#  define _IO_TEXTIOWRAPPER_NAME_GETSETDEF {"name", (getter)_io_TextIOWrapper_name_get, NULL, _io_TextIOWrapper_name_DOCSTR},
-#endif
+static struct {char name[];} _io_TextIOWrapper_close_MethodName = {.name = "close",};
+#define _IO_TEXTIOWRAPPER_CLOSE_METHODDEF    \
+    {_io_TextIOWrapper_close_MethodName.name, (PyCFunction)_io_TextIOWrapper_close, METH_NOARGS|METH_C_STACK_FRUGAL, _io_TextIOWrapper_close__doc__},
 
 static PyObject *
 _io_TextIOWrapper_name_get_impl(textio *self);
@@ -1211,14 +1201,14 @@ _io_TextIOWrapper_name_get(PyObject *self, void *Py_UNUSED(context))
     return return_value;
 }
 
-#if !defined(_io_TextIOWrapper_closed_DOCSTR)
-#  define _io_TextIOWrapper_closed_DOCSTR NULL
+#if !defined(_io_TextIOWrapper_name_DOCSTR)
+#  define _io_TextIOWrapper_name_DOCSTR NULL
 #endif
-#if defined(_IO_TEXTIOWRAPPER_CLOSED_GETSETDEF)
-#  undef _IO_TEXTIOWRAPPER_CLOSED_GETSETDEF
-#  define _IO_TEXTIOWRAPPER_CLOSED_GETSETDEF {"closed", (getter)_io_TextIOWrapper_closed_get, (setter)_io_TextIOWrapper_closed_set, _io_TextIOWrapper_closed_DOCSTR},
+#if defined(_IO_TEXTIOWRAPPER_NAME_GETSETDEF)
+#  undef _IO_TEXTIOWRAPPER_NAME_GETSETDEF
+#  define _IO_TEXTIOWRAPPER_NAME_GETSETDEF {"name", (getter)_io_TextIOWrapper_name_get, (setter)_io_TextIOWrapper_name_set, _io_TextIOWrapper_name_DOCSTR},
 #else
-#  define _IO_TEXTIOWRAPPER_CLOSED_GETSETDEF {"closed", (getter)_io_TextIOWrapper_closed_get, NULL, _io_TextIOWrapper_closed_DOCSTR},
+#  define _IO_TEXTIOWRAPPER_NAME_GETSETDEF {"name", (getter)_io_TextIOWrapper_name_get, NULL, _io_TextIOWrapper_name_DOCSTR},
 #endif
 
 static PyObject *
@@ -1236,14 +1226,14 @@ _io_TextIOWrapper_closed_get(PyObject *self, void *Py_UNUSED(context))
     return return_value;
 }
 
-#if !defined(_io_TextIOWrapper_newlines_DOCSTR)
-#  define _io_TextIOWrapper_newlines_DOCSTR NULL
+#if !defined(_io_TextIOWrapper_closed_DOCSTR)
+#  define _io_TextIOWrapper_closed_DOCSTR NULL
 #endif
-#if defined(_IO_TEXTIOWRAPPER_NEWLINES_GETSETDEF)
-#  undef _IO_TEXTIOWRAPPER_NEWLINES_GETSETDEF
-#  define _IO_TEXTIOWRAPPER_NEWLINES_GETSETDEF {"newlines", (getter)_io_TextIOWrapper_newlines_get, (setter)_io_TextIOWrapper_newlines_set, _io_TextIOWrapper_newlines_DOCSTR},
+#if defined(_IO_TEXTIOWRAPPER_CLOSED_GETSETDEF)
+#  undef _IO_TEXTIOWRAPPER_CLOSED_GETSETDEF
+#  define _IO_TEXTIOWRAPPER_CLOSED_GETSETDEF {"closed", (getter)_io_TextIOWrapper_closed_get, (setter)_io_TextIOWrapper_closed_set, _io_TextIOWrapper_closed_DOCSTR},
 #else
-#  define _IO_TEXTIOWRAPPER_NEWLINES_GETSETDEF {"newlines", (getter)_io_TextIOWrapper_newlines_get, NULL, _io_TextIOWrapper_newlines_DOCSTR},
+#  define _IO_TEXTIOWRAPPER_CLOSED_GETSETDEF {"closed", (getter)_io_TextIOWrapper_closed_get, NULL, _io_TextIOWrapper_closed_DOCSTR},
 #endif
 
 static PyObject *
@@ -1261,14 +1251,14 @@ _io_TextIOWrapper_newlines_get(PyObject *self, void *Py_UNUSED(context))
     return return_value;
 }
 
-#if !defined(_io_TextIOWrapper_errors_DOCSTR)
-#  define _io_TextIOWrapper_errors_DOCSTR NULL
+#if !defined(_io_TextIOWrapper_newlines_DOCSTR)
+#  define _io_TextIOWrapper_newlines_DOCSTR NULL
 #endif
-#if defined(_IO_TEXTIOWRAPPER_ERRORS_GETSETDEF)
-#  undef _IO_TEXTIOWRAPPER_ERRORS_GETSETDEF
-#  define _IO_TEXTIOWRAPPER_ERRORS_GETSETDEF {"errors", (getter)_io_TextIOWrapper_errors_get, (setter)_io_TextIOWrapper_errors_set, _io_TextIOWrapper_errors_DOCSTR},
+#if defined(_IO_TEXTIOWRAPPER_NEWLINES_GETSETDEF)
+#  undef _IO_TEXTIOWRAPPER_NEWLINES_GETSETDEF
+#  define _IO_TEXTIOWRAPPER_NEWLINES_GETSETDEF {"newlines", (getter)_io_TextIOWrapper_newlines_get, (setter)_io_TextIOWrapper_newlines_set, _io_TextIOWrapper_newlines_DOCSTR},
 #else
-#  define _IO_TEXTIOWRAPPER_ERRORS_GETSETDEF {"errors", (getter)_io_TextIOWrapper_errors_get, NULL, _io_TextIOWrapper_errors_DOCSTR},
+#  define _IO_TEXTIOWRAPPER_NEWLINES_GETSETDEF {"newlines", (getter)_io_TextIOWrapper_newlines_get, NULL, _io_TextIOWrapper_newlines_DOCSTR},
 #endif
 
 static PyObject *
@@ -1286,14 +1276,14 @@ _io_TextIOWrapper_errors_get(PyObject *self, void *Py_UNUSED(context))
     return return_value;
 }
 
-#if !defined(_io_TextIOWrapper__CHUNK_SIZE_DOCSTR)
-#  define _io_TextIOWrapper__CHUNK_SIZE_DOCSTR NULL
+#if !defined(_io_TextIOWrapper_errors_DOCSTR)
+#  define _io_TextIOWrapper_errors_DOCSTR NULL
 #endif
-#if defined(_IO_TEXTIOWRAPPER__CHUNK_SIZE_GETSETDEF)
-#  undef _IO_TEXTIOWRAPPER__CHUNK_SIZE_GETSETDEF
-#  define _IO_TEXTIOWRAPPER__CHUNK_SIZE_GETSETDEF {"_CHUNK_SIZE", (getter)_io_TextIOWrapper__CHUNK_SIZE_get, (setter)_io_TextIOWrapper__CHUNK_SIZE_set, _io_TextIOWrapper__CHUNK_SIZE_DOCSTR},
+#if defined(_IO_TEXTIOWRAPPER_ERRORS_GETSETDEF)
+#  undef _IO_TEXTIOWRAPPER_ERRORS_GETSETDEF
+#  define _IO_TEXTIOWRAPPER_ERRORS_GETSETDEF {"errors", (getter)_io_TextIOWrapper_errors_get, (setter)_io_TextIOWrapper_errors_set, _io_TextIOWrapper_errors_DOCSTR},
 #else
-#  define _IO_TEXTIOWRAPPER__CHUNK_SIZE_GETSETDEF {"_CHUNK_SIZE", (getter)_io_TextIOWrapper__CHUNK_SIZE_get, NULL, _io_TextIOWrapper__CHUNK_SIZE_DOCSTR},
+#  define _IO_TEXTIOWRAPPER_ERRORS_GETSETDEF {"errors", (getter)_io_TextIOWrapper_errors_get, NULL, _io_TextIOWrapper_errors_DOCSTR},
 #endif
 
 static PyObject *
@@ -1318,7 +1308,7 @@ _io_TextIOWrapper__CHUNK_SIZE_get(PyObject *self, void *Py_UNUSED(context))
 #  undef _IO_TEXTIOWRAPPER__CHUNK_SIZE_GETSETDEF
 #  define _IO_TEXTIOWRAPPER__CHUNK_SIZE_GETSETDEF {"_CHUNK_SIZE", (getter)_io_TextIOWrapper__CHUNK_SIZE_get, (setter)_io_TextIOWrapper__CHUNK_SIZE_set, _io_TextIOWrapper__CHUNK_SIZE_DOCSTR},
 #else
-#  define _IO_TEXTIOWRAPPER__CHUNK_SIZE_GETSETDEF {"_CHUNK_SIZE", NULL, (setter)_io_TextIOWrapper__CHUNK_SIZE_set, NULL},
+#  define _IO_TEXTIOWRAPPER__CHUNK_SIZE_GETSETDEF {"_CHUNK_SIZE", (getter)_io_TextIOWrapper__CHUNK_SIZE_get, NULL, _io_TextIOWrapper__CHUNK_SIZE_DOCSTR},
 #endif
 
 static int
@@ -1335,4 +1325,14 @@ _io_TextIOWrapper__CHUNK_SIZE_set(PyObject *self, PyObject *value, void *Py_UNUS
 
     return return_value;
 }
-/*[clinic end generated code: output=7c9075d0c40e5e7d input=a9049054013a1b77]*/
+
+#if !defined(_io_TextIOWrapper__CHUNK_SIZE_DOCSTR)
+#  define _io_TextIOWrapper__CHUNK_SIZE_DOCSTR NULL
+#endif
+#if defined(_IO_TEXTIOWRAPPER__CHUNK_SIZE_GETSETDEF)
+#  undef _IO_TEXTIOWRAPPER__CHUNK_SIZE_GETSETDEF
+#  define _IO_TEXTIOWRAPPER__CHUNK_SIZE_GETSETDEF {"_CHUNK_SIZE", (getter)_io_TextIOWrapper__CHUNK_SIZE_get, (setter)_io_TextIOWrapper__CHUNK_SIZE_set, _io_TextIOWrapper__CHUNK_SIZE_DOCSTR},
+#else
+#  define _IO_TEXTIOWRAPPER__CHUNK_SIZE_GETSETDEF {"_CHUNK_SIZE", NULL, (setter)_io_TextIOWrapper__CHUNK_SIZE_set, NULL},
+#endif
+/*[clinic end generated code: output=b48d415fe0ed3b5f input=a9049054013a1b77]*/

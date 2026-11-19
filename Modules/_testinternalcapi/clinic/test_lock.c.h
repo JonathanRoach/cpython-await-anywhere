@@ -11,10 +11,6 @@ PyDoc_STRVAR(_testinternalcapi_benchmark_locks__doc__,
 "--\n"
 "\n");
 
-static struct {char name[];} _testinternalcapi_benchmark_locks_MethodName = {.name = "benchmark_locks",};
-#define _TESTINTERNALCAPI_BENCHMARK_LOCKS_METHODDEF    \
-    {_testinternalcapi_benchmark_locks_MethodName.name, _PyCFunction_CAST(_testinternalcapi_benchmark_locks), METH_FASTCALL|METH_C_STACK_FRUGAL, _testinternalcapi_benchmark_locks__doc__},
-
 static PyObject *
 _testinternalcapi_benchmark_locks_impl(PyObject *module,
                                        Py_ssize_t num_threads,
@@ -73,4 +69,8 @@ skip_optional:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=e5e824e623fe33e4 input=a9049054013a1b77]*/
+
+static struct {char name[];} _testinternalcapi_benchmark_locks_MethodName = {.name = "benchmark_locks",};
+#define _TESTINTERNALCAPI_BENCHMARK_LOCKS_METHODDEF    \
+    {_testinternalcapi_benchmark_locks_MethodName.name, _PyCFunction_CAST(_testinternalcapi_benchmark_locks), METH_FASTCALL|METH_C_STACK_FRUGAL, _testinternalcapi_benchmark_locks__doc__},
+/*[clinic end generated code: output=1c96bd3ff10712ff input=a9049054013a1b77]*/

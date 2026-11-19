@@ -7,10 +7,6 @@ PyDoc_STRVAR(_testlimitedcapi_pack_full_version__doc__,
 "--\n"
 "\n");
 
-static struct {char name[];} _testlimitedcapi_pack_full_version_MethodName = {.name = "pack_full_version",};
-#define _TESTLIMITEDCAPI_PACK_FULL_VERSION_METHODDEF    \
-    {_testlimitedcapi_pack_full_version_MethodName.name, (PyCFunction)(void(*)(void))_testlimitedcapi_pack_full_version, METH_FASTCALL|METH_C_STACK_FRUGAL, _testlimitedcapi_pack_full_version__doc__},
-
 static PyObject *
 _testlimitedcapi_pack_full_version_impl(PyObject *module, int major,
                                         int minor, int micro, int level,
@@ -56,14 +52,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _testlimitedcapi_pack_full_version_MethodName = {.name = "pack_full_version",};
+#define _TESTLIMITEDCAPI_PACK_FULL_VERSION_METHODDEF    \
+    {_testlimitedcapi_pack_full_version_MethodName.name, (PyCFunction)(void(*)(void))_testlimitedcapi_pack_full_version, METH_FASTCALL|METH_C_STACK_FRUGAL, _testlimitedcapi_pack_full_version__doc__},
+
 PyDoc_STRVAR(_testlimitedcapi_pack_version__doc__,
 "pack_version($module, major, minor, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _testlimitedcapi_pack_version_MethodName = {.name = "pack_version",};
-#define _TESTLIMITEDCAPI_PACK_VERSION_METHODDEF    \
-    {_testlimitedcapi_pack_version_MethodName.name, (PyCFunction)(void(*)(void))_testlimitedcapi_pack_version, METH_FASTCALL|METH_C_STACK_FRUGAL, _testlimitedcapi_pack_version__doc__},
 
 static PyObject *
 _testlimitedcapi_pack_version_impl(PyObject *module, int major, int minor);
@@ -92,4 +88,8 @@ _testlimitedcapi_pack_version(PyObject *module, PyObject *const *args, Py_ssize_
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=8db3ae839875c891 input=a9049054013a1b77]*/
+
+static struct {char name[];} _testlimitedcapi_pack_version_MethodName = {.name = "pack_version",};
+#define _TESTLIMITEDCAPI_PACK_VERSION_METHODDEF    \
+    {_testlimitedcapi_pack_version_MethodName.name, (PyCFunction)(void(*)(void))_testlimitedcapi_pack_version, METH_FASTCALL|METH_C_STACK_FRUGAL, _testlimitedcapi_pack_version__doc__},
+/*[clinic end generated code: output=86bbf2167a153a31 input=a9049054013a1b77]*/

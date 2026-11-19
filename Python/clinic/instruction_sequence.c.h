@@ -43,10 +43,6 @@ PyDoc_STRVAR(InstructionSequenceType_use_label__doc__,
 "\n"
 "Place label at current location.");
 
-static struct {char name[];} InstructionSequenceType_use_label_MethodName = {.name = "use_label",};
-#define INSTRUCTIONSEQUENCETYPE_USE_LABEL_METHODDEF    \
-    {InstructionSequenceType_use_label_MethodName.name, _PyCFunction_CAST(InstructionSequenceType_use_label), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, InstructionSequenceType_use_label__doc__},
-
 static PyObject *
 InstructionSequenceType_use_label_impl(_PyInstructionSequence *self,
                                        int label);
@@ -100,16 +96,16 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} InstructionSequenceType_use_label_MethodName = {.name = "use_label",};
+#define INSTRUCTIONSEQUENCETYPE_USE_LABEL_METHODDEF    \
+    {InstructionSequenceType_use_label_MethodName.name, _PyCFunction_CAST(InstructionSequenceType_use_label), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, InstructionSequenceType_use_label__doc__},
+
 PyDoc_STRVAR(InstructionSequenceType_addop__doc__,
 "addop($self, /, opcode, oparg, lineno, col_offset, end_lineno,\n"
 "      end_col_offset)\n"
 "--\n"
 "\n"
 "Append an instruction.");
-
-static struct {char name[];} InstructionSequenceType_addop_MethodName = {.name = "addop",};
-#define INSTRUCTIONSEQUENCETYPE_ADDOP_METHODDEF    \
-    {InstructionSequenceType_addop_MethodName.name, _PyCFunction_CAST(InstructionSequenceType_addop), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, InstructionSequenceType_addop__doc__},
 
 static PyObject *
 InstructionSequenceType_addop_impl(_PyInstructionSequence *self, int opcode,
@@ -190,15 +186,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} InstructionSequenceType_addop_MethodName = {.name = "addop",};
+#define INSTRUCTIONSEQUENCETYPE_ADDOP_METHODDEF    \
+    {InstructionSequenceType_addop_MethodName.name, _PyCFunction_CAST(InstructionSequenceType_addop), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, InstructionSequenceType_addop__doc__},
+
 PyDoc_STRVAR(InstructionSequenceType_new_label__doc__,
 "new_label($self, /)\n"
 "--\n"
 "\n"
 "Return a new label.");
-
-static struct {char name[];} InstructionSequenceType_new_label_MethodName = {.name = "new_label",};
-#define INSTRUCTIONSEQUENCETYPE_NEW_LABEL_METHODDEF    \
-    {InstructionSequenceType_new_label_MethodName.name, (PyCFunction)InstructionSequenceType_new_label, METH_NOARGS|METH_C_STACK_FRUGAL, InstructionSequenceType_new_label__doc__},
 
 static int
 InstructionSequenceType_new_label_impl(_PyInstructionSequence *self);
@@ -219,15 +215,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} InstructionSequenceType_new_label_MethodName = {.name = "new_label",};
+#define INSTRUCTIONSEQUENCETYPE_NEW_LABEL_METHODDEF    \
+    {InstructionSequenceType_new_label_MethodName.name, (PyCFunction)InstructionSequenceType_new_label, METH_NOARGS|METH_C_STACK_FRUGAL, InstructionSequenceType_new_label__doc__},
+
 PyDoc_STRVAR(InstructionSequenceType_add_nested__doc__,
 "add_nested($self, /, nested)\n"
 "--\n"
 "\n"
 "Add a nested sequence.");
-
-static struct {char name[];} InstructionSequenceType_add_nested_MethodName = {.name = "add_nested",};
-#define INSTRUCTIONSEQUENCETYPE_ADD_NESTED_METHODDEF    \
-    {InstructionSequenceType_add_nested_MethodName.name, _PyCFunction_CAST(InstructionSequenceType_add_nested), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, InstructionSequenceType_add_nested__doc__},
 
 static PyObject *
 InstructionSequenceType_add_nested_impl(_PyInstructionSequence *self,
@@ -279,15 +275,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} InstructionSequenceType_add_nested_MethodName = {.name = "add_nested",};
+#define INSTRUCTIONSEQUENCETYPE_ADD_NESTED_METHODDEF    \
+    {InstructionSequenceType_add_nested_MethodName.name, _PyCFunction_CAST(InstructionSequenceType_add_nested), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, InstructionSequenceType_add_nested__doc__},
+
 PyDoc_STRVAR(InstructionSequenceType_get_nested__doc__,
 "get_nested($self, /)\n"
 "--\n"
 "\n"
 "Add a nested sequence.");
-
-static struct {char name[];} InstructionSequenceType_get_nested_MethodName = {.name = "get_nested",};
-#define INSTRUCTIONSEQUENCETYPE_GET_NESTED_METHODDEF    \
-    {InstructionSequenceType_get_nested_MethodName.name, (PyCFunction)InstructionSequenceType_get_nested, METH_NOARGS|METH_C_STACK_FRUGAL, InstructionSequenceType_get_nested__doc__},
 
 static PyObject *
 InstructionSequenceType_get_nested_impl(_PyInstructionSequence *self);
@@ -298,15 +294,15 @@ InstructionSequenceType_get_nested(PyObject *self, PyObject *Py_UNUSED(ignored))
     return InstructionSequenceType_get_nested_impl((_PyInstructionSequence *)self);
 }
 
+static struct {char name[];} InstructionSequenceType_get_nested_MethodName = {.name = "get_nested",};
+#define INSTRUCTIONSEQUENCETYPE_GET_NESTED_METHODDEF    \
+    {InstructionSequenceType_get_nested_MethodName.name, (PyCFunction)InstructionSequenceType_get_nested, METH_NOARGS|METH_C_STACK_FRUGAL, InstructionSequenceType_get_nested__doc__},
+
 PyDoc_STRVAR(InstructionSequenceType_get_instructions__doc__,
 "get_instructions($self, /)\n"
 "--\n"
 "\n"
 "Return the instructions as a list of tuples or labels.");
-
-static struct {char name[];} InstructionSequenceType_get_instructions_MethodName = {.name = "get_instructions",};
-#define INSTRUCTIONSEQUENCETYPE_GET_INSTRUCTIONS_METHODDEF    \
-    {InstructionSequenceType_get_instructions_MethodName.name, (PyCFunction)InstructionSequenceType_get_instructions, METH_NOARGS|METH_C_STACK_FRUGAL, InstructionSequenceType_get_instructions__doc__},
 
 static PyObject *
 InstructionSequenceType_get_instructions_impl(_PyInstructionSequence *self);
@@ -316,4 +312,8 @@ InstructionSequenceType_get_instructions(PyObject *self, PyObject *Py_UNUSED(ign
 {
     return InstructionSequenceType_get_instructions_impl((_PyInstructionSequence *)self);
 }
-/*[clinic end generated code: output=86deabe0006f749a input=a9049054013a1b77]*/
+
+static struct {char name[];} InstructionSequenceType_get_instructions_MethodName = {.name = "get_instructions",};
+#define INSTRUCTIONSEQUENCETYPE_GET_INSTRUCTIONS_METHODDEF    \
+    {InstructionSequenceType_get_instructions_MethodName.name, (PyCFunction)InstructionSequenceType_get_instructions, METH_NOARGS|METH_C_STACK_FRUGAL, InstructionSequenceType_get_instructions__doc__},
+/*[clinic end generated code: output=3a89b220b550b5b0 input=a9049054013a1b77]*/

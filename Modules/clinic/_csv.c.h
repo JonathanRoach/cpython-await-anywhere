@@ -16,10 +16,6 @@ PyDoc_STRVAR(_csv_list_dialects__doc__,
 "\n"
 "    names = csv.list_dialects()");
 
-static struct {char name[];} _csv_list_dialects_MethodName = {.name = "list_dialects",};
-#define _CSV_LIST_DIALECTS_METHODDEF    \
-    {_csv_list_dialects_MethodName.name, (PyCFunction)_csv_list_dialects, METH_NOARGS|METH_C_STACK_FRUGAL, _csv_list_dialects__doc__},
-
 static PyObject *
 _csv_list_dialects_impl(PyObject *module);
 
@@ -29,6 +25,10 @@ _csv_list_dialects(PyObject *module, PyObject *Py_UNUSED(ignored))
     return _csv_list_dialects_impl(module);
 }
 
+static struct {char name[];} _csv_list_dialects_MethodName = {.name = "list_dialects",};
+#define _CSV_LIST_DIALECTS_METHODDEF    \
+    {_csv_list_dialects_MethodName.name, (PyCFunction)_csv_list_dialects, METH_NOARGS|METH_C_STACK_FRUGAL, _csv_list_dialects__doc__},
+
 PyDoc_STRVAR(_csv_unregister_dialect__doc__,
 "unregister_dialect($module, /, name)\n"
 "--\n"
@@ -36,10 +36,6 @@ PyDoc_STRVAR(_csv_unregister_dialect__doc__,
 "Delete the name/dialect mapping associated with a string name.\n"
 "\n"
 "    csv.unregister_dialect(name)");
-
-static struct {char name[];} _csv_unregister_dialect_MethodName = {.name = "unregister_dialect",};
-#define _CSV_UNREGISTER_DIALECT_METHODDEF    \
-    {_csv_unregister_dialect_MethodName.name, _PyCFunction_CAST(_csv_unregister_dialect), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _csv_unregister_dialect__doc__},
 
 static PyObject *
 _csv_unregister_dialect_impl(PyObject *module, PyObject *name);
@@ -90,6 +86,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _csv_unregister_dialect_MethodName = {.name = "unregister_dialect",};
+#define _CSV_UNREGISTER_DIALECT_METHODDEF    \
+    {_csv_unregister_dialect_MethodName.name, _PyCFunction_CAST(_csv_unregister_dialect), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _csv_unregister_dialect__doc__},
+
 PyDoc_STRVAR(_csv_get_dialect__doc__,
 "get_dialect($module, /, name)\n"
 "--\n"
@@ -97,10 +97,6 @@ PyDoc_STRVAR(_csv_get_dialect__doc__,
 "Return the dialect instance associated with name.\n"
 "\n"
 "    dialect = csv.get_dialect(name)");
-
-static struct {char name[];} _csv_get_dialect_MethodName = {.name = "get_dialect",};
-#define _CSV_GET_DIALECT_METHODDEF    \
-    {_csv_get_dialect_MethodName.name, _PyCFunction_CAST(_csv_get_dialect), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _csv_get_dialect__doc__},
 
 static PyObject *
 _csv_get_dialect_impl(PyObject *module, PyObject *name);
@@ -151,6 +147,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _csv_get_dialect_MethodName = {.name = "get_dialect",};
+#define _CSV_GET_DIALECT_METHODDEF    \
+    {_csv_get_dialect_MethodName.name, _PyCFunction_CAST(_csv_get_dialect), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _csv_get_dialect__doc__},
+
 PyDoc_STRVAR(_csv_field_size_limit__doc__,
 "field_size_limit($module, /, new_limit=<unrepresentable>)\n"
 "--\n"
@@ -161,10 +161,6 @@ PyDoc_STRVAR(_csv_field_size_limit__doc__,
 "\n"
 "Returns old limit. If limit is not given, no new limit is set and\n"
 "the old limit is returned");
-
-static struct {char name[];} _csv_field_size_limit_MethodName = {.name = "field_size_limit",};
-#define _CSV_FIELD_SIZE_LIMIT_METHODDEF    \
-    {_csv_field_size_limit_MethodName.name, _PyCFunction_CAST(_csv_field_size_limit), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _csv_field_size_limit__doc__},
 
 static PyObject *
 _csv_field_size_limit_impl(PyObject *module, PyObject *new_limit);
@@ -219,4 +215,8 @@ skip_optional_pos:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=089bc3f8f0f0cbfd input=a9049054013a1b77]*/
+
+static struct {char name[];} _csv_field_size_limit_MethodName = {.name = "field_size_limit",};
+#define _CSV_FIELD_SIZE_LIMIT_METHODDEF    \
+    {_csv_field_size_limit_MethodName.name, _PyCFunction_CAST(_csv_field_size_limit), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _csv_field_size_limit__doc__},
+/*[clinic end generated code: output=c8eaedd301a67740 input=a9049054013a1b77]*/

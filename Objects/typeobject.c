@@ -3012,7 +3012,7 @@ call_unbound_noarg(int unbound, PyObject *func, PyObject *self,
                    struct _PyInterpreterFrame **inlined)
 {
     if (unbound) {
-        return _PyObject_CallOneArg_Inlineable(func, self, inlined);
+        return PyObject_CallOneArg_Inlineable(func, self, inlined);
     }
     else {
         return _PyObject_CallNoArgs_Inlineable(func, inlined);
@@ -10705,14 +10705,12 @@ RETURNACTION_STDCLASSDECLARATION_R(int, slot_nb_bool_Inlineable)
 struct slot_nb_bool_Inlineable_State {
     ReturnAction_State base;
     PyObject *self;
-    int using_len;
     int attr_is_none;
 };
 
 static void slot_nb_bool_Inlineable_WrappedInit(slot_nb_bool_Inlineable_State *wrapped, slot_nb_bool_Inlineable_State *state){
     ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
     wrapped->self = Py_NewRef(state->self);
-    wrapped->using_len = state->using_len;
     wrapped->attr_is_none = state->attr_is_none;
 }
 
@@ -10725,6 +10723,7 @@ RETURNACTION_STEPDEFINITION_R(int, slot_nb_bool_Inlineable, 2)
     result = maybe_call_special_no_args(state->self, &_Py_ID(__bool__),
                                                  &state->attr_is_none, inlined);
     RETURNACTION_CHECKINLINED_R(int, 1)
+    int using_len = 0;
     if (state->attr_is_none) {
         PyErr_Format(PyExc_TypeError,
                      "'%.200s' cannot be interpreted as a boolean",
@@ -10737,7 +10736,7 @@ RETURNACTION_STEPDEFINITION_R(int, slot_nb_bool_Inlineable, 2)
         if (result == NULL && !PyErr_Occurred()) {
             return 1;
         }
-        state->using_len = 1;
+        using_len = 1;
     }
 
     if (result == NULL) {
@@ -10745,7 +10744,7 @@ RETURNACTION_STEPDEFINITION_R(int, slot_nb_bool_Inlineable, 2)
     }
 
     int res;
-    if (state->using_len) {
+    if (using_len) {
         /* bool type enforced by slot_nb_len */
         res = PyObject_IsTrue(result);
     }
@@ -10769,7 +10768,6 @@ slot_nb_bool_Inlineable(PyObject *self, struct _PyInterpreterFrame **inlined)
     slot_nb_bool_Inlineable_State state = {
         .base.step = 0,
         .self = self,
-        .using_len = 0,
         .attr_is_none = 0,
     };
     return slot_nb_bool_Inlineable_Step(&state, NULL, inlined);
@@ -11037,43 +11035,58 @@ _PyType_Slot_tp_getattr_hook(PyObject *self, PyObject *name)
     return _PyType_Slot_tp_getattr_hook_Inlineable(self, name, NULL);
 }
 
+RETURNACTION_STDCLASSDECLARATION_R(int, _PyType_Slot_tp_setattro_Inlineable)
+
+struct _PyType_Slot_tp_setattro_Inlineable_State {
+    ReturnAction_State base;
+    PyObject *self;
+    PyObject *name;
+    PyObject *value;
+};
+
+static void _PyType_Slot_tp_setattro_Inlineable_WrappedInit(_PyType_Slot_tp_setattro_Inlineable_State *wrapped, _PyType_Slot_tp_setattro_Inlineable_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+    wrapped->self = Py_NewRef(state->self);
+    wrapped->name = Py_NewRef(state->name);
+    wrapped->value = Py_XNewRef(state->value);
+}
+
+static void _PyType_Slot_tp_setattro_Inlineable_WrappedDtor(_PyType_Slot_tp_setattro_Inlineable_State *wrapped){
+    Py_DECREF(wrapped->self);
+    Py_DECREF(wrapped->name);
+    Py_XDECREF(wrapped->value);
+}
+
+RETURNACTION_STEPDEFINITION_R(int, _PyType_Slot_tp_setattro_Inlineable, 1)
+    PyObject *stack[3];
+
+    stack[0] = state->self;
+    stack[1] = state->name;
+    if (state->value == NULL) {
+        result = vectorcall_method(&_Py_ID(__delattr__), stack, 2, inlined);
+    } else {
+        stack[2] = state->value;
+        result = vectorcall_method(&_Py_ID(__setattr__), stack, 3, inlined);
+    }
+    RETURNACTION_CHECKINLINED_R(int, 1)
+    if (result) {
+        Py_DECREF(result);
+        return 0;
+    }
+    return -1;
+}
+
 extern int
 _PyType_Slot_tp_setattro_Inlineable(PyObject *self, PyObject *name, PyObject *value,
     struct _PyInterpreterFrame **inlined)
 {
-    PyObject *stack[3];
-    PyObject *res;
-
-    stack[0] = self;
-    stack[1] = name;
-    if (inlined) {
-        struct _PyInterpreterFrame *frame = *inlined;
-        if (value == NULL){
-            res = vectorcall_method(&_Py_ID(__delattr__), stack, 2, inlined);
-        } else {
-            stack[2] = value;
-            res = vectorcall_method(&_Py_ID(__setattr__), stack, 3, inlined);
-        }
-        if (res) {
-            if (*inlined != frame)
-                // inlined - res is a borrowed value
-                return 0;
-            Py_DECREF(res);
-            return 0;
-        }
-    } else {
-        if (value == NULL) {
-            res = vectorcall_method(&_Py_ID(__delattr__), stack, 2, NULL);
-        } else {
-            stack[2] = value;
-            res = vectorcall_method(&_Py_ID(__setattr__), stack, 3, NULL);
-        }
-        if (res) {
-            Py_DECREF(res);
-            return 0;
-        }
-    }
-    return -1;
+    _PyType_Slot_tp_setattro_Inlineable_State state = {
+        .base.step = 0,
+        .self = self,
+        .name = name,
+        .value = value,
+    };
+    return _PyType_Slot_tp_setattro_Inlineable_Step(&state, NULL, inlined);
 }
 
 extern int
@@ -11174,44 +11187,58 @@ _PyType_Slot_tp_descr_get(PyObject *self, PyObject *obj, PyObject *type)
     return _PyType_Slot_tp_descr_get_Inlineable(self, obj, type, NULL);
 }
 
+RETURNACTION_STDCLASSDECLARATION_R(int, _PyType_Slot_tp_descr_set_Inlineable)
+
+struct _PyType_Slot_tp_descr_set_Inlineable_State {
+    ReturnAction_State base;
+    PyObject *self;
+    PyObject *target;
+    PyObject *value;
+};
+
+static void _PyType_Slot_tp_descr_set_Inlineable_WrappedInit(_PyType_Slot_tp_descr_set_Inlineable_State *wrapped, _PyType_Slot_tp_descr_set_Inlineable_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+    wrapped->self = Py_NewRef(state->self);
+    wrapped->target = Py_NewRef(state->target);
+    wrapped->value = Py_XNewRef(state->value);
+}
+
+static void _PyType_Slot_tp_descr_set_Inlineable_WrappedDtor(_PyType_Slot_tp_descr_set_Inlineable_State *wrapped){
+    Py_DECREF(wrapped->self);
+    Py_DECREF(wrapped->target);
+    Py_XDECREF(wrapped->value);
+}
+
+RETURNACTION_STEPDEFINITION_R(int, _PyType_Slot_tp_descr_set_Inlineable, 1)
+    PyObject* stack[3];
+
+    stack[0] = state->self;
+    stack[1] = state->target;
+    if (state->value) {
+        stack[2] = state->value;
+        result = vectorcall_method(&_Py_ID(__set__), stack, 3, inlined);
+    }
+    else {
+        result = vectorcall_method(&_Py_ID(__delete__), stack, 2, inlined);
+    }
+    RETURNACTION_CHECKINLINED_R(int, 1)
+    if (result){
+        Py_DECREF(result);
+        return 0;
+    }
+    return -1;
+}
+
 int
 _PyType_Slot_tp_descr_set_Inlineable(PyObject *self, PyObject *target, PyObject *value, struct _PyInterpreterFrame **inlined)
 {
-    PyObject* stack[3];
-    PyObject *res;
-
-    stack[0] = self;
-    stack[1] = target;
-    if (inlined) {
-        struct _PyInterpreterFrame *frame = *inlined;
-        if (value) {
-            stack[2] = value;
-            res = vectorcall_method(&_Py_ID(__set__), stack, 3, inlined);
-        }
-        else {
-            res = vectorcall_method(&_Py_ID(__delete__), stack, 2, inlined);
-        }
-        if (res) {
-            if (*inlined != frame){
-                return 0;
-            }
-            Py_DECREF(res);
-            return 0;
-        }
-    } else {
-        if (value) {
-            stack[2] = value;
-            res = vectorcall_method(&_Py_ID(__set__), stack, 3, NULL);
-        }
-        else {
-            res = vectorcall_method(&_Py_ID(__delete__), stack, 2, NULL);
-        }
-        if (res){
-            Py_DECREF(res);
-            return 0;
-        }
-    }
-    return -1;
+    _PyType_Slot_tp_descr_set_Inlineable_State state = {
+        .base.step = 0,
+        .self = self,
+        .target = target,
+        .value = value,
+    };
+    return _PyType_Slot_tp_descr_set_Inlineable_Step(&state, NULL, inlined);
 }
 
 int
@@ -11221,7 +11248,7 @@ _PyType_Slot_tp_descr_set(PyObject *self, PyObject *target, PyObject *value)
 }
 
 
-RETURNACTION_STDCLASSDECLARATION_R(int, slot_tp_init_Inlineable)
+RETURNACTION_STDCLASSDECLARATION_R(Py_ssize_t, slot_tp_init_Inlineable)
 
 struct slot_tp_init_Inlineable_State {
     ReturnAction_State base;
@@ -11232,15 +11259,21 @@ struct slot_tp_init_Inlineable_State {
 
 static void slot_tp_init_Inlineable_WrappedInit(slot_tp_init_Inlineable_State *wrapped, slot_tp_init_Inlineable_State *state){
     ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+    wrapped->self = Py_NewRef(state->self);
+    wrapped->args = Py_NewRef(state->args);
+    wrapped->kwds = Py_NewRef(state->kwds);
 }
 
 static void slot_tp_init_Inlineable_WrappedDtor(slot_tp_init_Inlineable_State *wrapped){
+    Py_DECREF(wrapped->self);
+    Py_DECREF(wrapped->args);
+    Py_DECREF(wrapped->kwds);
 }
 
-RETURNACTION_STEPDEFINITION_R(int, slot_tp_init_Inlineable, 1)
+RETURNACTION_STEPDEFINITION_R(Py_ssize_t, slot_tp_init_Inlineable, 1)
 
     result = call_method(state->self, &_Py_ID(__init__), state->args, state->kwds, inlined);
-    RETURNACTION_CHECKINLINED_R(int, 1)
+    RETURNACTION_CHECKINLINED_R(Py_ssize_t, 1)
     if (result == NULL)
         return -1;
     if (result != Py_None) {
@@ -11263,7 +11296,7 @@ slot_tp_init_Inlineable(PyObject *self, PyObject *args, PyObject *kwds, struct _
         .args = args,
         .kwds = kwds,
     };
-    return slot_tp_init_Inlineable_Step(&state, NULL, inlined);
+    return (int)slot_tp_init_Inlineable_Step(&state, NULL, inlined);
 }
 
 static int

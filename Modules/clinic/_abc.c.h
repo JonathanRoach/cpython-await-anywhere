@@ -58,10 +58,6 @@ PyDoc_STRVAR(_abc__abc_register__doc__,
 "\n"
 "Internal ABC helper for subclasss registration. Should be never used outside abc module.");
 
-static struct {char name[];} _abc__abc_register_MethodName = {.name = "_abc_register",};
-#define _ABC__ABC_REGISTER_METHODDEF    \
-    {_abc__abc_register_MethodName.name, _PyCFunction_CAST(_abc__abc_register), METH_FASTCALL|METH_C_STACK_FRUGAL, _abc__abc_register__doc__},
-
 static PyObject *
 _abc__abc_register_impl(PyObject *module, PyObject *self, PyObject *subclass);
 
@@ -83,15 +79,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _abc__abc_register_MethodName = {.name = "_abc_register",};
+#define _ABC__ABC_REGISTER_METHODDEF    \
+    {_abc__abc_register_MethodName.name, _PyCFunction_CAST(_abc__abc_register), METH_FASTCALL|METH_C_STACK_FRUGAL, _abc__abc_register__doc__},
+
 PyDoc_STRVAR(_abc__abc_instancecheck__doc__,
 "_abc_instancecheck($module, self, instance, /)\n"
 "--\n"
 "\n"
 "Internal ABC helper for instance checks. Should be never used outside abc module.");
-
-static struct {char name[];} _abc__abc_instancecheck_MethodName = {.name = "_abc_instancecheck",};
-#define _ABC__ABC_INSTANCECHECK_METHODDEF    \
-    {_abc__abc_instancecheck_MethodName.name, _PyCFunction_CAST(_abc__abc_instancecheck), METH_FASTCALL|METH_C_STACK_FRUGAL, _abc__abc_instancecheck__doc__},
 
 static PyObject *
 _abc__abc_instancecheck_impl(PyObject *module, PyObject *self,
@@ -115,15 +111,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _abc__abc_instancecheck_MethodName = {.name = "_abc_instancecheck",};
+#define _ABC__ABC_INSTANCECHECK_METHODDEF    \
+    {_abc__abc_instancecheck_MethodName.name, _PyCFunction_CAST(_abc__abc_instancecheck), METH_FASTCALL|METH_C_STACK_FRUGAL, _abc__abc_instancecheck__doc__},
+
 PyDoc_STRVAR(_abc__abc_subclasscheck__doc__,
 "_abc_subclasscheck($module, self, subclass, /)\n"
 "--\n"
 "\n"
 "Internal ABC helper for subclasss checks. Should be never used outside abc module.");
-
-static struct {char name[];} _abc__abc_subclasscheck_MethodName = {.name = "_abc_subclasscheck",};
-#define _ABC__ABC_SUBCLASSCHECK_METHODDEF    \
-    {_abc__abc_subclasscheck_MethodName.name, _PyCFunction_CAST(_abc__abc_subclasscheck), METH_FASTCALL|METH_C_STACK_FRUGAL, _abc__abc_subclasscheck__doc__},
 
 static PyObject *
 _abc__abc_subclasscheck_impl(PyObject *module, PyObject *self,
@@ -147,6 +143,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _abc__abc_subclasscheck_MethodName = {.name = "_abc_subclasscheck",};
+#define _ABC__ABC_SUBCLASSCHECK_METHODDEF    \
+    {_abc__abc_subclasscheck_MethodName.name, _PyCFunction_CAST(_abc__abc_subclasscheck), METH_FASTCALL|METH_C_STACK_FRUGAL, _abc__abc_subclasscheck__doc__},
+
 PyDoc_STRVAR(_abc_get_cache_token__doc__,
 "get_cache_token($module, /)\n"
 "--\n"
@@ -157,10 +157,6 @@ PyDoc_STRVAR(_abc_get_cache_token__doc__,
 "current version of the ABC cache for virtual subclasses. The token changes\n"
 "with every call to register() on any ABC.");
 
-static struct {char name[];} _abc_get_cache_token_MethodName = {.name = "get_cache_token",};
-#define _ABC_GET_CACHE_TOKEN_METHODDEF    \
-    {_abc_get_cache_token_MethodName.name, (PyCFunction)_abc_get_cache_token, METH_NOARGS|METH_C_STACK_FRUGAL, _abc_get_cache_token__doc__},
-
 static PyObject *
 _abc_get_cache_token_impl(PyObject *module);
 
@@ -169,4 +165,8 @@ _abc_get_cache_token(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return _abc_get_cache_token_impl(module);
 }
-/*[clinic end generated code: output=19db91844a0f99d8 input=a9049054013a1b77]*/
+
+static struct {char name[];} _abc_get_cache_token_MethodName = {.name = "get_cache_token",};
+#define _ABC_GET_CACHE_TOKEN_METHODDEF    \
+    {_abc_get_cache_token_MethodName.name, (PyCFunction)_abc_get_cache_token, METH_NOARGS|METH_C_STACK_FRUGAL, _abc_get_cache_token__doc__},
+/*[clinic end generated code: output=ab877853dee9819c input=a9049054013a1b77]*/

@@ -19,10 +19,6 @@ PyDoc_STRVAR(winreg_HKEYType_Close__doc__,
 "\n"
 "If the handle is already closed, no error is raised.");
 
-static struct {char name[];} winreg_HKEYType_Close_MethodName = {.name = "Close",};
-#define WINREG_HKEYTYPE_CLOSE_METHODDEF    \
-    {winreg_HKEYType_Close_MethodName.name, (PyCFunction)winreg_HKEYType_Close, METH_NOARGS|METH_C_STACK_FRUGAL, winreg_HKEYType_Close__doc__},
-
 static PyObject *
 winreg_HKEYType_Close_impl(PyHKEYObject *self);
 
@@ -31,6 +27,10 @@ winreg_HKEYType_Close(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return winreg_HKEYType_Close_impl((PyHKEYObject *)self);
 }
+
+static struct {char name[];} winreg_HKEYType_Close_MethodName = {.name = "Close",};
+#define WINREG_HKEYTYPE_CLOSE_METHODDEF    \
+    {winreg_HKEYType_Close_MethodName.name, (PyCFunction)winreg_HKEYType_Close, METH_NOARGS|METH_C_STACK_FRUGAL, winreg_HKEYType_Close__doc__},
 
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) */
 
@@ -50,10 +50,6 @@ PyDoc_STRVAR(winreg_HKEYType_Detach__doc__,
 "need the underlying win32 handle to exist beyond the lifetime of the\n"
 "handle object.");
 
-static struct {char name[];} winreg_HKEYType_Detach_MethodName = {.name = "Detach",};
-#define WINREG_HKEYTYPE_DETACH_METHODDEF    \
-    {winreg_HKEYType_Detach_MethodName.name, (PyCFunction)winreg_HKEYType_Detach, METH_NOARGS|METH_C_STACK_FRUGAL, winreg_HKEYType_Detach__doc__},
-
 static PyObject *
 winreg_HKEYType_Detach_impl(PyHKEYObject *self);
 
@@ -63,6 +59,10 @@ winreg_HKEYType_Detach(PyObject *self, PyObject *Py_UNUSED(ignored))
     return winreg_HKEYType_Detach_impl((PyHKEYObject *)self);
 }
 
+static struct {char name[];} winreg_HKEYType_Detach_MethodName = {.name = "Detach",};
+#define WINREG_HKEYTYPE_DETACH_METHODDEF    \
+    {winreg_HKEYType_Detach_MethodName.name, (PyCFunction)winreg_HKEYType_Detach, METH_NOARGS|METH_C_STACK_FRUGAL, winreg_HKEYType_Detach__doc__},
+
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) */
 
 #if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES))
@@ -71,10 +71,6 @@ PyDoc_STRVAR(winreg_HKEYType___enter____doc__,
 "__enter__($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} winreg_HKEYType___enter___MethodName = {.name = "__enter__",};
-#define WINREG_HKEYTYPE___ENTER___METHODDEF    \
-    {winreg_HKEYType___enter___MethodName.name, (PyCFunction)winreg_HKEYType___enter__, METH_NOARGS|METH_C_STACK_FRUGAL, winreg_HKEYType___enter____doc__},
 
 static PyHKEYObject *
 winreg_HKEYType___enter___impl(PyHKEYObject *self);
@@ -91,6 +87,10 @@ winreg_HKEYType___enter__(PyObject *self, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} winreg_HKEYType___enter___MethodName = {.name = "__enter__",};
+#define WINREG_HKEYTYPE___ENTER___METHODDEF    \
+    {winreg_HKEYType___enter___MethodName.name, (PyCFunction)winreg_HKEYType___enter__, METH_NOARGS|METH_C_STACK_FRUGAL, winreg_HKEYType___enter____doc__},
+
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) */
 
 #if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES))
@@ -99,10 +99,6 @@ PyDoc_STRVAR(winreg_HKEYType___exit____doc__,
 "__exit__($self, exc_type, exc_value, traceback, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} winreg_HKEYType___exit___MethodName = {.name = "__exit__",};
-#define WINREG_HKEYTYPE___EXIT___METHODDEF    \
-    {winreg_HKEYType___exit___MethodName.name, _PyCFunction_CAST(winreg_HKEYType___exit__), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_HKEYType___exit____doc__},
 
 static PyObject *
 winreg_HKEYType___exit___impl(PyHKEYObject *self, PyObject *exc_type,
@@ -127,6 +123,10 @@ winreg_HKEYType___exit__(PyObject *self, PyObject *const *args, Py_ssize_t nargs
 exit:
     return return_value;
 }
+
+static struct {char name[];} winreg_HKEYType___exit___MethodName = {.name = "__exit__",};
+#define WINREG_HKEYTYPE___EXIT___METHODDEF    \
+    {winreg_HKEYType___exit___MethodName.name, _PyCFunction_CAST(winreg_HKEYType___exit__), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_HKEYType___exit____doc__},
 
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) */
 
@@ -166,10 +166,6 @@ PyDoc_STRVAR(winreg_ConnectRegistry__doc__,
 "\n"
 "The return value is the handle of the opened key.\n"
 "If the function fails, an OSError exception is raised.");
-
-static struct {char name[];} winreg_ConnectRegistry_MethodName = {.name = "ConnectRegistry",};
-#define WINREG_CONNECTREGISTRY_METHODDEF    \
-    {winreg_ConnectRegistry_MethodName.name, _PyCFunction_CAST(winreg_ConnectRegistry), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_ConnectRegistry__doc__},
 
 static HKEY
 winreg_ConnectRegistry_impl(PyObject *module, const wchar_t *computer_name,
@@ -215,6 +211,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} winreg_ConnectRegistry_MethodName = {.name = "ConnectRegistry",};
+#define WINREG_CONNECTREGISTRY_METHODDEF    \
+    {winreg_ConnectRegistry_MethodName.name, _PyCFunction_CAST(winreg_ConnectRegistry), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_ConnectRegistry__doc__},
+
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) && (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM)) */
 
 #if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES))
@@ -237,10 +237,6 @@ PyDoc_STRVAR(winreg_CreateKey__doc__,
 "\n"
 "The return value is the handle of the opened key.\n"
 "If the function fails, an OSError exception is raised.");
-
-static struct {char name[];} winreg_CreateKey_MethodName = {.name = "CreateKey",};
-#define WINREG_CREATEKEY_METHODDEF    \
-    {winreg_CreateKey_MethodName.name, _PyCFunction_CAST(winreg_CreateKey), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_CreateKey__doc__},
 
 static HKEY
 winreg_CreateKey_impl(PyObject *module, HKEY key, const wchar_t *sub_key);
@@ -285,6 +281,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} winreg_CreateKey_MethodName = {.name = "CreateKey",};
+#define WINREG_CREATEKEY_METHODDEF    \
+    {winreg_CreateKey_MethodName.name, _PyCFunction_CAST(winreg_CreateKey), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_CreateKey__doc__},
+
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) */
 
 #if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES))
@@ -313,10 +313,6 @@ PyDoc_STRVAR(winreg_CreateKeyEx__doc__,
 "\n"
 "The return value is the handle of the opened key.\n"
 "If the function fails, an OSError exception is raised.");
-
-static struct {char name[];} winreg_CreateKeyEx_MethodName = {.name = "CreateKeyEx",};
-#define WINREG_CREATEKEYEX_METHODDEF    \
-    {winreg_CreateKeyEx_MethodName.name, _PyCFunction_CAST(winreg_CreateKeyEx), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, winreg_CreateKeyEx__doc__},
 
 static HKEY
 winreg_CreateKeyEx_impl(PyObject *module, HKEY key, const wchar_t *sub_key,
@@ -412,6 +408,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} winreg_CreateKeyEx_MethodName = {.name = "CreateKeyEx",};
+#define WINREG_CREATEKEYEX_METHODDEF    \
+    {winreg_CreateKeyEx_MethodName.name, _PyCFunction_CAST(winreg_CreateKeyEx), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, winreg_CreateKeyEx__doc__},
+
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) */
 
 #if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES))
@@ -433,10 +433,6 @@ PyDoc_STRVAR(winreg_DeleteKey__doc__,
 "\n"
 "If the function succeeds, the entire key, including all of its values,\n"
 "is removed.  If the function fails, an OSError exception is raised.");
-
-static struct {char name[];} winreg_DeleteKey_MethodName = {.name = "DeleteKey",};
-#define WINREG_DELETEKEY_METHODDEF    \
-    {winreg_DeleteKey_MethodName.name, _PyCFunction_CAST(winreg_DeleteKey), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_DeleteKey__doc__},
 
 static PyObject *
 winreg_DeleteKey_impl(PyObject *module, HKEY key, const wchar_t *sub_key);
@@ -471,6 +467,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} winreg_DeleteKey_MethodName = {.name = "DeleteKey",};
+#define WINREG_DELETEKEY_METHODDEF    \
+    {winreg_DeleteKey_MethodName.name, _PyCFunction_CAST(winreg_DeleteKey), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_DeleteKey__doc__},
+
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) */
 
 #if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES))
@@ -502,10 +502,6 @@ PyDoc_STRVAR(winreg_DeleteKeyEx__doc__,
 "If the function succeeds, the entire key, including all of its values,\n"
 "is removed.  If the function fails, an OSError exception is raised.\n"
 "On unsupported Windows versions, NotImplementedError is raised.");
-
-static struct {char name[];} winreg_DeleteKeyEx_MethodName = {.name = "DeleteKeyEx",};
-#define WINREG_DELETEKEYEX_METHODDEF    \
-    {winreg_DeleteKeyEx_MethodName.name, _PyCFunction_CAST(winreg_DeleteKeyEx), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, winreg_DeleteKeyEx__doc__},
 
 static PyObject *
 winreg_DeleteKeyEx_impl(PyObject *module, HKEY key, const wchar_t *sub_key,
@@ -591,6 +587,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} winreg_DeleteKeyEx_MethodName = {.name = "DeleteKeyEx",};
+#define WINREG_DELETEKEYEX_METHODDEF    \
+    {winreg_DeleteKeyEx_MethodName.name, _PyCFunction_CAST(winreg_DeleteKeyEx), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, winreg_DeleteKeyEx__doc__},
+
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) */
 
 #if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES))
@@ -605,10 +605,6 @@ PyDoc_STRVAR(winreg_DeleteValue__doc__,
 "    An already open key, or any one of the predefined HKEY_* constants.\n"
 "  value\n"
 "    A string that identifies the value to remove.");
-
-static struct {char name[];} winreg_DeleteValue_MethodName = {.name = "DeleteValue",};
-#define WINREG_DELETEVALUE_METHODDEF    \
-    {winreg_DeleteValue_MethodName.name, _PyCFunction_CAST(winreg_DeleteValue), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_DeleteValue__doc__},
 
 static PyObject *
 winreg_DeleteValue_impl(PyObject *module, HKEY key, const wchar_t *value);
@@ -648,6 +644,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} winreg_DeleteValue_MethodName = {.name = "DeleteValue",};
+#define WINREG_DELETEVALUE_METHODDEF    \
+    {winreg_DeleteValue_MethodName.name, _PyCFunction_CAST(winreg_DeleteValue), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_DeleteValue__doc__},
+
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) */
 
 #if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES))
@@ -666,10 +666,6 @@ PyDoc_STRVAR(winreg_EnumKey__doc__,
 "The function retrieves the name of one subkey each time it is called.\n"
 "It is typically called repeatedly until an OSError exception is\n"
 "raised, indicating no more values are available.");
-
-static struct {char name[];} winreg_EnumKey_MethodName = {.name = "EnumKey",};
-#define WINREG_ENUMKEY_METHODDEF    \
-    {winreg_EnumKey_MethodName.name, _PyCFunction_CAST(winreg_EnumKey), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_EnumKey__doc__},
 
 static PyObject *
 winreg_EnumKey_impl(PyObject *module, HKEY key, int index);
@@ -696,6 +692,10 @@ winreg_EnumKey(PyObject *module, PyObject *const *args, Py_ssize_t nargs)
 exit:
     return return_value;
 }
+
+static struct {char name[];} winreg_EnumKey_MethodName = {.name = "EnumKey",};
+#define WINREG_ENUMKEY_METHODDEF    \
+    {winreg_EnumKey_MethodName.name, _PyCFunction_CAST(winreg_EnumKey), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_EnumKey__doc__},
 
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) */
 
@@ -725,10 +725,6 @@ PyDoc_STRVAR(winreg_EnumValue__doc__,
 "  data_type\n"
 "    An integer that identifies the type of the value data.");
 
-static struct {char name[];} winreg_EnumValue_MethodName = {.name = "EnumValue",};
-#define WINREG_ENUMVALUE_METHODDEF    \
-    {winreg_EnumValue_MethodName.name, _PyCFunction_CAST(winreg_EnumValue), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_EnumValue__doc__},
-
 static PyObject *
 winreg_EnumValue_impl(PyObject *module, HKEY key, int index);
 
@@ -755,6 +751,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} winreg_EnumValue_MethodName = {.name = "EnumValue",};
+#define WINREG_ENUMVALUE_METHODDEF    \
+    {winreg_EnumValue_MethodName.name, _PyCFunction_CAST(winreg_EnumValue), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_EnumValue__doc__},
+
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) */
 
 #if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES))
@@ -764,10 +764,6 @@ PyDoc_STRVAR(winreg_ExpandEnvironmentStrings__doc__,
 "--\n"
 "\n"
 "Expand environment vars.");
-
-static struct {char name[];} winreg_ExpandEnvironmentStrings_MethodName = {.name = "ExpandEnvironmentStrings",};
-#define WINREG_EXPANDENVIRONMENTSTRINGS_METHODDEF    \
-    {winreg_ExpandEnvironmentStrings_MethodName.name, (PyCFunction)winreg_ExpandEnvironmentStrings, METH_O|METH_C_STACK_FRUGAL, winreg_ExpandEnvironmentStrings__doc__},
 
 static PyObject *
 winreg_ExpandEnvironmentStrings_impl(PyObject *module, const wchar_t *string);
@@ -795,6 +791,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} winreg_ExpandEnvironmentStrings_MethodName = {.name = "ExpandEnvironmentStrings",};
+#define WINREG_EXPANDENVIRONMENTSTRINGS_METHODDEF    \
+    {winreg_ExpandEnvironmentStrings_MethodName.name, (PyCFunction)winreg_ExpandEnvironmentStrings, METH_O|METH_C_STACK_FRUGAL, winreg_ExpandEnvironmentStrings__doc__},
+
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) */
 
 #if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) && (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM))
@@ -818,10 +818,6 @@ PyDoc_STRVAR(winreg_FlushKey__doc__,
 "certainty that registry changes are on disk.  If you don\'t know whether\n"
 "a FlushKey() call is required, it probably isn\'t.");
 
-static struct {char name[];} winreg_FlushKey_MethodName = {.name = "FlushKey",};
-#define WINREG_FLUSHKEY_METHODDEF    \
-    {winreg_FlushKey_MethodName.name, (PyCFunction)winreg_FlushKey, METH_O|METH_C_STACK_FRUGAL, winreg_FlushKey__doc__},
-
 static PyObject *
 winreg_FlushKey_impl(PyObject *module, HKEY key);
 
@@ -839,6 +835,10 @@ winreg_FlushKey(PyObject *module, PyObject *arg)
 exit:
     return return_value;
 }
+
+static struct {char name[];} winreg_FlushKey_MethodName = {.name = "FlushKey",};
+#define WINREG_FLUSHKEY_METHODDEF    \
+    {winreg_FlushKey_MethodName.name, (PyCFunction)winreg_FlushKey, METH_O|METH_C_STACK_FRUGAL, winreg_FlushKey__doc__},
 
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) && (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM)) */
 
@@ -871,10 +871,6 @@ PyDoc_STRVAR(winreg_LoadKey__doc__,
 "\n"
 "The MSDN docs imply key must be in the HKEY_USER or HKEY_LOCAL_MACHINE\n"
 "tree.");
-
-static struct {char name[];} winreg_LoadKey_MethodName = {.name = "LoadKey",};
-#define WINREG_LOADKEY_METHODDEF    \
-    {winreg_LoadKey_MethodName.name, _PyCFunction_CAST(winreg_LoadKey), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_LoadKey__doc__},
 
 static PyObject *
 winreg_LoadKey_impl(PyObject *module, HKEY key, const wchar_t *sub_key,
@@ -921,6 +917,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} winreg_LoadKey_MethodName = {.name = "LoadKey",};
+#define WINREG_LOADKEY_METHODDEF    \
+    {winreg_LoadKey_MethodName.name, _PyCFunction_CAST(winreg_LoadKey), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_LoadKey__doc__},
+
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) && (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM)) */
 
 #if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES))
@@ -943,10 +943,6 @@ PyDoc_STRVAR(winreg_OpenKey__doc__,
 "\n"
 "The result is a new handle to the specified key.\n"
 "If the function fails, an OSError exception is raised.");
-
-static struct {char name[];} winreg_OpenKey_MethodName = {.name = "OpenKey",};
-#define WINREG_OPENKEY_METHODDEF    \
-    {winreg_OpenKey_MethodName.name, _PyCFunction_CAST(winreg_OpenKey), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, winreg_OpenKey__doc__},
 
 static HKEY
 winreg_OpenKey_impl(PyObject *module, HKEY key, const wchar_t *sub_key,
@@ -1042,6 +1038,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} winreg_OpenKey_MethodName = {.name = "OpenKey",};
+#define WINREG_OPENKEY_METHODDEF    \
+    {winreg_OpenKey_MethodName.name, _PyCFunction_CAST(winreg_OpenKey), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, winreg_OpenKey__doc__},
+
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) */
 
 #if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES))
@@ -1064,10 +1064,6 @@ PyDoc_STRVAR(winreg_OpenKeyEx__doc__,
 "\n"
 "The result is a new handle to the specified key.\n"
 "If the function fails, an OSError exception is raised.");
-
-static struct {char name[];} winreg_OpenKeyEx_MethodName = {.name = "OpenKeyEx",};
-#define WINREG_OPENKEYEX_METHODDEF    \
-    {winreg_OpenKeyEx_MethodName.name, _PyCFunction_CAST(winreg_OpenKeyEx), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, winreg_OpenKeyEx__doc__},
 
 static HKEY
 winreg_OpenKeyEx_impl(PyObject *module, HKEY key, const wchar_t *sub_key,
@@ -1163,6 +1159,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} winreg_OpenKeyEx_MethodName = {.name = "OpenKeyEx",};
+#define WINREG_OPENKEYEX_METHODDEF    \
+    {winreg_OpenKeyEx_MethodName.name, _PyCFunction_CAST(winreg_OpenKeyEx), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, winreg_OpenKeyEx__doc__},
+
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) */
 
 #if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES))
@@ -1182,10 +1182,6 @@ PyDoc_STRVAR(winreg_QueryInfoKey__doc__,
 "An integer that identifies when the key was last modified (if available)\n"
 "as 100\'s of nanoseconds since Jan 1, 1600.");
 
-static struct {char name[];} winreg_QueryInfoKey_MethodName = {.name = "QueryInfoKey",};
-#define WINREG_QUERYINFOKEY_METHODDEF    \
-    {winreg_QueryInfoKey_MethodName.name, (PyCFunction)winreg_QueryInfoKey, METH_O|METH_C_STACK_FRUGAL, winreg_QueryInfoKey__doc__},
-
 static PyObject *
 winreg_QueryInfoKey_impl(PyObject *module, HKEY key);
 
@@ -1203,6 +1199,10 @@ winreg_QueryInfoKey(PyObject *module, PyObject *arg)
 exit:
     return return_value;
 }
+
+static struct {char name[];} winreg_QueryInfoKey_MethodName = {.name = "QueryInfoKey",};
+#define WINREG_QUERYINFOKEY_METHODDEF    \
+    {winreg_QueryInfoKey_MethodName.name, (PyCFunction)winreg_QueryInfoKey, METH_O|METH_C_STACK_FRUGAL, winreg_QueryInfoKey__doc__},
 
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) */
 
@@ -1227,10 +1227,6 @@ PyDoc_STRVAR(winreg_QueryValue__doc__,
 "But since the underlying API call doesn\'t return the type, you\'ll\n"
 "probably be happier using QueryValueEx; this function is just here for\n"
 "completeness.");
-
-static struct {char name[];} winreg_QueryValue_MethodName = {.name = "QueryValue",};
-#define WINREG_QUERYVALUE_METHODDEF    \
-    {winreg_QueryValue_MethodName.name, _PyCFunction_CAST(winreg_QueryValue), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_QueryValue__doc__},
 
 static PyObject *
 winreg_QueryValue_impl(PyObject *module, HKEY key, const wchar_t *sub_key);
@@ -1270,6 +1266,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} winreg_QueryValue_MethodName = {.name = "QueryValue",};
+#define WINREG_QUERYVALUE_METHODDEF    \
+    {winreg_QueryValue_MethodName.name, _PyCFunction_CAST(winreg_QueryValue), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_QueryValue__doc__},
+
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) */
 
 #if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES))
@@ -1289,10 +1289,6 @@ PyDoc_STRVAR(winreg_QueryValueEx__doc__,
 "specified value name associated with the given open registry key.\n"
 "\n"
 "The return value is a tuple of the value and the type_id.");
-
-static struct {char name[];} winreg_QueryValueEx_MethodName = {.name = "QueryValueEx",};
-#define WINREG_QUERYVALUEEX_METHODDEF    \
-    {winreg_QueryValueEx_MethodName.name, _PyCFunction_CAST(winreg_QueryValueEx), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_QueryValueEx__doc__},
 
 static PyObject *
 winreg_QueryValueEx_impl(PyObject *module, HKEY key, const wchar_t *name);
@@ -1332,6 +1328,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} winreg_QueryValueEx_MethodName = {.name = "QueryValueEx",};
+#define WINREG_QUERYVALUEEX_METHODDEF    \
+    {winreg_QueryValueEx_MethodName.name, _PyCFunction_CAST(winreg_QueryValueEx), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_QueryValueEx__doc__},
+
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) */
 
 #if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) && (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM))
@@ -1356,10 +1356,6 @@ PyDoc_STRVAR(winreg_SaveKey__doc__,
 "The caller of this method must possess the SeBackupPrivilege\n"
 "security privilege.  This function passes NULL for security_attributes\n"
 "to the API.");
-
-static struct {char name[];} winreg_SaveKey_MethodName = {.name = "SaveKey",};
-#define WINREG_SAVEKEY_METHODDEF    \
-    {winreg_SaveKey_MethodName.name, _PyCFunction_CAST(winreg_SaveKey), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_SaveKey__doc__},
 
 static PyObject *
 winreg_SaveKey_impl(PyObject *module, HKEY key, const wchar_t *file_name);
@@ -1394,6 +1390,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} winreg_SaveKey_MethodName = {.name = "SaveKey",};
+#define WINREG_SAVEKEY_METHODDEF    \
+    {winreg_SaveKey_MethodName.name, _PyCFunction_CAST(winreg_SaveKey), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_SaveKey__doc__},
+
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) && (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM)) */
 
 #if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES))
@@ -1423,10 +1423,6 @@ PyDoc_STRVAR(winreg_SetValue__doc__,
 "\n"
 "The key identified by the key parameter must have been opened with\n"
 "KEY_SET_VALUE access.");
-
-static struct {char name[];} winreg_SetValue_MethodName = {.name = "SetValue",};
-#define WINREG_SETVALUE_METHODDEF    \
-    {winreg_SetValue_MethodName.name, _PyCFunction_CAST(winreg_SetValue), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_SetValue__doc__},
 
 static PyObject *
 winreg_SetValue_impl(PyObject *module, HKEY key, const wchar_t *sub_key,
@@ -1477,6 +1473,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} winreg_SetValue_MethodName = {.name = "SetValue",};
+#define WINREG_SETVALUE_METHODDEF    \
+    {winreg_SetValue_MethodName.name, _PyCFunction_CAST(winreg_SetValue), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_SetValue__doc__},
+
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) */
 
 #if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES))
@@ -1523,10 +1523,6 @@ PyDoc_STRVAR(winreg_SetValueEx__doc__,
 "Value lengths are limited by available memory. Long values (more than\n"
 "2048 bytes) should be stored as files with the filenames stored in\n"
 "the configuration registry to help the registry perform efficiently.");
-
-static struct {char name[];} winreg_SetValueEx_MethodName = {.name = "SetValueEx",};
-#define WINREG_SETVALUEEX_METHODDEF    \
-    {winreg_SetValueEx_MethodName.name, _PyCFunction_CAST(winreg_SetValueEx), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_SetValueEx__doc__},
 
 static PyObject *
 winreg_SetValueEx_impl(PyObject *module, HKEY key, const wchar_t *value_name,
@@ -1575,6 +1571,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} winreg_SetValueEx_MethodName = {.name = "SetValueEx",};
+#define WINREG_SETVALUEEX_METHODDEF    \
+    {winreg_SetValueEx_MethodName.name, _PyCFunction_CAST(winreg_SetValueEx), METH_FASTCALL|METH_C_STACK_FRUGAL, winreg_SetValueEx__doc__},
+
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) */
 
 #if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) && (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM))
@@ -1594,10 +1594,6 @@ PyDoc_STRVAR(winreg_DisableReflectionKey__doc__,
 "no effect.  Disabling reflection for a key does not affect reflection\n"
 "of any subkeys.");
 
-static struct {char name[];} winreg_DisableReflectionKey_MethodName = {.name = "DisableReflectionKey",};
-#define WINREG_DISABLEREFLECTIONKEY_METHODDEF    \
-    {winreg_DisableReflectionKey_MethodName.name, (PyCFunction)winreg_DisableReflectionKey, METH_O|METH_C_STACK_FRUGAL, winreg_DisableReflectionKey__doc__},
-
 static PyObject *
 winreg_DisableReflectionKey_impl(PyObject *module, HKEY key);
 
@@ -1616,6 +1612,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} winreg_DisableReflectionKey_MethodName = {.name = "DisableReflectionKey",};
+#define WINREG_DISABLEREFLECTIONKEY_METHODDEF    \
+    {winreg_DisableReflectionKey_MethodName.name, (PyCFunction)winreg_DisableReflectionKey, METH_O|METH_C_STACK_FRUGAL, winreg_DisableReflectionKey__doc__},
+
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) && (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM)) */
 
 #if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) && (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM))
@@ -1632,10 +1632,6 @@ PyDoc_STRVAR(winreg_EnableReflectionKey__doc__,
 "Will generally raise NotImplementedError if executed on a 32bit OS.\n"
 "Restoring reflection for a key does not affect reflection of any\n"
 "subkeys.");
-
-static struct {char name[];} winreg_EnableReflectionKey_MethodName = {.name = "EnableReflectionKey",};
-#define WINREG_ENABLEREFLECTIONKEY_METHODDEF    \
-    {winreg_EnableReflectionKey_MethodName.name, (PyCFunction)winreg_EnableReflectionKey, METH_O|METH_C_STACK_FRUGAL, winreg_EnableReflectionKey__doc__},
 
 static PyObject *
 winreg_EnableReflectionKey_impl(PyObject *module, HKEY key);
@@ -1655,6 +1651,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} winreg_EnableReflectionKey_MethodName = {.name = "EnableReflectionKey",};
+#define WINREG_ENABLEREFLECTIONKEY_METHODDEF    \
+    {winreg_EnableReflectionKey_MethodName.name, (PyCFunction)winreg_EnableReflectionKey, METH_O|METH_C_STACK_FRUGAL, winreg_EnableReflectionKey__doc__},
+
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) && (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM)) */
 
 #if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) && (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM))
@@ -1669,10 +1669,6 @@ PyDoc_STRVAR(winreg_QueryReflectionKey__doc__,
 "    An already open key, or any one of the predefined HKEY_* constants.\n"
 "\n"
 "Will generally raise NotImplementedError if executed on a 32bit OS.");
-
-static struct {char name[];} winreg_QueryReflectionKey_MethodName = {.name = "QueryReflectionKey",};
-#define WINREG_QUERYREFLECTIONKEY_METHODDEF    \
-    {winreg_QueryReflectionKey_MethodName.name, (PyCFunction)winreg_QueryReflectionKey, METH_O|METH_C_STACK_FRUGAL, winreg_QueryReflectionKey__doc__},
 
 static PyObject *
 winreg_QueryReflectionKey_impl(PyObject *module, HKEY key);
@@ -1691,6 +1687,10 @@ winreg_QueryReflectionKey(PyObject *module, PyObject *arg)
 exit:
     return return_value;
 }
+
+static struct {char name[];} winreg_QueryReflectionKey_MethodName = {.name = "QueryReflectionKey",};
+#define WINREG_QUERYREFLECTIONKEY_METHODDEF    \
+    {winreg_QueryReflectionKey_MethodName.name, (PyCFunction)winreg_QueryReflectionKey, METH_O|METH_C_STACK_FRUGAL, winreg_QueryReflectionKey__doc__},
 
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM) || defined(MS_WINDOWS_GAMES)) && (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_SYSTEM)) */
 
@@ -1801,4 +1801,4 @@ exit:
 #ifndef WINREG_QUERYREFLECTIONKEY_METHODDEF
     #define WINREG_QUERYREFLECTIONKEY_METHODDEF
 #endif /* !defined(WINREG_QUERYREFLECTIONKEY_METHODDEF) */
-/*[clinic end generated code: output=6052f2ed95346548 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=b1332ac72da63817 input=a9049054013a1b77]*/

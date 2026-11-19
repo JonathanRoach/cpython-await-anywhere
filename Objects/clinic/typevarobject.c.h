@@ -129,10 +129,6 @@ PyDoc_STRVAR(typevar_typing_subst__doc__,
 "--\n"
 "\n");
 
-static struct {char name[];} typevar_typing_subst_MethodName = {.name = "__typing_subst__",};
-#define TYPEVAR_TYPING_SUBST_METHODDEF    \
-    {typevar_typing_subst_MethodName.name, (PyCFunction)typevar_typing_subst, METH_O|METH_C_STACK_FRUGAL, typevar_typing_subst__doc__},
-
 static PyObject *
 typevar_typing_subst_impl(typevarobject *self, PyObject *arg);
 
@@ -146,14 +142,14 @@ typevar_typing_subst(PyObject *self, PyObject *arg)
     return return_value;
 }
 
+static struct {char name[];} typevar_typing_subst_MethodName = {.name = "__typing_subst__",};
+#define TYPEVAR_TYPING_SUBST_METHODDEF    \
+    {typevar_typing_subst_MethodName.name, (PyCFunction)typevar_typing_subst, METH_O|METH_C_STACK_FRUGAL, typevar_typing_subst__doc__},
+
 PyDoc_STRVAR(typevar_typing_prepare_subst__doc__,
 "__typing_prepare_subst__($self, alias, args, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} typevar_typing_prepare_subst_MethodName = {.name = "__typing_prepare_subst__",};
-#define TYPEVAR_TYPING_PREPARE_SUBST_METHODDEF    \
-    {typevar_typing_prepare_subst_MethodName.name, _PyCFunction_CAST(typevar_typing_prepare_subst), METH_FASTCALL|METH_C_STACK_FRUGAL, typevar_typing_prepare_subst__doc__},
 
 static PyObject *
 typevar_typing_prepare_subst_impl(typevarobject *self, PyObject *alias,
@@ -177,14 +173,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} typevar_typing_prepare_subst_MethodName = {.name = "__typing_prepare_subst__",};
+#define TYPEVAR_TYPING_PREPARE_SUBST_METHODDEF    \
+    {typevar_typing_prepare_subst_MethodName.name, _PyCFunction_CAST(typevar_typing_prepare_subst), METH_FASTCALL|METH_C_STACK_FRUGAL, typevar_typing_prepare_subst__doc__},
+
 PyDoc_STRVAR(typevar_reduce__doc__,
 "__reduce__($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} typevar_reduce_MethodName = {.name = "__reduce__",};
-#define TYPEVAR_REDUCE_METHODDEF    \
-    {typevar_reduce_MethodName.name, (PyCFunction)typevar_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, typevar_reduce__doc__},
 
 static PyObject *
 typevar_reduce_impl(typevarobject *self);
@@ -195,14 +191,14 @@ typevar_reduce(PyObject *self, PyObject *Py_UNUSED(ignored))
     return typevar_reduce_impl((typevarobject *)self);
 }
 
+static struct {char name[];} typevar_reduce_MethodName = {.name = "__reduce__",};
+#define TYPEVAR_REDUCE_METHODDEF    \
+    {typevar_reduce_MethodName.name, (PyCFunction)typevar_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, typevar_reduce__doc__},
+
 PyDoc_STRVAR(typevar_has_default__doc__,
 "has_default($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} typevar_has_default_MethodName = {.name = "has_default",};
-#define TYPEVAR_HAS_DEFAULT_METHODDEF    \
-    {typevar_has_default_MethodName.name, (PyCFunction)typevar_has_default, METH_NOARGS|METH_C_STACK_FRUGAL, typevar_has_default__doc__},
 
 static PyObject *
 typevar_has_default_impl(typevarobject *self);
@@ -212,6 +208,10 @@ typevar_has_default(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return typevar_has_default_impl((typevarobject *)self);
 }
+
+static struct {char name[];} typevar_has_default_MethodName = {.name = "has_default",};
+#define TYPEVAR_HAS_DEFAULT_METHODDEF    \
+    {typevar_has_default_MethodName.name, (PyCFunction)typevar_has_default, METH_NOARGS|METH_C_STACK_FRUGAL, typevar_has_default__doc__},
 
 PyDoc_STRVAR(paramspecargs_new__doc__,
 "paramspecargs(origin)\n"
@@ -440,10 +440,6 @@ PyDoc_STRVAR(paramspec_typing_subst__doc__,
 "--\n"
 "\n");
 
-static struct {char name[];} paramspec_typing_subst_MethodName = {.name = "__typing_subst__",};
-#define PARAMSPEC_TYPING_SUBST_METHODDEF    \
-    {paramspec_typing_subst_MethodName.name, (PyCFunction)paramspec_typing_subst, METH_O|METH_C_STACK_FRUGAL, paramspec_typing_subst__doc__},
-
 static PyObject *
 paramspec_typing_subst_impl(paramspecobject *self, PyObject *arg);
 
@@ -457,14 +453,14 @@ paramspec_typing_subst(PyObject *self, PyObject *arg)
     return return_value;
 }
 
+static struct {char name[];} paramspec_typing_subst_MethodName = {.name = "__typing_subst__",};
+#define PARAMSPEC_TYPING_SUBST_METHODDEF    \
+    {paramspec_typing_subst_MethodName.name, (PyCFunction)paramspec_typing_subst, METH_O|METH_C_STACK_FRUGAL, paramspec_typing_subst__doc__},
+
 PyDoc_STRVAR(paramspec_typing_prepare_subst__doc__,
 "__typing_prepare_subst__($self, alias, args, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} paramspec_typing_prepare_subst_MethodName = {.name = "__typing_prepare_subst__",};
-#define PARAMSPEC_TYPING_PREPARE_SUBST_METHODDEF    \
-    {paramspec_typing_prepare_subst_MethodName.name, _PyCFunction_CAST(paramspec_typing_prepare_subst), METH_FASTCALL|METH_C_STACK_FRUGAL, paramspec_typing_prepare_subst__doc__},
 
 static PyObject *
 paramspec_typing_prepare_subst_impl(paramspecobject *self, PyObject *alias,
@@ -488,14 +484,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} paramspec_typing_prepare_subst_MethodName = {.name = "__typing_prepare_subst__",};
+#define PARAMSPEC_TYPING_PREPARE_SUBST_METHODDEF    \
+    {paramspec_typing_prepare_subst_MethodName.name, _PyCFunction_CAST(paramspec_typing_prepare_subst), METH_FASTCALL|METH_C_STACK_FRUGAL, paramspec_typing_prepare_subst__doc__},
+
 PyDoc_STRVAR(paramspec_reduce__doc__,
 "__reduce__($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} paramspec_reduce_MethodName = {.name = "__reduce__",};
-#define PARAMSPEC_REDUCE_METHODDEF    \
-    {paramspec_reduce_MethodName.name, (PyCFunction)paramspec_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, paramspec_reduce__doc__},
 
 static PyObject *
 paramspec_reduce_impl(paramspecobject *self);
@@ -506,14 +502,14 @@ paramspec_reduce(PyObject *self, PyObject *Py_UNUSED(ignored))
     return paramspec_reduce_impl((paramspecobject *)self);
 }
 
+static struct {char name[];} paramspec_reduce_MethodName = {.name = "__reduce__",};
+#define PARAMSPEC_REDUCE_METHODDEF    \
+    {paramspec_reduce_MethodName.name, (PyCFunction)paramspec_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, paramspec_reduce__doc__},
+
 PyDoc_STRVAR(paramspec_has_default__doc__,
 "has_default($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} paramspec_has_default_MethodName = {.name = "has_default",};
-#define PARAMSPEC_HAS_DEFAULT_METHODDEF    \
-    {paramspec_has_default_MethodName.name, (PyCFunction)paramspec_has_default, METH_NOARGS|METH_C_STACK_FRUGAL, paramspec_has_default__doc__},
 
 static PyObject *
 paramspec_has_default_impl(paramspecobject *self);
@@ -523,6 +519,10 @@ paramspec_has_default(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return paramspec_has_default_impl((paramspecobject *)self);
 }
+
+static struct {char name[];} paramspec_has_default_MethodName = {.name = "has_default",};
+#define PARAMSPEC_HAS_DEFAULT_METHODDEF    \
+    {paramspec_has_default_MethodName.name, (PyCFunction)paramspec_has_default, METH_NOARGS|METH_C_STACK_FRUGAL, paramspec_has_default__doc__},
 
 PyDoc_STRVAR(typevartuple__doc__,
 "typevartuple(name, *, default=typing.NoDefault)\n"
@@ -598,10 +598,6 @@ PyDoc_STRVAR(typevartuple_typing_subst__doc__,
 "--\n"
 "\n");
 
-static struct {char name[];} typevartuple_typing_subst_MethodName = {.name = "__typing_subst__",};
-#define TYPEVARTUPLE_TYPING_SUBST_METHODDEF    \
-    {typevartuple_typing_subst_MethodName.name, (PyCFunction)typevartuple_typing_subst, METH_O|METH_C_STACK_FRUGAL, typevartuple_typing_subst__doc__},
-
 static PyObject *
 typevartuple_typing_subst_impl(typevartupleobject *self, PyObject *arg);
 
@@ -615,14 +611,14 @@ typevartuple_typing_subst(PyObject *self, PyObject *arg)
     return return_value;
 }
 
+static struct {char name[];} typevartuple_typing_subst_MethodName = {.name = "__typing_subst__",};
+#define TYPEVARTUPLE_TYPING_SUBST_METHODDEF    \
+    {typevartuple_typing_subst_MethodName.name, (PyCFunction)typevartuple_typing_subst, METH_O|METH_C_STACK_FRUGAL, typevartuple_typing_subst__doc__},
+
 PyDoc_STRVAR(typevartuple_typing_prepare_subst__doc__,
 "__typing_prepare_subst__($self, alias, args, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} typevartuple_typing_prepare_subst_MethodName = {.name = "__typing_prepare_subst__",};
-#define TYPEVARTUPLE_TYPING_PREPARE_SUBST_METHODDEF    \
-    {typevartuple_typing_prepare_subst_MethodName.name, _PyCFunction_CAST(typevartuple_typing_prepare_subst), METH_FASTCALL|METH_C_STACK_FRUGAL, typevartuple_typing_prepare_subst__doc__},
 
 static PyObject *
 typevartuple_typing_prepare_subst_impl(typevartupleobject *self,
@@ -646,14 +642,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} typevartuple_typing_prepare_subst_MethodName = {.name = "__typing_prepare_subst__",};
+#define TYPEVARTUPLE_TYPING_PREPARE_SUBST_METHODDEF    \
+    {typevartuple_typing_prepare_subst_MethodName.name, _PyCFunction_CAST(typevartuple_typing_prepare_subst), METH_FASTCALL|METH_C_STACK_FRUGAL, typevartuple_typing_prepare_subst__doc__},
+
 PyDoc_STRVAR(typevartuple_reduce__doc__,
 "__reduce__($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} typevartuple_reduce_MethodName = {.name = "__reduce__",};
-#define TYPEVARTUPLE_REDUCE_METHODDEF    \
-    {typevartuple_reduce_MethodName.name, (PyCFunction)typevartuple_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, typevartuple_reduce__doc__},
 
 static PyObject *
 typevartuple_reduce_impl(typevartupleobject *self);
@@ -664,14 +660,14 @@ typevartuple_reduce(PyObject *self, PyObject *Py_UNUSED(ignored))
     return typevartuple_reduce_impl((typevartupleobject *)self);
 }
 
+static struct {char name[];} typevartuple_reduce_MethodName = {.name = "__reduce__",};
+#define TYPEVARTUPLE_REDUCE_METHODDEF    \
+    {typevartuple_reduce_MethodName.name, (PyCFunction)typevartuple_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, typevartuple_reduce__doc__},
+
 PyDoc_STRVAR(typevartuple_has_default__doc__,
 "has_default($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} typevartuple_has_default_MethodName = {.name = "has_default",};
-#define TYPEVARTUPLE_HAS_DEFAULT_METHODDEF    \
-    {typevartuple_has_default_MethodName.name, (PyCFunction)typevartuple_has_default, METH_NOARGS|METH_C_STACK_FRUGAL, typevartuple_has_default__doc__},
 
 static PyObject *
 typevartuple_has_default_impl(typevartupleobject *self);
@@ -682,14 +678,14 @@ typevartuple_has_default(PyObject *self, PyObject *Py_UNUSED(ignored))
     return typevartuple_has_default_impl((typevartupleobject *)self);
 }
 
+static struct {char name[];} typevartuple_has_default_MethodName = {.name = "has_default",};
+#define TYPEVARTUPLE_HAS_DEFAULT_METHODDEF    \
+    {typevartuple_has_default_MethodName.name, (PyCFunction)typevartuple_has_default, METH_NOARGS|METH_C_STACK_FRUGAL, typevartuple_has_default__doc__},
+
 PyDoc_STRVAR(typealias_reduce__doc__,
 "__reduce__($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} typealias_reduce_MethodName = {.name = "__reduce__",};
-#define TYPEALIAS_REDUCE_METHODDEF    \
-    {typealias_reduce_MethodName.name, (PyCFunction)typealias_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, typealias_reduce__doc__},
 
 static PyObject *
 typealias_reduce_impl(typealiasobject *self);
@@ -699,6 +695,10 @@ typealias_reduce(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return typealias_reduce_impl((typealiasobject *)self);
 }
+
+static struct {char name[];} typealias_reduce_MethodName = {.name = "__reduce__",};
+#define TYPEALIAS_REDUCE_METHODDEF    \
+    {typealias_reduce_MethodName.name, (PyCFunction)typealias_reduce, METH_NOARGS|METH_C_STACK_FRUGAL, typealias_reduce__doc__},
 
 PyDoc_STRVAR(typealias_new__doc__,
 "typealias(name, value, *, type_params=<unrepresentable>)\n"
@@ -770,4 +770,4 @@ skip_optional_kwonly:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=be27b6b11536529a input=a9049054013a1b77]*/
+/*[clinic end generated code: output=40b13f0a21bc0024 input=a9049054013a1b77]*/

@@ -9,10 +9,6 @@ PyDoc_STRVAR(_testcapi_pyobject_fastcalldict__doc__,
 "--\n"
 "\n");
 
-static struct {char name[];} _testcapi_pyobject_fastcalldict_MethodName = {.name = "pyobject_fastcalldict",};
-#define _TESTCAPI_PYOBJECT_FASTCALLDICT_METHODDEF    \
-    {_testcapi_pyobject_fastcalldict_MethodName.name, _PyCFunction_CAST(_testcapi_pyobject_fastcalldict), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_pyobject_fastcalldict__doc__},
-
 static PyObject *
 _testcapi_pyobject_fastcalldict_impl(PyObject *module, PyObject *func,
                                      PyObject *func_args, PyObject *kwargs);
@@ -37,14 +33,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _testcapi_pyobject_fastcalldict_MethodName = {.name = "pyobject_fastcalldict",};
+#define _TESTCAPI_PYOBJECT_FASTCALLDICT_METHODDEF    \
+    {_testcapi_pyobject_fastcalldict_MethodName.name, _PyCFunction_CAST(_testcapi_pyobject_fastcalldict), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_pyobject_fastcalldict__doc__},
+
 PyDoc_STRVAR(_testcapi_pyobject_vectorcall__doc__,
 "pyobject_vectorcall($module, func, func_args, kwnames, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _testcapi_pyobject_vectorcall_MethodName = {.name = "pyobject_vectorcall",};
-#define _TESTCAPI_PYOBJECT_VECTORCALL_METHODDEF    \
-    {_testcapi_pyobject_vectorcall_MethodName.name, _PyCFunction_CAST(_testcapi_pyobject_vectorcall), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_pyobject_vectorcall__doc__},
 
 static PyObject *
 _testcapi_pyobject_vectorcall_impl(PyObject *module, PyObject *func,
@@ -70,14 +66,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _testcapi_pyobject_vectorcall_MethodName = {.name = "pyobject_vectorcall",};
+#define _TESTCAPI_PYOBJECT_VECTORCALL_METHODDEF    \
+    {_testcapi_pyobject_vectorcall_MethodName.name, _PyCFunction_CAST(_testcapi_pyobject_vectorcall), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_pyobject_vectorcall__doc__},
+
 PyDoc_STRVAR(_testcapi_pyvectorcall_call__doc__,
 "pyvectorcall_call($module, func, argstuple, kwargs=<unrepresentable>, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _testcapi_pyvectorcall_call_MethodName = {.name = "pyvectorcall_call",};
-#define _TESTCAPI_PYVECTORCALL_CALL_METHODDEF    \
-    {_testcapi_pyvectorcall_call_MethodName.name, _PyCFunction_CAST(_testcapi_pyvectorcall_call), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_pyvectorcall_call__doc__},
 
 static PyObject *
 _testcapi_pyvectorcall_call_impl(PyObject *module, PyObject *func,
@@ -107,15 +103,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _testcapi_pyvectorcall_call_MethodName = {.name = "pyvectorcall_call",};
+#define _TESTCAPI_PYVECTORCALL_CALL_METHODDEF    \
+    {_testcapi_pyvectorcall_call_MethodName.name, _PyCFunction_CAST(_testcapi_pyvectorcall_call), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_pyvectorcall_call__doc__},
+
 PyDoc_STRVAR(_testcapi_VectorCallClass_set_vectorcall__doc__,
 "set_vectorcall($self, type, /)\n"
 "--\n"
 "\n"
 "Set self\'s vectorcall function for `type` to one that returns \"vectorcall\"");
-
-static struct {char name[];} _testcapi_VectorCallClass_set_vectorcall_MethodName = {.name = "set_vectorcall",};
-#define _TESTCAPI_VECTORCALLCLASS_SET_VECTORCALL_METHODDEF    \
-    {_testcapi_VectorCallClass_set_vectorcall_MethodName.name, (PyCFunction)_testcapi_VectorCallClass_set_vectorcall, METH_O|METH_C_STACK_FRUGAL, _testcapi_VectorCallClass_set_vectorcall__doc__},
 
 static PyObject *
 _testcapi_VectorCallClass_set_vectorcall_impl(PyObject *self,
@@ -138,6 +134,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _testcapi_VectorCallClass_set_vectorcall_MethodName = {.name = "set_vectorcall",};
+#define _TESTCAPI_VECTORCALLCLASS_SET_VECTORCALL_METHODDEF    \
+    {_testcapi_VectorCallClass_set_vectorcall_MethodName.name, (PyCFunction)_testcapi_VectorCallClass_set_vectorcall, METH_O|METH_C_STACK_FRUGAL, _testcapi_VectorCallClass_set_vectorcall__doc__},
+
 PyDoc_STRVAR(_testcapi_make_vectorcall_class__doc__,
 "make_vectorcall_class($module, base=<unrepresentable>, /)\n"
 "--\n"
@@ -146,10 +146,6 @@ PyDoc_STRVAR(_testcapi_make_vectorcall_class__doc__,
 "\n"
 "When the \"set_vectorcall\" method is called on an instance, a vectorcall\n"
 "function that returns \"vectorcall\" will be installed.");
-
-static struct {char name[];} _testcapi_make_vectorcall_class_MethodName = {.name = "make_vectorcall_class",};
-#define _TESTCAPI_MAKE_VECTORCALL_CLASS_METHODDEF    \
-    {_testcapi_make_vectorcall_class_MethodName.name, _PyCFunction_CAST(_testcapi_make_vectorcall_class), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_make_vectorcall_class__doc__},
 
 static PyObject *
 _testcapi_make_vectorcall_class_impl(PyObject *module, PyTypeObject *base);
@@ -178,15 +174,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _testcapi_make_vectorcall_class_MethodName = {.name = "make_vectorcall_class",};
+#define _TESTCAPI_MAKE_VECTORCALL_CLASS_METHODDEF    \
+    {_testcapi_make_vectorcall_class_MethodName.name, _PyCFunction_CAST(_testcapi_make_vectorcall_class), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_make_vectorcall_class__doc__},
+
 PyDoc_STRVAR(_testcapi_has_vectorcall_flag__doc__,
 "has_vectorcall_flag($module, type, /)\n"
 "--\n"
 "\n"
 "Return true iff Py_TPFLAGS_HAVE_VECTORCALL is set on the class.");
-
-static struct {char name[];} _testcapi_has_vectorcall_flag_MethodName = {.name = "has_vectorcall_flag",};
-#define _TESTCAPI_HAS_VECTORCALL_FLAG_METHODDEF    \
-    {_testcapi_has_vectorcall_flag_MethodName.name, (PyCFunction)_testcapi_has_vectorcall_flag, METH_O|METH_C_STACK_FRUGAL, _testcapi_has_vectorcall_flag__doc__},
 
 static int
 _testcapi_has_vectorcall_flag_impl(PyObject *module, PyTypeObject *type);
@@ -212,4 +208,8 @@ _testcapi_has_vectorcall_flag(PyObject *module, PyObject *arg)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=afc8d82757de1a96 input=a9049054013a1b77]*/
+
+static struct {char name[];} _testcapi_has_vectorcall_flag_MethodName = {.name = "has_vectorcall_flag",};
+#define _TESTCAPI_HAS_VECTORCALL_FLAG_METHODDEF    \
+    {_testcapi_has_vectorcall_flag_MethodName.name, (PyCFunction)_testcapi_has_vectorcall_flag, METH_O|METH_C_STACK_FRUGAL, _testcapi_has_vectorcall_flag__doc__},
+/*[clinic end generated code: output=241d20c9f2f87d47 input=a9049054013a1b77]*/

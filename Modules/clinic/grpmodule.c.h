@@ -16,10 +16,6 @@ PyDoc_STRVAR(grp_getgrgid__doc__,
 "\n"
 "If id is not valid, raise KeyError.");
 
-static struct {char name[];} grp_getgrgid_MethodName = {.name = "getgrgid",};
-#define GRP_GETGRGID_METHODDEF    \
-    {grp_getgrgid_MethodName.name, _PyCFunction_CAST(grp_getgrgid), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, grp_getgrgid__doc__},
-
 static PyObject *
 grp_getgrgid_impl(PyObject *module, PyObject *id);
 
@@ -69,6 +65,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} grp_getgrgid_MethodName = {.name = "getgrgid",};
+#define GRP_GETGRGID_METHODDEF    \
+    {grp_getgrgid_MethodName.name, _PyCFunction_CAST(grp_getgrgid), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, grp_getgrgid__doc__},
+
 PyDoc_STRVAR(grp_getgrnam__doc__,
 "getgrnam($module, /, name)\n"
 "--\n"
@@ -76,10 +76,6 @@ PyDoc_STRVAR(grp_getgrnam__doc__,
 "Return the group database entry for the given group name.\n"
 "\n"
 "If name is not valid, raise KeyError.");
-
-static struct {char name[];} grp_getgrnam_MethodName = {.name = "getgrnam",};
-#define GRP_GETGRNAM_METHODDEF    \
-    {grp_getgrnam_MethodName.name, _PyCFunction_CAST(grp_getgrnam), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, grp_getgrnam__doc__},
 
 static PyObject *
 grp_getgrnam_impl(PyObject *module, PyObject *name);
@@ -134,6 +130,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} grp_getgrnam_MethodName = {.name = "getgrnam",};
+#define GRP_GETGRNAM_METHODDEF    \
+    {grp_getgrnam_MethodName.name, _PyCFunction_CAST(grp_getgrnam), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, grp_getgrnam__doc__},
+
 PyDoc_STRVAR(grp_getgrall__doc__,
 "getgrall($module, /)\n"
 "--\n"
@@ -143,10 +143,6 @@ PyDoc_STRVAR(grp_getgrall__doc__,
 "An entry whose name starts with \'+\' or \'-\' represents an instruction\n"
 "to use YP/NIS and may not be accessible via getgrnam or getgrgid.");
 
-static struct {char name[];} grp_getgrall_MethodName = {.name = "getgrall",};
-#define GRP_GETGRALL_METHODDEF    \
-    {grp_getgrall_MethodName.name, (PyCFunction)grp_getgrall, METH_NOARGS|METH_C_STACK_FRUGAL, grp_getgrall__doc__},
-
 static PyObject *
 grp_getgrall_impl(PyObject *module);
 
@@ -155,4 +151,8 @@ grp_getgrall(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return grp_getgrall_impl(module);
 }
-/*[clinic end generated code: output=8344bd688f3dec88 input=a9049054013a1b77]*/
+
+static struct {char name[];} grp_getgrall_MethodName = {.name = "getgrall",};
+#define GRP_GETGRALL_METHODDEF    \
+    {grp_getgrall_MethodName.name, (PyCFunction)grp_getgrall, METH_NOARGS|METH_C_STACK_FRUGAL, grp_getgrall__doc__},
+/*[clinic end generated code: output=601484d69b1fe9f3 input=a9049054013a1b77]*/

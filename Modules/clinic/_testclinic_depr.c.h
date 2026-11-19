@@ -107,10 +107,6 @@ PyDoc_STRVAR(depr_star_new_clone__doc__,
 "Python 3.37.\n"
 "");
 
-static struct {char name[];} depr_star_new_clone_MethodName = {.name = "cloned",};
-#define DEPR_STAR_NEW_CLONE_METHODDEF    \
-    {depr_star_new_clone_MethodName.name, _PyCFunction_CAST(depr_star_new_clone), METH_FASTCALL|METH_KEYWORDS, depr_star_new_clone__doc__},
-
 static PyObject *
 depr_star_new_clone_impl(PyObject *type, PyObject *a);
 
@@ -184,6 +180,10 @@ skip_optional_pos:
 exit:
     return return_value;
 }
+
+static struct {char name[];} depr_star_new_clone_MethodName = {.name = "cloned",};
+#define DEPR_STAR_NEW_CLONE_METHODDEF    \
+    {depr_star_new_clone_MethodName.name, _PyCFunction_CAST(depr_star_new_clone), METH_FASTCALL|METH_KEYWORDS, depr_star_new_clone__doc__},
 
 PyDoc_STRVAR(depr_star_init__doc__,
 "DeprStarInit(a=None)\n"
@@ -281,10 +281,6 @@ PyDoc_STRVAR(depr_star_init_clone__doc__,
 "become a keyword-only parameter in Python 3.37.\n"
 "");
 
-static struct {char name[];} depr_star_init_clone_MethodName = {.name = "cloned",};
-#define DEPR_STAR_INIT_CLONE_METHODDEF    \
-    {depr_star_init_clone_MethodName.name, _PyCFunction_CAST(depr_star_init_clone), METH_FASTCALL|METH_KEYWORDS, depr_star_init_clone__doc__},
-
 static PyObject *
 depr_star_init_clone_impl(PyObject *self, PyObject *a);
 
@@ -358,6 +354,10 @@ skip_optional_pos:
 exit:
     return return_value;
 }
+
+static struct {char name[];} depr_star_init_clone_MethodName = {.name = "cloned",};
+#define DEPR_STAR_INIT_CLONE_METHODDEF    \
+    {depr_star_init_clone_MethodName.name, _PyCFunction_CAST(depr_star_init_clone), METH_FASTCALL|METH_KEYWORDS, depr_star_init_clone__doc__},
 
 static int
 depr_star_init_noinline_impl(PyObject *self, PyObject *a, PyObject *b,
@@ -687,10 +687,6 @@ PyDoc_STRVAR(depr_star_pos0_len1__doc__,
 "Python 3.37.\n"
 "");
 
-static struct {char name[];} depr_star_pos0_len1_MethodName = {.name = "depr_star_pos0_len1",};
-#define DEPR_STAR_POS0_LEN1_METHODDEF    \
-    {depr_star_pos0_len1_MethodName.name, _PyCFunction_CAST(depr_star_pos0_len1), METH_FASTCALL|METH_KEYWORDS, depr_star_pos0_len1__doc__},
-
 static PyObject *
 depr_star_pos0_len1_impl(PyObject *module, PyObject *a);
 
@@ -760,6 +756,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} depr_star_pos0_len1_MethodName = {.name = "depr_star_pos0_len1",};
+#define DEPR_STAR_POS0_LEN1_METHODDEF    \
+    {depr_star_pos0_len1_MethodName.name, _PyCFunction_CAST(depr_star_pos0_len1), METH_FASTCALL|METH_KEYWORDS, depr_star_pos0_len1__doc__},
+
 PyDoc_STRVAR(depr_star_pos0_len2__doc__,
 "depr_star_pos0_len2($module, /, a, b)\n"
 "--\n"
@@ -768,10 +768,6 @@ PyDoc_STRVAR(depr_star_pos0_len2__doc__,
 "deprecated. Parameters \'a\' and \'b\' will become keyword-only parameters\n"
 "in Python 3.37.\n"
 "");
-
-static struct {char name[];} depr_star_pos0_len2_MethodName = {.name = "depr_star_pos0_len2",};
-#define DEPR_STAR_POS0_LEN2_METHODDEF    \
-    {depr_star_pos0_len2_MethodName.name, _PyCFunction_CAST(depr_star_pos0_len2), METH_FASTCALL|METH_KEYWORDS, depr_star_pos0_len2__doc__},
 
 static PyObject *
 depr_star_pos0_len2_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -844,6 +840,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} depr_star_pos0_len2_MethodName = {.name = "depr_star_pos0_len2",};
+#define DEPR_STAR_POS0_LEN2_METHODDEF    \
+    {depr_star_pos0_len2_MethodName.name, _PyCFunction_CAST(depr_star_pos0_len2), METH_FASTCALL|METH_KEYWORDS, depr_star_pos0_len2__doc__},
+
 PyDoc_STRVAR(depr_star_pos0_len3_with_kwd__doc__,
 "depr_star_pos0_len3_with_kwd($module, /, a, b, c, *, d)\n"
 "--\n"
@@ -852,10 +852,6 @@ PyDoc_STRVAR(depr_star_pos0_len3_with_kwd__doc__,
 "is deprecated. Parameters \'a\', \'b\' and \'c\' will become keyword-only\n"
 "parameters in Python 3.37.\n"
 "");
-
-static struct {char name[];} depr_star_pos0_len3_with_kwd_MethodName = {.name = "depr_star_pos0_len3_with_kwd",};
-#define DEPR_STAR_POS0_LEN3_WITH_KWD_METHODDEF    \
-    {depr_star_pos0_len3_with_kwd_MethodName.name, _PyCFunction_CAST(depr_star_pos0_len3_with_kwd), METH_FASTCALL|METH_KEYWORDS, depr_star_pos0_len3_with_kwd__doc__},
 
 static PyObject *
 depr_star_pos0_len3_with_kwd_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -933,6 +929,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} depr_star_pos0_len3_with_kwd_MethodName = {.name = "depr_star_pos0_len3_with_kwd",};
+#define DEPR_STAR_POS0_LEN3_WITH_KWD_METHODDEF    \
+    {depr_star_pos0_len3_with_kwd_MethodName.name, _PyCFunction_CAST(depr_star_pos0_len3_with_kwd), METH_FASTCALL|METH_KEYWORDS, depr_star_pos0_len3_with_kwd__doc__},
+
 PyDoc_STRVAR(depr_star_pos1_len1_opt__doc__,
 "depr_star_pos1_len1_opt($module, /, a, b=None)\n"
 "--\n"
@@ -941,10 +941,6 @@ PyDoc_STRVAR(depr_star_pos1_len1_opt__doc__,
 "deprecated. Parameter \'b\' will become a keyword-only parameter in\n"
 "Python 3.37.\n"
 "");
-
-static struct {char name[];} depr_star_pos1_len1_opt_MethodName = {.name = "depr_star_pos1_len1_opt",};
-#define DEPR_STAR_POS1_LEN1_OPT_METHODDEF    \
-    {depr_star_pos1_len1_opt_MethodName.name, _PyCFunction_CAST(depr_star_pos1_len1_opt), METH_FASTCALL|METH_KEYWORDS, depr_star_pos1_len1_opt__doc__},
 
 static PyObject *
 depr_star_pos1_len1_opt_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -1022,6 +1018,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} depr_star_pos1_len1_opt_MethodName = {.name = "depr_star_pos1_len1_opt",};
+#define DEPR_STAR_POS1_LEN1_OPT_METHODDEF    \
+    {depr_star_pos1_len1_opt_MethodName.name, _PyCFunction_CAST(depr_star_pos1_len1_opt), METH_FASTCALL|METH_KEYWORDS, depr_star_pos1_len1_opt__doc__},
+
 PyDoc_STRVAR(depr_star_pos1_len1__doc__,
 "depr_star_pos1_len1($module, /, a, b)\n"
 "--\n"
@@ -1030,10 +1030,6 @@ PyDoc_STRVAR(depr_star_pos1_len1__doc__,
 "deprecated. Parameter \'b\' will become a keyword-only parameter in\n"
 "Python 3.37.\n"
 "");
-
-static struct {char name[];} depr_star_pos1_len1_MethodName = {.name = "depr_star_pos1_len1",};
-#define DEPR_STAR_POS1_LEN1_METHODDEF    \
-    {depr_star_pos1_len1_MethodName.name, _PyCFunction_CAST(depr_star_pos1_len1), METH_FASTCALL|METH_KEYWORDS, depr_star_pos1_len1__doc__},
 
 static PyObject *
 depr_star_pos1_len1_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -1106,6 +1102,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} depr_star_pos1_len1_MethodName = {.name = "depr_star_pos1_len1",};
+#define DEPR_STAR_POS1_LEN1_METHODDEF    \
+    {depr_star_pos1_len1_MethodName.name, _PyCFunction_CAST(depr_star_pos1_len1), METH_FASTCALL|METH_KEYWORDS, depr_star_pos1_len1__doc__},
+
 PyDoc_STRVAR(depr_star_pos1_len2_with_kwd__doc__,
 "depr_star_pos1_len2_with_kwd($module, /, a, b, c, *, d)\n"
 "--\n"
@@ -1114,10 +1114,6 @@ PyDoc_STRVAR(depr_star_pos1_len2_with_kwd__doc__,
 "depr_star_pos1_len2_with_kwd() is deprecated. Parameters \'b\' and \'c\'\n"
 "will become keyword-only parameters in Python 3.37.\n"
 "");
-
-static struct {char name[];} depr_star_pos1_len2_with_kwd_MethodName = {.name = "depr_star_pos1_len2_with_kwd",};
-#define DEPR_STAR_POS1_LEN2_WITH_KWD_METHODDEF    \
-    {depr_star_pos1_len2_with_kwd_MethodName.name, _PyCFunction_CAST(depr_star_pos1_len2_with_kwd), METH_FASTCALL|METH_KEYWORDS, depr_star_pos1_len2_with_kwd__doc__},
 
 static PyObject *
 depr_star_pos1_len2_with_kwd_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -1195,6 +1191,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} depr_star_pos1_len2_with_kwd_MethodName = {.name = "depr_star_pos1_len2_with_kwd",};
+#define DEPR_STAR_POS1_LEN2_WITH_KWD_METHODDEF    \
+    {depr_star_pos1_len2_with_kwd_MethodName.name, _PyCFunction_CAST(depr_star_pos1_len2_with_kwd), METH_FASTCALL|METH_KEYWORDS, depr_star_pos1_len2_with_kwd__doc__},
+
 PyDoc_STRVAR(depr_star_pos2_len1__doc__,
 "depr_star_pos2_len1($module, /, a, b, c)\n"
 "--\n"
@@ -1203,10 +1203,6 @@ PyDoc_STRVAR(depr_star_pos2_len1__doc__,
 "deprecated. Parameter \'c\' will become a keyword-only parameter in\n"
 "Python 3.37.\n"
 "");
-
-static struct {char name[];} depr_star_pos2_len1_MethodName = {.name = "depr_star_pos2_len1",};
-#define DEPR_STAR_POS2_LEN1_METHODDEF    \
-    {depr_star_pos2_len1_MethodName.name, _PyCFunction_CAST(depr_star_pos2_len1), METH_FASTCALL|METH_KEYWORDS, depr_star_pos2_len1__doc__},
 
 static PyObject *
 depr_star_pos2_len1_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -1282,6 +1278,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} depr_star_pos2_len1_MethodName = {.name = "depr_star_pos2_len1",};
+#define DEPR_STAR_POS2_LEN1_METHODDEF    \
+    {depr_star_pos2_len1_MethodName.name, _PyCFunction_CAST(depr_star_pos2_len1), METH_FASTCALL|METH_KEYWORDS, depr_star_pos2_len1__doc__},
+
 PyDoc_STRVAR(depr_star_pos2_len2__doc__,
 "depr_star_pos2_len2($module, /, a, b, c, d)\n"
 "--\n"
@@ -1290,10 +1290,6 @@ PyDoc_STRVAR(depr_star_pos2_len2__doc__,
 "depr_star_pos2_len2() is deprecated. Parameters \'c\' and \'d\' will\n"
 "become keyword-only parameters in Python 3.37.\n"
 "");
-
-static struct {char name[];} depr_star_pos2_len2_MethodName = {.name = "depr_star_pos2_len2",};
-#define DEPR_STAR_POS2_LEN2_METHODDEF    \
-    {depr_star_pos2_len2_MethodName.name, _PyCFunction_CAST(depr_star_pos2_len2), METH_FASTCALL|METH_KEYWORDS, depr_star_pos2_len2__doc__},
 
 static PyObject *
 depr_star_pos2_len2_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -1371,6 +1367,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} depr_star_pos2_len2_MethodName = {.name = "depr_star_pos2_len2",};
+#define DEPR_STAR_POS2_LEN2_METHODDEF    \
+    {depr_star_pos2_len2_MethodName.name, _PyCFunction_CAST(depr_star_pos2_len2), METH_FASTCALL|METH_KEYWORDS, depr_star_pos2_len2__doc__},
+
 PyDoc_STRVAR(depr_star_pos2_len2_with_kwd__doc__,
 "depr_star_pos2_len2_with_kwd($module, /, a, b, c, d, *, e)\n"
 "--\n"
@@ -1379,10 +1379,6 @@ PyDoc_STRVAR(depr_star_pos2_len2_with_kwd__doc__,
 "depr_star_pos2_len2_with_kwd() is deprecated. Parameters \'c\' and \'d\'\n"
 "will become keyword-only parameters in Python 3.37.\n"
 "");
-
-static struct {char name[];} depr_star_pos2_len2_with_kwd_MethodName = {.name = "depr_star_pos2_len2_with_kwd",};
-#define DEPR_STAR_POS2_LEN2_WITH_KWD_METHODDEF    \
-    {depr_star_pos2_len2_with_kwd_MethodName.name, _PyCFunction_CAST(depr_star_pos2_len2_with_kwd), METH_FASTCALL|METH_KEYWORDS, depr_star_pos2_len2_with_kwd__doc__},
 
 static PyObject *
 depr_star_pos2_len2_with_kwd_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -1462,6 +1458,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} depr_star_pos2_len2_with_kwd_MethodName = {.name = "depr_star_pos2_len2_with_kwd",};
+#define DEPR_STAR_POS2_LEN2_WITH_KWD_METHODDEF    \
+    {depr_star_pos2_len2_with_kwd_MethodName.name, _PyCFunction_CAST(depr_star_pos2_len2_with_kwd), METH_FASTCALL|METH_KEYWORDS, depr_star_pos2_len2_with_kwd__doc__},
+
 PyDoc_STRVAR(depr_star_noinline__doc__,
 "depr_star_noinline($module, /, a, b, c=None, *, d=\'\')\n"
 "--\n"
@@ -1470,10 +1470,6 @@ PyDoc_STRVAR(depr_star_noinline__doc__,
 "is deprecated. Parameters \'b\' and \'c\' will become keyword-only\n"
 "parameters in Python 3.37.\n"
 "");
-
-static struct {char name[];} depr_star_noinline_MethodName = {.name = "depr_star_noinline",};
-#define DEPR_STAR_NOINLINE_METHODDEF    \
-    {depr_star_noinline_MethodName.name, _PyCFunction_CAST(depr_star_noinline), METH_FASTCALL|METH_KEYWORDS, depr_star_noinline__doc__},
 
 static PyObject *
 depr_star_noinline_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -1546,6 +1542,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} depr_star_noinline_MethodName = {.name = "depr_star_noinline",};
+#define DEPR_STAR_NOINLINE_METHODDEF    \
+    {depr_star_noinline_MethodName.name, _PyCFunction_CAST(depr_star_noinline), METH_FASTCALL|METH_KEYWORDS, depr_star_noinline__doc__},
+
 PyDoc_STRVAR(depr_star_multi__doc__,
 "depr_star_multi($module, /, a, b, c, d, e, f, g, *, h)\n"
 "--\n"
@@ -1556,10 +1556,6 @@ PyDoc_STRVAR(depr_star_multi__doc__,
 "parameters in Python 3.38. Parameters \'e\', \'f\' and \'g\' will become\n"
 "keyword-only parameters in Python 3.37.\n"
 "");
-
-static struct {char name[];} depr_star_multi_MethodName = {.name = "depr_star_multi",};
-#define DEPR_STAR_MULTI_METHODDEF    \
-    {depr_star_multi_MethodName.name, _PyCFunction_CAST(depr_star_multi), METH_FASTCALL|METH_KEYWORDS, depr_star_multi__doc__},
 
 static PyObject *
 depr_star_multi_impl(PyObject *module, PyObject *a, PyObject *b, PyObject *c,
@@ -1648,6 +1644,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} depr_star_multi_MethodName = {.name = "depr_star_multi",};
+#define DEPR_STAR_MULTI_METHODDEF    \
+    {depr_star_multi_MethodName.name, _PyCFunction_CAST(depr_star_multi), METH_FASTCALL|METH_KEYWORDS, depr_star_multi__doc__},
+
 PyDoc_STRVAR(depr_kwd_required_1__doc__,
 "depr_kwd_required_1($module, a, /, b)\n"
 "--\n"
@@ -1655,10 +1655,6 @@ PyDoc_STRVAR(depr_kwd_required_1__doc__,
 "Note: Passing keyword argument \'b\' to depr_kwd_required_1() is\n"
 "deprecated. Parameter \'b\' will become positional-only in Python 3.37.\n"
 "");
-
-static struct {char name[];} depr_kwd_required_1_MethodName = {.name = "depr_kwd_required_1",};
-#define DEPR_KWD_REQUIRED_1_METHODDEF    \
-    {depr_kwd_required_1_MethodName.name, _PyCFunction_CAST(depr_kwd_required_1), METH_FASTCALL|METH_KEYWORDS, depr_kwd_required_1__doc__},
 
 static PyObject *
 depr_kwd_required_1_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -1731,6 +1727,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} depr_kwd_required_1_MethodName = {.name = "depr_kwd_required_1",};
+#define DEPR_KWD_REQUIRED_1_METHODDEF    \
+    {depr_kwd_required_1_MethodName.name, _PyCFunction_CAST(depr_kwd_required_1), METH_FASTCALL|METH_KEYWORDS, depr_kwd_required_1__doc__},
+
 PyDoc_STRVAR(depr_kwd_required_2__doc__,
 "depr_kwd_required_2($module, a, /, b, c)\n"
 "--\n"
@@ -1739,10 +1739,6 @@ PyDoc_STRVAR(depr_kwd_required_2__doc__,
 "is deprecated. Parameters \'b\' and \'c\' will become positional-only in\n"
 "Python 3.37.\n"
 "");
-
-static struct {char name[];} depr_kwd_required_2_MethodName = {.name = "depr_kwd_required_2",};
-#define DEPR_KWD_REQUIRED_2_METHODDEF    \
-    {depr_kwd_required_2_MethodName.name, _PyCFunction_CAST(depr_kwd_required_2), METH_FASTCALL|METH_KEYWORDS, depr_kwd_required_2__doc__},
 
 static PyObject *
 depr_kwd_required_2_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -1818,6 +1814,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} depr_kwd_required_2_MethodName = {.name = "depr_kwd_required_2",};
+#define DEPR_KWD_REQUIRED_2_METHODDEF    \
+    {depr_kwd_required_2_MethodName.name, _PyCFunction_CAST(depr_kwd_required_2), METH_FASTCALL|METH_KEYWORDS, depr_kwd_required_2__doc__},
+
 PyDoc_STRVAR(depr_kwd_optional_1__doc__,
 "depr_kwd_optional_1($module, a, /, b=None)\n"
 "--\n"
@@ -1825,10 +1825,6 @@ PyDoc_STRVAR(depr_kwd_optional_1__doc__,
 "Note: Passing keyword argument \'b\' to depr_kwd_optional_1() is\n"
 "deprecated. Parameter \'b\' will become positional-only in Python 3.37.\n"
 "");
-
-static struct {char name[];} depr_kwd_optional_1_MethodName = {.name = "depr_kwd_optional_1",};
-#define DEPR_KWD_OPTIONAL_1_METHODDEF    \
-    {depr_kwd_optional_1_MethodName.name, _PyCFunction_CAST(depr_kwd_optional_1), METH_FASTCALL|METH_KEYWORDS, depr_kwd_optional_1__doc__},
 
 static PyObject *
 depr_kwd_optional_1_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -1906,6 +1902,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} depr_kwd_optional_1_MethodName = {.name = "depr_kwd_optional_1",};
+#define DEPR_KWD_OPTIONAL_1_METHODDEF    \
+    {depr_kwd_optional_1_MethodName.name, _PyCFunction_CAST(depr_kwd_optional_1), METH_FASTCALL|METH_KEYWORDS, depr_kwd_optional_1__doc__},
+
 PyDoc_STRVAR(depr_kwd_optional_2__doc__,
 "depr_kwd_optional_2($module, a, /, b=None, c=None)\n"
 "--\n"
@@ -1914,10 +1914,6 @@ PyDoc_STRVAR(depr_kwd_optional_2__doc__,
 "is deprecated. Parameters \'b\' and \'c\' will become positional-only in\n"
 "Python 3.37.\n"
 "");
-
-static struct {char name[];} depr_kwd_optional_2_MethodName = {.name = "depr_kwd_optional_2",};
-#define DEPR_KWD_OPTIONAL_2_METHODDEF    \
-    {depr_kwd_optional_2_MethodName.name, _PyCFunction_CAST(depr_kwd_optional_2), METH_FASTCALL|METH_KEYWORDS, depr_kwd_optional_2__doc__},
 
 static PyObject *
 depr_kwd_optional_2_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -2003,6 +1999,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} depr_kwd_optional_2_MethodName = {.name = "depr_kwd_optional_2",};
+#define DEPR_KWD_OPTIONAL_2_METHODDEF    \
+    {depr_kwd_optional_2_MethodName.name, _PyCFunction_CAST(depr_kwd_optional_2), METH_FASTCALL|METH_KEYWORDS, depr_kwd_optional_2__doc__},
+
 PyDoc_STRVAR(depr_kwd_optional_3__doc__,
 "depr_kwd_optional_3($module, /, a=None, b=None, c=None)\n"
 "--\n"
@@ -2011,10 +2011,6 @@ PyDoc_STRVAR(depr_kwd_optional_3__doc__,
 "depr_kwd_optional_3() is deprecated. Parameters \'a\', \'b\' and \'c\' will\n"
 "become positional-only in Python 3.37.\n"
 "");
-
-static struct {char name[];} depr_kwd_optional_3_MethodName = {.name = "depr_kwd_optional_3",};
-#define DEPR_KWD_OPTIONAL_3_METHODDEF    \
-    {depr_kwd_optional_3_MethodName.name, _PyCFunction_CAST(depr_kwd_optional_3), METH_FASTCALL|METH_KEYWORDS, depr_kwd_optional_3__doc__},
 
 static PyObject *
 depr_kwd_optional_3_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -2105,6 +2101,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} depr_kwd_optional_3_MethodName = {.name = "depr_kwd_optional_3",};
+#define DEPR_KWD_OPTIONAL_3_METHODDEF    \
+    {depr_kwd_optional_3_MethodName.name, _PyCFunction_CAST(depr_kwd_optional_3), METH_FASTCALL|METH_KEYWORDS, depr_kwd_optional_3__doc__},
+
 PyDoc_STRVAR(depr_kwd_required_optional__doc__,
 "depr_kwd_required_optional($module, a, /, b, c=None)\n"
 "--\n"
@@ -2113,10 +2113,6 @@ PyDoc_STRVAR(depr_kwd_required_optional__doc__,
 "depr_kwd_required_optional() is deprecated. Parameters \'b\' and \'c\'\n"
 "will become positional-only in Python 3.37.\n"
 "");
-
-static struct {char name[];} depr_kwd_required_optional_MethodName = {.name = "depr_kwd_required_optional",};
-#define DEPR_KWD_REQUIRED_OPTIONAL_METHODDEF    \
-    {depr_kwd_required_optional_MethodName.name, _PyCFunction_CAST(depr_kwd_required_optional), METH_FASTCALL|METH_KEYWORDS, depr_kwd_required_optional__doc__},
 
 static PyObject *
 depr_kwd_required_optional_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -2197,6 +2193,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} depr_kwd_required_optional_MethodName = {.name = "depr_kwd_required_optional",};
+#define DEPR_KWD_REQUIRED_OPTIONAL_METHODDEF    \
+    {depr_kwd_required_optional_MethodName.name, _PyCFunction_CAST(depr_kwd_required_optional), METH_FASTCALL|METH_KEYWORDS, depr_kwd_required_optional__doc__},
+
 PyDoc_STRVAR(depr_kwd_noinline__doc__,
 "depr_kwd_noinline($module, a, /, b, c=None, d=\'\')\n"
 "--\n"
@@ -2205,10 +2205,6 @@ PyDoc_STRVAR(depr_kwd_noinline__doc__,
 "deprecated. Parameters \'b\' and \'c\' will become positional-only in\n"
 "Python 3.37.\n"
 "");
-
-static struct {char name[];} depr_kwd_noinline_MethodName = {.name = "depr_kwd_noinline",};
-#define DEPR_KWD_NOINLINE_METHODDEF    \
-    {depr_kwd_noinline_MethodName.name, _PyCFunction_CAST(depr_kwd_noinline), METH_FASTCALL|METH_KEYWORDS, depr_kwd_noinline__doc__},
 
 static PyObject *
 depr_kwd_noinline_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -2284,6 +2280,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} depr_kwd_noinline_MethodName = {.name = "depr_kwd_noinline",};
+#define DEPR_KWD_NOINLINE_METHODDEF    \
+    {depr_kwd_noinline_MethodName.name, _PyCFunction_CAST(depr_kwd_noinline), METH_FASTCALL|METH_KEYWORDS, depr_kwd_noinline__doc__},
+
 PyDoc_STRVAR(depr_kwd_multi__doc__,
 "depr_kwd_multi($module, a, /, b, c, d, e, f, g, h)\n"
 "--\n"
@@ -2294,10 +2294,6 @@ PyDoc_STRVAR(depr_kwd_multi__doc__,
 "only in Python 3.38. Parameters \'e\', \'f\' and \'g\' will become\n"
 "positional-only in Python 3.39.\n"
 "");
-
-static struct {char name[];} depr_kwd_multi_MethodName = {.name = "depr_kwd_multi",};
-#define DEPR_KWD_MULTI_METHODDEF    \
-    {depr_kwd_multi_MethodName.name, _PyCFunction_CAST(depr_kwd_multi), METH_FASTCALL|METH_KEYWORDS, depr_kwd_multi__doc__},
 
 static PyObject *
 depr_kwd_multi_impl(PyObject *module, PyObject *a, PyObject *b, PyObject *c,
@@ -2386,6 +2382,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} depr_kwd_multi_MethodName = {.name = "depr_kwd_multi",};
+#define DEPR_KWD_MULTI_METHODDEF    \
+    {depr_kwd_multi_MethodName.name, _PyCFunction_CAST(depr_kwd_multi), METH_FASTCALL|METH_KEYWORDS, depr_kwd_multi__doc__},
+
 PyDoc_STRVAR(depr_multi__doc__,
 "depr_multi($module, a, /, b, c, d, e, f, *, g)\n"
 "--\n"
@@ -2400,10 +2400,6 @@ PyDoc_STRVAR(depr_multi__doc__,
 "Python 3.38. Parameter \'f\' will become a keyword-only parameter in\n"
 "Python 3.37.\n"
 "");
-
-static struct {char name[];} depr_multi_MethodName = {.name = "depr_multi",};
-#define DEPR_MULTI_METHODDEF    \
-    {depr_multi_MethodName.name, _PyCFunction_CAST(depr_multi), METH_FASTCALL|METH_KEYWORDS, depr_multi__doc__},
 
 static PyObject *
 depr_multi_impl(PyObject *module, PyObject *a, PyObject *b, PyObject *c,
@@ -2496,4 +2492,8 @@ depr_multi(PyObject *module, PyObject *const *args, Py_ssize_t nargs, PyObject *
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=73e0c5c754234b83 input=a9049054013a1b77]*/
+
+static struct {char name[];} depr_multi_MethodName = {.name = "depr_multi",};
+#define DEPR_MULTI_METHODDEF    \
+    {depr_multi_MethodName.name, _PyCFunction_CAST(depr_multi), METH_FASTCALL|METH_KEYWORDS, depr_multi__doc__},
+/*[clinic end generated code: output=4a438f262e5b24d4 input=a9049054013a1b77]*/

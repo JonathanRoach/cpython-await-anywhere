@@ -45,10 +45,6 @@ PyDoc_STRVAR(pysqlite_row_keys__doc__,
 "\n"
 "Returns the keys of the row.");
 
-static struct {char name[];} pysqlite_row_keys_MethodName = {.name = "keys",};
-#define PYSQLITE_ROW_KEYS_METHODDEF    \
-    {pysqlite_row_keys_MethodName.name, (PyCFunction)pysqlite_row_keys, METH_NOARGS|METH_C_STACK_FRUGAL, pysqlite_row_keys__doc__},
-
 static PyObject *
 pysqlite_row_keys_impl(pysqlite_Row *self);
 
@@ -57,4 +53,8 @@ pysqlite_row_keys(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return pysqlite_row_keys_impl((pysqlite_Row *)self);
 }
-/*[clinic end generated code: output=81bf120fc3efe3cd input=a9049054013a1b77]*/
+
+static struct {char name[];} pysqlite_row_keys_MethodName = {.name = "keys",};
+#define PYSQLITE_ROW_KEYS_METHODDEF    \
+    {pysqlite_row_keys_MethodName.name, (PyCFunction)pysqlite_row_keys, METH_NOARGS|METH_C_STACK_FRUGAL, pysqlite_row_keys__doc__},
+/*[clinic end generated code: output=95e1ce3c728e57c2 input=a9049054013a1b77]*/

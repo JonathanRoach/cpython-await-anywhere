@@ -7,10 +7,6 @@ PyDoc_STRVAR(_testcapi_pyfile_getline__doc__,
 "--\n"
 "\n");
 
-static struct {char name[];} _testcapi_pyfile_getline_MethodName = {.name = "pyfile_getline",};
-#define _TESTCAPI_PYFILE_GETLINE_METHODDEF    \
-    {_testcapi_pyfile_getline_MethodName.name, (PyCFunction)(void(*)(void))_testcapi_pyfile_getline, METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_pyfile_getline__doc__},
-
 static PyObject *
 _testcapi_pyfile_getline_impl(PyObject *module, PyObject *file, int n);
 
@@ -36,14 +32,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _testcapi_pyfile_getline_MethodName = {.name = "pyfile_getline",};
+#define _TESTCAPI_PYFILE_GETLINE_METHODDEF    \
+    {_testcapi_pyfile_getline_MethodName.name, (PyCFunction)(void(*)(void))_testcapi_pyfile_getline, METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_pyfile_getline__doc__},
+
 PyDoc_STRVAR(_testcapi_pyfile_writeobject__doc__,
 "pyfile_writeobject($module, obj, file, flags, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _testcapi_pyfile_writeobject_MethodName = {.name = "pyfile_writeobject",};
-#define _TESTCAPI_PYFILE_WRITEOBJECT_METHODDEF    \
-    {_testcapi_pyfile_writeobject_MethodName.name, (PyCFunction)(void(*)(void))_testcapi_pyfile_writeobject, METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_pyfile_writeobject__doc__},
 
 static PyObject *
 _testcapi_pyfile_writeobject_impl(PyObject *module, PyObject *obj,
@@ -73,6 +69,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _testcapi_pyfile_writeobject_MethodName = {.name = "pyfile_writeobject",};
+#define _TESTCAPI_PYFILE_WRITEOBJECT_METHODDEF    \
+    {_testcapi_pyfile_writeobject_MethodName.name, (PyCFunction)(void(*)(void))_testcapi_pyfile_writeobject, METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_pyfile_writeobject__doc__},
+
 PyDoc_STRVAR(_testcapi_pyobject_asfiledescriptor__doc__,
 "pyobject_asfiledescriptor($module, obj, /)\n"
 "--\n"
@@ -81,4 +81,4 @@ PyDoc_STRVAR(_testcapi_pyobject_asfiledescriptor__doc__,
 static struct {char name[];} _testcapi_pyobject_asfiledescriptor_MethodName = {.name = "pyobject_asfiledescriptor",};
 #define _TESTCAPI_PYOBJECT_ASFILEDESCRIPTOR_METHODDEF    \
     {_testcapi_pyobject_asfiledescriptor_MethodName.name, (PyCFunction)_testcapi_pyobject_asfiledescriptor, METH_O|METH_C_STACK_FRUGAL, _testcapi_pyobject_asfiledescriptor__doc__},
-/*[clinic end generated code: output=c8c673a3c378ebc3 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=66fb107d134e0b3c input=a9049054013a1b77]*/

@@ -14,10 +14,6 @@ PyDoc_STRVAR(SHA1Type_copy__doc__,
 "\n"
 "Return a copy of the hash object.");
 
-static struct {char name[];} SHA1Type_copy_MethodName = {.name = "copy",};
-#define SHA1TYPE_COPY_METHODDEF    \
-    {SHA1Type_copy_MethodName.name, _PyCFunction_CAST(SHA1Type_copy), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, SHA1Type_copy__doc__},
-
 static PyObject *
 SHA1Type_copy_impl(SHA1object *self, PyTypeObject *cls);
 
@@ -31,15 +27,15 @@ SHA1Type_copy(PyObject *self, PyTypeObject *cls, PyObject *const *args, Py_ssize
     return SHA1Type_copy_impl((SHA1object *)self, cls);
 }
 
+static struct {char name[];} SHA1Type_copy_MethodName = {.name = "copy",};
+#define SHA1TYPE_COPY_METHODDEF    \
+    {SHA1Type_copy_MethodName.name, _PyCFunction_CAST(SHA1Type_copy), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, SHA1Type_copy__doc__},
+
 PyDoc_STRVAR(SHA1Type_digest__doc__,
 "digest($self, /)\n"
 "--\n"
 "\n"
 "Return the digest value as a bytes object.");
-
-static struct {char name[];} SHA1Type_digest_MethodName = {.name = "digest",};
-#define SHA1TYPE_DIGEST_METHODDEF    \
-    {SHA1Type_digest_MethodName.name, (PyCFunction)SHA1Type_digest, METH_NOARGS|METH_C_STACK_FRUGAL, SHA1Type_digest__doc__},
 
 static PyObject *
 SHA1Type_digest_impl(SHA1object *self);
@@ -50,15 +46,15 @@ SHA1Type_digest(PyObject *self, PyObject *Py_UNUSED(ignored))
     return SHA1Type_digest_impl((SHA1object *)self);
 }
 
+static struct {char name[];} SHA1Type_digest_MethodName = {.name = "digest",};
+#define SHA1TYPE_DIGEST_METHODDEF    \
+    {SHA1Type_digest_MethodName.name, (PyCFunction)SHA1Type_digest, METH_NOARGS|METH_C_STACK_FRUGAL, SHA1Type_digest__doc__},
+
 PyDoc_STRVAR(SHA1Type_hexdigest__doc__,
 "hexdigest($self, /)\n"
 "--\n"
 "\n"
 "Return the digest value as a string of hexadecimal digits.");
-
-static struct {char name[];} SHA1Type_hexdigest_MethodName = {.name = "hexdigest",};
-#define SHA1TYPE_HEXDIGEST_METHODDEF    \
-    {SHA1Type_hexdigest_MethodName.name, (PyCFunction)SHA1Type_hexdigest, METH_NOARGS|METH_C_STACK_FRUGAL, SHA1Type_hexdigest__doc__},
 
 static PyObject *
 SHA1Type_hexdigest_impl(SHA1object *self);
@@ -69,15 +65,15 @@ SHA1Type_hexdigest(PyObject *self, PyObject *Py_UNUSED(ignored))
     return SHA1Type_hexdigest_impl((SHA1object *)self);
 }
 
+static struct {char name[];} SHA1Type_hexdigest_MethodName = {.name = "hexdigest",};
+#define SHA1TYPE_HEXDIGEST_METHODDEF    \
+    {SHA1Type_hexdigest_MethodName.name, (PyCFunction)SHA1Type_hexdigest, METH_NOARGS|METH_C_STACK_FRUGAL, SHA1Type_hexdigest__doc__},
+
 PyDoc_STRVAR(SHA1Type_update__doc__,
 "update($self, obj, /)\n"
 "--\n"
 "\n"
 "Update this hash object\'s state with the provided string.");
-
-static struct {char name[];} SHA1Type_update_MethodName = {.name = "update",};
-#define SHA1TYPE_UPDATE_METHODDEF    \
-    {SHA1Type_update_MethodName.name, (PyCFunction)SHA1Type_update, METH_O|METH_C_STACK_FRUGAL, SHA1Type_update__doc__},
 
 static PyObject *
 SHA1Type_update_impl(SHA1object *self, PyObject *obj);
@@ -92,15 +88,15 @@ SHA1Type_update(PyObject *self, PyObject *obj)
     return return_value;
 }
 
+static struct {char name[];} SHA1Type_update_MethodName = {.name = "update",};
+#define SHA1TYPE_UPDATE_METHODDEF    \
+    {SHA1Type_update_MethodName.name, (PyCFunction)SHA1Type_update, METH_O|METH_C_STACK_FRUGAL, SHA1Type_update__doc__},
+
 PyDoc_STRVAR(_sha1_sha1__doc__,
 "sha1($module, /, data=b\'\', *, usedforsecurity=True, string=None)\n"
 "--\n"
 "\n"
 "Return a new SHA1 hash object; optionally initialized with a string.");
-
-static struct {char name[];} _sha1_sha1_MethodName = {.name = "sha1",};
-#define _SHA1_SHA1_METHODDEF    \
-    {_sha1_sha1_MethodName.name, _PyCFunction_CAST(_sha1_sha1), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sha1_sha1__doc__},
 
 static PyObject *
 _sha1_sha1_impl(PyObject *module, PyObject *data, int usedforsecurity,
@@ -177,4 +173,8 @@ skip_optional_kwonly:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=890874c7a05ab462 input=a9049054013a1b77]*/
+
+static struct {char name[];} _sha1_sha1_MethodName = {.name = "sha1",};
+#define _SHA1_SHA1_METHODDEF    \
+    {_sha1_sha1_MethodName.name, _PyCFunction_CAST(_sha1_sha1), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _sha1_sha1__doc__},
+/*[clinic end generated code: output=39e52246998be16c input=a9049054013a1b77]*/

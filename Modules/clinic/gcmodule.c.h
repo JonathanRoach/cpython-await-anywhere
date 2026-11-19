@@ -16,10 +16,6 @@ PyDoc_STRVAR(gc_enable__doc__,
 "\n"
 "Enable automatic garbage collection.");
 
-static struct {char name[];} gc_enable_MethodName = {.name = "enable",};
-#define GC_ENABLE_METHODDEF    \
-    {gc_enable_MethodName.name, (PyCFunction)gc_enable, METH_NOARGS|METH_C_STACK_FRUGAL, gc_enable__doc__},
-
 static PyObject *
 gc_enable_impl(PyObject *module);
 
@@ -29,15 +25,15 @@ gc_enable(PyObject *module, PyObject *Py_UNUSED(ignored))
     return gc_enable_impl(module);
 }
 
+static struct {char name[];} gc_enable_MethodName = {.name = "enable",};
+#define GC_ENABLE_METHODDEF    \
+    {gc_enable_MethodName.name, (PyCFunction)gc_enable, METH_NOARGS|METH_C_STACK_FRUGAL, gc_enable__doc__},
+
 PyDoc_STRVAR(gc_disable__doc__,
 "disable($module, /)\n"
 "--\n"
 "\n"
 "Disable automatic garbage collection.");
-
-static struct {char name[];} gc_disable_MethodName = {.name = "disable",};
-#define GC_DISABLE_METHODDEF    \
-    {gc_disable_MethodName.name, (PyCFunction)gc_disable, METH_NOARGS|METH_C_STACK_FRUGAL, gc_disable__doc__},
 
 static PyObject *
 gc_disable_impl(PyObject *module);
@@ -48,15 +44,15 @@ gc_disable(PyObject *module, PyObject *Py_UNUSED(ignored))
     return gc_disable_impl(module);
 }
 
+static struct {char name[];} gc_disable_MethodName = {.name = "disable",};
+#define GC_DISABLE_METHODDEF    \
+    {gc_disable_MethodName.name, (PyCFunction)gc_disable, METH_NOARGS|METH_C_STACK_FRUGAL, gc_disable__doc__},
+
 PyDoc_STRVAR(gc_isenabled__doc__,
 "isenabled($module, /)\n"
 "--\n"
 "\n"
 "Returns true if automatic garbage collection is enabled.");
-
-static struct {char name[];} gc_isenabled_MethodName = {.name = "isenabled",};
-#define GC_ISENABLED_METHODDEF    \
-    {gc_isenabled_MethodName.name, (PyCFunction)gc_isenabled, METH_NOARGS|METH_C_STACK_FRUGAL, gc_isenabled__doc__},
 
 static int
 gc_isenabled_impl(PyObject *module);
@@ -77,6 +73,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} gc_isenabled_MethodName = {.name = "isenabled",};
+#define GC_ISENABLED_METHODDEF    \
+    {gc_isenabled_MethodName.name, (PyCFunction)gc_isenabled, METH_NOARGS|METH_C_STACK_FRUGAL, gc_isenabled__doc__},
+
 PyDoc_STRVAR(gc_collect__doc__,
 "collect($module, /, generation=2)\n"
 "--\n"
@@ -88,10 +88,6 @@ PyDoc_STRVAR(gc_collect__doc__,
 "is raised if the generation number is invalid.\n"
 "\n"
 "The number of unreachable objects is returned.");
-
-static struct {char name[];} gc_collect_MethodName = {.name = "collect",};
-#define GC_COLLECT_METHODDEF    \
-    {gc_collect_MethodName.name, _PyCFunction_CAST(gc_collect), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, gc_collect__doc__},
 
 static Py_ssize_t
 gc_collect_impl(PyObject *module, int generation);
@@ -155,6 +151,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} gc_collect_MethodName = {.name = "collect",};
+#define GC_COLLECT_METHODDEF    \
+    {gc_collect_MethodName.name, _PyCFunction_CAST(gc_collect), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, gc_collect__doc__},
+
 PyDoc_STRVAR(gc_set_debug__doc__,
 "set_debug($module, flags, /)\n"
 "--\n"
@@ -171,10 +171,6 @@ PyDoc_STRVAR(gc_set_debug__doc__,
 "      DEBUG_LEAK - Debug leaking programs (everything but STATS).\n"
 "\n"
 "Debugging information is written to sys.stderr.");
-
-static struct {char name[];} gc_set_debug_MethodName = {.name = "set_debug",};
-#define GC_SET_DEBUG_METHODDEF    \
-    {gc_set_debug_MethodName.name, (PyCFunction)gc_set_debug, METH_O|METH_C_STACK_FRUGAL, gc_set_debug__doc__},
 
 static PyObject *
 gc_set_debug_impl(PyObject *module, int flags);
@@ -195,15 +191,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} gc_set_debug_MethodName = {.name = "set_debug",};
+#define GC_SET_DEBUG_METHODDEF    \
+    {gc_set_debug_MethodName.name, (PyCFunction)gc_set_debug, METH_O|METH_C_STACK_FRUGAL, gc_set_debug__doc__},
+
 PyDoc_STRVAR(gc_get_debug__doc__,
 "get_debug($module, /)\n"
 "--\n"
 "\n"
 "Get the garbage collection debugging flags.");
-
-static struct {char name[];} gc_get_debug_MethodName = {.name = "get_debug",};
-#define GC_GET_DEBUG_METHODDEF    \
-    {gc_get_debug_MethodName.name, (PyCFunction)gc_get_debug, METH_NOARGS|METH_C_STACK_FRUGAL, gc_get_debug__doc__},
 
 static int
 gc_get_debug_impl(PyObject *module);
@@ -224,15 +220,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} gc_get_debug_MethodName = {.name = "get_debug",};
+#define GC_GET_DEBUG_METHODDEF    \
+    {gc_get_debug_MethodName.name, (PyCFunction)gc_get_debug, METH_NOARGS|METH_C_STACK_FRUGAL, gc_get_debug__doc__},
+
 PyDoc_STRVAR(gc_set_threshold__doc__,
 "set_threshold(threshold0, [threshold1, [threshold2]])\n"
 "Set the collection thresholds (the collection frequency).\n"
 "\n"
 "Setting \'threshold0\' to zero disables collection.");
-
-static struct {char name[];} gc_set_threshold_MethodName = {.name = "set_threshold",};
-#define GC_SET_THRESHOLD_METHODDEF    \
-    {gc_set_threshold_MethodName.name, (PyCFunction)gc_set_threshold, METH_VARARGS|METH_C_STACK_FRUGAL, gc_set_threshold__doc__},
 
 static PyObject *
 gc_set_threshold_impl(PyObject *module, int threshold0, int group_right_1,
@@ -277,15 +273,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} gc_set_threshold_MethodName = {.name = "set_threshold",};
+#define GC_SET_THRESHOLD_METHODDEF    \
+    {gc_set_threshold_MethodName.name, (PyCFunction)gc_set_threshold, METH_VARARGS|METH_C_STACK_FRUGAL, gc_set_threshold__doc__},
+
 PyDoc_STRVAR(gc_get_threshold__doc__,
 "get_threshold($module, /)\n"
 "--\n"
 "\n"
 "Return the current collection thresholds.");
-
-static struct {char name[];} gc_get_threshold_MethodName = {.name = "get_threshold",};
-#define GC_GET_THRESHOLD_METHODDEF    \
-    {gc_get_threshold_MethodName.name, (PyCFunction)gc_get_threshold, METH_NOARGS|METH_C_STACK_FRUGAL, gc_get_threshold__doc__},
 
 static PyObject *
 gc_get_threshold_impl(PyObject *module);
@@ -296,15 +292,15 @@ gc_get_threshold(PyObject *module, PyObject *Py_UNUSED(ignored))
     return gc_get_threshold_impl(module);
 }
 
+static struct {char name[];} gc_get_threshold_MethodName = {.name = "get_threshold",};
+#define GC_GET_THRESHOLD_METHODDEF    \
+    {gc_get_threshold_MethodName.name, (PyCFunction)gc_get_threshold, METH_NOARGS|METH_C_STACK_FRUGAL, gc_get_threshold__doc__},
+
 PyDoc_STRVAR(gc_get_count__doc__,
 "get_count($module, /)\n"
 "--\n"
 "\n"
 "Return a three-tuple of the current collection counts.");
-
-static struct {char name[];} gc_get_count_MethodName = {.name = "get_count",};
-#define GC_GET_COUNT_METHODDEF    \
-    {gc_get_count_MethodName.name, (PyCFunction)gc_get_count, METH_NOARGS|METH_C_STACK_FRUGAL, gc_get_count__doc__},
 
 static PyObject *
 gc_get_count_impl(PyObject *module);
@@ -315,15 +311,15 @@ gc_get_count(PyObject *module, PyObject *Py_UNUSED(ignored))
     return gc_get_count_impl(module);
 }
 
+static struct {char name[];} gc_get_count_MethodName = {.name = "get_count",};
+#define GC_GET_COUNT_METHODDEF    \
+    {gc_get_count_MethodName.name, (PyCFunction)gc_get_count, METH_NOARGS|METH_C_STACK_FRUGAL, gc_get_count__doc__},
+
 PyDoc_STRVAR(gc_get_referrers__doc__,
 "get_referrers($module, /, *objs)\n"
 "--\n"
 "\n"
 "Return the list of objects that directly refer to any of \'objs\'.");
-
-static struct {char name[];} gc_get_referrers_MethodName = {.name = "get_referrers",};
-#define GC_GET_REFERRERS_METHODDEF    \
-    {gc_get_referrers_MethodName.name, _PyCFunction_CAST(gc_get_referrers), METH_FASTCALL|METH_C_STACK_FRUGAL, gc_get_referrers__doc__},
 
 static PyObject *
 gc_get_referrers_impl(PyObject *module, PyObject *objs);
@@ -347,15 +343,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} gc_get_referrers_MethodName = {.name = "get_referrers",};
+#define GC_GET_REFERRERS_METHODDEF    \
+    {gc_get_referrers_MethodName.name, _PyCFunction_CAST(gc_get_referrers), METH_FASTCALL|METH_C_STACK_FRUGAL, gc_get_referrers__doc__},
+
 PyDoc_STRVAR(gc_get_referents__doc__,
 "get_referents($module, /, *objs)\n"
 "--\n"
 "\n"
 "Return the list of objects that are directly referred to by \'objs\'.");
-
-static struct {char name[];} gc_get_referents_MethodName = {.name = "get_referents",};
-#define GC_GET_REFERENTS_METHODDEF    \
-    {gc_get_referents_MethodName.name, _PyCFunction_CAST(gc_get_referents), METH_FASTCALL|METH_C_STACK_FRUGAL, gc_get_referents__doc__},
 
 static PyObject *
 gc_get_referents_impl(PyObject *module, PyObject *objs);
@@ -379,6 +375,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} gc_get_referents_MethodName = {.name = "get_referents",};
+#define GC_GET_REFERENTS_METHODDEF    \
+    {gc_get_referents_MethodName.name, _PyCFunction_CAST(gc_get_referents), METH_FASTCALL|METH_C_STACK_FRUGAL, gc_get_referents__doc__},
+
 PyDoc_STRVAR(gc_get_objects__doc__,
 "get_objects($module, /, generation=None)\n"
 "--\n"
@@ -390,10 +390,6 @@ PyDoc_STRVAR(gc_get_objects__doc__,
 "\n"
 "If generation is not None, return only the objects tracked by the collector\n"
 "that are in that generation.");
-
-static struct {char name[];} gc_get_objects_MethodName = {.name = "get_objects",};
-#define GC_GET_OBJECTS_METHODDEF    \
-    {gc_get_objects_MethodName.name, _PyCFunction_CAST(gc_get_objects), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, gc_get_objects__doc__},
 
 static PyObject *
 gc_get_objects_impl(PyObject *module, Py_ssize_t generation);
@@ -451,15 +447,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} gc_get_objects_MethodName = {.name = "get_objects",};
+#define GC_GET_OBJECTS_METHODDEF    \
+    {gc_get_objects_MethodName.name, _PyCFunction_CAST(gc_get_objects), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, gc_get_objects__doc__},
+
 PyDoc_STRVAR(gc_get_stats__doc__,
 "get_stats($module, /)\n"
 "--\n"
 "\n"
 "Return a list of dictionaries containing per-generation statistics.");
-
-static struct {char name[];} gc_get_stats_MethodName = {.name = "get_stats",};
-#define GC_GET_STATS_METHODDEF    \
-    {gc_get_stats_MethodName.name, (PyCFunction)gc_get_stats, METH_NOARGS|METH_C_STACK_FRUGAL, gc_get_stats__doc__},
 
 static PyObject *
 gc_get_stats_impl(PyObject *module);
@@ -470,6 +466,10 @@ gc_get_stats(PyObject *module, PyObject *Py_UNUSED(ignored))
     return gc_get_stats_impl(module);
 }
 
+static struct {char name[];} gc_get_stats_MethodName = {.name = "get_stats",};
+#define GC_GET_STATS_METHODDEF    \
+    {gc_get_stats_MethodName.name, (PyCFunction)gc_get_stats, METH_NOARGS|METH_C_STACK_FRUGAL, gc_get_stats__doc__},
+
 PyDoc_STRVAR(gc_is_tracked__doc__,
 "is_tracked($module, obj, /)\n"
 "--\n"
@@ -477,10 +477,6 @@ PyDoc_STRVAR(gc_is_tracked__doc__,
 "Returns true if the object is tracked by the garbage collector.\n"
 "\n"
 "Simple atomic objects will return false.");
-
-static struct {char name[];} gc_is_tracked_MethodName = {.name = "is_tracked",};
-#define GC_IS_TRACKED_METHODDEF    \
-    {gc_is_tracked_MethodName.name, (PyCFunction)gc_is_tracked, METH_O|METH_C_STACK_FRUGAL, gc_is_tracked__doc__},
 
 static int
 gc_is_tracked_impl(PyObject *module, PyObject *obj);
@@ -501,15 +497,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} gc_is_tracked_MethodName = {.name = "is_tracked",};
+#define GC_IS_TRACKED_METHODDEF    \
+    {gc_is_tracked_MethodName.name, (PyCFunction)gc_is_tracked, METH_O|METH_C_STACK_FRUGAL, gc_is_tracked__doc__},
+
 PyDoc_STRVAR(gc_is_finalized__doc__,
 "is_finalized($module, obj, /)\n"
 "--\n"
 "\n"
 "Returns true if the object has been already finalized by the GC.");
-
-static struct {char name[];} gc_is_finalized_MethodName = {.name = "is_finalized",};
-#define GC_IS_FINALIZED_METHODDEF    \
-    {gc_is_finalized_MethodName.name, (PyCFunction)gc_is_finalized, METH_O|METH_C_STACK_FRUGAL, gc_is_finalized__doc__},
 
 static int
 gc_is_finalized_impl(PyObject *module, PyObject *obj);
@@ -530,6 +526,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} gc_is_finalized_MethodName = {.name = "is_finalized",};
+#define GC_IS_FINALIZED_METHODDEF    \
+    {gc_is_finalized_MethodName.name, (PyCFunction)gc_is_finalized, METH_O|METH_C_STACK_FRUGAL, gc_is_finalized__doc__},
+
 PyDoc_STRVAR(gc_freeze__doc__,
 "freeze($module, /)\n"
 "--\n"
@@ -540,10 +540,6 @@ PyDoc_STRVAR(gc_freeze__doc__,
 "Note: collection before a POSIX fork() call may free pages for future allocation\n"
 "which can cause copy-on-write.");
 
-static struct {char name[];} gc_freeze_MethodName = {.name = "freeze",};
-#define GC_FREEZE_METHODDEF    \
-    {gc_freeze_MethodName.name, (PyCFunction)gc_freeze, METH_NOARGS|METH_C_STACK_FRUGAL, gc_freeze__doc__},
-
 static PyObject *
 gc_freeze_impl(PyObject *module);
 
@@ -553,6 +549,10 @@ gc_freeze(PyObject *module, PyObject *Py_UNUSED(ignored))
     return gc_freeze_impl(module);
 }
 
+static struct {char name[];} gc_freeze_MethodName = {.name = "freeze",};
+#define GC_FREEZE_METHODDEF    \
+    {gc_freeze_MethodName.name, (PyCFunction)gc_freeze, METH_NOARGS|METH_C_STACK_FRUGAL, gc_freeze__doc__},
+
 PyDoc_STRVAR(gc_unfreeze__doc__,
 "unfreeze($module, /)\n"
 "--\n"
@@ -560,10 +560,6 @@ PyDoc_STRVAR(gc_unfreeze__doc__,
 "Unfreeze all objects in the permanent generation.\n"
 "\n"
 "Put all objects in the permanent generation back into oldest generation.");
-
-static struct {char name[];} gc_unfreeze_MethodName = {.name = "unfreeze",};
-#define GC_UNFREEZE_METHODDEF    \
-    {gc_unfreeze_MethodName.name, (PyCFunction)gc_unfreeze, METH_NOARGS|METH_C_STACK_FRUGAL, gc_unfreeze__doc__},
 
 static PyObject *
 gc_unfreeze_impl(PyObject *module);
@@ -574,15 +570,15 @@ gc_unfreeze(PyObject *module, PyObject *Py_UNUSED(ignored))
     return gc_unfreeze_impl(module);
 }
 
+static struct {char name[];} gc_unfreeze_MethodName = {.name = "unfreeze",};
+#define GC_UNFREEZE_METHODDEF    \
+    {gc_unfreeze_MethodName.name, (PyCFunction)gc_unfreeze, METH_NOARGS|METH_C_STACK_FRUGAL, gc_unfreeze__doc__},
+
 PyDoc_STRVAR(gc_get_freeze_count__doc__,
 "get_freeze_count($module, /)\n"
 "--\n"
 "\n"
 "Return the number of objects in the permanent generation.");
-
-static struct {char name[];} gc_get_freeze_count_MethodName = {.name = "get_freeze_count",};
-#define GC_GET_FREEZE_COUNT_METHODDEF    \
-    {gc_get_freeze_count_MethodName.name, (PyCFunction)gc_get_freeze_count, METH_NOARGS|METH_C_STACK_FRUGAL, gc_get_freeze_count__doc__},
 
 static Py_ssize_t
 gc_get_freeze_count_impl(PyObject *module);
@@ -602,4 +598,8 @@ gc_get_freeze_count(PyObject *module, PyObject *Py_UNUSED(ignored))
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=2f5b540930faa7fb input=a9049054013a1b77]*/
+
+static struct {char name[];} gc_get_freeze_count_MethodName = {.name = "get_freeze_count",};
+#define GC_GET_FREEZE_COUNT_METHODDEF    \
+    {gc_get_freeze_count_MethodName.name, (PyCFunction)gc_get_freeze_count, METH_NOARGS|METH_C_STACK_FRUGAL, gc_get_freeze_count__doc__},
+/*[clinic end generated code: output=8d0dde29317ec62e input=a9049054013a1b77]*/

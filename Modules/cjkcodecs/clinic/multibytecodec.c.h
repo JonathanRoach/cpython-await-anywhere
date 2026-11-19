@@ -19,10 +19,6 @@ PyDoc_STRVAR(_multibytecodec_MultibyteCodec_encode__doc__,
 "values are \'ignore\', \'replace\' and \'xmlcharrefreplace\' as well as any other name\n"
 "registered with codecs.register_error that can handle UnicodeEncodeErrors.");
 
-static struct {char name[];} _multibytecodec_MultibyteCodec_encode_MethodName = {.name = "encode",};
-#define _MULTIBYTECODEC_MULTIBYTECODEC_ENCODE_METHODDEF    \
-    {_multibytecodec_MultibyteCodec_encode_MethodName.name, _PyCFunction_CAST(_multibytecodec_MultibyteCodec_encode), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteCodec_encode__doc__},
-
 static PyObject *
 _multibytecodec_MultibyteCodec_encode_impl(MultibyteCodecObject *self,
                                            PyObject *input,
@@ -98,6 +94,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _multibytecodec_MultibyteCodec_encode_MethodName = {.name = "encode",};
+#define _MULTIBYTECODEC_MULTIBYTECODEC_ENCODE_METHODDEF    \
+    {_multibytecodec_MultibyteCodec_encode_MethodName.name, _PyCFunction_CAST(_multibytecodec_MultibyteCodec_encode), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteCodec_encode__doc__},
+
 PyDoc_STRVAR(_multibytecodec_MultibyteCodec_decode__doc__,
 "decode($self, /, input, errors=None)\n"
 "--\n"
@@ -108,10 +108,6 @@ PyDoc_STRVAR(_multibytecodec_MultibyteCodec_decode__doc__,
 "\'strict\' meaning that encoding errors raise a UnicodeDecodeError. Other possible\n"
 "values are \'ignore\' and \'replace\' as well as any other name registered with\n"
 "codecs.register_error that is able to handle UnicodeDecodeErrors.\"");
-
-static struct {char name[];} _multibytecodec_MultibyteCodec_decode_MethodName = {.name = "decode",};
-#define _MULTIBYTECODEC_MULTIBYTECODEC_DECODE_METHODDEF    \
-    {_multibytecodec_MultibyteCodec_decode_MethodName.name, _PyCFunction_CAST(_multibytecodec_MultibyteCodec_decode), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteCodec_decode__doc__},
 
 static PyObject *
 _multibytecodec_MultibyteCodec_decode_impl(MultibyteCodecObject *self,
@@ -195,14 +191,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _multibytecodec_MultibyteCodec_decode_MethodName = {.name = "decode",};
+#define _MULTIBYTECODEC_MULTIBYTECODEC_DECODE_METHODDEF    \
+    {_multibytecodec_MultibyteCodec_decode_MethodName.name, _PyCFunction_CAST(_multibytecodec_MultibyteCodec_decode), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteCodec_decode__doc__},
+
 PyDoc_STRVAR(_multibytecodec_MultibyteIncrementalEncoder_encode__doc__,
 "encode($self, /, input, final=False)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _multibytecodec_MultibyteIncrementalEncoder_encode_MethodName = {.name = "encode",};
-#define _MULTIBYTECODEC_MULTIBYTEINCREMENTALENCODER_ENCODE_METHODDEF    \
-    {_multibytecodec_MultibyteIncrementalEncoder_encode_MethodName.name, _PyCFunction_CAST(_multibytecodec_MultibyteIncrementalEncoder_encode), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteIncrementalEncoder_encode__doc__},
 
 static PyObject *
 _multibytecodec_MultibyteIncrementalEncoder_encode_impl(MultibyteIncrementalEncoderObject *self,
@@ -265,14 +261,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _multibytecodec_MultibyteIncrementalEncoder_encode_MethodName = {.name = "encode",};
+#define _MULTIBYTECODEC_MULTIBYTEINCREMENTALENCODER_ENCODE_METHODDEF    \
+    {_multibytecodec_MultibyteIncrementalEncoder_encode_MethodName.name, _PyCFunction_CAST(_multibytecodec_MultibyteIncrementalEncoder_encode), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteIncrementalEncoder_encode__doc__},
+
 PyDoc_STRVAR(_multibytecodec_MultibyteIncrementalEncoder_getstate__doc__,
 "getstate($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _multibytecodec_MultibyteIncrementalEncoder_getstate_MethodName = {.name = "getstate",};
-#define _MULTIBYTECODEC_MULTIBYTEINCREMENTALENCODER_GETSTATE_METHODDEF    \
-    {_multibytecodec_MultibyteIncrementalEncoder_getstate_MethodName.name, (PyCFunction)_multibytecodec_MultibyteIncrementalEncoder_getstate, METH_NOARGS|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteIncrementalEncoder_getstate__doc__},
 
 static PyObject *
 _multibytecodec_MultibyteIncrementalEncoder_getstate_impl(MultibyteIncrementalEncoderObject *self);
@@ -283,14 +279,14 @@ _multibytecodec_MultibyteIncrementalEncoder_getstate(PyObject *self, PyObject *P
     return _multibytecodec_MultibyteIncrementalEncoder_getstate_impl((MultibyteIncrementalEncoderObject *)self);
 }
 
+static struct {char name[];} _multibytecodec_MultibyteIncrementalEncoder_getstate_MethodName = {.name = "getstate",};
+#define _MULTIBYTECODEC_MULTIBYTEINCREMENTALENCODER_GETSTATE_METHODDEF    \
+    {_multibytecodec_MultibyteIncrementalEncoder_getstate_MethodName.name, (PyCFunction)_multibytecodec_MultibyteIncrementalEncoder_getstate, METH_NOARGS|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteIncrementalEncoder_getstate__doc__},
+
 PyDoc_STRVAR(_multibytecodec_MultibyteIncrementalEncoder_setstate__doc__,
 "setstate($self, state, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _multibytecodec_MultibyteIncrementalEncoder_setstate_MethodName = {.name = "setstate",};
-#define _MULTIBYTECODEC_MULTIBYTEINCREMENTALENCODER_SETSTATE_METHODDEF    \
-    {_multibytecodec_MultibyteIncrementalEncoder_setstate_MethodName.name, (PyCFunction)_multibytecodec_MultibyteIncrementalEncoder_setstate, METH_O|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteIncrementalEncoder_setstate__doc__},
 
 static PyObject *
 _multibytecodec_MultibyteIncrementalEncoder_setstate_impl(MultibyteIncrementalEncoderObject *self,
@@ -313,14 +309,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _multibytecodec_MultibyteIncrementalEncoder_setstate_MethodName = {.name = "setstate",};
+#define _MULTIBYTECODEC_MULTIBYTEINCREMENTALENCODER_SETSTATE_METHODDEF    \
+    {_multibytecodec_MultibyteIncrementalEncoder_setstate_MethodName.name, (PyCFunction)_multibytecodec_MultibyteIncrementalEncoder_setstate, METH_O|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteIncrementalEncoder_setstate__doc__},
+
 PyDoc_STRVAR(_multibytecodec_MultibyteIncrementalEncoder_reset__doc__,
 "reset($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _multibytecodec_MultibyteIncrementalEncoder_reset_MethodName = {.name = "reset",};
-#define _MULTIBYTECODEC_MULTIBYTEINCREMENTALENCODER_RESET_METHODDEF    \
-    {_multibytecodec_MultibyteIncrementalEncoder_reset_MethodName.name, (PyCFunction)_multibytecodec_MultibyteIncrementalEncoder_reset, METH_NOARGS|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteIncrementalEncoder_reset__doc__},
 
 static PyObject *
 _multibytecodec_MultibyteIncrementalEncoder_reset_impl(MultibyteIncrementalEncoderObject *self);
@@ -331,14 +327,14 @@ _multibytecodec_MultibyteIncrementalEncoder_reset(PyObject *self, PyObject *Py_U
     return _multibytecodec_MultibyteIncrementalEncoder_reset_impl((MultibyteIncrementalEncoderObject *)self);
 }
 
+static struct {char name[];} _multibytecodec_MultibyteIncrementalEncoder_reset_MethodName = {.name = "reset",};
+#define _MULTIBYTECODEC_MULTIBYTEINCREMENTALENCODER_RESET_METHODDEF    \
+    {_multibytecodec_MultibyteIncrementalEncoder_reset_MethodName.name, (PyCFunction)_multibytecodec_MultibyteIncrementalEncoder_reset, METH_NOARGS|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteIncrementalEncoder_reset__doc__},
+
 PyDoc_STRVAR(_multibytecodec_MultibyteIncrementalDecoder_decode__doc__,
 "decode($self, /, input, final=False)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _multibytecodec_MultibyteIncrementalDecoder_decode_MethodName = {.name = "decode",};
-#define _MULTIBYTECODEC_MULTIBYTEINCREMENTALDECODER_DECODE_METHODDEF    \
-    {_multibytecodec_MultibyteIncrementalDecoder_decode_MethodName.name, _PyCFunction_CAST(_multibytecodec_MultibyteIncrementalDecoder_decode), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteIncrementalDecoder_decode__doc__},
 
 static PyObject *
 _multibytecodec_MultibyteIncrementalDecoder_decode_impl(MultibyteIncrementalDecoderObject *self,
@@ -408,14 +404,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _multibytecodec_MultibyteIncrementalDecoder_decode_MethodName = {.name = "decode",};
+#define _MULTIBYTECODEC_MULTIBYTEINCREMENTALDECODER_DECODE_METHODDEF    \
+    {_multibytecodec_MultibyteIncrementalDecoder_decode_MethodName.name, _PyCFunction_CAST(_multibytecodec_MultibyteIncrementalDecoder_decode), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteIncrementalDecoder_decode__doc__},
+
 PyDoc_STRVAR(_multibytecodec_MultibyteIncrementalDecoder_getstate__doc__,
 "getstate($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _multibytecodec_MultibyteIncrementalDecoder_getstate_MethodName = {.name = "getstate",};
-#define _MULTIBYTECODEC_MULTIBYTEINCREMENTALDECODER_GETSTATE_METHODDEF    \
-    {_multibytecodec_MultibyteIncrementalDecoder_getstate_MethodName.name, (PyCFunction)_multibytecodec_MultibyteIncrementalDecoder_getstate, METH_NOARGS|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteIncrementalDecoder_getstate__doc__},
 
 static PyObject *
 _multibytecodec_MultibyteIncrementalDecoder_getstate_impl(MultibyteIncrementalDecoderObject *self);
@@ -426,14 +422,14 @@ _multibytecodec_MultibyteIncrementalDecoder_getstate(PyObject *self, PyObject *P
     return _multibytecodec_MultibyteIncrementalDecoder_getstate_impl((MultibyteIncrementalDecoderObject *)self);
 }
 
+static struct {char name[];} _multibytecodec_MultibyteIncrementalDecoder_getstate_MethodName = {.name = "getstate",};
+#define _MULTIBYTECODEC_MULTIBYTEINCREMENTALDECODER_GETSTATE_METHODDEF    \
+    {_multibytecodec_MultibyteIncrementalDecoder_getstate_MethodName.name, (PyCFunction)_multibytecodec_MultibyteIncrementalDecoder_getstate, METH_NOARGS|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteIncrementalDecoder_getstate__doc__},
+
 PyDoc_STRVAR(_multibytecodec_MultibyteIncrementalDecoder_setstate__doc__,
 "setstate($self, state, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _multibytecodec_MultibyteIncrementalDecoder_setstate_MethodName = {.name = "setstate",};
-#define _MULTIBYTECODEC_MULTIBYTEINCREMENTALDECODER_SETSTATE_METHODDEF    \
-    {_multibytecodec_MultibyteIncrementalDecoder_setstate_MethodName.name, (PyCFunction)_multibytecodec_MultibyteIncrementalDecoder_setstate, METH_O|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteIncrementalDecoder_setstate__doc__},
 
 static PyObject *
 _multibytecodec_MultibyteIncrementalDecoder_setstate_impl(MultibyteIncrementalDecoderObject *self,
@@ -456,14 +452,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _multibytecodec_MultibyteIncrementalDecoder_setstate_MethodName = {.name = "setstate",};
+#define _MULTIBYTECODEC_MULTIBYTEINCREMENTALDECODER_SETSTATE_METHODDEF    \
+    {_multibytecodec_MultibyteIncrementalDecoder_setstate_MethodName.name, (PyCFunction)_multibytecodec_MultibyteIncrementalDecoder_setstate, METH_O|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteIncrementalDecoder_setstate__doc__},
+
 PyDoc_STRVAR(_multibytecodec_MultibyteIncrementalDecoder_reset__doc__,
 "reset($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _multibytecodec_MultibyteIncrementalDecoder_reset_MethodName = {.name = "reset",};
-#define _MULTIBYTECODEC_MULTIBYTEINCREMENTALDECODER_RESET_METHODDEF    \
-    {_multibytecodec_MultibyteIncrementalDecoder_reset_MethodName.name, (PyCFunction)_multibytecodec_MultibyteIncrementalDecoder_reset, METH_NOARGS|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteIncrementalDecoder_reset__doc__},
 
 static PyObject *
 _multibytecodec_MultibyteIncrementalDecoder_reset_impl(MultibyteIncrementalDecoderObject *self);
@@ -474,14 +470,14 @@ _multibytecodec_MultibyteIncrementalDecoder_reset(PyObject *self, PyObject *Py_U
     return _multibytecodec_MultibyteIncrementalDecoder_reset_impl((MultibyteIncrementalDecoderObject *)self);
 }
 
+static struct {char name[];} _multibytecodec_MultibyteIncrementalDecoder_reset_MethodName = {.name = "reset",};
+#define _MULTIBYTECODEC_MULTIBYTEINCREMENTALDECODER_RESET_METHODDEF    \
+    {_multibytecodec_MultibyteIncrementalDecoder_reset_MethodName.name, (PyCFunction)_multibytecodec_MultibyteIncrementalDecoder_reset, METH_NOARGS|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteIncrementalDecoder_reset__doc__},
+
 PyDoc_STRVAR(_multibytecodec_MultibyteStreamReader_read__doc__,
 "read($self, sizeobj=None, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _multibytecodec_MultibyteStreamReader_read_MethodName = {.name = "read",};
-#define _MULTIBYTECODEC_MULTIBYTESTREAMREADER_READ_METHODDEF    \
-    {_multibytecodec_MultibyteStreamReader_read_MethodName.name, _PyCFunction_CAST(_multibytecodec_MultibyteStreamReader_read), METH_FASTCALL|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteStreamReader_read__doc__},
 
 static PyObject *
 _multibytecodec_MultibyteStreamReader_read_impl(MultibyteStreamReaderObject *self,
@@ -507,14 +503,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _multibytecodec_MultibyteStreamReader_read_MethodName = {.name = "read",};
+#define _MULTIBYTECODEC_MULTIBYTESTREAMREADER_READ_METHODDEF    \
+    {_multibytecodec_MultibyteStreamReader_read_MethodName.name, _PyCFunction_CAST(_multibytecodec_MultibyteStreamReader_read), METH_FASTCALL|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteStreamReader_read__doc__},
+
 PyDoc_STRVAR(_multibytecodec_MultibyteStreamReader_readline__doc__,
 "readline($self, sizeobj=None, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _multibytecodec_MultibyteStreamReader_readline_MethodName = {.name = "readline",};
-#define _MULTIBYTECODEC_MULTIBYTESTREAMREADER_READLINE_METHODDEF    \
-    {_multibytecodec_MultibyteStreamReader_readline_MethodName.name, _PyCFunction_CAST(_multibytecodec_MultibyteStreamReader_readline), METH_FASTCALL|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteStreamReader_readline__doc__},
 
 static PyObject *
 _multibytecodec_MultibyteStreamReader_readline_impl(MultibyteStreamReaderObject *self,
@@ -540,14 +536,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _multibytecodec_MultibyteStreamReader_readline_MethodName = {.name = "readline",};
+#define _MULTIBYTECODEC_MULTIBYTESTREAMREADER_READLINE_METHODDEF    \
+    {_multibytecodec_MultibyteStreamReader_readline_MethodName.name, _PyCFunction_CAST(_multibytecodec_MultibyteStreamReader_readline), METH_FASTCALL|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteStreamReader_readline__doc__},
+
 PyDoc_STRVAR(_multibytecodec_MultibyteStreamReader_readlines__doc__,
 "readlines($self, sizehintobj=None, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _multibytecodec_MultibyteStreamReader_readlines_MethodName = {.name = "readlines",};
-#define _MULTIBYTECODEC_MULTIBYTESTREAMREADER_READLINES_METHODDEF    \
-    {_multibytecodec_MultibyteStreamReader_readlines_MethodName.name, _PyCFunction_CAST(_multibytecodec_MultibyteStreamReader_readlines), METH_FASTCALL|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteStreamReader_readlines__doc__},
 
 static PyObject *
 _multibytecodec_MultibyteStreamReader_readlines_impl(MultibyteStreamReaderObject *self,
@@ -573,14 +569,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _multibytecodec_MultibyteStreamReader_readlines_MethodName = {.name = "readlines",};
+#define _MULTIBYTECODEC_MULTIBYTESTREAMREADER_READLINES_METHODDEF    \
+    {_multibytecodec_MultibyteStreamReader_readlines_MethodName.name, _PyCFunction_CAST(_multibytecodec_MultibyteStreamReader_readlines), METH_FASTCALL|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteStreamReader_readlines__doc__},
+
 PyDoc_STRVAR(_multibytecodec_MultibyteStreamReader_reset__doc__,
 "reset($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _multibytecodec_MultibyteStreamReader_reset_MethodName = {.name = "reset",};
-#define _MULTIBYTECODEC_MULTIBYTESTREAMREADER_RESET_METHODDEF    \
-    {_multibytecodec_MultibyteStreamReader_reset_MethodName.name, (PyCFunction)_multibytecodec_MultibyteStreamReader_reset, METH_NOARGS|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteStreamReader_reset__doc__},
 
 static PyObject *
 _multibytecodec_MultibyteStreamReader_reset_impl(MultibyteStreamReaderObject *self);
@@ -591,14 +587,14 @@ _multibytecodec_MultibyteStreamReader_reset(PyObject *self, PyObject *Py_UNUSED(
     return _multibytecodec_MultibyteStreamReader_reset_impl((MultibyteStreamReaderObject *)self);
 }
 
+static struct {char name[];} _multibytecodec_MultibyteStreamReader_reset_MethodName = {.name = "reset",};
+#define _MULTIBYTECODEC_MULTIBYTESTREAMREADER_RESET_METHODDEF    \
+    {_multibytecodec_MultibyteStreamReader_reset_MethodName.name, (PyCFunction)_multibytecodec_MultibyteStreamReader_reset, METH_NOARGS|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteStreamReader_reset__doc__},
+
 PyDoc_STRVAR(_multibytecodec_MultibyteStreamWriter_write__doc__,
 "write($self, strobj, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _multibytecodec_MultibyteStreamWriter_write_MethodName = {.name = "write",};
-#define _MULTIBYTECODEC_MULTIBYTESTREAMWRITER_WRITE_METHODDEF    \
-    {_multibytecodec_MultibyteStreamWriter_write_MethodName.name, _PyCFunction_CAST(_multibytecodec_MultibyteStreamWriter_write), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteStreamWriter_write__doc__},
 
 static PyObject *
 _multibytecodec_MultibyteStreamWriter_write_impl(MultibyteStreamWriterObject *self,
@@ -637,14 +633,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _multibytecodec_MultibyteStreamWriter_write_MethodName = {.name = "write",};
+#define _MULTIBYTECODEC_MULTIBYTESTREAMWRITER_WRITE_METHODDEF    \
+    {_multibytecodec_MultibyteStreamWriter_write_MethodName.name, _PyCFunction_CAST(_multibytecodec_MultibyteStreamWriter_write), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteStreamWriter_write__doc__},
+
 PyDoc_STRVAR(_multibytecodec_MultibyteStreamWriter_writelines__doc__,
 "writelines($self, lines, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _multibytecodec_MultibyteStreamWriter_writelines_MethodName = {.name = "writelines",};
-#define _MULTIBYTECODEC_MULTIBYTESTREAMWRITER_WRITELINES_METHODDEF    \
-    {_multibytecodec_MultibyteStreamWriter_writelines_MethodName.name, _PyCFunction_CAST(_multibytecodec_MultibyteStreamWriter_writelines), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteStreamWriter_writelines__doc__},
 
 static PyObject *
 _multibytecodec_MultibyteStreamWriter_writelines_impl(MultibyteStreamWriterObject *self,
@@ -683,14 +679,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _multibytecodec_MultibyteStreamWriter_writelines_MethodName = {.name = "writelines",};
+#define _MULTIBYTECODEC_MULTIBYTESTREAMWRITER_WRITELINES_METHODDEF    \
+    {_multibytecodec_MultibyteStreamWriter_writelines_MethodName.name, _PyCFunction_CAST(_multibytecodec_MultibyteStreamWriter_writelines), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteStreamWriter_writelines__doc__},
+
 PyDoc_STRVAR(_multibytecodec_MultibyteStreamWriter_reset__doc__,
 "reset($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _multibytecodec_MultibyteStreamWriter_reset_MethodName = {.name = "reset",};
-#define _MULTIBYTECODEC_MULTIBYTESTREAMWRITER_RESET_METHODDEF    \
-    {_multibytecodec_MultibyteStreamWriter_reset_MethodName.name, _PyCFunction_CAST(_multibytecodec_MultibyteStreamWriter_reset), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteStreamWriter_reset__doc__},
 
 static PyObject *
 _multibytecodec_MultibyteStreamWriter_reset_impl(MultibyteStreamWriterObject *self,
@@ -706,6 +702,10 @@ _multibytecodec_MultibyteStreamWriter_reset(PyObject *self, PyTypeObject *cls, P
     return _multibytecodec_MultibyteStreamWriter_reset_impl((MultibyteStreamWriterObject *)self, cls);
 }
 
+static struct {char name[];} _multibytecodec_MultibyteStreamWriter_reset_MethodName = {.name = "reset",};
+#define _MULTIBYTECODEC_MULTIBYTESTREAMWRITER_RESET_METHODDEF    \
+    {_multibytecodec_MultibyteStreamWriter_reset_MethodName.name, _PyCFunction_CAST(_multibytecodec_MultibyteStreamWriter_reset), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _multibytecodec_MultibyteStreamWriter_reset__doc__},
+
 PyDoc_STRVAR(_multibytecodec___create_codec__doc__,
 "__create_codec($module, arg, /)\n"
 "--\n"
@@ -714,4 +714,4 @@ PyDoc_STRVAR(_multibytecodec___create_codec__doc__,
 static struct {char name[];} _multibytecodec___create_codec_MethodName = {.name = "__create_codec",};
 #define _MULTIBYTECODEC___CREATE_CODEC_METHODDEF    \
     {_multibytecodec___create_codec_MethodName.name, (PyCFunction)_multibytecodec___create_codec, METH_O|METH_C_STACK_FRUGAL, _multibytecodec___create_codec__doc__},
-/*[clinic end generated code: output=073543ab2a07a7e3 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=c8b626c139935877 input=a9049054013a1b77]*/

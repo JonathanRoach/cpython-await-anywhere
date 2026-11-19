@@ -14,10 +14,6 @@ PyDoc_STRVAR(math_gcd__doc__,
 "\n"
 "Greatest Common Divisor.");
 
-static struct {char name[];} math_gcd_MethodName = {.name = "gcd",};
-#define MATH_GCD_METHODDEF    \
-    {math_gcd_MethodName.name, _PyCFunction_CAST(math_gcd), METH_FASTCALL|METH_C_STACK_FRUGAL, math_gcd__doc__},
-
 static PyObject *
 math_gcd_impl(PyObject *module, PyObject * const *args,
               Py_ssize_t args_length);
@@ -36,15 +32,15 @@ math_gcd(PyObject *module, PyObject *const *args, Py_ssize_t nargs)
     return return_value;
 }
 
+static struct {char name[];} math_gcd_MethodName = {.name = "gcd",};
+#define MATH_GCD_METHODDEF    \
+    {math_gcd_MethodName.name, _PyCFunction_CAST(math_gcd), METH_FASTCALL|METH_C_STACK_FRUGAL, math_gcd__doc__},
+
 PyDoc_STRVAR(math_lcm__doc__,
 "lcm($module, /, *integers)\n"
 "--\n"
 "\n"
 "Least Common Multiple.");
-
-static struct {char name[];} math_lcm_MethodName = {.name = "lcm",};
-#define MATH_LCM_METHODDEF    \
-    {math_lcm_MethodName.name, _PyCFunction_CAST(math_lcm), METH_FASTCALL|METH_C_STACK_FRUGAL, math_lcm__doc__},
 
 static PyObject *
 math_lcm_impl(PyObject *module, PyObject * const *args,
@@ -63,6 +59,10 @@ math_lcm(PyObject *module, PyObject *const *args, Py_ssize_t nargs)
 
     return return_value;
 }
+
+static struct {char name[];} math_lcm_MethodName = {.name = "lcm",};
+#define MATH_LCM_METHODDEF    \
+    {math_lcm_MethodName.name, _PyCFunction_CAST(math_lcm), METH_FASTCALL|METH_C_STACK_FRUGAL, math_lcm__doc__},
 
 PyDoc_STRVAR(math_ceil__doc__,
 "ceil($module, x, /)\n"
@@ -141,10 +141,6 @@ PyDoc_STRVAR(math_frexp__doc__,
 "m is a float and e is an int, such that x = m * 2.**e.\n"
 "If x is 0, m and e are both 0.  Else 0.5 <= abs(m) < 1.0.");
 
-static struct {char name[];} math_frexp_MethodName = {.name = "frexp",};
-#define MATH_FREXP_METHODDEF    \
-    {math_frexp_MethodName.name, (PyCFunction)math_frexp, METH_O|METH_C_STACK_FRUGAL, math_frexp__doc__},
-
 static PyObject *
 math_frexp_impl(PyObject *module, double x);
 
@@ -170,6 +166,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} math_frexp_MethodName = {.name = "frexp",};
+#define MATH_FREXP_METHODDEF    \
+    {math_frexp_MethodName.name, (PyCFunction)math_frexp, METH_O|METH_C_STACK_FRUGAL, math_frexp__doc__},
+
 PyDoc_STRVAR(math_ldexp__doc__,
 "ldexp($module, x, i, /)\n"
 "--\n"
@@ -177,10 +177,6 @@ PyDoc_STRVAR(math_ldexp__doc__,
 "Return x * (2**i).\n"
 "\n"
 "This is essentially the inverse of frexp().");
-
-static struct {char name[];} math_ldexp_MethodName = {.name = "ldexp",};
-#define MATH_LDEXP_METHODDEF    \
-    {math_ldexp_MethodName.name, _PyCFunction_CAST(math_ldexp), METH_FASTCALL|METH_C_STACK_FRUGAL, math_ldexp__doc__},
 
 static PyObject *
 math_ldexp_impl(PyObject *module, double x, PyObject *i);
@@ -212,6 +208,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} math_ldexp_MethodName = {.name = "ldexp",};
+#define MATH_LDEXP_METHODDEF    \
+    {math_ldexp_MethodName.name, _PyCFunction_CAST(math_ldexp), METH_FASTCALL|METH_C_STACK_FRUGAL, math_ldexp__doc__},
+
 PyDoc_STRVAR(math_modf__doc__,
 "modf($module, x, /)\n"
 "--\n"
@@ -219,10 +219,6 @@ PyDoc_STRVAR(math_modf__doc__,
 "Return the fractional and integer parts of x.\n"
 "\n"
 "Both results carry the sign of x and are floats.");
-
-static struct {char name[];} math_modf_MethodName = {.name = "modf",};
-#define MATH_MODF_METHODDEF    \
-    {math_modf_MethodName.name, (PyCFunction)math_modf, METH_O|METH_C_STACK_FRUGAL, math_modf__doc__},
 
 static PyObject *
 math_modf_impl(PyObject *module, double x);
@@ -248,6 +244,10 @@ math_modf(PyObject *module, PyObject *arg)
 exit:
     return return_value;
 }
+
+static struct {char name[];} math_modf_MethodName = {.name = "modf",};
+#define MATH_MODF_METHODDEF    \
+    {math_modf_MethodName.name, (PyCFunction)math_modf, METH_O|METH_C_STACK_FRUGAL, math_modf__doc__},
 
 PyDoc_STRVAR(math_log2__doc__,
 "log2($module, x, /)\n"
@@ -276,10 +276,6 @@ PyDoc_STRVAR(math_fma__doc__,
 "Fused multiply-add operation.\n"
 "\n"
 "Compute (x * y) + z with a single round.");
-
-static struct {char name[];} math_fma_MethodName = {.name = "fma",};
-#define MATH_FMA_METHODDEF    \
-    {math_fma_MethodName.name, _PyCFunction_CAST(math_fma), METH_FASTCALL|METH_C_STACK_FRUGAL, math_fma__doc__},
 
 static PyObject *
 math_fma_impl(PyObject *module, double x, double y, double z);
@@ -331,6 +327,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} math_fma_MethodName = {.name = "fma",};
+#define MATH_FMA_METHODDEF    \
+    {math_fma_MethodName.name, _PyCFunction_CAST(math_fma), METH_FASTCALL|METH_C_STACK_FRUGAL, math_fma__doc__},
+
 PyDoc_STRVAR(math_fmod__doc__,
 "fmod($module, x, y, /)\n"
 "--\n"
@@ -338,10 +338,6 @@ PyDoc_STRVAR(math_fmod__doc__,
 "Return fmod(x, y), according to platform C.\n"
 "\n"
 "x % y may differ.");
-
-static struct {char name[];} math_fmod_MethodName = {.name = "fmod",};
-#define MATH_FMOD_METHODDEF    \
-    {math_fmod_MethodName.name, _PyCFunction_CAST(math_fmod), METH_FASTCALL|METH_C_STACK_FRUGAL, math_fmod__doc__},
 
 static PyObject *
 math_fmod_impl(PyObject *module, double x, double y);
@@ -382,6 +378,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} math_fmod_MethodName = {.name = "fmod",};
+#define MATH_FMOD_METHODDEF    \
+    {math_fmod_MethodName.name, _PyCFunction_CAST(math_fmod), METH_FASTCALL|METH_C_STACK_FRUGAL, math_fmod__doc__},
+
 PyDoc_STRVAR(math_dist__doc__,
 "dist($module, p, q, /)\n"
 "--\n"
@@ -393,10 +393,6 @@ PyDoc_STRVAR(math_dist__doc__,
 "\n"
 "Roughly equivalent to:\n"
 "    sqrt(sum((px - qx) ** 2.0 for px, qx in zip(p, q)))");
-
-static struct {char name[];} math_dist_MethodName = {.name = "dist",};
-#define MATH_DIST_METHODDEF    \
-    {math_dist_MethodName.name, _PyCFunction_CAST(math_dist), METH_FASTCALL|METH_C_STACK_FRUGAL, math_dist__doc__},
 
 static PyObject *
 math_dist_impl(PyObject *module, PyObject *p, PyObject *q);
@@ -419,6 +415,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} math_dist_MethodName = {.name = "dist",};
+#define MATH_DIST_METHODDEF    \
+    {math_dist_MethodName.name, _PyCFunction_CAST(math_dist), METH_FASTCALL|METH_C_STACK_FRUGAL, math_dist__doc__},
+
 PyDoc_STRVAR(math_hypot__doc__,
 "hypot($module, /, *coordinates)\n"
 "--\n"
@@ -435,10 +435,6 @@ PyDoc_STRVAR(math_hypot__doc__,
 "\n"
 "    >>> hypot(3.0, 4.0)\n"
 "    5.0");
-
-static struct {char name[];} math_hypot_MethodName = {.name = "hypot",};
-#define MATH_HYPOT_METHODDEF    \
-    {math_hypot_MethodName.name, _PyCFunction_CAST(math_hypot), METH_FASTCALL|METH_C_STACK_FRUGAL, math_hypot__doc__},
 
 static PyObject *
 math_hypot_impl(PyObject *module, PyObject * const *args,
@@ -458,6 +454,10 @@ math_hypot(PyObject *module, PyObject *const *args, Py_ssize_t nargs)
     return return_value;
 }
 
+static struct {char name[];} math_hypot_MethodName = {.name = "hypot",};
+#define MATH_HYPOT_METHODDEF    \
+    {math_hypot_MethodName.name, _PyCFunction_CAST(math_hypot), METH_FASTCALL|METH_C_STACK_FRUGAL, math_hypot__doc__},
+
 PyDoc_STRVAR(math_sumprod__doc__,
 "sumprod($module, p, q, /)\n"
 "--\n"
@@ -470,10 +470,6 @@ PyDoc_STRVAR(math_sumprod__doc__,
 "\n"
 "For float and mixed int/float inputs, the intermediate products\n"
 "and sums are computed with extended precision.");
-
-static struct {char name[];} math_sumprod_MethodName = {.name = "sumprod",};
-#define MATH_SUMPROD_METHODDEF    \
-    {math_sumprod_MethodName.name, _PyCFunction_CAST(math_sumprod), METH_FASTCALL|METH_C_STACK_FRUGAL, math_sumprod__doc__},
 
 static PyObject *
 math_sumprod_impl(PyObject *module, PyObject *p, PyObject *q);
@@ -496,15 +492,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} math_sumprod_MethodName = {.name = "sumprod",};
+#define MATH_SUMPROD_METHODDEF    \
+    {math_sumprod_MethodName.name, _PyCFunction_CAST(math_sumprod), METH_FASTCALL|METH_C_STACK_FRUGAL, math_sumprod__doc__},
+
 PyDoc_STRVAR(math_pow__doc__,
 "pow($module, x, y, /)\n"
 "--\n"
 "\n"
 "Return x**y (x to the power of y).");
-
-static struct {char name[];} math_pow_MethodName = {.name = "pow",};
-#define MATH_POW_METHODDEF    \
-    {math_pow_MethodName.name, _PyCFunction_CAST(math_pow), METH_FASTCALL|METH_C_STACK_FRUGAL, math_pow__doc__},
 
 static PyObject *
 math_pow_impl(PyObject *module, double x, double y);
@@ -545,15 +541,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} math_pow_MethodName = {.name = "pow",};
+#define MATH_POW_METHODDEF    \
+    {math_pow_MethodName.name, _PyCFunction_CAST(math_pow), METH_FASTCALL|METH_C_STACK_FRUGAL, math_pow__doc__},
+
 PyDoc_STRVAR(math_degrees__doc__,
 "degrees($module, x, /)\n"
 "--\n"
 "\n"
 "Convert angle x from radians to degrees.");
-
-static struct {char name[];} math_degrees_MethodName = {.name = "degrees",};
-#define MATH_DEGREES_METHODDEF    \
-    {math_degrees_MethodName.name, (PyCFunction)math_degrees, METH_O|METH_C_STACK_FRUGAL, math_degrees__doc__},
 
 static PyObject *
 math_degrees_impl(PyObject *module, double x);
@@ -580,15 +576,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} math_degrees_MethodName = {.name = "degrees",};
+#define MATH_DEGREES_METHODDEF    \
+    {math_degrees_MethodName.name, (PyCFunction)math_degrees, METH_O|METH_C_STACK_FRUGAL, math_degrees__doc__},
+
 PyDoc_STRVAR(math_radians__doc__,
 "radians($module, x, /)\n"
 "--\n"
 "\n"
 "Convert angle x from degrees to radians.");
-
-static struct {char name[];} math_radians_MethodName = {.name = "radians",};
-#define MATH_RADIANS_METHODDEF    \
-    {math_radians_MethodName.name, (PyCFunction)math_radians, METH_O|METH_C_STACK_FRUGAL, math_radians__doc__},
 
 static PyObject *
 math_radians_impl(PyObject *module, double x);
@@ -615,15 +611,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} math_radians_MethodName = {.name = "radians",};
+#define MATH_RADIANS_METHODDEF    \
+    {math_radians_MethodName.name, (PyCFunction)math_radians, METH_O|METH_C_STACK_FRUGAL, math_radians__doc__},
+
 PyDoc_STRVAR(math_isfinite__doc__,
 "isfinite($module, x, /)\n"
 "--\n"
 "\n"
 "Return True if x is neither an infinity nor a NaN, and False otherwise.");
-
-static struct {char name[];} math_isfinite_MethodName = {.name = "isfinite",};
-#define MATH_ISFINITE_METHODDEF    \
-    {math_isfinite_MethodName.name, (PyCFunction)math_isfinite, METH_O|METH_C_STACK_FRUGAL, math_isfinite__doc__},
 
 static PyObject *
 math_isfinite_impl(PyObject *module, double x);
@@ -650,15 +646,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} math_isfinite_MethodName = {.name = "isfinite",};
+#define MATH_ISFINITE_METHODDEF    \
+    {math_isfinite_MethodName.name, (PyCFunction)math_isfinite, METH_O|METH_C_STACK_FRUGAL, math_isfinite__doc__},
+
 PyDoc_STRVAR(math_isnormal__doc__,
 "isnormal($module, x, /)\n"
 "--\n"
 "\n"
 "Return True if x is normal, and False otherwise.");
-
-static struct {char name[];} math_isnormal_MethodName = {.name = "isnormal",};
-#define MATH_ISNORMAL_METHODDEF    \
-    {math_isnormal_MethodName.name, (PyCFunction)math_isnormal, METH_O|METH_C_STACK_FRUGAL, math_isnormal__doc__},
 
 static PyObject *
 math_isnormal_impl(PyObject *module, double x);
@@ -685,15 +681,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} math_isnormal_MethodName = {.name = "isnormal",};
+#define MATH_ISNORMAL_METHODDEF    \
+    {math_isnormal_MethodName.name, (PyCFunction)math_isnormal, METH_O|METH_C_STACK_FRUGAL, math_isnormal__doc__},
+
 PyDoc_STRVAR(math_issubnormal__doc__,
 "issubnormal($module, x, /)\n"
 "--\n"
 "\n"
 "Return True if x is subnormal, and False otherwise.");
-
-static struct {char name[];} math_issubnormal_MethodName = {.name = "issubnormal",};
-#define MATH_ISSUBNORMAL_METHODDEF    \
-    {math_issubnormal_MethodName.name, (PyCFunction)math_issubnormal, METH_O|METH_C_STACK_FRUGAL, math_issubnormal__doc__},
 
 static PyObject *
 math_issubnormal_impl(PyObject *module, double x);
@@ -720,15 +716,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} math_issubnormal_MethodName = {.name = "issubnormal",};
+#define MATH_ISSUBNORMAL_METHODDEF    \
+    {math_issubnormal_MethodName.name, (PyCFunction)math_issubnormal, METH_O|METH_C_STACK_FRUGAL, math_issubnormal__doc__},
+
 PyDoc_STRVAR(math_isnan__doc__,
 "isnan($module, x, /)\n"
 "--\n"
 "\n"
 "Return True if x is a NaN (not a number), and False otherwise.");
-
-static struct {char name[];} math_isnan_MethodName = {.name = "isnan",};
-#define MATH_ISNAN_METHODDEF    \
-    {math_isnan_MethodName.name, (PyCFunction)math_isnan, METH_O|METH_C_STACK_FRUGAL, math_isnan__doc__},
 
 static PyObject *
 math_isnan_impl(PyObject *module, double x);
@@ -755,15 +751,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} math_isnan_MethodName = {.name = "isnan",};
+#define MATH_ISNAN_METHODDEF    \
+    {math_isnan_MethodName.name, (PyCFunction)math_isnan, METH_O|METH_C_STACK_FRUGAL, math_isnan__doc__},
+
 PyDoc_STRVAR(math_isinf__doc__,
 "isinf($module, x, /)\n"
 "--\n"
 "\n"
 "Return True if x is a positive or negative infinity, and False otherwise.");
-
-static struct {char name[];} math_isinf_MethodName = {.name = "isinf",};
-#define MATH_ISINF_METHODDEF    \
-    {math_isinf_MethodName.name, (PyCFunction)math_isinf, METH_O|METH_C_STACK_FRUGAL, math_isinf__doc__},
 
 static PyObject *
 math_isinf_impl(PyObject *module, double x);
@@ -790,6 +786,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} math_isinf_MethodName = {.name = "isinf",};
+#define MATH_ISINF_METHODDEF    \
+    {math_isinf_MethodName.name, (PyCFunction)math_isinf, METH_O|METH_C_STACK_FRUGAL, math_isinf__doc__},
+
 PyDoc_STRVAR(math_isclose__doc__,
 "isclose($module, /, a, b, *, rel_tol=1e-09, abs_tol=0.0)\n"
 "--\n"
@@ -811,10 +811,6 @@ PyDoc_STRVAR(math_isclose__doc__,
 "-inf, inf and NaN behave similarly to the IEEE 754 Standard.  That\n"
 "is, NaN is not close to anything, even itself.  inf and -inf are\n"
 "only close to themselves.");
-
-static struct {char name[];} math_isclose_MethodName = {.name = "isclose",};
-#define MATH_ISCLOSE_METHODDEF    \
-    {math_isclose_MethodName.name, _PyCFunction_CAST(math_isclose), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, math_isclose__doc__},
 
 static int
 math_isclose_impl(PyObject *module, double a, double b, double rel_tol,
@@ -923,6 +919,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} math_isclose_MethodName = {.name = "isclose",};
+#define MATH_ISCLOSE_METHODDEF    \
+    {math_isclose_MethodName.name, _PyCFunction_CAST(math_isclose), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, math_isclose__doc__},
+
 PyDoc_STRVAR(math_prod__doc__,
 "prod($module, iterable, /, *, start=1)\n"
 "--\n"
@@ -934,10 +934,6 @@ PyDoc_STRVAR(math_prod__doc__,
 "When the iterable is empty, return the start value.  This function is\n"
 "intended specifically for use with numeric values and may reject\n"
 "non-numeric types.");
-
-static struct {char name[];} math_prod_MethodName = {.name = "prod",};
-#define MATH_PROD_METHODDEF    \
-    {math_prod_MethodName.name, _PyCFunction_CAST(math_prod), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, math_prod__doc__},
 
 static PyObject *
 math_prod_impl(PyObject *module, PyObject *iterable, PyObject *start);
@@ -995,6 +991,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} math_prod_MethodName = {.name = "prod",};
+#define MATH_PROD_METHODDEF    \
+    {math_prod_MethodName.name, _PyCFunction_CAST(math_prod), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, math_prod__doc__},
+
 PyDoc_STRVAR(math_perm__doc__,
 "perm($module, n, k=None, /)\n"
 "--\n"
@@ -1009,10 +1009,6 @@ PyDoc_STRVAR(math_perm__doc__,
 "\n"
 "Raises TypeError if either of the arguments are not integers.\n"
 "Raises ValueError if either of the arguments are negative.");
-
-static struct {char name[];} math_perm_MethodName = {.name = "perm",};
-#define MATH_PERM_METHODDEF    \
-    {math_perm_MethodName.name, _PyCFunction_CAST(math_perm), METH_FASTCALL|METH_C_STACK_FRUGAL, math_perm__doc__},
 
 static PyObject *
 math_perm_impl(PyObject *module, PyObject *n, PyObject *k);
@@ -1039,6 +1035,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} math_perm_MethodName = {.name = "perm",};
+#define MATH_PERM_METHODDEF    \
+    {math_perm_MethodName.name, _PyCFunction_CAST(math_perm), METH_FASTCALL|METH_C_STACK_FRUGAL, math_perm__doc__},
+
 PyDoc_STRVAR(math_comb__doc__,
 "comb($module, n, k, /)\n"
 "--\n"
@@ -1054,10 +1054,6 @@ PyDoc_STRVAR(math_comb__doc__,
 "\n"
 "Raises TypeError if either of the arguments are not integers.\n"
 "Raises ValueError if either of the arguments are negative.");
-
-static struct {char name[];} math_comb_MethodName = {.name = "comb",};
-#define MATH_COMB_METHODDEF    \
-    {math_comb_MethodName.name, _PyCFunction_CAST(math_comb), METH_FASTCALL|METH_C_STACK_FRUGAL, math_comb__doc__},
 
 static PyObject *
 math_comb_impl(PyObject *module, PyObject *n, PyObject *k);
@@ -1080,6 +1076,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} math_comb_MethodName = {.name = "comb",};
+#define MATH_COMB_METHODDEF    \
+    {math_comb_MethodName.name, _PyCFunction_CAST(math_comb), METH_FASTCALL|METH_C_STACK_FRUGAL, math_comb__doc__},
+
 PyDoc_STRVAR(math_nextafter__doc__,
 "nextafter($module, x, y, /, *, steps=None)\n"
 "--\n"
@@ -1090,10 +1090,6 @@ PyDoc_STRVAR(math_nextafter__doc__,
 "\n"
 "Raises a TypeError, if x or y is not a double, or if steps is not an integer.\n"
 "Raises ValueError if steps is negative.");
-
-static struct {char name[];} math_nextafter_MethodName = {.name = "nextafter",};
-#define MATH_NEXTAFTER_METHODDEF    \
-    {math_nextafter_MethodName.name, _PyCFunction_CAST(math_nextafter), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, math_nextafter__doc__},
 
 static PyObject *
 math_nextafter_impl(PyObject *module, double x, double y, PyObject *steps);
@@ -1171,15 +1167,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} math_nextafter_MethodName = {.name = "nextafter",};
+#define MATH_NEXTAFTER_METHODDEF    \
+    {math_nextafter_MethodName.name, _PyCFunction_CAST(math_nextafter), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, math_nextafter__doc__},
+
 PyDoc_STRVAR(math_ulp__doc__,
 "ulp($module, x, /)\n"
 "--\n"
 "\n"
 "Return the value of the least significant bit of the float x.");
-
-static struct {char name[];} math_ulp_MethodName = {.name = "ulp",};
-#define MATH_ULP_METHODDEF    \
-    {math_ulp_MethodName.name, (PyCFunction)math_ulp, METH_O|METH_C_STACK_FRUGAL, math_ulp__doc__},
 
 static double
 math_ulp_impl(PyObject *module, double x);
@@ -1210,4 +1206,8 @@ math_ulp(PyObject *module, PyObject *arg)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=08b83eca9d8bbed6 input=a9049054013a1b77]*/
+
+static struct {char name[];} math_ulp_MethodName = {.name = "ulp",};
+#define MATH_ULP_METHODDEF    \
+    {math_ulp_MethodName.name, (PyCFunction)math_ulp, METH_O|METH_C_STACK_FRUGAL, math_ulp__doc__},
+/*[clinic end generated code: output=34fa5c25ddf1251e input=a9049054013a1b77]*/

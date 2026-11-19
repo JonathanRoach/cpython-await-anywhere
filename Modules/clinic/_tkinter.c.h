@@ -9,10 +9,6 @@ PyDoc_STRVAR(_tkinter_tkapp_eval__doc__,
 "--\n"
 "\n");
 
-static struct {char name[];} _tkinter_tkapp_eval_MethodName = {.name = "eval",};
-#define _TKINTER_TKAPP_EVAL_METHODDEF    \
-    {_tkinter_tkapp_eval_MethodName.name, (PyCFunction)_tkinter_tkapp_eval, METH_O, _tkinter_tkapp_eval__doc__},
-
 static PyObject *
 _tkinter_tkapp_eval_impl(TkappObject *self, const char *script);
 
@@ -41,14 +37,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _tkinter_tkapp_eval_MethodName = {.name = "eval",};
+#define _TKINTER_TKAPP_EVAL_METHODDEF    \
+    {_tkinter_tkapp_eval_MethodName.name, (PyCFunction)_tkinter_tkapp_eval, METH_O, _tkinter_tkapp_eval__doc__},
+
 PyDoc_STRVAR(_tkinter_tkapp_evalfile__doc__,
 "evalfile($self, fileName, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _tkinter_tkapp_evalfile_MethodName = {.name = "evalfile",};
-#define _TKINTER_TKAPP_EVALFILE_METHODDEF    \
-    {_tkinter_tkapp_evalfile_MethodName.name, (PyCFunction)_tkinter_tkapp_evalfile, METH_O, _tkinter_tkapp_evalfile__doc__},
 
 static PyObject *
 _tkinter_tkapp_evalfile_impl(TkappObject *self, const char *fileName);
@@ -78,14 +74,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _tkinter_tkapp_evalfile_MethodName = {.name = "evalfile",};
+#define _TKINTER_TKAPP_EVALFILE_METHODDEF    \
+    {_tkinter_tkapp_evalfile_MethodName.name, (PyCFunction)_tkinter_tkapp_evalfile, METH_O, _tkinter_tkapp_evalfile__doc__},
+
 PyDoc_STRVAR(_tkinter_tkapp_record__doc__,
 "record($self, script, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _tkinter_tkapp_record_MethodName = {.name = "record",};
-#define _TKINTER_TKAPP_RECORD_METHODDEF    \
-    {_tkinter_tkapp_record_MethodName.name, (PyCFunction)_tkinter_tkapp_record, METH_O, _tkinter_tkapp_record__doc__},
 
 static PyObject *
 _tkinter_tkapp_record_impl(TkappObject *self, const char *script);
@@ -115,14 +111,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _tkinter_tkapp_record_MethodName = {.name = "record",};
+#define _TKINTER_TKAPP_RECORD_METHODDEF    \
+    {_tkinter_tkapp_record_MethodName.name, (PyCFunction)_tkinter_tkapp_record, METH_O, _tkinter_tkapp_record__doc__},
+
 PyDoc_STRVAR(_tkinter_tkapp_adderrorinfo__doc__,
 "adderrorinfo($self, msg, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _tkinter_tkapp_adderrorinfo_MethodName = {.name = "adderrorinfo",};
-#define _TKINTER_TKAPP_ADDERRORINFO_METHODDEF    \
-    {_tkinter_tkapp_adderrorinfo_MethodName.name, (PyCFunction)_tkinter_tkapp_adderrorinfo, METH_O, _tkinter_tkapp_adderrorinfo__doc__},
 
 static PyObject *
 _tkinter_tkapp_adderrorinfo_impl(TkappObject *self, const char *msg);
@@ -152,14 +148,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _tkinter_tkapp_adderrorinfo_MethodName = {.name = "adderrorinfo",};
+#define _TKINTER_TKAPP_ADDERRORINFO_METHODDEF    \
+    {_tkinter_tkapp_adderrorinfo_MethodName.name, (PyCFunction)_tkinter_tkapp_adderrorinfo, METH_O, _tkinter_tkapp_adderrorinfo__doc__},
+
 PyDoc_STRVAR(_tkinter_tkapp_getint__doc__,
 "getint($self, arg, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _tkinter_tkapp_getint_MethodName = {.name = "getint",};
-#define _TKINTER_TKAPP_GETINT_METHODDEF    \
-    {_tkinter_tkapp_getint_MethodName.name, (PyCFunction)_tkinter_tkapp_getint, METH_O, _tkinter_tkapp_getint__doc__},
 
 static PyObject *
 _tkinter_tkapp_getint_impl(TkappObject *self, PyObject *arg);
@@ -174,14 +170,14 @@ _tkinter_tkapp_getint(PyObject *self, PyObject *arg)
     return return_value;
 }
 
+static struct {char name[];} _tkinter_tkapp_getint_MethodName = {.name = "getint",};
+#define _TKINTER_TKAPP_GETINT_METHODDEF    \
+    {_tkinter_tkapp_getint_MethodName.name, (PyCFunction)_tkinter_tkapp_getint, METH_O, _tkinter_tkapp_getint__doc__},
+
 PyDoc_STRVAR(_tkinter_tkapp_getdouble__doc__,
 "getdouble($self, arg, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _tkinter_tkapp_getdouble_MethodName = {.name = "getdouble",};
-#define _TKINTER_TKAPP_GETDOUBLE_METHODDEF    \
-    {_tkinter_tkapp_getdouble_MethodName.name, (PyCFunction)_tkinter_tkapp_getdouble, METH_O, _tkinter_tkapp_getdouble__doc__},
 
 static PyObject *
 _tkinter_tkapp_getdouble_impl(TkappObject *self, PyObject *arg);
@@ -196,14 +192,14 @@ _tkinter_tkapp_getdouble(PyObject *self, PyObject *arg)
     return return_value;
 }
 
+static struct {char name[];} _tkinter_tkapp_getdouble_MethodName = {.name = "getdouble",};
+#define _TKINTER_TKAPP_GETDOUBLE_METHODDEF    \
+    {_tkinter_tkapp_getdouble_MethodName.name, (PyCFunction)_tkinter_tkapp_getdouble, METH_O, _tkinter_tkapp_getdouble__doc__},
+
 PyDoc_STRVAR(_tkinter_tkapp_getboolean__doc__,
 "getboolean($self, arg, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _tkinter_tkapp_getboolean_MethodName = {.name = "getboolean",};
-#define _TKINTER_TKAPP_GETBOOLEAN_METHODDEF    \
-    {_tkinter_tkapp_getboolean_MethodName.name, (PyCFunction)_tkinter_tkapp_getboolean, METH_O, _tkinter_tkapp_getboolean__doc__},
 
 static PyObject *
 _tkinter_tkapp_getboolean_impl(TkappObject *self, PyObject *arg);
@@ -218,14 +214,14 @@ _tkinter_tkapp_getboolean(PyObject *self, PyObject *arg)
     return return_value;
 }
 
+static struct {char name[];} _tkinter_tkapp_getboolean_MethodName = {.name = "getboolean",};
+#define _TKINTER_TKAPP_GETBOOLEAN_METHODDEF    \
+    {_tkinter_tkapp_getboolean_MethodName.name, (PyCFunction)_tkinter_tkapp_getboolean, METH_O, _tkinter_tkapp_getboolean__doc__},
+
 PyDoc_STRVAR(_tkinter_tkapp_exprstring__doc__,
 "exprstring($self, s, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _tkinter_tkapp_exprstring_MethodName = {.name = "exprstring",};
-#define _TKINTER_TKAPP_EXPRSTRING_METHODDEF    \
-    {_tkinter_tkapp_exprstring_MethodName.name, (PyCFunction)_tkinter_tkapp_exprstring, METH_O, _tkinter_tkapp_exprstring__doc__},
 
 static PyObject *
 _tkinter_tkapp_exprstring_impl(TkappObject *self, const char *s);
@@ -255,14 +251,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _tkinter_tkapp_exprstring_MethodName = {.name = "exprstring",};
+#define _TKINTER_TKAPP_EXPRSTRING_METHODDEF    \
+    {_tkinter_tkapp_exprstring_MethodName.name, (PyCFunction)_tkinter_tkapp_exprstring, METH_O, _tkinter_tkapp_exprstring__doc__},
+
 PyDoc_STRVAR(_tkinter_tkapp_exprlong__doc__,
 "exprlong($self, s, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _tkinter_tkapp_exprlong_MethodName = {.name = "exprlong",};
-#define _TKINTER_TKAPP_EXPRLONG_METHODDEF    \
-    {_tkinter_tkapp_exprlong_MethodName.name, (PyCFunction)_tkinter_tkapp_exprlong, METH_O, _tkinter_tkapp_exprlong__doc__},
 
 static PyObject *
 _tkinter_tkapp_exprlong_impl(TkappObject *self, const char *s);
@@ -292,14 +288,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _tkinter_tkapp_exprlong_MethodName = {.name = "exprlong",};
+#define _TKINTER_TKAPP_EXPRLONG_METHODDEF    \
+    {_tkinter_tkapp_exprlong_MethodName.name, (PyCFunction)_tkinter_tkapp_exprlong, METH_O, _tkinter_tkapp_exprlong__doc__},
+
 PyDoc_STRVAR(_tkinter_tkapp_exprdouble__doc__,
 "exprdouble($self, s, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _tkinter_tkapp_exprdouble_MethodName = {.name = "exprdouble",};
-#define _TKINTER_TKAPP_EXPRDOUBLE_METHODDEF    \
-    {_tkinter_tkapp_exprdouble_MethodName.name, (PyCFunction)_tkinter_tkapp_exprdouble, METH_O, _tkinter_tkapp_exprdouble__doc__},
 
 static PyObject *
 _tkinter_tkapp_exprdouble_impl(TkappObject *self, const char *s);
@@ -329,14 +325,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _tkinter_tkapp_exprdouble_MethodName = {.name = "exprdouble",};
+#define _TKINTER_TKAPP_EXPRDOUBLE_METHODDEF    \
+    {_tkinter_tkapp_exprdouble_MethodName.name, (PyCFunction)_tkinter_tkapp_exprdouble, METH_O, _tkinter_tkapp_exprdouble__doc__},
+
 PyDoc_STRVAR(_tkinter_tkapp_exprboolean__doc__,
 "exprboolean($self, s, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _tkinter_tkapp_exprboolean_MethodName = {.name = "exprboolean",};
-#define _TKINTER_TKAPP_EXPRBOOLEAN_METHODDEF    \
-    {_tkinter_tkapp_exprboolean_MethodName.name, (PyCFunction)_tkinter_tkapp_exprboolean, METH_O, _tkinter_tkapp_exprboolean__doc__},
 
 static PyObject *
 _tkinter_tkapp_exprboolean_impl(TkappObject *self, const char *s);
@@ -366,14 +362,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _tkinter_tkapp_exprboolean_MethodName = {.name = "exprboolean",};
+#define _TKINTER_TKAPP_EXPRBOOLEAN_METHODDEF    \
+    {_tkinter_tkapp_exprboolean_MethodName.name, (PyCFunction)_tkinter_tkapp_exprboolean, METH_O, _tkinter_tkapp_exprboolean__doc__},
+
 PyDoc_STRVAR(_tkinter_tkapp_splitlist__doc__,
 "splitlist($self, arg, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _tkinter_tkapp_splitlist_MethodName = {.name = "splitlist",};
-#define _TKINTER_TKAPP_SPLITLIST_METHODDEF    \
-    {_tkinter_tkapp_splitlist_MethodName.name, (PyCFunction)_tkinter_tkapp_splitlist, METH_O, _tkinter_tkapp_splitlist__doc__},
 
 static PyObject *
 _tkinter_tkapp_splitlist_impl(TkappObject *self, PyObject *arg);
@@ -388,14 +384,14 @@ _tkinter_tkapp_splitlist(PyObject *self, PyObject *arg)
     return return_value;
 }
 
+static struct {char name[];} _tkinter_tkapp_splitlist_MethodName = {.name = "splitlist",};
+#define _TKINTER_TKAPP_SPLITLIST_METHODDEF    \
+    {_tkinter_tkapp_splitlist_MethodName.name, (PyCFunction)_tkinter_tkapp_splitlist, METH_O, _tkinter_tkapp_splitlist__doc__},
+
 PyDoc_STRVAR(_tkinter_tkapp_createcommand__doc__,
 "createcommand($self, name, func, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _tkinter_tkapp_createcommand_MethodName = {.name = "createcommand",};
-#define _TKINTER_TKAPP_CREATECOMMAND_METHODDEF    \
-    {_tkinter_tkapp_createcommand_MethodName.name, _PyCFunction_CAST(_tkinter_tkapp_createcommand), METH_FASTCALL, _tkinter_tkapp_createcommand__doc__},
 
 static PyObject *
 _tkinter_tkapp_createcommand_impl(TkappObject *self, const char *name,
@@ -431,14 +427,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _tkinter_tkapp_createcommand_MethodName = {.name = "createcommand",};
+#define _TKINTER_TKAPP_CREATECOMMAND_METHODDEF    \
+    {_tkinter_tkapp_createcommand_MethodName.name, _PyCFunction_CAST(_tkinter_tkapp_createcommand), METH_FASTCALL, _tkinter_tkapp_createcommand__doc__},
+
 PyDoc_STRVAR(_tkinter_tkapp_deletecommand__doc__,
 "deletecommand($self, name, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _tkinter_tkapp_deletecommand_MethodName = {.name = "deletecommand",};
-#define _TKINTER_TKAPP_DELETECOMMAND_METHODDEF    \
-    {_tkinter_tkapp_deletecommand_MethodName.name, (PyCFunction)_tkinter_tkapp_deletecommand, METH_O, _tkinter_tkapp_deletecommand__doc__},
 
 static PyObject *
 _tkinter_tkapp_deletecommand_impl(TkappObject *self, const char *name);
@@ -468,16 +464,16 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _tkinter_tkapp_deletecommand_MethodName = {.name = "deletecommand",};
+#define _TKINTER_TKAPP_DELETECOMMAND_METHODDEF    \
+    {_tkinter_tkapp_deletecommand_MethodName.name, (PyCFunction)_tkinter_tkapp_deletecommand, METH_O, _tkinter_tkapp_deletecommand__doc__},
+
 #if defined(HAVE_CREATEFILEHANDLER)
 
 PyDoc_STRVAR(_tkinter_tkapp_createfilehandler__doc__,
 "createfilehandler($self, file, mask, func, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _tkinter_tkapp_createfilehandler_MethodName = {.name = "createfilehandler",};
-#define _TKINTER_TKAPP_CREATEFILEHANDLER_METHODDEF    \
-    {_tkinter_tkapp_createfilehandler_MethodName.name, _PyCFunction_CAST(_tkinter_tkapp_createfilehandler), METH_FASTCALL, _tkinter_tkapp_createfilehandler__doc__},
 
 static PyObject *
 _tkinter_tkapp_createfilehandler_impl(TkappObject *self, PyObject *file,
@@ -506,6 +502,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _tkinter_tkapp_createfilehandler_MethodName = {.name = "createfilehandler",};
+#define _TKINTER_TKAPP_CREATEFILEHANDLER_METHODDEF    \
+    {_tkinter_tkapp_createfilehandler_MethodName.name, _PyCFunction_CAST(_tkinter_tkapp_createfilehandler), METH_FASTCALL, _tkinter_tkapp_createfilehandler__doc__},
+
 #endif /* defined(HAVE_CREATEFILEHANDLER) */
 
 #if defined(HAVE_CREATEFILEHANDLER)
@@ -514,10 +514,6 @@ PyDoc_STRVAR(_tkinter_tkapp_deletefilehandler__doc__,
 "deletefilehandler($self, file, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _tkinter_tkapp_deletefilehandler_MethodName = {.name = "deletefilehandler",};
-#define _TKINTER_TKAPP_DELETEFILEHANDLER_METHODDEF    \
-    {_tkinter_tkapp_deletefilehandler_MethodName.name, (PyCFunction)_tkinter_tkapp_deletefilehandler, METH_O, _tkinter_tkapp_deletefilehandler__doc__},
 
 static PyObject *
 _tkinter_tkapp_deletefilehandler_impl(TkappObject *self, PyObject *file);
@@ -532,16 +528,16 @@ _tkinter_tkapp_deletefilehandler(PyObject *self, PyObject *file)
     return return_value;
 }
 
+static struct {char name[];} _tkinter_tkapp_deletefilehandler_MethodName = {.name = "deletefilehandler",};
+#define _TKINTER_TKAPP_DELETEFILEHANDLER_METHODDEF    \
+    {_tkinter_tkapp_deletefilehandler_MethodName.name, (PyCFunction)_tkinter_tkapp_deletefilehandler, METH_O, _tkinter_tkapp_deletefilehandler__doc__},
+
 #endif /* defined(HAVE_CREATEFILEHANDLER) */
 
 PyDoc_STRVAR(_tkinter_tktimertoken_deletetimerhandler__doc__,
 "deletetimerhandler($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _tkinter_tktimertoken_deletetimerhandler_MethodName = {.name = "deletetimerhandler",};
-#define _TKINTER_TKTIMERTOKEN_DELETETIMERHANDLER_METHODDEF    \
-    {_tkinter_tktimertoken_deletetimerhandler_MethodName.name, (PyCFunction)_tkinter_tktimertoken_deletetimerhandler, METH_NOARGS, _tkinter_tktimertoken_deletetimerhandler__doc__},
 
 static PyObject *
 _tkinter_tktimertoken_deletetimerhandler_impl(TkttObject *self);
@@ -552,14 +548,14 @@ _tkinter_tktimertoken_deletetimerhandler(PyObject *self, PyObject *Py_UNUSED(ign
     return _tkinter_tktimertoken_deletetimerhandler_impl((TkttObject *)self);
 }
 
+static struct {char name[];} _tkinter_tktimertoken_deletetimerhandler_MethodName = {.name = "deletetimerhandler",};
+#define _TKINTER_TKTIMERTOKEN_DELETETIMERHANDLER_METHODDEF    \
+    {_tkinter_tktimertoken_deletetimerhandler_MethodName.name, (PyCFunction)_tkinter_tktimertoken_deletetimerhandler, METH_NOARGS, _tkinter_tktimertoken_deletetimerhandler__doc__},
+
 PyDoc_STRVAR(_tkinter_tkapp_createtimerhandler__doc__,
 "createtimerhandler($self, milliseconds, func, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _tkinter_tkapp_createtimerhandler_MethodName = {.name = "createtimerhandler",};
-#define _TKINTER_TKAPP_CREATETIMERHANDLER_METHODDEF    \
-    {_tkinter_tkapp_createtimerhandler_MethodName.name, _PyCFunction_CAST(_tkinter_tkapp_createtimerhandler), METH_FASTCALL, _tkinter_tkapp_createtimerhandler__doc__},
 
 static PyObject *
 _tkinter_tkapp_createtimerhandler_impl(TkappObject *self, int milliseconds,
@@ -586,14 +582,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _tkinter_tkapp_createtimerhandler_MethodName = {.name = "createtimerhandler",};
+#define _TKINTER_TKAPP_CREATETIMERHANDLER_METHODDEF    \
+    {_tkinter_tkapp_createtimerhandler_MethodName.name, _PyCFunction_CAST(_tkinter_tkapp_createtimerhandler), METH_FASTCALL, _tkinter_tkapp_createtimerhandler__doc__},
+
 PyDoc_STRVAR(_tkinter_tkapp_mainloop__doc__,
 "mainloop($self, threshold=0, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _tkinter_tkapp_mainloop_MethodName = {.name = "mainloop",};
-#define _TKINTER_TKAPP_MAINLOOP_METHODDEF    \
-    {_tkinter_tkapp_mainloop_MethodName.name, _PyCFunction_CAST(_tkinter_tkapp_mainloop), METH_FASTCALL, _tkinter_tkapp_mainloop__doc__},
 
 static PyObject *
 _tkinter_tkapp_mainloop_impl(TkappObject *self, int threshold);
@@ -621,14 +617,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _tkinter_tkapp_mainloop_MethodName = {.name = "mainloop",};
+#define _TKINTER_TKAPP_MAINLOOP_METHODDEF    \
+    {_tkinter_tkapp_mainloop_MethodName.name, _PyCFunction_CAST(_tkinter_tkapp_mainloop), METH_FASTCALL, _tkinter_tkapp_mainloop__doc__},
+
 PyDoc_STRVAR(_tkinter_tkapp_dooneevent__doc__,
 "dooneevent($self, flags=0, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _tkinter_tkapp_dooneevent_MethodName = {.name = "dooneevent",};
-#define _TKINTER_TKAPP_DOONEEVENT_METHODDEF    \
-    {_tkinter_tkapp_dooneevent_MethodName.name, _PyCFunction_CAST(_tkinter_tkapp_dooneevent), METH_FASTCALL, _tkinter_tkapp_dooneevent__doc__},
 
 static PyObject *
 _tkinter_tkapp_dooneevent_impl(TkappObject *self, int flags);
@@ -656,14 +652,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _tkinter_tkapp_dooneevent_MethodName = {.name = "dooneevent",};
+#define _TKINTER_TKAPP_DOONEEVENT_METHODDEF    \
+    {_tkinter_tkapp_dooneevent_MethodName.name, _PyCFunction_CAST(_tkinter_tkapp_dooneevent), METH_FASTCALL, _tkinter_tkapp_dooneevent__doc__},
+
 PyDoc_STRVAR(_tkinter_tkapp_quit__doc__,
 "quit($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _tkinter_tkapp_quit_MethodName = {.name = "quit",};
-#define _TKINTER_TKAPP_QUIT_METHODDEF    \
-    {_tkinter_tkapp_quit_MethodName.name, (PyCFunction)_tkinter_tkapp_quit, METH_NOARGS, _tkinter_tkapp_quit__doc__},
 
 static PyObject *
 _tkinter_tkapp_quit_impl(TkappObject *self);
@@ -674,14 +670,14 @@ _tkinter_tkapp_quit(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _tkinter_tkapp_quit_impl((TkappObject *)self);
 }
 
+static struct {char name[];} _tkinter_tkapp_quit_MethodName = {.name = "quit",};
+#define _TKINTER_TKAPP_QUIT_METHODDEF    \
+    {_tkinter_tkapp_quit_MethodName.name, (PyCFunction)_tkinter_tkapp_quit, METH_NOARGS, _tkinter_tkapp_quit__doc__},
+
 PyDoc_STRVAR(_tkinter_tkapp_interpaddr__doc__,
 "interpaddr($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _tkinter_tkapp_interpaddr_MethodName = {.name = "interpaddr",};
-#define _TKINTER_TKAPP_INTERPADDR_METHODDEF    \
-    {_tkinter_tkapp_interpaddr_MethodName.name, (PyCFunction)_tkinter_tkapp_interpaddr, METH_NOARGS, _tkinter_tkapp_interpaddr__doc__},
 
 static PyObject *
 _tkinter_tkapp_interpaddr_impl(TkappObject *self);
@@ -692,14 +688,14 @@ _tkinter_tkapp_interpaddr(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _tkinter_tkapp_interpaddr_impl((TkappObject *)self);
 }
 
+static struct {char name[];} _tkinter_tkapp_interpaddr_MethodName = {.name = "interpaddr",};
+#define _TKINTER_TKAPP_INTERPADDR_METHODDEF    \
+    {_tkinter_tkapp_interpaddr_MethodName.name, (PyCFunction)_tkinter_tkapp_interpaddr, METH_NOARGS, _tkinter_tkapp_interpaddr__doc__},
+
 PyDoc_STRVAR(_tkinter_tkapp_loadtk__doc__,
 "loadtk($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _tkinter_tkapp_loadtk_MethodName = {.name = "loadtk",};
-#define _TKINTER_TKAPP_LOADTK_METHODDEF    \
-    {_tkinter_tkapp_loadtk_MethodName.name, (PyCFunction)_tkinter_tkapp_loadtk, METH_NOARGS, _tkinter_tkapp_loadtk__doc__},
 
 static PyObject *
 _tkinter_tkapp_loadtk_impl(TkappObject *self);
@@ -710,15 +706,15 @@ _tkinter_tkapp_loadtk(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _tkinter_tkapp_loadtk_impl((TkappObject *)self);
 }
 
+static struct {char name[];} _tkinter_tkapp_loadtk_MethodName = {.name = "loadtk",};
+#define _TKINTER_TKAPP_LOADTK_METHODDEF    \
+    {_tkinter_tkapp_loadtk_MethodName.name, (PyCFunction)_tkinter_tkapp_loadtk, METH_NOARGS, _tkinter_tkapp_loadtk__doc__},
+
 PyDoc_STRVAR(_tkinter_tkapp_settrace__doc__,
 "settrace($self, func, /)\n"
 "--\n"
 "\n"
 "Set the tracing function.");
-
-static struct {char name[];} _tkinter_tkapp_settrace_MethodName = {.name = "settrace",};
-#define _TKINTER_TKAPP_SETTRACE_METHODDEF    \
-    {_tkinter_tkapp_settrace_MethodName.name, (PyCFunction)_tkinter_tkapp_settrace, METH_O, _tkinter_tkapp_settrace__doc__},
 
 static PyObject *
 _tkinter_tkapp_settrace_impl(TkappObject *self, PyObject *func);
@@ -733,15 +729,15 @@ _tkinter_tkapp_settrace(PyObject *self, PyObject *func)
     return return_value;
 }
 
+static struct {char name[];} _tkinter_tkapp_settrace_MethodName = {.name = "settrace",};
+#define _TKINTER_TKAPP_SETTRACE_METHODDEF    \
+    {_tkinter_tkapp_settrace_MethodName.name, (PyCFunction)_tkinter_tkapp_settrace, METH_O, _tkinter_tkapp_settrace__doc__},
+
 PyDoc_STRVAR(_tkinter_tkapp_gettrace__doc__,
 "gettrace($self, /)\n"
 "--\n"
 "\n"
 "Get the tracing function.");
-
-static struct {char name[];} _tkinter_tkapp_gettrace_MethodName = {.name = "gettrace",};
-#define _TKINTER_TKAPP_GETTRACE_METHODDEF    \
-    {_tkinter_tkapp_gettrace_MethodName.name, (PyCFunction)_tkinter_tkapp_gettrace, METH_NOARGS, _tkinter_tkapp_gettrace__doc__},
 
 static PyObject *
 _tkinter_tkapp_gettrace_impl(TkappObject *self);
@@ -752,14 +748,14 @@ _tkinter_tkapp_gettrace(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _tkinter_tkapp_gettrace_impl((TkappObject *)self);
 }
 
+static struct {char name[];} _tkinter_tkapp_gettrace_MethodName = {.name = "gettrace",};
+#define _TKINTER_TKAPP_GETTRACE_METHODDEF    \
+    {_tkinter_tkapp_gettrace_MethodName.name, (PyCFunction)_tkinter_tkapp_gettrace, METH_NOARGS, _tkinter_tkapp_gettrace__doc__},
+
 PyDoc_STRVAR(_tkinter_tkapp_willdispatch__doc__,
 "willdispatch($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _tkinter_tkapp_willdispatch_MethodName = {.name = "willdispatch",};
-#define _TKINTER_TKAPP_WILLDISPATCH_METHODDEF    \
-    {_tkinter_tkapp_willdispatch_MethodName.name, (PyCFunction)_tkinter_tkapp_willdispatch, METH_NOARGS, _tkinter_tkapp_willdispatch__doc__},
 
 static PyObject *
 _tkinter_tkapp_willdispatch_impl(TkappObject *self);
@@ -769,6 +765,10 @@ _tkinter_tkapp_willdispatch(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return _tkinter_tkapp_willdispatch_impl((TkappObject *)self);
 }
+
+static struct {char name[];} _tkinter_tkapp_willdispatch_MethodName = {.name = "willdispatch",};
+#define _TKINTER_TKAPP_WILLDISPATCH_METHODDEF    \
+    {_tkinter_tkapp_willdispatch_MethodName.name, (PyCFunction)_tkinter_tkapp_willdispatch, METH_NOARGS, _tkinter_tkapp_willdispatch__doc__},
 
 PyDoc_STRVAR(_tkinter__flatten__doc__,
 "_flatten($module, item, /)\n"
@@ -793,10 +793,6 @@ PyDoc_STRVAR(_tkinter_create__doc__,
 "    if true, then pass -sync to wish\n"
 "  use\n"
 "    if not None, then pass -use to wish");
-
-static struct {char name[];} _tkinter_create_MethodName = {.name = "create",};
-#define _TKINTER_CREATE_METHODDEF    \
-    {_tkinter_create_MethodName.name, _PyCFunction_CAST(_tkinter_create), METH_FASTCALL, _tkinter_create__doc__},
 
 static PyObject *
 _tkinter_create_impl(PyObject *module, const char *screenName,
@@ -929,6 +925,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _tkinter_create_MethodName = {.name = "create",};
+#define _TKINTER_CREATE_METHODDEF    \
+    {_tkinter_create_MethodName.name, _PyCFunction_CAST(_tkinter_create), METH_FASTCALL, _tkinter_create__doc__},
+
 PyDoc_STRVAR(_tkinter_setbusywaitinterval__doc__,
 "setbusywaitinterval($module, new_val, /)\n"
 "--\n"
@@ -936,10 +936,6 @@ PyDoc_STRVAR(_tkinter_setbusywaitinterval__doc__,
 "Set the busy-wait interval in milliseconds between successive calls to Tcl_DoOneEvent in a threaded Python interpreter.\n"
 "\n"
 "It should be set to a divisor of the maximum time between frames in an animation.");
-
-static struct {char name[];} _tkinter_setbusywaitinterval_MethodName = {.name = "setbusywaitinterval",};
-#define _TKINTER_SETBUSYWAITINTERVAL_METHODDEF    \
-    {_tkinter_setbusywaitinterval_MethodName.name, (PyCFunction)_tkinter_setbusywaitinterval, METH_O, _tkinter_setbusywaitinterval__doc__},
 
 static PyObject *
 _tkinter_setbusywaitinterval_impl(PyObject *module, int new_val);
@@ -960,15 +956,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _tkinter_setbusywaitinterval_MethodName = {.name = "setbusywaitinterval",};
+#define _TKINTER_SETBUSYWAITINTERVAL_METHODDEF    \
+    {_tkinter_setbusywaitinterval_MethodName.name, (PyCFunction)_tkinter_setbusywaitinterval, METH_O, _tkinter_setbusywaitinterval__doc__},
+
 PyDoc_STRVAR(_tkinter_getbusywaitinterval__doc__,
 "getbusywaitinterval($module, /)\n"
 "--\n"
 "\n"
 "Return the current busy-wait interval between successive calls to Tcl_DoOneEvent in a threaded Python interpreter.");
-
-static struct {char name[];} _tkinter_getbusywaitinterval_MethodName = {.name = "getbusywaitinterval",};
-#define _TKINTER_GETBUSYWAITINTERVAL_METHODDEF    \
-    {_tkinter_getbusywaitinterval_MethodName.name, (PyCFunction)_tkinter_getbusywaitinterval, METH_NOARGS, _tkinter_getbusywaitinterval__doc__},
 
 static int
 _tkinter_getbusywaitinterval_impl(PyObject *module);
@@ -989,6 +985,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _tkinter_getbusywaitinterval_MethodName = {.name = "getbusywaitinterval",};
+#define _TKINTER_GETBUSYWAITINTERVAL_METHODDEF    \
+    {_tkinter_getbusywaitinterval_MethodName.name, (PyCFunction)_tkinter_getbusywaitinterval, METH_NOARGS, _tkinter_getbusywaitinterval__doc__},
+
 #ifndef _TKINTER_TKAPP_CREATEFILEHANDLER_METHODDEF
     #define _TKINTER_TKAPP_CREATEFILEHANDLER_METHODDEF
 #endif /* !defined(_TKINTER_TKAPP_CREATEFILEHANDLER_METHODDEF) */
@@ -996,4 +996,4 @@ exit:
 #ifndef _TKINTER_TKAPP_DELETEFILEHANDLER_METHODDEF
     #define _TKINTER_TKAPP_DELETEFILEHANDLER_METHODDEF
 #endif /* !defined(_TKINTER_TKAPP_DELETEFILEHANDLER_METHODDEF) */
-/*[clinic end generated code: output=456a60368c124392 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=3110979e4d28bc0e input=a9049054013a1b77]*/

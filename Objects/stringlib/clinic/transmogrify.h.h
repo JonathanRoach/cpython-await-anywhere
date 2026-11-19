@@ -17,10 +17,6 @@ PyDoc_STRVAR(stringlib_expandtabs__doc__,
 "\n"
 "If tabsize is not given, a tab size of 8 characters is assumed.");
 
-static struct {char name[];} stringlib_expandtabs_MethodName = {.name = "expandtabs",};
-#define STRINGLIB_EXPANDTABS_METHODDEF    \
-    {stringlib_expandtabs_MethodName.name, _PyCFunction_CAST(stringlib_expandtabs), METH_FASTCALL|METH_KEYWORDS, stringlib_expandtabs__doc__},
-
 static PyObject *
 stringlib_expandtabs_impl(PyObject *self, int tabsize);
 
@@ -78,6 +74,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} stringlib_expandtabs_MethodName = {.name = "expandtabs",};
+#define STRINGLIB_EXPANDTABS_METHODDEF    \
+    {stringlib_expandtabs_MethodName.name, _PyCFunction_CAST(stringlib_expandtabs), METH_FASTCALL|METH_KEYWORDS, stringlib_expandtabs__doc__},
+
 PyDoc_STRVAR(stringlib_ljust__doc__,
 "ljust($self, width, fillchar=b\' \', /)\n"
 "--\n"
@@ -85,10 +85,6 @@ PyDoc_STRVAR(stringlib_ljust__doc__,
 "Return a left-justified string of length width.\n"
 "\n"
 "Padding is done using the specified fill character.");
-
-static struct {char name[];} stringlib_ljust_MethodName = {.name = "ljust",};
-#define STRINGLIB_LJUST_METHODDEF    \
-    {stringlib_ljust_MethodName.name, _PyCFunction_CAST(stringlib_ljust), METH_FASTCALL, stringlib_ljust__doc__},
 
 static PyObject *
 stringlib_ljust_impl(PyObject *self, Py_ssize_t width, char fillchar);
@@ -149,6 +145,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} stringlib_ljust_MethodName = {.name = "ljust",};
+#define STRINGLIB_LJUST_METHODDEF    \
+    {stringlib_ljust_MethodName.name, _PyCFunction_CAST(stringlib_ljust), METH_FASTCALL, stringlib_ljust__doc__},
+
 PyDoc_STRVAR(stringlib_rjust__doc__,
 "rjust($self, width, fillchar=b\' \', /)\n"
 "--\n"
@@ -156,10 +156,6 @@ PyDoc_STRVAR(stringlib_rjust__doc__,
 "Return a right-justified string of length width.\n"
 "\n"
 "Padding is done using the specified fill character.");
-
-static struct {char name[];} stringlib_rjust_MethodName = {.name = "rjust",};
-#define STRINGLIB_RJUST_METHODDEF    \
-    {stringlib_rjust_MethodName.name, _PyCFunction_CAST(stringlib_rjust), METH_FASTCALL, stringlib_rjust__doc__},
 
 static PyObject *
 stringlib_rjust_impl(PyObject *self, Py_ssize_t width, char fillchar);
@@ -220,6 +216,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} stringlib_rjust_MethodName = {.name = "rjust",};
+#define STRINGLIB_RJUST_METHODDEF    \
+    {stringlib_rjust_MethodName.name, _PyCFunction_CAST(stringlib_rjust), METH_FASTCALL, stringlib_rjust__doc__},
+
 PyDoc_STRVAR(stringlib_center__doc__,
 "center($self, width, fillchar=b\' \', /)\n"
 "--\n"
@@ -227,10 +227,6 @@ PyDoc_STRVAR(stringlib_center__doc__,
 "Return a centered string of length width.\n"
 "\n"
 "Padding is done using the specified fill character.");
-
-static struct {char name[];} stringlib_center_MethodName = {.name = "center",};
-#define STRINGLIB_CENTER_METHODDEF    \
-    {stringlib_center_MethodName.name, _PyCFunction_CAST(stringlib_center), METH_FASTCALL, stringlib_center__doc__},
 
 static PyObject *
 stringlib_center_impl(PyObject *self, Py_ssize_t width, char fillchar);
@@ -291,6 +287,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} stringlib_center_MethodName = {.name = "center",};
+#define STRINGLIB_CENTER_METHODDEF    \
+    {stringlib_center_MethodName.name, _PyCFunction_CAST(stringlib_center), METH_FASTCALL, stringlib_center__doc__},
+
 PyDoc_STRVAR(stringlib_zfill__doc__,
 "zfill($self, width, /)\n"
 "--\n"
@@ -298,10 +298,6 @@ PyDoc_STRVAR(stringlib_zfill__doc__,
 "Pad a numeric string with zeros on the left, to fill a field of the given width.\n"
 "\n"
 "The original string is never truncated.");
-
-static struct {char name[];} stringlib_zfill_MethodName = {.name = "zfill",};
-#define STRINGLIB_ZFILL_METHODDEF    \
-    {stringlib_zfill_MethodName.name, (PyCFunction)stringlib_zfill, METH_O, stringlib_zfill__doc__},
 
 static PyObject *
 stringlib_zfill_impl(PyObject *self, Py_ssize_t width);
@@ -329,4 +325,8 @@ stringlib_zfill(PyObject *self, PyObject *arg)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=259c5d7c9bda9233 input=a9049054013a1b77]*/
+
+static struct {char name[];} stringlib_zfill_MethodName = {.name = "zfill",};
+#define STRINGLIB_ZFILL_METHODDEF    \
+    {stringlib_zfill_MethodName.name, (PyCFunction)stringlib_zfill, METH_O, stringlib_zfill__doc__},
+/*[clinic end generated code: output=9dc21b5b19871d20 input=a9049054013a1b77]*/

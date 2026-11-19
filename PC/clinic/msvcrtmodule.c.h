@@ -13,10 +13,6 @@ PyDoc_STRVAR(msvcrt_heapmin__doc__,
 "Force the malloc() heap to clean itself up and return unused blocks\n"
 "to the operating system. On failure, this raises OSError.");
 
-static struct {char name[];} msvcrt_heapmin_MethodName = {.name = "heapmin",};
-#define MSVCRT_HEAPMIN_METHODDEF    \
-    {msvcrt_heapmin_MethodName.name, (PyCFunction)msvcrt_heapmin, METH_NOARGS|METH_C_STACK_FRUGAL, msvcrt_heapmin__doc__},
-
 static PyObject *
 msvcrt_heapmin_impl(PyObject *module);
 
@@ -25,6 +21,10 @@ msvcrt_heapmin(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return msvcrt_heapmin_impl(module);
 }
+
+static struct {char name[];} msvcrt_heapmin_MethodName = {.name = "heapmin",};
+#define MSVCRT_HEAPMIN_METHODDEF    \
+    {msvcrt_heapmin_MethodName.name, (PyCFunction)msvcrt_heapmin, METH_NOARGS|METH_C_STACK_FRUGAL, msvcrt_heapmin__doc__},
 
 PyDoc_STRVAR(msvcrt_locking__doc__,
 "locking($module, fd, mode, nbytes, /)\n"
@@ -38,10 +38,6 @@ PyDoc_STRVAR(msvcrt_locking__doc__,
 "below. Multiple regions in a file may be locked at the same time, but\n"
 "may not overlap. Adjacent regions are not merged; they must be unlocked\n"
 "individually.");
-
-static struct {char name[];} msvcrt_locking_MethodName = {.name = "locking",};
-#define MSVCRT_LOCKING_METHODDEF    \
-    {msvcrt_locking_MethodName.name, _PyCFunction_CAST(msvcrt_locking), METH_FASTCALL|METH_C_STACK_FRUGAL, msvcrt_locking__doc__},
 
 static PyObject *
 msvcrt_locking_impl(PyObject *module, int fd, int mode, long nbytes);
@@ -75,6 +71,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} msvcrt_locking_MethodName = {.name = "locking",};
+#define MSVCRT_LOCKING_METHODDEF    \
+    {msvcrt_locking_MethodName.name, _PyCFunction_CAST(msvcrt_locking), METH_FASTCALL|METH_C_STACK_FRUGAL, msvcrt_locking__doc__},
+
 PyDoc_STRVAR(msvcrt_setmode__doc__,
 "setmode($module, fd, mode, /)\n"
 "--\n"
@@ -85,10 +85,6 @@ PyDoc_STRVAR(msvcrt_setmode__doc__,
 "should be os.O_BINARY.\n"
 "\n"
 "Return value is the previous mode.");
-
-static struct {char name[];} msvcrt_setmode_MethodName = {.name = "setmode",};
-#define MSVCRT_SETMODE_METHODDEF    \
-    {msvcrt_setmode_MethodName.name, _PyCFunction_CAST(msvcrt_setmode), METH_FASTCALL|METH_C_STACK_FRUGAL, msvcrt_setmode__doc__},
 
 static long
 msvcrt_setmode_impl(PyObject *module, int fd, int flags);
@@ -122,6 +118,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} msvcrt_setmode_MethodName = {.name = "setmode",};
+#define MSVCRT_SETMODE_METHODDEF    \
+    {msvcrt_setmode_MethodName.name, _PyCFunction_CAST(msvcrt_setmode), METH_FASTCALL|METH_C_STACK_FRUGAL, msvcrt_setmode__doc__},
+
 PyDoc_STRVAR(msvcrt_open_osfhandle__doc__,
 "open_osfhandle($module, handle, flags, /)\n"
 "--\n"
@@ -131,10 +131,6 @@ PyDoc_STRVAR(msvcrt_open_osfhandle__doc__,
 "The flags parameter should be a bitwise OR of os.O_APPEND, os.O_RDONLY,\n"
 "and os.O_TEXT. The returned file descriptor may be used as a parameter\n"
 "to os.fdopen() to create a file object.");
-
-static struct {char name[];} msvcrt_open_osfhandle_MethodName = {.name = "open_osfhandle",};
-#define MSVCRT_OPEN_OSFHANDLE_METHODDEF    \
-    {msvcrt_open_osfhandle_MethodName.name, _PyCFunction_CAST(msvcrt_open_osfhandle), METH_FASTCALL|METH_C_STACK_FRUGAL, msvcrt_open_osfhandle__doc__},
 
 static long
 msvcrt_open_osfhandle_impl(PyObject *module, void *handle, int flags);
@@ -168,6 +164,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} msvcrt_open_osfhandle_MethodName = {.name = "open_osfhandle",};
+#define MSVCRT_OPEN_OSFHANDLE_METHODDEF    \
+    {msvcrt_open_osfhandle_MethodName.name, _PyCFunction_CAST(msvcrt_open_osfhandle), METH_FASTCALL|METH_C_STACK_FRUGAL, msvcrt_open_osfhandle__doc__},
+
 PyDoc_STRVAR(msvcrt_get_osfhandle__doc__,
 "get_osfhandle($module, fd, /)\n"
 "--\n"
@@ -175,10 +175,6 @@ PyDoc_STRVAR(msvcrt_get_osfhandle__doc__,
 "Return the file handle for the file descriptor fd.\n"
 "\n"
 "Raises OSError if fd is not recognized.");
-
-static struct {char name[];} msvcrt_get_osfhandle_MethodName = {.name = "get_osfhandle",};
-#define MSVCRT_GET_OSFHANDLE_METHODDEF    \
-    {msvcrt_get_osfhandle_MethodName.name, (PyCFunction)msvcrt_get_osfhandle, METH_O|METH_C_STACK_FRUGAL, msvcrt_get_osfhandle__doc__},
 
 static void *
 msvcrt_get_osfhandle_impl(PyObject *module, int fd);
@@ -204,15 +200,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} msvcrt_get_osfhandle_MethodName = {.name = "get_osfhandle",};
+#define MSVCRT_GET_OSFHANDLE_METHODDEF    \
+    {msvcrt_get_osfhandle_MethodName.name, (PyCFunction)msvcrt_get_osfhandle, METH_O|METH_C_STACK_FRUGAL, msvcrt_get_osfhandle__doc__},
+
 PyDoc_STRVAR(msvcrt_kbhit__doc__,
 "kbhit($module, /)\n"
 "--\n"
 "\n"
 "Returns a nonzero value if a keypress is waiting to be read. Otherwise, return 0.");
-
-static struct {char name[];} msvcrt_kbhit_MethodName = {.name = "kbhit",};
-#define MSVCRT_KBHIT_METHODDEF    \
-    {msvcrt_kbhit_MethodName.name, (PyCFunction)msvcrt_kbhit, METH_NOARGS|METH_C_STACK_FRUGAL, msvcrt_kbhit__doc__},
 
 static long
 msvcrt_kbhit_impl(PyObject *module);
@@ -233,6 +229,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} msvcrt_kbhit_MethodName = {.name = "kbhit",};
+#define MSVCRT_KBHIT_METHODDEF    \
+    {msvcrt_kbhit_MethodName.name, (PyCFunction)msvcrt_kbhit, METH_NOARGS|METH_C_STACK_FRUGAL, msvcrt_kbhit__doc__},
+
 PyDoc_STRVAR(msvcrt_getch__doc__,
 "getch($module, /)\n"
 "--\n"
@@ -244,10 +244,6 @@ PyDoc_STRVAR(msvcrt_getch__doc__,
 "pressed key was a special function key, this will return \'\\000\' or\n"
 "\'\\xe0\'; the next call will return the keycode. The Control-C keypress\n"
 "cannot be read with this function.");
-
-static struct {char name[];} msvcrt_getch_MethodName = {.name = "getch",};
-#define MSVCRT_GETCH_METHODDEF    \
-    {msvcrt_getch_MethodName.name, (PyCFunction)msvcrt_getch, METH_NOARGS|METH_C_STACK_FRUGAL, msvcrt_getch__doc__},
 
 static int
 msvcrt_getch_impl(PyObject *module);
@@ -264,6 +260,10 @@ msvcrt_getch(PyObject *module, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} msvcrt_getch_MethodName = {.name = "getch",};
+#define MSVCRT_GETCH_METHODDEF    \
+    {msvcrt_getch_MethodName.name, (PyCFunction)msvcrt_getch, METH_NOARGS|METH_C_STACK_FRUGAL, msvcrt_getch__doc__},
+
 #if defined(MS_WINDOWS_DESKTOP)
 
 PyDoc_STRVAR(msvcrt_getwch__doc__,
@@ -271,10 +271,6 @@ PyDoc_STRVAR(msvcrt_getwch__doc__,
 "--\n"
 "\n"
 "Wide char variant of getch(), returning a Unicode value.");
-
-static struct {char name[];} msvcrt_getwch_MethodName = {.name = "getwch",};
-#define MSVCRT_GETWCH_METHODDEF    \
-    {msvcrt_getwch_MethodName.name, (PyCFunction)msvcrt_getwch, METH_NOARGS|METH_C_STACK_FRUGAL, msvcrt_getwch__doc__},
 
 static wchar_t
 msvcrt_getwch_impl(PyObject *module);
@@ -291,6 +287,10 @@ msvcrt_getwch(PyObject *module, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} msvcrt_getwch_MethodName = {.name = "getwch",};
+#define MSVCRT_GETWCH_METHODDEF    \
+    {msvcrt_getwch_MethodName.name, (PyCFunction)msvcrt_getwch, METH_NOARGS|METH_C_STACK_FRUGAL, msvcrt_getwch__doc__},
+
 #endif /* defined(MS_WINDOWS_DESKTOP) */
 
 PyDoc_STRVAR(msvcrt_getche__doc__,
@@ -298,10 +298,6 @@ PyDoc_STRVAR(msvcrt_getche__doc__,
 "--\n"
 "\n"
 "Similar to getch(), but the keypress will be echoed if possible.");
-
-static struct {char name[];} msvcrt_getche_MethodName = {.name = "getche",};
-#define MSVCRT_GETCHE_METHODDEF    \
-    {msvcrt_getche_MethodName.name, (PyCFunction)msvcrt_getche, METH_NOARGS|METH_C_STACK_FRUGAL, msvcrt_getche__doc__},
 
 static int
 msvcrt_getche_impl(PyObject *module);
@@ -318,6 +314,10 @@ msvcrt_getche(PyObject *module, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} msvcrt_getche_MethodName = {.name = "getche",};
+#define MSVCRT_GETCHE_METHODDEF    \
+    {msvcrt_getche_MethodName.name, (PyCFunction)msvcrt_getche, METH_NOARGS|METH_C_STACK_FRUGAL, msvcrt_getche__doc__},
+
 #if defined(MS_WINDOWS_DESKTOP)
 
 PyDoc_STRVAR(msvcrt_getwche__doc__,
@@ -325,10 +325,6 @@ PyDoc_STRVAR(msvcrt_getwche__doc__,
 "--\n"
 "\n"
 "Wide char variant of getche(), returning a Unicode value.");
-
-static struct {char name[];} msvcrt_getwche_MethodName = {.name = "getwche",};
-#define MSVCRT_GETWCHE_METHODDEF    \
-    {msvcrt_getwche_MethodName.name, (PyCFunction)msvcrt_getwche, METH_NOARGS|METH_C_STACK_FRUGAL, msvcrt_getwche__doc__},
 
 static wchar_t
 msvcrt_getwche_impl(PyObject *module);
@@ -345,6 +341,10 @@ msvcrt_getwche(PyObject *module, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} msvcrt_getwche_MethodName = {.name = "getwche",};
+#define MSVCRT_GETWCHE_METHODDEF    \
+    {msvcrt_getwche_MethodName.name, (PyCFunction)msvcrt_getwche, METH_NOARGS|METH_C_STACK_FRUGAL, msvcrt_getwche__doc__},
+
 #endif /* defined(MS_WINDOWS_DESKTOP) */
 
 PyDoc_STRVAR(msvcrt_putch__doc__,
@@ -352,10 +352,6 @@ PyDoc_STRVAR(msvcrt_putch__doc__,
 "--\n"
 "\n"
 "Print the byte string char to the console without buffering.");
-
-static struct {char name[];} msvcrt_putch_MethodName = {.name = "putch",};
-#define MSVCRT_PUTCH_METHODDEF    \
-    {msvcrt_putch_MethodName.name, (PyCFunction)msvcrt_putch, METH_O|METH_C_STACK_FRUGAL, msvcrt_putch__doc__},
 
 static PyObject *
 msvcrt_putch_impl(PyObject *module, char char_value);
@@ -396,6 +392,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} msvcrt_putch_MethodName = {.name = "putch",};
+#define MSVCRT_PUTCH_METHODDEF    \
+    {msvcrt_putch_MethodName.name, (PyCFunction)msvcrt_putch, METH_O|METH_C_STACK_FRUGAL, msvcrt_putch__doc__},
+
 #if defined(MS_WINDOWS_DESKTOP)
 
 PyDoc_STRVAR(msvcrt_putwch__doc__,
@@ -403,10 +403,6 @@ PyDoc_STRVAR(msvcrt_putwch__doc__,
 "--\n"
 "\n"
 "Wide char variant of putch(), accepting a Unicode value.");
-
-static struct {char name[];} msvcrt_putwch_MethodName = {.name = "putwch",};
-#define MSVCRT_PUTWCH_METHODDEF    \
-    {msvcrt_putwch_MethodName.name, (PyCFunction)msvcrt_putwch, METH_O|METH_C_STACK_FRUGAL, msvcrt_putwch__doc__},
 
 static PyObject *
 msvcrt_putwch_impl(PyObject *module, int unicode_char);
@@ -435,6 +431,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} msvcrt_putwch_MethodName = {.name = "putwch",};
+#define MSVCRT_PUTWCH_METHODDEF    \
+    {msvcrt_putwch_MethodName.name, (PyCFunction)msvcrt_putwch, METH_O|METH_C_STACK_FRUGAL, msvcrt_putwch__doc__},
+
 #endif /* defined(MS_WINDOWS_DESKTOP) */
 
 PyDoc_STRVAR(msvcrt_ungetch__doc__,
@@ -446,10 +446,6 @@ PyDoc_STRVAR(msvcrt_ungetch__doc__,
 "Cause the byte string char to be \"pushed back\" into the\n"
 "console buffer; it will be the next character read by\n"
 "getch() or getche().");
-
-static struct {char name[];} msvcrt_ungetch_MethodName = {.name = "ungetch",};
-#define MSVCRT_UNGETCH_METHODDEF    \
-    {msvcrt_ungetch_MethodName.name, (PyCFunction)msvcrt_ungetch, METH_O|METH_C_STACK_FRUGAL, msvcrt_ungetch__doc__},
 
 static PyObject *
 msvcrt_ungetch_impl(PyObject *module, char char_value);
@@ -490,6 +486,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} msvcrt_ungetch_MethodName = {.name = "ungetch",};
+#define MSVCRT_UNGETCH_METHODDEF    \
+    {msvcrt_ungetch_MethodName.name, (PyCFunction)msvcrt_ungetch, METH_O|METH_C_STACK_FRUGAL, msvcrt_ungetch__doc__},
+
 #if defined(MS_WINDOWS_DESKTOP)
 
 PyDoc_STRVAR(msvcrt_ungetwch__doc__,
@@ -497,10 +497,6 @@ PyDoc_STRVAR(msvcrt_ungetwch__doc__,
 "--\n"
 "\n"
 "Wide char variant of ungetch(), accepting a Unicode value.");
-
-static struct {char name[];} msvcrt_ungetwch_MethodName = {.name = "ungetwch",};
-#define MSVCRT_UNGETWCH_METHODDEF    \
-    {msvcrt_ungetwch_MethodName.name, (PyCFunction)msvcrt_ungetwch, METH_O|METH_C_STACK_FRUGAL, msvcrt_ungetwch__doc__},
 
 static PyObject *
 msvcrt_ungetwch_impl(PyObject *module, int unicode_char);
@@ -529,6 +525,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} msvcrt_ungetwch_MethodName = {.name = "ungetwch",};
+#define MSVCRT_UNGETWCH_METHODDEF    \
+    {msvcrt_ungetwch_MethodName.name, (PyCFunction)msvcrt_ungetwch, METH_O|METH_C_STACK_FRUGAL, msvcrt_ungetwch__doc__},
+
 #endif /* defined(MS_WINDOWS_DESKTOP) */
 
 #if defined(_DEBUG)
@@ -540,10 +540,6 @@ PyDoc_STRVAR(msvcrt_CrtSetReportFile__doc__,
 "Wrapper around _CrtSetReportFile.\n"
 "\n"
 "Only available on Debug builds.");
-
-static struct {char name[];} msvcrt_CrtSetReportFile_MethodName = {.name = "CrtSetReportFile",};
-#define MSVCRT_CRTSETREPORTFILE_METHODDEF    \
-    {msvcrt_CrtSetReportFile_MethodName.name, _PyCFunction_CAST(msvcrt_CrtSetReportFile), METH_FASTCALL|METH_C_STACK_FRUGAL, msvcrt_CrtSetReportFile__doc__},
 
 static void *
 msvcrt_CrtSetReportFile_impl(PyObject *module, int type, void *file);
@@ -577,6 +573,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} msvcrt_CrtSetReportFile_MethodName = {.name = "CrtSetReportFile",};
+#define MSVCRT_CRTSETREPORTFILE_METHODDEF    \
+    {msvcrt_CrtSetReportFile_MethodName.name, _PyCFunction_CAST(msvcrt_CrtSetReportFile), METH_FASTCALL|METH_C_STACK_FRUGAL, msvcrt_CrtSetReportFile__doc__},
+
 #endif /* defined(_DEBUG) */
 
 #if defined(_DEBUG)
@@ -588,10 +588,6 @@ PyDoc_STRVAR(msvcrt_CrtSetReportMode__doc__,
 "Wrapper around _CrtSetReportMode.\n"
 "\n"
 "Only available on Debug builds.");
-
-static struct {char name[];} msvcrt_CrtSetReportMode_MethodName = {.name = "CrtSetReportMode",};
-#define MSVCRT_CRTSETREPORTMODE_METHODDEF    \
-    {msvcrt_CrtSetReportMode_MethodName.name, _PyCFunction_CAST(msvcrt_CrtSetReportMode), METH_FASTCALL|METH_C_STACK_FRUGAL, msvcrt_CrtSetReportMode__doc__},
 
 static long
 msvcrt_CrtSetReportMode_impl(PyObject *module, int type, int mode);
@@ -625,6 +621,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} msvcrt_CrtSetReportMode_MethodName = {.name = "CrtSetReportMode",};
+#define MSVCRT_CRTSETREPORTMODE_METHODDEF    \
+    {msvcrt_CrtSetReportMode_MethodName.name, _PyCFunction_CAST(msvcrt_CrtSetReportMode), METH_FASTCALL|METH_C_STACK_FRUGAL, msvcrt_CrtSetReportMode__doc__},
+
 #endif /* defined(_DEBUG) */
 
 #if defined(_DEBUG)
@@ -636,10 +636,6 @@ PyDoc_STRVAR(msvcrt_set_error_mode__doc__,
 "Wrapper around _set_error_mode.\n"
 "\n"
 "Only available on Debug builds.");
-
-static struct {char name[];} msvcrt_set_error_mode_MethodName = {.name = "set_error_mode",};
-#define MSVCRT_SET_ERROR_MODE_METHODDEF    \
-    {msvcrt_set_error_mode_MethodName.name, (PyCFunction)msvcrt_set_error_mode, METH_O|METH_C_STACK_FRUGAL, msvcrt_set_error_mode__doc__},
 
 static long
 msvcrt_set_error_mode_impl(PyObject *module, int mode);
@@ -665,6 +661,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} msvcrt_set_error_mode_MethodName = {.name = "set_error_mode",};
+#define MSVCRT_SET_ERROR_MODE_METHODDEF    \
+    {msvcrt_set_error_mode_MethodName.name, (PyCFunction)msvcrt_set_error_mode, METH_O|METH_C_STACK_FRUGAL, msvcrt_set_error_mode__doc__},
+
 #endif /* defined(_DEBUG) */
 
 #if (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_APP) || defined(MS_WINDOWS_SYSTEM))
@@ -675,10 +675,6 @@ PyDoc_STRVAR(msvcrt_GetErrorMode__doc__,
 "\n"
 "Wrapper around GetErrorMode.");
 
-static struct {char name[];} msvcrt_GetErrorMode_MethodName = {.name = "GetErrorMode",};
-#define MSVCRT_GETERRORMODE_METHODDEF    \
-    {msvcrt_GetErrorMode_MethodName.name, (PyCFunction)msvcrt_GetErrorMode, METH_NOARGS|METH_C_STACK_FRUGAL, msvcrt_GetErrorMode__doc__},
-
 static PyObject *
 msvcrt_GetErrorMode_impl(PyObject *module);
 
@@ -688,6 +684,10 @@ msvcrt_GetErrorMode(PyObject *module, PyObject *Py_UNUSED(ignored))
     return msvcrt_GetErrorMode_impl(module);
 }
 
+static struct {char name[];} msvcrt_GetErrorMode_MethodName = {.name = "GetErrorMode",};
+#define MSVCRT_GETERRORMODE_METHODDEF    \
+    {msvcrt_GetErrorMode_MethodName.name, (PyCFunction)msvcrt_GetErrorMode, METH_NOARGS|METH_C_STACK_FRUGAL, msvcrt_GetErrorMode__doc__},
+
 #endif /* (defined(MS_WINDOWS_DESKTOP) || defined(MS_WINDOWS_APP) || defined(MS_WINDOWS_SYSTEM)) */
 
 PyDoc_STRVAR(msvcrt_SetErrorMode__doc__,
@@ -695,10 +695,6 @@ PyDoc_STRVAR(msvcrt_SetErrorMode__doc__,
 "--\n"
 "\n"
 "Wrapper around SetErrorMode.");
-
-static struct {char name[];} msvcrt_SetErrorMode_MethodName = {.name = "SetErrorMode",};
-#define MSVCRT_SETERRORMODE_METHODDEF    \
-    {msvcrt_SetErrorMode_MethodName.name, (PyCFunction)msvcrt_SetErrorMode, METH_O|METH_C_STACK_FRUGAL, msvcrt_SetErrorMode__doc__},
 
 static PyObject *
 msvcrt_SetErrorMode_impl(PyObject *module, unsigned int mode);
@@ -718,6 +714,10 @@ msvcrt_SetErrorMode(PyObject *module, PyObject *arg)
 exit:
     return return_value;
 }
+
+static struct {char name[];} msvcrt_SetErrorMode_MethodName = {.name = "SetErrorMode",};
+#define MSVCRT_SETERRORMODE_METHODDEF    \
+    {msvcrt_SetErrorMode_MethodName.name, (PyCFunction)msvcrt_SetErrorMode, METH_O|METH_C_STACK_FRUGAL, msvcrt_SetErrorMode__doc__},
 
 #ifndef MSVCRT_GETWCH_METHODDEF
     #define MSVCRT_GETWCH_METHODDEF
@@ -750,4 +750,4 @@ exit:
 #ifndef MSVCRT_GETERRORMODE_METHODDEF
     #define MSVCRT_GETERRORMODE_METHODDEF
 #endif /* !defined(MSVCRT_GETERRORMODE_METHODDEF) */
-/*[clinic end generated code: output=2e79e61213b1e330 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=61d1f36c8c46f155 input=a9049054013a1b77]*/

@@ -27,10 +27,6 @@ PyDoc_STRVAR(marshal_dump__doc__,
 "ValueError exception is raised - but garbage data will also be written\n"
 "to the file. The object will not be properly read back by load().");
 
-static struct {char name[];} marshal_dump_MethodName = {.name = "dump",};
-#define MARSHAL_DUMP_METHODDEF    \
-    {marshal_dump_MethodName.name, _PyCFunction_CAST(marshal_dump), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, marshal_dump__doc__},
-
 static PyObject *
 marshal_dump_impl(PyObject *module, PyObject *value, PyObject *file,
                   int version, int allow_code);
@@ -103,6 +99,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} marshal_dump_MethodName = {.name = "dump",};
+#define MARSHAL_DUMP_METHODDEF    \
+    {marshal_dump_MethodName.name, _PyCFunction_CAST(marshal_dump), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, marshal_dump__doc__},
+
 PyDoc_STRVAR(marshal_load__doc__,
 "load($module, file, /, *, allow_code=True)\n"
 "--\n"
@@ -120,10 +120,6 @@ PyDoc_STRVAR(marshal_load__doc__,
 "\n"
 "Note: If an object containing an unsupported type was marshalled with\n"
 "dump(), load() will substitute None for the unmarshallable type.");
-
-static struct {char name[];} marshal_load_MethodName = {.name = "load",};
-#define MARSHAL_LOAD_METHODDEF    \
-    {marshal_load_MethodName.name, _PyCFunction_CAST(marshal_load), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, marshal_load__doc__},
 
 static PyObject *
 marshal_load_impl(PyObject *module, PyObject *file, int allow_code);
@@ -184,6 +180,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} marshal_load_MethodName = {.name = "load",};
+#define MARSHAL_LOAD_METHODDEF    \
+    {marshal_load_MethodName.name, _PyCFunction_CAST(marshal_load), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, marshal_load__doc__},
+
 PyDoc_STRVAR(marshal_dumps__doc__,
 "dumps($module, value, version=version, /, *, allow_code=True)\n"
 "--\n"
@@ -199,10 +199,6 @@ PyDoc_STRVAR(marshal_dumps__doc__,
 "\n"
 "Raise a ValueError exception if value has (or contains an object that has) an\n"
 "unsupported type.");
-
-static struct {char name[];} marshal_dumps_MethodName = {.name = "dumps",};
-#define MARSHAL_DUMPS_METHODDEF    \
-    {marshal_dumps_MethodName.name, _PyCFunction_CAST(marshal_dumps), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, marshal_dumps__doc__},
 
 static PyObject *
 marshal_dumps_impl(PyObject *module, PyObject *value, int version,
@@ -274,6 +270,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} marshal_dumps_MethodName = {.name = "dumps",};
+#define MARSHAL_DUMPS_METHODDEF    \
+    {marshal_dumps_MethodName.name, _PyCFunction_CAST(marshal_dumps), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, marshal_dumps__doc__},
+
 PyDoc_STRVAR(marshal_loads__doc__,
 "loads($module, bytes, /, *, allow_code=True)\n"
 "--\n"
@@ -285,10 +285,6 @@ PyDoc_STRVAR(marshal_loads__doc__,
 "\n"
 "If no valid value is found, raise EOFError, ValueError or TypeError.  Extra\n"
 "bytes in the input are ignored.");
-
-static struct {char name[];} marshal_loads_MethodName = {.name = "loads",};
-#define MARSHAL_LOADS_METHODDEF    \
-    {marshal_loads_MethodName.name, _PyCFunction_CAST(marshal_loads), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, marshal_loads__doc__},
 
 static PyObject *
 marshal_loads_impl(PyObject *module, Py_buffer *bytes, int allow_code);
@@ -355,4 +351,8 @@ exit:
 
     return return_value;
 }
-/*[clinic end generated code: output=855bbc4ea5f2887b input=a9049054013a1b77]*/
+
+static struct {char name[];} marshal_loads_MethodName = {.name = "loads",};
+#define MARSHAL_LOADS_METHODDEF    \
+    {marshal_loads_MethodName.name, _PyCFunction_CAST(marshal_loads), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, marshal_loads__doc__},
+/*[clinic end generated code: output=df7df37af420f6f6 input=a9049054013a1b77]*/

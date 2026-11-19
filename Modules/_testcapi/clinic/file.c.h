@@ -9,10 +9,6 @@ PyDoc_STRVAR(_testcapi_pyfile_newstdprinter__doc__,
 "--\n"
 "\n");
 
-static struct {char name[];} _testcapi_pyfile_newstdprinter_MethodName = {.name = "pyfile_newstdprinter",};
-#define _TESTCAPI_PYFILE_NEWSTDPRINTER_METHODDEF    \
-    {_testcapi_pyfile_newstdprinter_MethodName.name, (PyCFunction)_testcapi_pyfile_newstdprinter, METH_O|METH_C_STACK_FRUGAL, _testcapi_pyfile_newstdprinter__doc__},
-
 static PyObject *
 _testcapi_pyfile_newstdprinter_impl(PyObject *module, int fd);
 
@@ -32,15 +28,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _testcapi_pyfile_newstdprinter_MethodName = {.name = "pyfile_newstdprinter",};
+#define _TESTCAPI_PYFILE_NEWSTDPRINTER_METHODDEF    \
+    {_testcapi_pyfile_newstdprinter_MethodName.name, (PyCFunction)_testcapi_pyfile_newstdprinter, METH_O|METH_C_STACK_FRUGAL, _testcapi_pyfile_newstdprinter__doc__},
+
 PyDoc_STRVAR(_testcapi_py_fopen__doc__,
 "py_fopen($module, path, mode, /)\n"
 "--\n"
 "\n"
 "Call Py_fopen(), fread(256) and Py_fclose(). Return read bytes.");
-
-static struct {char name[];} _testcapi_py_fopen_MethodName = {.name = "py_fopen",};
-#define _TESTCAPI_PY_FOPEN_METHODDEF    \
-    {_testcapi_py_fopen_MethodName.name, _PyCFunction_CAST(_testcapi_py_fopen), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_py_fopen__doc__},
 
 static PyObject *
 _testcapi_py_fopen_impl(PyObject *module, PyObject *path, const char *mode,
@@ -64,15 +60,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _testcapi_py_fopen_MethodName = {.name = "py_fopen",};
+#define _TESTCAPI_PY_FOPEN_METHODDEF    \
+    {_testcapi_py_fopen_MethodName.name, _PyCFunction_CAST(_testcapi_py_fopen), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_py_fopen__doc__},
+
 PyDoc_STRVAR(_testcapi_py_universalnewlinefgets__doc__,
 "py_universalnewlinefgets($module, file, size, /)\n"
 "--\n"
 "\n"
 "Read a line from a file using Py_UniversalNewlineFgets.");
-
-static struct {char name[];} _testcapi_py_universalnewlinefgets_MethodName = {.name = "py_universalnewlinefgets",};
-#define _TESTCAPI_PY_UNIVERSALNEWLINEFGETS_METHODDEF    \
-    {_testcapi_py_universalnewlinefgets_MethodName.name, _PyCFunction_CAST(_testcapi_py_universalnewlinefgets), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_py_universalnewlinefgets__doc__},
 
 static PyObject *
 _testcapi_py_universalnewlinefgets_impl(PyObject *module, PyObject *file,
@@ -98,4 +94,8 @@ _testcapi_py_universalnewlinefgets(PyObject *module, PyObject *const *args, Py_s
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=827c3189cf689c10 input=a9049054013a1b77]*/
+
+static struct {char name[];} _testcapi_py_universalnewlinefgets_MethodName = {.name = "py_universalnewlinefgets",};
+#define _TESTCAPI_PY_UNIVERSALNEWLINEFGETS_METHODDEF    \
+    {_testcapi_py_universalnewlinefgets_MethodName.name, _PyCFunction_CAST(_testcapi_py_universalnewlinefgets), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_py_universalnewlinefgets__doc__},
+/*[clinic end generated code: output=d6e5e5db1e5194b1 input=a9049054013a1b77]*/

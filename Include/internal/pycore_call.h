@@ -52,12 +52,12 @@ extern PyObject* _PyObject_Call(
     PyObject *args,
     PyObject *kwargs);
 
-extern PyObject *_PyObject_CallOneArg_Inlineable(
+extern PyObject *PyObject_CallOneArg_Inlineable(
     PyObject *func,
     PyObject *arg,
     struct _PyInterpreterFrame **inlined);
 
-extern PyObject *_PyObject_Vectorcall_Inlineable(
+extern PyObject *PyObject_Vectorcall_Inlineable(
     PyObject *callable,
     PyObject *const *args,
     size_t nargsf, PyObject *kwnames,
@@ -190,7 +190,11 @@ _PyObject_VectorcallTstate(PyThreadState *tstate, PyObject *callable,
             assert(offset > 0);
             memcpy(&func_inlineable, (char *) callable + offset, sizeof(func_inlineable));
             if (func_inlineable){
+                struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL;
                 res = func_inlineable(callable, args, nargsf, kwnames, inlined);
+                if (inlined && frame != *inlined){
+                    return res;
+                }
                 goto done;
             }
         }

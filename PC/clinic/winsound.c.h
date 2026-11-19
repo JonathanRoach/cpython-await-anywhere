@@ -13,10 +13,6 @@ PyDoc_STRVAR(winsound_PlaySound__doc__,
 "  flags\n"
 "    Flag values, ored together.  See module documentation.");
 
-static struct {char name[];} winsound_PlaySound_MethodName = {.name = "PlaySound",};
-#define WINSOUND_PLAYSOUND_METHODDEF    \
-    {winsound_PlaySound_MethodName.name, (PyCFunction)(void(*)(void))winsound_PlaySound, METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, winsound_PlaySound__doc__},
-
 static PyObject *
 winsound_PlaySound_impl(PyObject *module, PyObject *sound, int flags);
 
@@ -37,6 +33,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} winsound_PlaySound_MethodName = {.name = "PlaySound",};
+#define WINSOUND_PLAYSOUND_METHODDEF    \
+    {winsound_PlaySound_MethodName.name, (PyCFunction)(void(*)(void))winsound_PlaySound, METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, winsound_PlaySound__doc__},
+
 PyDoc_STRVAR(winsound_Beep__doc__,
 "Beep($module, /, frequency, duration)\n"
 "--\n"
@@ -48,10 +48,6 @@ PyDoc_STRVAR(winsound_Beep__doc__,
 "    Must be in the range 37 through 32,767.\n"
 "  duration\n"
 "    How long the sound should play, in milliseconds.");
-
-static struct {char name[];} winsound_Beep_MethodName = {.name = "Beep",};
-#define WINSOUND_BEEP_METHODDEF    \
-    {winsound_Beep_MethodName.name, (PyCFunction)(void(*)(void))winsound_Beep, METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, winsound_Beep__doc__},
 
 static PyObject *
 winsound_Beep_impl(PyObject *module, int frequency, int duration);
@@ -73,6 +69,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} winsound_Beep_MethodName = {.name = "Beep",};
+#define WINSOUND_BEEP_METHODDEF    \
+    {winsound_Beep_MethodName.name, (PyCFunction)(void(*)(void))winsound_Beep, METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, winsound_Beep__doc__},
+
 PyDoc_STRVAR(winsound_MessageBeep__doc__,
 "MessageBeep($module, /, type=MB_OK)\n"
 "--\n"
@@ -80,10 +80,6 @@ PyDoc_STRVAR(winsound_MessageBeep__doc__,
 "Call Windows MessageBeep(x).\n"
 "\n"
 "x defaults to MB_OK.");
-
-static struct {char name[];} winsound_MessageBeep_MethodName = {.name = "MessageBeep",};
-#define WINSOUND_MESSAGEBEEP_METHODDEF    \
-    {winsound_MessageBeep_MethodName.name, (PyCFunction)(void(*)(void))winsound_MessageBeep, METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, winsound_MessageBeep__doc__},
 
 static PyObject *
 winsound_MessageBeep_impl(PyObject *module, int type);
@@ -103,4 +99,8 @@ winsound_MessageBeep(PyObject *module, PyObject *args, PyObject *kwargs)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=db8360cc77f798be input=a9049054013a1b77]*/
+
+static struct {char name[];} winsound_MessageBeep_MethodName = {.name = "MessageBeep",};
+#define WINSOUND_MESSAGEBEEP_METHODDEF    \
+    {winsound_MessageBeep_MethodName.name, (PyCFunction)(void(*)(void))winsound_MessageBeep, METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, winsound_MessageBeep__doc__},
+/*[clinic end generated code: output=bd622f8bdf293d0b input=a9049054013a1b77]*/

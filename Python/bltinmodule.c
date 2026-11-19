@@ -302,15 +302,8 @@ Return the absolute value of the argument.
 
 static PyObject *
 builtin_abs_Inlineable(PyObject *module, PyObject *x,
-                       struct _PyInterpreterFrame **inlined);
-static PyObject *
-builtin_abs(PyObject *module, PyObject *x){
-    return builtin_abs_Inlineable(module, x, NULL);
-}
-static PyObject *
-builtin_abs_Inlineable(PyObject *module, PyObject *x,
                        struct _PyInterpreterFrame **inlined)
-/*[clinic end generated code: output=e52a0da7b9b98300 input=9b518ac308385558]*/
+/*[clinic end generated code: output=ccbed22d1767d6f7 input=9b518ac308385558]*/
 {
     return PyNumber_Absolute_Inlineable(x, inlined);
 }
@@ -1762,6 +1755,7 @@ is exhausted, it is returned instead of raising StopIteration.");
 
 /*[clinic input]
 @c_stack_frugal
+@c_inlineable
 setattr as builtin_setattr
 
     obj: object
@@ -1776,12 +1770,10 @@ setattr(x, 'y', v) is equivalent to ``x.y = v``
 
 static PyObject *
 builtin_setattr_impl(PyObject *module, PyObject *obj, PyObject *name,
-                     PyObject *value)
-/*[clinic end generated code: output=dc2ce1d1add9acb4 input=9c1bd5b884aee49b]*/
+                     PyObject *value, struct _PyInterpreterFrame **inlined)
+/*[clinic end generated code: output=7a5efa5b501fb685 input=8af0b11993783f2e]*/
 {
-    if (PyObject_SetAttr(obj, name, value) != 0)
-        return NULL;
-    Py_RETURN_NONE;
+    return PyObject_SetAttr_Inlineable(obj, name, value, inlined);
 }
 
 
@@ -1989,33 +1981,14 @@ Return the number of items in a container.
 
 static PyObject *
 builtin_len_Inlineable(PyObject *module, PyObject *obj,
-                       struct _PyInterpreterFrame **inlined);
-static PyObject *
-builtin_len(PyObject *module, PyObject *obj){
-    return builtin_len_Inlineable(module, obj, NULL);
-}
-static PyObject *
-builtin_len_Inlineable(PyObject *module, PyObject *obj,
                        struct _PyInterpreterFrame **inlined)
-/*[clinic end generated code: output=0f7840eb11176347 input=a7df30a70f437fe8]*/
+/*[clinic end generated code: output=99e177712b27f9fc input=a7df30a70f437fe8]*/
 {
     builtin_len_Inlineable_State state = {
         .base.step = 0,
         .obj = obj,
     };
     return builtin_len_Inlineable_Step(&state, NULL, inlined);
-    // Py_ssize_t res;
-
-    // struct _PyInterpreterFrame *frame = inlined ? *inlined : NULL; \
-    // res = _PyObject_Size_Inlineable(obj, inlined);
-    // if (inlined && *inlined != frame){
-    //     return Py_None;
-    // }
-    // if (res < 0) {
-    //     assert(PyErr_Occurred());
-    //     return NULL;
-    // }
-    // return PyLong_FromSsize_t(res);
 }
 
 

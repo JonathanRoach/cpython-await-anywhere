@@ -233,7 +233,7 @@ _PyObject_GetItem_Inlineable(PyObject *o, PyObject *key, struct _PyInterpreterFr
             return NULL;
         }
         if (meth && meth != Py_None) {
-            result = _PyObject_CallOneArg_Inlineable(meth, key, inlined);
+            result = PyObject_CallOneArg_Inlineable(meth, key, inlined);
             Py_DECREF(meth);
             return result;
         }

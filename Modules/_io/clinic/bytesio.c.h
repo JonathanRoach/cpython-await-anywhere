@@ -16,10 +16,6 @@ PyDoc_STRVAR(_io_BytesIO_readable__doc__,
 "\n"
 "Returns True if the IO object can be read.");
 
-static struct {char name[];} _io_BytesIO_readable_MethodName = {.name = "readable",};
-#define _IO_BYTESIO_READABLE_METHODDEF    \
-    {_io_BytesIO_readable_MethodName.name, (PyCFunction)_io_BytesIO_readable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_BytesIO_readable__doc__},
-
 static PyObject *
 _io_BytesIO_readable_impl(bytesio *self);
 
@@ -29,15 +25,15 @@ _io_BytesIO_readable(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _io_BytesIO_readable_impl((bytesio *)self);
 }
 
+static struct {char name[];} _io_BytesIO_readable_MethodName = {.name = "readable",};
+#define _IO_BYTESIO_READABLE_METHODDEF    \
+    {_io_BytesIO_readable_MethodName.name, (PyCFunction)_io_BytesIO_readable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_BytesIO_readable__doc__},
+
 PyDoc_STRVAR(_io_BytesIO_writable__doc__,
 "writable($self, /)\n"
 "--\n"
 "\n"
 "Returns True if the IO object can be written.");
-
-static struct {char name[];} _io_BytesIO_writable_MethodName = {.name = "writable",};
-#define _IO_BYTESIO_WRITABLE_METHODDEF    \
-    {_io_BytesIO_writable_MethodName.name, (PyCFunction)_io_BytesIO_writable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_BytesIO_writable__doc__},
 
 static PyObject *
 _io_BytesIO_writable_impl(bytesio *self);
@@ -48,15 +44,15 @@ _io_BytesIO_writable(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _io_BytesIO_writable_impl((bytesio *)self);
 }
 
+static struct {char name[];} _io_BytesIO_writable_MethodName = {.name = "writable",};
+#define _IO_BYTESIO_WRITABLE_METHODDEF    \
+    {_io_BytesIO_writable_MethodName.name, (PyCFunction)_io_BytesIO_writable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_BytesIO_writable__doc__},
+
 PyDoc_STRVAR(_io_BytesIO_seekable__doc__,
 "seekable($self, /)\n"
 "--\n"
 "\n"
 "Returns True if the IO object can be seeked.");
-
-static struct {char name[];} _io_BytesIO_seekable_MethodName = {.name = "seekable",};
-#define _IO_BYTESIO_SEEKABLE_METHODDEF    \
-    {_io_BytesIO_seekable_MethodName.name, (PyCFunction)_io_BytesIO_seekable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_BytesIO_seekable__doc__},
 
 static PyObject *
 _io_BytesIO_seekable_impl(bytesio *self);
@@ -67,15 +63,15 @@ _io_BytesIO_seekable(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _io_BytesIO_seekable_impl((bytesio *)self);
 }
 
+static struct {char name[];} _io_BytesIO_seekable_MethodName = {.name = "seekable",};
+#define _IO_BYTESIO_SEEKABLE_METHODDEF    \
+    {_io_BytesIO_seekable_MethodName.name, (PyCFunction)_io_BytesIO_seekable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_BytesIO_seekable__doc__},
+
 PyDoc_STRVAR(_io_BytesIO_flush__doc__,
 "flush($self, /)\n"
 "--\n"
 "\n"
 "Does nothing.");
-
-static struct {char name[];} _io_BytesIO_flush_MethodName = {.name = "flush",};
-#define _IO_BYTESIO_FLUSH_METHODDEF    \
-    {_io_BytesIO_flush_MethodName.name, (PyCFunction)_io_BytesIO_flush, METH_NOARGS|METH_C_STACK_FRUGAL, _io_BytesIO_flush__doc__},
 
 static PyObject *
 _io_BytesIO_flush_impl(bytesio *self);
@@ -86,15 +82,15 @@ _io_BytesIO_flush(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _io_BytesIO_flush_impl((bytesio *)self);
 }
 
+static struct {char name[];} _io_BytesIO_flush_MethodName = {.name = "flush",};
+#define _IO_BYTESIO_FLUSH_METHODDEF    \
+    {_io_BytesIO_flush_MethodName.name, (PyCFunction)_io_BytesIO_flush, METH_NOARGS|METH_C_STACK_FRUGAL, _io_BytesIO_flush__doc__},
+
 PyDoc_STRVAR(_io_BytesIO_getbuffer__doc__,
 "getbuffer($self, /)\n"
 "--\n"
 "\n"
 "Get a read-write view over the contents of the BytesIO object.");
-
-static struct {char name[];} _io_BytesIO_getbuffer_MethodName = {.name = "getbuffer",};
-#define _IO_BYTESIO_GETBUFFER_METHODDEF    \
-    {_io_BytesIO_getbuffer_MethodName.name, _PyCFunction_CAST(_io_BytesIO_getbuffer), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io_BytesIO_getbuffer__doc__},
 
 static PyObject *
 _io_BytesIO_getbuffer_impl(bytesio *self, PyTypeObject *cls);
@@ -116,15 +112,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io_BytesIO_getbuffer_MethodName = {.name = "getbuffer",};
+#define _IO_BYTESIO_GETBUFFER_METHODDEF    \
+    {_io_BytesIO_getbuffer_MethodName.name, _PyCFunction_CAST(_io_BytesIO_getbuffer), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io_BytesIO_getbuffer__doc__},
+
 PyDoc_STRVAR(_io_BytesIO_getvalue__doc__,
 "getvalue($self, /)\n"
 "--\n"
 "\n"
 "Retrieve the entire contents of the BytesIO object.");
-
-static struct {char name[];} _io_BytesIO_getvalue_MethodName = {.name = "getvalue",};
-#define _IO_BYTESIO_GETVALUE_METHODDEF    \
-    {_io_BytesIO_getvalue_MethodName.name, (PyCFunction)_io_BytesIO_getvalue, METH_NOARGS|METH_C_STACK_FRUGAL, _io_BytesIO_getvalue__doc__},
 
 static PyObject *
 _io_BytesIO_getvalue_impl(bytesio *self);
@@ -141,6 +137,10 @@ _io_BytesIO_getvalue(PyObject *self, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} _io_BytesIO_getvalue_MethodName = {.name = "getvalue",};
+#define _IO_BYTESIO_GETVALUE_METHODDEF    \
+    {_io_BytesIO_getvalue_MethodName.name, (PyCFunction)_io_BytesIO_getvalue, METH_NOARGS|METH_C_STACK_FRUGAL, _io_BytesIO_getvalue__doc__},
+
 PyDoc_STRVAR(_io_BytesIO_isatty__doc__,
 "isatty($self, /)\n"
 "--\n"
@@ -148,10 +148,6 @@ PyDoc_STRVAR(_io_BytesIO_isatty__doc__,
 "Always returns False.\n"
 "\n"
 "BytesIO objects are not connected to a TTY-like device.");
-
-static struct {char name[];} _io_BytesIO_isatty_MethodName = {.name = "isatty",};
-#define _IO_BYTESIO_ISATTY_METHODDEF    \
-    {_io_BytesIO_isatty_MethodName.name, (PyCFunction)_io_BytesIO_isatty, METH_NOARGS|METH_C_STACK_FRUGAL, _io_BytesIO_isatty__doc__},
 
 static PyObject *
 _io_BytesIO_isatty_impl(bytesio *self);
@@ -162,15 +158,15 @@ _io_BytesIO_isatty(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _io_BytesIO_isatty_impl((bytesio *)self);
 }
 
+static struct {char name[];} _io_BytesIO_isatty_MethodName = {.name = "isatty",};
+#define _IO_BYTESIO_ISATTY_METHODDEF    \
+    {_io_BytesIO_isatty_MethodName.name, (PyCFunction)_io_BytesIO_isatty, METH_NOARGS|METH_C_STACK_FRUGAL, _io_BytesIO_isatty__doc__},
+
 PyDoc_STRVAR(_io_BytesIO_tell__doc__,
 "tell($self, /)\n"
 "--\n"
 "\n"
 "Current file position, an integer.");
-
-static struct {char name[];} _io_BytesIO_tell_MethodName = {.name = "tell",};
-#define _IO_BYTESIO_TELL_METHODDEF    \
-    {_io_BytesIO_tell_MethodName.name, (PyCFunction)_io_BytesIO_tell, METH_NOARGS|METH_C_STACK_FRUGAL, _io_BytesIO_tell__doc__},
 
 static PyObject *
 _io_BytesIO_tell_impl(bytesio *self);
@@ -187,6 +183,10 @@ _io_BytesIO_tell(PyObject *self, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} _io_BytesIO_tell_MethodName = {.name = "tell",};
+#define _IO_BYTESIO_TELL_METHODDEF    \
+    {_io_BytesIO_tell_MethodName.name, (PyCFunction)_io_BytesIO_tell, METH_NOARGS|METH_C_STACK_FRUGAL, _io_BytesIO_tell__doc__},
+
 PyDoc_STRVAR(_io_BytesIO_read__doc__,
 "read($self, size=-1, /)\n"
 "--\n"
@@ -195,10 +195,6 @@ PyDoc_STRVAR(_io_BytesIO_read__doc__,
 "\n"
 "If the size argument is negative, read until EOF is reached.\n"
 "Return an empty bytes object at EOF.");
-
-static struct {char name[];} _io_BytesIO_read_MethodName = {.name = "read",};
-#define _IO_BYTESIO_READ_METHODDEF    \
-    {_io_BytesIO_read_MethodName.name, _PyCFunction_CAST(_io_BytesIO_read), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_BytesIO_read__doc__},
 
 static PyObject *
 _io_BytesIO_read_impl(bytesio *self, Py_ssize_t size);
@@ -227,6 +223,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io_BytesIO_read_MethodName = {.name = "read",};
+#define _IO_BYTESIO_READ_METHODDEF    \
+    {_io_BytesIO_read_MethodName.name, _PyCFunction_CAST(_io_BytesIO_read), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_BytesIO_read__doc__},
+
 PyDoc_STRVAR(_io_BytesIO_read1__doc__,
 "read1($self, size=-1, /)\n"
 "--\n"
@@ -235,10 +235,6 @@ PyDoc_STRVAR(_io_BytesIO_read1__doc__,
 "\n"
 "If the size argument is negative or omitted, read until EOF is reached.\n"
 "Return an empty bytes object at EOF.");
-
-static struct {char name[];} _io_BytesIO_read1_MethodName = {.name = "read1",};
-#define _IO_BYTESIO_READ1_METHODDEF    \
-    {_io_BytesIO_read1_MethodName.name, _PyCFunction_CAST(_io_BytesIO_read1), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_BytesIO_read1__doc__},
 
 static PyObject *
 _io_BytesIO_read1_impl(bytesio *self, Py_ssize_t size);
@@ -267,6 +263,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io_BytesIO_read1_MethodName = {.name = "read1",};
+#define _IO_BYTESIO_READ1_METHODDEF    \
+    {_io_BytesIO_read1_MethodName.name, _PyCFunction_CAST(_io_BytesIO_read1), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_BytesIO_read1__doc__},
+
 PyDoc_STRVAR(_io_BytesIO_readline__doc__,
 "readline($self, size=-1, /)\n"
 "--\n"
@@ -276,10 +276,6 @@ PyDoc_STRVAR(_io_BytesIO_readline__doc__,
 "Retain newline.  A non-negative size argument limits the maximum\n"
 "number of bytes to return (an incomplete line may be returned then).\n"
 "Return an empty bytes object at EOF.");
-
-static struct {char name[];} _io_BytesIO_readline_MethodName = {.name = "readline",};
-#define _IO_BYTESIO_READLINE_METHODDEF    \
-    {_io_BytesIO_readline_MethodName.name, _PyCFunction_CAST(_io_BytesIO_readline), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_BytesIO_readline__doc__},
 
 static PyObject *
 _io_BytesIO_readline_impl(bytesio *self, Py_ssize_t size);
@@ -308,6 +304,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io_BytesIO_readline_MethodName = {.name = "readline",};
+#define _IO_BYTESIO_READLINE_METHODDEF    \
+    {_io_BytesIO_readline_MethodName.name, _PyCFunction_CAST(_io_BytesIO_readline), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_BytesIO_readline__doc__},
+
 PyDoc_STRVAR(_io_BytesIO_readlines__doc__,
 "readlines($self, size=None, /)\n"
 "--\n"
@@ -317,10 +317,6 @@ PyDoc_STRVAR(_io_BytesIO_readlines__doc__,
 "Call readline() repeatedly and return a list of the lines so read.\n"
 "The optional size argument, if given, is an approximate bound on the\n"
 "total number of bytes in the lines returned.");
-
-static struct {char name[];} _io_BytesIO_readlines_MethodName = {.name = "readlines",};
-#define _IO_BYTESIO_READLINES_METHODDEF    \
-    {_io_BytesIO_readlines_MethodName.name, _PyCFunction_CAST(_io_BytesIO_readlines), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_BytesIO_readlines__doc__},
 
 static PyObject *
 _io_BytesIO_readlines_impl(bytesio *self, PyObject *arg);
@@ -347,6 +343,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io_BytesIO_readlines_MethodName = {.name = "readlines",};
+#define _IO_BYTESIO_READLINES_METHODDEF    \
+    {_io_BytesIO_readlines_MethodName.name, _PyCFunction_CAST(_io_BytesIO_readlines), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_BytesIO_readlines__doc__},
+
 PyDoc_STRVAR(_io_BytesIO_readinto__doc__,
 "readinto($self, buffer, /)\n"
 "--\n"
@@ -355,10 +355,6 @@ PyDoc_STRVAR(_io_BytesIO_readinto__doc__,
 "\n"
 "Returns number of bytes read (0 for EOF), or None if the object\n"
 "is set not to block and has no data to read.");
-
-static struct {char name[];} _io_BytesIO_readinto_MethodName = {.name = "readinto",};
-#define _IO_BYTESIO_READINTO_METHODDEF    \
-    {_io_BytesIO_readinto_MethodName.name, (PyCFunction)_io_BytesIO_readinto, METH_O|METH_C_STACK_FRUGAL, _io_BytesIO_readinto__doc__},
 
 static PyObject *
 _io_BytesIO_readinto_impl(bytesio *self, Py_buffer *buffer);
@@ -386,6 +382,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io_BytesIO_readinto_MethodName = {.name = "readinto",};
+#define _IO_BYTESIO_READINTO_METHODDEF    \
+    {_io_BytesIO_readinto_MethodName.name, (PyCFunction)_io_BytesIO_readinto, METH_O|METH_C_STACK_FRUGAL, _io_BytesIO_readinto__doc__},
+
 PyDoc_STRVAR(_io_BytesIO_truncate__doc__,
 "truncate($self, size=None, /)\n"
 "--\n"
@@ -394,10 +394,6 @@ PyDoc_STRVAR(_io_BytesIO_truncate__doc__,
 "\n"
 "Size defaults to the current file position, as returned by tell().\n"
 "The current file position is unchanged.  Returns the new size.");
-
-static struct {char name[];} _io_BytesIO_truncate_MethodName = {.name = "truncate",};
-#define _IO_BYTESIO_TRUNCATE_METHODDEF    \
-    {_io_BytesIO_truncate_MethodName.name, _PyCFunction_CAST(_io_BytesIO_truncate), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_BytesIO_truncate__doc__},
 
 static PyObject *
 _io_BytesIO_truncate_impl(bytesio *self, PyObject *size);
@@ -424,6 +420,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io_BytesIO_truncate_MethodName = {.name = "truncate",};
+#define _IO_BYTESIO_TRUNCATE_METHODDEF    \
+    {_io_BytesIO_truncate_MethodName.name, _PyCFunction_CAST(_io_BytesIO_truncate), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_BytesIO_truncate__doc__},
+
 PyDoc_STRVAR(_io_BytesIO_seek__doc__,
 "seek($self, pos, whence=0, /)\n"
 "--\n"
@@ -435,10 +435,6 @@ PyDoc_STRVAR(_io_BytesIO_seek__doc__,
 "     1  Current position - pos may be negative;\n"
 "     2  End of stream - pos usually negative.\n"
 "Returns the new absolute position.");
-
-static struct {char name[];} _io_BytesIO_seek_MethodName = {.name = "seek",};
-#define _IO_BYTESIO_SEEK_METHODDEF    \
-    {_io_BytesIO_seek_MethodName.name, _PyCFunction_CAST(_io_BytesIO_seek), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_BytesIO_seek__doc__},
 
 static PyObject *
 _io_BytesIO_seek_impl(bytesio *self, Py_ssize_t pos, int whence);
@@ -481,6 +477,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io_BytesIO_seek_MethodName = {.name = "seek",};
+#define _IO_BYTESIO_SEEK_METHODDEF    \
+    {_io_BytesIO_seek_MethodName.name, _PyCFunction_CAST(_io_BytesIO_seek), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_BytesIO_seek__doc__},
+
 PyDoc_STRVAR(_io_BytesIO_write__doc__,
 "write($self, b, /)\n"
 "--\n"
@@ -488,10 +488,6 @@ PyDoc_STRVAR(_io_BytesIO_write__doc__,
 "Write bytes to file.\n"
 "\n"
 "Return the number of bytes written.");
-
-static struct {char name[];} _io_BytesIO_write_MethodName = {.name = "write",};
-#define _IO_BYTESIO_WRITE_METHODDEF    \
-    {_io_BytesIO_write_MethodName.name, (PyCFunction)_io_BytesIO_write, METH_O|METH_C_STACK_FRUGAL, _io_BytesIO_write__doc__},
 
 static PyObject *
 _io_BytesIO_write_impl(bytesio *self, PyObject *b);
@@ -508,6 +504,10 @@ _io_BytesIO_write(PyObject *self, PyObject *b)
     return return_value;
 }
 
+static struct {char name[];} _io_BytesIO_write_MethodName = {.name = "write",};
+#define _IO_BYTESIO_WRITE_METHODDEF    \
+    {_io_BytesIO_write_MethodName.name, (PyCFunction)_io_BytesIO_write, METH_O|METH_C_STACK_FRUGAL, _io_BytesIO_write__doc__},
+
 PyDoc_STRVAR(_io_BytesIO_writelines__doc__,
 "writelines($self, lines, /)\n"
 "--\n"
@@ -517,10 +517,6 @@ PyDoc_STRVAR(_io_BytesIO_writelines__doc__,
 "Note that newlines are not added.  lines can be any iterable object\n"
 "producing bytes-like objects. This is equivalent to calling write() for\n"
 "each element.");
-
-static struct {char name[];} _io_BytesIO_writelines_MethodName = {.name = "writelines",};
-#define _IO_BYTESIO_WRITELINES_METHODDEF    \
-    {_io_BytesIO_writelines_MethodName.name, (PyCFunction)_io_BytesIO_writelines, METH_O|METH_C_STACK_FRUGAL, _io_BytesIO_writelines__doc__},
 
 static PyObject *
 _io_BytesIO_writelines_impl(bytesio *self, PyObject *lines);
@@ -537,15 +533,15 @@ _io_BytesIO_writelines(PyObject *self, PyObject *lines)
     return return_value;
 }
 
+static struct {char name[];} _io_BytesIO_writelines_MethodName = {.name = "writelines",};
+#define _IO_BYTESIO_WRITELINES_METHODDEF    \
+    {_io_BytesIO_writelines_MethodName.name, (PyCFunction)_io_BytesIO_writelines, METH_O|METH_C_STACK_FRUGAL, _io_BytesIO_writelines__doc__},
+
 PyDoc_STRVAR(_io_BytesIO_close__doc__,
 "close($self, /)\n"
 "--\n"
 "\n"
 "Disable all I/O operations.");
-
-static struct {char name[];} _io_BytesIO_close_MethodName = {.name = "close",};
-#define _IO_BYTESIO_CLOSE_METHODDEF    \
-    {_io_BytesIO_close_MethodName.name, (PyCFunction)_io_BytesIO_close, METH_NOARGS|METH_C_STACK_FRUGAL, _io_BytesIO_close__doc__},
 
 static PyObject *
 _io_BytesIO_close_impl(bytesio *self);
@@ -561,6 +557,10 @@ _io_BytesIO_close(PyObject *self, PyObject *Py_UNUSED(ignored))
 
     return return_value;
 }
+
+static struct {char name[];} _io_BytesIO_close_MethodName = {.name = "close",};
+#define _IO_BYTESIO_CLOSE_METHODDEF    \
+    {_io_BytesIO_close_MethodName.name, (PyCFunction)_io_BytesIO_close, METH_NOARGS|METH_C_STACK_FRUGAL, _io_BytesIO_close__doc__},
 
 PyDoc_STRVAR(_io_BytesIO___init____doc__,
 "BytesIO(initial_bytes=b\'\')\n"
@@ -625,4 +625,4 @@ skip_optional_pos:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=cff730d62f11c14f input=a9049054013a1b77]*/
+/*[clinic end generated code: output=f176fcfba3d7690e input=a9049054013a1b77]*/

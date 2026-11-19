@@ -13,10 +13,6 @@ PyDoc_STRVAR(_ssl_Certificate_public_bytes__doc__,
 "--\n"
 "\n");
 
-static struct {char name[];} _ssl_Certificate_public_bytes_MethodName = {.name = "public_bytes",};
-#define _SSL_CERTIFICATE_PUBLIC_BYTES_METHODDEF    \
-    {_ssl_Certificate_public_bytes_MethodName.name, _PyCFunction_CAST(_ssl_Certificate_public_bytes), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _ssl_Certificate_public_bytes__doc__},
-
 static PyObject *
 _ssl_Certificate_public_bytes_impl(PySSLCertificate *self, int format);
 
@@ -74,14 +70,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _ssl_Certificate_public_bytes_MethodName = {.name = "public_bytes",};
+#define _SSL_CERTIFICATE_PUBLIC_BYTES_METHODDEF    \
+    {_ssl_Certificate_public_bytes_MethodName.name, _PyCFunction_CAST(_ssl_Certificate_public_bytes), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _ssl_Certificate_public_bytes__doc__},
+
 PyDoc_STRVAR(_ssl_Certificate_get_info__doc__,
 "get_info($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _ssl_Certificate_get_info_MethodName = {.name = "get_info",};
-#define _SSL_CERTIFICATE_GET_INFO_METHODDEF    \
-    {_ssl_Certificate_get_info_MethodName.name, (PyCFunction)_ssl_Certificate_get_info, METH_NOARGS|METH_C_STACK_FRUGAL, _ssl_Certificate_get_info__doc__},
 
 static PyObject *
 _ssl_Certificate_get_info_impl(PySSLCertificate *self);
@@ -91,4 +87,8 @@ _ssl_Certificate_get_info(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return _ssl_Certificate_get_info_impl((PySSLCertificate *)self);
 }
-/*[clinic end generated code: output=1b757b60f24bcd9a input=a9049054013a1b77]*/
+
+static struct {char name[];} _ssl_Certificate_get_info_MethodName = {.name = "get_info",};
+#define _SSL_CERTIFICATE_GET_INFO_METHODDEF    \
+    {_ssl_Certificate_get_info_MethodName.name, (PyCFunction)_ssl_Certificate_get_info, METH_NOARGS|METH_C_STACK_FRUGAL, _ssl_Certificate_get_info__doc__},
+/*[clinic end generated code: output=580c78d95d04304b input=a9049054013a1b77]*/

@@ -11,10 +11,6 @@ PyDoc_STRVAR(_operator_truth__doc__,
 "\n"
 "Return True if a is true, False otherwise.");
 
-static struct {char name[];} _operator_truth_MethodName = {.name = "truth",};
-#define _OPERATOR_TRUTH_METHODDEF    \
-    {_operator_truth_MethodName.name, (PyCFunction)_operator_truth, METH_O|METH_C_STACK_FRUGAL, _operator_truth__doc__},
-
 static int
 _operator_truth_impl(PyObject *module, PyObject *a);
 
@@ -34,15 +30,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_truth_MethodName = {.name = "truth",};
+#define _OPERATOR_TRUTH_METHODDEF    \
+    {_operator_truth_MethodName.name, (PyCFunction)_operator_truth, METH_O|METH_C_STACK_FRUGAL, _operator_truth__doc__},
+
 PyDoc_STRVAR(_operator_add__doc__,
 "add($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a + b.");
-
-static struct {char name[];} _operator_add_MethodName = {.name = "add",};
-#define _OPERATOR_ADD_METHODDEF    \
-    {_operator_add_MethodName.name, _PyCFunction_CAST(_operator_add), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_add__doc__},
 
 static PyObject *
 _operator_add_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -65,15 +61,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_add_MethodName = {.name = "add",};
+#define _OPERATOR_ADD_METHODDEF    \
+    {_operator_add_MethodName.name, _PyCFunction_CAST(_operator_add), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_add__doc__},
+
 PyDoc_STRVAR(_operator_sub__doc__,
 "sub($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a - b.");
-
-static struct {char name[];} _operator_sub_MethodName = {.name = "sub",};
-#define _OPERATOR_SUB_METHODDEF    \
-    {_operator_sub_MethodName.name, _PyCFunction_CAST(_operator_sub), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_sub__doc__},
 
 static PyObject *
 _operator_sub_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -96,15 +92,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_sub_MethodName = {.name = "sub",};
+#define _OPERATOR_SUB_METHODDEF    \
+    {_operator_sub_MethodName.name, _PyCFunction_CAST(_operator_sub), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_sub__doc__},
+
 PyDoc_STRVAR(_operator_mul__doc__,
 "mul($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a * b.");
-
-static struct {char name[];} _operator_mul_MethodName = {.name = "mul",};
-#define _OPERATOR_MUL_METHODDEF    \
-    {_operator_mul_MethodName.name, _PyCFunction_CAST(_operator_mul), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_mul__doc__},
 
 static PyObject *
 _operator_mul_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -127,15 +123,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_mul_MethodName = {.name = "mul",};
+#define _OPERATOR_MUL_METHODDEF    \
+    {_operator_mul_MethodName.name, _PyCFunction_CAST(_operator_mul), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_mul__doc__},
+
 PyDoc_STRVAR(_operator_matmul__doc__,
 "matmul($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a @ b.");
-
-static struct {char name[];} _operator_matmul_MethodName = {.name = "matmul",};
-#define _OPERATOR_MATMUL_METHODDEF    \
-    {_operator_matmul_MethodName.name, _PyCFunction_CAST(_operator_matmul), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_matmul__doc__},
 
 static PyObject *
 _operator_matmul_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -158,15 +154,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_matmul_MethodName = {.name = "matmul",};
+#define _OPERATOR_MATMUL_METHODDEF    \
+    {_operator_matmul_MethodName.name, _PyCFunction_CAST(_operator_matmul), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_matmul__doc__},
+
 PyDoc_STRVAR(_operator_floordiv__doc__,
 "floordiv($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a // b.");
-
-static struct {char name[];} _operator_floordiv_MethodName = {.name = "floordiv",};
-#define _OPERATOR_FLOORDIV_METHODDEF    \
-    {_operator_floordiv_MethodName.name, _PyCFunction_CAST(_operator_floordiv), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_floordiv__doc__},
 
 static PyObject *
 _operator_floordiv_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -189,15 +185,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_floordiv_MethodName = {.name = "floordiv",};
+#define _OPERATOR_FLOORDIV_METHODDEF    \
+    {_operator_floordiv_MethodName.name, _PyCFunction_CAST(_operator_floordiv), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_floordiv__doc__},
+
 PyDoc_STRVAR(_operator_truediv__doc__,
 "truediv($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a / b.");
-
-static struct {char name[];} _operator_truediv_MethodName = {.name = "truediv",};
-#define _OPERATOR_TRUEDIV_METHODDEF    \
-    {_operator_truediv_MethodName.name, _PyCFunction_CAST(_operator_truediv), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_truediv__doc__},
 
 static PyObject *
 _operator_truediv_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -220,15 +216,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_truediv_MethodName = {.name = "truediv",};
+#define _OPERATOR_TRUEDIV_METHODDEF    \
+    {_operator_truediv_MethodName.name, _PyCFunction_CAST(_operator_truediv), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_truediv__doc__},
+
 PyDoc_STRVAR(_operator_mod__doc__,
 "mod($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a % b.");
-
-static struct {char name[];} _operator_mod_MethodName = {.name = "mod",};
-#define _OPERATOR_MOD_METHODDEF    \
-    {_operator_mod_MethodName.name, _PyCFunction_CAST(_operator_mod), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_mod__doc__},
 
 static PyObject *
 _operator_mod_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -250,6 +246,10 @@ _operator_mod(PyObject *module, PyObject *const *args, Py_ssize_t nargs)
 exit:
     return return_value;
 }
+
+static struct {char name[];} _operator_mod_MethodName = {.name = "mod",};
+#define _OPERATOR_MOD_METHODDEF    \
+    {_operator_mod_MethodName.name, _PyCFunction_CAST(_operator_mod), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_mod__doc__},
 
 PyDoc_STRVAR(_operator_neg__doc__,
 "neg($module, a, /)\n"
@@ -307,10 +307,6 @@ PyDoc_STRVAR(_operator_lshift__doc__,
 "\n"
 "Same as a << b.");
 
-static struct {char name[];} _operator_lshift_MethodName = {.name = "lshift",};
-#define _OPERATOR_LSHIFT_METHODDEF    \
-    {_operator_lshift_MethodName.name, _PyCFunction_CAST(_operator_lshift), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_lshift__doc__},
-
 static PyObject *
 _operator_lshift_impl(PyObject *module, PyObject *a, PyObject *b);
 
@@ -332,15 +328,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_lshift_MethodName = {.name = "lshift",};
+#define _OPERATOR_LSHIFT_METHODDEF    \
+    {_operator_lshift_MethodName.name, _PyCFunction_CAST(_operator_lshift), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_lshift__doc__},
+
 PyDoc_STRVAR(_operator_rshift__doc__,
 "rshift($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a >> b.");
-
-static struct {char name[];} _operator_rshift_MethodName = {.name = "rshift",};
-#define _OPERATOR_RSHIFT_METHODDEF    \
-    {_operator_rshift_MethodName.name, _PyCFunction_CAST(_operator_rshift), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_rshift__doc__},
 
 static PyObject *
 _operator_rshift_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -363,15 +359,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_rshift_MethodName = {.name = "rshift",};
+#define _OPERATOR_RSHIFT_METHODDEF    \
+    {_operator_rshift_MethodName.name, _PyCFunction_CAST(_operator_rshift), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_rshift__doc__},
+
 PyDoc_STRVAR(_operator_not___doc__,
 "not_($module, a, /)\n"
 "--\n"
 "\n"
 "Same as not a.");
-
-static struct {char name[];} _operator_not__MethodName = {.name = "not_",};
-#define _OPERATOR_NOT__METHODDEF    \
-    {_operator_not__MethodName.name, (PyCFunction)_operator_not_, METH_O|METH_C_STACK_FRUGAL, _operator_not___doc__},
 
 static int
 _operator_not__impl(PyObject *module, PyObject *a);
@@ -392,15 +388,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_not__MethodName = {.name = "not_",};
+#define _OPERATOR_NOT__METHODDEF    \
+    {_operator_not__MethodName.name, (PyCFunction)_operator_not_, METH_O|METH_C_STACK_FRUGAL, _operator_not___doc__},
+
 PyDoc_STRVAR(_operator_and___doc__,
 "and_($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a & b.");
-
-static struct {char name[];} _operator_and__MethodName = {.name = "and_",};
-#define _OPERATOR_AND__METHODDEF    \
-    {_operator_and__MethodName.name, _PyCFunction_CAST(_operator_and_), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_and___doc__},
 
 static PyObject *
 _operator_and__impl(PyObject *module, PyObject *a, PyObject *b);
@@ -423,15 +419,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_and__MethodName = {.name = "and_",};
+#define _OPERATOR_AND__METHODDEF    \
+    {_operator_and__MethodName.name, _PyCFunction_CAST(_operator_and_), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_and___doc__},
+
 PyDoc_STRVAR(_operator_xor__doc__,
 "xor($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a ^ b.");
-
-static struct {char name[];} _operator_xor_MethodName = {.name = "xor",};
-#define _OPERATOR_XOR_METHODDEF    \
-    {_operator_xor_MethodName.name, _PyCFunction_CAST(_operator_xor), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_xor__doc__},
 
 static PyObject *
 _operator_xor_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -454,15 +450,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_xor_MethodName = {.name = "xor",};
+#define _OPERATOR_XOR_METHODDEF    \
+    {_operator_xor_MethodName.name, _PyCFunction_CAST(_operator_xor), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_xor__doc__},
+
 PyDoc_STRVAR(_operator_or___doc__,
 "or_($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a | b.");
-
-static struct {char name[];} _operator_or__MethodName = {.name = "or_",};
-#define _OPERATOR_OR__METHODDEF    \
-    {_operator_or__MethodName.name, _PyCFunction_CAST(_operator_or_), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_or___doc__},
 
 static PyObject *
 _operator_or__impl(PyObject *module, PyObject *a, PyObject *b);
@@ -485,15 +481,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_or__MethodName = {.name = "or_",};
+#define _OPERATOR_OR__METHODDEF    \
+    {_operator_or__MethodName.name, _PyCFunction_CAST(_operator_or_), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_or___doc__},
+
 PyDoc_STRVAR(_operator_iadd__doc__,
 "iadd($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a += b.");
-
-static struct {char name[];} _operator_iadd_MethodName = {.name = "iadd",};
-#define _OPERATOR_IADD_METHODDEF    \
-    {_operator_iadd_MethodName.name, _PyCFunction_CAST(_operator_iadd), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_iadd__doc__},
 
 static PyObject *
 _operator_iadd_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -516,15 +512,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_iadd_MethodName = {.name = "iadd",};
+#define _OPERATOR_IADD_METHODDEF    \
+    {_operator_iadd_MethodName.name, _PyCFunction_CAST(_operator_iadd), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_iadd__doc__},
+
 PyDoc_STRVAR(_operator_isub__doc__,
 "isub($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a -= b.");
-
-static struct {char name[];} _operator_isub_MethodName = {.name = "isub",};
-#define _OPERATOR_ISUB_METHODDEF    \
-    {_operator_isub_MethodName.name, _PyCFunction_CAST(_operator_isub), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_isub__doc__},
 
 static PyObject *
 _operator_isub_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -547,15 +543,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_isub_MethodName = {.name = "isub",};
+#define _OPERATOR_ISUB_METHODDEF    \
+    {_operator_isub_MethodName.name, _PyCFunction_CAST(_operator_isub), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_isub__doc__},
+
 PyDoc_STRVAR(_operator_imul__doc__,
 "imul($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a *= b.");
-
-static struct {char name[];} _operator_imul_MethodName = {.name = "imul",};
-#define _OPERATOR_IMUL_METHODDEF    \
-    {_operator_imul_MethodName.name, _PyCFunction_CAST(_operator_imul), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_imul__doc__},
 
 static PyObject *
 _operator_imul_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -578,15 +574,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_imul_MethodName = {.name = "imul",};
+#define _OPERATOR_IMUL_METHODDEF    \
+    {_operator_imul_MethodName.name, _PyCFunction_CAST(_operator_imul), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_imul__doc__},
+
 PyDoc_STRVAR(_operator_imatmul__doc__,
 "imatmul($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a @= b.");
-
-static struct {char name[];} _operator_imatmul_MethodName = {.name = "imatmul",};
-#define _OPERATOR_IMATMUL_METHODDEF    \
-    {_operator_imatmul_MethodName.name, _PyCFunction_CAST(_operator_imatmul), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_imatmul__doc__},
 
 static PyObject *
 _operator_imatmul_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -609,15 +605,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_imatmul_MethodName = {.name = "imatmul",};
+#define _OPERATOR_IMATMUL_METHODDEF    \
+    {_operator_imatmul_MethodName.name, _PyCFunction_CAST(_operator_imatmul), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_imatmul__doc__},
+
 PyDoc_STRVAR(_operator_ifloordiv__doc__,
 "ifloordiv($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a //= b.");
-
-static struct {char name[];} _operator_ifloordiv_MethodName = {.name = "ifloordiv",};
-#define _OPERATOR_IFLOORDIV_METHODDEF    \
-    {_operator_ifloordiv_MethodName.name, _PyCFunction_CAST(_operator_ifloordiv), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_ifloordiv__doc__},
 
 static PyObject *
 _operator_ifloordiv_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -640,15 +636,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_ifloordiv_MethodName = {.name = "ifloordiv",};
+#define _OPERATOR_IFLOORDIV_METHODDEF    \
+    {_operator_ifloordiv_MethodName.name, _PyCFunction_CAST(_operator_ifloordiv), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_ifloordiv__doc__},
+
 PyDoc_STRVAR(_operator_itruediv__doc__,
 "itruediv($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a /= b.");
-
-static struct {char name[];} _operator_itruediv_MethodName = {.name = "itruediv",};
-#define _OPERATOR_ITRUEDIV_METHODDEF    \
-    {_operator_itruediv_MethodName.name, _PyCFunction_CAST(_operator_itruediv), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_itruediv__doc__},
 
 static PyObject *
 _operator_itruediv_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -671,15 +667,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_itruediv_MethodName = {.name = "itruediv",};
+#define _OPERATOR_ITRUEDIV_METHODDEF    \
+    {_operator_itruediv_MethodName.name, _PyCFunction_CAST(_operator_itruediv), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_itruediv__doc__},
+
 PyDoc_STRVAR(_operator_imod__doc__,
 "imod($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a %= b.");
-
-static struct {char name[];} _operator_imod_MethodName = {.name = "imod",};
-#define _OPERATOR_IMOD_METHODDEF    \
-    {_operator_imod_MethodName.name, _PyCFunction_CAST(_operator_imod), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_imod__doc__},
 
 static PyObject *
 _operator_imod_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -702,15 +698,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_imod_MethodName = {.name = "imod",};
+#define _OPERATOR_IMOD_METHODDEF    \
+    {_operator_imod_MethodName.name, _PyCFunction_CAST(_operator_imod), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_imod__doc__},
+
 PyDoc_STRVAR(_operator_ilshift__doc__,
 "ilshift($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a <<= b.");
-
-static struct {char name[];} _operator_ilshift_MethodName = {.name = "ilshift",};
-#define _OPERATOR_ILSHIFT_METHODDEF    \
-    {_operator_ilshift_MethodName.name, _PyCFunction_CAST(_operator_ilshift), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_ilshift__doc__},
 
 static PyObject *
 _operator_ilshift_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -733,15 +729,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_ilshift_MethodName = {.name = "ilshift",};
+#define _OPERATOR_ILSHIFT_METHODDEF    \
+    {_operator_ilshift_MethodName.name, _PyCFunction_CAST(_operator_ilshift), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_ilshift__doc__},
+
 PyDoc_STRVAR(_operator_irshift__doc__,
 "irshift($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a >>= b.");
-
-static struct {char name[];} _operator_irshift_MethodName = {.name = "irshift",};
-#define _OPERATOR_IRSHIFT_METHODDEF    \
-    {_operator_irshift_MethodName.name, _PyCFunction_CAST(_operator_irshift), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_irshift__doc__},
 
 static PyObject *
 _operator_irshift_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -764,15 +760,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_irshift_MethodName = {.name = "irshift",};
+#define _OPERATOR_IRSHIFT_METHODDEF    \
+    {_operator_irshift_MethodName.name, _PyCFunction_CAST(_operator_irshift), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_irshift__doc__},
+
 PyDoc_STRVAR(_operator_iand__doc__,
 "iand($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a &= b.");
-
-static struct {char name[];} _operator_iand_MethodName = {.name = "iand",};
-#define _OPERATOR_IAND_METHODDEF    \
-    {_operator_iand_MethodName.name, _PyCFunction_CAST(_operator_iand), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_iand__doc__},
 
 static PyObject *
 _operator_iand_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -795,15 +791,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_iand_MethodName = {.name = "iand",};
+#define _OPERATOR_IAND_METHODDEF    \
+    {_operator_iand_MethodName.name, _PyCFunction_CAST(_operator_iand), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_iand__doc__},
+
 PyDoc_STRVAR(_operator_ixor__doc__,
 "ixor($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a ^= b.");
-
-static struct {char name[];} _operator_ixor_MethodName = {.name = "ixor",};
-#define _OPERATOR_IXOR_METHODDEF    \
-    {_operator_ixor_MethodName.name, _PyCFunction_CAST(_operator_ixor), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_ixor__doc__},
 
 static PyObject *
 _operator_ixor_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -826,15 +822,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_ixor_MethodName = {.name = "ixor",};
+#define _OPERATOR_IXOR_METHODDEF    \
+    {_operator_ixor_MethodName.name, _PyCFunction_CAST(_operator_ixor), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_ixor__doc__},
+
 PyDoc_STRVAR(_operator_ior__doc__,
 "ior($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a |= b.");
-
-static struct {char name[];} _operator_ior_MethodName = {.name = "ior",};
-#define _OPERATOR_IOR_METHODDEF    \
-    {_operator_ior_MethodName.name, _PyCFunction_CAST(_operator_ior), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_ior__doc__},
 
 static PyObject *
 _operator_ior_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -857,15 +853,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_ior_MethodName = {.name = "ior",};
+#define _OPERATOR_IOR_METHODDEF    \
+    {_operator_ior_MethodName.name, _PyCFunction_CAST(_operator_ior), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_ior__doc__},
+
 PyDoc_STRVAR(_operator_concat__doc__,
 "concat($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a + b, for a and b sequences.");
-
-static struct {char name[];} _operator_concat_MethodName = {.name = "concat",};
-#define _OPERATOR_CONCAT_METHODDEF    \
-    {_operator_concat_MethodName.name, _PyCFunction_CAST(_operator_concat), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_concat__doc__},
 
 static PyObject *
 _operator_concat_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -888,15 +884,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_concat_MethodName = {.name = "concat",};
+#define _OPERATOR_CONCAT_METHODDEF    \
+    {_operator_concat_MethodName.name, _PyCFunction_CAST(_operator_concat), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_concat__doc__},
+
 PyDoc_STRVAR(_operator_iconcat__doc__,
 "iconcat($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a += b, for a and b sequences.");
-
-static struct {char name[];} _operator_iconcat_MethodName = {.name = "iconcat",};
-#define _OPERATOR_ICONCAT_METHODDEF    \
-    {_operator_iconcat_MethodName.name, _PyCFunction_CAST(_operator_iconcat), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_iconcat__doc__},
 
 static PyObject *
 _operator_iconcat_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -919,15 +915,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_iconcat_MethodName = {.name = "iconcat",};
+#define _OPERATOR_ICONCAT_METHODDEF    \
+    {_operator_iconcat_MethodName.name, _PyCFunction_CAST(_operator_iconcat), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_iconcat__doc__},
+
 PyDoc_STRVAR(_operator_contains__doc__,
 "contains($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as b in a (note reversed operands).");
-
-static struct {char name[];} _operator_contains_MethodName = {.name = "contains",};
-#define _OPERATOR_CONTAINS_METHODDEF    \
-    {_operator_contains_MethodName.name, _PyCFunction_CAST(_operator_contains), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_contains__doc__},
 
 static int
 _operator_contains_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -955,15 +951,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_contains_MethodName = {.name = "contains",};
+#define _OPERATOR_CONTAINS_METHODDEF    \
+    {_operator_contains_MethodName.name, _PyCFunction_CAST(_operator_contains), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_contains__doc__},
+
 PyDoc_STRVAR(_operator_indexOf__doc__,
 "indexOf($module, a, b, /)\n"
 "--\n"
 "\n"
 "Return the first index of b in a.");
-
-static struct {char name[];} _operator_indexOf_MethodName = {.name = "indexOf",};
-#define _OPERATOR_INDEXOF_METHODDEF    \
-    {_operator_indexOf_MethodName.name, _PyCFunction_CAST(_operator_indexOf), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_indexOf__doc__},
 
 static Py_ssize_t
 _operator_indexOf_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -991,15 +987,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_indexOf_MethodName = {.name = "indexOf",};
+#define _OPERATOR_INDEXOF_METHODDEF    \
+    {_operator_indexOf_MethodName.name, _PyCFunction_CAST(_operator_indexOf), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_indexOf__doc__},
+
 PyDoc_STRVAR(_operator_countOf__doc__,
 "countOf($module, a, b, /)\n"
 "--\n"
 "\n"
 "Return the number of items in a which are, or which equal, b.");
-
-static struct {char name[];} _operator_countOf_MethodName = {.name = "countOf",};
-#define _OPERATOR_COUNTOF_METHODDEF    \
-    {_operator_countOf_MethodName.name, _PyCFunction_CAST(_operator_countOf), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_countOf__doc__},
 
 static Py_ssize_t
 _operator_countOf_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -1027,15 +1023,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_countOf_MethodName = {.name = "countOf",};
+#define _OPERATOR_COUNTOF_METHODDEF    \
+    {_operator_countOf_MethodName.name, _PyCFunction_CAST(_operator_countOf), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_countOf__doc__},
+
 PyDoc_STRVAR(_operator_getitem__doc__,
 "getitem($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a[b].");
-
-static struct {char name[];} _operator_getitem_MethodName = {.name = "getitem",};
-#define _OPERATOR_GETITEM_METHODDEF    \
-    {_operator_getitem_MethodName.name, _PyCFunction_CAST(_operator_getitem), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_getitem__doc__},
 
 static PyObject *
 _operator_getitem_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -1058,15 +1054,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_getitem_MethodName = {.name = "getitem",};
+#define _OPERATOR_GETITEM_METHODDEF    \
+    {_operator_getitem_MethodName.name, _PyCFunction_CAST(_operator_getitem), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_getitem__doc__},
+
 PyDoc_STRVAR(_operator_setitem__doc__,
 "setitem($module, a, b, c, /)\n"
 "--\n"
 "\n"
 "Same as a[b] = c.");
-
-static struct {char name[];} _operator_setitem_MethodName = {.name = "setitem",};
-#define _OPERATOR_SETITEM_METHODDEF    \
-    {_operator_setitem_MethodName.name, _PyCFunction_CAST(_operator_setitem), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_setitem__doc__},
 
 static PyObject *
 _operator_setitem_impl(PyObject *module, PyObject *a, PyObject *b,
@@ -1092,15 +1088,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_setitem_MethodName = {.name = "setitem",};
+#define _OPERATOR_SETITEM_METHODDEF    \
+    {_operator_setitem_MethodName.name, _PyCFunction_CAST(_operator_setitem), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_setitem__doc__},
+
 PyDoc_STRVAR(_operator_delitem__doc__,
 "delitem($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as del a[b].");
-
-static struct {char name[];} _operator_delitem_MethodName = {.name = "delitem",};
-#define _OPERATOR_DELITEM_METHODDEF    \
-    {_operator_delitem_MethodName.name, _PyCFunction_CAST(_operator_delitem), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_delitem__doc__},
 
 static PyObject *
 _operator_delitem_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -1123,15 +1119,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_delitem_MethodName = {.name = "delitem",};
+#define _OPERATOR_DELITEM_METHODDEF    \
+    {_operator_delitem_MethodName.name, _PyCFunction_CAST(_operator_delitem), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_delitem__doc__},
+
 PyDoc_STRVAR(_operator_eq__doc__,
 "eq($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a == b.");
-
-static struct {char name[];} _operator_eq_MethodName = {.name = "eq",};
-#define _OPERATOR_EQ_METHODDEF    \
-    {_operator_eq_MethodName.name, _PyCFunction_CAST(_operator_eq), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_eq__doc__},
 
 static PyObject *
 _operator_eq_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -1154,15 +1150,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_eq_MethodName = {.name = "eq",};
+#define _OPERATOR_EQ_METHODDEF    \
+    {_operator_eq_MethodName.name, _PyCFunction_CAST(_operator_eq), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_eq__doc__},
+
 PyDoc_STRVAR(_operator_ne__doc__,
 "ne($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a != b.");
-
-static struct {char name[];} _operator_ne_MethodName = {.name = "ne",};
-#define _OPERATOR_NE_METHODDEF    \
-    {_operator_ne_MethodName.name, _PyCFunction_CAST(_operator_ne), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_ne__doc__},
 
 static PyObject *
 _operator_ne_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -1185,15 +1181,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_ne_MethodName = {.name = "ne",};
+#define _OPERATOR_NE_METHODDEF    \
+    {_operator_ne_MethodName.name, _PyCFunction_CAST(_operator_ne), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_ne__doc__},
+
 PyDoc_STRVAR(_operator_lt__doc__,
 "lt($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a < b.");
-
-static struct {char name[];} _operator_lt_MethodName = {.name = "lt",};
-#define _OPERATOR_LT_METHODDEF    \
-    {_operator_lt_MethodName.name, _PyCFunction_CAST(_operator_lt), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_lt__doc__},
 
 static PyObject *
 _operator_lt_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -1216,15 +1212,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_lt_MethodName = {.name = "lt",};
+#define _OPERATOR_LT_METHODDEF    \
+    {_operator_lt_MethodName.name, _PyCFunction_CAST(_operator_lt), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_lt__doc__},
+
 PyDoc_STRVAR(_operator_le__doc__,
 "le($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a <= b.");
-
-static struct {char name[];} _operator_le_MethodName = {.name = "le",};
-#define _OPERATOR_LE_METHODDEF    \
-    {_operator_le_MethodName.name, _PyCFunction_CAST(_operator_le), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_le__doc__},
 
 static PyObject *
 _operator_le_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -1247,15 +1243,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_le_MethodName = {.name = "le",};
+#define _OPERATOR_LE_METHODDEF    \
+    {_operator_le_MethodName.name, _PyCFunction_CAST(_operator_le), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_le__doc__},
+
 PyDoc_STRVAR(_operator_gt__doc__,
 "gt($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a > b.");
-
-static struct {char name[];} _operator_gt_MethodName = {.name = "gt",};
-#define _OPERATOR_GT_METHODDEF    \
-    {_operator_gt_MethodName.name, _PyCFunction_CAST(_operator_gt), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_gt__doc__},
 
 static PyObject *
 _operator_gt_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -1278,15 +1274,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_gt_MethodName = {.name = "gt",};
+#define _OPERATOR_GT_METHODDEF    \
+    {_operator_gt_MethodName.name, _PyCFunction_CAST(_operator_gt), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_gt__doc__},
+
 PyDoc_STRVAR(_operator_ge__doc__,
 "ge($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a >= b.");
-
-static struct {char name[];} _operator_ge_MethodName = {.name = "ge",};
-#define _OPERATOR_GE_METHODDEF    \
-    {_operator_ge_MethodName.name, _PyCFunction_CAST(_operator_ge), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_ge__doc__},
 
 static PyObject *
 _operator_ge_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -1309,15 +1305,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_ge_MethodName = {.name = "ge",};
+#define _OPERATOR_GE_METHODDEF    \
+    {_operator_ge_MethodName.name, _PyCFunction_CAST(_operator_ge), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_ge__doc__},
+
 PyDoc_STRVAR(_operator_pow__doc__,
 "pow($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a ** b.");
-
-static struct {char name[];} _operator_pow_MethodName = {.name = "pow",};
-#define _OPERATOR_POW_METHODDEF    \
-    {_operator_pow_MethodName.name, _PyCFunction_CAST(_operator_pow), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_pow__doc__},
 
 static PyObject *
 _operator_pow_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -1340,15 +1336,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_pow_MethodName = {.name = "pow",};
+#define _OPERATOR_POW_METHODDEF    \
+    {_operator_pow_MethodName.name, _PyCFunction_CAST(_operator_pow), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_pow__doc__},
+
 PyDoc_STRVAR(_operator_ipow__doc__,
 "ipow($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a **= b.");
-
-static struct {char name[];} _operator_ipow_MethodName = {.name = "ipow",};
-#define _OPERATOR_IPOW_METHODDEF    \
-    {_operator_ipow_MethodName.name, _PyCFunction_CAST(_operator_ipow), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_ipow__doc__},
 
 static PyObject *
 _operator_ipow_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -1371,6 +1367,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_ipow_MethodName = {.name = "ipow",};
+#define _OPERATOR_IPOW_METHODDEF    \
+    {_operator_ipow_MethodName.name, _PyCFunction_CAST(_operator_ipow), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_ipow__doc__},
+
 PyDoc_STRVAR(_operator_index__doc__,
 "index($module, a, /)\n"
 "--\n"
@@ -1386,10 +1386,6 @@ PyDoc_STRVAR(_operator_is___doc__,
 "--\n"
 "\n"
 "Same as a is b.");
-
-static struct {char name[];} _operator_is__MethodName = {.name = "is_",};
-#define _OPERATOR_IS__METHODDEF    \
-    {_operator_is__MethodName.name, _PyCFunction_CAST(_operator_is_), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_is___doc__},
 
 static PyObject *
 _operator_is__impl(PyObject *module, PyObject *a, PyObject *b);
@@ -1412,15 +1408,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_is__MethodName = {.name = "is_",};
+#define _OPERATOR_IS__METHODDEF    \
+    {_operator_is__MethodName.name, _PyCFunction_CAST(_operator_is_), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_is___doc__},
+
 PyDoc_STRVAR(_operator_is_not__doc__,
 "is_not($module, a, b, /)\n"
 "--\n"
 "\n"
 "Same as a is not b.");
-
-static struct {char name[];} _operator_is_not_MethodName = {.name = "is_not",};
-#define _OPERATOR_IS_NOT_METHODDEF    \
-    {_operator_is_not_MethodName.name, _PyCFunction_CAST(_operator_is_not), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_is_not__doc__},
 
 static PyObject *
 _operator_is_not_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -1442,6 +1438,10 @@ _operator_is_not(PyObject *module, PyObject *const *args, Py_ssize_t nargs)
 exit:
     return return_value;
 }
+
+static struct {char name[];} _operator_is_not_MethodName = {.name = "is_not",};
+#define _OPERATOR_IS_NOT_METHODDEF    \
+    {_operator_is_not_MethodName.name, _PyCFunction_CAST(_operator_is_not), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_is_not__doc__},
 
 PyDoc_STRVAR(_operator_is_none__doc__,
 "is_none($module, a, /)\n"
@@ -1474,10 +1474,6 @@ PyDoc_STRVAR(_operator_length_hint__doc__,
 "If the object supports len(), the result will be exact.\n"
 "Otherwise, it may over- or under-estimate by an arbitrary amount.\n"
 "The result will be an integer >= 0.");
-
-static struct {char name[];} _operator_length_hint_MethodName = {.name = "length_hint",};
-#define _OPERATOR_LENGTH_HINT_METHODDEF    \
-    {_operator_length_hint_MethodName.name, _PyCFunction_CAST(_operator_length_hint), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_length_hint__doc__},
 
 static Py_ssize_t
 _operator_length_hint_impl(PyObject *module, PyObject *obj,
@@ -1521,6 +1517,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _operator_length_hint_MethodName = {.name = "length_hint",};
+#define _OPERATOR_LENGTH_HINT_METHODDEF    \
+    {_operator_length_hint_MethodName.name, _PyCFunction_CAST(_operator_length_hint), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator_length_hint__doc__},
+
 PyDoc_STRVAR(_operator__compare_digest__doc__,
 "_compare_digest($module, a, b, /)\n"
 "--\n"
@@ -1536,10 +1536,6 @@ PyDoc_STRVAR(_operator__compare_digest__doc__,
 "Note: If a and b are of different lengths, or if an error occurs,\n"
 "a timing attack could theoretically reveal information about the\n"
 "types and lengths of a and b--but not their values.");
-
-static struct {char name[];} _operator__compare_digest_MethodName = {.name = "_compare_digest",};
-#define _OPERATOR__COMPARE_DIGEST_METHODDEF    \
-    {_operator__compare_digest_MethodName.name, _PyCFunction_CAST(_operator__compare_digest), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator__compare_digest__doc__},
 
 static PyObject *
 _operator__compare_digest_impl(PyObject *module, PyObject *a, PyObject *b);
@@ -1561,4 +1557,8 @@ _operator__compare_digest(PyObject *module, PyObject *const *args, Py_ssize_t na
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=de881af6e0bb24bb input=a9049054013a1b77]*/
+
+static struct {char name[];} _operator__compare_digest_MethodName = {.name = "_compare_digest",};
+#define _OPERATOR__COMPARE_DIGEST_METHODDEF    \
+    {_operator__compare_digest_MethodName.name, _PyCFunction_CAST(_operator__compare_digest), METH_FASTCALL|METH_C_STACK_FRUGAL, _operator__compare_digest__doc__},
+/*[clinic end generated code: output=4624d6a805ae6c01 input=a9049054013a1b77]*/

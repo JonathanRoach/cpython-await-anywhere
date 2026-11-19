@@ -14,10 +14,6 @@ PyDoc_STRVAR(pyexpat_xmlparser_SetReparseDeferralEnabled__doc__,
 "\n"
 "Enable/Disable reparse deferral; enabled by default with Expat >=2.6.0.");
 
-static struct {char name[];} pyexpat_xmlparser_SetReparseDeferralEnabled_MethodName = {.name = "SetReparseDeferralEnabled",};
-#define PYEXPAT_XMLPARSER_SETREPARSEDEFERRALENABLED_METHODDEF    \
-    {pyexpat_xmlparser_SetReparseDeferralEnabled_MethodName.name, (PyCFunction)pyexpat_xmlparser_SetReparseDeferralEnabled, METH_O|METH_C_STACK_FRUGAL, pyexpat_xmlparser_SetReparseDeferralEnabled__doc__},
-
 static PyObject *
 pyexpat_xmlparser_SetReparseDeferralEnabled_impl(xmlparseobject *self,
                                                  int enabled);
@@ -38,15 +34,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} pyexpat_xmlparser_SetReparseDeferralEnabled_MethodName = {.name = "SetReparseDeferralEnabled",};
+#define PYEXPAT_XMLPARSER_SETREPARSEDEFERRALENABLED_METHODDEF    \
+    {pyexpat_xmlparser_SetReparseDeferralEnabled_MethodName.name, (PyCFunction)pyexpat_xmlparser_SetReparseDeferralEnabled, METH_O|METH_C_STACK_FRUGAL, pyexpat_xmlparser_SetReparseDeferralEnabled__doc__},
+
 PyDoc_STRVAR(pyexpat_xmlparser_GetReparseDeferralEnabled__doc__,
 "GetReparseDeferralEnabled($self, /)\n"
 "--\n"
 "\n"
 "Retrieve reparse deferral enabled status; always returns false with Expat <2.6.0.");
-
-static struct {char name[];} pyexpat_xmlparser_GetReparseDeferralEnabled_MethodName = {.name = "GetReparseDeferralEnabled",};
-#define PYEXPAT_XMLPARSER_GETREPARSEDEFERRALENABLED_METHODDEF    \
-    {pyexpat_xmlparser_GetReparseDeferralEnabled_MethodName.name, (PyCFunction)pyexpat_xmlparser_GetReparseDeferralEnabled, METH_NOARGS|METH_C_STACK_FRUGAL, pyexpat_xmlparser_GetReparseDeferralEnabled__doc__},
 
 static PyObject *
 pyexpat_xmlparser_GetReparseDeferralEnabled_impl(xmlparseobject *self);
@@ -57,6 +53,10 @@ pyexpat_xmlparser_GetReparseDeferralEnabled(PyObject *self, PyObject *Py_UNUSED(
     return pyexpat_xmlparser_GetReparseDeferralEnabled_impl((xmlparseobject *)self);
 }
 
+static struct {char name[];} pyexpat_xmlparser_GetReparseDeferralEnabled_MethodName = {.name = "GetReparseDeferralEnabled",};
+#define PYEXPAT_XMLPARSER_GETREPARSEDEFERRALENABLED_METHODDEF    \
+    {pyexpat_xmlparser_GetReparseDeferralEnabled_MethodName.name, (PyCFunction)pyexpat_xmlparser_GetReparseDeferralEnabled, METH_NOARGS|METH_C_STACK_FRUGAL, pyexpat_xmlparser_GetReparseDeferralEnabled__doc__},
+
 PyDoc_STRVAR(pyexpat_xmlparser_Parse__doc__,
 "Parse($self, data, isfinal=False, /)\n"
 "--\n"
@@ -64,10 +64,6 @@ PyDoc_STRVAR(pyexpat_xmlparser_Parse__doc__,
 "Parse XML data.\n"
 "\n"
 "\'isfinal\' should be true at end of input.");
-
-static struct {char name[];} pyexpat_xmlparser_Parse_MethodName = {.name = "Parse",};
-#define PYEXPAT_XMLPARSER_PARSE_METHODDEF    \
-    {pyexpat_xmlparser_Parse_MethodName.name, _PyCFunction_CAST(pyexpat_xmlparser_Parse), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pyexpat_xmlparser_Parse__doc__},
 
 static PyObject *
 pyexpat_xmlparser_Parse_impl(xmlparseobject *self, PyTypeObject *cls,
@@ -114,15 +110,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} pyexpat_xmlparser_Parse_MethodName = {.name = "Parse",};
+#define PYEXPAT_XMLPARSER_PARSE_METHODDEF    \
+    {pyexpat_xmlparser_Parse_MethodName.name, _PyCFunction_CAST(pyexpat_xmlparser_Parse), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pyexpat_xmlparser_Parse__doc__},
+
 PyDoc_STRVAR(pyexpat_xmlparser_ParseFile__doc__,
 "ParseFile($self, file, /)\n"
 "--\n"
 "\n"
 "Parse XML data from file-like object.");
-
-static struct {char name[];} pyexpat_xmlparser_ParseFile_MethodName = {.name = "ParseFile",};
-#define PYEXPAT_XMLPARSER_PARSEFILE_METHODDEF    \
-    {pyexpat_xmlparser_ParseFile_MethodName.name, _PyCFunction_CAST(pyexpat_xmlparser_ParseFile), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pyexpat_xmlparser_ParseFile__doc__},
 
 static PyObject *
 pyexpat_xmlparser_ParseFile_impl(xmlparseobject *self, PyTypeObject *cls,
@@ -160,15 +156,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} pyexpat_xmlparser_ParseFile_MethodName = {.name = "ParseFile",};
+#define PYEXPAT_XMLPARSER_PARSEFILE_METHODDEF    \
+    {pyexpat_xmlparser_ParseFile_MethodName.name, _PyCFunction_CAST(pyexpat_xmlparser_ParseFile), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pyexpat_xmlparser_ParseFile__doc__},
+
 PyDoc_STRVAR(pyexpat_xmlparser_SetBase__doc__,
 "SetBase($self, base, /)\n"
 "--\n"
 "\n"
 "Set the base URL for the parser.");
-
-static struct {char name[];} pyexpat_xmlparser_SetBase_MethodName = {.name = "SetBase",};
-#define PYEXPAT_XMLPARSER_SETBASE_METHODDEF    \
-    {pyexpat_xmlparser_SetBase_MethodName.name, (PyCFunction)pyexpat_xmlparser_SetBase, METH_O|METH_C_STACK_FRUGAL, pyexpat_xmlparser_SetBase__doc__},
 
 static PyObject *
 pyexpat_xmlparser_SetBase_impl(xmlparseobject *self, const char *base);
@@ -198,15 +194,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} pyexpat_xmlparser_SetBase_MethodName = {.name = "SetBase",};
+#define PYEXPAT_XMLPARSER_SETBASE_METHODDEF    \
+    {pyexpat_xmlparser_SetBase_MethodName.name, (PyCFunction)pyexpat_xmlparser_SetBase, METH_O|METH_C_STACK_FRUGAL, pyexpat_xmlparser_SetBase__doc__},
+
 PyDoc_STRVAR(pyexpat_xmlparser_GetBase__doc__,
 "GetBase($self, /)\n"
 "--\n"
 "\n"
 "Return base URL string for the parser.");
-
-static struct {char name[];} pyexpat_xmlparser_GetBase_MethodName = {.name = "GetBase",};
-#define PYEXPAT_XMLPARSER_GETBASE_METHODDEF    \
-    {pyexpat_xmlparser_GetBase_MethodName.name, (PyCFunction)pyexpat_xmlparser_GetBase, METH_NOARGS|METH_C_STACK_FRUGAL, pyexpat_xmlparser_GetBase__doc__},
 
 static PyObject *
 pyexpat_xmlparser_GetBase_impl(xmlparseobject *self);
@@ -217,6 +213,10 @@ pyexpat_xmlparser_GetBase(PyObject *self, PyObject *Py_UNUSED(ignored))
     return pyexpat_xmlparser_GetBase_impl((xmlparseobject *)self);
 }
 
+static struct {char name[];} pyexpat_xmlparser_GetBase_MethodName = {.name = "GetBase",};
+#define PYEXPAT_XMLPARSER_GETBASE_METHODDEF    \
+    {pyexpat_xmlparser_GetBase_MethodName.name, (PyCFunction)pyexpat_xmlparser_GetBase, METH_NOARGS|METH_C_STACK_FRUGAL, pyexpat_xmlparser_GetBase__doc__},
+
 PyDoc_STRVAR(pyexpat_xmlparser_GetInputContext__doc__,
 "GetInputContext($self, /)\n"
 "--\n"
@@ -225,10 +225,6 @@ PyDoc_STRVAR(pyexpat_xmlparser_GetInputContext__doc__,
 "\n"
 "If the event was generated by a large amount of text (such as a start tag\n"
 "for an element with many attributes), not all of the text may be available.");
-
-static struct {char name[];} pyexpat_xmlparser_GetInputContext_MethodName = {.name = "GetInputContext",};
-#define PYEXPAT_XMLPARSER_GETINPUTCONTEXT_METHODDEF    \
-    {pyexpat_xmlparser_GetInputContext_MethodName.name, (PyCFunction)pyexpat_xmlparser_GetInputContext, METH_NOARGS|METH_C_STACK_FRUGAL, pyexpat_xmlparser_GetInputContext__doc__},
 
 static PyObject *
 pyexpat_xmlparser_GetInputContext_impl(xmlparseobject *self);
@@ -239,16 +235,16 @@ pyexpat_xmlparser_GetInputContext(PyObject *self, PyObject *Py_UNUSED(ignored))
     return pyexpat_xmlparser_GetInputContext_impl((xmlparseobject *)self);
 }
 
+static struct {char name[];} pyexpat_xmlparser_GetInputContext_MethodName = {.name = "GetInputContext",};
+#define PYEXPAT_XMLPARSER_GETINPUTCONTEXT_METHODDEF    \
+    {pyexpat_xmlparser_GetInputContext_MethodName.name, (PyCFunction)pyexpat_xmlparser_GetInputContext, METH_NOARGS|METH_C_STACK_FRUGAL, pyexpat_xmlparser_GetInputContext__doc__},
+
 PyDoc_STRVAR(pyexpat_xmlparser_ExternalEntityParserCreate__doc__,
 "ExternalEntityParserCreate($self, context, encoding=<unrepresentable>,\n"
 "                           /)\n"
 "--\n"
 "\n"
 "Create a parser for parsing an external entity based on the information passed to the ExternalEntityRefHandler.");
-
-static struct {char name[];} pyexpat_xmlparser_ExternalEntityParserCreate_MethodName = {.name = "ExternalEntityParserCreate",};
-#define PYEXPAT_XMLPARSER_EXTERNALENTITYPARSERCREATE_METHODDEF    \
-    {pyexpat_xmlparser_ExternalEntityParserCreate_MethodName.name, _PyCFunction_CAST(pyexpat_xmlparser_ExternalEntityParserCreate), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pyexpat_xmlparser_ExternalEntityParserCreate__doc__},
 
 static PyObject *
 pyexpat_xmlparser_ExternalEntityParserCreate_impl(xmlparseobject *self,
@@ -323,6 +319,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} pyexpat_xmlparser_ExternalEntityParserCreate_MethodName = {.name = "ExternalEntityParserCreate",};
+#define PYEXPAT_XMLPARSER_EXTERNALENTITYPARSERCREATE_METHODDEF    \
+    {pyexpat_xmlparser_ExternalEntityParserCreate_MethodName.name, _PyCFunction_CAST(pyexpat_xmlparser_ExternalEntityParserCreate), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pyexpat_xmlparser_ExternalEntityParserCreate__doc__},
+
 PyDoc_STRVAR(pyexpat_xmlparser_SetParamEntityParsing__doc__,
 "SetParamEntityParsing($self, flag, /)\n"
 "--\n"
@@ -333,10 +333,6 @@ PyDoc_STRVAR(pyexpat_xmlparser_SetParamEntityParsing__doc__,
 "XML_PARAM_ENTITY_PARSING_UNLESS_STANDALONE and\n"
 "XML_PARAM_ENTITY_PARSING_ALWAYS. Returns true if setting the flag\n"
 "was successful.");
-
-static struct {char name[];} pyexpat_xmlparser_SetParamEntityParsing_MethodName = {.name = "SetParamEntityParsing",};
-#define PYEXPAT_XMLPARSER_SETPARAMENTITYPARSING_METHODDEF    \
-    {pyexpat_xmlparser_SetParamEntityParsing_MethodName.name, (PyCFunction)pyexpat_xmlparser_SetParamEntityParsing, METH_O|METH_C_STACK_FRUGAL, pyexpat_xmlparser_SetParamEntityParsing__doc__},
 
 static PyObject *
 pyexpat_xmlparser_SetParamEntityParsing_impl(xmlparseobject *self, int flag);
@@ -357,6 +353,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} pyexpat_xmlparser_SetParamEntityParsing_MethodName = {.name = "SetParamEntityParsing",};
+#define PYEXPAT_XMLPARSER_SETPARAMENTITYPARSING_METHODDEF    \
+    {pyexpat_xmlparser_SetParamEntityParsing_MethodName.name, (PyCFunction)pyexpat_xmlparser_SetParamEntityParsing, METH_O|METH_C_STACK_FRUGAL, pyexpat_xmlparser_SetParamEntityParsing__doc__},
+
 #if (XML_COMBINED_VERSION >= 19505)
 
 PyDoc_STRVAR(pyexpat_xmlparser_UseForeignDTD__doc__,
@@ -368,10 +368,6 @@ PyDoc_STRVAR(pyexpat_xmlparser_UseForeignDTD__doc__,
 "This readily allows the use of a \'default\' document type controlled by the\n"
 "application, while still getting the advantage of providing document type\n"
 "information to the parser. \'flag\' defaults to True if not provided.");
-
-static struct {char name[];} pyexpat_xmlparser_UseForeignDTD_MethodName = {.name = "UseForeignDTD",};
-#define PYEXPAT_XMLPARSER_USEFOREIGNDTD_METHODDEF    \
-    {pyexpat_xmlparser_UseForeignDTD_MethodName.name, _PyCFunction_CAST(pyexpat_xmlparser_UseForeignDTD), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pyexpat_xmlparser_UseForeignDTD__doc__},
 
 static PyObject *
 pyexpat_xmlparser_UseForeignDTD_impl(xmlparseobject *self, PyTypeObject *cls,
@@ -416,6 +412,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} pyexpat_xmlparser_UseForeignDTD_MethodName = {.name = "UseForeignDTD",};
+#define PYEXPAT_XMLPARSER_USEFOREIGNDTD_METHODDEF    \
+    {pyexpat_xmlparser_UseForeignDTD_MethodName.name, _PyCFunction_CAST(pyexpat_xmlparser_UseForeignDTD), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pyexpat_xmlparser_UseForeignDTD__doc__},
+
 #endif /* (XML_COMBINED_VERSION >= 19505) */
 
 PyDoc_STRVAR(pyexpat_ParserCreate__doc__,
@@ -424,10 +424,6 @@ PyDoc_STRVAR(pyexpat_ParserCreate__doc__,
 "--\n"
 "\n"
 "Return a new XML parser object.");
-
-static struct {char name[];} pyexpat_ParserCreate_MethodName = {.name = "ParserCreate",};
-#define PYEXPAT_PARSERCREATE_METHODDEF    \
-    {pyexpat_ParserCreate_MethodName.name, _PyCFunction_CAST(pyexpat_ParserCreate), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pyexpat_ParserCreate__doc__},
 
 static PyObject *
 pyexpat_ParserCreate_impl(PyObject *module, const char *encoding,
@@ -532,15 +528,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} pyexpat_ParserCreate_MethodName = {.name = "ParserCreate",};
+#define PYEXPAT_PARSERCREATE_METHODDEF    \
+    {pyexpat_ParserCreate_MethodName.name, _PyCFunction_CAST(pyexpat_ParserCreate), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, pyexpat_ParserCreate__doc__},
+
 PyDoc_STRVAR(pyexpat_ErrorString__doc__,
 "ErrorString($module, code, /)\n"
 "--\n"
 "\n"
 "Returns string error for given number.");
-
-static struct {char name[];} pyexpat_ErrorString_MethodName = {.name = "ErrorString",};
-#define PYEXPAT_ERRORSTRING_METHODDEF    \
-    {pyexpat_ErrorString_MethodName.name, (PyCFunction)pyexpat_ErrorString, METH_O|METH_C_STACK_FRUGAL, pyexpat_ErrorString__doc__},
 
 static PyObject *
 pyexpat_ErrorString_impl(PyObject *module, long code);
@@ -561,7 +557,11 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} pyexpat_ErrorString_MethodName = {.name = "ErrorString",};
+#define PYEXPAT_ERRORSTRING_METHODDEF    \
+    {pyexpat_ErrorString_MethodName.name, (PyCFunction)pyexpat_ErrorString, METH_O|METH_C_STACK_FRUGAL, pyexpat_ErrorString__doc__},
+
 #ifndef PYEXPAT_XMLPARSER_USEFOREIGNDTD_METHODDEF
     #define PYEXPAT_XMLPARSER_USEFOREIGNDTD_METHODDEF
 #endif /* !defined(PYEXPAT_XMLPARSER_USEFOREIGNDTD_METHODDEF) */
-/*[clinic end generated code: output=d7c265cbd08dea60 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=5f08c9bda2eccacd input=a9049054013a1b77]*/

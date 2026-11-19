@@ -71,10 +71,6 @@ PyDoc_STRVAR(memoryview__from_flags__doc__,
 "\n"
 "Create a new memoryview object which references the given object.");
 
-static struct {char name[];} memoryview__from_flags_MethodName = {.name = "_from_flags",};
-#define MEMORYVIEW__FROM_FLAGS_METHODDEF    \
-    {memoryview__from_flags_MethodName.name, _PyCFunction_CAST(memoryview__from_flags), METH_FASTCALL|METH_KEYWORDS|METH_CLASS|METH_C_STACK_FRUGAL, memoryview__from_flags__doc__},
-
 static PyObject *
 memoryview__from_flags_impl(PyTypeObject *type, PyObject *object, int flags);
 
@@ -129,15 +125,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} memoryview__from_flags_MethodName = {.name = "_from_flags",};
+#define MEMORYVIEW__FROM_FLAGS_METHODDEF    \
+    {memoryview__from_flags_MethodName.name, _PyCFunction_CAST(memoryview__from_flags), METH_FASTCALL|METH_KEYWORDS|METH_CLASS|METH_C_STACK_FRUGAL, memoryview__from_flags__doc__},
+
 PyDoc_STRVAR(memoryview_release__doc__,
 "release($self, /)\n"
 "--\n"
 "\n"
 "Release the underlying buffer exposed by the memoryview object.");
-
-static struct {char name[];} memoryview_release_MethodName = {.name = "release",};
-#define MEMORYVIEW_RELEASE_METHODDEF    \
-    {memoryview_release_MethodName.name, (PyCFunction)memoryview_release, METH_NOARGS|METH_C_STACK_FRUGAL, memoryview_release__doc__},
 
 static PyObject *
 memoryview_release_impl(PyMemoryViewObject *self);
@@ -148,15 +144,15 @@ memoryview_release(PyObject *self, PyObject *Py_UNUSED(ignored))
     return memoryview_release_impl((PyMemoryViewObject *)self);
 }
 
+static struct {char name[];} memoryview_release_MethodName = {.name = "release",};
+#define MEMORYVIEW_RELEASE_METHODDEF    \
+    {memoryview_release_MethodName.name, (PyCFunction)memoryview_release, METH_NOARGS|METH_C_STACK_FRUGAL, memoryview_release__doc__},
+
 PyDoc_STRVAR(memoryview_cast__doc__,
 "cast($self, /, format, shape=<unrepresentable>)\n"
 "--\n"
 "\n"
 "Cast a memoryview to a new format or shape.");
-
-static struct {char name[];} memoryview_cast_MethodName = {.name = "cast",};
-#define MEMORYVIEW_CAST_METHODDEF    \
-    {memoryview_cast_MethodName.name, _PyCFunction_CAST(memoryview_cast), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, memoryview_cast__doc__},
 
 static PyObject *
 memoryview_cast_impl(PyMemoryViewObject *self, PyObject *format,
@@ -219,15 +215,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} memoryview_cast_MethodName = {.name = "cast",};
+#define MEMORYVIEW_CAST_METHODDEF    \
+    {memoryview_cast_MethodName.name, _PyCFunction_CAST(memoryview_cast), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, memoryview_cast__doc__},
+
 PyDoc_STRVAR(memoryview_toreadonly__doc__,
 "toreadonly($self, /)\n"
 "--\n"
 "\n"
 "Return a readonly version of the memoryview.");
-
-static struct {char name[];} memoryview_toreadonly_MethodName = {.name = "toreadonly",};
-#define MEMORYVIEW_TOREADONLY_METHODDEF    \
-    {memoryview_toreadonly_MethodName.name, (PyCFunction)memoryview_toreadonly, METH_NOARGS|METH_C_STACK_FRUGAL, memoryview_toreadonly__doc__},
 
 static PyObject *
 memoryview_toreadonly_impl(PyMemoryViewObject *self);
@@ -238,15 +234,15 @@ memoryview_toreadonly(PyObject *self, PyObject *Py_UNUSED(ignored))
     return memoryview_toreadonly_impl((PyMemoryViewObject *)self);
 }
 
+static struct {char name[];} memoryview_toreadonly_MethodName = {.name = "toreadonly",};
+#define MEMORYVIEW_TOREADONLY_METHODDEF    \
+    {memoryview_toreadonly_MethodName.name, (PyCFunction)memoryview_toreadonly, METH_NOARGS|METH_C_STACK_FRUGAL, memoryview_toreadonly__doc__},
+
 PyDoc_STRVAR(memoryview_tolist__doc__,
 "tolist($self, /)\n"
 "--\n"
 "\n"
 "Return the data in the buffer as a list of elements.");
-
-static struct {char name[];} memoryview_tolist_MethodName = {.name = "tolist",};
-#define MEMORYVIEW_TOLIST_METHODDEF    \
-    {memoryview_tolist_MethodName.name, (PyCFunction)memoryview_tolist, METH_NOARGS|METH_C_STACK_FRUGAL, memoryview_tolist__doc__},
 
 static PyObject *
 memoryview_tolist_impl(PyMemoryViewObject *self);
@@ -256,6 +252,10 @@ memoryview_tolist(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return memoryview_tolist_impl((PyMemoryViewObject *)self);
 }
+
+static struct {char name[];} memoryview_tolist_MethodName = {.name = "tolist",};
+#define MEMORYVIEW_TOLIST_METHODDEF    \
+    {memoryview_tolist_MethodName.name, (PyCFunction)memoryview_tolist, METH_NOARGS|METH_C_STACK_FRUGAL, memoryview_tolist__doc__},
 
 PyDoc_STRVAR(memoryview_tobytes__doc__,
 "tobytes($self, /, order=\'C\')\n"
@@ -268,10 +268,6 @@ PyDoc_STRVAR(memoryview_tobytes__doc__,
 "\'A\' returns an exact copy of the physical memory. In particular, in-memory\n"
 "Fortran order is preserved. For non-contiguous views, the data is converted\n"
 "to C first. order=None is the same as order=\'C\'.");
-
-static struct {char name[];} memoryview_tobytes_MethodName = {.name = "tobytes",};
-#define MEMORYVIEW_TOBYTES_METHODDEF    \
-    {memoryview_tobytes_MethodName.name, _PyCFunction_CAST(memoryview_tobytes), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, memoryview_tobytes__doc__},
 
 static PyObject *
 memoryview_tobytes_impl(PyMemoryViewObject *self, const char *order);
@@ -344,6 +340,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} memoryview_tobytes_MethodName = {.name = "tobytes",};
+#define MEMORYVIEW_TOBYTES_METHODDEF    \
+    {memoryview_tobytes_MethodName.name, _PyCFunction_CAST(memoryview_tobytes), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, memoryview_tobytes__doc__},
+
 PyDoc_STRVAR(memoryview_hex__doc__,
 "hex($self, /, sep=<unrepresentable>, bytes_per_sep=1)\n"
 "--\n"
@@ -366,10 +366,6 @@ PyDoc_STRVAR(memoryview_hex__doc__,
 "\'b9:01ef\'\n"
 ">>> value.hex(\':\', -2)\n"
 "\'b901:ef\'");
-
-static struct {char name[];} memoryview_hex_MethodName = {.name = "hex",};
-#define MEMORYVIEW_HEX_METHODDEF    \
-    {memoryview_hex_MethodName.name, _PyCFunction_CAST(memoryview_hex), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, memoryview_hex__doc__},
 
 static PyObject *
 memoryview_hex_impl(PyMemoryViewObject *self, PyObject *sep,
@@ -436,15 +432,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} memoryview_hex_MethodName = {.name = "hex",};
+#define MEMORYVIEW_HEX_METHODDEF    \
+    {memoryview_hex_MethodName.name, _PyCFunction_CAST(memoryview_hex), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, memoryview_hex__doc__},
+
 PyDoc_STRVAR(memoryview_count__doc__,
 "count($self, value, /)\n"
 "--\n"
 "\n"
 "Count the number of occurrences of a value.");
-
-static struct {char name[];} memoryview_count_MethodName = {.name = "count",};
-#define MEMORYVIEW_COUNT_METHODDEF    \
-    {memoryview_count_MethodName.name, (PyCFunction)memoryview_count, METH_O|METH_C_STACK_FRUGAL, memoryview_count__doc__},
 
 static PyObject *
 memoryview_count_impl(PyMemoryViewObject *self, PyObject *value);
@@ -459,6 +455,10 @@ memoryview_count(PyObject *self, PyObject *value)
     return return_value;
 }
 
+static struct {char name[];} memoryview_count_MethodName = {.name = "count",};
+#define MEMORYVIEW_COUNT_METHODDEF    \
+    {memoryview_count_MethodName.name, (PyCFunction)memoryview_count, METH_O|METH_C_STACK_FRUGAL, memoryview_count__doc__},
+
 PyDoc_STRVAR(memoryview_index__doc__,
 "index($self, value, start=0, stop=sys.maxsize, /)\n"
 "--\n"
@@ -466,10 +466,6 @@ PyDoc_STRVAR(memoryview_index__doc__,
 "Return the index of the first occurrence of a value.\n"
 "\n"
 "Raises ValueError if the value is not present.");
-
-static struct {char name[];} memoryview_index_MethodName = {.name = "index",};
-#define MEMORYVIEW_INDEX_METHODDEF    \
-    {memoryview_index_MethodName.name, _PyCFunction_CAST(memoryview_index), METH_FASTCALL|METH_C_STACK_FRUGAL, memoryview_index__doc__},
 
 static PyObject *
 memoryview_index_impl(PyMemoryViewObject *self, PyObject *value,
@@ -505,4 +501,8 @@ skip_optional:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=4700b6a2a47e93dc input=a9049054013a1b77]*/
+
+static struct {char name[];} memoryview_index_MethodName = {.name = "index",};
+#define MEMORYVIEW_INDEX_METHODDEF    \
+    {memoryview_index_MethodName.name, _PyCFunction_CAST(memoryview_index), METH_FASTCALL|METH_C_STACK_FRUGAL, memoryview_index__doc__},
+/*[clinic end generated code: output=1ecc308d47747abf input=a9049054013a1b77]*/

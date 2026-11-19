@@ -47,10 +47,6 @@ PyDoc_STRVAR(_queue_SimpleQueue_put__doc__,
 "The optional \'block\' and \'timeout\' arguments are ignored, as this method\n"
 "never blocks.  They are provided for compatibility with the Queue class.");
 
-static struct {char name[];} _queue_SimpleQueue_put_MethodName = {.name = "put",};
-#define _QUEUE_SIMPLEQUEUE_PUT_METHODDEF    \
-    {_queue_SimpleQueue_put_MethodName.name, _PyCFunction_CAST(_queue_SimpleQueue_put), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _queue_SimpleQueue_put__doc__},
-
 static PyObject *
 _queue_SimpleQueue_put_impl(simplequeueobject *self, PyObject *item,
                             int block, PyObject *timeout);
@@ -120,6 +116,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _queue_SimpleQueue_put_MethodName = {.name = "put",};
+#define _QUEUE_SIMPLEQUEUE_PUT_METHODDEF    \
+    {_queue_SimpleQueue_put_MethodName.name, _PyCFunction_CAST(_queue_SimpleQueue_put), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _queue_SimpleQueue_put__doc__},
+
 PyDoc_STRVAR(_queue_SimpleQueue_put_nowait__doc__,
 "put_nowait($self, /, item)\n"
 "--\n"
@@ -128,10 +128,6 @@ PyDoc_STRVAR(_queue_SimpleQueue_put_nowait__doc__,
 "\n"
 "This is exactly equivalent to `put(item)` and is only provided\n"
 "for compatibility with the Queue class.");
-
-static struct {char name[];} _queue_SimpleQueue_put_nowait_MethodName = {.name = "put_nowait",};
-#define _QUEUE_SIMPLEQUEUE_PUT_NOWAIT_METHODDEF    \
-    {_queue_SimpleQueue_put_nowait_MethodName.name, _PyCFunction_CAST(_queue_SimpleQueue_put_nowait), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _queue_SimpleQueue_put_nowait__doc__},
 
 static PyObject *
 _queue_SimpleQueue_put_nowait_impl(simplequeueobject *self, PyObject *item);
@@ -184,6 +180,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _queue_SimpleQueue_put_nowait_MethodName = {.name = "put_nowait",};
+#define _QUEUE_SIMPLEQUEUE_PUT_NOWAIT_METHODDEF    \
+    {_queue_SimpleQueue_put_nowait_MethodName.name, _PyCFunction_CAST(_queue_SimpleQueue_put_nowait), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _queue_SimpleQueue_put_nowait__doc__},
+
 PyDoc_STRVAR(_queue_SimpleQueue_get__doc__,
 "get($self, /, block=True, timeout=None)\n"
 "--\n"
@@ -197,10 +197,6 @@ PyDoc_STRVAR(_queue_SimpleQueue_get__doc__,
 "Otherwise (\'block\' is false), return an item if one is immediately\n"
 "available, else raise the Empty exception (\'timeout\' is ignored\n"
 "in that case).");
-
-static struct {char name[];} _queue_SimpleQueue_get_MethodName = {.name = "get",};
-#define _QUEUE_SIMPLEQUEUE_GET_METHODDEF    \
-    {_queue_SimpleQueue_get_MethodName.name, _PyCFunction_CAST(_queue_SimpleQueue_get), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _queue_SimpleQueue_get__doc__},
 
 static PyObject *
 _queue_SimpleQueue_get_impl(simplequeueobject *self, PyTypeObject *cls,
@@ -269,6 +265,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _queue_SimpleQueue_get_MethodName = {.name = "get",};
+#define _QUEUE_SIMPLEQUEUE_GET_METHODDEF    \
+    {_queue_SimpleQueue_get_MethodName.name, _PyCFunction_CAST(_queue_SimpleQueue_get), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _queue_SimpleQueue_get__doc__},
+
 PyDoc_STRVAR(_queue_SimpleQueue_get_nowait__doc__,
 "get_nowait($self, /)\n"
 "--\n"
@@ -277,10 +277,6 @@ PyDoc_STRVAR(_queue_SimpleQueue_get_nowait__doc__,
 "\n"
 "Only get an item if one is immediately available. Otherwise\n"
 "raise the Empty exception.");
-
-static struct {char name[];} _queue_SimpleQueue_get_nowait_MethodName = {.name = "get_nowait",};
-#define _QUEUE_SIMPLEQUEUE_GET_NOWAIT_METHODDEF    \
-    {_queue_SimpleQueue_get_nowait_MethodName.name, _PyCFunction_CAST(_queue_SimpleQueue_get_nowait), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _queue_SimpleQueue_get_nowait__doc__},
 
 static PyObject *
 _queue_SimpleQueue_get_nowait_impl(simplequeueobject *self,
@@ -303,15 +299,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _queue_SimpleQueue_get_nowait_MethodName = {.name = "get_nowait",};
+#define _QUEUE_SIMPLEQUEUE_GET_NOWAIT_METHODDEF    \
+    {_queue_SimpleQueue_get_nowait_MethodName.name, _PyCFunction_CAST(_queue_SimpleQueue_get_nowait), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _queue_SimpleQueue_get_nowait__doc__},
+
 PyDoc_STRVAR(_queue_SimpleQueue_empty__doc__,
 "empty($self, /)\n"
 "--\n"
 "\n"
 "Return True if the queue is empty, False otherwise (not reliable!).");
-
-static struct {char name[];} _queue_SimpleQueue_empty_MethodName = {.name = "empty",};
-#define _QUEUE_SIMPLEQUEUE_EMPTY_METHODDEF    \
-    {_queue_SimpleQueue_empty_MethodName.name, (PyCFunction)_queue_SimpleQueue_empty, METH_NOARGS|METH_C_STACK_FRUGAL, _queue_SimpleQueue_empty__doc__},
 
 static int
 _queue_SimpleQueue_empty_impl(simplequeueobject *self);
@@ -334,15 +330,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _queue_SimpleQueue_empty_MethodName = {.name = "empty",};
+#define _QUEUE_SIMPLEQUEUE_EMPTY_METHODDEF    \
+    {_queue_SimpleQueue_empty_MethodName.name, (PyCFunction)_queue_SimpleQueue_empty, METH_NOARGS|METH_C_STACK_FRUGAL, _queue_SimpleQueue_empty__doc__},
+
 PyDoc_STRVAR(_queue_SimpleQueue_qsize__doc__,
 "qsize($self, /)\n"
 "--\n"
 "\n"
 "Return the approximate size of the queue (not reliable!).");
-
-static struct {char name[];} _queue_SimpleQueue_qsize_MethodName = {.name = "qsize",};
-#define _QUEUE_SIMPLEQUEUE_QSIZE_METHODDEF    \
-    {_queue_SimpleQueue_qsize_MethodName.name, (PyCFunction)_queue_SimpleQueue_qsize, METH_NOARGS|METH_C_STACK_FRUGAL, _queue_SimpleQueue_qsize__doc__},
 
 static Py_ssize_t
 _queue_SimpleQueue_qsize_impl(simplequeueobject *self);
@@ -364,4 +360,8 @@ _queue_SimpleQueue_qsize(PyObject *self, PyObject *Py_UNUSED(ignored))
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=3fe7a6919490195a input=a9049054013a1b77]*/
+
+static struct {char name[];} _queue_SimpleQueue_qsize_MethodName = {.name = "qsize",};
+#define _QUEUE_SIMPLEQUEUE_QSIZE_METHODDEF    \
+    {_queue_SimpleQueue_qsize_MethodName.name, (PyCFunction)_queue_SimpleQueue_qsize, METH_NOARGS|METH_C_STACK_FRUGAL, _queue_SimpleQueue_qsize__doc__},
+/*[clinic end generated code: output=efe03c06cfa20023 input=a9049054013a1b77]*/

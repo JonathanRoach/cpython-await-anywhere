@@ -28,10 +28,6 @@ PyDoc_STRVAR(_io__IOBase_seek__doc__,
 "\n"
 "Return the new absolute position.");
 
-static struct {char name[];} _io__IOBase_seek_MethodName = {.name = "seek",};
-#define _IO__IOBASE_SEEK_METHODDEF    \
-    {_io__IOBase_seek_MethodName.name, _PyCFunction_CAST(_io__IOBase_seek), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__IOBase_seek__doc__},
-
 static PyObject *
 _io__IOBase_seek_impl(PyObject *self, PyTypeObject *cls,
                       int Py_UNUSED(offset), int Py_UNUSED(whence));
@@ -80,15 +76,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io__IOBase_seek_MethodName = {.name = "seek",};
+#define _IO__IOBASE_SEEK_METHODDEF    \
+    {_io__IOBase_seek_MethodName.name, _PyCFunction_CAST(_io__IOBase_seek), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__IOBase_seek__doc__},
+
 PyDoc_STRVAR(_io__IOBase_tell__doc__,
 "tell($self, /)\n"
 "--\n"
 "\n"
 "Return current stream position.");
-
-static struct {char name[];} _io__IOBase_tell_MethodName = {.name = "tell",};
-#define _IO__IOBASE_TELL_METHODDEF    \
-    {_io__IOBase_tell_MethodName.name, (PyCFunction)_io__IOBase_tell, METH_NOARGS|METH_C_STACK_FRUGAL, _io__IOBase_tell__doc__},
 
 static PyObject *
 _io__IOBase_tell_impl(PyObject *self);
@@ -99,6 +95,10 @@ _io__IOBase_tell(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _io__IOBase_tell_impl(self);
 }
 
+static struct {char name[];} _io__IOBase_tell_MethodName = {.name = "tell",};
+#define _IO__IOBASE_TELL_METHODDEF    \
+    {_io__IOBase_tell_MethodName.name, (PyCFunction)_io__IOBase_tell, METH_NOARGS|METH_C_STACK_FRUGAL, _io__IOBase_tell__doc__},
+
 PyDoc_STRVAR(_io__IOBase_truncate__doc__,
 "truncate($self, size=None, /)\n"
 "--\n"
@@ -107,10 +107,6 @@ PyDoc_STRVAR(_io__IOBase_truncate__doc__,
 "\n"
 "File pointer is left unchanged. Size defaults to the current IO position\n"
 "as reported by tell(). Return the new size.");
-
-static struct {char name[];} _io__IOBase_truncate_MethodName = {.name = "truncate",};
-#define _IO__IOBASE_TRUNCATE_METHODDEF    \
-    {_io__IOBase_truncate_MethodName.name, _PyCFunction_CAST(_io__IOBase_truncate), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__IOBase_truncate__doc__},
 
 static PyObject *
 _io__IOBase_truncate_impl(PyObject *self, PyTypeObject *cls,
@@ -152,6 +148,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io__IOBase_truncate_MethodName = {.name = "truncate",};
+#define _IO__IOBASE_TRUNCATE_METHODDEF    \
+    {_io__IOBase_truncate_MethodName.name, _PyCFunction_CAST(_io__IOBase_truncate), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__IOBase_truncate__doc__},
+
 PyDoc_STRVAR(_io__IOBase_flush__doc__,
 "flush($self, /)\n"
 "--\n"
@@ -159,10 +159,6 @@ PyDoc_STRVAR(_io__IOBase_flush__doc__,
 "Flush write buffers, if applicable.\n"
 "\n"
 "This is not implemented for read-only and non-blocking streams.");
-
-static struct {char name[];} _io__IOBase_flush_MethodName = {.name = "flush",};
-#define _IO__IOBASE_FLUSH_METHODDEF    \
-    {_io__IOBase_flush_MethodName.name, (PyCFunction)_io__IOBase_flush, METH_NOARGS|METH_C_STACK_FRUGAL, _io__IOBase_flush__doc__},
 
 static PyObject *
 _io__IOBase_flush_impl(PyObject *self);
@@ -173,6 +169,10 @@ _io__IOBase_flush(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _io__IOBase_flush_impl(self);
 }
 
+static struct {char name[];} _io__IOBase_flush_MethodName = {.name = "flush",};
+#define _IO__IOBASE_FLUSH_METHODDEF    \
+    {_io__IOBase_flush_MethodName.name, (PyCFunction)_io__IOBase_flush, METH_NOARGS|METH_C_STACK_FRUGAL, _io__IOBase_flush__doc__},
+
 PyDoc_STRVAR(_io__IOBase_close__doc__,
 "close($self, /)\n"
 "--\n"
@@ -180,10 +180,6 @@ PyDoc_STRVAR(_io__IOBase_close__doc__,
 "Flush and close the IO object.\n"
 "\n"
 "This method has no effect if the file is already closed.");
-
-static struct {char name[];} _io__IOBase_close_MethodName = {.name = "close",};
-#define _IO__IOBASE_CLOSE_METHODDEF    \
-    {_io__IOBase_close_MethodName.name, (PyCFunction)_io__IOBase_close, METH_NOARGS|METH_C_STACK_FRUGAL, _io__IOBase_close__doc__},
 
 static PyObject *
 _io__IOBase_close_impl(PyObject *self);
@@ -194,6 +190,10 @@ _io__IOBase_close(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _io__IOBase_close_impl(self);
 }
 
+static struct {char name[];} _io__IOBase_close_MethodName = {.name = "close",};
+#define _IO__IOBASE_CLOSE_METHODDEF    \
+    {_io__IOBase_close_MethodName.name, (PyCFunction)_io__IOBase_close, METH_NOARGS|METH_C_STACK_FRUGAL, _io__IOBase_close__doc__},
+
 PyDoc_STRVAR(_io__IOBase_seekable__doc__,
 "seekable($self, /)\n"
 "--\n"
@@ -202,10 +202,6 @@ PyDoc_STRVAR(_io__IOBase_seekable__doc__,
 "\n"
 "If False, seek(), tell() and truncate() will raise OSError.\n"
 "This method may need to do a test seek().");
-
-static struct {char name[];} _io__IOBase_seekable_MethodName = {.name = "seekable",};
-#define _IO__IOBASE_SEEKABLE_METHODDEF    \
-    {_io__IOBase_seekable_MethodName.name, (PyCFunction)_io__IOBase_seekable, METH_NOARGS|METH_C_STACK_FRUGAL, _io__IOBase_seekable__doc__},
 
 static PyObject *
 _io__IOBase_seekable_impl(PyObject *self);
@@ -216,6 +212,10 @@ _io__IOBase_seekable(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _io__IOBase_seekable_impl(self);
 }
 
+static struct {char name[];} _io__IOBase_seekable_MethodName = {.name = "seekable",};
+#define _IO__IOBASE_SEEKABLE_METHODDEF    \
+    {_io__IOBase_seekable_MethodName.name, (PyCFunction)_io__IOBase_seekable, METH_NOARGS|METH_C_STACK_FRUGAL, _io__IOBase_seekable__doc__},
+
 PyDoc_STRVAR(_io__IOBase_readable__doc__,
 "readable($self, /)\n"
 "--\n"
@@ -223,10 +223,6 @@ PyDoc_STRVAR(_io__IOBase_readable__doc__,
 "Return whether object was opened for reading.\n"
 "\n"
 "If False, read() will raise OSError.");
-
-static struct {char name[];} _io__IOBase_readable_MethodName = {.name = "readable",};
-#define _IO__IOBASE_READABLE_METHODDEF    \
-    {_io__IOBase_readable_MethodName.name, (PyCFunction)_io__IOBase_readable, METH_NOARGS|METH_C_STACK_FRUGAL, _io__IOBase_readable__doc__},
 
 static PyObject *
 _io__IOBase_readable_impl(PyObject *self);
@@ -237,6 +233,10 @@ _io__IOBase_readable(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _io__IOBase_readable_impl(self);
 }
 
+static struct {char name[];} _io__IOBase_readable_MethodName = {.name = "readable",};
+#define _IO__IOBASE_READABLE_METHODDEF    \
+    {_io__IOBase_readable_MethodName.name, (PyCFunction)_io__IOBase_readable, METH_NOARGS|METH_C_STACK_FRUGAL, _io__IOBase_readable__doc__},
+
 PyDoc_STRVAR(_io__IOBase_writable__doc__,
 "writable($self, /)\n"
 "--\n"
@@ -244,10 +244,6 @@ PyDoc_STRVAR(_io__IOBase_writable__doc__,
 "Return whether object was opened for writing.\n"
 "\n"
 "If False, write() will raise OSError.");
-
-static struct {char name[];} _io__IOBase_writable_MethodName = {.name = "writable",};
-#define _IO__IOBASE_WRITABLE_METHODDEF    \
-    {_io__IOBase_writable_MethodName.name, (PyCFunction)_io__IOBase_writable, METH_NOARGS|METH_C_STACK_FRUGAL, _io__IOBase_writable__doc__},
 
 static PyObject *
 _io__IOBase_writable_impl(PyObject *self);
@@ -258,6 +254,10 @@ _io__IOBase_writable(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _io__IOBase_writable_impl(self);
 }
 
+static struct {char name[];} _io__IOBase_writable_MethodName = {.name = "writable",};
+#define _IO__IOBASE_WRITABLE_METHODDEF    \
+    {_io__IOBase_writable_MethodName.name, (PyCFunction)_io__IOBase_writable, METH_NOARGS|METH_C_STACK_FRUGAL, _io__IOBase_writable__doc__},
+
 PyDoc_STRVAR(_io__IOBase_fileno__doc__,
 "fileno($self, /)\n"
 "--\n"
@@ -265,10 +265,6 @@ PyDoc_STRVAR(_io__IOBase_fileno__doc__,
 "Return underlying file descriptor if one exists.\n"
 "\n"
 "Raise OSError if the IO object does not use a file descriptor.");
-
-static struct {char name[];} _io__IOBase_fileno_MethodName = {.name = "fileno",};
-#define _IO__IOBASE_FILENO_METHODDEF    \
-    {_io__IOBase_fileno_MethodName.name, _PyCFunction_CAST(_io__IOBase_fileno), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__IOBase_fileno__doc__},
 
 static PyObject *
 _io__IOBase_fileno_impl(PyObject *self, PyTypeObject *cls);
@@ -283,6 +279,10 @@ _io__IOBase_fileno(PyObject *self, PyTypeObject *cls, PyObject *const *args, Py_
     return _io__IOBase_fileno_impl(self, cls);
 }
 
+static struct {char name[];} _io__IOBase_fileno_MethodName = {.name = "fileno",};
+#define _IO__IOBASE_FILENO_METHODDEF    \
+    {_io__IOBase_fileno_MethodName.name, _PyCFunction_CAST(_io__IOBase_fileno), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io__IOBase_fileno__doc__},
+
 PyDoc_STRVAR(_io__IOBase_isatty__doc__,
 "isatty($self, /)\n"
 "--\n"
@@ -290,10 +290,6 @@ PyDoc_STRVAR(_io__IOBase_isatty__doc__,
 "Return whether this is an \'interactive\' stream.\n"
 "\n"
 "Return False if it can\'t be determined.");
-
-static struct {char name[];} _io__IOBase_isatty_MethodName = {.name = "isatty",};
-#define _IO__IOBASE_ISATTY_METHODDEF    \
-    {_io__IOBase_isatty_MethodName.name, (PyCFunction)_io__IOBase_isatty, METH_NOARGS|METH_C_STACK_FRUGAL, _io__IOBase_isatty__doc__},
 
 static PyObject *
 _io__IOBase_isatty_impl(PyObject *self);
@@ -303,6 +299,10 @@ _io__IOBase_isatty(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return _io__IOBase_isatty_impl(self);
 }
+
+static struct {char name[];} _io__IOBase_isatty_MethodName = {.name = "isatty",};
+#define _IO__IOBASE_ISATTY_METHODDEF    \
+    {_io__IOBase_isatty_MethodName.name, (PyCFunction)_io__IOBase_isatty, METH_NOARGS|METH_C_STACK_FRUGAL, _io__IOBase_isatty__doc__},
 
 PyDoc_STRVAR(_io__IOBase_readline__doc__,
 "readline($self, size=-1, /)\n"
@@ -315,10 +315,6 @@ PyDoc_STRVAR(_io__IOBase_readline__doc__,
 "The line terminator is always b\'\\n\' for binary files; for text\n"
 "files, the newlines argument to open can be used to select the line\n"
 "terminator(s) recognized.");
-
-static struct {char name[];} _io__IOBase_readline_MethodName = {.name = "readline",};
-#define _IO__IOBASE_READLINE_METHODDEF    \
-    {_io__IOBase_readline_MethodName.name, _PyCFunction_CAST(_io__IOBase_readline), METH_FASTCALL|METH_C_STACK_FRUGAL, _io__IOBase_readline__doc__},
 
 static PyObject *
 _io__IOBase_readline_impl(PyObject *self, Py_ssize_t limit);
@@ -345,6 +341,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io__IOBase_readline_MethodName = {.name = "readline",};
+#define _IO__IOBASE_READLINE_METHODDEF    \
+    {_io__IOBase_readline_MethodName.name, _PyCFunction_CAST(_io__IOBase_readline), METH_FASTCALL|METH_C_STACK_FRUGAL, _io__IOBase_readline__doc__},
+
 PyDoc_STRVAR(_io__IOBase_readlines__doc__,
 "readlines($self, hint=-1, /)\n"
 "--\n"
@@ -354,10 +354,6 @@ PyDoc_STRVAR(_io__IOBase_readlines__doc__,
 "hint can be specified to control the number of lines read: no more\n"
 "lines will be read if the total size (in bytes/characters) of all\n"
 "lines so far exceeds hint.");
-
-static struct {char name[];} _io__IOBase_readlines_MethodName = {.name = "readlines",};
-#define _IO__IOBASE_READLINES_METHODDEF    \
-    {_io__IOBase_readlines_MethodName.name, _PyCFunction_CAST(_io__IOBase_readlines), METH_FASTCALL|METH_C_STACK_FRUGAL, _io__IOBase_readlines__doc__},
 
 static PyObject *
 _io__IOBase_readlines_impl(PyObject *self, Py_ssize_t hint);
@@ -384,6 +380,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io__IOBase_readlines_MethodName = {.name = "readlines",};
+#define _IO__IOBASE_READLINES_METHODDEF    \
+    {_io__IOBase_readlines_MethodName.name, _PyCFunction_CAST(_io__IOBase_readlines), METH_FASTCALL|METH_C_STACK_FRUGAL, _io__IOBase_readlines__doc__},
+
 PyDoc_STRVAR(_io__IOBase_writelines__doc__,
 "writelines($self, lines, /)\n"
 "--\n"
@@ -401,10 +401,6 @@ PyDoc_STRVAR(_io__RawIOBase_read__doc__,
 "read($self, size=-1, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _io__RawIOBase_read_MethodName = {.name = "read",};
-#define _IO__RAWIOBASE_READ_METHODDEF    \
-    {_io__RawIOBase_read_MethodName.name, _PyCFunction_CAST(_io__RawIOBase_read), METH_FASTCALL|METH_C_STACK_FRUGAL, _io__RawIOBase_read__doc__},
 
 static PyObject *
 _io__RawIOBase_read_impl(PyObject *self, Py_ssize_t n);
@@ -440,15 +436,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io__RawIOBase_read_MethodName = {.name = "read",};
+#define _IO__RAWIOBASE_READ_METHODDEF    \
+    {_io__RawIOBase_read_MethodName.name, _PyCFunction_CAST(_io__RawIOBase_read), METH_FASTCALL|METH_C_STACK_FRUGAL, _io__RawIOBase_read__doc__},
+
 PyDoc_STRVAR(_io__RawIOBase_readall__doc__,
 "readall($self, /)\n"
 "--\n"
 "\n"
 "Read until EOF, using multiple read() call.");
-
-static struct {char name[];} _io__RawIOBase_readall_MethodName = {.name = "readall",};
-#define _IO__RAWIOBASE_READALL_METHODDEF    \
-    {_io__RawIOBase_readall_MethodName.name, (PyCFunction)_io__RawIOBase_readall, METH_NOARGS|METH_C_STACK_FRUGAL, _io__RawIOBase_readall__doc__},
 
 static PyObject *
 _io__RawIOBase_readall_impl(PyObject *self);
@@ -458,4 +454,8 @@ _io__RawIOBase_readall(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return _io__RawIOBase_readall_impl(self);
 }
-/*[clinic end generated code: output=b1b8b1fc0b70ec20 input=a9049054013a1b77]*/
+
+static struct {char name[];} _io__RawIOBase_readall_MethodName = {.name = "readall",};
+#define _IO__RAWIOBASE_READALL_METHODDEF    \
+    {_io__RawIOBase_readall_MethodName.name, (PyCFunction)_io__RawIOBase_readall, METH_NOARGS|METH_C_STACK_FRUGAL, _io__RawIOBase_readall__doc__},
+/*[clinic end generated code: output=c9c914d720c3e051 input=a9049054013a1b77]*/

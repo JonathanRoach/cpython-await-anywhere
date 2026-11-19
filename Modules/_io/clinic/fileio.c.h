@@ -18,10 +18,6 @@ PyDoc_STRVAR(_io_FileIO_close__doc__,
 "A closed file cannot be used for further I/O operations.  close() may be\n"
 "called more than once without error.");
 
-static struct {char name[];} _io_FileIO_close_MethodName = {.name = "close",};
-#define _IO_FILEIO_CLOSE_METHODDEF    \
-    {_io_FileIO_close_MethodName.name, _PyCFunction_CAST(_io_FileIO_close), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io_FileIO_close__doc__},
-
 static PyObject *
 _io_FileIO_close_impl(fileio *self, PyTypeObject *cls);
 
@@ -34,6 +30,10 @@ _io_FileIO_close(PyObject *self, PyTypeObject *cls, PyObject *const *args, Py_ss
     }
     return _io_FileIO_close_impl((fileio *)self, cls);
 }
+
+static struct {char name[];} _io_FileIO_close_MethodName = {.name = "close",};
+#define _IO_FILEIO_CLOSE_METHODDEF    \
+    {_io_FileIO_close_MethodName.name, _PyCFunction_CAST(_io_FileIO_close), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io_FileIO_close__doc__},
 
 PyDoc_STRVAR(_io_FileIO___init____doc__,
 "FileIO(file, mode=\'r\', closefd=True, opener=None)\n"
@@ -147,10 +147,6 @@ PyDoc_STRVAR(_io_FileIO_fileno__doc__,
 "\n"
 "Return the underlying file descriptor (an integer).");
 
-static struct {char name[];} _io_FileIO_fileno_MethodName = {.name = "fileno",};
-#define _IO_FILEIO_FILENO_METHODDEF    \
-    {_io_FileIO_fileno_MethodName.name, (PyCFunction)_io_FileIO_fileno, METH_NOARGS|METH_C_STACK_FRUGAL, _io_FileIO_fileno__doc__},
-
 static PyObject *
 _io_FileIO_fileno_impl(fileio *self);
 
@@ -160,15 +156,15 @@ _io_FileIO_fileno(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _io_FileIO_fileno_impl((fileio *)self);
 }
 
+static struct {char name[];} _io_FileIO_fileno_MethodName = {.name = "fileno",};
+#define _IO_FILEIO_FILENO_METHODDEF    \
+    {_io_FileIO_fileno_MethodName.name, (PyCFunction)_io_FileIO_fileno, METH_NOARGS|METH_C_STACK_FRUGAL, _io_FileIO_fileno__doc__},
+
 PyDoc_STRVAR(_io_FileIO_readable__doc__,
 "readable($self, /)\n"
 "--\n"
 "\n"
 "True if file was opened in a read mode.");
-
-static struct {char name[];} _io_FileIO_readable_MethodName = {.name = "readable",};
-#define _IO_FILEIO_READABLE_METHODDEF    \
-    {_io_FileIO_readable_MethodName.name, (PyCFunction)_io_FileIO_readable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_FileIO_readable__doc__},
 
 static PyObject *
 _io_FileIO_readable_impl(fileio *self);
@@ -179,15 +175,15 @@ _io_FileIO_readable(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _io_FileIO_readable_impl((fileio *)self);
 }
 
+static struct {char name[];} _io_FileIO_readable_MethodName = {.name = "readable",};
+#define _IO_FILEIO_READABLE_METHODDEF    \
+    {_io_FileIO_readable_MethodName.name, (PyCFunction)_io_FileIO_readable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_FileIO_readable__doc__},
+
 PyDoc_STRVAR(_io_FileIO_writable__doc__,
 "writable($self, /)\n"
 "--\n"
 "\n"
 "True if file was opened in a write mode.");
-
-static struct {char name[];} _io_FileIO_writable_MethodName = {.name = "writable",};
-#define _IO_FILEIO_WRITABLE_METHODDEF    \
-    {_io_FileIO_writable_MethodName.name, (PyCFunction)_io_FileIO_writable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_FileIO_writable__doc__},
 
 static PyObject *
 _io_FileIO_writable_impl(fileio *self);
@@ -198,15 +194,15 @@ _io_FileIO_writable(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _io_FileIO_writable_impl((fileio *)self);
 }
 
+static struct {char name[];} _io_FileIO_writable_MethodName = {.name = "writable",};
+#define _IO_FILEIO_WRITABLE_METHODDEF    \
+    {_io_FileIO_writable_MethodName.name, (PyCFunction)_io_FileIO_writable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_FileIO_writable__doc__},
+
 PyDoc_STRVAR(_io_FileIO_seekable__doc__,
 "seekable($self, /)\n"
 "--\n"
 "\n"
 "True if file supports random-access.");
-
-static struct {char name[];} _io_FileIO_seekable_MethodName = {.name = "seekable",};
-#define _IO_FILEIO_SEEKABLE_METHODDEF    \
-    {_io_FileIO_seekable_MethodName.name, (PyCFunction)_io_FileIO_seekable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_FileIO_seekable__doc__},
 
 static PyObject *
 _io_FileIO_seekable_impl(fileio *self);
@@ -217,15 +213,15 @@ _io_FileIO_seekable(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _io_FileIO_seekable_impl((fileio *)self);
 }
 
+static struct {char name[];} _io_FileIO_seekable_MethodName = {.name = "seekable",};
+#define _IO_FILEIO_SEEKABLE_METHODDEF    \
+    {_io_FileIO_seekable_MethodName.name, (PyCFunction)_io_FileIO_seekable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_FileIO_seekable__doc__},
+
 PyDoc_STRVAR(_io_FileIO_readinto__doc__,
 "readinto($self, buffer, /)\n"
 "--\n"
 "\n"
 "Same as RawIOBase.readinto().");
-
-static struct {char name[];} _io_FileIO_readinto_MethodName = {.name = "readinto",};
-#define _IO_FILEIO_READINTO_METHODDEF    \
-    {_io_FileIO_readinto_MethodName.name, _PyCFunction_CAST(_io_FileIO_readinto), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io_FileIO_readinto__doc__},
 
 static PyObject *
 _io_FileIO_readinto_impl(fileio *self, PyTypeObject *cls, Py_buffer *buffer);
@@ -270,6 +266,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io_FileIO_readinto_MethodName = {.name = "readinto",};
+#define _IO_FILEIO_READINTO_METHODDEF    \
+    {_io_FileIO_readinto_MethodName.name, _PyCFunction_CAST(_io_FileIO_readinto), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io_FileIO_readinto__doc__},
+
 PyDoc_STRVAR(_io_FileIO_readall__doc__,
 "readall($self, /)\n"
 "--\n"
@@ -282,10 +282,6 @@ PyDoc_STRVAR(_io_FileIO_readall__doc__,
 "In non-blocking mode, returns as much data as could be read before EAGAIN. If no\n"
 "data is available (EAGAIN is returned before bytes are read) returns None.");
 
-static struct {char name[];} _io_FileIO_readall_MethodName = {.name = "readall",};
-#define _IO_FILEIO_READALL_METHODDEF    \
-    {_io_FileIO_readall_MethodName.name, (PyCFunction)_io_FileIO_readall, METH_NOARGS|METH_C_STACK_FRUGAL, _io_FileIO_readall__doc__},
-
 static PyObject *
 _io_FileIO_readall_impl(fileio *self);
 
@@ -294,6 +290,10 @@ _io_FileIO_readall(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return _io_FileIO_readall_impl((fileio *)self);
 }
+
+static struct {char name[];} _io_FileIO_readall_MethodName = {.name = "readall",};
+#define _IO_FILEIO_READALL_METHODDEF    \
+    {_io_FileIO_readall_MethodName.name, (PyCFunction)_io_FileIO_readall, METH_NOARGS|METH_C_STACK_FRUGAL, _io_FileIO_readall__doc__},
 
 PyDoc_STRVAR(_io_FileIO_read__doc__,
 "read($self, size=-1, /)\n"
@@ -309,10 +309,6 @@ PyDoc_STRVAR(_io_FileIO_read__doc__,
 "\n"
 "In non-blocking mode, returns None if no data is available. Return an empty\n"
 "bytes object at EOF.");
-
-static struct {char name[];} _io_FileIO_read_MethodName = {.name = "read",};
-#define _IO_FILEIO_READ_METHODDEF    \
-    {_io_FileIO_read_MethodName.name, _PyCFunction_CAST(_io_FileIO_read), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io_FileIO_read__doc__},
 
 static PyObject *
 _io_FileIO_read_impl(fileio *self, PyTypeObject *cls, Py_ssize_t size);
@@ -355,6 +351,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io_FileIO_read_MethodName = {.name = "read",};
+#define _IO_FILEIO_READ_METHODDEF    \
+    {_io_FileIO_read_MethodName.name, _PyCFunction_CAST(_io_FileIO_read), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io_FileIO_read__doc__},
+
 PyDoc_STRVAR(_io_FileIO_write__doc__,
 "write($self, b, /)\n"
 "--\n"
@@ -364,10 +364,6 @@ PyDoc_STRVAR(_io_FileIO_write__doc__,
 "Only makes one system call, so not all of the data may be written.\n"
 "The number of bytes actually written is returned.  In non-blocking mode,\n"
 "returns None if the write would block.");
-
-static struct {char name[];} _io_FileIO_write_MethodName = {.name = "write",};
-#define _IO_FILEIO_WRITE_METHODDEF    \
-    {_io_FileIO_write_MethodName.name, _PyCFunction_CAST(_io_FileIO_write), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io_FileIO_write__doc__},
 
 static PyObject *
 _io_FileIO_write_impl(fileio *self, PyTypeObject *cls, Py_buffer *b);
@@ -411,6 +407,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io_FileIO_write_MethodName = {.name = "write",};
+#define _IO_FILEIO_WRITE_METHODDEF    \
+    {_io_FileIO_write_MethodName.name, _PyCFunction_CAST(_io_FileIO_write), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io_FileIO_write__doc__},
+
 PyDoc_STRVAR(_io_FileIO_seek__doc__,
 "seek($self, pos, whence=0, /)\n"
 "--\n"
@@ -424,10 +424,6 @@ PyDoc_STRVAR(_io_FileIO_seek__doc__,
 "many platforms allow seeking beyond the end of a file).\n"
 "\n"
 "Note that not all file objects are seekable.");
-
-static struct {char name[];} _io_FileIO_seek_MethodName = {.name = "seek",};
-#define _IO_FILEIO_SEEK_METHODDEF    \
-    {_io_FileIO_seek_MethodName.name, _PyCFunction_CAST(_io_FileIO_seek), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_FileIO_seek__doc__},
 
 static PyObject *
 _io_FileIO_seek_impl(fileio *self, PyObject *pos, int whence);
@@ -457,6 +453,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io_FileIO_seek_MethodName = {.name = "seek",};
+#define _IO_FILEIO_SEEK_METHODDEF    \
+    {_io_FileIO_seek_MethodName.name, _PyCFunction_CAST(_io_FileIO_seek), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_FileIO_seek__doc__},
+
 PyDoc_STRVAR(_io_FileIO_tell__doc__,
 "tell($self, /)\n"
 "--\n"
@@ -464,10 +464,6 @@ PyDoc_STRVAR(_io_FileIO_tell__doc__,
 "Current file position.\n"
 "\n"
 "Can raise OSError for non seekable files.");
-
-static struct {char name[];} _io_FileIO_tell_MethodName = {.name = "tell",};
-#define _IO_FILEIO_TELL_METHODDEF    \
-    {_io_FileIO_tell_MethodName.name, (PyCFunction)_io_FileIO_tell, METH_NOARGS|METH_C_STACK_FRUGAL, _io_FileIO_tell__doc__},
 
 static PyObject *
 _io_FileIO_tell_impl(fileio *self);
@@ -477,6 +473,10 @@ _io_FileIO_tell(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return _io_FileIO_tell_impl((fileio *)self);
 }
+
+static struct {char name[];} _io_FileIO_tell_MethodName = {.name = "tell",};
+#define _IO_FILEIO_TELL_METHODDEF    \
+    {_io_FileIO_tell_MethodName.name, (PyCFunction)_io_FileIO_tell, METH_NOARGS|METH_C_STACK_FRUGAL, _io_FileIO_tell__doc__},
 
 #if defined(HAVE_FTRUNCATE)
 
@@ -488,10 +488,6 @@ PyDoc_STRVAR(_io_FileIO_truncate__doc__,
 "\n"
 "Size defaults to the current file position, as returned by tell().\n"
 "The current file position is changed to the value of size.");
-
-static struct {char name[];} _io_FileIO_truncate_MethodName = {.name = "truncate",};
-#define _IO_FILEIO_TRUNCATE_METHODDEF    \
-    {_io_FileIO_truncate_MethodName.name, _PyCFunction_CAST(_io_FileIO_truncate), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io_FileIO_truncate__doc__},
 
 static PyObject *
 _io_FileIO_truncate_impl(fileio *self, PyTypeObject *cls, PyObject *posobj);
@@ -532,6 +528,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io_FileIO_truncate_MethodName = {.name = "truncate",};
+#define _IO_FILEIO_TRUNCATE_METHODDEF    \
+    {_io_FileIO_truncate_MethodName.name, _PyCFunction_CAST(_io_FileIO_truncate), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _io_FileIO_truncate__doc__},
+
 #endif /* defined(HAVE_FTRUNCATE) */
 
 PyDoc_STRVAR(_io_FileIO_isatty__doc__,
@@ -539,10 +539,6 @@ PyDoc_STRVAR(_io_FileIO_isatty__doc__,
 "--\n"
 "\n"
 "True if the file is connected to a TTY device.");
-
-static struct {char name[];} _io_FileIO_isatty_MethodName = {.name = "isatty",};
-#define _IO_FILEIO_ISATTY_METHODDEF    \
-    {_io_FileIO_isatty_MethodName.name, (PyCFunction)_io_FileIO_isatty, METH_NOARGS|METH_C_STACK_FRUGAL, _io_FileIO_isatty__doc__},
 
 static PyObject *
 _io_FileIO_isatty_impl(fileio *self);
@@ -553,7 +549,11 @@ _io_FileIO_isatty(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _io_FileIO_isatty_impl((fileio *)self);
 }
 
+static struct {char name[];} _io_FileIO_isatty_MethodName = {.name = "isatty",};
+#define _IO_FILEIO_ISATTY_METHODDEF    \
+    {_io_FileIO_isatty_MethodName.name, (PyCFunction)_io_FileIO_isatty, METH_NOARGS|METH_C_STACK_FRUGAL, _io_FileIO_isatty__doc__},
+
 #ifndef _IO_FILEIO_TRUNCATE_METHODDEF
     #define _IO_FILEIO_TRUNCATE_METHODDEF
 #endif /* !defined(_IO_FILEIO_TRUNCATE_METHODDEF) */
-/*[clinic end generated code: output=320e874d06ef6e7c input=a9049054013a1b77]*/
+/*[clinic end generated code: output=a3b73191af5ad7fd input=a9049054013a1b77]*/

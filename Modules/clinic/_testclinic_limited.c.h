@@ -7,10 +7,6 @@ PyDoc_STRVAR(test_empty_function__doc__,
 "--\n"
 "\n");
 
-static struct {char name[];} test_empty_function_MethodName = {.name = "test_empty_function",};
-#define TEST_EMPTY_FUNCTION_METHODDEF    \
-    {test_empty_function_MethodName.name, (PyCFunction)test_empty_function, METH_NOARGS, test_empty_function__doc__},
-
 static PyObject *
 test_empty_function_impl(PyObject *module);
 
@@ -20,14 +16,14 @@ test_empty_function(PyObject *module, PyObject *Py_UNUSED(ignored))
     return test_empty_function_impl(module);
 }
 
+static struct {char name[];} test_empty_function_MethodName = {.name = "test_empty_function",};
+#define TEST_EMPTY_FUNCTION_METHODDEF    \
+    {test_empty_function_MethodName.name, (PyCFunction)test_empty_function, METH_NOARGS, test_empty_function__doc__},
+
 PyDoc_STRVAR(my_int_func__doc__,
 "my_int_func($module, arg, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} my_int_func_MethodName = {.name = "my_int_func",};
-#define MY_INT_FUNC_METHODDEF    \
-    {my_int_func_MethodName.name, (PyCFunction)my_int_func, METH_O, my_int_func__doc__},
 
 static int
 my_int_func_impl(PyObject *module, int arg);
@@ -53,14 +49,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} my_int_func_MethodName = {.name = "my_int_func",};
+#define MY_INT_FUNC_METHODDEF    \
+    {my_int_func_MethodName.name, (PyCFunction)my_int_func, METH_O, my_int_func__doc__},
+
 PyDoc_STRVAR(my_int_sum__doc__,
 "my_int_sum($module, x, y, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} my_int_sum_MethodName = {.name = "my_int_sum",};
-#define MY_INT_SUM_METHODDEF    \
-    {my_int_sum_MethodName.name, (PyCFunction)(void(*)(void))my_int_sum, METH_FASTCALL, my_int_sum__doc__},
 
 static int
 my_int_sum_impl(PyObject *module, int x, int y);
@@ -95,14 +91,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} my_int_sum_MethodName = {.name = "my_int_sum",};
+#define MY_INT_SUM_METHODDEF    \
+    {my_int_sum_MethodName.name, (PyCFunction)(void(*)(void))my_int_sum, METH_FASTCALL, my_int_sum__doc__},
+
 PyDoc_STRVAR(my_float_sum__doc__,
 "my_float_sum($module, x, y, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} my_float_sum_MethodName = {.name = "my_float_sum",};
-#define MY_FLOAT_SUM_METHODDEF    \
-    {my_float_sum_MethodName.name, (PyCFunction)(void(*)(void))my_float_sum, METH_FASTCALL, my_float_sum__doc__},
 
 static float
 my_float_sum_impl(PyObject *module, float x, float y);
@@ -137,14 +133,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} my_float_sum_MethodName = {.name = "my_float_sum",};
+#define MY_FLOAT_SUM_METHODDEF    \
+    {my_float_sum_MethodName.name, (PyCFunction)(void(*)(void))my_float_sum, METH_FASTCALL, my_float_sum__doc__},
+
 PyDoc_STRVAR(my_double_sum__doc__,
 "my_double_sum($module, x, y, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} my_double_sum_MethodName = {.name = "my_double_sum",};
-#define MY_DOUBLE_SUM_METHODDEF    \
-    {my_double_sum_MethodName.name, (PyCFunction)(void(*)(void))my_double_sum, METH_FASTCALL, my_double_sum__doc__},
 
 static double
 my_double_sum_impl(PyObject *module, double x, double y);
@@ -179,15 +175,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} my_double_sum_MethodName = {.name = "my_double_sum",};
+#define MY_DOUBLE_SUM_METHODDEF    \
+    {my_double_sum_MethodName.name, (PyCFunction)(void(*)(void))my_double_sum, METH_FASTCALL, my_double_sum__doc__},
+
 PyDoc_STRVAR(get_file_descriptor__doc__,
 "get_file_descriptor($module, file, /)\n"
 "--\n"
 "\n"
 "Get a file descriptor.");
-
-static struct {char name[];} get_file_descriptor_MethodName = {.name = "get_file_descriptor",};
-#define GET_FILE_DESCRIPTOR_METHODDEF    \
-    {get_file_descriptor_MethodName.name, (PyCFunction)get_file_descriptor, METH_O, get_file_descriptor__doc__},
 
 static int
 get_file_descriptor_impl(PyObject *module, int fd);
@@ -212,4 +208,8 @@ get_file_descriptor(PyObject *module, PyObject *arg)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=2eda0f5677616295 input=a9049054013a1b77]*/
+
+static struct {char name[];} get_file_descriptor_MethodName = {.name = "get_file_descriptor",};
+#define GET_FILE_DESCRIPTOR_METHODDEF    \
+    {get_file_descriptor_MethodName.name, (PyCFunction)get_file_descriptor, METH_O, get_file_descriptor__doc__},
+/*[clinic end generated code: output=a2e34704ff68fb94 input=a9049054013a1b77]*/

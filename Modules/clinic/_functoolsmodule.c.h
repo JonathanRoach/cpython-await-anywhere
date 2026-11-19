@@ -18,10 +18,6 @@ PyDoc_STRVAR(_functools_cmp_to_key__doc__,
 "  mycmp\n"
 "    Function that compares two objects.");
 
-static struct {char name[];} _functools_cmp_to_key_MethodName = {.name = "cmp_to_key",};
-#define _FUNCTOOLS_CMP_TO_KEY_METHODDEF    \
-    {_functools_cmp_to_key_MethodName.name, _PyCFunction_CAST(_functools_cmp_to_key), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _functools_cmp_to_key__doc__},
-
 static PyObject *
 _functools_cmp_to_key_impl(PyObject *module, PyObject *mycmp);
 
@@ -71,6 +67,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _functools_cmp_to_key_MethodName = {.name = "cmp_to_key",};
+#define _FUNCTOOLS_CMP_TO_KEY_METHODDEF    \
+    {_functools_cmp_to_key_MethodName.name, _PyCFunction_CAST(_functools_cmp_to_key), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _functools_cmp_to_key__doc__},
+
 PyDoc_STRVAR(_functools_reduce__doc__,
 "reduce($module, function, iterable, /, initial=<unrepresentable>)\n"
 "--\n"
@@ -83,10 +83,6 @@ PyDoc_STRVAR(_functools_reduce__doc__,
 "\n"
 "For example, reduce(lambda x, y: x+y, [1, 2, 3, 4, 5])\n"
 "calculates ((((1 + 2) + 3) + 4) + 5).");
-
-static struct {char name[];} _functools_reduce_MethodName = {.name = "reduce",};
-#define _FUNCTOOLS_REDUCE_METHODDEF    \
-    {_functools_reduce_MethodName.name, _PyCFunction_CAST(_functools_reduce), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _functools_reduce__doc__},
 
 static PyObject *
 _functools_reduce_impl(PyObject *module, PyObject *func, PyObject *seq,
@@ -147,15 +143,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _functools_reduce_MethodName = {.name = "reduce",};
+#define _FUNCTOOLS_REDUCE_METHODDEF    \
+    {_functools_reduce_MethodName.name, _PyCFunction_CAST(_functools_reduce), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _functools_reduce__doc__},
+
 PyDoc_STRVAR(_functools__lru_cache_wrapper_cache_info__doc__,
 "cache_info($self, /)\n"
 "--\n"
 "\n"
 "Report cache statistics");
-
-static struct {char name[];} _functools__lru_cache_wrapper_cache_info_MethodName = {.name = "cache_info",};
-#define _FUNCTOOLS__LRU_CACHE_WRAPPER_CACHE_INFO_METHODDEF    \
-    {_functools__lru_cache_wrapper_cache_info_MethodName.name, (PyCFunction)_functools__lru_cache_wrapper_cache_info, METH_NOARGS|METH_C_STACK_FRUGAL, _functools__lru_cache_wrapper_cache_info__doc__},
 
 static PyObject *
 _functools__lru_cache_wrapper_cache_info_impl(PyObject *self);
@@ -172,15 +168,15 @@ _functools__lru_cache_wrapper_cache_info(PyObject *self, PyObject *Py_UNUSED(ign
     return return_value;
 }
 
+static struct {char name[];} _functools__lru_cache_wrapper_cache_info_MethodName = {.name = "cache_info",};
+#define _FUNCTOOLS__LRU_CACHE_WRAPPER_CACHE_INFO_METHODDEF    \
+    {_functools__lru_cache_wrapper_cache_info_MethodName.name, (PyCFunction)_functools__lru_cache_wrapper_cache_info, METH_NOARGS|METH_C_STACK_FRUGAL, _functools__lru_cache_wrapper_cache_info__doc__},
+
 PyDoc_STRVAR(_functools__lru_cache_wrapper_cache_clear__doc__,
 "cache_clear($self, /)\n"
 "--\n"
 "\n"
 "Clear the cache and cache statistics");
-
-static struct {char name[];} _functools__lru_cache_wrapper_cache_clear_MethodName = {.name = "cache_clear",};
-#define _FUNCTOOLS__LRU_CACHE_WRAPPER_CACHE_CLEAR_METHODDEF    \
-    {_functools__lru_cache_wrapper_cache_clear_MethodName.name, (PyCFunction)_functools__lru_cache_wrapper_cache_clear, METH_NOARGS|METH_C_STACK_FRUGAL, _functools__lru_cache_wrapper_cache_clear__doc__},
 
 static PyObject *
 _functools__lru_cache_wrapper_cache_clear_impl(PyObject *self);
@@ -196,4 +192,8 @@ _functools__lru_cache_wrapper_cache_clear(PyObject *self, PyObject *Py_UNUSED(ig
 
     return return_value;
 }
-/*[clinic end generated code: output=b2d513b17eb5e0c9 input=a9049054013a1b77]*/
+
+static struct {char name[];} _functools__lru_cache_wrapper_cache_clear_MethodName = {.name = "cache_clear",};
+#define _FUNCTOOLS__LRU_CACHE_WRAPPER_CACHE_CLEAR_METHODDEF    \
+    {_functools__lru_cache_wrapper_cache_clear_MethodName.name, (PyCFunction)_functools__lru_cache_wrapper_cache_clear, METH_NOARGS|METH_C_STACK_FRUGAL, _functools__lru_cache_wrapper_cache_clear__doc__},
+/*[clinic end generated code: output=50574b54a3d57be4 input=a9049054013a1b77]*/

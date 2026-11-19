@@ -9,10 +9,6 @@ PyDoc_STRVAR(resource_getrusage__doc__,
 "--\n"
 "\n");
 
-static struct {char name[];} resource_getrusage_MethodName = {.name = "getrusage",};
-#define RESOURCE_GETRUSAGE_METHODDEF    \
-    {resource_getrusage_MethodName.name, (PyCFunction)resource_getrusage, METH_O|METH_C_STACK_FRUGAL, resource_getrusage__doc__},
-
 static PyObject *
 resource_getrusage_impl(PyObject *module, int who);
 
@@ -32,16 +28,16 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} resource_getrusage_MethodName = {.name = "getrusage",};
+#define RESOURCE_GETRUSAGE_METHODDEF    \
+    {resource_getrusage_MethodName.name, (PyCFunction)resource_getrusage, METH_O|METH_C_STACK_FRUGAL, resource_getrusage__doc__},
+
 #endif /* defined(HAVE_GETRUSAGE) */
 
 PyDoc_STRVAR(resource_getrlimit__doc__,
 "getrlimit($module, resource, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} resource_getrlimit_MethodName = {.name = "getrlimit",};
-#define RESOURCE_GETRLIMIT_METHODDEF    \
-    {resource_getrlimit_MethodName.name, (PyCFunction)resource_getrlimit, METH_O|METH_C_STACK_FRUGAL, resource_getrlimit__doc__},
 
 static PyObject *
 resource_getrlimit_impl(PyObject *module, int resource);
@@ -62,14 +58,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} resource_getrlimit_MethodName = {.name = "getrlimit",};
+#define RESOURCE_GETRLIMIT_METHODDEF    \
+    {resource_getrlimit_MethodName.name, (PyCFunction)resource_getrlimit, METH_O|METH_C_STACK_FRUGAL, resource_getrlimit__doc__},
+
 PyDoc_STRVAR(resource_setrlimit__doc__,
 "setrlimit($module, resource, limits, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} resource_setrlimit_MethodName = {.name = "setrlimit",};
-#define RESOURCE_SETRLIMIT_METHODDEF    \
-    {resource_setrlimit_MethodName.name, (PyCFunction)(void(*)(void))resource_setrlimit, METH_FASTCALL|METH_C_STACK_FRUGAL, resource_setrlimit__doc__},
 
 static PyObject *
 resource_setrlimit_impl(PyObject *module, int resource, PyObject *limits);
@@ -96,16 +92,16 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} resource_setrlimit_MethodName = {.name = "setrlimit",};
+#define RESOURCE_SETRLIMIT_METHODDEF    \
+    {resource_setrlimit_MethodName.name, (PyCFunction)(void(*)(void))resource_setrlimit, METH_FASTCALL|METH_C_STACK_FRUGAL, resource_setrlimit__doc__},
+
 #if defined(HAVE_PRLIMIT)
 
 PyDoc_STRVAR(resource_prlimit__doc__,
 "prlimit($module, pid, resource, limits=None, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} resource_prlimit_MethodName = {.name = "prlimit",};
-#define RESOURCE_PRLIMIT_METHODDEF    \
-    {resource_prlimit_MethodName.name, (PyCFunction)(void(*)(void))resource_prlimit, METH_FASTCALL|METH_C_STACK_FRUGAL, resource_prlimit__doc__},
 
 static PyObject *
 resource_prlimit_impl(PyObject *module, pid_t pid, int resource,
@@ -146,16 +142,16 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} resource_prlimit_MethodName = {.name = "prlimit",};
+#define RESOURCE_PRLIMIT_METHODDEF    \
+    {resource_prlimit_MethodName.name, (PyCFunction)(void(*)(void))resource_prlimit, METH_FASTCALL|METH_C_STACK_FRUGAL, resource_prlimit__doc__},
+
 #endif /* defined(HAVE_PRLIMIT) */
 
 PyDoc_STRVAR(resource_getpagesize__doc__,
 "getpagesize($module, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} resource_getpagesize_MethodName = {.name = "getpagesize",};
-#define RESOURCE_GETPAGESIZE_METHODDEF    \
-    {resource_getpagesize_MethodName.name, (PyCFunction)resource_getpagesize, METH_NOARGS|METH_C_STACK_FRUGAL, resource_getpagesize__doc__},
 
 static int
 resource_getpagesize_impl(PyObject *module);
@@ -176,6 +172,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} resource_getpagesize_MethodName = {.name = "getpagesize",};
+#define RESOURCE_GETPAGESIZE_METHODDEF    \
+    {resource_getpagesize_MethodName.name, (PyCFunction)resource_getpagesize, METH_NOARGS|METH_C_STACK_FRUGAL, resource_getpagesize__doc__},
+
 #ifndef RESOURCE_GETRUSAGE_METHODDEF
     #define RESOURCE_GETRUSAGE_METHODDEF
 #endif /* !defined(RESOURCE_GETRUSAGE_METHODDEF) */
@@ -183,4 +183,4 @@ exit:
 #ifndef RESOURCE_PRLIMIT_METHODDEF
     #define RESOURCE_PRLIMIT_METHODDEF
 #endif /* !defined(RESOURCE_PRLIMIT_METHODDEF) */
-/*[clinic end generated code: output=f574c131f015fab3 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=fa41b792f84b6e13 input=a9049054013a1b77]*/

@@ -26,10 +26,6 @@ PyDoc_STRVAR(_curses_window_addch__doc__,
 "By default, the character position and attributes are the\n"
 "current settings for the window object.");
 
-static struct {char name[];} _curses_window_addch_MethodName = {.name = "addch",};
-#define _CURSES_WINDOW_ADDCH_METHODDEF    \
-    {_curses_window_addch_MethodName.name, (PyCFunction)_curses_window_addch, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_addch__doc__},
-
 static PyObject *
 _curses_window_addch_impl(PyCursesWindowObject *self, int group_left_1,
                           int y, int x, PyObject *ch, int group_right_1,
@@ -81,6 +77,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_addch_MethodName = {.name = "addch",};
+#define _CURSES_WINDOW_ADDCH_METHODDEF    \
+    {_curses_window_addch_MethodName.name, (PyCFunction)_curses_window_addch, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_addch__doc__},
+
 PyDoc_STRVAR(_curses_window_addstr__doc__,
 "addstr([y, x,] str, [attr])\n"
 "Paint the string.\n"
@@ -98,10 +98,6 @@ PyDoc_STRVAR(_curses_window_addstr__doc__,
 "overwriting anything previously on the display.\n"
 "By default, the character position and attributes are the\n"
 "current settings for the window object.");
-
-static struct {char name[];} _curses_window_addstr_MethodName = {.name = "addstr",};
-#define _CURSES_WINDOW_ADDSTR_METHODDEF    \
-    {_curses_window_addstr_MethodName.name, (PyCFunction)_curses_window_addstr, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_addstr__doc__},
 
 static PyObject *
 _curses_window_addstr_impl(PyCursesWindowObject *self, int group_left_1,
@@ -154,6 +150,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_addstr_MethodName = {.name = "addstr",};
+#define _CURSES_WINDOW_ADDSTR_METHODDEF    \
+    {_curses_window_addstr_MethodName.name, (PyCFunction)_curses_window_addstr, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_addstr__doc__},
+
 PyDoc_STRVAR(_curses_window_addnstr__doc__,
 "addnstr([y, x,] str, n, [attr])\n"
 "Paint at most n characters of the string.\n"
@@ -173,10 +173,6 @@ PyDoc_STRVAR(_curses_window_addnstr__doc__,
 "attributes attr, overwriting anything previously on the display.\n"
 "By default, the character position and attributes are the\n"
 "current settings for the window object.");
-
-static struct {char name[];} _curses_window_addnstr_MethodName = {.name = "addnstr",};
-#define _CURSES_WINDOW_ADDNSTR_METHODDEF    \
-    {_curses_window_addnstr_MethodName.name, (PyCFunction)_curses_window_addnstr, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_addnstr__doc__},
 
 static PyObject *
 _curses_window_addnstr_impl(PyCursesWindowObject *self, int group_left_1,
@@ -230,6 +226,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_addnstr_MethodName = {.name = "addnstr",};
+#define _CURSES_WINDOW_ADDNSTR_METHODDEF    \
+    {_curses_window_addnstr_MethodName.name, (PyCFunction)_curses_window_addnstr, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_addnstr__doc__},
+
 PyDoc_STRVAR(_curses_window_bkgd__doc__,
 "bkgd($self, ch, attr=_curses.A_NORMAL, /)\n"
 "--\n"
@@ -240,10 +240,6 @@ PyDoc_STRVAR(_curses_window_bkgd__doc__,
 "    Background character.\n"
 "  attr\n"
 "    Background attributes.");
-
-static struct {char name[];} _curses_window_bkgd_MethodName = {.name = "bkgd",};
-#define _CURSES_WINDOW_BKGD_METHODDEF    \
-    {_curses_window_bkgd_MethodName.name, _PyCFunction_CAST(_curses_window_bkgd), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_window_bkgd__doc__},
 
 static PyObject *
 _curses_window_bkgd_impl(PyCursesWindowObject *self, PyObject *ch, long attr);
@@ -273,15 +269,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_bkgd_MethodName = {.name = "bkgd",};
+#define _CURSES_WINDOW_BKGD_METHODDEF    \
+    {_curses_window_bkgd_MethodName.name, _PyCFunction_CAST(_curses_window_bkgd), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_window_bkgd__doc__},
+
 PyDoc_STRVAR(_curses_window_attroff__doc__,
 "attroff($self, attr, /)\n"
 "--\n"
 "\n"
 "Remove attribute attr from the \"background\" set.");
-
-static struct {char name[];} _curses_window_attroff_MethodName = {.name = "attroff",};
-#define _CURSES_WINDOW_ATTROFF_METHODDEF    \
-    {_curses_window_attroff_MethodName.name, (PyCFunction)_curses_window_attroff, METH_O|METH_C_STACK_FRUGAL, _curses_window_attroff__doc__},
 
 static PyObject *
 _curses_window_attroff_impl(PyCursesWindowObject *self, long attr);
@@ -302,15 +298,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_attroff_MethodName = {.name = "attroff",};
+#define _CURSES_WINDOW_ATTROFF_METHODDEF    \
+    {_curses_window_attroff_MethodName.name, (PyCFunction)_curses_window_attroff, METH_O|METH_C_STACK_FRUGAL, _curses_window_attroff__doc__},
+
 PyDoc_STRVAR(_curses_window_attron__doc__,
 "attron($self, attr, /)\n"
 "--\n"
 "\n"
 "Add attribute attr from the \"background\" set.");
-
-static struct {char name[];} _curses_window_attron_MethodName = {.name = "attron",};
-#define _CURSES_WINDOW_ATTRON_METHODDEF    \
-    {_curses_window_attron_MethodName.name, (PyCFunction)_curses_window_attron, METH_O|METH_C_STACK_FRUGAL, _curses_window_attron__doc__},
 
 static PyObject *
 _curses_window_attron_impl(PyCursesWindowObject *self, long attr);
@@ -331,15 +327,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_attron_MethodName = {.name = "attron",};
+#define _CURSES_WINDOW_ATTRON_METHODDEF    \
+    {_curses_window_attron_MethodName.name, (PyCFunction)_curses_window_attron, METH_O|METH_C_STACK_FRUGAL, _curses_window_attron__doc__},
+
 PyDoc_STRVAR(_curses_window_attrset__doc__,
 "attrset($self, attr, /)\n"
 "--\n"
 "\n"
 "Set the \"background\" set of attributes.");
-
-static struct {char name[];} _curses_window_attrset_MethodName = {.name = "attrset",};
-#define _CURSES_WINDOW_ATTRSET_METHODDEF    \
-    {_curses_window_attrset_MethodName.name, (PyCFunction)_curses_window_attrset, METH_O|METH_C_STACK_FRUGAL, _curses_window_attrset__doc__},
 
 static PyObject *
 _curses_window_attrset_impl(PyCursesWindowObject *self, long attr);
@@ -360,6 +356,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_attrset_MethodName = {.name = "attrset",};
+#define _CURSES_WINDOW_ATTRSET_METHODDEF    \
+    {_curses_window_attrset_MethodName.name, (PyCFunction)_curses_window_attrset, METH_O|METH_C_STACK_FRUGAL, _curses_window_attrset__doc__},
+
 PyDoc_STRVAR(_curses_window_bkgdset__doc__,
 "bkgdset($self, ch, attr=_curses.A_NORMAL, /)\n"
 "--\n"
@@ -370,10 +370,6 @@ PyDoc_STRVAR(_curses_window_bkgdset__doc__,
 "    Background character.\n"
 "  attr\n"
 "    Background attributes.");
-
-static struct {char name[];} _curses_window_bkgdset_MethodName = {.name = "bkgdset",};
-#define _CURSES_WINDOW_BKGDSET_METHODDEF    \
-    {_curses_window_bkgdset_MethodName.name, _PyCFunction_CAST(_curses_window_bkgdset), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_window_bkgdset__doc__},
 
 static PyObject *
 _curses_window_bkgdset_impl(PyCursesWindowObject *self, PyObject *ch,
@@ -403,6 +399,10 @@ skip_optional:
 exit:
     return return_value;
 }
+
+static struct {char name[];} _curses_window_bkgdset_MethodName = {.name = "bkgdset",};
+#define _CURSES_WINDOW_BKGDSET_METHODDEF    \
+    {_curses_window_bkgdset_MethodName.name, _PyCFunction_CAST(_curses_window_bkgdset), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_window_bkgdset__doc__},
 
 PyDoc_STRVAR(_curses_window_border__doc__,
 "border($self, ls=_curses.ACS_VLINE, rs=_curses.ACS_VLINE,\n"
@@ -434,10 +434,6 @@ PyDoc_STRVAR(_curses_window_border__doc__,
 "border.  The characters can be specified as integers or as one-character\n"
 "strings.  A 0 value for any parameter will cause the default character to be\n"
 "used for that parameter.");
-
-static struct {char name[];} _curses_window_border_MethodName = {.name = "border",};
-#define _CURSES_WINDOW_BORDER_METHODDEF    \
-    {_curses_window_border_MethodName.name, _PyCFunction_CAST(_curses_window_border), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_window_border__doc__},
 
 static PyObject *
 _curses_window_border_impl(PyCursesWindowObject *self, PyObject *ls,
@@ -500,6 +496,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_border_MethodName = {.name = "border",};
+#define _CURSES_WINDOW_BORDER_METHODDEF    \
+    {_curses_window_border_MethodName.name, _PyCFunction_CAST(_curses_window_border), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_window_border__doc__},
+
 PyDoc_STRVAR(_curses_window_box__doc__,
 "box([verch=0, horch=0])\n"
 "Draw a border around the edges of the window.\n"
@@ -511,10 +511,6 @@ PyDoc_STRVAR(_curses_window_box__doc__,
 "\n"
 "Similar to border(), but both ls and rs are verch and both ts and bs are\n"
 "horch.  The default corner characters are always used by this function.");
-
-static struct {char name[];} _curses_window_box_MethodName = {.name = "box",};
-#define _CURSES_WINDOW_BOX_METHODDEF    \
-    {_curses_window_box_MethodName.name, (PyCFunction)_curses_window_box, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_box__doc__},
 
 static PyObject *
 _curses_window_box_impl(PyCursesWindowObject *self, int group_right_1,
@@ -547,6 +543,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_box_MethodName = {.name = "box",};
+#define _CURSES_WINDOW_BOX_METHODDEF    \
+    {_curses_window_box_MethodName.name, (PyCFunction)_curses_window_box, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_box__doc__},
+
 PyDoc_STRVAR(_curses_window_delch__doc__,
 "delch([y, x])\n"
 "Delete any character at (y, x).\n"
@@ -555,10 +555,6 @@ PyDoc_STRVAR(_curses_window_delch__doc__,
 "    Y-coordinate.\n"
 "  x\n"
 "    X-coordinate.");
-
-static struct {char name[];} _curses_window_delch_MethodName = {.name = "delch",};
-#define _CURSES_WINDOW_DELCH_METHODDEF    \
-    {_curses_window_delch_MethodName.name, (PyCFunction)_curses_window_delch, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_delch__doc__},
 
 static PyObject *
 _curses_window_delch_impl(PyCursesWindowObject *self, int group_right_1,
@@ -591,6 +587,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_delch_MethodName = {.name = "delch",};
+#define _CURSES_WINDOW_DELCH_METHODDEF    \
+    {_curses_window_delch_MethodName.name, (PyCFunction)_curses_window_delch, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_delch__doc__},
+
 PyDoc_STRVAR(_curses_window_derwin__doc__,
 "derwin([nlines=0, ncols=0,] begin_y, begin_x)\n"
 "Create a sub-window (window-relative coordinates).\n"
@@ -607,10 +607,6 @@ PyDoc_STRVAR(_curses_window_derwin__doc__,
 "derwin() is the same as calling subwin(), except that begin_y and begin_x\n"
 "are relative to the origin of the window, rather than relative to the entire\n"
 "screen.");
-
-static struct {char name[];} _curses_window_derwin_MethodName = {.name = "derwin",};
-#define _CURSES_WINDOW_DERWIN_METHODDEF    \
-    {_curses_window_derwin_MethodName.name, (PyCFunction)_curses_window_derwin, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_derwin__doc__},
 
 static PyObject *
 _curses_window_derwin_impl(PyCursesWindowObject *self, int group_left_1,
@@ -648,6 +644,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_derwin_MethodName = {.name = "derwin",};
+#define _CURSES_WINDOW_DERWIN_METHODDEF    \
+    {_curses_window_derwin_MethodName.name, (PyCFunction)_curses_window_derwin, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_derwin__doc__},
+
 PyDoc_STRVAR(_curses_window_echochar__doc__,
 "echochar($self, ch, attr=_curses.A_NORMAL, /)\n"
 "--\n"
@@ -658,10 +658,6 @@ PyDoc_STRVAR(_curses_window_echochar__doc__,
 "    Character to add.\n"
 "  attr\n"
 "    Attributes for the character.");
-
-static struct {char name[];} _curses_window_echochar_MethodName = {.name = "echochar",};
-#define _CURSES_WINDOW_ECHOCHAR_METHODDEF    \
-    {_curses_window_echochar_MethodName.name, _PyCFunction_CAST(_curses_window_echochar), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_window_echochar__doc__},
 
 static PyObject *
 _curses_window_echochar_impl(PyCursesWindowObject *self, PyObject *ch,
@@ -692,6 +688,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_echochar_MethodName = {.name = "echochar",};
+#define _CURSES_WINDOW_ECHOCHAR_METHODDEF    \
+    {_curses_window_echochar_MethodName.name, _PyCFunction_CAST(_curses_window_echochar), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_window_echochar__doc__},
+
 #if defined(NCURSES_MOUSE_VERSION)
 
 PyDoc_STRVAR(_curses_window_enclose__doc__,
@@ -704,10 +704,6 @@ PyDoc_STRVAR(_curses_window_enclose__doc__,
 "    Y-coordinate.\n"
 "  x\n"
 "    X-coordinate.");
-
-static struct {char name[];} _curses_window_enclose_MethodName = {.name = "enclose",};
-#define _CURSES_WINDOW_ENCLOSE_METHODDEF    \
-    {_curses_window_enclose_MethodName.name, _PyCFunction_CAST(_curses_window_enclose), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_window_enclose__doc__},
 
 static PyObject *
 _curses_window_enclose_impl(PyCursesWindowObject *self, int y, int x);
@@ -736,6 +732,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_enclose_MethodName = {.name = "enclose",};
+#define _CURSES_WINDOW_ENCLOSE_METHODDEF    \
+    {_curses_window_enclose_MethodName.name, _PyCFunction_CAST(_curses_window_enclose), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_window_enclose__doc__},
+
 #endif /* defined(NCURSES_MOUSE_VERSION) */
 
 PyDoc_STRVAR(_curses_window_getbkgd__doc__,
@@ -743,10 +743,6 @@ PyDoc_STRVAR(_curses_window_getbkgd__doc__,
 "--\n"
 "\n"
 "Return the window\'s current background character/attribute pair.");
-
-static struct {char name[];} _curses_window_getbkgd_MethodName = {.name = "getbkgd",};
-#define _CURSES_WINDOW_GETBKGD_METHODDEF    \
-    {_curses_window_getbkgd_MethodName.name, (PyCFunction)_curses_window_getbkgd, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_window_getbkgd__doc__},
 
 static PyObject *
 _curses_window_getbkgd_impl(PyCursesWindowObject *self);
@@ -756,6 +752,10 @@ _curses_window_getbkgd(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return _curses_window_getbkgd_impl((PyCursesWindowObject *)self);
 }
+
+static struct {char name[];} _curses_window_getbkgd_MethodName = {.name = "getbkgd",};
+#define _CURSES_WINDOW_GETBKGD_METHODDEF    \
+    {_curses_window_getbkgd_MethodName.name, (PyCFunction)_curses_window_getbkgd, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_window_getbkgd__doc__},
 
 PyDoc_STRVAR(_curses_window_getch__doc__,
 "getch([y, x])\n"
@@ -769,10 +769,6 @@ PyDoc_STRVAR(_curses_window_getch__doc__,
 "The integer returned does not have to be in ASCII range: function keys,\n"
 "keypad keys and so on return numbers higher than 256.  In no-delay mode, -1\n"
 "is returned if there is no input, else getch() waits until a key is pressed.");
-
-static struct {char name[];} _curses_window_getch_MethodName = {.name = "getch",};
-#define _CURSES_WINDOW_GETCH_METHODDEF    \
-    {_curses_window_getch_MethodName.name, (PyCFunction)_curses_window_getch, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_getch__doc__},
 
 static PyObject *
 _curses_window_getch_impl(PyCursesWindowObject *self, int group_right_1,
@@ -805,6 +801,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_getch_MethodName = {.name = "getch",};
+#define _CURSES_WINDOW_GETCH_METHODDEF    \
+    {_curses_window_getch_MethodName.name, (PyCFunction)_curses_window_getch, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_getch__doc__},
+
 PyDoc_STRVAR(_curses_window_getkey__doc__,
 "getkey([y, x])\n"
 "Get a character (string) from terminal keyboard.\n"
@@ -817,10 +817,6 @@ PyDoc_STRVAR(_curses_window_getkey__doc__,
 "Returning a string instead of an integer, as getch() does.  Function keys,\n"
 "keypad keys and other special keys return a multibyte string containing the\n"
 "key name.  In no-delay mode, an exception is raised if there is no input.");
-
-static struct {char name[];} _curses_window_getkey_MethodName = {.name = "getkey",};
-#define _CURSES_WINDOW_GETKEY_METHODDEF    \
-    {_curses_window_getkey_MethodName.name, (PyCFunction)_curses_window_getkey, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_getkey__doc__},
 
 static PyObject *
 _curses_window_getkey_impl(PyCursesWindowObject *self, int group_right_1,
@@ -853,6 +849,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_getkey_MethodName = {.name = "getkey",};
+#define _CURSES_WINDOW_GETKEY_METHODDEF    \
+    {_curses_window_getkey_MethodName.name, (PyCFunction)_curses_window_getkey, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_getkey__doc__},
+
 #if defined(HAVE_NCURSESW)
 
 PyDoc_STRVAR(_curses_window_get_wch__doc__,
@@ -866,10 +866,6 @@ PyDoc_STRVAR(_curses_window_get_wch__doc__,
 "\n"
 "Return a character for most keys, or an integer for function keys,\n"
 "keypad keys, and other special keys.");
-
-static struct {char name[];} _curses_window_get_wch_MethodName = {.name = "get_wch",};
-#define _CURSES_WINDOW_GET_WCH_METHODDEF    \
-    {_curses_window_get_wch_MethodName.name, (PyCFunction)_curses_window_get_wch, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_get_wch__doc__},
 
 static PyObject *
 _curses_window_get_wch_impl(PyCursesWindowObject *self, int group_right_1,
@@ -902,6 +898,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_get_wch_MethodName = {.name = "get_wch",};
+#define _CURSES_WINDOW_GET_WCH_METHODDEF    \
+    {_curses_window_get_wch_MethodName.name, (PyCFunction)_curses_window_get_wch, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_get_wch__doc__},
+
 #endif /* defined(HAVE_NCURSESW) */
 
 PyDoc_STRVAR(_curses_window_hline__doc__,
@@ -918,10 +918,6 @@ PyDoc_STRVAR(_curses_window_hline__doc__,
 "    Line length.\n"
 "  attr\n"
 "    Attributes for the characters.");
-
-static struct {char name[];} _curses_window_hline_MethodName = {.name = "hline",};
-#define _CURSES_WINDOW_HLINE_METHODDEF    \
-    {_curses_window_hline_MethodName.name, (PyCFunction)_curses_window_hline, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_hline__doc__},
 
 static PyObject *
 _curses_window_hline_impl(PyCursesWindowObject *self, int group_left_1,
@@ -975,6 +971,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_hline_MethodName = {.name = "hline",};
+#define _CURSES_WINDOW_HLINE_METHODDEF    \
+    {_curses_window_hline_MethodName.name, (PyCFunction)_curses_window_hline, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_hline__doc__},
+
 PyDoc_STRVAR(_curses_window_insch__doc__,
 "insch([y, x,] ch, [attr=_curses.A_NORMAL])\n"
 "Insert a character before the current or specified position.\n"
@@ -990,10 +990,6 @@ PyDoc_STRVAR(_curses_window_insch__doc__,
 "\n"
 "All characters to the right of the cursor are shifted one position right, with\n"
 "the rightmost characters on the line being lost.");
-
-static struct {char name[];} _curses_window_insch_MethodName = {.name = "insch",};
-#define _CURSES_WINDOW_INSCH_METHODDEF    \
-    {_curses_window_insch_MethodName.name, (PyCFunction)_curses_window_insch, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_insch__doc__},
 
 static PyObject *
 _curses_window_insch_impl(PyCursesWindowObject *self, int group_left_1,
@@ -1046,6 +1042,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_insch_MethodName = {.name = "insch",};
+#define _CURSES_WINDOW_INSCH_METHODDEF    \
+    {_curses_window_insch_MethodName.name, (PyCFunction)_curses_window_insch, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_insch__doc__},
+
 PyDoc_STRVAR(_curses_window_inch__doc__,
 "inch([y, x])\n"
 "Return the character at the given position in the window.\n"
@@ -1056,10 +1056,6 @@ PyDoc_STRVAR(_curses_window_inch__doc__,
 "    X-coordinate.\n"
 "\n"
 "The bottom 8 bits are the character proper, and upper bits are the attributes.");
-
-static struct {char name[];} _curses_window_inch_MethodName = {.name = "inch",};
-#define _CURSES_WINDOW_INCH_METHODDEF    \
-    {_curses_window_inch_MethodName.name, (PyCFunction)_curses_window_inch, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_inch__doc__},
 
 static PyObject *
 _curses_window_inch_impl(PyCursesWindowObject *self, int group_right_1,
@@ -1092,6 +1088,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_inch_MethodName = {.name = "inch",};
+#define _CURSES_WINDOW_INCH_METHODDEF    \
+    {_curses_window_inch_MethodName.name, (PyCFunction)_curses_window_inch, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_inch__doc__},
+
 PyDoc_STRVAR(_curses_window_insstr__doc__,
 "insstr([y, x,] str, [attr])\n"
 "Insert the string before the current or specified position.\n"
@@ -1110,10 +1110,6 @@ PyDoc_STRVAR(_curses_window_insstr__doc__,
 "the cursor are shifted right, with the rightmost characters on the line\n"
 "being lost.  The cursor position does not change (after moving to y, x,\n"
 "if specified).");
-
-static struct {char name[];} _curses_window_insstr_MethodName = {.name = "insstr",};
-#define _CURSES_WINDOW_INSSTR_METHODDEF    \
-    {_curses_window_insstr_MethodName.name, (PyCFunction)_curses_window_insstr, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_insstr__doc__},
 
 static PyObject *
 _curses_window_insstr_impl(PyCursesWindowObject *self, int group_left_1,
@@ -1166,6 +1162,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_insstr_MethodName = {.name = "insstr",};
+#define _CURSES_WINDOW_INSSTR_METHODDEF    \
+    {_curses_window_insstr_MethodName.name, (PyCFunction)_curses_window_insstr, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_insstr__doc__},
+
 PyDoc_STRVAR(_curses_window_insnstr__doc__,
 "insnstr([y, x,] str, n, [attr])\n"
 "Insert at most n characters of the string.\n"
@@ -1187,10 +1187,6 @@ PyDoc_STRVAR(_curses_window_insnstr__doc__,
 "of the cursor are shifted right, with the rightmost characters on the line\n"
 "being lost.  The cursor position does not change (after moving to y, x, if\n"
 "specified).");
-
-static struct {char name[];} _curses_window_insnstr_MethodName = {.name = "insnstr",};
-#define _CURSES_WINDOW_INSNSTR_METHODDEF    \
-    {_curses_window_insnstr_MethodName.name, (PyCFunction)_curses_window_insnstr, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_insnstr__doc__},
 
 static PyObject *
 _curses_window_insnstr_impl(PyCursesWindowObject *self, int group_left_1,
@@ -1244,6 +1240,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_insnstr_MethodName = {.name = "insnstr",};
+#define _CURSES_WINDOW_INSNSTR_METHODDEF    \
+    {_curses_window_insnstr_MethodName.name, (PyCFunction)_curses_window_insnstr, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_insnstr__doc__},
+
 PyDoc_STRVAR(_curses_window_is_linetouched__doc__,
 "is_linetouched($self, line, /)\n"
 "--\n"
@@ -1254,10 +1254,6 @@ PyDoc_STRVAR(_curses_window_is_linetouched__doc__,
 "    Line number.\n"
 "\n"
 "Raise a curses.error exception if line is not valid for the given window.");
-
-static struct {char name[];} _curses_window_is_linetouched_MethodName = {.name = "is_linetouched",};
-#define _CURSES_WINDOW_IS_LINETOUCHED_METHODDEF    \
-    {_curses_window_is_linetouched_MethodName.name, (PyCFunction)_curses_window_is_linetouched, METH_O|METH_C_STACK_FRUGAL, _curses_window_is_linetouched__doc__},
 
 static PyObject *
 _curses_window_is_linetouched_impl(PyCursesWindowObject *self, int line);
@@ -1278,6 +1274,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_is_linetouched_MethodName = {.name = "is_linetouched",};
+#define _CURSES_WINDOW_IS_LINETOUCHED_METHODDEF    \
+    {_curses_window_is_linetouched_MethodName.name, (PyCFunction)_curses_window_is_linetouched, METH_O|METH_C_STACK_FRUGAL, _curses_window_is_linetouched__doc__},
+
 #if defined(py_is_pad)
 
 PyDoc_STRVAR(_curses_window_noutrefresh__doc__,
@@ -1287,10 +1287,6 @@ PyDoc_STRVAR(_curses_window_noutrefresh__doc__,
 "This function updates the data structure representing the desired state of the\n"
 "window, but does not force an update of the physical screen.  To accomplish\n"
 "that, call doupdate().");
-
-static struct {char name[];} _curses_window_noutrefresh_MethodName = {.name = "noutrefresh",};
-#define _CURSES_WINDOW_NOUTREFRESH_METHODDEF    \
-    {_curses_window_noutrefresh_MethodName.name, (PyCFunction)_curses_window_noutrefresh, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_noutrefresh__doc__},
 
 static PyObject *
 _curses_window_noutrefresh_impl(PyCursesWindowObject *self,
@@ -1329,6 +1325,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_noutrefresh_MethodName = {.name = "noutrefresh",};
+#define _CURSES_WINDOW_NOUTREFRESH_METHODDEF    \
+    {_curses_window_noutrefresh_MethodName.name, (PyCFunction)_curses_window_noutrefresh, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_noutrefresh__doc__},
+
 #endif /* defined(py_is_pad) */
 
 #if !defined(py_is_pad)
@@ -1343,10 +1343,6 @@ PyDoc_STRVAR(_curses_window_noutrefresh__doc__,
 "window, but does not force an update of the physical screen.  To accomplish\n"
 "that, call doupdate().");
 
-static struct {char name[];} _curses_window_noutrefresh_MethodName = {.name = "noutrefresh",};
-#define _CURSES_WINDOW_NOUTREFRESH_METHODDEF    \
-    {_curses_window_noutrefresh_MethodName.name, (PyCFunction)_curses_window_noutrefresh, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_window_noutrefresh__doc__},
-
 static PyObject *
 _curses_window_noutrefresh_impl(PyCursesWindowObject *self);
 
@@ -1355,6 +1351,10 @@ _curses_window_noutrefresh(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return _curses_window_noutrefresh_impl((PyCursesWindowObject *)self);
 }
+
+static struct {char name[];} _curses_window_noutrefresh_MethodName = {.name = "noutrefresh",};
+#define _CURSES_WINDOW_NOUTREFRESH_METHODDEF    \
+    {_curses_window_noutrefresh_MethodName.name, (PyCFunction)_curses_window_noutrefresh, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_window_noutrefresh__doc__},
 
 #endif /* !defined(py_is_pad) */
 
@@ -1370,10 +1370,6 @@ PyDoc_STRVAR(_curses_window_overlay__doc__,
 "overlay() can be used.  sminrow and smincol are the upper-left coordinates\n"
 "of the source window, and the other variables mark a rectangle in the\n"
 "destination window.");
-
-static struct {char name[];} _curses_window_overlay_MethodName = {.name = "overlay",};
-#define _CURSES_WINDOW_OVERLAY_METHODDEF    \
-    {_curses_window_overlay_MethodName.name, (PyCFunction)_curses_window_overlay, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_overlay__doc__},
 
 static PyObject *
 _curses_window_overlay_impl(PyCursesWindowObject *self,
@@ -1416,6 +1412,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_overlay_MethodName = {.name = "overlay",};
+#define _CURSES_WINDOW_OVERLAY_METHODDEF    \
+    {_curses_window_overlay_MethodName.name, (PyCFunction)_curses_window_overlay, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_overlay__doc__},
+
 PyDoc_STRVAR(_curses_window_overwrite__doc__,
 "overwrite(destwin, [sminrow, smincol, dminrow, dmincol, dmaxrow,\n"
 "          dmaxcol])\n"
@@ -1429,10 +1429,6 @@ PyDoc_STRVAR(_curses_window_overwrite__doc__,
 "overwrite() can be used. sminrow and smincol are the upper-left coordinates\n"
 "of the source window, the other variables mark a rectangle in the destination\n"
 "window.");
-
-static struct {char name[];} _curses_window_overwrite_MethodName = {.name = "overwrite",};
-#define _CURSES_WINDOW_OVERWRITE_METHODDEF    \
-    {_curses_window_overwrite_MethodName.name, (PyCFunction)_curses_window_overwrite, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_overwrite__doc__},
 
 static PyObject *
 _curses_window_overwrite_impl(PyCursesWindowObject *self,
@@ -1476,6 +1472,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_overwrite_MethodName = {.name = "overwrite",};
+#define _CURSES_WINDOW_OVERWRITE_METHODDEF    \
+    {_curses_window_overwrite_MethodName.name, (PyCFunction)_curses_window_overwrite, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_overwrite__doc__},
+
 PyDoc_STRVAR(_curses_window_putwin__doc__,
 "putwin($self, file, /)\n"
 "--\n"
@@ -1483,10 +1483,6 @@ PyDoc_STRVAR(_curses_window_putwin__doc__,
 "Write all data associated with the window into the provided file object.\n"
 "\n"
 "This information can be later retrieved using the getwin() function.");
-
-static struct {char name[];} _curses_window_putwin_MethodName = {.name = "putwin",};
-#define _CURSES_WINDOW_PUTWIN_METHODDEF    \
-    {_curses_window_putwin_MethodName.name, (PyCFunction)_curses_window_putwin, METH_O|METH_C_STACK_FRUGAL, _curses_window_putwin__doc__},
 
 static PyObject *
 _curses_window_putwin_impl(PyCursesWindowObject *self, PyObject *file);
@@ -1501,6 +1497,10 @@ _curses_window_putwin(PyObject *self, PyObject *file)
     return return_value;
 }
 
+static struct {char name[];} _curses_window_putwin_MethodName = {.name = "putwin",};
+#define _CURSES_WINDOW_PUTWIN_METHODDEF    \
+    {_curses_window_putwin_MethodName.name, (PyCFunction)_curses_window_putwin, METH_O|METH_C_STACK_FRUGAL, _curses_window_putwin__doc__},
+
 PyDoc_STRVAR(_curses_window_redrawln__doc__,
 "redrawln($self, beg, num, /)\n"
 "--\n"
@@ -1513,10 +1513,6 @@ PyDoc_STRVAR(_curses_window_redrawln__doc__,
 "    The number of lines.\n"
 "\n"
 "They should be completely redrawn on the next refresh() call.");
-
-static struct {char name[];} _curses_window_redrawln_MethodName = {.name = "redrawln",};
-#define _CURSES_WINDOW_REDRAWLN_METHODDEF    \
-    {_curses_window_redrawln_MethodName.name, _PyCFunction_CAST(_curses_window_redrawln), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_window_redrawln__doc__},
 
 static PyObject *
 _curses_window_redrawln_impl(PyCursesWindowObject *self, int beg, int num);
@@ -1545,6 +1541,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_redrawln_MethodName = {.name = "redrawln",};
+#define _CURSES_WINDOW_REDRAWLN_METHODDEF    \
+    {_curses_window_redrawln_MethodName.name, _PyCFunction_CAST(_curses_window_redrawln), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_window_redrawln__doc__},
+
 PyDoc_STRVAR(_curses_window_refresh__doc__,
 "refresh([pminrow, pmincol, sminrow, smincol, smaxrow, smaxcol])\n"
 "Update the display immediately.\n"
@@ -1560,10 +1560,6 @@ PyDoc_STRVAR(_curses_window_refresh__doc__,
 "rectangles must be the same size.  Both rectangles must be entirely contained\n"
 "within their respective structures.  Negative values of pminrow, pmincol,\n"
 "sminrow, or smincol are treated as if they were zero.");
-
-static struct {char name[];} _curses_window_refresh_MethodName = {.name = "refresh",};
-#define _CURSES_WINDOW_REFRESH_METHODDEF    \
-    {_curses_window_refresh_MethodName.name, (PyCFunction)_curses_window_refresh, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_refresh__doc__},
 
 static PyObject *
 _curses_window_refresh_impl(PyCursesWindowObject *self, int group_right_1,
@@ -1601,6 +1597,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_refresh_MethodName = {.name = "refresh",};
+#define _CURSES_WINDOW_REFRESH_METHODDEF    \
+    {_curses_window_refresh_MethodName.name, (PyCFunction)_curses_window_refresh, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_refresh__doc__},
+
 PyDoc_STRVAR(_curses_window_setscrreg__doc__,
 "setscrreg($self, top, bottom, /)\n"
 "--\n"
@@ -1613,10 +1613,6 @@ PyDoc_STRVAR(_curses_window_setscrreg__doc__,
 "    Last line number.\n"
 "\n"
 "All scrolling actions will take place in this region.");
-
-static struct {char name[];} _curses_window_setscrreg_MethodName = {.name = "setscrreg",};
-#define _CURSES_WINDOW_SETSCRREG_METHODDEF    \
-    {_curses_window_setscrreg_MethodName.name, _PyCFunction_CAST(_curses_window_setscrreg), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_window_setscrreg__doc__},
 
 static PyObject *
 _curses_window_setscrreg_impl(PyCursesWindowObject *self, int top,
@@ -1646,6 +1642,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_setscrreg_MethodName = {.name = "setscrreg",};
+#define _CURSES_WINDOW_SETSCRREG_METHODDEF    \
+    {_curses_window_setscrreg_MethodName.name, _PyCFunction_CAST(_curses_window_setscrreg), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_window_setscrreg__doc__},
+
 PyDoc_STRVAR(_curses_window_subwin__doc__,
 "subwin([nlines=0, ncols=0,] begin_y, begin_x)\n"
 "Create a sub-window (screen-relative coordinates).\n"
@@ -1661,10 +1661,6 @@ PyDoc_STRVAR(_curses_window_subwin__doc__,
 "\n"
 "By default, the sub-window will extend from the specified position to the\n"
 "lower right corner of the window.");
-
-static struct {char name[];} _curses_window_subwin_MethodName = {.name = "subwin",};
-#define _CURSES_WINDOW_SUBWIN_METHODDEF    \
-    {_curses_window_subwin_MethodName.name, (PyCFunction)_curses_window_subwin, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_subwin__doc__},
 
 static PyObject *
 _curses_window_subwin_impl(PyCursesWindowObject *self, int group_left_1,
@@ -1702,6 +1698,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_subwin_MethodName = {.name = "subwin",};
+#define _CURSES_WINDOW_SUBWIN_METHODDEF    \
+    {_curses_window_subwin_MethodName.name, (PyCFunction)_curses_window_subwin, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_subwin__doc__},
+
 PyDoc_STRVAR(_curses_window_scroll__doc__,
 "scroll([lines=1])\n"
 "Scroll the screen or scrolling region.\n"
@@ -1710,10 +1710,6 @@ PyDoc_STRVAR(_curses_window_scroll__doc__,
 "    Number of lines to scroll.\n"
 "\n"
 "Scroll upward if the argument is positive and downward if it is negative.");
-
-static struct {char name[];} _curses_window_scroll_MethodName = {.name = "scroll",};
-#define _CURSES_WINDOW_SCROLL_METHODDEF    \
-    {_curses_window_scroll_MethodName.name, (PyCFunction)_curses_window_scroll, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_scroll__doc__},
 
 static PyObject *
 _curses_window_scroll_impl(PyCursesWindowObject *self, int group_right_1,
@@ -1745,16 +1741,16 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_scroll_MethodName = {.name = "scroll",};
+#define _CURSES_WINDOW_SCROLL_METHODDEF    \
+    {_curses_window_scroll_MethodName.name, (PyCFunction)_curses_window_scroll, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_scroll__doc__},
+
 PyDoc_STRVAR(_curses_window_touchline__doc__,
 "touchline(start, count, [changed=True])\n"
 "Pretend count lines have been changed, starting with line start.\n"
 "\n"
 "If changed is supplied, it specifies whether the affected lines are marked\n"
 "as having been changed (changed=True) or unchanged (changed=False).");
-
-static struct {char name[];} _curses_window_touchline_MethodName = {.name = "touchline",};
-#define _CURSES_WINDOW_TOUCHLINE_METHODDEF    \
-    {_curses_window_touchline_MethodName.name, (PyCFunction)_curses_window_touchline, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_touchline__doc__},
 
 static PyObject *
 _curses_window_touchline_impl(PyCursesWindowObject *self, int start,
@@ -1791,6 +1787,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_touchline_MethodName = {.name = "touchline",};
+#define _CURSES_WINDOW_TOUCHLINE_METHODDEF    \
+    {_curses_window_touchline_MethodName.name, (PyCFunction)_curses_window_touchline, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_touchline__doc__},
+
 PyDoc_STRVAR(_curses_window_vline__doc__,
 "vline([y, x,] ch, n, [attr=_curses.A_NORMAL])\n"
 "Display a vertical line.\n"
@@ -1805,10 +1805,6 @@ PyDoc_STRVAR(_curses_window_vline__doc__,
 "    Line length.\n"
 "  attr\n"
 "    Attributes for the character.");
-
-static struct {char name[];} _curses_window_vline_MethodName = {.name = "vline",};
-#define _CURSES_WINDOW_VLINE_METHODDEF    \
-    {_curses_window_vline_MethodName.name, (PyCFunction)_curses_window_vline, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_vline__doc__},
 
 static PyObject *
 _curses_window_vline_impl(PyCursesWindowObject *self, int group_left_1,
@@ -1862,16 +1858,16 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_window_vline_MethodName = {.name = "vline",};
+#define _CURSES_WINDOW_VLINE_METHODDEF    \
+    {_curses_window_vline_MethodName.name, (PyCFunction)_curses_window_vline, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_window_vline__doc__},
+
 #if defined(HAVE_CURSES_FILTER)
 
 PyDoc_STRVAR(_curses_filter__doc__,
 "filter($module, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _curses_filter_MethodName = {.name = "filter",};
-#define _CURSES_FILTER_METHODDEF    \
-    {_curses_filter_MethodName.name, (PyCFunction)_curses_filter, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_filter__doc__},
 
 static PyObject *
 _curses_filter_impl(PyObject *module);
@@ -1882,6 +1878,10 @@ _curses_filter(PyObject *module, PyObject *Py_UNUSED(ignored))
     return _curses_filter_impl(module);
 }
 
+static struct {char name[];} _curses_filter_MethodName = {.name = "filter",};
+#define _CURSES_FILTER_METHODDEF    \
+    {_curses_filter_MethodName.name, (PyCFunction)_curses_filter, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_filter__doc__},
+
 #endif /* defined(HAVE_CURSES_FILTER) */
 
 PyDoc_STRVAR(_curses_baudrate__doc__,
@@ -1889,10 +1889,6 @@ PyDoc_STRVAR(_curses_baudrate__doc__,
 "--\n"
 "\n"
 "Return the output speed of the terminal in bits per second.");
-
-static struct {char name[];} _curses_baudrate_MethodName = {.name = "baudrate",};
-#define _CURSES_BAUDRATE_METHODDEF    \
-    {_curses_baudrate_MethodName.name, (PyCFunction)_curses_baudrate, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_baudrate__doc__},
 
 static PyObject *
 _curses_baudrate_impl(PyObject *module);
@@ -1903,15 +1899,15 @@ _curses_baudrate(PyObject *module, PyObject *Py_UNUSED(ignored))
     return _curses_baudrate_impl(module);
 }
 
+static struct {char name[];} _curses_baudrate_MethodName = {.name = "baudrate",};
+#define _CURSES_BAUDRATE_METHODDEF    \
+    {_curses_baudrate_MethodName.name, (PyCFunction)_curses_baudrate, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_baudrate__doc__},
+
 PyDoc_STRVAR(_curses_beep__doc__,
 "beep($module, /)\n"
 "--\n"
 "\n"
 "Emit a short attention sound.");
-
-static struct {char name[];} _curses_beep_MethodName = {.name = "beep",};
-#define _CURSES_BEEP_METHODDEF    \
-    {_curses_beep_MethodName.name, (PyCFunction)_curses_beep, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_beep__doc__},
 
 static PyObject *
 _curses_beep_impl(PyObject *module);
@@ -1922,15 +1918,15 @@ _curses_beep(PyObject *module, PyObject *Py_UNUSED(ignored))
     return _curses_beep_impl(module);
 }
 
+static struct {char name[];} _curses_beep_MethodName = {.name = "beep",};
+#define _CURSES_BEEP_METHODDEF    \
+    {_curses_beep_MethodName.name, (PyCFunction)_curses_beep, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_beep__doc__},
+
 PyDoc_STRVAR(_curses_can_change_color__doc__,
 "can_change_color($module, /)\n"
 "--\n"
 "\n"
 "Return True if the programmer can change the colors displayed by the terminal.");
-
-static struct {char name[];} _curses_can_change_color_MethodName = {.name = "can_change_color",};
-#define _CURSES_CAN_CHANGE_COLOR_METHODDEF    \
-    {_curses_can_change_color_MethodName.name, (PyCFunction)_curses_can_change_color, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_can_change_color__doc__},
 
 static PyObject *
 _curses_can_change_color_impl(PyObject *module);
@@ -1940,6 +1936,10 @@ _curses_can_change_color(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return _curses_can_change_color_impl(module);
 }
+
+static struct {char name[];} _curses_can_change_color_MethodName = {.name = "can_change_color",};
+#define _CURSES_CAN_CHANGE_COLOR_METHODDEF    \
+    {_curses_can_change_color_MethodName.name, (PyCFunction)_curses_can_change_color, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_can_change_color__doc__},
 
 PyDoc_STRVAR(_curses_cbreak__doc__,
 "cbreak($module, flag=True, /)\n"
@@ -1955,10 +1955,6 @@ PyDoc_STRVAR(_curses_cbreak__doc__,
 "unlike raw mode, special characters (interrupt, quit, suspend, and flow\n"
 "control) retain their effects on the tty driver and calling program.\n"
 "Calling first raw() then cbreak() leaves the terminal in cbreak mode.");
-
-static struct {char name[];} _curses_cbreak_MethodName = {.name = "cbreak",};
-#define _CURSES_CBREAK_METHODDEF    \
-    {_curses_cbreak_MethodName.name, _PyCFunction_CAST(_curses_cbreak), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_cbreak__doc__},
 
 static PyObject *
 _curses_cbreak_impl(PyObject *module, int flag);
@@ -1986,6 +1982,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_cbreak_MethodName = {.name = "cbreak",};
+#define _CURSES_CBREAK_METHODDEF    \
+    {_curses_cbreak_MethodName.name, _PyCFunction_CAST(_curses_cbreak), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_cbreak__doc__},
+
 PyDoc_STRVAR(_curses_color_content__doc__,
 "color_content($module, color_number, /)\n"
 "--\n"
@@ -1997,10 +1997,6 @@ PyDoc_STRVAR(_curses_color_content__doc__,
 "\n"
 "A 3-tuple is returned, containing the R, G, B values for the given color,\n"
 "which will be between 0 (no component) and 1000 (maximum amount of component).");
-
-static struct {char name[];} _curses_color_content_MethodName = {.name = "color_content",};
-#define _CURSES_COLOR_CONTENT_METHODDEF    \
-    {_curses_color_content_MethodName.name, (PyCFunction)_curses_color_content, METH_O|METH_C_STACK_FRUGAL, _curses_color_content__doc__},
 
 static PyObject *
 _curses_color_content_impl(PyObject *module, int color_number);
@@ -2020,6 +2016,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_color_content_MethodName = {.name = "color_content",};
+#define _CURSES_COLOR_CONTENT_METHODDEF    \
+    {_curses_color_content_MethodName.name, (PyCFunction)_curses_color_content, METH_O|METH_C_STACK_FRUGAL, _curses_color_content__doc__},
+
 PyDoc_STRVAR(_curses_color_pair__doc__,
 "color_pair($module, pair_number, /)\n"
 "--\n"
@@ -2031,10 +2031,6 @@ PyDoc_STRVAR(_curses_color_pair__doc__,
 "\n"
 "This attribute value can be combined with A_STANDOUT, A_REVERSE, and the\n"
 "other A_* attributes.  pair_number() is the counterpart to this function.");
-
-static struct {char name[];} _curses_color_pair_MethodName = {.name = "color_pair",};
-#define _CURSES_COLOR_PAIR_METHODDEF    \
-    {_curses_color_pair_MethodName.name, (PyCFunction)_curses_color_pair, METH_O|METH_C_STACK_FRUGAL, _curses_color_pair__doc__},
 
 static PyObject *
 _curses_color_pair_impl(PyObject *module, int pair_number);
@@ -2055,6 +2051,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_color_pair_MethodName = {.name = "color_pair",};
+#define _CURSES_COLOR_PAIR_METHODDEF    \
+    {_curses_color_pair_MethodName.name, (PyCFunction)_curses_color_pair, METH_O|METH_C_STACK_FRUGAL, _curses_color_pair__doc__},
+
 PyDoc_STRVAR(_curses_curs_set__doc__,
 "curs_set($module, visibility, /)\n"
 "--\n"
@@ -2068,10 +2068,6 @@ PyDoc_STRVAR(_curses_curs_set__doc__,
 "state is returned; otherwise, an exception is raised.  On many terminals,\n"
 "the \"visible\" mode is an underline cursor and the \"very visible\" mode is\n"
 "a block cursor.");
-
-static struct {char name[];} _curses_curs_set_MethodName = {.name = "curs_set",};
-#define _CURSES_CURS_SET_METHODDEF    \
-    {_curses_curs_set_MethodName.name, (PyCFunction)_curses_curs_set, METH_O|METH_C_STACK_FRUGAL, _curses_curs_set__doc__},
 
 static PyObject *
 _curses_curs_set_impl(PyObject *module, int visibility);
@@ -2092,6 +2088,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_curs_set_MethodName = {.name = "curs_set",};
+#define _CURSES_CURS_SET_METHODDEF    \
+    {_curses_curs_set_MethodName.name, (PyCFunction)_curses_curs_set, METH_O|METH_C_STACK_FRUGAL, _curses_curs_set__doc__},
+
 PyDoc_STRVAR(_curses_def_prog_mode__doc__,
 "def_prog_mode($module, /)\n"
 "--\n"
@@ -2102,10 +2102,6 @@ PyDoc_STRVAR(_curses_def_prog_mode__doc__,
 "\n"
 "Subsequent calls to reset_prog_mode() will restore this mode.");
 
-static struct {char name[];} _curses_def_prog_mode_MethodName = {.name = "def_prog_mode",};
-#define _CURSES_DEF_PROG_MODE_METHODDEF    \
-    {_curses_def_prog_mode_MethodName.name, (PyCFunction)_curses_def_prog_mode, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_def_prog_mode__doc__},
-
 static PyObject *
 _curses_def_prog_mode_impl(PyObject *module);
 
@@ -2114,6 +2110,10 @@ _curses_def_prog_mode(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return _curses_def_prog_mode_impl(module);
 }
+
+static struct {char name[];} _curses_def_prog_mode_MethodName = {.name = "def_prog_mode",};
+#define _CURSES_DEF_PROG_MODE_METHODDEF    \
+    {_curses_def_prog_mode_MethodName.name, (PyCFunction)_curses_def_prog_mode, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_def_prog_mode__doc__},
 
 PyDoc_STRVAR(_curses_def_shell_mode__doc__,
 "def_shell_mode($module, /)\n"
@@ -2125,10 +2125,6 @@ PyDoc_STRVAR(_curses_def_shell_mode__doc__,
 "\n"
 "Subsequent calls to reset_shell_mode() will restore this mode.");
 
-static struct {char name[];} _curses_def_shell_mode_MethodName = {.name = "def_shell_mode",};
-#define _CURSES_DEF_SHELL_MODE_METHODDEF    \
-    {_curses_def_shell_mode_MethodName.name, (PyCFunction)_curses_def_shell_mode, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_def_shell_mode__doc__},
-
 static PyObject *
 _curses_def_shell_mode_impl(PyObject *module);
 
@@ -2138,6 +2134,10 @@ _curses_def_shell_mode(PyObject *module, PyObject *Py_UNUSED(ignored))
     return _curses_def_shell_mode_impl(module);
 }
 
+static struct {char name[];} _curses_def_shell_mode_MethodName = {.name = "def_shell_mode",};
+#define _CURSES_DEF_SHELL_MODE_METHODDEF    \
+    {_curses_def_shell_mode_MethodName.name, (PyCFunction)_curses_def_shell_mode, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_def_shell_mode__doc__},
+
 PyDoc_STRVAR(_curses_delay_output__doc__,
 "delay_output($module, ms, /)\n"
 "--\n"
@@ -2146,10 +2146,6 @@ PyDoc_STRVAR(_curses_delay_output__doc__,
 "\n"
 "  ms\n"
 "    Duration in milliseconds.");
-
-static struct {char name[];} _curses_delay_output_MethodName = {.name = "delay_output",};
-#define _CURSES_DELAY_OUTPUT_METHODDEF    \
-    {_curses_delay_output_MethodName.name, (PyCFunction)_curses_delay_output, METH_O|METH_C_STACK_FRUGAL, _curses_delay_output__doc__},
 
 static PyObject *
 _curses_delay_output_impl(PyObject *module, int ms);
@@ -2170,15 +2166,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_delay_output_MethodName = {.name = "delay_output",};
+#define _CURSES_DELAY_OUTPUT_METHODDEF    \
+    {_curses_delay_output_MethodName.name, (PyCFunction)_curses_delay_output, METH_O|METH_C_STACK_FRUGAL, _curses_delay_output__doc__},
+
 PyDoc_STRVAR(_curses_doupdate__doc__,
 "doupdate($module, /)\n"
 "--\n"
 "\n"
 "Update the physical screen to match the virtual screen.");
-
-static struct {char name[];} _curses_doupdate_MethodName = {.name = "doupdate",};
-#define _CURSES_DOUPDATE_METHODDEF    \
-    {_curses_doupdate_MethodName.name, (PyCFunction)_curses_doupdate, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_doupdate__doc__},
 
 static PyObject *
 _curses_doupdate_impl(PyObject *module);
@@ -2188,6 +2184,10 @@ _curses_doupdate(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return _curses_doupdate_impl(module);
 }
+
+static struct {char name[];} _curses_doupdate_MethodName = {.name = "doupdate",};
+#define _CURSES_DOUPDATE_METHODDEF    \
+    {_curses_doupdate_MethodName.name, (PyCFunction)_curses_doupdate, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_doupdate__doc__},
 
 PyDoc_STRVAR(_curses_echo__doc__,
 "echo($module, flag=True, /)\n"
@@ -2199,10 +2199,6 @@ PyDoc_STRVAR(_curses_echo__doc__,
 "    If false, the effect is the same as calling noecho().\n"
 "\n"
 "In echo mode, each character input is echoed to the screen as it is entered.");
-
-static struct {char name[];} _curses_echo_MethodName = {.name = "echo",};
-#define _CURSES_ECHO_METHODDEF    \
-    {_curses_echo_MethodName.name, _PyCFunction_CAST(_curses_echo), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_echo__doc__},
 
 static PyObject *
 _curses_echo_impl(PyObject *module, int flag);
@@ -2230,15 +2226,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_echo_MethodName = {.name = "echo",};
+#define _CURSES_ECHO_METHODDEF    \
+    {_curses_echo_MethodName.name, _PyCFunction_CAST(_curses_echo), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_echo__doc__},
+
 PyDoc_STRVAR(_curses_endwin__doc__,
 "endwin($module, /)\n"
 "--\n"
 "\n"
 "De-initialize the library, and return terminal to normal status.");
-
-static struct {char name[];} _curses_endwin_MethodName = {.name = "endwin",};
-#define _CURSES_ENDWIN_METHODDEF    \
-    {_curses_endwin_MethodName.name, (PyCFunction)_curses_endwin, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_endwin__doc__},
 
 static PyObject *
 _curses_endwin_impl(PyObject *module);
@@ -2249,15 +2245,15 @@ _curses_endwin(PyObject *module, PyObject *Py_UNUSED(ignored))
     return _curses_endwin_impl(module);
 }
 
+static struct {char name[];} _curses_endwin_MethodName = {.name = "endwin",};
+#define _CURSES_ENDWIN_METHODDEF    \
+    {_curses_endwin_MethodName.name, (PyCFunction)_curses_endwin, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_endwin__doc__},
+
 PyDoc_STRVAR(_curses_erasechar__doc__,
 "erasechar($module, /)\n"
 "--\n"
 "\n"
 "Return the user\'s current erase character.");
-
-static struct {char name[];} _curses_erasechar_MethodName = {.name = "erasechar",};
-#define _CURSES_ERASECHAR_METHODDEF    \
-    {_curses_erasechar_MethodName.name, (PyCFunction)_curses_erasechar, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_erasechar__doc__},
 
 static PyObject *
 _curses_erasechar_impl(PyObject *module);
@@ -2268,6 +2264,10 @@ _curses_erasechar(PyObject *module, PyObject *Py_UNUSED(ignored))
     return _curses_erasechar_impl(module);
 }
 
+static struct {char name[];} _curses_erasechar_MethodName = {.name = "erasechar",};
+#define _CURSES_ERASECHAR_METHODDEF    \
+    {_curses_erasechar_MethodName.name, (PyCFunction)_curses_erasechar, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_erasechar__doc__},
+
 PyDoc_STRVAR(_curses_flash__doc__,
 "flash($module, /)\n"
 "--\n"
@@ -2275,10 +2275,6 @@ PyDoc_STRVAR(_curses_flash__doc__,
 "Flash the screen.\n"
 "\n"
 "That is, change it to reverse-video and then change it back in a short interval.");
-
-static struct {char name[];} _curses_flash_MethodName = {.name = "flash",};
-#define _CURSES_FLASH_METHODDEF    \
-    {_curses_flash_MethodName.name, (PyCFunction)_curses_flash, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_flash__doc__},
 
 static PyObject *
 _curses_flash_impl(PyObject *module);
@@ -2289,6 +2285,10 @@ _curses_flash(PyObject *module, PyObject *Py_UNUSED(ignored))
     return _curses_flash_impl(module);
 }
 
+static struct {char name[];} _curses_flash_MethodName = {.name = "flash",};
+#define _CURSES_FLASH_METHODDEF    \
+    {_curses_flash_MethodName.name, (PyCFunction)_curses_flash, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_flash__doc__},
+
 PyDoc_STRVAR(_curses_flushinp__doc__,
 "flushinp($module, /)\n"
 "--\n"
@@ -2298,10 +2298,6 @@ PyDoc_STRVAR(_curses_flushinp__doc__,
 "This throws away any typeahead that has been typed by the user and has not\n"
 "yet been processed by the program.");
 
-static struct {char name[];} _curses_flushinp_MethodName = {.name = "flushinp",};
-#define _CURSES_FLUSHINP_METHODDEF    \
-    {_curses_flushinp_MethodName.name, (PyCFunction)_curses_flushinp, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_flushinp__doc__},
-
 static PyObject *
 _curses_flushinp_impl(PyObject *module);
 
@@ -2310,6 +2306,10 @@ _curses_flushinp(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return _curses_flushinp_impl(module);
 }
+
+static struct {char name[];} _curses_flushinp_MethodName = {.name = "flushinp",};
+#define _CURSES_FLUSHINP_METHODDEF    \
+    {_curses_flushinp_MethodName.name, (PyCFunction)_curses_flushinp, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_flushinp__doc__},
 
 #if defined(getsyx)
 
@@ -2321,10 +2321,6 @@ PyDoc_STRVAR(_curses_getsyx__doc__,
 "\n"
 "Return a (y, x) tuple.  If leaveok is currently true, return (-1, -1).");
 
-static struct {char name[];} _curses_getsyx_MethodName = {.name = "getsyx",};
-#define _CURSES_GETSYX_METHODDEF    \
-    {_curses_getsyx_MethodName.name, (PyCFunction)_curses_getsyx, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_getsyx__doc__},
-
 static PyObject *
 _curses_getsyx_impl(PyObject *module);
 
@@ -2333,6 +2329,10 @@ _curses_getsyx(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return _curses_getsyx_impl(module);
 }
+
+static struct {char name[];} _curses_getsyx_MethodName = {.name = "getsyx",};
+#define _CURSES_GETSYX_METHODDEF    \
+    {_curses_getsyx_MethodName.name, (PyCFunction)_curses_getsyx, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_getsyx__doc__},
 
 #endif /* defined(getsyx) */
 
@@ -2347,10 +2347,6 @@ PyDoc_STRVAR(_curses_getmouse__doc__,
 "After getch() returns KEY_MOUSE to signal a mouse event, this function\n"
 "returns a 5-tuple (id, x, y, z, bstate).");
 
-static struct {char name[];} _curses_getmouse_MethodName = {.name = "getmouse",};
-#define _CURSES_GETMOUSE_METHODDEF    \
-    {_curses_getmouse_MethodName.name, (PyCFunction)_curses_getmouse, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_getmouse__doc__},
-
 static PyObject *
 _curses_getmouse_impl(PyObject *module);
 
@@ -2359,6 +2355,10 @@ _curses_getmouse(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return _curses_getmouse_impl(module);
 }
+
+static struct {char name[];} _curses_getmouse_MethodName = {.name = "getmouse",};
+#define _CURSES_GETMOUSE_METHODDEF    \
+    {_curses_getmouse_MethodName.name, (PyCFunction)_curses_getmouse, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_getmouse__doc__},
 
 #endif /* defined(NCURSES_MOUSE_VERSION) */
 
@@ -2371,10 +2371,6 @@ PyDoc_STRVAR(_curses_ungetmouse__doc__,
 "Push a KEY_MOUSE event onto the input queue.\n"
 "\n"
 "The following getmouse() will return the given state data.");
-
-static struct {char name[];} _curses_ungetmouse_MethodName = {.name = "ungetmouse",};
-#define _CURSES_UNGETMOUSE_METHODDEF    \
-    {_curses_ungetmouse_MethodName.name, _PyCFunction_CAST(_curses_ungetmouse), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_ungetmouse__doc__},
 
 static PyObject *
 _curses_ungetmouse_impl(PyObject *module, short id, int x, int y, int z,
@@ -2435,6 +2431,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_ungetmouse_MethodName = {.name = "ungetmouse",};
+#define _CURSES_UNGETMOUSE_METHODDEF    \
+    {_curses_ungetmouse_MethodName.name, _PyCFunction_CAST(_curses_ungetmouse), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_ungetmouse__doc__},
+
 #endif /* defined(NCURSES_MOUSE_VERSION) */
 
 PyDoc_STRVAR(_curses_getwin__doc__,
@@ -2460,10 +2460,6 @@ PyDoc_STRVAR(_curses_halfdelay__doc__,
 "    Maximal blocking delay in tenths of seconds (1 - 255).\n"
 "\n"
 "Use nocbreak() to leave half-delay mode.");
-
-static struct {char name[];} _curses_halfdelay_MethodName = {.name = "halfdelay",};
-#define _CURSES_HALFDELAY_METHODDEF    \
-    {_curses_halfdelay_MethodName.name, (PyCFunction)_curses_halfdelay, METH_O|METH_C_STACK_FRUGAL, _curses_halfdelay__doc__},
 
 static PyObject *
 _curses_halfdelay_impl(PyObject *module, unsigned char tenths);
@@ -2499,15 +2495,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_halfdelay_MethodName = {.name = "halfdelay",};
+#define _CURSES_HALFDELAY_METHODDEF    \
+    {_curses_halfdelay_MethodName.name, (PyCFunction)_curses_halfdelay, METH_O|METH_C_STACK_FRUGAL, _curses_halfdelay__doc__},
+
 PyDoc_STRVAR(_curses_has_colors__doc__,
 "has_colors($module, /)\n"
 "--\n"
 "\n"
 "Return True if the terminal can display colors; otherwise, return False.");
-
-static struct {char name[];} _curses_has_colors_MethodName = {.name = "has_colors",};
-#define _CURSES_HAS_COLORS_METHODDEF    \
-    {_curses_has_colors_MethodName.name, (PyCFunction)_curses_has_colors, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_has_colors__doc__},
 
 static PyObject *
 _curses_has_colors_impl(PyObject *module);
@@ -2518,15 +2514,15 @@ _curses_has_colors(PyObject *module, PyObject *Py_UNUSED(ignored))
     return _curses_has_colors_impl(module);
 }
 
+static struct {char name[];} _curses_has_colors_MethodName = {.name = "has_colors",};
+#define _CURSES_HAS_COLORS_METHODDEF    \
+    {_curses_has_colors_MethodName.name, (PyCFunction)_curses_has_colors, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_has_colors__doc__},
+
 PyDoc_STRVAR(_curses_has_ic__doc__,
 "has_ic($module, /)\n"
 "--\n"
 "\n"
 "Return True if the terminal has insert- and delete-character capabilities.");
-
-static struct {char name[];} _curses_has_ic_MethodName = {.name = "has_ic",};
-#define _CURSES_HAS_IC_METHODDEF    \
-    {_curses_has_ic_MethodName.name, (PyCFunction)_curses_has_ic, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_has_ic__doc__},
 
 static PyObject *
 _curses_has_ic_impl(PyObject *module);
@@ -2537,15 +2533,15 @@ _curses_has_ic(PyObject *module, PyObject *Py_UNUSED(ignored))
     return _curses_has_ic_impl(module);
 }
 
+static struct {char name[];} _curses_has_ic_MethodName = {.name = "has_ic",};
+#define _CURSES_HAS_IC_METHODDEF    \
+    {_curses_has_ic_MethodName.name, (PyCFunction)_curses_has_ic, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_has_ic__doc__},
+
 PyDoc_STRVAR(_curses_has_il__doc__,
 "has_il($module, /)\n"
 "--\n"
 "\n"
 "Return True if the terminal has insert- and delete-line capabilities.");
-
-static struct {char name[];} _curses_has_il_MethodName = {.name = "has_il",};
-#define _CURSES_HAS_IL_METHODDEF    \
-    {_curses_has_il_MethodName.name, (PyCFunction)_curses_has_il, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_has_il__doc__},
 
 static PyObject *
 _curses_has_il_impl(PyObject *module);
@@ -2555,6 +2551,10 @@ _curses_has_il(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return _curses_has_il_impl(module);
 }
+
+static struct {char name[];} _curses_has_il_MethodName = {.name = "has_il",};
+#define _CURSES_HAS_IL_METHODDEF    \
+    {_curses_has_il_MethodName.name, (PyCFunction)_curses_has_il, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_has_il__doc__},
 
 #if defined(HAVE_CURSES_HAS_KEY)
 
@@ -2566,10 +2566,6 @@ PyDoc_STRVAR(_curses_has_key__doc__,
 "\n"
 "  key\n"
 "    Key number.");
-
-static struct {char name[];} _curses_has_key_MethodName = {.name = "has_key",};
-#define _CURSES_HAS_KEY_METHODDEF    \
-    {_curses_has_key_MethodName.name, (PyCFunction)_curses_has_key, METH_O|METH_C_STACK_FRUGAL, _curses_has_key__doc__},
 
 static PyObject *
 _curses_has_key_impl(PyObject *module, int key);
@@ -2589,6 +2585,10 @@ _curses_has_key(PyObject *module, PyObject *arg)
 exit:
     return return_value;
 }
+
+static struct {char name[];} _curses_has_key_MethodName = {.name = "has_key",};
+#define _CURSES_HAS_KEY_METHODDEF    \
+    {_curses_has_key_MethodName.name, (PyCFunction)_curses_has_key, METH_O|METH_C_STACK_FRUGAL, _curses_has_key__doc__},
 
 #endif /* defined(HAVE_CURSES_HAS_KEY) */
 
@@ -2610,10 +2610,6 @@ PyDoc_STRVAR(_curses_init_color__doc__,
 "When init_color() is used, all occurrences of that color on the screen\n"
 "immediately change to the new definition.  This function is a no-op on\n"
 "most terminals; it is active only if can_change_color() returns true.");
-
-static struct {char name[];} _curses_init_color_MethodName = {.name = "init_color",};
-#define _CURSES_INIT_COLOR_METHODDEF    \
-    {_curses_init_color_MethodName.name, _PyCFunction_CAST(_curses_init_color), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_init_color__doc__},
 
 static PyObject *
 _curses_init_color_impl(PyObject *module, int color_number, short r, short g,
@@ -2649,6 +2645,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_init_color_MethodName = {.name = "init_color",};
+#define _CURSES_INIT_COLOR_METHODDEF    \
+    {_curses_init_color_MethodName.name, _PyCFunction_CAST(_curses_init_color), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_init_color__doc__},
+
 PyDoc_STRVAR(_curses_init_pair__doc__,
 "init_pair($module, pair_number, fg, bg, /)\n"
 "--\n"
@@ -2664,10 +2664,6 @@ PyDoc_STRVAR(_curses_init_pair__doc__,
 "\n"
 "If the color-pair was previously initialized, the screen is refreshed and\n"
 "all occurrences of that color-pair are changed to the new definition.");
-
-static struct {char name[];} _curses_init_pair_MethodName = {.name = "init_pair",};
-#define _CURSES_INIT_PAIR_METHODDEF    \
-    {_curses_init_pair_MethodName.name, _PyCFunction_CAST(_curses_init_pair), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_init_pair__doc__},
 
 static PyObject *
 _curses_init_pair_impl(PyObject *module, int pair_number, int fg, int bg);
@@ -2698,6 +2694,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_init_pair_MethodName = {.name = "init_pair",};
+#define _CURSES_INIT_PAIR_METHODDEF    \
+    {_curses_init_pair_MethodName.name, _PyCFunction_CAST(_curses_init_pair), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_init_pair__doc__},
+
 PyDoc_STRVAR(_curses_initscr__doc__,
 "initscr($module, /)\n"
 "--\n"
@@ -2705,10 +2705,6 @@ PyDoc_STRVAR(_curses_initscr__doc__,
 "Initialize the library.\n"
 "\n"
 "Return a WindowObject which represents the whole screen.");
-
-static struct {char name[];} _curses_initscr_MethodName = {.name = "initscr",};
-#define _CURSES_INITSCR_METHODDEF    \
-    {_curses_initscr_MethodName.name, (PyCFunction)_curses_initscr, METH_NOARGS, _curses_initscr__doc__},
 
 static PyObject *
 _curses_initscr_impl(PyObject *module);
@@ -2718,6 +2714,10 @@ _curses_initscr(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return _curses_initscr_impl(module);
 }
+
+static struct {char name[];} _curses_initscr_MethodName = {.name = "initscr",};
+#define _CURSES_INITSCR_METHODDEF    \
+    {_curses_initscr_MethodName.name, (PyCFunction)_curses_initscr, METH_NOARGS, _curses_initscr__doc__},
 
 PyDoc_STRVAR(_curses_setupterm__doc__,
 "setupterm($module, /, term=None, fd=-1)\n"
@@ -2731,10 +2731,6 @@ PyDoc_STRVAR(_curses_setupterm__doc__,
 "  fd\n"
 "    File descriptor to which any initialization sequences will be sent.\n"
 "    If not supplied, the file descriptor for sys.stdout will be used.");
-
-static struct {char name[];} _curses_setupterm_MethodName = {.name = "setupterm",};
-#define _CURSES_SETUPTERM_METHODDEF    \
-    {_curses_setupterm_MethodName.name, _PyCFunction_CAST(_curses_setupterm), METH_FASTCALL|METH_KEYWORDS, _curses_setupterm__doc__},
 
 static PyObject *
 _curses_setupterm_impl(PyObject *module, const char *term, int fd);
@@ -2817,6 +2813,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_setupterm_MethodName = {.name = "setupterm",};
+#define _CURSES_SETUPTERM_METHODDEF    \
+    {_curses_setupterm_MethodName.name, _PyCFunction_CAST(_curses_setupterm), METH_FASTCALL|METH_KEYWORDS, _curses_setupterm__doc__},
+
 #if (defined(NCURSES_EXT_FUNCS) && NCURSES_EXT_FUNCS >= 20081102)
 
 PyDoc_STRVAR(_curses_get_escdelay__doc__,
@@ -2829,10 +2829,6 @@ PyDoc_STRVAR(_curses_get_escdelay__doc__,
 "to distinguish between an individual escape character entered on the\n"
 "keyboard from escape sequences sent by cursor and function keys.");
 
-static struct {char name[];} _curses_get_escdelay_MethodName = {.name = "get_escdelay",};
-#define _CURSES_GET_ESCDELAY_METHODDEF    \
-    {_curses_get_escdelay_MethodName.name, (PyCFunction)_curses_get_escdelay, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_get_escdelay__doc__},
-
 static PyObject *
 _curses_get_escdelay_impl(PyObject *module);
 
@@ -2841,6 +2837,10 @@ _curses_get_escdelay(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return _curses_get_escdelay_impl(module);
 }
+
+static struct {char name[];} _curses_get_escdelay_MethodName = {.name = "get_escdelay",};
+#define _CURSES_GET_ESCDELAY_METHODDEF    \
+    {_curses_get_escdelay_MethodName.name, (PyCFunction)_curses_get_escdelay, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_get_escdelay__doc__},
 
 #endif /* (defined(NCURSES_EXT_FUNCS) && NCURSES_EXT_FUNCS >= 20081102) */
 
@@ -2858,10 +2858,6 @@ PyDoc_STRVAR(_curses_set_escdelay__doc__,
 "Sets the number of milliseconds to wait after reading an escape character,\n"
 "to distinguish between an individual escape character entered on the\n"
 "keyboard from escape sequences sent by cursor and function keys.");
-
-static struct {char name[];} _curses_set_escdelay_MethodName = {.name = "set_escdelay",};
-#define _CURSES_SET_ESCDELAY_METHODDEF    \
-    {_curses_set_escdelay_MethodName.name, (PyCFunction)_curses_set_escdelay, METH_O|METH_C_STACK_FRUGAL, _curses_set_escdelay__doc__},
 
 static PyObject *
 _curses_set_escdelay_impl(PyObject *module, int ms);
@@ -2882,6 +2878,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_set_escdelay_MethodName = {.name = "set_escdelay",};
+#define _CURSES_SET_ESCDELAY_METHODDEF    \
+    {_curses_set_escdelay_MethodName.name, (PyCFunction)_curses_set_escdelay, METH_O|METH_C_STACK_FRUGAL, _curses_set_escdelay__doc__},
+
 #endif /* (defined(NCURSES_EXT_FUNCS) && NCURSES_EXT_FUNCS >= 20081102) */
 
 #if (defined(NCURSES_EXT_FUNCS) && NCURSES_EXT_FUNCS >= 20081102)
@@ -2895,10 +2895,6 @@ PyDoc_STRVAR(_curses_get_tabsize__doc__,
 "Gets the number of columns used by the curses library when converting a tab\n"
 "character to spaces as it adds the tab to a window.");
 
-static struct {char name[];} _curses_get_tabsize_MethodName = {.name = "get_tabsize",};
-#define _CURSES_GET_TABSIZE_METHODDEF    \
-    {_curses_get_tabsize_MethodName.name, (PyCFunction)_curses_get_tabsize, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_get_tabsize__doc__},
-
 static PyObject *
 _curses_get_tabsize_impl(PyObject *module);
 
@@ -2907,6 +2903,10 @@ _curses_get_tabsize(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return _curses_get_tabsize_impl(module);
 }
+
+static struct {char name[];} _curses_get_tabsize_MethodName = {.name = "get_tabsize",};
+#define _CURSES_GET_TABSIZE_METHODDEF    \
+    {_curses_get_tabsize_MethodName.name, (PyCFunction)_curses_get_tabsize, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_get_tabsize__doc__},
 
 #endif /* (defined(NCURSES_EXT_FUNCS) && NCURSES_EXT_FUNCS >= 20081102) */
 
@@ -2923,10 +2923,6 @@ PyDoc_STRVAR(_curses_set_tabsize__doc__,
 "\n"
 "Sets the number of columns used by the curses library when converting a tab\n"
 "character to spaces as it adds the tab to a window.");
-
-static struct {char name[];} _curses_set_tabsize_MethodName = {.name = "set_tabsize",};
-#define _CURSES_SET_TABSIZE_METHODDEF    \
-    {_curses_set_tabsize_MethodName.name, (PyCFunction)_curses_set_tabsize, METH_O|METH_C_STACK_FRUGAL, _curses_set_tabsize__doc__},
 
 static PyObject *
 _curses_set_tabsize_impl(PyObject *module, int size);
@@ -2947,16 +2943,16 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_set_tabsize_MethodName = {.name = "set_tabsize",};
+#define _CURSES_SET_TABSIZE_METHODDEF    \
+    {_curses_set_tabsize_MethodName.name, (PyCFunction)_curses_set_tabsize, METH_O|METH_C_STACK_FRUGAL, _curses_set_tabsize__doc__},
+
 #endif /* (defined(NCURSES_EXT_FUNCS) && NCURSES_EXT_FUNCS >= 20081102) */
 
 PyDoc_STRVAR(_curses_intrflush__doc__,
 "intrflush($module, flag, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _curses_intrflush_MethodName = {.name = "intrflush",};
-#define _CURSES_INTRFLUSH_METHODDEF    \
-    {_curses_intrflush_MethodName.name, (PyCFunction)_curses_intrflush, METH_O|METH_C_STACK_FRUGAL, _curses_intrflush__doc__},
 
 static PyObject *
 _curses_intrflush_impl(PyObject *module, int flag);
@@ -2977,15 +2973,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_intrflush_MethodName = {.name = "intrflush",};
+#define _CURSES_INTRFLUSH_METHODDEF    \
+    {_curses_intrflush_MethodName.name, (PyCFunction)_curses_intrflush, METH_O|METH_C_STACK_FRUGAL, _curses_intrflush__doc__},
+
 PyDoc_STRVAR(_curses_isendwin__doc__,
 "isendwin($module, /)\n"
 "--\n"
 "\n"
 "Return True if endwin() has been called.");
-
-static struct {char name[];} _curses_isendwin_MethodName = {.name = "isendwin",};
-#define _CURSES_ISENDWIN_METHODDEF    \
-    {_curses_isendwin_MethodName.name, (PyCFunction)_curses_isendwin, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_isendwin__doc__},
 
 static PyObject *
 _curses_isendwin_impl(PyObject *module);
@@ -2995,6 +2991,10 @@ _curses_isendwin(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return _curses_isendwin_impl(module);
 }
+
+static struct {char name[];} _curses_isendwin_MethodName = {.name = "isendwin",};
+#define _CURSES_ISENDWIN_METHODDEF    \
+    {_curses_isendwin_MethodName.name, (PyCFunction)_curses_isendwin, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_isendwin__doc__},
 
 #if defined(HAVE_CURSES_IS_TERM_RESIZED)
 
@@ -3008,10 +3008,6 @@ PyDoc_STRVAR(_curses_is_term_resized__doc__,
 "    Height.\n"
 "  ncols\n"
 "    Width.");
-
-static struct {char name[];} _curses_is_term_resized_MethodName = {.name = "is_term_resized",};
-#define _CURSES_IS_TERM_RESIZED_METHODDEF    \
-    {_curses_is_term_resized_MethodName.name, _PyCFunction_CAST(_curses_is_term_resized), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_is_term_resized__doc__},
 
 static PyObject *
 _curses_is_term_resized_impl(PyObject *module, int nlines, int ncols);
@@ -3040,6 +3036,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_is_term_resized_MethodName = {.name = "is_term_resized",};
+#define _CURSES_IS_TERM_RESIZED_METHODDEF    \
+    {_curses_is_term_resized_MethodName.name, _PyCFunction_CAST(_curses_is_term_resized), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_is_term_resized__doc__},
+
 #endif /* defined(HAVE_CURSES_IS_TERM_RESIZED) */
 
 PyDoc_STRVAR(_curses_keyname__doc__,
@@ -3050,10 +3050,6 @@ PyDoc_STRVAR(_curses_keyname__doc__,
 "\n"
 "  key\n"
 "    Key number.");
-
-static struct {char name[];} _curses_keyname_MethodName = {.name = "keyname",};
-#define _CURSES_KEYNAME_METHODDEF    \
-    {_curses_keyname_MethodName.name, (PyCFunction)_curses_keyname, METH_O|METH_C_STACK_FRUGAL, _curses_keyname__doc__},
 
 static PyObject *
 _curses_keyname_impl(PyObject *module, int key);
@@ -3074,15 +3070,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_keyname_MethodName = {.name = "keyname",};
+#define _CURSES_KEYNAME_METHODDEF    \
+    {_curses_keyname_MethodName.name, (PyCFunction)_curses_keyname, METH_O|METH_C_STACK_FRUGAL, _curses_keyname__doc__},
+
 PyDoc_STRVAR(_curses_killchar__doc__,
 "killchar($module, /)\n"
 "--\n"
 "\n"
 "Return the user\'s current line kill character.");
-
-static struct {char name[];} _curses_killchar_MethodName = {.name = "killchar",};
-#define _CURSES_KILLCHAR_METHODDEF    \
-    {_curses_killchar_MethodName.name, (PyCFunction)_curses_killchar, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_killchar__doc__},
 
 static PyObject *
 _curses_killchar_impl(PyObject *module);
@@ -3093,6 +3089,10 @@ _curses_killchar(PyObject *module, PyObject *Py_UNUSED(ignored))
     return _curses_killchar_impl(module);
 }
 
+static struct {char name[];} _curses_killchar_MethodName = {.name = "killchar",};
+#define _CURSES_KILLCHAR_METHODDEF    \
+    {_curses_killchar_MethodName.name, (PyCFunction)_curses_killchar, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_killchar__doc__},
+
 PyDoc_STRVAR(_curses_longname__doc__,
 "longname($module, /)\n"
 "--\n"
@@ -3101,10 +3101,6 @@ PyDoc_STRVAR(_curses_longname__doc__,
 "\n"
 "The maximum length of a verbose description is 128 characters.  It is defined\n"
 "only after the call to initscr().");
-
-static struct {char name[];} _curses_longname_MethodName = {.name = "longname",};
-#define _CURSES_LONGNAME_METHODDEF    \
-    {_curses_longname_MethodName.name, (PyCFunction)_curses_longname, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_longname__doc__},
 
 static PyObject *
 _curses_longname_impl(PyObject *module);
@@ -3115,6 +3111,10 @@ _curses_longname(PyObject *module, PyObject *Py_UNUSED(ignored))
     return _curses_longname_impl(module);
 }
 
+static struct {char name[];} _curses_longname_MethodName = {.name = "longname",};
+#define _CURSES_LONGNAME_METHODDEF    \
+    {_curses_longname_MethodName.name, (PyCFunction)_curses_longname, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_longname__doc__},
+
 PyDoc_STRVAR(_curses_meta__doc__,
 "meta($module, yes, /)\n"
 "--\n"
@@ -3123,10 +3123,6 @@ PyDoc_STRVAR(_curses_meta__doc__,
 "\n"
 "If yes is True, allow 8-bit characters to be input.  If yes is False,\n"
 "allow only 7-bit characters.");
-
-static struct {char name[];} _curses_meta_MethodName = {.name = "meta",};
-#define _CURSES_META_METHODDEF    \
-    {_curses_meta_MethodName.name, (PyCFunction)_curses_meta, METH_O|METH_C_STACK_FRUGAL, _curses_meta__doc__},
 
 static PyObject *
 _curses_meta_impl(PyObject *module, int yes);
@@ -3147,6 +3143,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_meta_MethodName = {.name = "meta",};
+#define _CURSES_META_METHODDEF    \
+    {_curses_meta_MethodName.name, (PyCFunction)_curses_meta, METH_O|METH_C_STACK_FRUGAL, _curses_meta__doc__},
+
 #if defined(NCURSES_MOUSE_VERSION)
 
 PyDoc_STRVAR(_curses_mouseinterval__doc__,
@@ -3161,10 +3161,6 @@ PyDoc_STRVAR(_curses_mouseinterval__doc__,
 "Set the maximum time that can elapse between press and release events in\n"
 "order for them to be recognized as a click, and return the previous interval\n"
 "value.");
-
-static struct {char name[];} _curses_mouseinterval_MethodName = {.name = "mouseinterval",};
-#define _CURSES_MOUSEINTERVAL_METHODDEF    \
-    {_curses_mouseinterval_MethodName.name, (PyCFunction)_curses_mouseinterval, METH_O|METH_C_STACK_FRUGAL, _curses_mouseinterval__doc__},
 
 static PyObject *
 _curses_mouseinterval_impl(PyObject *module, int interval);
@@ -3185,6 +3181,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_mouseinterval_MethodName = {.name = "mouseinterval",};
+#define _CURSES_MOUSEINTERVAL_METHODDEF    \
+    {_curses_mouseinterval_MethodName.name, (PyCFunction)_curses_mouseinterval, METH_O|METH_C_STACK_FRUGAL, _curses_mouseinterval__doc__},
+
 #endif /* defined(NCURSES_MOUSE_VERSION) */
 
 #if defined(NCURSES_MOUSE_VERSION)
@@ -3199,10 +3199,6 @@ PyDoc_STRVAR(_curses_mousemask__doc__,
 "specified mouse events can be reported; on complete failure it returns 0.\n"
 "oldmask is the previous value of the given window\'s mouse event mask.\n"
 "If this function is never called, no mouse events are ever reported.");
-
-static struct {char name[];} _curses_mousemask_MethodName = {.name = "mousemask",};
-#define _CURSES_MOUSEMASK_METHODDEF    \
-    {_curses_mousemask_MethodName.name, (PyCFunction)_curses_mousemask, METH_O|METH_C_STACK_FRUGAL, _curses_mousemask__doc__},
 
 static PyObject *
 _curses_mousemask_impl(PyObject *module, unsigned long newmask);
@@ -3224,6 +3220,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_mousemask_MethodName = {.name = "mousemask",};
+#define _CURSES_MOUSEMASK_METHODDEF    \
+    {_curses_mousemask_MethodName.name, (PyCFunction)_curses_mousemask, METH_O|METH_C_STACK_FRUGAL, _curses_mousemask__doc__},
+
 #endif /* defined(NCURSES_MOUSE_VERSION) */
 
 PyDoc_STRVAR(_curses_napms__doc__,
@@ -3234,10 +3234,6 @@ PyDoc_STRVAR(_curses_napms__doc__,
 "\n"
 "  ms\n"
 "    Duration in milliseconds.");
-
-static struct {char name[];} _curses_napms_MethodName = {.name = "napms",};
-#define _CURSES_NAPMS_METHODDEF    \
-    {_curses_napms_MethodName.name, (PyCFunction)_curses_napms, METH_O|METH_C_STACK_FRUGAL, _curses_napms__doc__},
 
 static int
 _curses_napms_impl(PyObject *module, int ms);
@@ -3263,6 +3259,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_napms_MethodName = {.name = "napms",};
+#define _CURSES_NAPMS_METHODDEF    \
+    {_curses_napms_MethodName.name, (PyCFunction)_curses_napms, METH_O|METH_C_STACK_FRUGAL, _curses_napms__doc__},
+
 PyDoc_STRVAR(_curses_newpad__doc__,
 "newpad($module, nlines, ncols, /)\n"
 "--\n"
@@ -3273,10 +3273,6 @@ PyDoc_STRVAR(_curses_newpad__doc__,
 "    Height.\n"
 "  ncols\n"
 "    Width.");
-
-static struct {char name[];} _curses_newpad_MethodName = {.name = "newpad",};
-#define _CURSES_NEWPAD_METHODDEF    \
-    {_curses_newpad_MethodName.name, _PyCFunction_CAST(_curses_newpad), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_newpad__doc__},
 
 static PyObject *
 _curses_newpad_impl(PyObject *module, int nlines, int ncols);
@@ -3305,6 +3301,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_newpad_MethodName = {.name = "newpad",};
+#define _CURSES_NEWPAD_METHODDEF    \
+    {_curses_newpad_MethodName.name, _PyCFunction_CAST(_curses_newpad), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_newpad__doc__},
+
 PyDoc_STRVAR(_curses_newwin__doc__,
 "newwin(nlines, ncols, [begin_y=0, begin_x=0])\n"
 "Return a new window.\n"
@@ -3320,10 +3320,6 @@ PyDoc_STRVAR(_curses_newwin__doc__,
 "\n"
 "By default, the window will extend from the specified position to the lower\n"
 "right corner of the screen.");
-
-static struct {char name[];} _curses_newwin_MethodName = {.name = "newwin",};
-#define _CURSES_NEWWIN_METHODDEF    \
-    {_curses_newwin_MethodName.name, (PyCFunction)_curses_newwin, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_newwin__doc__},
 
 static PyObject *
 _curses_newwin_impl(PyObject *module, int nlines, int ncols,
@@ -3361,6 +3357,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_newwin_MethodName = {.name = "newwin",};
+#define _CURSES_NEWWIN_METHODDEF    \
+    {_curses_newwin_MethodName.name, (PyCFunction)_curses_newwin, METH_VARARGS|METH_C_STACK_FRUGAL, _curses_newwin__doc__},
+
 PyDoc_STRVAR(_curses_nl__doc__,
 "nl($module, flag=True, /)\n"
 "--\n"
@@ -3372,10 +3372,6 @@ PyDoc_STRVAR(_curses_nl__doc__,
 "\n"
 "This mode translates the return key into newline on input, and translates\n"
 "newline into return and line-feed on output.  Newline mode is initially on.");
-
-static struct {char name[];} _curses_nl_MethodName = {.name = "nl",};
-#define _CURSES_NL_METHODDEF    \
-    {_curses_nl_MethodName.name, _PyCFunction_CAST(_curses_nl), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_nl__doc__},
 
 static PyObject *
 _curses_nl_impl(PyObject *module, int flag);
@@ -3403,6 +3399,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_nl_MethodName = {.name = "nl",};
+#define _CURSES_NL_METHODDEF    \
+    {_curses_nl_MethodName.name, _PyCFunction_CAST(_curses_nl), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_nl__doc__},
+
 PyDoc_STRVAR(_curses_nocbreak__doc__,
 "nocbreak($module, /)\n"
 "--\n"
@@ -3410,10 +3410,6 @@ PyDoc_STRVAR(_curses_nocbreak__doc__,
 "Leave cbreak mode.\n"
 "\n"
 "Return to normal \"cooked\" mode with line buffering.");
-
-static struct {char name[];} _curses_nocbreak_MethodName = {.name = "nocbreak",};
-#define _CURSES_NOCBREAK_METHODDEF    \
-    {_curses_nocbreak_MethodName.name, (PyCFunction)_curses_nocbreak, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_nocbreak__doc__},
 
 static PyObject *
 _curses_nocbreak_impl(PyObject *module);
@@ -3424,6 +3420,10 @@ _curses_nocbreak(PyObject *module, PyObject *Py_UNUSED(ignored))
     return _curses_nocbreak_impl(module);
 }
 
+static struct {char name[];} _curses_nocbreak_MethodName = {.name = "nocbreak",};
+#define _CURSES_NOCBREAK_METHODDEF    \
+    {_curses_nocbreak_MethodName.name, (PyCFunction)_curses_nocbreak, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_nocbreak__doc__},
+
 PyDoc_STRVAR(_curses_noecho__doc__,
 "noecho($module, /)\n"
 "--\n"
@@ -3431,10 +3431,6 @@ PyDoc_STRVAR(_curses_noecho__doc__,
 "Leave echo mode.\n"
 "\n"
 "Echoing of input characters is turned off.");
-
-static struct {char name[];} _curses_noecho_MethodName = {.name = "noecho",};
-#define _CURSES_NOECHO_METHODDEF    \
-    {_curses_noecho_MethodName.name, (PyCFunction)_curses_noecho, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_noecho__doc__},
 
 static PyObject *
 _curses_noecho_impl(PyObject *module);
@@ -3445,6 +3441,10 @@ _curses_noecho(PyObject *module, PyObject *Py_UNUSED(ignored))
     return _curses_noecho_impl(module);
 }
 
+static struct {char name[];} _curses_noecho_MethodName = {.name = "noecho",};
+#define _CURSES_NOECHO_METHODDEF    \
+    {_curses_noecho_MethodName.name, (PyCFunction)_curses_noecho, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_noecho__doc__},
+
 PyDoc_STRVAR(_curses_nonl__doc__,
 "nonl($module, /)\n"
 "--\n"
@@ -3453,10 +3453,6 @@ PyDoc_STRVAR(_curses_nonl__doc__,
 "\n"
 "Disable translation of return into newline on input, and disable low-level\n"
 "translation of newline into newline/return on output.");
-
-static struct {char name[];} _curses_nonl_MethodName = {.name = "nonl",};
-#define _CURSES_NONL_METHODDEF    \
-    {_curses_nonl_MethodName.name, (PyCFunction)_curses_nonl, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_nonl__doc__},
 
 static PyObject *
 _curses_nonl_impl(PyObject *module);
@@ -3467,6 +3463,10 @@ _curses_nonl(PyObject *module, PyObject *Py_UNUSED(ignored))
     return _curses_nonl_impl(module);
 }
 
+static struct {char name[];} _curses_nonl_MethodName = {.name = "nonl",};
+#define _CURSES_NONL_METHODDEF    \
+    {_curses_nonl_MethodName.name, (PyCFunction)_curses_nonl, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_nonl__doc__},
+
 PyDoc_STRVAR(_curses_noqiflush__doc__,
 "noqiflush($module, /)\n"
 "--\n"
@@ -3475,10 +3475,6 @@ PyDoc_STRVAR(_curses_noqiflush__doc__,
 "\n"
 "When queue flushing is disabled, normal flush of input and output queues\n"
 "associated with the INTR, QUIT and SUSP characters will not be done.");
-
-static struct {char name[];} _curses_noqiflush_MethodName = {.name = "noqiflush",};
-#define _CURSES_NOQIFLUSH_METHODDEF    \
-    {_curses_noqiflush_MethodName.name, (PyCFunction)_curses_noqiflush, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_noqiflush__doc__},
 
 static PyObject *
 _curses_noqiflush_impl(PyObject *module);
@@ -3489,6 +3485,10 @@ _curses_noqiflush(PyObject *module, PyObject *Py_UNUSED(ignored))
     return _curses_noqiflush_impl(module);
 }
 
+static struct {char name[];} _curses_noqiflush_MethodName = {.name = "noqiflush",};
+#define _CURSES_NOQIFLUSH_METHODDEF    \
+    {_curses_noqiflush_MethodName.name, (PyCFunction)_curses_noqiflush, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_noqiflush__doc__},
+
 PyDoc_STRVAR(_curses_noraw__doc__,
 "noraw($module, /)\n"
 "--\n"
@@ -3496,10 +3496,6 @@ PyDoc_STRVAR(_curses_noraw__doc__,
 "Leave raw mode.\n"
 "\n"
 "Return to normal \"cooked\" mode with line buffering.");
-
-static struct {char name[];} _curses_noraw_MethodName = {.name = "noraw",};
-#define _CURSES_NORAW_METHODDEF    \
-    {_curses_noraw_MethodName.name, (PyCFunction)_curses_noraw, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_noraw__doc__},
 
 static PyObject *
 _curses_noraw_impl(PyObject *module);
@@ -3510,6 +3506,10 @@ _curses_noraw(PyObject *module, PyObject *Py_UNUSED(ignored))
     return _curses_noraw_impl(module);
 }
 
+static struct {char name[];} _curses_noraw_MethodName = {.name = "noraw",};
+#define _CURSES_NORAW_METHODDEF    \
+    {_curses_noraw_MethodName.name, (PyCFunction)_curses_noraw, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_noraw__doc__},
+
 PyDoc_STRVAR(_curses_pair_content__doc__,
 "pair_content($module, pair_number, /)\n"
 "--\n"
@@ -3518,10 +3518,6 @@ PyDoc_STRVAR(_curses_pair_content__doc__,
 "\n"
 "  pair_number\n"
 "    The number of the color pair (0 - (COLOR_PAIRS-1)).");
-
-static struct {char name[];} _curses_pair_content_MethodName = {.name = "pair_content",};
-#define _CURSES_PAIR_CONTENT_METHODDEF    \
-    {_curses_pair_content_MethodName.name, (PyCFunction)_curses_pair_content, METH_O|METH_C_STACK_FRUGAL, _curses_pair_content__doc__},
 
 static PyObject *
 _curses_pair_content_impl(PyObject *module, int pair_number);
@@ -3541,6 +3537,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_pair_content_MethodName = {.name = "pair_content",};
+#define _CURSES_PAIR_CONTENT_METHODDEF    \
+    {_curses_pair_content_MethodName.name, (PyCFunction)_curses_pair_content, METH_O|METH_C_STACK_FRUGAL, _curses_pair_content__doc__},
+
 PyDoc_STRVAR(_curses_pair_number__doc__,
 "pair_number($module, attr, /)\n"
 "--\n"
@@ -3548,10 +3548,6 @@ PyDoc_STRVAR(_curses_pair_number__doc__,
 "Return the number of the color-pair set by the specified attribute value.\n"
 "\n"
 "color_pair() is the counterpart to this function.");
-
-static struct {char name[];} _curses_pair_number_MethodName = {.name = "pair_number",};
-#define _CURSES_PAIR_NUMBER_METHODDEF    \
-    {_curses_pair_number_MethodName.name, (PyCFunction)_curses_pair_number, METH_O|METH_C_STACK_FRUGAL, _curses_pair_number__doc__},
 
 static PyObject *
 _curses_pair_number_impl(PyObject *module, int attr);
@@ -3572,6 +3568,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_pair_number_MethodName = {.name = "pair_number",};
+#define _CURSES_PAIR_NUMBER_METHODDEF    \
+    {_curses_pair_number_MethodName.name, (PyCFunction)_curses_pair_number, METH_O|METH_C_STACK_FRUGAL, _curses_pair_number__doc__},
+
 PyDoc_STRVAR(_curses_putp__doc__,
 "putp($module, string, /)\n"
 "--\n"
@@ -3579,10 +3579,6 @@ PyDoc_STRVAR(_curses_putp__doc__,
 "Emit the value of a specified terminfo capability for the current terminal.\n"
 "\n"
 "Note that the output of putp() always goes to standard output.");
-
-static struct {char name[];} _curses_putp_MethodName = {.name = "putp",};
-#define _CURSES_PUTP_METHODDEF    \
-    {_curses_putp_MethodName.name, (PyCFunction)_curses_putp, METH_O|METH_C_STACK_FRUGAL, _curses_putp__doc__},
 
 static PyObject *
 _curses_putp_impl(PyObject *module, const char *string);
@@ -3602,6 +3598,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_putp_MethodName = {.name = "putp",};
+#define _CURSES_PUTP_METHODDEF    \
+    {_curses_putp_MethodName.name, (PyCFunction)_curses_putp, METH_O|METH_C_STACK_FRUGAL, _curses_putp__doc__},
+
 PyDoc_STRVAR(_curses_qiflush__doc__,
 "qiflush($module, flag=True, /)\n"
 "--\n"
@@ -3613,10 +3613,6 @@ PyDoc_STRVAR(_curses_qiflush__doc__,
 "\n"
 "If queue flushing is enabled, all output in the display driver queue\n"
 "will be flushed when the INTR, QUIT and SUSP characters are read.");
-
-static struct {char name[];} _curses_qiflush_MethodName = {.name = "qiflush",};
-#define _CURSES_QIFLUSH_METHODDEF    \
-    {_curses_qiflush_MethodName.name, _PyCFunction_CAST(_curses_qiflush), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_qiflush__doc__},
 
 static PyObject *
 _curses_qiflush_impl(PyObject *module, int flag);
@@ -3644,16 +3640,16 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_qiflush_MethodName = {.name = "qiflush",};
+#define _CURSES_QIFLUSH_METHODDEF    \
+    {_curses_qiflush_MethodName.name, _PyCFunction_CAST(_curses_qiflush), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_qiflush__doc__},
+
 #if (defined(HAVE_CURSES_RESIZETERM) || defined(HAVE_CURSES_RESIZE_TERM))
 
 PyDoc_STRVAR(_curses_update_lines_cols__doc__,
 "update_lines_cols($module, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _curses_update_lines_cols_MethodName = {.name = "update_lines_cols",};
-#define _CURSES_UPDATE_LINES_COLS_METHODDEF    \
-    {_curses_update_lines_cols_MethodName.name, (PyCFunction)_curses_update_lines_cols, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_update_lines_cols__doc__},
 
 static PyObject *
 _curses_update_lines_cols_impl(PyObject *module);
@@ -3663,6 +3659,10 @@ _curses_update_lines_cols(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return _curses_update_lines_cols_impl(module);
 }
+
+static struct {char name[];} _curses_update_lines_cols_MethodName = {.name = "update_lines_cols",};
+#define _CURSES_UPDATE_LINES_COLS_METHODDEF    \
+    {_curses_update_lines_cols_MethodName.name, (PyCFunction)_curses_update_lines_cols, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_update_lines_cols__doc__},
 
 #endif /* (defined(HAVE_CURSES_RESIZETERM) || defined(HAVE_CURSES_RESIZE_TERM)) */
 
@@ -3678,10 +3678,6 @@ PyDoc_STRVAR(_curses_raw__doc__,
 "In raw mode, normal line buffering and processing of interrupt, quit,\n"
 "suspend, and flow control keys are turned off; characters are presented to\n"
 "curses input functions one by one.");
-
-static struct {char name[];} _curses_raw_MethodName = {.name = "raw",};
-#define _CURSES_RAW_METHODDEF    \
-    {_curses_raw_MethodName.name, _PyCFunction_CAST(_curses_raw), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_raw__doc__},
 
 static PyObject *
 _curses_raw_impl(PyObject *module, int flag);
@@ -3709,15 +3705,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_raw_MethodName = {.name = "raw",};
+#define _CURSES_RAW_METHODDEF    \
+    {_curses_raw_MethodName.name, _PyCFunction_CAST(_curses_raw), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_raw__doc__},
+
 PyDoc_STRVAR(_curses_reset_prog_mode__doc__,
 "reset_prog_mode($module, /)\n"
 "--\n"
 "\n"
 "Restore the terminal to \"program\" mode, as previously saved by def_prog_mode().");
-
-static struct {char name[];} _curses_reset_prog_mode_MethodName = {.name = "reset_prog_mode",};
-#define _CURSES_RESET_PROG_MODE_METHODDEF    \
-    {_curses_reset_prog_mode_MethodName.name, (PyCFunction)_curses_reset_prog_mode, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_reset_prog_mode__doc__},
 
 static PyObject *
 _curses_reset_prog_mode_impl(PyObject *module);
@@ -3728,15 +3724,15 @@ _curses_reset_prog_mode(PyObject *module, PyObject *Py_UNUSED(ignored))
     return _curses_reset_prog_mode_impl(module);
 }
 
+static struct {char name[];} _curses_reset_prog_mode_MethodName = {.name = "reset_prog_mode",};
+#define _CURSES_RESET_PROG_MODE_METHODDEF    \
+    {_curses_reset_prog_mode_MethodName.name, (PyCFunction)_curses_reset_prog_mode, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_reset_prog_mode__doc__},
+
 PyDoc_STRVAR(_curses_reset_shell_mode__doc__,
 "reset_shell_mode($module, /)\n"
 "--\n"
 "\n"
 "Restore the terminal to \"shell\" mode, as previously saved by def_shell_mode().");
-
-static struct {char name[];} _curses_reset_shell_mode_MethodName = {.name = "reset_shell_mode",};
-#define _CURSES_RESET_SHELL_MODE_METHODDEF    \
-    {_curses_reset_shell_mode_MethodName.name, (PyCFunction)_curses_reset_shell_mode, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_reset_shell_mode__doc__},
 
 static PyObject *
 _curses_reset_shell_mode_impl(PyObject *module);
@@ -3747,15 +3743,15 @@ _curses_reset_shell_mode(PyObject *module, PyObject *Py_UNUSED(ignored))
     return _curses_reset_shell_mode_impl(module);
 }
 
+static struct {char name[];} _curses_reset_shell_mode_MethodName = {.name = "reset_shell_mode",};
+#define _CURSES_RESET_SHELL_MODE_METHODDEF    \
+    {_curses_reset_shell_mode_MethodName.name, (PyCFunction)_curses_reset_shell_mode, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_reset_shell_mode__doc__},
+
 PyDoc_STRVAR(_curses_resetty__doc__,
 "resetty($module, /)\n"
 "--\n"
 "\n"
 "Restore terminal mode.");
-
-static struct {char name[];} _curses_resetty_MethodName = {.name = "resetty",};
-#define _CURSES_RESETTY_METHODDEF    \
-    {_curses_resetty_MethodName.name, (PyCFunction)_curses_resetty, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_resetty__doc__},
 
 static PyObject *
 _curses_resetty_impl(PyObject *module);
@@ -3765,6 +3761,10 @@ _curses_resetty(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return _curses_resetty_impl(module);
 }
+
+static struct {char name[];} _curses_resetty_MethodName = {.name = "resetty",};
+#define _CURSES_RESETTY_METHODDEF    \
+    {_curses_resetty_MethodName.name, (PyCFunction)_curses_resetty, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_resetty__doc__},
 
 #if defined(HAVE_CURSES_RESIZETERM)
 
@@ -3781,10 +3781,6 @@ PyDoc_STRVAR(_curses_resizeterm__doc__,
 "\n"
 "Adjusts other bookkeeping data used by the curses library that record the\n"
 "window dimensions (in particular the SIGWINCH handler).");
-
-static struct {char name[];} _curses_resizeterm_MethodName = {.name = "resizeterm",};
-#define _CURSES_RESIZETERM_METHODDEF    \
-    {_curses_resizeterm_MethodName.name, _PyCFunction_CAST(_curses_resizeterm), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_resizeterm__doc__},
 
 static PyObject *
 _curses_resizeterm_impl(PyObject *module, short nlines, short ncols);
@@ -3843,6 +3839,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_resizeterm_MethodName = {.name = "resizeterm",};
+#define _CURSES_RESIZETERM_METHODDEF    \
+    {_curses_resizeterm_MethodName.name, _PyCFunction_CAST(_curses_resizeterm), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_resizeterm__doc__},
+
 #endif /* defined(HAVE_CURSES_RESIZETERM) */
 
 #if defined(HAVE_CURSES_RESIZE_TERM)
@@ -3863,10 +3863,6 @@ PyDoc_STRVAR(_curses_resize_term__doc__,
 "data.  The resize_term() function attempts to resize all windows.  However,\n"
 "due to the calling convention of pads, it is not possible to resize these\n"
 "without additional interaction with the application.");
-
-static struct {char name[];} _curses_resize_term_MethodName = {.name = "resize_term",};
-#define _CURSES_RESIZE_TERM_METHODDEF    \
-    {_curses_resize_term_MethodName.name, _PyCFunction_CAST(_curses_resize_term), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_resize_term__doc__},
 
 static PyObject *
 _curses_resize_term_impl(PyObject *module, short nlines, short ncols);
@@ -3925,6 +3921,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_resize_term_MethodName = {.name = "resize_term",};
+#define _CURSES_RESIZE_TERM_METHODDEF    \
+    {_curses_resize_term_MethodName.name, _PyCFunction_CAST(_curses_resize_term), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_resize_term__doc__},
+
 #endif /* defined(HAVE_CURSES_RESIZE_TERM) */
 
 PyDoc_STRVAR(_curses_savetty__doc__,
@@ -3932,10 +3932,6 @@ PyDoc_STRVAR(_curses_savetty__doc__,
 "--\n"
 "\n"
 "Save terminal mode.");
-
-static struct {char name[];} _curses_savetty_MethodName = {.name = "savetty",};
-#define _CURSES_SAVETTY_METHODDEF    \
-    {_curses_savetty_MethodName.name, (PyCFunction)_curses_savetty, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_savetty__doc__},
 
 static PyObject *
 _curses_savetty_impl(PyObject *module);
@@ -3945,6 +3941,10 @@ _curses_savetty(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return _curses_savetty_impl(module);
 }
+
+static struct {char name[];} _curses_savetty_MethodName = {.name = "savetty",};
+#define _CURSES_SAVETTY_METHODDEF    \
+    {_curses_savetty_MethodName.name, (PyCFunction)_curses_savetty, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_savetty__doc__},
 
 #if defined(getsyx)
 
@@ -3960,10 +3960,6 @@ PyDoc_STRVAR(_curses_setsyx__doc__,
 "    X-coordinate.\n"
 "\n"
 "If y and x are both -1, then leaveok is set.");
-
-static struct {char name[];} _curses_setsyx_MethodName = {.name = "setsyx",};
-#define _CURSES_SETSYX_METHODDEF    \
-    {_curses_setsyx_MethodName.name, _PyCFunction_CAST(_curses_setsyx), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_setsyx__doc__},
 
 static PyObject *
 _curses_setsyx_impl(PyObject *module, int y, int x);
@@ -3992,6 +3988,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_setsyx_MethodName = {.name = "setsyx",};
+#define _CURSES_SETSYX_METHODDEF    \
+    {_curses_setsyx_MethodName.name, _PyCFunction_CAST(_curses_setsyx), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_setsyx__doc__},
+
 #endif /* defined(getsyx) */
 
 PyDoc_STRVAR(_curses_start_color__doc__,
@@ -4007,10 +4007,6 @@ PyDoc_STRVAR(_curses_start_color__doc__,
 "It also restores the colors on the terminal to the values they had when the\n"
 "terminal was just turned on.");
 
-static struct {char name[];} _curses_start_color_MethodName = {.name = "start_color",};
-#define _CURSES_START_COLOR_METHODDEF    \
-    {_curses_start_color_MethodName.name, (PyCFunction)_curses_start_color, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_start_color__doc__},
-
 static PyObject *
 _curses_start_color_impl(PyObject *module);
 
@@ -4020,15 +4016,15 @@ _curses_start_color(PyObject *module, PyObject *Py_UNUSED(ignored))
     return _curses_start_color_impl(module);
 }
 
+static struct {char name[];} _curses_start_color_MethodName = {.name = "start_color",};
+#define _CURSES_START_COLOR_METHODDEF    \
+    {_curses_start_color_MethodName.name, (PyCFunction)_curses_start_color, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_start_color__doc__},
+
 PyDoc_STRVAR(_curses_termattrs__doc__,
 "termattrs($module, /)\n"
 "--\n"
 "\n"
 "Return a logical OR of all video attributes supported by the terminal.");
-
-static struct {char name[];} _curses_termattrs_MethodName = {.name = "termattrs",};
-#define _CURSES_TERMATTRS_METHODDEF    \
-    {_curses_termattrs_MethodName.name, (PyCFunction)_curses_termattrs, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_termattrs__doc__},
 
 static PyObject *
 _curses_termattrs_impl(PyObject *module);
@@ -4039,15 +4035,15 @@ _curses_termattrs(PyObject *module, PyObject *Py_UNUSED(ignored))
     return _curses_termattrs_impl(module);
 }
 
+static struct {char name[];} _curses_termattrs_MethodName = {.name = "termattrs",};
+#define _CURSES_TERMATTRS_METHODDEF    \
+    {_curses_termattrs_MethodName.name, (PyCFunction)_curses_termattrs, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_termattrs__doc__},
+
 PyDoc_STRVAR(_curses_termname__doc__,
 "termname($module, /)\n"
 "--\n"
 "\n"
 "Return the value of the environment variable TERM, truncated to 14 characters.");
-
-static struct {char name[];} _curses_termname_MethodName = {.name = "termname",};
-#define _CURSES_TERMNAME_METHODDEF    \
-    {_curses_termname_MethodName.name, (PyCFunction)_curses_termname, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_termname__doc__},
 
 static PyObject *
 _curses_termname_impl(PyObject *module);
@@ -4057,6 +4053,10 @@ _curses_termname(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return _curses_termname_impl(module);
 }
+
+static struct {char name[];} _curses_termname_MethodName = {.name = "termname",};
+#define _CURSES_TERMNAME_METHODDEF    \
+    {_curses_termname_MethodName.name, (PyCFunction)_curses_termname, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_termname__doc__},
 
 PyDoc_STRVAR(_curses_tigetflag__doc__,
 "tigetflag($module, capname, /)\n"
@@ -4069,10 +4069,6 @@ PyDoc_STRVAR(_curses_tigetflag__doc__,
 "\n"
 "The value -1 is returned if capname is not a Boolean capability, or 0 if\n"
 "it is canceled or absent from the terminal description.");
-
-static struct {char name[];} _curses_tigetflag_MethodName = {.name = "tigetflag",};
-#define _CURSES_TIGETFLAG_METHODDEF    \
-    {_curses_tigetflag_MethodName.name, (PyCFunction)_curses_tigetflag, METH_O|METH_C_STACK_FRUGAL, _curses_tigetflag__doc__},
 
 static PyObject *
 _curses_tigetflag_impl(PyObject *module, const char *capname);
@@ -4102,6 +4098,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_tigetflag_MethodName = {.name = "tigetflag",};
+#define _CURSES_TIGETFLAG_METHODDEF    \
+    {_curses_tigetflag_MethodName.name, (PyCFunction)_curses_tigetflag, METH_O|METH_C_STACK_FRUGAL, _curses_tigetflag__doc__},
+
 PyDoc_STRVAR(_curses_tigetnum__doc__,
 "tigetnum($module, capname, /)\n"
 "--\n"
@@ -4113,10 +4113,6 @@ PyDoc_STRVAR(_curses_tigetnum__doc__,
 "\n"
 "The value -2 is returned if capname is not a numeric capability, or -1 if\n"
 "it is canceled or absent from the terminal description.");
-
-static struct {char name[];} _curses_tigetnum_MethodName = {.name = "tigetnum",};
-#define _CURSES_TIGETNUM_METHODDEF    \
-    {_curses_tigetnum_MethodName.name, (PyCFunction)_curses_tigetnum, METH_O|METH_C_STACK_FRUGAL, _curses_tigetnum__doc__},
 
 static PyObject *
 _curses_tigetnum_impl(PyObject *module, const char *capname);
@@ -4146,6 +4142,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_tigetnum_MethodName = {.name = "tigetnum",};
+#define _CURSES_TIGETNUM_METHODDEF    \
+    {_curses_tigetnum_MethodName.name, (PyCFunction)_curses_tigetnum, METH_O|METH_C_STACK_FRUGAL, _curses_tigetnum__doc__},
+
 PyDoc_STRVAR(_curses_tigetstr__doc__,
 "tigetstr($module, capname, /)\n"
 "--\n"
@@ -4157,10 +4157,6 @@ PyDoc_STRVAR(_curses_tigetstr__doc__,
 "\n"
 "None is returned if capname is not a string capability, or is canceled or\n"
 "absent from the terminal description.");
-
-static struct {char name[];} _curses_tigetstr_MethodName = {.name = "tigetstr",};
-#define _CURSES_TIGETSTR_METHODDEF    \
-    {_curses_tigetstr_MethodName.name, (PyCFunction)_curses_tigetstr, METH_O|METH_C_STACK_FRUGAL, _curses_tigetstr__doc__},
 
 static PyObject *
 _curses_tigetstr_impl(PyObject *module, const char *capname);
@@ -4190,6 +4186,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_tigetstr_MethodName = {.name = "tigetstr",};
+#define _CURSES_TIGETSTR_METHODDEF    \
+    {_curses_tigetstr_MethodName.name, (PyCFunction)_curses_tigetstr, METH_O|METH_C_STACK_FRUGAL, _curses_tigetstr__doc__},
+
 PyDoc_STRVAR(_curses_tparm__doc__,
 "tparm($module, str, i1=0, i2=0, i3=0, i4=0, i5=0, i6=0, i7=0, i8=0,\n"
 "      i9=0, /)\n"
@@ -4199,10 +4199,6 @@ PyDoc_STRVAR(_curses_tparm__doc__,
 "\n"
 "  str\n"
 "    Parameterized byte string obtained from the terminfo database.");
-
-static struct {char name[];} _curses_tparm_MethodName = {.name = "tparm",};
-#define _CURSES_TPARM_METHODDEF    \
-    {_curses_tparm_MethodName.name, _PyCFunction_CAST(_curses_tparm), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_tparm__doc__},
 
 static PyObject *
 _curses_tparm_impl(PyObject *module, const char *str, int i1, int i2, int i3,
@@ -4233,6 +4229,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_tparm_MethodName = {.name = "tparm",};
+#define _CURSES_TPARM_METHODDEF    \
+    {_curses_tparm_MethodName.name, _PyCFunction_CAST(_curses_tparm), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_tparm__doc__},
+
 #if defined(HAVE_CURSES_TYPEAHEAD)
 
 PyDoc_STRVAR(_curses_typeahead__doc__,
@@ -4245,10 +4245,6 @@ PyDoc_STRVAR(_curses_typeahead__doc__,
 "    File descriptor.\n"
 "\n"
 "If fd is -1, then no typeahead checking is done.");
-
-static struct {char name[];} _curses_typeahead_MethodName = {.name = "typeahead",};
-#define _CURSES_TYPEAHEAD_METHODDEF    \
-    {_curses_typeahead_MethodName.name, (PyCFunction)_curses_typeahead, METH_O|METH_C_STACK_FRUGAL, _curses_typeahead__doc__},
 
 static PyObject *
 _curses_typeahead_impl(PyObject *module, int fd);
@@ -4268,6 +4264,10 @@ _curses_typeahead(PyObject *module, PyObject *arg)
 exit:
     return return_value;
 }
+
+static struct {char name[];} _curses_typeahead_MethodName = {.name = "typeahead",};
+#define _CURSES_TYPEAHEAD_METHODDEF    \
+    {_curses_typeahead_MethodName.name, (PyCFunction)_curses_typeahead, METH_O|METH_C_STACK_FRUGAL, _curses_typeahead__doc__},
 
 #endif /* defined(HAVE_CURSES_TYPEAHEAD) */
 
@@ -4325,10 +4325,6 @@ PyDoc_STRVAR(_curses_use_env__doc__,
 "default behavior would be to use the window size if LINES and COLUMNS are\n"
 "not set).");
 
-static struct {char name[];} _curses_use_env_MethodName = {.name = "use_env",};
-#define _CURSES_USE_ENV_METHODDEF    \
-    {_curses_use_env_MethodName.name, (PyCFunction)_curses_use_env, METH_O|METH_C_STACK_FRUGAL, _curses_use_env__doc__},
-
 static PyObject *
 _curses_use_env_impl(PyObject *module, int flag);
 
@@ -4348,6 +4344,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_use_env_MethodName = {.name = "use_env",};
+#define _CURSES_USE_ENV_METHODDEF    \
+    {_curses_use_env_MethodName.name, (PyCFunction)_curses_use_env, METH_O|METH_C_STACK_FRUGAL, _curses_use_env__doc__},
+
 #endif /* defined(HAVE_CURSES_USE_ENV) */
 
 #if !defined(STRICT_SYSV_CURSES)
@@ -4358,10 +4358,6 @@ PyDoc_STRVAR(_curses_use_default_colors__doc__,
 "\n"
 "Equivalent to assume_default_colors(-1, -1).");
 
-static struct {char name[];} _curses_use_default_colors_MethodName = {.name = "use_default_colors",};
-#define _CURSES_USE_DEFAULT_COLORS_METHODDEF    \
-    {_curses_use_default_colors_MethodName.name, (PyCFunction)_curses_use_default_colors, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_use_default_colors__doc__},
-
 static PyObject *
 _curses_use_default_colors_impl(PyObject *module);
 
@@ -4370,6 +4366,10 @@ _curses_use_default_colors(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return _curses_use_default_colors_impl(module);
 }
+
+static struct {char name[];} _curses_use_default_colors_MethodName = {.name = "use_default_colors",};
+#define _CURSES_USE_DEFAULT_COLORS_METHODDEF    \
+    {_curses_use_default_colors_MethodName.name, (PyCFunction)_curses_use_default_colors, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_use_default_colors__doc__},
 
 #endif /* !defined(STRICT_SYSV_CURSES) */
 
@@ -4385,10 +4385,6 @@ PyDoc_STRVAR(_curses_assume_default_colors__doc__,
 "Change the definition of the color-pair 0 to (fg, bg).\n"
 "\n"
 "Use this to support transparency in your application.");
-
-static struct {char name[];} _curses_assume_default_colors_MethodName = {.name = "assume_default_colors",};
-#define _CURSES_ASSUME_DEFAULT_COLORS_METHODDEF    \
-    {_curses_assume_default_colors_MethodName.name, _PyCFunction_CAST(_curses_assume_default_colors), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_assume_default_colors__doc__},
 
 static PyObject *
 _curses_assume_default_colors_impl(PyObject *module, int fg, int bg);
@@ -4417,6 +4413,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _curses_assume_default_colors_MethodName = {.name = "assume_default_colors",};
+#define _CURSES_ASSUME_DEFAULT_COLORS_METHODDEF    \
+    {_curses_assume_default_colors_MethodName.name, _PyCFunction_CAST(_curses_assume_default_colors), METH_FASTCALL|METH_C_STACK_FRUGAL, _curses_assume_default_colors__doc__},
+
 #endif /* !defined(STRICT_SYSV_CURSES) */
 
 PyDoc_STRVAR(_curses_has_extended_color_support__doc__,
@@ -4428,10 +4428,6 @@ PyDoc_STRVAR(_curses_has_extended_color_support__doc__,
 "Extended color support allows more than 256 color-pairs for terminals\n"
 "that support more than 16 colors (e.g. xterm-256color).");
 
-static struct {char name[];} _curses_has_extended_color_support_MethodName = {.name = "has_extended_color_support",};
-#define _CURSES_HAS_EXTENDED_COLOR_SUPPORT_METHODDEF    \
-    {_curses_has_extended_color_support_MethodName.name, (PyCFunction)_curses_has_extended_color_support, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_has_extended_color_support__doc__},
-
 static PyObject *
 _curses_has_extended_color_support_impl(PyObject *module);
 
@@ -4440,6 +4436,10 @@ _curses_has_extended_color_support(PyObject *module, PyObject *Py_UNUSED(ignored
 {
     return _curses_has_extended_color_support_impl(module);
 }
+
+static struct {char name[];} _curses_has_extended_color_support_MethodName = {.name = "has_extended_color_support",};
+#define _CURSES_HAS_EXTENDED_COLOR_SUPPORT_METHODDEF    \
+    {_curses_has_extended_color_support_MethodName.name, (PyCFunction)_curses_has_extended_color_support, METH_NOARGS|METH_C_STACK_FRUGAL, _curses_has_extended_color_support__doc__},
 
 #ifndef _CURSES_WINDOW_ENCLOSE_METHODDEF
     #define _CURSES_WINDOW_ENCLOSE_METHODDEF
@@ -4536,4 +4536,4 @@ _curses_has_extended_color_support(PyObject *module, PyObject *Py_UNUSED(ignored
 #ifndef _CURSES_ASSUME_DEFAULT_COLORS_METHODDEF
     #define _CURSES_ASSUME_DEFAULT_COLORS_METHODDEF
 #endif /* !defined(_CURSES_ASSUME_DEFAULT_COLORS_METHODDEF) */
-/*[clinic end generated code: output=cb9ec4cc768638a2 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=eb1f60390db107ce input=a9049054013a1b77]*/

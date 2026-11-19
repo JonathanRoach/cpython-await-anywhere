@@ -159,10 +159,6 @@ PyDoc_STRVAR(code_replace__doc__,
 "\n"
 "Return a copy of the code object with new values for the specified fields.");
 
-static struct {char name[];} code_replace_MethodName = {.name = "replace",};
-#define CODE_REPLACE_METHODDEF    \
-    {code_replace_MethodName.name, _PyCFunction_CAST(code_replace), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, code_replace__doc__},
-
 static PyObject *
 code_replace_impl(PyCodeObject *self, int co_argcount,
                   int co_posonlyargcount, int co_kwonlyargcount,
@@ -409,6 +405,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} code_replace_MethodName = {.name = "replace",};
+#define CODE_REPLACE_METHODDEF    \
+    {code_replace_MethodName.name, _PyCFunction_CAST(code_replace), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, code_replace__doc__},
+
 PyDoc_STRVAR(code__varname_from_oparg__doc__,
 "_varname_from_oparg($self, /, oparg)\n"
 "--\n"
@@ -416,10 +416,6 @@ PyDoc_STRVAR(code__varname_from_oparg__doc__,
 "(internal-only) Return the local variable name for the given oparg.\n"
 "\n"
 "WARNING: this method is for internal use only and may change or go away.");
-
-static struct {char name[];} code__varname_from_oparg_MethodName = {.name = "_varname_from_oparg",};
-#define CODE__VARNAME_FROM_OPARG_METHODDEF    \
-    {code__varname_from_oparg_MethodName.name, _PyCFunction_CAST(code__varname_from_oparg), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, code__varname_from_oparg__doc__},
 
 static PyObject *
 code__varname_from_oparg_impl(PyCodeObject *self, int oparg);
@@ -472,4 +468,8 @@ code__varname_from_oparg(PyObject *self, PyObject *const *args, Py_ssize_t nargs
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=6461c512542cbe77 input=a9049054013a1b77]*/
+
+static struct {char name[];} code__varname_from_oparg_MethodName = {.name = "_varname_from_oparg",};
+#define CODE__VARNAME_FROM_OPARG_METHODDEF    \
+    {code__varname_from_oparg_MethodName.name, _PyCFunction_CAST(code__varname_from_oparg), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, code__varname_from_oparg__doc__},
+/*[clinic end generated code: output=800e3b72c6e73f9d input=a9049054013a1b77]*/

@@ -62,10 +62,6 @@ PyDoc_STRVAR(_thread__get_name__doc__,
 "\n"
 "Get the name of the current thread.");
 
-static struct {char name[];} _thread__get_name_MethodName = {.name = "_get_name",};
-#define _THREAD__GET_NAME_METHODDEF    \
-    {_thread__get_name_MethodName.name, (PyCFunction)_thread__get_name, METH_NOARGS|METH_C_STACK_FRUGAL, _thread__get_name__doc__},
-
 static PyObject *
 _thread__get_name_impl(PyObject *module);
 
@@ -74,6 +70,10 @@ _thread__get_name(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return _thread__get_name_impl(module);
 }
+
+static struct {char name[];} _thread__get_name_MethodName = {.name = "_get_name",};
+#define _THREAD__GET_NAME_METHODDEF    \
+    {_thread__get_name_MethodName.name, (PyCFunction)_thread__get_name, METH_NOARGS|METH_C_STACK_FRUGAL, _thread__get_name__doc__},
 
 #endif /* (defined(HAVE_PTHREAD_GETNAME_NP) || defined(HAVE_PTHREAD_GET_NAME_NP) || defined(MS_WINDOWS)) */
 
@@ -84,10 +84,6 @@ PyDoc_STRVAR(_thread_set_name__doc__,
 "--\n"
 "\n"
 "Set the name of the current thread.");
-
-static struct {char name[];} _thread_set_name_MethodName = {.name = "set_name",};
-#define _THREAD_SET_NAME_METHODDEF    \
-    {_thread_set_name_MethodName.name, _PyCFunction_CAST(_thread_set_name), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _thread_set_name__doc__},
 
 static PyObject *
 _thread_set_name_impl(PyObject *module, PyObject *name_obj);
@@ -142,6 +138,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _thread_set_name_MethodName = {.name = "set_name",};
+#define _THREAD_SET_NAME_METHODDEF    \
+    {_thread_set_name_MethodName.name, _PyCFunction_CAST(_thread_set_name), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _thread_set_name__doc__},
+
 #endif /* (defined(HAVE_PTHREAD_SETNAME_NP) || defined(HAVE_PTHREAD_SET_NAME_NP) || defined(MS_WINDOWS)) */
 
 #ifndef _THREAD__GET_NAME_METHODDEF
@@ -151,4 +151,4 @@ exit:
 #ifndef _THREAD_SET_NAME_METHODDEF
     #define _THREAD_SET_NAME_METHODDEF
 #endif /* !defined(_THREAD_SET_NAME_METHODDEF) */
-/*[clinic end generated code: output=23b6b1819146bcba input=a9049054013a1b77]*/
+/*[clinic end generated code: output=488cf7764e5a2fed input=a9049054013a1b77]*/

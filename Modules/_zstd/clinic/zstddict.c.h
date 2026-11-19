@@ -100,6 +100,15 @@ PyDoc_STRVAR(_zstd_ZstdDict_dict_content__doc__,
 #endif
 #define _zstd_ZstdDict_dict_content_DOCSTR _zstd_ZstdDict_dict_content__doc__
 
+static PyObject *
+_zstd_ZstdDict_dict_content_get_impl(ZstdDict *self);
+
+static PyObject *
+_zstd_ZstdDict_dict_content_get(PyObject *self, void *Py_UNUSED(context))
+{
+    return _zstd_ZstdDict_dict_content_get_impl((ZstdDict *)self);
+}
+
 #if !defined(_zstd_ZstdDict_dict_content_DOCSTR)
 #  define _zstd_ZstdDict_dict_content_DOCSTR NULL
 #endif
@@ -109,15 +118,6 @@ PyDoc_STRVAR(_zstd_ZstdDict_dict_content__doc__,
 #else
 #  define _ZSTD_ZSTDDICT_DICT_CONTENT_GETSETDEF {"dict_content", (getter)_zstd_ZstdDict_dict_content_get, NULL, _zstd_ZstdDict_dict_content_DOCSTR},
 #endif
-
-static PyObject *
-_zstd_ZstdDict_dict_content_get_impl(ZstdDict *self);
-
-static PyObject *
-_zstd_ZstdDict_dict_content_get(PyObject *self, void *Py_UNUSED(context))
-{
-    return _zstd_ZstdDict_dict_content_get_impl((ZstdDict *)self);
-}
 
 PyDoc_STRVAR(_zstd_ZstdDict_as_digested_dict__doc__,
 "Load as a digested dictionary to compressor.\n"
@@ -136,6 +136,15 @@ PyDoc_STRVAR(_zstd_ZstdDict_as_digested_dict__doc__,
 #endif
 #define _zstd_ZstdDict_as_digested_dict_DOCSTR _zstd_ZstdDict_as_digested_dict__doc__
 
+static PyObject *
+_zstd_ZstdDict_as_digested_dict_get_impl(ZstdDict *self);
+
+static PyObject *
+_zstd_ZstdDict_as_digested_dict_get(PyObject *self, void *Py_UNUSED(context))
+{
+    return _zstd_ZstdDict_as_digested_dict_get_impl((ZstdDict *)self);
+}
+
 #if !defined(_zstd_ZstdDict_as_digested_dict_DOCSTR)
 #  define _zstd_ZstdDict_as_digested_dict_DOCSTR NULL
 #endif
@@ -145,15 +154,6 @@ PyDoc_STRVAR(_zstd_ZstdDict_as_digested_dict__doc__,
 #else
 #  define _ZSTD_ZSTDDICT_AS_DIGESTED_DICT_GETSETDEF {"as_digested_dict", (getter)_zstd_ZstdDict_as_digested_dict_get, NULL, _zstd_ZstdDict_as_digested_dict_DOCSTR},
 #endif
-
-static PyObject *
-_zstd_ZstdDict_as_digested_dict_get_impl(ZstdDict *self);
-
-static PyObject *
-_zstd_ZstdDict_as_digested_dict_get(PyObject *self, void *Py_UNUSED(context))
-{
-    return _zstd_ZstdDict_as_digested_dict_get_impl((ZstdDict *)self);
-}
 
 PyDoc_STRVAR(_zstd_ZstdDict_as_undigested_dict__doc__,
 "Load as an undigested dictionary to compressor.\n"
@@ -170,6 +170,15 @@ PyDoc_STRVAR(_zstd_ZstdDict_as_undigested_dict__doc__,
 #endif
 #define _zstd_ZstdDict_as_undigested_dict_DOCSTR _zstd_ZstdDict_as_undigested_dict__doc__
 
+static PyObject *
+_zstd_ZstdDict_as_undigested_dict_get_impl(ZstdDict *self);
+
+static PyObject *
+_zstd_ZstdDict_as_undigested_dict_get(PyObject *self, void *Py_UNUSED(context))
+{
+    return _zstd_ZstdDict_as_undigested_dict_get_impl((ZstdDict *)self);
+}
+
 #if !defined(_zstd_ZstdDict_as_undigested_dict_DOCSTR)
 #  define _zstd_ZstdDict_as_undigested_dict_DOCSTR NULL
 #endif
@@ -179,15 +188,6 @@ PyDoc_STRVAR(_zstd_ZstdDict_as_undigested_dict__doc__,
 #else
 #  define _ZSTD_ZSTDDICT_AS_UNDIGESTED_DICT_GETSETDEF {"as_undigested_dict", (getter)_zstd_ZstdDict_as_undigested_dict_get, NULL, _zstd_ZstdDict_as_undigested_dict_DOCSTR},
 #endif
-
-static PyObject *
-_zstd_ZstdDict_as_undigested_dict_get_impl(ZstdDict *self);
-
-static PyObject *
-_zstd_ZstdDict_as_undigested_dict_get(PyObject *self, void *Py_UNUSED(context))
-{
-    return _zstd_ZstdDict_as_undigested_dict_get_impl((ZstdDict *)self);
-}
 
 PyDoc_STRVAR(_zstd_ZstdDict_as_prefix__doc__,
 "Load as a prefix to compressor/decompressor.\n"
@@ -204,6 +204,15 @@ PyDoc_STRVAR(_zstd_ZstdDict_as_prefix__doc__,
 #endif
 #define _zstd_ZstdDict_as_prefix_DOCSTR _zstd_ZstdDict_as_prefix__doc__
 
+static PyObject *
+_zstd_ZstdDict_as_prefix_get_impl(ZstdDict *self);
+
+static PyObject *
+_zstd_ZstdDict_as_prefix_get(PyObject *self, void *Py_UNUSED(context))
+{
+    return _zstd_ZstdDict_as_prefix_get_impl((ZstdDict *)self);
+}
+
 #if !defined(_zstd_ZstdDict_as_prefix_DOCSTR)
 #  define _zstd_ZstdDict_as_prefix_DOCSTR NULL
 #endif
@@ -213,13 +222,4 @@ PyDoc_STRVAR(_zstd_ZstdDict_as_prefix__doc__,
 #else
 #  define _ZSTD_ZSTDDICT_AS_PREFIX_GETSETDEF {"as_prefix", (getter)_zstd_ZstdDict_as_prefix_get, NULL, _zstd_ZstdDict_as_prefix_DOCSTR},
 #endif
-
-static PyObject *
-_zstd_ZstdDict_as_prefix_get_impl(ZstdDict *self);
-
-static PyObject *
-_zstd_ZstdDict_as_prefix_get(PyObject *self, void *Py_UNUSED(context))
-{
-    return _zstd_ZstdDict_as_prefix_get_impl((ZstdDict *)self);
-}
-/*[clinic end generated code: output=4696cbc722e5fdfc input=a9049054013a1b77]*/
+/*[clinic end generated code: output=98bde02c90c06eb9 input=a9049054013a1b77]*/

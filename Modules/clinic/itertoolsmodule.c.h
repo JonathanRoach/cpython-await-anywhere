@@ -314,10 +314,6 @@ PyDoc_STRVAR(itertools_tee__doc__,
 "\n"
 "Returns a tuple of n independent iterators.");
 
-static struct {char name[];} itertools_tee_MethodName = {.name = "tee",};
-#define ITERTOOLS_TEE_METHODDEF    \
-    {itertools_tee_MethodName.name, _PyCFunction_CAST(itertools_tee), METH_FASTCALL|METH_C_STACK_FRUGAL, itertools_tee__doc__},
-
 static PyObject *
 itertools_tee_impl(PyObject *module, PyObject *iterable, Py_ssize_t n);
 
@@ -353,6 +349,10 @@ skip_optional:
 exit:
     return return_value;
 }
+
+static struct {char name[];} itertools_tee_MethodName = {.name = "tee",};
+#define ITERTOOLS_TEE_METHODDEF    \
+    {itertools_tee_MethodName.name, _PyCFunction_CAST(itertools_tee), METH_FASTCALL|METH_C_STACK_FRUGAL, itertools_tee__doc__},
 
 PyDoc_STRVAR(itertools_cycle__doc__,
 "cycle(iterable, /)\n"
@@ -488,10 +488,6 @@ PyDoc_STRVAR(itertools_chain_from_iterable__doc__,
 "\n"
 "Alternative chain() constructor taking a single iterable argument that evaluates lazily.");
 
-static struct {char name[];} itertools_chain_from_iterable_MethodName = {.name = "from_iterable",};
-#define ITERTOOLS_CHAIN_FROM_ITERABLE_METHODDEF    \
-    {itertools_chain_from_iterable_MethodName.name, (PyCFunction)itertools_chain_from_iterable, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, itertools_chain_from_iterable__doc__},
-
 static PyObject *
 itertools_chain_from_iterable_impl(PyTypeObject *type, PyObject *arg);
 
@@ -504,6 +500,10 @@ itertools_chain_from_iterable(PyObject *type, PyObject *arg)
 
     return return_value;
 }
+
+static struct {char name[];} itertools_chain_from_iterable_MethodName = {.name = "from_iterable",};
+#define ITERTOOLS_CHAIN_FROM_ITERABLE_METHODDEF    \
+    {itertools_chain_from_iterable_MethodName.name, (PyCFunction)itertools_chain_from_iterable, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, itertools_chain_from_iterable__doc__},
 
 PyDoc_STRVAR(itertools_combinations__doc__,
 "combinations(iterable, r)\n"
@@ -967,4 +967,4 @@ skip_optional_pos:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=1239b19e4c5e2405 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=2f5d71679521ee7f input=a9049054013a1b77]*/

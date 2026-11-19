@@ -11,10 +11,6 @@ PyDoc_STRVAR(readline_parse_and_bind__doc__,
 "\n"
 "Execute the init line provided in the string argument.");
 
-static struct {char name[];} readline_parse_and_bind_MethodName = {.name = "parse_and_bind",};
-#define READLINE_PARSE_AND_BIND_METHODDEF    \
-    {readline_parse_and_bind_MethodName.name, (PyCFunction)readline_parse_and_bind, METH_O|METH_C_STACK_FRUGAL, readline_parse_and_bind__doc__},
-
 static PyObject *
 readline_parse_and_bind_impl(PyObject *module, PyObject *string);
 
@@ -30,6 +26,10 @@ readline_parse_and_bind(PyObject *module, PyObject *string)
     return return_value;
 }
 
+static struct {char name[];} readline_parse_and_bind_MethodName = {.name = "parse_and_bind",};
+#define READLINE_PARSE_AND_BIND_METHODDEF    \
+    {readline_parse_and_bind_MethodName.name, (PyCFunction)readline_parse_and_bind, METH_O|METH_C_STACK_FRUGAL, readline_parse_and_bind__doc__},
+
 PyDoc_STRVAR(readline_read_init_file__doc__,
 "read_init_file($module, filename=None, /)\n"
 "--\n"
@@ -37,10 +37,6 @@ PyDoc_STRVAR(readline_read_init_file__doc__,
 "Execute a readline initialization file.\n"
 "\n"
 "The default filename is the last filename used.");
-
-static struct {char name[];} readline_read_init_file_MethodName = {.name = "read_init_file",};
-#define READLINE_READ_INIT_FILE_METHODDEF    \
-    {readline_read_init_file_MethodName.name, _PyCFunction_CAST(readline_read_init_file), METH_FASTCALL|METH_C_STACK_FRUGAL, readline_read_init_file__doc__},
 
 static PyObject *
 readline_read_init_file_impl(PyObject *module, PyObject *filename_obj);
@@ -67,6 +63,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} readline_read_init_file_MethodName = {.name = "read_init_file",};
+#define READLINE_READ_INIT_FILE_METHODDEF    \
+    {readline_read_init_file_MethodName.name, _PyCFunction_CAST(readline_read_init_file), METH_FASTCALL|METH_C_STACK_FRUGAL, readline_read_init_file__doc__},
+
 PyDoc_STRVAR(readline_read_history_file__doc__,
 "read_history_file($module, filename=None, /)\n"
 "--\n"
@@ -74,10 +74,6 @@ PyDoc_STRVAR(readline_read_history_file__doc__,
 "Load a readline history file.\n"
 "\n"
 "The default filename is ~/.history.");
-
-static struct {char name[];} readline_read_history_file_MethodName = {.name = "read_history_file",};
-#define READLINE_READ_HISTORY_FILE_METHODDEF    \
-    {readline_read_history_file_MethodName.name, _PyCFunction_CAST(readline_read_history_file), METH_FASTCALL|METH_C_STACK_FRUGAL, readline_read_history_file__doc__},
 
 static PyObject *
 readline_read_history_file_impl(PyObject *module, PyObject *filename_obj);
@@ -104,6 +100,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} readline_read_history_file_MethodName = {.name = "read_history_file",};
+#define READLINE_READ_HISTORY_FILE_METHODDEF    \
+    {readline_read_history_file_MethodName.name, _PyCFunction_CAST(readline_read_history_file), METH_FASTCALL|METH_C_STACK_FRUGAL, readline_read_history_file__doc__},
+
 PyDoc_STRVAR(readline_write_history_file__doc__,
 "write_history_file($module, filename=None, /)\n"
 "--\n"
@@ -111,10 +111,6 @@ PyDoc_STRVAR(readline_write_history_file__doc__,
 "Save a readline history file.\n"
 "\n"
 "The default filename is ~/.history.");
-
-static struct {char name[];} readline_write_history_file_MethodName = {.name = "write_history_file",};
-#define READLINE_WRITE_HISTORY_FILE_METHODDEF    \
-    {readline_write_history_file_MethodName.name, _PyCFunction_CAST(readline_write_history_file), METH_FASTCALL|METH_C_STACK_FRUGAL, readline_write_history_file__doc__},
 
 static PyObject *
 readline_write_history_file_impl(PyObject *module, PyObject *filename_obj);
@@ -141,6 +137,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} readline_write_history_file_MethodName = {.name = "write_history_file",};
+#define READLINE_WRITE_HISTORY_FILE_METHODDEF    \
+    {readline_write_history_file_MethodName.name, _PyCFunction_CAST(readline_write_history_file), METH_FASTCALL|METH_C_STACK_FRUGAL, readline_write_history_file__doc__},
+
 #if defined(HAVE_RL_APPEND_HISTORY)
 
 PyDoc_STRVAR(readline_append_history_file__doc__,
@@ -150,10 +150,6 @@ PyDoc_STRVAR(readline_append_history_file__doc__,
 "Append the last nelements items of the history list to file.\n"
 "\n"
 "The default filename is ~/.history.");
-
-static struct {char name[];} readline_append_history_file_MethodName = {.name = "append_history_file",};
-#define READLINE_APPEND_HISTORY_FILE_METHODDEF    \
-    {readline_append_history_file_MethodName.name, _PyCFunction_CAST(readline_append_history_file), METH_FASTCALL|METH_C_STACK_FRUGAL, readline_append_history_file__doc__},
 
 static PyObject *
 readline_append_history_file_impl(PyObject *module, int nelements,
@@ -186,6 +182,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} readline_append_history_file_MethodName = {.name = "append_history_file",};
+#define READLINE_APPEND_HISTORY_FILE_METHODDEF    \
+    {readline_append_history_file_MethodName.name, _PyCFunction_CAST(readline_append_history_file), METH_FASTCALL|METH_C_STACK_FRUGAL, readline_append_history_file__doc__},
+
 #endif /* defined(HAVE_RL_APPEND_HISTORY) */
 
 PyDoc_STRVAR(readline_set_history_length__doc__,
@@ -195,10 +195,6 @@ PyDoc_STRVAR(readline_set_history_length__doc__,
 "Set the maximal number of lines which will be written to the history file.\n"
 "\n"
 "A negative length is used to inhibit history truncation.");
-
-static struct {char name[];} readline_set_history_length_MethodName = {.name = "set_history_length",};
-#define READLINE_SET_HISTORY_LENGTH_METHODDEF    \
-    {readline_set_history_length_MethodName.name, (PyCFunction)readline_set_history_length, METH_O|METH_C_STACK_FRUGAL, readline_set_history_length__doc__},
 
 static PyObject *
 readline_set_history_length_impl(PyObject *module, int length);
@@ -219,15 +215,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} readline_set_history_length_MethodName = {.name = "set_history_length",};
+#define READLINE_SET_HISTORY_LENGTH_METHODDEF    \
+    {readline_set_history_length_MethodName.name, (PyCFunction)readline_set_history_length, METH_O|METH_C_STACK_FRUGAL, readline_set_history_length__doc__},
+
 PyDoc_STRVAR(readline_get_history_length__doc__,
 "get_history_length($module, /)\n"
 "--\n"
 "\n"
 "Return the maximum number of lines that will be written to the history file.");
-
-static struct {char name[];} readline_get_history_length_MethodName = {.name = "get_history_length",};
-#define READLINE_GET_HISTORY_LENGTH_METHODDEF    \
-    {readline_get_history_length_MethodName.name, (PyCFunction)readline_get_history_length, METH_NOARGS|METH_C_STACK_FRUGAL, readline_get_history_length__doc__},
 
 static PyObject *
 readline_get_history_length_impl(PyObject *module);
@@ -238,6 +234,10 @@ readline_get_history_length(PyObject *module, PyObject *Py_UNUSED(ignored))
     return readline_get_history_length_impl(module);
 }
 
+static struct {char name[];} readline_get_history_length_MethodName = {.name = "get_history_length",};
+#define READLINE_GET_HISTORY_LENGTH_METHODDEF    \
+    {readline_get_history_length_MethodName.name, (PyCFunction)readline_get_history_length, METH_NOARGS|METH_C_STACK_FRUGAL, readline_get_history_length__doc__},
+
 PyDoc_STRVAR(readline_set_completion_display_matches_hook__doc__,
 "set_completion_display_matches_hook($module, function=None, /)\n"
 "--\n"
@@ -247,10 +247,6 @@ PyDoc_STRVAR(readline_set_completion_display_matches_hook__doc__,
 "The function is called as\n"
 "  function(substitution, [matches], longest_match_length)\n"
 "once each time matches need to be displayed.");
-
-static struct {char name[];} readline_set_completion_display_matches_hook_MethodName = {.name = "set_completion_display_matches_hook",};
-#define READLINE_SET_COMPLETION_DISPLAY_MATCHES_HOOK_METHODDEF    \
-    {readline_set_completion_display_matches_hook_MethodName.name, _PyCFunction_CAST(readline_set_completion_display_matches_hook), METH_FASTCALL|METH_C_STACK_FRUGAL, readline_set_completion_display_matches_hook__doc__},
 
 static PyObject *
 readline_set_completion_display_matches_hook_impl(PyObject *module,
@@ -278,6 +274,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} readline_set_completion_display_matches_hook_MethodName = {.name = "set_completion_display_matches_hook",};
+#define READLINE_SET_COMPLETION_DISPLAY_MATCHES_HOOK_METHODDEF    \
+    {readline_set_completion_display_matches_hook_MethodName.name, _PyCFunction_CAST(readline_set_completion_display_matches_hook), METH_FASTCALL|METH_C_STACK_FRUGAL, readline_set_completion_display_matches_hook__doc__},
+
 PyDoc_STRVAR(readline_set_startup_hook__doc__,
 "set_startup_hook($module, function=None, /)\n"
 "--\n"
@@ -286,10 +286,6 @@ PyDoc_STRVAR(readline_set_startup_hook__doc__,
 "\n"
 "The function is called with no arguments just\n"
 "before readline prints the first prompt.");
-
-static struct {char name[];} readline_set_startup_hook_MethodName = {.name = "set_startup_hook",};
-#define READLINE_SET_STARTUP_HOOK_METHODDEF    \
-    {readline_set_startup_hook_MethodName.name, _PyCFunction_CAST(readline_set_startup_hook), METH_FASTCALL|METH_C_STACK_FRUGAL, readline_set_startup_hook__doc__},
 
 static PyObject *
 readline_set_startup_hook_impl(PyObject *module, PyObject *function);
@@ -316,6 +312,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} readline_set_startup_hook_MethodName = {.name = "set_startup_hook",};
+#define READLINE_SET_STARTUP_HOOK_METHODDEF    \
+    {readline_set_startup_hook_MethodName.name, _PyCFunction_CAST(readline_set_startup_hook), METH_FASTCALL|METH_C_STACK_FRUGAL, readline_set_startup_hook__doc__},
+
 #if defined(HAVE_RL_PRE_INPUT_HOOK)
 
 PyDoc_STRVAR(readline_set_pre_input_hook__doc__,
@@ -327,10 +327,6 @@ PyDoc_STRVAR(readline_set_pre_input_hook__doc__,
 "The function is called with no arguments after the first prompt\n"
 "has been printed and just before readline starts reading input\n"
 "characters.");
-
-static struct {char name[];} readline_set_pre_input_hook_MethodName = {.name = "set_pre_input_hook",};
-#define READLINE_SET_PRE_INPUT_HOOK_METHODDEF    \
-    {readline_set_pre_input_hook_MethodName.name, _PyCFunction_CAST(readline_set_pre_input_hook), METH_FASTCALL|METH_C_STACK_FRUGAL, readline_set_pre_input_hook__doc__},
 
 static PyObject *
 readline_set_pre_input_hook_impl(PyObject *module, PyObject *function);
@@ -357,6 +353,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} readline_set_pre_input_hook_MethodName = {.name = "set_pre_input_hook",};
+#define READLINE_SET_PRE_INPUT_HOOK_METHODDEF    \
+    {readline_set_pre_input_hook_MethodName.name, _PyCFunction_CAST(readline_set_pre_input_hook), METH_FASTCALL|METH_C_STACK_FRUGAL, readline_set_pre_input_hook__doc__},
+
 #endif /* defined(HAVE_RL_PRE_INPUT_HOOK) */
 
 PyDoc_STRVAR(readline_get_completion_type__doc__,
@@ -364,10 +364,6 @@ PyDoc_STRVAR(readline_get_completion_type__doc__,
 "--\n"
 "\n"
 "Get the type of completion being attempted.");
-
-static struct {char name[];} readline_get_completion_type_MethodName = {.name = "get_completion_type",};
-#define READLINE_GET_COMPLETION_TYPE_METHODDEF    \
-    {readline_get_completion_type_MethodName.name, (PyCFunction)readline_get_completion_type, METH_NOARGS|METH_C_STACK_FRUGAL, readline_get_completion_type__doc__},
 
 static PyObject *
 readline_get_completion_type_impl(PyObject *module);
@@ -378,15 +374,15 @@ readline_get_completion_type(PyObject *module, PyObject *Py_UNUSED(ignored))
     return readline_get_completion_type_impl(module);
 }
 
+static struct {char name[];} readline_get_completion_type_MethodName = {.name = "get_completion_type",};
+#define READLINE_GET_COMPLETION_TYPE_METHODDEF    \
+    {readline_get_completion_type_MethodName.name, (PyCFunction)readline_get_completion_type, METH_NOARGS|METH_C_STACK_FRUGAL, readline_get_completion_type__doc__},
+
 PyDoc_STRVAR(readline_get_begidx__doc__,
 "get_begidx($module, /)\n"
 "--\n"
 "\n"
 "Get the beginning index of the completion scope.");
-
-static struct {char name[];} readline_get_begidx_MethodName = {.name = "get_begidx",};
-#define READLINE_GET_BEGIDX_METHODDEF    \
-    {readline_get_begidx_MethodName.name, (PyCFunction)readline_get_begidx, METH_NOARGS|METH_C_STACK_FRUGAL, readline_get_begidx__doc__},
 
 static PyObject *
 readline_get_begidx_impl(PyObject *module);
@@ -397,15 +393,15 @@ readline_get_begidx(PyObject *module, PyObject *Py_UNUSED(ignored))
     return readline_get_begidx_impl(module);
 }
 
+static struct {char name[];} readline_get_begidx_MethodName = {.name = "get_begidx",};
+#define READLINE_GET_BEGIDX_METHODDEF    \
+    {readline_get_begidx_MethodName.name, (PyCFunction)readline_get_begidx, METH_NOARGS|METH_C_STACK_FRUGAL, readline_get_begidx__doc__},
+
 PyDoc_STRVAR(readline_get_endidx__doc__,
 "get_endidx($module, /)\n"
 "--\n"
 "\n"
 "Get the ending index of the completion scope.");
-
-static struct {char name[];} readline_get_endidx_MethodName = {.name = "get_endidx",};
-#define READLINE_GET_ENDIDX_METHODDEF    \
-    {readline_get_endidx_MethodName.name, (PyCFunction)readline_get_endidx, METH_NOARGS|METH_C_STACK_FRUGAL, readline_get_endidx__doc__},
 
 static PyObject *
 readline_get_endidx_impl(PyObject *module);
@@ -416,15 +412,15 @@ readline_get_endidx(PyObject *module, PyObject *Py_UNUSED(ignored))
     return readline_get_endidx_impl(module);
 }
 
+static struct {char name[];} readline_get_endidx_MethodName = {.name = "get_endidx",};
+#define READLINE_GET_ENDIDX_METHODDEF    \
+    {readline_get_endidx_MethodName.name, (PyCFunction)readline_get_endidx, METH_NOARGS|METH_C_STACK_FRUGAL, readline_get_endidx__doc__},
+
 PyDoc_STRVAR(readline_set_completer_delims__doc__,
 "set_completer_delims($module, string, /)\n"
 "--\n"
 "\n"
 "Set the word delimiters for completion.");
-
-static struct {char name[];} readline_set_completer_delims_MethodName = {.name = "set_completer_delims",};
-#define READLINE_SET_COMPLETER_DELIMS_METHODDEF    \
-    {readline_set_completer_delims_MethodName.name, (PyCFunction)readline_set_completer_delims, METH_O|METH_C_STACK_FRUGAL, readline_set_completer_delims__doc__},
 
 static PyObject *
 readline_set_completer_delims_impl(PyObject *module, PyObject *string);
@@ -441,15 +437,15 @@ readline_set_completer_delims(PyObject *module, PyObject *string)
     return return_value;
 }
 
+static struct {char name[];} readline_set_completer_delims_MethodName = {.name = "set_completer_delims",};
+#define READLINE_SET_COMPLETER_DELIMS_METHODDEF    \
+    {readline_set_completer_delims_MethodName.name, (PyCFunction)readline_set_completer_delims, METH_O|METH_C_STACK_FRUGAL, readline_set_completer_delims__doc__},
+
 PyDoc_STRVAR(readline_remove_history_item__doc__,
 "remove_history_item($module, pos, /)\n"
 "--\n"
 "\n"
 "Remove history item given by its zero-based position.");
-
-static struct {char name[];} readline_remove_history_item_MethodName = {.name = "remove_history_item",};
-#define READLINE_REMOVE_HISTORY_ITEM_METHODDEF    \
-    {readline_remove_history_item_MethodName.name, (PyCFunction)readline_remove_history_item, METH_O|METH_C_STACK_FRUGAL, readline_remove_history_item__doc__},
 
 static PyObject *
 readline_remove_history_item_impl(PyObject *module, int entry_number);
@@ -472,6 +468,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} readline_remove_history_item_MethodName = {.name = "remove_history_item",};
+#define READLINE_REMOVE_HISTORY_ITEM_METHODDEF    \
+    {readline_remove_history_item_MethodName.name, (PyCFunction)readline_remove_history_item, METH_O|METH_C_STACK_FRUGAL, readline_remove_history_item__doc__},
+
 PyDoc_STRVAR(readline_replace_history_item__doc__,
 "replace_history_item($module, pos, line, /)\n"
 "--\n"
@@ -479,10 +479,6 @@ PyDoc_STRVAR(readline_replace_history_item__doc__,
 "Replaces history item given by its position with contents of line.\n"
 "\n"
 "pos is zero-based.");
-
-static struct {char name[];} readline_replace_history_item_MethodName = {.name = "replace_history_item",};
-#define READLINE_REPLACE_HISTORY_ITEM_METHODDEF    \
-    {readline_replace_history_item_MethodName.name, _PyCFunction_CAST(readline_replace_history_item), METH_FASTCALL|METH_C_STACK_FRUGAL, readline_replace_history_item__doc__},
 
 static PyObject *
 readline_replace_history_item_impl(PyObject *module, int entry_number,
@@ -515,15 +511,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} readline_replace_history_item_MethodName = {.name = "replace_history_item",};
+#define READLINE_REPLACE_HISTORY_ITEM_METHODDEF    \
+    {readline_replace_history_item_MethodName.name, _PyCFunction_CAST(readline_replace_history_item), METH_FASTCALL|METH_C_STACK_FRUGAL, readline_replace_history_item__doc__},
+
 PyDoc_STRVAR(readline_add_history__doc__,
 "add_history($module, string, /)\n"
 "--\n"
 "\n"
 "Add an item to the history buffer.");
-
-static struct {char name[];} readline_add_history_MethodName = {.name = "add_history",};
-#define READLINE_ADD_HISTORY_METHODDEF    \
-    {readline_add_history_MethodName.name, (PyCFunction)readline_add_history, METH_O|METH_C_STACK_FRUGAL, readline_add_history__doc__},
 
 static PyObject *
 readline_add_history_impl(PyObject *module, PyObject *string);
@@ -540,15 +536,15 @@ readline_add_history(PyObject *module, PyObject *string)
     return return_value;
 }
 
+static struct {char name[];} readline_add_history_MethodName = {.name = "add_history",};
+#define READLINE_ADD_HISTORY_METHODDEF    \
+    {readline_add_history_MethodName.name, (PyCFunction)readline_add_history, METH_O|METH_C_STACK_FRUGAL, readline_add_history__doc__},
+
 PyDoc_STRVAR(readline_set_auto_history__doc__,
 "set_auto_history($module, enabled, /)\n"
 "--\n"
 "\n"
 "Enables or disables automatic history.");
-
-static struct {char name[];} readline_set_auto_history_MethodName = {.name = "set_auto_history",};
-#define READLINE_SET_AUTO_HISTORY_METHODDEF    \
-    {readline_set_auto_history_MethodName.name, (PyCFunction)readline_set_auto_history, METH_O|METH_C_STACK_FRUGAL, readline_set_auto_history__doc__},
 
 static PyObject *
 readline_set_auto_history_impl(PyObject *module,
@@ -570,15 +566,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} readline_set_auto_history_MethodName = {.name = "set_auto_history",};
+#define READLINE_SET_AUTO_HISTORY_METHODDEF    \
+    {readline_set_auto_history_MethodName.name, (PyCFunction)readline_set_auto_history, METH_O|METH_C_STACK_FRUGAL, readline_set_auto_history__doc__},
+
 PyDoc_STRVAR(readline_get_completer_delims__doc__,
 "get_completer_delims($module, /)\n"
 "--\n"
 "\n"
 "Get the word delimiters for completion.");
-
-static struct {char name[];} readline_get_completer_delims_MethodName = {.name = "get_completer_delims",};
-#define READLINE_GET_COMPLETER_DELIMS_METHODDEF    \
-    {readline_get_completer_delims_MethodName.name, (PyCFunction)readline_get_completer_delims, METH_NOARGS|METH_C_STACK_FRUGAL, readline_get_completer_delims__doc__},
 
 static PyObject *
 readline_get_completer_delims_impl(PyObject *module);
@@ -595,6 +591,10 @@ readline_get_completer_delims(PyObject *module, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} readline_get_completer_delims_MethodName = {.name = "get_completer_delims",};
+#define READLINE_GET_COMPLETER_DELIMS_METHODDEF    \
+    {readline_get_completer_delims_MethodName.name, (PyCFunction)readline_get_completer_delims, METH_NOARGS|METH_C_STACK_FRUGAL, readline_get_completer_delims__doc__},
+
 PyDoc_STRVAR(readline_set_completer__doc__,
 "set_completer($module, function=None, /)\n"
 "--\n"
@@ -604,10 +604,6 @@ PyDoc_STRVAR(readline_set_completer__doc__,
 "The function is called as function(text, state),\n"
 "for state in 0, 1, 2, ..., until it returns a non-string.\n"
 "It should return the next possible completion starting with \'text\'.");
-
-static struct {char name[];} readline_set_completer_MethodName = {.name = "set_completer",};
-#define READLINE_SET_COMPLETER_METHODDEF    \
-    {readline_set_completer_MethodName.name, _PyCFunction_CAST(readline_set_completer), METH_FASTCALL|METH_C_STACK_FRUGAL, readline_set_completer__doc__},
 
 static PyObject *
 readline_set_completer_impl(PyObject *module, PyObject *function);
@@ -634,15 +630,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} readline_set_completer_MethodName = {.name = "set_completer",};
+#define READLINE_SET_COMPLETER_METHODDEF    \
+    {readline_set_completer_MethodName.name, _PyCFunction_CAST(readline_set_completer), METH_FASTCALL|METH_C_STACK_FRUGAL, readline_set_completer__doc__},
+
 PyDoc_STRVAR(readline_get_completer__doc__,
 "get_completer($module, /)\n"
 "--\n"
 "\n"
 "Get the current completer function.");
-
-static struct {char name[];} readline_get_completer_MethodName = {.name = "get_completer",};
-#define READLINE_GET_COMPLETER_METHODDEF    \
-    {readline_get_completer_MethodName.name, (PyCFunction)readline_get_completer, METH_NOARGS|METH_C_STACK_FRUGAL, readline_get_completer__doc__},
 
 static PyObject *
 readline_get_completer_impl(PyObject *module);
@@ -653,15 +649,15 @@ readline_get_completer(PyObject *module, PyObject *Py_UNUSED(ignored))
     return readline_get_completer_impl(module);
 }
 
+static struct {char name[];} readline_get_completer_MethodName = {.name = "get_completer",};
+#define READLINE_GET_COMPLETER_METHODDEF    \
+    {readline_get_completer_MethodName.name, (PyCFunction)readline_get_completer, METH_NOARGS|METH_C_STACK_FRUGAL, readline_get_completer__doc__},
+
 PyDoc_STRVAR(readline_get_history_item__doc__,
 "get_history_item($module, index, /)\n"
 "--\n"
 "\n"
 "Return the current contents of history item at one-based index.");
-
-static struct {char name[];} readline_get_history_item_MethodName = {.name = "get_history_item",};
-#define READLINE_GET_HISTORY_ITEM_METHODDEF    \
-    {readline_get_history_item_MethodName.name, (PyCFunction)readline_get_history_item, METH_O|METH_C_STACK_FRUGAL, readline_get_history_item__doc__},
 
 static PyObject *
 readline_get_history_item_impl(PyObject *module, int idx);
@@ -684,15 +680,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} readline_get_history_item_MethodName = {.name = "get_history_item",};
+#define READLINE_GET_HISTORY_ITEM_METHODDEF    \
+    {readline_get_history_item_MethodName.name, (PyCFunction)readline_get_history_item, METH_O|METH_C_STACK_FRUGAL, readline_get_history_item__doc__},
+
 PyDoc_STRVAR(readline_get_current_history_length__doc__,
 "get_current_history_length($module, /)\n"
 "--\n"
 "\n"
 "Return the current (not the maximum) length of history.");
-
-static struct {char name[];} readline_get_current_history_length_MethodName = {.name = "get_current_history_length",};
-#define READLINE_GET_CURRENT_HISTORY_LENGTH_METHODDEF    \
-    {readline_get_current_history_length_MethodName.name, (PyCFunction)readline_get_current_history_length, METH_NOARGS|METH_C_STACK_FRUGAL, readline_get_current_history_length__doc__},
 
 static PyObject *
 readline_get_current_history_length_impl(PyObject *module);
@@ -709,15 +705,15 @@ readline_get_current_history_length(PyObject *module, PyObject *Py_UNUSED(ignore
     return return_value;
 }
 
+static struct {char name[];} readline_get_current_history_length_MethodName = {.name = "get_current_history_length",};
+#define READLINE_GET_CURRENT_HISTORY_LENGTH_METHODDEF    \
+    {readline_get_current_history_length_MethodName.name, (PyCFunction)readline_get_current_history_length, METH_NOARGS|METH_C_STACK_FRUGAL, readline_get_current_history_length__doc__},
+
 PyDoc_STRVAR(readline_get_line_buffer__doc__,
 "get_line_buffer($module, /)\n"
 "--\n"
 "\n"
 "Return the current contents of the line buffer.");
-
-static struct {char name[];} readline_get_line_buffer_MethodName = {.name = "get_line_buffer",};
-#define READLINE_GET_LINE_BUFFER_METHODDEF    \
-    {readline_get_line_buffer_MethodName.name, (PyCFunction)readline_get_line_buffer, METH_NOARGS|METH_C_STACK_FRUGAL, readline_get_line_buffer__doc__},
 
 static PyObject *
 readline_get_line_buffer_impl(PyObject *module);
@@ -734,6 +730,10 @@ readline_get_line_buffer(PyObject *module, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} readline_get_line_buffer_MethodName = {.name = "get_line_buffer",};
+#define READLINE_GET_LINE_BUFFER_METHODDEF    \
+    {readline_get_line_buffer_MethodName.name, (PyCFunction)readline_get_line_buffer, METH_NOARGS|METH_C_STACK_FRUGAL, readline_get_line_buffer__doc__},
+
 #if defined(HAVE_RL_COMPLETION_APPEND_CHARACTER)
 
 PyDoc_STRVAR(readline_clear_history__doc__,
@@ -741,10 +741,6 @@ PyDoc_STRVAR(readline_clear_history__doc__,
 "--\n"
 "\n"
 "Clear the current readline history.");
-
-static struct {char name[];} readline_clear_history_MethodName = {.name = "clear_history",};
-#define READLINE_CLEAR_HISTORY_METHODDEF    \
-    {readline_clear_history_MethodName.name, (PyCFunction)readline_clear_history, METH_NOARGS|METH_C_STACK_FRUGAL, readline_clear_history__doc__},
 
 static PyObject *
 readline_clear_history_impl(PyObject *module);
@@ -761,6 +757,10 @@ readline_clear_history(PyObject *module, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} readline_clear_history_MethodName = {.name = "clear_history",};
+#define READLINE_CLEAR_HISTORY_METHODDEF    \
+    {readline_clear_history_MethodName.name, (PyCFunction)readline_clear_history, METH_NOARGS|METH_C_STACK_FRUGAL, readline_clear_history__doc__},
+
 #endif /* defined(HAVE_RL_COMPLETION_APPEND_CHARACTER) */
 
 PyDoc_STRVAR(readline_insert_text__doc__,
@@ -768,10 +768,6 @@ PyDoc_STRVAR(readline_insert_text__doc__,
 "--\n"
 "\n"
 "Insert text into the line buffer at the cursor position.");
-
-static struct {char name[];} readline_insert_text_MethodName = {.name = "insert_text",};
-#define READLINE_INSERT_TEXT_METHODDEF    \
-    {readline_insert_text_MethodName.name, (PyCFunction)readline_insert_text, METH_O|METH_C_STACK_FRUGAL, readline_insert_text__doc__},
 
 static PyObject *
 readline_insert_text_impl(PyObject *module, PyObject *string);
@@ -788,15 +784,15 @@ readline_insert_text(PyObject *module, PyObject *string)
     return return_value;
 }
 
+static struct {char name[];} readline_insert_text_MethodName = {.name = "insert_text",};
+#define READLINE_INSERT_TEXT_METHODDEF    \
+    {readline_insert_text_MethodName.name, (PyCFunction)readline_insert_text, METH_O|METH_C_STACK_FRUGAL, readline_insert_text__doc__},
+
 PyDoc_STRVAR(readline_redisplay__doc__,
 "redisplay($module, /)\n"
 "--\n"
 "\n"
 "Change what\'s displayed on the screen to reflect contents of the line buffer.");
-
-static struct {char name[];} readline_redisplay_MethodName = {.name = "redisplay",};
-#define READLINE_REDISPLAY_METHODDEF    \
-    {readline_redisplay_MethodName.name, (PyCFunction)readline_redisplay, METH_NOARGS|METH_C_STACK_FRUGAL, readline_redisplay__doc__},
 
 static PyObject *
 readline_redisplay_impl(PyObject *module);
@@ -813,6 +809,10 @@ readline_redisplay(PyObject *module, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} readline_redisplay_MethodName = {.name = "redisplay",};
+#define READLINE_REDISPLAY_METHODDEF    \
+    {readline_redisplay_MethodName.name, (PyCFunction)readline_redisplay, METH_NOARGS|METH_C_STACK_FRUGAL, readline_redisplay__doc__},
+
 #ifndef READLINE_APPEND_HISTORY_FILE_METHODDEF
     #define READLINE_APPEND_HISTORY_FILE_METHODDEF
 #endif /* !defined(READLINE_APPEND_HISTORY_FILE_METHODDEF) */
@@ -824,4 +824,4 @@ readline_redisplay(PyObject *module, PyObject *Py_UNUSED(ignored))
 #ifndef READLINE_CLEAR_HISTORY_METHODDEF
     #define READLINE_CLEAR_HISTORY_METHODDEF
 #endif /* !defined(READLINE_CLEAR_HISTORY_METHODDEF) */
-/*[clinic end generated code: output=9a3167f3470a0099 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=5d298189f1ba226e input=a9049054013a1b77]*/

@@ -20,10 +20,6 @@ PyDoc_STRVAR(_bz2_BZ2Compressor_compress__doc__,
 "When you have finished providing data to the compressor, call the\n"
 "flush() method to finish the compression process.");
 
-static struct {char name[];} _bz2_BZ2Compressor_compress_MethodName = {.name = "compress",};
-#define _BZ2_BZ2COMPRESSOR_COMPRESS_METHODDEF    \
-    {_bz2_BZ2Compressor_compress_MethodName.name, (PyCFunction)_bz2_BZ2Compressor_compress, METH_O|METH_C_STACK_FRUGAL, _bz2_BZ2Compressor_compress__doc__},
-
 static PyObject *
 _bz2_BZ2Compressor_compress_impl(BZ2Compressor *self, Py_buffer *data);
 
@@ -47,6 +43,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _bz2_BZ2Compressor_compress_MethodName = {.name = "compress",};
+#define _BZ2_BZ2COMPRESSOR_COMPRESS_METHODDEF    \
+    {_bz2_BZ2Compressor_compress_MethodName.name, (PyCFunction)_bz2_BZ2Compressor_compress, METH_O|METH_C_STACK_FRUGAL, _bz2_BZ2Compressor_compress__doc__},
+
 PyDoc_STRVAR(_bz2_BZ2Compressor_flush__doc__,
 "flush($self, /)\n"
 "--\n"
@@ -57,10 +57,6 @@ PyDoc_STRVAR(_bz2_BZ2Compressor_flush__doc__,
 "\n"
 "The compressor object may not be used after this method is called.");
 
-static struct {char name[];} _bz2_BZ2Compressor_flush_MethodName = {.name = "flush",};
-#define _BZ2_BZ2COMPRESSOR_FLUSH_METHODDEF    \
-    {_bz2_BZ2Compressor_flush_MethodName.name, (PyCFunction)_bz2_BZ2Compressor_flush, METH_NOARGS|METH_C_STACK_FRUGAL, _bz2_BZ2Compressor_flush__doc__},
-
 static PyObject *
 _bz2_BZ2Compressor_flush_impl(BZ2Compressor *self);
 
@@ -69,6 +65,10 @@ _bz2_BZ2Compressor_flush(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return _bz2_BZ2Compressor_flush_impl((BZ2Compressor *)self);
 }
+
+static struct {char name[];} _bz2_BZ2Compressor_flush_MethodName = {.name = "flush",};
+#define _BZ2_BZ2COMPRESSOR_FLUSH_METHODDEF    \
+    {_bz2_BZ2Compressor_flush_MethodName.name, (PyCFunction)_bz2_BZ2Compressor_flush, METH_NOARGS|METH_C_STACK_FRUGAL, _bz2_BZ2Compressor_flush__doc__},
 
 PyDoc_STRVAR(_bz2_BZ2Compressor__doc__,
 "BZ2Compressor(compresslevel=9, /)\n"
@@ -130,10 +130,6 @@ PyDoc_STRVAR(_bz2_BZ2Decompressor_decompress__doc__,
 "Attempting to decompress data after the end of stream is reached raises an\n"
 "EOFError.  Any data found after the end of the stream is ignored and saved in\n"
 "the unused_data attribute.");
-
-static struct {char name[];} _bz2_BZ2Decompressor_decompress_MethodName = {.name = "decompress",};
-#define _BZ2_BZ2DECOMPRESSOR_DECOMPRESS_METHODDEF    \
-    {_bz2_BZ2Decompressor_decompress_MethodName.name, _PyCFunction_CAST(_bz2_BZ2Decompressor_decompress), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _bz2_BZ2Decompressor_decompress__doc__},
 
 static PyObject *
 _bz2_BZ2Decompressor_decompress_impl(BZ2Decompressor *self, Py_buffer *data,
@@ -210,6 +206,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _bz2_BZ2Decompressor_decompress_MethodName = {.name = "decompress",};
+#define _BZ2_BZ2DECOMPRESSOR_DECOMPRESS_METHODDEF    \
+    {_bz2_BZ2Decompressor_decompress_MethodName.name, _PyCFunction_CAST(_bz2_BZ2Decompressor_decompress), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _bz2_BZ2Decompressor_decompress__doc__},
+
 PyDoc_STRVAR(_bz2_BZ2Decompressor__doc__,
 "BZ2Decompressor()\n"
 "--\n"
@@ -240,4 +240,4 @@ _bz2_BZ2Decompressor(PyTypeObject *type, PyObject *args, PyObject *kwargs)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=981100f169504dba input=a9049054013a1b77]*/
+/*[clinic end generated code: output=fbd1b0e9f229fc48 input=a9049054013a1b77]*/

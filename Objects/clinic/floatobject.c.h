@@ -10,10 +10,6 @@ PyDoc_STRVAR(float_is_integer__doc__,
 "\n"
 "Return True if the float is an integer.");
 
-static struct {char name[];} float_is_integer_MethodName = {.name = "is_integer",};
-#define FLOAT_IS_INTEGER_METHODDEF    \
-    {float_is_integer_MethodName.name, (PyCFunction)float_is_integer, METH_NOARGS|METH_C_STACK_FRUGAL, float_is_integer__doc__},
-
 static PyObject *
 float_is_integer_impl(PyObject *self);
 
@@ -23,15 +19,15 @@ float_is_integer(PyObject *self, PyObject *Py_UNUSED(ignored))
     return float_is_integer_impl(self);
 }
 
+static struct {char name[];} float_is_integer_MethodName = {.name = "is_integer",};
+#define FLOAT_IS_INTEGER_METHODDEF    \
+    {float_is_integer_MethodName.name, (PyCFunction)float_is_integer, METH_NOARGS|METH_C_STACK_FRUGAL, float_is_integer__doc__},
+
 PyDoc_STRVAR(float___trunc____doc__,
 "__trunc__($self, /)\n"
 "--\n"
 "\n"
 "Return the Integral closest to x between 0 and x.");
-
-static struct {char name[];} float___trunc___MethodName = {.name = "__trunc__",};
-#define FLOAT___TRUNC___METHODDEF    \
-    {float___trunc___MethodName.name, (PyCFunction)float___trunc__, METH_NOARGS|METH_C_STACK_FRUGAL, float___trunc____doc__},
 
 static PyObject *
 float___trunc___impl(PyObject *self);
@@ -42,15 +38,15 @@ float___trunc__(PyObject *self, PyObject *Py_UNUSED(ignored))
     return float___trunc___impl(self);
 }
 
+static struct {char name[];} float___trunc___MethodName = {.name = "__trunc__",};
+#define FLOAT___TRUNC___METHODDEF    \
+    {float___trunc___MethodName.name, (PyCFunction)float___trunc__, METH_NOARGS|METH_C_STACK_FRUGAL, float___trunc____doc__},
+
 PyDoc_STRVAR(float___floor____doc__,
 "__floor__($self, /)\n"
 "--\n"
 "\n"
 "Return the floor as an Integral.");
-
-static struct {char name[];} float___floor___MethodName = {.name = "__floor__",};
-#define FLOAT___FLOOR___METHODDEF    \
-    {float___floor___MethodName.name, (PyCFunction)float___floor__, METH_NOARGS|METH_C_STACK_FRUGAL, float___floor____doc__},
 
 static PyObject *
 float___floor___impl(PyObject *self);
@@ -61,15 +57,15 @@ float___floor__(PyObject *self, PyObject *Py_UNUSED(ignored))
     return float___floor___impl(self);
 }
 
+static struct {char name[];} float___floor___MethodName = {.name = "__floor__",};
+#define FLOAT___FLOOR___METHODDEF    \
+    {float___floor___MethodName.name, (PyCFunction)float___floor__, METH_NOARGS|METH_C_STACK_FRUGAL, float___floor____doc__},
+
 PyDoc_STRVAR(float___ceil____doc__,
 "__ceil__($self, /)\n"
 "--\n"
 "\n"
 "Return the ceiling as an Integral.");
-
-static struct {char name[];} float___ceil___MethodName = {.name = "__ceil__",};
-#define FLOAT___CEIL___METHODDEF    \
-    {float___ceil___MethodName.name, (PyCFunction)float___ceil__, METH_NOARGS|METH_C_STACK_FRUGAL, float___ceil____doc__},
 
 static PyObject *
 float___ceil___impl(PyObject *self);
@@ -80,6 +76,10 @@ float___ceil__(PyObject *self, PyObject *Py_UNUSED(ignored))
     return float___ceil___impl(self);
 }
 
+static struct {char name[];} float___ceil___MethodName = {.name = "__ceil__",};
+#define FLOAT___CEIL___METHODDEF    \
+    {float___ceil___MethodName.name, (PyCFunction)float___ceil__, METH_NOARGS|METH_C_STACK_FRUGAL, float___ceil____doc__},
+
 PyDoc_STRVAR(float___round____doc__,
 "__round__($self, ndigits=None, /)\n"
 "--\n"
@@ -87,10 +87,6 @@ PyDoc_STRVAR(float___round____doc__,
 "Return the Integral closest to x, rounding half toward even.\n"
 "\n"
 "When an argument is passed, work like built-in round(x, ndigits).");
-
-static struct {char name[];} float___round___MethodName = {.name = "__round__",};
-#define FLOAT___ROUND___METHODDEF    \
-    {float___round___MethodName.name, _PyCFunction_CAST(float___round__), METH_FASTCALL|METH_C_STACK_FRUGAL, float___round____doc__},
 
 static PyObject *
 float___round___impl(PyObject *self, PyObject *o_ndigits);
@@ -115,15 +111,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} float___round___MethodName = {.name = "__round__",};
+#define FLOAT___ROUND___METHODDEF    \
+    {float___round___MethodName.name, _PyCFunction_CAST(float___round__), METH_FASTCALL|METH_C_STACK_FRUGAL, float___round____doc__},
+
 PyDoc_STRVAR(float_conjugate__doc__,
 "conjugate($self, /)\n"
 "--\n"
 "\n"
 "Return self, the complex conjugate of any float.");
-
-static struct {char name[];} float_conjugate_MethodName = {.name = "conjugate",};
-#define FLOAT_CONJUGATE_METHODDEF    \
-    {float_conjugate_MethodName.name, (PyCFunction)float_conjugate, METH_NOARGS|METH_C_STACK_FRUGAL, float_conjugate__doc__},
 
 static PyObject *
 float_conjugate_impl(PyObject *self);
@@ -133,6 +129,10 @@ float_conjugate(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return float_conjugate_impl(self);
 }
+
+static struct {char name[];} float_conjugate_MethodName = {.name = "conjugate",};
+#define FLOAT_CONJUGATE_METHODDEF    \
+    {float_conjugate_MethodName.name, (PyCFunction)float_conjugate, METH_NOARGS|METH_C_STACK_FRUGAL, float_conjugate__doc__},
 
 PyDoc_STRVAR(float_hex__doc__,
 "hex($self, /)\n"
@@ -145,10 +145,6 @@ PyDoc_STRVAR(float_hex__doc__,
 ">>> 3.14159.hex()\n"
 "\'0x1.921f9f01b866ep+1\'");
 
-static struct {char name[];} float_hex_MethodName = {.name = "hex",};
-#define FLOAT_HEX_METHODDEF    \
-    {float_hex_MethodName.name, (PyCFunction)float_hex, METH_NOARGS|METH_C_STACK_FRUGAL, float_hex__doc__},
-
 static PyObject *
 float_hex_impl(PyObject *self);
 
@@ -157,6 +153,10 @@ float_hex(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return float_hex_impl(self);
 }
+
+static struct {char name[];} float_hex_MethodName = {.name = "hex",};
+#define FLOAT_HEX_METHODDEF    \
+    {float_hex_MethodName.name, (PyCFunction)float_hex, METH_NOARGS|METH_C_STACK_FRUGAL, float_hex__doc__},
 
 PyDoc_STRVAR(float_fromhex__doc__,
 "fromhex($type, string, /)\n"
@@ -168,10 +168,6 @@ PyDoc_STRVAR(float_fromhex__doc__,
 "2047.984375\n"
 ">>> float.fromhex(\'-0x1p-1074\')\n"
 "-5e-324");
-
-static struct {char name[];} float_fromhex_MethodName = {.name = "fromhex",};
-#define FLOAT_FROMHEX_METHODDEF    \
-    {float_fromhex_MethodName.name, (PyCFunction)float_fromhex, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, float_fromhex__doc__},
 
 static PyObject *
 float_fromhex_impl(PyTypeObject *type, PyObject *string);
@@ -185,6 +181,10 @@ float_fromhex(PyObject *type, PyObject *string)
 
     return return_value;
 }
+
+static struct {char name[];} float_fromhex_MethodName = {.name = "fromhex",};
+#define FLOAT_FROMHEX_METHODDEF    \
+    {float_fromhex_MethodName.name, (PyCFunction)float_fromhex, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, float_fromhex__doc__},
 
 PyDoc_STRVAR(float_as_integer_ratio__doc__,
 "as_integer_ratio($self, /)\n"
@@ -202,10 +202,6 @@ PyDoc_STRVAR(float_as_integer_ratio__doc__,
 ">>> (-.25).as_integer_ratio()\n"
 "(-1, 4)");
 
-static struct {char name[];} float_as_integer_ratio_MethodName = {.name = "as_integer_ratio",};
-#define FLOAT_AS_INTEGER_RATIO_METHODDEF    \
-    {float_as_integer_ratio_MethodName.name, (PyCFunction)float_as_integer_ratio, METH_NOARGS|METH_C_STACK_FRUGAL, float_as_integer_ratio__doc__},
-
 static PyObject *
 float_as_integer_ratio_impl(PyObject *self);
 
@@ -214,6 +210,10 @@ float_as_integer_ratio(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return float_as_integer_ratio_impl(self);
 }
+
+static struct {char name[];} float_as_integer_ratio_MethodName = {.name = "as_integer_ratio",};
+#define FLOAT_AS_INTEGER_RATIO_METHODDEF    \
+    {float_as_integer_ratio_MethodName.name, (PyCFunction)float_as_integer_ratio, METH_NOARGS|METH_C_STACK_FRUGAL, float_as_integer_ratio__doc__},
 
 PyDoc_STRVAR(float_new__doc__,
 "float(x=0, /)\n"
@@ -224,15 +224,6 @@ PyDoc_STRVAR(float_new__doc__,
 static PyObject *
 float_new_impl(PyTypeObject *type, PyObject *x,
                struct _PyInterpreterFrame **inlined);
-
-static PyObject *
-float_new_Inlineable(PyTypeObject *type, PyObject *args, PyObject *kwargs,
-           struct _PyInterpreterFrame **inlined);
-
-static PyObject *
-float_new(PyTypeObject *type, PyObject *args, PyObject *kwargs) {
-    return float_new_Inlineable(type, args, kwargs, NULL);
-}
 
 static PyObject *
 float_new_Inlineable(PyTypeObject *type, PyObject *args, PyObject *kwargs,
@@ -260,15 +251,16 @@ exit:
     return return_value;
 }
 
+static PyObject *
+float_new(PyTypeObject *type, PyObject *args, PyObject *kwargs) {
+    return float_new_Inlineable(type, args, kwargs, NULL);
+}
+
 PyDoc_STRVAR(float_from_number__doc__,
 "from_number($type, number, /)\n"
 "--\n"
 "\n"
 "Convert real number to a floating-point number.");
-
-static struct {char name[];} float_from_number_MethodName = {.name = "from_number",};
-#define FLOAT_FROM_NUMBER_METHODDEF    \
-    {float_from_number_MethodName.name, (PyCFunction)float_from_number, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, float_from_number__doc__},
 
 static PyObject *
 float_from_number_impl(PyTypeObject *type, PyObject *number);
@@ -283,14 +275,14 @@ float_from_number(PyObject *type, PyObject *number)
     return return_value;
 }
 
+static struct {char name[];} float_from_number_MethodName = {.name = "from_number",};
+#define FLOAT_FROM_NUMBER_METHODDEF    \
+    {float_from_number_MethodName.name, (PyCFunction)float_from_number, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, float_from_number__doc__},
+
 PyDoc_STRVAR(float___getnewargs____doc__,
 "__getnewargs__($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} float___getnewargs___MethodName = {.name = "__getnewargs__",};
-#define FLOAT___GETNEWARGS___METHODDEF    \
-    {float___getnewargs___MethodName.name, (PyCFunction)float___getnewargs__, METH_NOARGS|METH_C_STACK_FRUGAL, float___getnewargs____doc__},
 
 static PyObject *
 float___getnewargs___impl(PyObject *self);
@@ -300,6 +292,10 @@ float___getnewargs__(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return float___getnewargs___impl(self);
 }
+
+static struct {char name[];} float___getnewargs___MethodName = {.name = "__getnewargs__",};
+#define FLOAT___GETNEWARGS___METHODDEF    \
+    {float___getnewargs___MethodName.name, (PyCFunction)float___getnewargs__, METH_NOARGS|METH_C_STACK_FRUGAL, float___getnewargs____doc__},
 
 PyDoc_STRVAR(float___getformat____doc__,
 "__getformat__($type, typestr, /)\n"
@@ -315,10 +311,6 @@ PyDoc_STRVAR(float___getformat____doc__,
 "This function returns whichever of \'unknown\', \'IEEE, big-endian\' or \'IEEE,\n"
 "little-endian\' best describes the format of floating-point numbers used by the\n"
 "C type named by typestr.");
-
-static struct {char name[];} float___getformat___MethodName = {.name = "__getformat__",};
-#define FLOAT___GETFORMAT___METHODDEF    \
-    {float___getformat___MethodName.name, (PyCFunction)float___getformat__, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, float___getformat____doc__},
 
 static PyObject *
 float___getformat___impl(PyTypeObject *type, const char *typestr);
@@ -348,15 +340,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} float___getformat___MethodName = {.name = "__getformat__",};
+#define FLOAT___GETFORMAT___METHODDEF    \
+    {float___getformat___MethodName.name, (PyCFunction)float___getformat__, METH_O|METH_CLASS|METH_C_STACK_FRUGAL, float___getformat____doc__},
+
 PyDoc_STRVAR(float___format____doc__,
 "__format__($self, format_spec, /)\n"
 "--\n"
 "\n"
 "Formats the float according to format_spec.");
-
-static struct {char name[];} float___format___MethodName = {.name = "__format__",};
-#define FLOAT___FORMAT___METHODDEF    \
-    {float___format___MethodName.name, (PyCFunction)float___format__, METH_O|METH_C_STACK_FRUGAL, float___format____doc__},
 
 static PyObject *
 float___format___impl(PyObject *self, PyObject *format_spec);
@@ -377,4 +369,8 @@ float___format__(PyObject *self, PyObject *arg)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=5f8f8accd67c3d1e input=a9049054013a1b77]*/
+
+static struct {char name[];} float___format___MethodName = {.name = "__format__",};
+#define FLOAT___FORMAT___METHODDEF    \
+    {float___format___MethodName.name, (PyCFunction)float___format__, METH_O|METH_C_STACK_FRUGAL, float___format____doc__},
+/*[clinic end generated code: output=67a65490992b0de5 input=a9049054013a1b77]*/

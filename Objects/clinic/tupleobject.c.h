@@ -12,10 +12,6 @@ PyDoc_STRVAR(tuple_index__doc__,
 "\n"
 "Raises ValueError if the value is not present.");
 
-static struct {char name[];} tuple_index_MethodName = {.name = "index",};
-#define TUPLE_INDEX_METHODDEF    \
-    {tuple_index_MethodName.name, _PyCFunction_CAST(tuple_index), METH_FASTCALL|METH_C_STACK_FRUGAL, tuple_index__doc__},
-
 static PyObject *
 tuple_index_impl(PyTupleObject *self, PyObject *value, Py_ssize_t start,
                  Py_ssize_t stop);
@@ -51,15 +47,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} tuple_index_MethodName = {.name = "index",};
+#define TUPLE_INDEX_METHODDEF    \
+    {tuple_index_MethodName.name, _PyCFunction_CAST(tuple_index), METH_FASTCALL|METH_C_STACK_FRUGAL, tuple_index__doc__},
+
 PyDoc_STRVAR(tuple_count__doc__,
 "count($self, value, /)\n"
 "--\n"
 "\n"
 "Return number of occurrences of value.");
-
-static struct {char name[];} tuple_count_MethodName = {.name = "count",};
-#define TUPLE_COUNT_METHODDEF    \
-    {tuple_count_MethodName.name, (PyCFunction)tuple_count, METH_O|METH_C_STACK_FRUGAL, tuple_count__doc__},
 
 static PyObject *
 tuple_count_impl(PyTupleObject *self, PyObject *value);
@@ -73,6 +69,10 @@ tuple_count(PyObject *self, PyObject *value)
 
     return return_value;
 }
+
+static struct {char name[];} tuple_count_MethodName = {.name = "count",};
+#define TUPLE_COUNT_METHODDEF    \
+    {tuple_count_MethodName.name, (PyCFunction)tuple_count, METH_O|METH_C_STACK_FRUGAL, tuple_count__doc__},
 
 PyDoc_STRVAR(tuple_new__doc__,
 "tuple(iterable=(), /)\n"
@@ -118,10 +118,6 @@ PyDoc_STRVAR(tuple___getnewargs____doc__,
 "--\n"
 "\n");
 
-static struct {char name[];} tuple___getnewargs___MethodName = {.name = "__getnewargs__",};
-#define TUPLE___GETNEWARGS___METHODDEF    \
-    {tuple___getnewargs___MethodName.name, (PyCFunction)tuple___getnewargs__, METH_NOARGS|METH_C_STACK_FRUGAL, tuple___getnewargs____doc__},
-
 static PyObject *
 tuple___getnewargs___impl(PyTupleObject *self);
 
@@ -130,4 +126,8 @@ tuple___getnewargs__(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return tuple___getnewargs___impl((PyTupleObject *)self);
 }
-/*[clinic end generated code: output=4ab77a5c52c45476 input=a9049054013a1b77]*/
+
+static struct {char name[];} tuple___getnewargs___MethodName = {.name = "__getnewargs__",};
+#define TUPLE___GETNEWARGS___METHODDEF    \
+    {tuple___getnewargs___MethodName.name, (PyCFunction)tuple___getnewargs__, METH_NOARGS|METH_C_STACK_FRUGAL, tuple___getnewargs____doc__},
+/*[clinic end generated code: output=98db9f658fd0814a input=a9049054013a1b77]*/

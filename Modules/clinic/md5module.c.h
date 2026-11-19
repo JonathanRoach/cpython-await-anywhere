@@ -14,10 +14,6 @@ PyDoc_STRVAR(MD5Type_copy__doc__,
 "\n"
 "Return a copy of the hash object.");
 
-static struct {char name[];} MD5Type_copy_MethodName = {.name = "copy",};
-#define MD5TYPE_COPY_METHODDEF    \
-    {MD5Type_copy_MethodName.name, _PyCFunction_CAST(MD5Type_copy), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, MD5Type_copy__doc__},
-
 static PyObject *
 MD5Type_copy_impl(MD5object *self, PyTypeObject *cls);
 
@@ -31,15 +27,15 @@ MD5Type_copy(PyObject *self, PyTypeObject *cls, PyObject *const *args, Py_ssize_
     return MD5Type_copy_impl((MD5object *)self, cls);
 }
 
+static struct {char name[];} MD5Type_copy_MethodName = {.name = "copy",};
+#define MD5TYPE_COPY_METHODDEF    \
+    {MD5Type_copy_MethodName.name, _PyCFunction_CAST(MD5Type_copy), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, MD5Type_copy__doc__},
+
 PyDoc_STRVAR(MD5Type_digest__doc__,
 "digest($self, /)\n"
 "--\n"
 "\n"
 "Return the digest value as a bytes object.");
-
-static struct {char name[];} MD5Type_digest_MethodName = {.name = "digest",};
-#define MD5TYPE_DIGEST_METHODDEF    \
-    {MD5Type_digest_MethodName.name, (PyCFunction)MD5Type_digest, METH_NOARGS|METH_C_STACK_FRUGAL, MD5Type_digest__doc__},
 
 static PyObject *
 MD5Type_digest_impl(MD5object *self);
@@ -50,15 +46,15 @@ MD5Type_digest(PyObject *self, PyObject *Py_UNUSED(ignored))
     return MD5Type_digest_impl((MD5object *)self);
 }
 
+static struct {char name[];} MD5Type_digest_MethodName = {.name = "digest",};
+#define MD5TYPE_DIGEST_METHODDEF    \
+    {MD5Type_digest_MethodName.name, (PyCFunction)MD5Type_digest, METH_NOARGS|METH_C_STACK_FRUGAL, MD5Type_digest__doc__},
+
 PyDoc_STRVAR(MD5Type_hexdigest__doc__,
 "hexdigest($self, /)\n"
 "--\n"
 "\n"
 "Return the digest value as a string of hexadecimal digits.");
-
-static struct {char name[];} MD5Type_hexdigest_MethodName = {.name = "hexdigest",};
-#define MD5TYPE_HEXDIGEST_METHODDEF    \
-    {MD5Type_hexdigest_MethodName.name, (PyCFunction)MD5Type_hexdigest, METH_NOARGS|METH_C_STACK_FRUGAL, MD5Type_hexdigest__doc__},
 
 static PyObject *
 MD5Type_hexdigest_impl(MD5object *self);
@@ -69,15 +65,15 @@ MD5Type_hexdigest(PyObject *self, PyObject *Py_UNUSED(ignored))
     return MD5Type_hexdigest_impl((MD5object *)self);
 }
 
+static struct {char name[];} MD5Type_hexdigest_MethodName = {.name = "hexdigest",};
+#define MD5TYPE_HEXDIGEST_METHODDEF    \
+    {MD5Type_hexdigest_MethodName.name, (PyCFunction)MD5Type_hexdigest, METH_NOARGS|METH_C_STACK_FRUGAL, MD5Type_hexdigest__doc__},
+
 PyDoc_STRVAR(MD5Type_update__doc__,
 "update($self, obj, /)\n"
 "--\n"
 "\n"
 "Update this hash object\'s state with the provided string.");
-
-static struct {char name[];} MD5Type_update_MethodName = {.name = "update",};
-#define MD5TYPE_UPDATE_METHODDEF    \
-    {MD5Type_update_MethodName.name, (PyCFunction)MD5Type_update, METH_O|METH_C_STACK_FRUGAL, MD5Type_update__doc__},
 
 static PyObject *
 MD5Type_update_impl(MD5object *self, PyObject *obj);
@@ -92,15 +88,15 @@ MD5Type_update(PyObject *self, PyObject *obj)
     return return_value;
 }
 
+static struct {char name[];} MD5Type_update_MethodName = {.name = "update",};
+#define MD5TYPE_UPDATE_METHODDEF    \
+    {MD5Type_update_MethodName.name, (PyCFunction)MD5Type_update, METH_O|METH_C_STACK_FRUGAL, MD5Type_update__doc__},
+
 PyDoc_STRVAR(_md5_md5__doc__,
 "md5($module, /, data=b\'\', *, usedforsecurity=True, string=None)\n"
 "--\n"
 "\n"
 "Return a new MD5 hash object; optionally initialized with a string.");
-
-static struct {char name[];} _md5_md5_MethodName = {.name = "md5",};
-#define _MD5_MD5_METHODDEF    \
-    {_md5_md5_MethodName.name, _PyCFunction_CAST(_md5_md5), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _md5_md5__doc__},
 
 static PyObject *
 _md5_md5_impl(PyObject *module, PyObject *data, int usedforsecurity,
@@ -177,4 +173,8 @@ skip_optional_kwonly:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=3402fc834532dc84 input=a9049054013a1b77]*/
+
+static struct {char name[];} _md5_md5_MethodName = {.name = "md5",};
+#define _MD5_MD5_METHODDEF    \
+    {_md5_md5_MethodName.name, _PyCFunction_CAST(_md5_md5), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _md5_md5__doc__},
+/*[clinic end generated code: output=77b76baab60bc5a7 input=a9049054013a1b77]*/

@@ -36,10 +36,6 @@ PyDoc_STRVAR(_lsprof_Profiler_getstats__doc__,
 "    totaltime     total time spent in this call\n"
 "    inlinetime    inline time (not in further subcalls)");
 
-static struct {char name[];} _lsprof_Profiler_getstats_MethodName = {.name = "getstats",};
-#define _LSPROF_PROFILER_GETSTATS_METHODDEF    \
-    {_lsprof_Profiler_getstats_MethodName.name, _PyCFunction_CAST(_lsprof_Profiler_getstats), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _lsprof_Profiler_getstats__doc__},
-
 static PyObject *
 _lsprof_Profiler_getstats_impl(ProfilerObject *self, PyTypeObject *cls);
 
@@ -53,14 +49,14 @@ _lsprof_Profiler_getstats(PyObject *self, PyTypeObject *cls, PyObject *const *ar
     return _lsprof_Profiler_getstats_impl((ProfilerObject *)self, cls);
 }
 
+static struct {char name[];} _lsprof_Profiler_getstats_MethodName = {.name = "getstats",};
+#define _LSPROF_PROFILER_GETSTATS_METHODDEF    \
+    {_lsprof_Profiler_getstats_MethodName.name, _PyCFunction_CAST(_lsprof_Profiler_getstats), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _lsprof_Profiler_getstats__doc__},
+
 PyDoc_STRVAR(_lsprof_Profiler__pystart_callback__doc__,
 "_pystart_callback($self, code, instruction_offset, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _lsprof_Profiler__pystart_callback_MethodName = {.name = "_pystart_callback",};
-#define _LSPROF_PROFILER__PYSTART_CALLBACK_METHODDEF    \
-    {_lsprof_Profiler__pystart_callback_MethodName.name, _PyCFunction_CAST(_lsprof_Profiler__pystart_callback), METH_FASTCALL|METH_C_STACK_FRUGAL, _lsprof_Profiler__pystart_callback__doc__},
 
 static PyObject *
 _lsprof_Profiler__pystart_callback_impl(ProfilerObject *self, PyObject *code,
@@ -84,14 +80,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _lsprof_Profiler__pystart_callback_MethodName = {.name = "_pystart_callback",};
+#define _LSPROF_PROFILER__PYSTART_CALLBACK_METHODDEF    \
+    {_lsprof_Profiler__pystart_callback_MethodName.name, _PyCFunction_CAST(_lsprof_Profiler__pystart_callback), METH_FASTCALL|METH_C_STACK_FRUGAL, _lsprof_Profiler__pystart_callback__doc__},
+
 PyDoc_STRVAR(_lsprof_Profiler__pyreturn_callback__doc__,
 "_pyreturn_callback($self, code, instruction_offset, retval, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _lsprof_Profiler__pyreturn_callback_MethodName = {.name = "_pyreturn_callback",};
-#define _LSPROF_PROFILER__PYRETURN_CALLBACK_METHODDEF    \
-    {_lsprof_Profiler__pyreturn_callback_MethodName.name, _PyCFunction_CAST(_lsprof_Profiler__pyreturn_callback), METH_FASTCALL|METH_C_STACK_FRUGAL, _lsprof_Profiler__pyreturn_callback__doc__},
 
 static PyObject *
 _lsprof_Profiler__pyreturn_callback_impl(ProfilerObject *self,
@@ -119,14 +115,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _lsprof_Profiler__pyreturn_callback_MethodName = {.name = "_pyreturn_callback",};
+#define _LSPROF_PROFILER__PYRETURN_CALLBACK_METHODDEF    \
+    {_lsprof_Profiler__pyreturn_callback_MethodName.name, _PyCFunction_CAST(_lsprof_Profiler__pyreturn_callback), METH_FASTCALL|METH_C_STACK_FRUGAL, _lsprof_Profiler__pyreturn_callback__doc__},
+
 PyDoc_STRVAR(_lsprof_Profiler__ccall_callback__doc__,
 "_ccall_callback($self, code, instruction_offset, callable, self_arg, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _lsprof_Profiler__ccall_callback_MethodName = {.name = "_ccall_callback",};
-#define _LSPROF_PROFILER__CCALL_CALLBACK_METHODDEF    \
-    {_lsprof_Profiler__ccall_callback_MethodName.name, _PyCFunction_CAST(_lsprof_Profiler__ccall_callback), METH_FASTCALL|METH_C_STACK_FRUGAL, _lsprof_Profiler__ccall_callback__doc__},
 
 static PyObject *
 _lsprof_Profiler__ccall_callback_impl(ProfilerObject *self, PyObject *code,
@@ -155,15 +151,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _lsprof_Profiler__ccall_callback_MethodName = {.name = "_ccall_callback",};
+#define _LSPROF_PROFILER__CCALL_CALLBACK_METHODDEF    \
+    {_lsprof_Profiler__ccall_callback_MethodName.name, _PyCFunction_CAST(_lsprof_Profiler__ccall_callback), METH_FASTCALL|METH_C_STACK_FRUGAL, _lsprof_Profiler__ccall_callback__doc__},
+
 PyDoc_STRVAR(_lsprof_Profiler__creturn_callback__doc__,
 "_creturn_callback($self, code, instruction_offset, callable, self_arg,\n"
 "                  /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _lsprof_Profiler__creturn_callback_MethodName = {.name = "_creturn_callback",};
-#define _LSPROF_PROFILER__CRETURN_CALLBACK_METHODDEF    \
-    {_lsprof_Profiler__creturn_callback_MethodName.name, _PyCFunction_CAST(_lsprof_Profiler__creturn_callback), METH_FASTCALL|METH_C_STACK_FRUGAL, _lsprof_Profiler__creturn_callback__doc__},
 
 static PyObject *
 _lsprof_Profiler__creturn_callback_impl(ProfilerObject *self, PyObject *code,
@@ -193,6 +189,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _lsprof_Profiler__creturn_callback_MethodName = {.name = "_creturn_callback",};
+#define _LSPROF_PROFILER__CRETURN_CALLBACK_METHODDEF    \
+    {_lsprof_Profiler__creturn_callback_MethodName.name, _PyCFunction_CAST(_lsprof_Profiler__creturn_callback), METH_FASTCALL|METH_C_STACK_FRUGAL, _lsprof_Profiler__creturn_callback__doc__},
+
 PyDoc_STRVAR(_lsprof_Profiler_enable__doc__,
 "enable($self, /, subcalls=True, builtins=True)\n"
 "--\n"
@@ -205,10 +205,6 @@ PyDoc_STRVAR(_lsprof_Profiler_enable__doc__,
 "  builtins\n"
 "    If True, records the time spent in\n"
 "    built-in functions separately from their caller.");
-
-static struct {char name[];} _lsprof_Profiler_enable_MethodName = {.name = "enable",};
-#define _LSPROF_PROFILER_ENABLE_METHODDEF    \
-    {_lsprof_Profiler_enable_MethodName.name, _PyCFunction_CAST(_lsprof_Profiler_enable), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _lsprof_Profiler_enable__doc__},
 
 static PyObject *
 _lsprof_Profiler_enable_impl(ProfilerObject *self, int subcalls,
@@ -278,15 +274,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _lsprof_Profiler_enable_MethodName = {.name = "enable",};
+#define _LSPROF_PROFILER_ENABLE_METHODDEF    \
+    {_lsprof_Profiler_enable_MethodName.name, _PyCFunction_CAST(_lsprof_Profiler_enable), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _lsprof_Profiler_enable__doc__},
+
 PyDoc_STRVAR(_lsprof_Profiler_disable__doc__,
 "disable($self, /)\n"
 "--\n"
 "\n"
 "Stop collecting profiling information.");
-
-static struct {char name[];} _lsprof_Profiler_disable_MethodName = {.name = "disable",};
-#define _LSPROF_PROFILER_DISABLE_METHODDEF    \
-    {_lsprof_Profiler_disable_MethodName.name, (PyCFunction)_lsprof_Profiler_disable, METH_NOARGS|METH_C_STACK_FRUGAL, _lsprof_Profiler_disable__doc__},
 
 static PyObject *
 _lsprof_Profiler_disable_impl(ProfilerObject *self);
@@ -297,15 +293,15 @@ _lsprof_Profiler_disable(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _lsprof_Profiler_disable_impl((ProfilerObject *)self);
 }
 
+static struct {char name[];} _lsprof_Profiler_disable_MethodName = {.name = "disable",};
+#define _LSPROF_PROFILER_DISABLE_METHODDEF    \
+    {_lsprof_Profiler_disable_MethodName.name, (PyCFunction)_lsprof_Profiler_disable, METH_NOARGS|METH_C_STACK_FRUGAL, _lsprof_Profiler_disable__doc__},
+
 PyDoc_STRVAR(_lsprof_Profiler_clear__doc__,
 "clear($self, /)\n"
 "--\n"
 "\n"
 "Clear all profiling information collected so far.");
-
-static struct {char name[];} _lsprof_Profiler_clear_MethodName = {.name = "clear",};
-#define _LSPROF_PROFILER_CLEAR_METHODDEF    \
-    {_lsprof_Profiler_clear_MethodName.name, (PyCFunction)_lsprof_Profiler_clear, METH_NOARGS|METH_C_STACK_FRUGAL, _lsprof_Profiler_clear__doc__},
 
 static PyObject *
 _lsprof_Profiler_clear_impl(ProfilerObject *self);
@@ -315,6 +311,10 @@ _lsprof_Profiler_clear(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return _lsprof_Profiler_clear_impl((ProfilerObject *)self);
 }
+
+static struct {char name[];} _lsprof_Profiler_clear_MethodName = {.name = "clear",};
+#define _LSPROF_PROFILER_CLEAR_METHODDEF    \
+    {_lsprof_Profiler_clear_MethodName.name, (PyCFunction)_lsprof_Profiler_clear, METH_NOARGS|METH_C_STACK_FRUGAL, _lsprof_Profiler_clear__doc__},
 
 PyDoc_STRVAR(profiler_init__doc__,
 "Profiler(timer=None, timeunit=0.0, subcalls=True, builtins=True)\n"
@@ -419,4 +419,4 @@ skip_optional_pos:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=388c91ee8ab4d2eb input=a9049054013a1b77]*/
+/*[clinic end generated code: output=9082ea76c36ff56d input=a9049054013a1b77]*/

@@ -10,10 +10,6 @@ PyDoc_STRVAR(BaseException___reduce____doc__,
 "--\n"
 "\n");
 
-static struct {char name[];} BaseException___reduce___MethodName = {.name = "__reduce__",};
-#define BASEEXCEPTION___REDUCE___METHODDEF    \
-    {BaseException___reduce___MethodName.name, (PyCFunction)BaseException___reduce__, METH_NOARGS|METH_C_STACK_FRUGAL, BaseException___reduce____doc__},
-
 static PyObject *
 BaseException___reduce___impl(PyBaseExceptionObject *self);
 
@@ -29,14 +25,14 @@ BaseException___reduce__(PyObject *self, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} BaseException___reduce___MethodName = {.name = "__reduce__",};
+#define BASEEXCEPTION___REDUCE___METHODDEF    \
+    {BaseException___reduce___MethodName.name, (PyCFunction)BaseException___reduce__, METH_NOARGS|METH_C_STACK_FRUGAL, BaseException___reduce____doc__},
+
 PyDoc_STRVAR(BaseException___setstate____doc__,
 "__setstate__($self, state, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} BaseException___setstate___MethodName = {.name = "__setstate__",};
-#define BASEEXCEPTION___SETSTATE___METHODDEF    \
-    {BaseException___setstate___MethodName.name, (PyCFunction)BaseException___setstate__, METH_O|METH_C_STACK_FRUGAL, BaseException___setstate____doc__},
 
 static PyObject *
 BaseException___setstate___impl(PyBaseExceptionObject *self, PyObject *state);
@@ -53,15 +49,15 @@ BaseException___setstate__(PyObject *self, PyObject *state)
     return return_value;
 }
 
+static struct {char name[];} BaseException___setstate___MethodName = {.name = "__setstate__",};
+#define BASEEXCEPTION___SETSTATE___METHODDEF    \
+    {BaseException___setstate___MethodName.name, (PyCFunction)BaseException___setstate__, METH_O|METH_C_STACK_FRUGAL, BaseException___setstate____doc__},
+
 PyDoc_STRVAR(BaseException_with_traceback__doc__,
 "with_traceback($self, tb, /)\n"
 "--\n"
 "\n"
 "Set self.__traceback__ to tb and return self.");
-
-static struct {char name[];} BaseException_with_traceback_MethodName = {.name = "with_traceback",};
-#define BASEEXCEPTION_WITH_TRACEBACK_METHODDEF    \
-    {BaseException_with_traceback_MethodName.name, (PyCFunction)BaseException_with_traceback, METH_O|METH_C_STACK_FRUGAL, BaseException_with_traceback__doc__},
 
 static PyObject *
 BaseException_with_traceback_impl(PyBaseExceptionObject *self, PyObject *tb);
@@ -78,15 +74,15 @@ BaseException_with_traceback(PyObject *self, PyObject *tb)
     return return_value;
 }
 
+static struct {char name[];} BaseException_with_traceback_MethodName = {.name = "with_traceback",};
+#define BASEEXCEPTION_WITH_TRACEBACK_METHODDEF    \
+    {BaseException_with_traceback_MethodName.name, (PyCFunction)BaseException_with_traceback, METH_O|METH_C_STACK_FRUGAL, BaseException_with_traceback__doc__},
+
 PyDoc_STRVAR(BaseException_add_note__doc__,
 "add_note($self, note, /)\n"
 "--\n"
 "\n"
 "Add a note to the exception");
-
-static struct {char name[];} BaseException_add_note_MethodName = {.name = "add_note",};
-#define BASEEXCEPTION_ADD_NOTE_METHODDEF    \
-    {BaseException_add_note_MethodName.name, (PyCFunction)BaseException_add_note, METH_O|METH_C_STACK_FRUGAL, BaseException_add_note__doc__},
 
 static PyObject *
 BaseException_add_note_impl(PyBaseExceptionObject *self, PyObject *note);
@@ -110,15 +106,9 @@ exit:
     return return_value;
 }
 
-#if !defined(BaseException_args_DOCSTR)
-#  define BaseException_args_DOCSTR NULL
-#endif
-#if defined(BASEEXCEPTION_ARGS_GETSETDEF)
-#  undef BASEEXCEPTION_ARGS_GETSETDEF
-#  define BASEEXCEPTION_ARGS_GETSETDEF {"args", (getter)BaseException_args_get, (setter)BaseException_args_set, BaseException_args_DOCSTR},
-#else
-#  define BASEEXCEPTION_ARGS_GETSETDEF {"args", (getter)BaseException_args_get, NULL, BaseException_args_DOCSTR},
-#endif
+static struct {char name[];} BaseException_add_note_MethodName = {.name = "add_note",};
+#define BASEEXCEPTION_ADD_NOTE_METHODDEF    \
+    {BaseException_add_note_MethodName.name, (PyCFunction)BaseException_add_note, METH_O|METH_C_STACK_FRUGAL, BaseException_add_note__doc__},
 
 static PyObject *
 BaseException_args_get_impl(PyBaseExceptionObject *self);
@@ -142,7 +132,7 @@ BaseException_args_get(PyObject *self, void *Py_UNUSED(context))
 #  undef BASEEXCEPTION_ARGS_GETSETDEF
 #  define BASEEXCEPTION_ARGS_GETSETDEF {"args", (getter)BaseException_args_get, (setter)BaseException_args_set, BaseException_args_DOCSTR},
 #else
-#  define BASEEXCEPTION_ARGS_GETSETDEF {"args", NULL, (setter)BaseException_args_set, NULL},
+#  define BASEEXCEPTION_ARGS_GETSETDEF {"args", (getter)BaseException_args_get, NULL, BaseException_args_DOCSTR},
 #endif
 
 static int
@@ -160,14 +150,14 @@ BaseException_args_set(PyObject *self, PyObject *value, void *Py_UNUSED(context)
     return return_value;
 }
 
-#if !defined(BaseException___traceback___DOCSTR)
-#  define BaseException___traceback___DOCSTR NULL
+#if !defined(BaseException_args_DOCSTR)
+#  define BaseException_args_DOCSTR NULL
 #endif
-#if defined(BASEEXCEPTION___TRACEBACK___GETSETDEF)
-#  undef BASEEXCEPTION___TRACEBACK___GETSETDEF
-#  define BASEEXCEPTION___TRACEBACK___GETSETDEF {"__traceback__", (getter)BaseException___traceback___get, (setter)BaseException___traceback___set, BaseException___traceback___DOCSTR},
+#if defined(BASEEXCEPTION_ARGS_GETSETDEF)
+#  undef BASEEXCEPTION_ARGS_GETSETDEF
+#  define BASEEXCEPTION_ARGS_GETSETDEF {"args", (getter)BaseException_args_get, (setter)BaseException_args_set, BaseException_args_DOCSTR},
 #else
-#  define BASEEXCEPTION___TRACEBACK___GETSETDEF {"__traceback__", (getter)BaseException___traceback___get, NULL, BaseException___traceback___DOCSTR},
+#  define BASEEXCEPTION_ARGS_GETSETDEF {"args", NULL, (setter)BaseException_args_set, NULL},
 #endif
 
 static PyObject *
@@ -192,7 +182,7 @@ BaseException___traceback___get(PyObject *self, void *Py_UNUSED(context))
 #  undef BASEEXCEPTION___TRACEBACK___GETSETDEF
 #  define BASEEXCEPTION___TRACEBACK___GETSETDEF {"__traceback__", (getter)BaseException___traceback___get, (setter)BaseException___traceback___set, BaseException___traceback___DOCSTR},
 #else
-#  define BASEEXCEPTION___TRACEBACK___GETSETDEF {"__traceback__", NULL, (setter)BaseException___traceback___set, NULL},
+#  define BASEEXCEPTION___TRACEBACK___GETSETDEF {"__traceback__", (getter)BaseException___traceback___get, NULL, BaseException___traceback___DOCSTR},
 #endif
 
 static int
@@ -211,14 +201,14 @@ BaseException___traceback___set(PyObject *self, PyObject *value, void *Py_UNUSED
     return return_value;
 }
 
-#if !defined(BaseException___context___DOCSTR)
-#  define BaseException___context___DOCSTR NULL
+#if !defined(BaseException___traceback___DOCSTR)
+#  define BaseException___traceback___DOCSTR NULL
 #endif
-#if defined(BASEEXCEPTION___CONTEXT___GETSETDEF)
-#  undef BASEEXCEPTION___CONTEXT___GETSETDEF
-#  define BASEEXCEPTION___CONTEXT___GETSETDEF {"__context__", (getter)BaseException___context___get, (setter)BaseException___context___set, BaseException___context___DOCSTR},
+#if defined(BASEEXCEPTION___TRACEBACK___GETSETDEF)
+#  undef BASEEXCEPTION___TRACEBACK___GETSETDEF
+#  define BASEEXCEPTION___TRACEBACK___GETSETDEF {"__traceback__", (getter)BaseException___traceback___get, (setter)BaseException___traceback___set, BaseException___traceback___DOCSTR},
 #else
-#  define BASEEXCEPTION___CONTEXT___GETSETDEF {"__context__", (getter)BaseException___context___get, NULL, BaseException___context___DOCSTR},
+#  define BASEEXCEPTION___TRACEBACK___GETSETDEF {"__traceback__", NULL, (setter)BaseException___traceback___set, NULL},
 #endif
 
 static PyObject *
@@ -243,7 +233,7 @@ BaseException___context___get(PyObject *self, void *Py_UNUSED(context))
 #  undef BASEEXCEPTION___CONTEXT___GETSETDEF
 #  define BASEEXCEPTION___CONTEXT___GETSETDEF {"__context__", (getter)BaseException___context___get, (setter)BaseException___context___set, BaseException___context___DOCSTR},
 #else
-#  define BASEEXCEPTION___CONTEXT___GETSETDEF {"__context__", NULL, (setter)BaseException___context___set, NULL},
+#  define BASEEXCEPTION___CONTEXT___GETSETDEF {"__context__", (getter)BaseException___context___get, NULL, BaseException___context___DOCSTR},
 #endif
 
 static int
@@ -262,14 +252,14 @@ BaseException___context___set(PyObject *self, PyObject *value, void *Py_UNUSED(c
     return return_value;
 }
 
-#if !defined(BaseException___cause___DOCSTR)
-#  define BaseException___cause___DOCSTR NULL
+#if !defined(BaseException___context___DOCSTR)
+#  define BaseException___context___DOCSTR NULL
 #endif
-#if defined(BASEEXCEPTION___CAUSE___GETSETDEF)
-#  undef BASEEXCEPTION___CAUSE___GETSETDEF
-#  define BASEEXCEPTION___CAUSE___GETSETDEF {"__cause__", (getter)BaseException___cause___get, (setter)BaseException___cause___set, BaseException___cause___DOCSTR},
+#if defined(BASEEXCEPTION___CONTEXT___GETSETDEF)
+#  undef BASEEXCEPTION___CONTEXT___GETSETDEF
+#  define BASEEXCEPTION___CONTEXT___GETSETDEF {"__context__", (getter)BaseException___context___get, (setter)BaseException___context___set, BaseException___context___DOCSTR},
 #else
-#  define BASEEXCEPTION___CAUSE___GETSETDEF {"__cause__", (getter)BaseException___cause___get, NULL, BaseException___cause___DOCSTR},
+#  define BASEEXCEPTION___CONTEXT___GETSETDEF {"__context__", NULL, (setter)BaseException___context___set, NULL},
 #endif
 
 static PyObject *
@@ -294,7 +284,7 @@ BaseException___cause___get(PyObject *self, void *Py_UNUSED(context))
 #  undef BASEEXCEPTION___CAUSE___GETSETDEF
 #  define BASEEXCEPTION___CAUSE___GETSETDEF {"__cause__", (getter)BaseException___cause___get, (setter)BaseException___cause___set, BaseException___cause___DOCSTR},
 #else
-#  define BASEEXCEPTION___CAUSE___GETSETDEF {"__cause__", NULL, (setter)BaseException___cause___set, NULL},
+#  define BASEEXCEPTION___CAUSE___GETSETDEF {"__cause__", (getter)BaseException___cause___get, NULL, BaseException___cause___DOCSTR},
 #endif
 
 static int
@@ -313,14 +303,20 @@ BaseException___cause___set(PyObject *self, PyObject *value, void *Py_UNUSED(con
     return return_value;
 }
 
+#if !defined(BaseException___cause___DOCSTR)
+#  define BaseException___cause___DOCSTR NULL
+#endif
+#if defined(BASEEXCEPTION___CAUSE___GETSETDEF)
+#  undef BASEEXCEPTION___CAUSE___GETSETDEF
+#  define BASEEXCEPTION___CAUSE___GETSETDEF {"__cause__", (getter)BaseException___cause___get, (setter)BaseException___cause___set, BaseException___cause___DOCSTR},
+#else
+#  define BASEEXCEPTION___CAUSE___GETSETDEF {"__cause__", NULL, (setter)BaseException___cause___set, NULL},
+#endif
+
 PyDoc_STRVAR(BaseExceptionGroup_derive__doc__,
 "derive($self, excs, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} BaseExceptionGroup_derive_MethodName = {.name = "derive",};
-#define BASEEXCEPTIONGROUP_DERIVE_METHODDEF    \
-    {BaseExceptionGroup_derive_MethodName.name, (PyCFunction)BaseExceptionGroup_derive, METH_O|METH_C_STACK_FRUGAL, BaseExceptionGroup_derive__doc__},
 
 static PyObject *
 BaseExceptionGroup_derive_impl(PyBaseExceptionGroupObject *self,
@@ -338,14 +334,14 @@ BaseExceptionGroup_derive(PyObject *self, PyObject *excs)
     return return_value;
 }
 
+static struct {char name[];} BaseExceptionGroup_derive_MethodName = {.name = "derive",};
+#define BASEEXCEPTIONGROUP_DERIVE_METHODDEF    \
+    {BaseExceptionGroup_derive_MethodName.name, (PyCFunction)BaseExceptionGroup_derive, METH_O|METH_C_STACK_FRUGAL, BaseExceptionGroup_derive__doc__},
+
 PyDoc_STRVAR(BaseExceptionGroup_split__doc__,
 "split($self, matcher_value, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} BaseExceptionGroup_split_MethodName = {.name = "split",};
-#define BASEEXCEPTIONGROUP_SPLIT_METHODDEF    \
-    {BaseExceptionGroup_split_MethodName.name, (PyCFunction)BaseExceptionGroup_split, METH_O|METH_C_STACK_FRUGAL, BaseExceptionGroup_split__doc__},
 
 static PyObject *
 BaseExceptionGroup_split_impl(PyBaseExceptionGroupObject *self,
@@ -363,14 +359,14 @@ BaseExceptionGroup_split(PyObject *self, PyObject *matcher_value)
     return return_value;
 }
 
+static struct {char name[];} BaseExceptionGroup_split_MethodName = {.name = "split",};
+#define BASEEXCEPTIONGROUP_SPLIT_METHODDEF    \
+    {BaseExceptionGroup_split_MethodName.name, (PyCFunction)BaseExceptionGroup_split, METH_O|METH_C_STACK_FRUGAL, BaseExceptionGroup_split__doc__},
+
 PyDoc_STRVAR(BaseExceptionGroup_subgroup__doc__,
 "subgroup($self, matcher_value, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} BaseExceptionGroup_subgroup_MethodName = {.name = "subgroup",};
-#define BASEEXCEPTIONGROUP_SUBGROUP_METHODDEF    \
-    {BaseExceptionGroup_subgroup_MethodName.name, (PyCFunction)BaseExceptionGroup_subgroup, METH_O|METH_C_STACK_FRUGAL, BaseExceptionGroup_subgroup__doc__},
 
 static PyObject *
 BaseExceptionGroup_subgroup_impl(PyBaseExceptionGroupObject *self,
@@ -387,4 +383,8 @@ BaseExceptionGroup_subgroup(PyObject *self, PyObject *matcher_value)
 
     return return_value;
 }
-/*[clinic end generated code: output=557f3d7db851c9d0 input=a9049054013a1b77]*/
+
+static struct {char name[];} BaseExceptionGroup_subgroup_MethodName = {.name = "subgroup",};
+#define BASEEXCEPTIONGROUP_SUBGROUP_METHODDEF    \
+    {BaseExceptionGroup_subgroup_MethodName.name, (PyCFunction)BaseExceptionGroup_subgroup, METH_O|METH_C_STACK_FRUGAL, BaseExceptionGroup_subgroup__doc__},
+/*[clinic end generated code: output=e48908411dba769b input=a9049054013a1b77]*/

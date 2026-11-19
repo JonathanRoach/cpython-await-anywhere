@@ -77,10 +77,6 @@ PyDoc_STRVAR(int___getnewargs____doc__,
 "--\n"
 "\n");
 
-static struct {char name[];} int___getnewargs___MethodName = {.name = "__getnewargs__",};
-#define INT___GETNEWARGS___METHODDEF    \
-    {int___getnewargs___MethodName.name, (PyCFunction)int___getnewargs__, METH_NOARGS|METH_C_STACK_FRUGAL, int___getnewargs____doc__},
-
 static PyObject *
 int___getnewargs___impl(PyObject *self);
 
@@ -90,15 +86,15 @@ int___getnewargs__(PyObject *self, PyObject *Py_UNUSED(ignored))
     return int___getnewargs___impl(self);
 }
 
+static struct {char name[];} int___getnewargs___MethodName = {.name = "__getnewargs__",};
+#define INT___GETNEWARGS___METHODDEF    \
+    {int___getnewargs___MethodName.name, (PyCFunction)int___getnewargs__, METH_NOARGS|METH_C_STACK_FRUGAL, int___getnewargs____doc__},
+
 PyDoc_STRVAR(int___format____doc__,
 "__format__($self, format_spec, /)\n"
 "--\n"
 "\n"
 "Convert to a string according to format_spec.");
-
-static struct {char name[];} int___format___MethodName = {.name = "__format__",};
-#define INT___FORMAT___METHODDEF    \
-    {int___format___MethodName.name, (PyCFunction)int___format__, METH_O|METH_C_STACK_FRUGAL, int___format____doc__},
 
 static PyObject *
 int___format___impl(PyObject *self, PyObject *format_spec);
@@ -120,6 +116,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} int___format___MethodName = {.name = "__format__",};
+#define INT___FORMAT___METHODDEF    \
+    {int___format___MethodName.name, (PyCFunction)int___format__, METH_O|METH_C_STACK_FRUGAL, int___format____doc__},
+
 PyDoc_STRVAR(int___round____doc__,
 "__round__($self, ndigits=None, /)\n"
 "--\n"
@@ -127,10 +127,6 @@ PyDoc_STRVAR(int___round____doc__,
 "Rounding an Integral returns itself.\n"
 "\n"
 "Rounding with an ndigits argument also returns an integer.");
-
-static struct {char name[];} int___round___MethodName = {.name = "__round__",};
-#define INT___ROUND___METHODDEF    \
-    {int___round___MethodName.name, _PyCFunction_CAST(int___round__), METH_FASTCALL|METH_C_STACK_FRUGAL, int___round____doc__},
 
 static PyObject *
 int___round___impl(PyObject *self, PyObject *o_ndigits);
@@ -155,15 +151,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} int___round___MethodName = {.name = "__round__",};
+#define INT___ROUND___METHODDEF    \
+    {int___round___MethodName.name, _PyCFunction_CAST(int___round__), METH_FASTCALL|METH_C_STACK_FRUGAL, int___round____doc__},
+
 PyDoc_STRVAR(int___sizeof____doc__,
 "__sizeof__($self, /)\n"
 "--\n"
 "\n"
 "Returns size in memory, in bytes.");
-
-static struct {char name[];} int___sizeof___MethodName = {.name = "__sizeof__",};
-#define INT___SIZEOF___METHODDEF    \
-    {int___sizeof___MethodName.name, (PyCFunction)int___sizeof__, METH_NOARGS|METH_C_STACK_FRUGAL, int___sizeof____doc__},
 
 static Py_ssize_t
 int___sizeof___impl(PyObject *self);
@@ -184,6 +180,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} int___sizeof___MethodName = {.name = "__sizeof__",};
+#define INT___SIZEOF___METHODDEF    \
+    {int___sizeof___MethodName.name, (PyCFunction)int___sizeof__, METH_NOARGS|METH_C_STACK_FRUGAL, int___sizeof____doc__},
+
 PyDoc_STRVAR(int_bit_length__doc__,
 "bit_length($self, /)\n"
 "--\n"
@@ -195,10 +195,6 @@ PyDoc_STRVAR(int_bit_length__doc__,
 ">>> (37).bit_length()\n"
 "6");
 
-static struct {char name[];} int_bit_length_MethodName = {.name = "bit_length",};
-#define INT_BIT_LENGTH_METHODDEF    \
-    {int_bit_length_MethodName.name, (PyCFunction)int_bit_length, METH_NOARGS|METH_C_STACK_FRUGAL, int_bit_length__doc__},
-
 static PyObject *
 int_bit_length_impl(PyObject *self);
 
@@ -207,6 +203,10 @@ int_bit_length(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return int_bit_length_impl(self);
 }
+
+static struct {char name[];} int_bit_length_MethodName = {.name = "bit_length",};
+#define INT_BIT_LENGTH_METHODDEF    \
+    {int_bit_length_MethodName.name, (PyCFunction)int_bit_length, METH_NOARGS|METH_C_STACK_FRUGAL, int_bit_length__doc__},
 
 PyDoc_STRVAR(int_bit_count__doc__,
 "bit_count($self, /)\n"
@@ -221,10 +221,6 @@ PyDoc_STRVAR(int_bit_count__doc__,
 ">>> (13).bit_count()\n"
 "3");
 
-static struct {char name[];} int_bit_count_MethodName = {.name = "bit_count",};
-#define INT_BIT_COUNT_METHODDEF    \
-    {int_bit_count_MethodName.name, (PyCFunction)int_bit_count, METH_NOARGS|METH_C_STACK_FRUGAL, int_bit_count__doc__},
-
 static PyObject *
 int_bit_count_impl(PyObject *self);
 
@@ -233,6 +229,10 @@ int_bit_count(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return int_bit_count_impl(self);
 }
+
+static struct {char name[];} int_bit_count_MethodName = {.name = "bit_count",};
+#define INT_BIT_COUNT_METHODDEF    \
+    {int_bit_count_MethodName.name, (PyCFunction)int_bit_count, METH_NOARGS|METH_C_STACK_FRUGAL, int_bit_count__doc__},
 
 PyDoc_STRVAR(int_as_integer_ratio__doc__,
 "as_integer_ratio($self, /)\n"
@@ -249,10 +249,6 @@ PyDoc_STRVAR(int_as_integer_ratio__doc__,
 ">>> (0).as_integer_ratio()\n"
 "(0, 1)");
 
-static struct {char name[];} int_as_integer_ratio_MethodName = {.name = "as_integer_ratio",};
-#define INT_AS_INTEGER_RATIO_METHODDEF    \
-    {int_as_integer_ratio_MethodName.name, (PyCFunction)int_as_integer_ratio, METH_NOARGS|METH_C_STACK_FRUGAL, int_as_integer_ratio__doc__},
-
 static PyObject *
 int_as_integer_ratio_impl(PyObject *self);
 
@@ -261,6 +257,10 @@ int_as_integer_ratio(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return int_as_integer_ratio_impl(self);
 }
+
+static struct {char name[];} int_as_integer_ratio_MethodName = {.name = "as_integer_ratio",};
+#define INT_AS_INTEGER_RATIO_METHODDEF    \
+    {int_as_integer_ratio_MethodName.name, (PyCFunction)int_as_integer_ratio, METH_NOARGS|METH_C_STACK_FRUGAL, int_as_integer_ratio__doc__},
 
 PyDoc_STRVAR(int_to_bytes__doc__,
 "to_bytes($self, /, length=1, byteorder=\'big\', *, signed=False)\n"
@@ -282,10 +282,6 @@ PyDoc_STRVAR(int_to_bytes__doc__,
 "    Determines whether two\'s complement is used to represent the integer.\n"
 "    If signed is False and a negative integer is given, an OverflowError\n"
 "    is raised.");
-
-static struct {char name[];} int_to_bytes_MethodName = {.name = "to_bytes",};
-#define INT_TO_BYTES_METHODDEF    \
-    {int_to_bytes_MethodName.name, _PyCFunction_CAST(int_to_bytes), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, int_to_bytes__doc__},
 
 static PyObject *
 int_to_bytes_impl(PyObject *self, Py_ssize_t length, PyObject *byteorder,
@@ -378,6 +374,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} int_to_bytes_MethodName = {.name = "to_bytes",};
+#define INT_TO_BYTES_METHODDEF    \
+    {int_to_bytes_MethodName.name, _PyCFunction_CAST(int_to_bytes), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, int_to_bytes__doc__},
+
 PyDoc_STRVAR(int_from_bytes__doc__,
 "from_bytes($type, /, bytes, byteorder=\'big\', *, signed=False)\n"
 "--\n"
@@ -397,10 +397,6 @@ PyDoc_STRVAR(int_from_bytes__doc__,
 "    sys.byteorder as the byte order value.  Default is to use \'big\'.\n"
 "  signed\n"
 "    Indicates whether two\'s complement is used to represent the integer.");
-
-static struct {char name[];} int_from_bytes_MethodName = {.name = "from_bytes",};
-#define INT_FROM_BYTES_METHODDEF    \
-    {int_from_bytes_MethodName.name, _PyCFunction_CAST(int_from_bytes), METH_FASTCALL|METH_KEYWORDS|METH_CLASS|METH_C_STACK_FRUGAL, int_from_bytes__doc__},
 
 static PyObject *
 int_from_bytes_impl(PyTypeObject *type, PyObject *bytes_obj,
@@ -477,15 +473,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} int_from_bytes_MethodName = {.name = "from_bytes",};
+#define INT_FROM_BYTES_METHODDEF    \
+    {int_from_bytes_MethodName.name, _PyCFunction_CAST(int_from_bytes), METH_FASTCALL|METH_KEYWORDS|METH_CLASS|METH_C_STACK_FRUGAL, int_from_bytes__doc__},
+
 PyDoc_STRVAR(int_is_integer__doc__,
 "is_integer($self, /)\n"
 "--\n"
 "\n"
 "Returns True. Exists for duck type compatibility with float.is_integer.");
-
-static struct {char name[];} int_is_integer_MethodName = {.name = "is_integer",};
-#define INT_IS_INTEGER_METHODDEF    \
-    {int_is_integer_MethodName.name, (PyCFunction)int_is_integer, METH_NOARGS|METH_C_STACK_FRUGAL, int_is_integer__doc__},
 
 static PyObject *
 int_is_integer_impl(PyObject *self);
@@ -495,4 +491,8 @@ int_is_integer(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return int_is_integer_impl(self);
 }
-/*[clinic end generated code: output=daccbab73e0c08ef input=a9049054013a1b77]*/
+
+static struct {char name[];} int_is_integer_MethodName = {.name = "is_integer",};
+#define INT_IS_INTEGER_METHODDEF    \
+    {int_is_integer_MethodName.name, (PyCFunction)int_is_integer, METH_NOARGS|METH_C_STACK_FRUGAL, int_is_integer__doc__},
+/*[clinic end generated code: output=902dcc477d3d5202 input=a9049054013a1b77]*/

@@ -14,10 +14,6 @@ PyDoc_STRVAR(array_array_clear__doc__,
 "\n"
 "Remove all items from the array.");
 
-static struct {char name[];} array_array_clear_MethodName = {.name = "clear",};
-#define ARRAY_ARRAY_CLEAR_METHODDEF    \
-    {array_array_clear_MethodName.name, (PyCFunction)array_array_clear, METH_NOARGS|METH_C_STACK_FRUGAL, array_array_clear__doc__},
-
 static PyObject *
 array_array_clear_impl(arrayobject *self);
 
@@ -27,15 +23,15 @@ array_array_clear(PyObject *self, PyObject *Py_UNUSED(ignored))
     return array_array_clear_impl((arrayobject *)self);
 }
 
+static struct {char name[];} array_array_clear_MethodName = {.name = "clear",};
+#define ARRAY_ARRAY_CLEAR_METHODDEF    \
+    {array_array_clear_MethodName.name, (PyCFunction)array_array_clear, METH_NOARGS|METH_C_STACK_FRUGAL, array_array_clear__doc__},
+
 PyDoc_STRVAR(array_array___copy____doc__,
 "__copy__($self, /)\n"
 "--\n"
 "\n"
 "Return a copy of the array.");
-
-static struct {char name[];} array_array___copy___MethodName = {.name = "__copy__",};
-#define ARRAY_ARRAY___COPY___METHODDEF    \
-    {array_array___copy___MethodName.name, (PyCFunction)array_array___copy__, METH_NOARGS|METH_C_STACK_FRUGAL, array_array___copy____doc__},
 
 static PyObject *
 array_array___copy___impl(arrayobject *self);
@@ -46,15 +42,15 @@ array_array___copy__(PyObject *self, PyObject *Py_UNUSED(ignored))
     return array_array___copy___impl((arrayobject *)self);
 }
 
+static struct {char name[];} array_array___copy___MethodName = {.name = "__copy__",};
+#define ARRAY_ARRAY___COPY___METHODDEF    \
+    {array_array___copy___MethodName.name, (PyCFunction)array_array___copy__, METH_NOARGS|METH_C_STACK_FRUGAL, array_array___copy____doc__},
+
 PyDoc_STRVAR(array_array___deepcopy____doc__,
 "__deepcopy__($self, unused, /)\n"
 "--\n"
 "\n"
 "Return a copy of the array.");
-
-static struct {char name[];} array_array___deepcopy___MethodName = {.name = "__deepcopy__",};
-#define ARRAY_ARRAY___DEEPCOPY___METHODDEF    \
-    {array_array___deepcopy___MethodName.name, (PyCFunction)array_array___deepcopy__, METH_O|METH_C_STACK_FRUGAL, array_array___deepcopy____doc__},
 
 static PyObject *
 array_array___deepcopy___impl(arrayobject *self, PyObject *unused);
@@ -69,15 +65,15 @@ array_array___deepcopy__(PyObject *self, PyObject *unused)
     return return_value;
 }
 
+static struct {char name[];} array_array___deepcopy___MethodName = {.name = "__deepcopy__",};
+#define ARRAY_ARRAY___DEEPCOPY___METHODDEF    \
+    {array_array___deepcopy___MethodName.name, (PyCFunction)array_array___deepcopy__, METH_O|METH_C_STACK_FRUGAL, array_array___deepcopy____doc__},
+
 PyDoc_STRVAR(array_array_count__doc__,
 "count($self, v, /)\n"
 "--\n"
 "\n"
 "Return number of occurrences of v in the array.");
-
-static struct {char name[];} array_array_count_MethodName = {.name = "count",};
-#define ARRAY_ARRAY_COUNT_METHODDEF    \
-    {array_array_count_MethodName.name, (PyCFunction)array_array_count, METH_O|METH_C_STACK_FRUGAL, array_array_count__doc__},
 
 static PyObject *
 array_array_count_impl(arrayobject *self, PyObject *v);
@@ -92,6 +88,10 @@ array_array_count(PyObject *self, PyObject *v)
     return return_value;
 }
 
+static struct {char name[];} array_array_count_MethodName = {.name = "count",};
+#define ARRAY_ARRAY_COUNT_METHODDEF    \
+    {array_array_count_MethodName.name, (PyCFunction)array_array_count, METH_O|METH_C_STACK_FRUGAL, array_array_count__doc__},
+
 PyDoc_STRVAR(array_array_index__doc__,
 "index($self, v, start=0, stop=sys.maxsize, /)\n"
 "--\n"
@@ -99,10 +99,6 @@ PyDoc_STRVAR(array_array_index__doc__,
 "Return index of first occurrence of v in the array.\n"
 "\n"
 "Raise ValueError if the value is not present.");
-
-static struct {char name[];} array_array_index_MethodName = {.name = "index",};
-#define ARRAY_ARRAY_INDEX_METHODDEF    \
-    {array_array_index_MethodName.name, _PyCFunction_CAST(array_array_index), METH_FASTCALL|METH_C_STACK_FRUGAL, array_array_index__doc__},
 
 static PyObject *
 array_array_index_impl(arrayobject *self, PyObject *v, Py_ssize_t start,
@@ -139,15 +135,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} array_array_index_MethodName = {.name = "index",};
+#define ARRAY_ARRAY_INDEX_METHODDEF    \
+    {array_array_index_MethodName.name, _PyCFunction_CAST(array_array_index), METH_FASTCALL|METH_C_STACK_FRUGAL, array_array_index__doc__},
+
 PyDoc_STRVAR(array_array_remove__doc__,
 "remove($self, v, /)\n"
 "--\n"
 "\n"
 "Remove the first occurrence of v in the array.");
-
-static struct {char name[];} array_array_remove_MethodName = {.name = "remove",};
-#define ARRAY_ARRAY_REMOVE_METHODDEF    \
-    {array_array_remove_MethodName.name, (PyCFunction)array_array_remove, METH_O|METH_C_STACK_FRUGAL, array_array_remove__doc__},
 
 static PyObject *
 array_array_remove_impl(arrayobject *self, PyObject *v);
@@ -162,6 +158,10 @@ array_array_remove(PyObject *self, PyObject *v)
     return return_value;
 }
 
+static struct {char name[];} array_array_remove_MethodName = {.name = "remove",};
+#define ARRAY_ARRAY_REMOVE_METHODDEF    \
+    {array_array_remove_MethodName.name, (PyCFunction)array_array_remove, METH_O|METH_C_STACK_FRUGAL, array_array_remove__doc__},
+
 PyDoc_STRVAR(array_array_pop__doc__,
 "pop($self, i=-1, /)\n"
 "--\n"
@@ -169,10 +169,6 @@ PyDoc_STRVAR(array_array_pop__doc__,
 "Return the i-th element and delete it from the array.\n"
 "\n"
 "i defaults to -1.");
-
-static struct {char name[];} array_array_pop_MethodName = {.name = "pop",};
-#define ARRAY_ARRAY_POP_METHODDEF    \
-    {array_array_pop_MethodName.name, _PyCFunction_CAST(array_array_pop), METH_FASTCALL|METH_C_STACK_FRUGAL, array_array_pop__doc__},
 
 static PyObject *
 array_array_pop_impl(arrayobject *self, Py_ssize_t i);
@@ -208,15 +204,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} array_array_pop_MethodName = {.name = "pop",};
+#define ARRAY_ARRAY_POP_METHODDEF    \
+    {array_array_pop_MethodName.name, _PyCFunction_CAST(array_array_pop), METH_FASTCALL|METH_C_STACK_FRUGAL, array_array_pop__doc__},
+
 PyDoc_STRVAR(array_array_extend__doc__,
 "extend($self, bb, /)\n"
 "--\n"
 "\n"
 "Append items to the end of the array.");
-
-static struct {char name[];} array_array_extend_MethodName = {.name = "extend",};
-#define ARRAY_ARRAY_EXTEND_METHODDEF    \
-    {array_array_extend_MethodName.name, _PyCFunction_CAST(array_array_extend), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, array_array_extend__doc__},
 
 static PyObject *
 array_array_extend_impl(arrayobject *self, PyTypeObject *cls, PyObject *bb);
@@ -253,15 +249,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} array_array_extend_MethodName = {.name = "extend",};
+#define ARRAY_ARRAY_EXTEND_METHODDEF    \
+    {array_array_extend_MethodName.name, _PyCFunction_CAST(array_array_extend), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, array_array_extend__doc__},
+
 PyDoc_STRVAR(array_array_insert__doc__,
 "insert($self, i, v, /)\n"
 "--\n"
 "\n"
 "Insert a new item v into the array before position i.");
-
-static struct {char name[];} array_array_insert_MethodName = {.name = "insert",};
-#define ARRAY_ARRAY_INSERT_METHODDEF    \
-    {array_array_insert_MethodName.name, _PyCFunction_CAST(array_array_insert), METH_FASTCALL|METH_C_STACK_FRUGAL, array_array_insert__doc__},
 
 static PyObject *
 array_array_insert_impl(arrayobject *self, Py_ssize_t i, PyObject *v);
@@ -295,6 +291,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} array_array_insert_MethodName = {.name = "insert",};
+#define ARRAY_ARRAY_INSERT_METHODDEF    \
+    {array_array_insert_MethodName.name, _PyCFunction_CAST(array_array_insert), METH_FASTCALL|METH_C_STACK_FRUGAL, array_array_insert__doc__},
+
 PyDoc_STRVAR(array_array_buffer_info__doc__,
 "buffer_info($self, /)\n"
 "--\n"
@@ -303,10 +303,6 @@ PyDoc_STRVAR(array_array_buffer_info__doc__,
 "\n"
 "The length should be multiplied by the itemsize attribute to calculate\n"
 "the buffer length in bytes.");
-
-static struct {char name[];} array_array_buffer_info_MethodName = {.name = "buffer_info",};
-#define ARRAY_ARRAY_BUFFER_INFO_METHODDEF    \
-    {array_array_buffer_info_MethodName.name, (PyCFunction)array_array_buffer_info, METH_NOARGS|METH_C_STACK_FRUGAL, array_array_buffer_info__doc__},
 
 static PyObject *
 array_array_buffer_info_impl(arrayobject *self);
@@ -317,15 +313,15 @@ array_array_buffer_info(PyObject *self, PyObject *Py_UNUSED(ignored))
     return array_array_buffer_info_impl((arrayobject *)self);
 }
 
+static struct {char name[];} array_array_buffer_info_MethodName = {.name = "buffer_info",};
+#define ARRAY_ARRAY_BUFFER_INFO_METHODDEF    \
+    {array_array_buffer_info_MethodName.name, (PyCFunction)array_array_buffer_info, METH_NOARGS|METH_C_STACK_FRUGAL, array_array_buffer_info__doc__},
+
 PyDoc_STRVAR(array_array_append__doc__,
 "append($self, v, /)\n"
 "--\n"
 "\n"
 "Append new value v to the end of the array.");
-
-static struct {char name[];} array_array_append_MethodName = {.name = "append",};
-#define ARRAY_ARRAY_APPEND_METHODDEF    \
-    {array_array_append_MethodName.name, (PyCFunction)array_array_append, METH_O|METH_C_STACK_FRUGAL, array_array_append__doc__},
 
 static PyObject *
 array_array_append_impl(arrayobject *self, PyObject *v);
@@ -340,6 +336,10 @@ array_array_append(PyObject *self, PyObject *v)
     return return_value;
 }
 
+static struct {char name[];} array_array_append_MethodName = {.name = "append",};
+#define ARRAY_ARRAY_APPEND_METHODDEF    \
+    {array_array_append_MethodName.name, (PyCFunction)array_array_append, METH_O|METH_C_STACK_FRUGAL, array_array_append__doc__},
+
 PyDoc_STRVAR(array_array_byteswap__doc__,
 "byteswap($self, /)\n"
 "--\n"
@@ -348,10 +348,6 @@ PyDoc_STRVAR(array_array_byteswap__doc__,
 "\n"
 "If the items in the array are not 1, 2, 4, or 8 bytes in size, RuntimeError is\n"
 "raised.");
-
-static struct {char name[];} array_array_byteswap_MethodName = {.name = "byteswap",};
-#define ARRAY_ARRAY_BYTESWAP_METHODDEF    \
-    {array_array_byteswap_MethodName.name, (PyCFunction)array_array_byteswap, METH_NOARGS|METH_C_STACK_FRUGAL, array_array_byteswap__doc__},
 
 static PyObject *
 array_array_byteswap_impl(arrayobject *self);
@@ -362,15 +358,15 @@ array_array_byteswap(PyObject *self, PyObject *Py_UNUSED(ignored))
     return array_array_byteswap_impl((arrayobject *)self);
 }
 
+static struct {char name[];} array_array_byteswap_MethodName = {.name = "byteswap",};
+#define ARRAY_ARRAY_BYTESWAP_METHODDEF    \
+    {array_array_byteswap_MethodName.name, (PyCFunction)array_array_byteswap, METH_NOARGS|METH_C_STACK_FRUGAL, array_array_byteswap__doc__},
+
 PyDoc_STRVAR(array_array_reverse__doc__,
 "reverse($self, /)\n"
 "--\n"
 "\n"
 "Reverse the order of the items in the array.");
-
-static struct {char name[];} array_array_reverse_MethodName = {.name = "reverse",};
-#define ARRAY_ARRAY_REVERSE_METHODDEF    \
-    {array_array_reverse_MethodName.name, (PyCFunction)array_array_reverse, METH_NOARGS|METH_C_STACK_FRUGAL, array_array_reverse__doc__},
 
 static PyObject *
 array_array_reverse_impl(arrayobject *self);
@@ -381,15 +377,15 @@ array_array_reverse(PyObject *self, PyObject *Py_UNUSED(ignored))
     return array_array_reverse_impl((arrayobject *)self);
 }
 
+static struct {char name[];} array_array_reverse_MethodName = {.name = "reverse",};
+#define ARRAY_ARRAY_REVERSE_METHODDEF    \
+    {array_array_reverse_MethodName.name, (PyCFunction)array_array_reverse, METH_NOARGS|METH_C_STACK_FRUGAL, array_array_reverse__doc__},
+
 PyDoc_STRVAR(array_array_fromfile__doc__,
 "fromfile($self, f, n, /)\n"
 "--\n"
 "\n"
 "Read n objects from the file object f and append them to the end of the array.");
-
-static struct {char name[];} array_array_fromfile_MethodName = {.name = "fromfile",};
-#define ARRAY_ARRAY_FROMFILE_METHODDEF    \
-    {array_array_fromfile_MethodName.name, _PyCFunction_CAST(array_array_fromfile), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, array_array_fromfile__doc__},
 
 static PyObject *
 array_array_fromfile_impl(arrayobject *self, PyTypeObject *cls, PyObject *f,
@@ -440,15 +436,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} array_array_fromfile_MethodName = {.name = "fromfile",};
+#define ARRAY_ARRAY_FROMFILE_METHODDEF    \
+    {array_array_fromfile_MethodName.name, _PyCFunction_CAST(array_array_fromfile), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, array_array_fromfile__doc__},
+
 PyDoc_STRVAR(array_array_tofile__doc__,
 "tofile($self, f, /)\n"
 "--\n"
 "\n"
 "Write all items (as machine values) to the file object f.");
-
-static struct {char name[];} array_array_tofile_MethodName = {.name = "tofile",};
-#define ARRAY_ARRAY_TOFILE_METHODDEF    \
-    {array_array_tofile_MethodName.name, _PyCFunction_CAST(array_array_tofile), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, array_array_tofile__doc__},
 
 static PyObject *
 array_array_tofile_impl(arrayobject *self, PyTypeObject *cls, PyObject *f);
@@ -485,15 +481,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} array_array_tofile_MethodName = {.name = "tofile",};
+#define ARRAY_ARRAY_TOFILE_METHODDEF    \
+    {array_array_tofile_MethodName.name, _PyCFunction_CAST(array_array_tofile), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, array_array_tofile__doc__},
+
 PyDoc_STRVAR(array_array_fromlist__doc__,
 "fromlist($self, list, /)\n"
 "--\n"
 "\n"
 "Append items to array from list.");
-
-static struct {char name[];} array_array_fromlist_MethodName = {.name = "fromlist",};
-#define ARRAY_ARRAY_FROMLIST_METHODDEF    \
-    {array_array_fromlist_MethodName.name, (PyCFunction)array_array_fromlist, METH_O|METH_C_STACK_FRUGAL, array_array_fromlist__doc__},
 
 static PyObject *
 array_array_fromlist_impl(arrayobject *self, PyObject *list);
@@ -508,15 +504,15 @@ array_array_fromlist(PyObject *self, PyObject *list)
     return return_value;
 }
 
+static struct {char name[];} array_array_fromlist_MethodName = {.name = "fromlist",};
+#define ARRAY_ARRAY_FROMLIST_METHODDEF    \
+    {array_array_fromlist_MethodName.name, (PyCFunction)array_array_fromlist, METH_O|METH_C_STACK_FRUGAL, array_array_fromlist__doc__},
+
 PyDoc_STRVAR(array_array_tolist__doc__,
 "tolist($self, /)\n"
 "--\n"
 "\n"
 "Convert array to an ordinary list with the same items.");
-
-static struct {char name[];} array_array_tolist_MethodName = {.name = "tolist",};
-#define ARRAY_ARRAY_TOLIST_METHODDEF    \
-    {array_array_tolist_MethodName.name, (PyCFunction)array_array_tolist, METH_NOARGS|METH_C_STACK_FRUGAL, array_array_tolist__doc__},
 
 static PyObject *
 array_array_tolist_impl(arrayobject *self);
@@ -527,15 +523,15 @@ array_array_tolist(PyObject *self, PyObject *Py_UNUSED(ignored))
     return array_array_tolist_impl((arrayobject *)self);
 }
 
+static struct {char name[];} array_array_tolist_MethodName = {.name = "tolist",};
+#define ARRAY_ARRAY_TOLIST_METHODDEF    \
+    {array_array_tolist_MethodName.name, (PyCFunction)array_array_tolist, METH_NOARGS|METH_C_STACK_FRUGAL, array_array_tolist__doc__},
+
 PyDoc_STRVAR(array_array_frombytes__doc__,
 "frombytes($self, buffer, /)\n"
 "--\n"
 "\n"
 "Appends items from the string, interpreting it as an array of machine values, as if it had been read from a file using the fromfile() method.");
-
-static struct {char name[];} array_array_frombytes_MethodName = {.name = "frombytes",};
-#define ARRAY_ARRAY_FROMBYTES_METHODDEF    \
-    {array_array_frombytes_MethodName.name, (PyCFunction)array_array_frombytes, METH_O|METH_C_STACK_FRUGAL, array_array_frombytes__doc__},
 
 static PyObject *
 array_array_frombytes_impl(arrayobject *self, Py_buffer *buffer);
@@ -560,15 +556,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} array_array_frombytes_MethodName = {.name = "frombytes",};
+#define ARRAY_ARRAY_FROMBYTES_METHODDEF    \
+    {array_array_frombytes_MethodName.name, (PyCFunction)array_array_frombytes, METH_O|METH_C_STACK_FRUGAL, array_array_frombytes__doc__},
+
 PyDoc_STRVAR(array_array_tobytes__doc__,
 "tobytes($self, /)\n"
 "--\n"
 "\n"
 "Convert the array to an array of machine values and return the bytes representation.");
-
-static struct {char name[];} array_array_tobytes_MethodName = {.name = "tobytes",};
-#define ARRAY_ARRAY_TOBYTES_METHODDEF    \
-    {array_array_tobytes_MethodName.name, (PyCFunction)array_array_tobytes, METH_NOARGS|METH_C_STACK_FRUGAL, array_array_tobytes__doc__},
 
 static PyObject *
 array_array_tobytes_impl(arrayobject *self);
@@ -579,6 +575,10 @@ array_array_tobytes(PyObject *self, PyObject *Py_UNUSED(ignored))
     return array_array_tobytes_impl((arrayobject *)self);
 }
 
+static struct {char name[];} array_array_tobytes_MethodName = {.name = "tobytes",};
+#define ARRAY_ARRAY_TOBYTES_METHODDEF    \
+    {array_array_tobytes_MethodName.name, (PyCFunction)array_array_tobytes, METH_NOARGS|METH_C_STACK_FRUGAL, array_array_tobytes__doc__},
+
 PyDoc_STRVAR(array_array_fromunicode__doc__,
 "fromunicode($self, ustr, /)\n"
 "--\n"
@@ -588,10 +588,6 @@ PyDoc_STRVAR(array_array_fromunicode__doc__,
 "The array must be a unicode type array; otherwise a ValueError is raised.\n"
 "Use array.frombytes(ustr.encode(...)) to append Unicode data to an array of\n"
 "some other type.");
-
-static struct {char name[];} array_array_fromunicode_MethodName = {.name = "fromunicode",};
-#define ARRAY_ARRAY_FROMUNICODE_METHODDEF    \
-    {array_array_fromunicode_MethodName.name, (PyCFunction)array_array_fromunicode, METH_O|METH_C_STACK_FRUGAL, array_array_fromunicode__doc__},
 
 static PyObject *
 array_array_fromunicode_impl(arrayobject *self, PyObject *ustr);
@@ -613,6 +609,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} array_array_fromunicode_MethodName = {.name = "fromunicode",};
+#define ARRAY_ARRAY_FROMUNICODE_METHODDEF    \
+    {array_array_fromunicode_MethodName.name, (PyCFunction)array_array_fromunicode, METH_O|METH_C_STACK_FRUGAL, array_array_fromunicode__doc__},
+
 PyDoc_STRVAR(array_array_tounicode__doc__,
 "tounicode($self, /)\n"
 "--\n"
@@ -623,10 +623,6 @@ PyDoc_STRVAR(array_array_tounicode__doc__,
 "otherwise a ValueError is raised.  Use array.tobytes().decode() to obtain a\n"
 "unicode string from an array of some other type.");
 
-static struct {char name[];} array_array_tounicode_MethodName = {.name = "tounicode",};
-#define ARRAY_ARRAY_TOUNICODE_METHODDEF    \
-    {array_array_tounicode_MethodName.name, (PyCFunction)array_array_tounicode, METH_NOARGS|METH_C_STACK_FRUGAL, array_array_tounicode__doc__},
-
 static PyObject *
 array_array_tounicode_impl(arrayobject *self);
 
@@ -636,15 +632,15 @@ array_array_tounicode(PyObject *self, PyObject *Py_UNUSED(ignored))
     return array_array_tounicode_impl((arrayobject *)self);
 }
 
+static struct {char name[];} array_array_tounicode_MethodName = {.name = "tounicode",};
+#define ARRAY_ARRAY_TOUNICODE_METHODDEF    \
+    {array_array_tounicode_MethodName.name, (PyCFunction)array_array_tounicode, METH_NOARGS|METH_C_STACK_FRUGAL, array_array_tounicode__doc__},
+
 PyDoc_STRVAR(array_array___sizeof____doc__,
 "__sizeof__($self, /)\n"
 "--\n"
 "\n"
 "Size of the array in memory, in bytes.");
-
-static struct {char name[];} array_array___sizeof___MethodName = {.name = "__sizeof__",};
-#define ARRAY_ARRAY___SIZEOF___METHODDEF    \
-    {array_array___sizeof___MethodName.name, (PyCFunction)array_array___sizeof__, METH_NOARGS|METH_C_STACK_FRUGAL, array_array___sizeof____doc__},
 
 static PyObject *
 array_array___sizeof___impl(arrayobject *self);
@@ -655,16 +651,16 @@ array_array___sizeof__(PyObject *self, PyObject *Py_UNUSED(ignored))
     return array_array___sizeof___impl((arrayobject *)self);
 }
 
+static struct {char name[];} array_array___sizeof___MethodName = {.name = "__sizeof__",};
+#define ARRAY_ARRAY___SIZEOF___METHODDEF    \
+    {array_array___sizeof___MethodName.name, (PyCFunction)array_array___sizeof__, METH_NOARGS|METH_C_STACK_FRUGAL, array_array___sizeof____doc__},
+
 PyDoc_STRVAR(array__array_reconstructor__doc__,
 "_array_reconstructor($module, arraytype, typecode, mformat_code, items,\n"
 "                     /)\n"
 "--\n"
 "\n"
 "Internal. Used for pickling support.");
-
-static struct {char name[];} array__array_reconstructor_MethodName = {.name = "_array_reconstructor",};
-#define ARRAY__ARRAY_RECONSTRUCTOR_METHODDEF    \
-    {array__array_reconstructor_MethodName.name, _PyCFunction_CAST(array__array_reconstructor), METH_FASTCALL|METH_C_STACK_FRUGAL, array__array_reconstructor__doc__},
 
 static PyObject *
 array__array_reconstructor_impl(PyObject *module, PyTypeObject *arraytype,
@@ -708,15 +704,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} array__array_reconstructor_MethodName = {.name = "_array_reconstructor",};
+#define ARRAY__ARRAY_RECONSTRUCTOR_METHODDEF    \
+    {array__array_reconstructor_MethodName.name, _PyCFunction_CAST(array__array_reconstructor), METH_FASTCALL|METH_C_STACK_FRUGAL, array__array_reconstructor__doc__},
+
 PyDoc_STRVAR(array_array___reduce_ex____doc__,
 "__reduce_ex__($self, value, /)\n"
 "--\n"
 "\n"
 "Return state information for pickling.");
-
-static struct {char name[];} array_array___reduce_ex___MethodName = {.name = "__reduce_ex__",};
-#define ARRAY_ARRAY___REDUCE_EX___METHODDEF    \
-    {array_array___reduce_ex___MethodName.name, _PyCFunction_CAST(array_array___reduce_ex__), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, array_array___reduce_ex____doc__},
 
 static PyObject *
 array_array___reduce_ex___impl(arrayobject *self, PyTypeObject *cls,
@@ -754,15 +750,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} array_array___reduce_ex___MethodName = {.name = "__reduce_ex__",};
+#define ARRAY_ARRAY___REDUCE_EX___METHODDEF    \
+    {array_array___reduce_ex___MethodName.name, _PyCFunction_CAST(array_array___reduce_ex__), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, array_array___reduce_ex____doc__},
+
 PyDoc_STRVAR(array_arrayiterator___reduce____doc__,
 "__reduce__($self, /)\n"
 "--\n"
 "\n"
 "Return state information for pickling.");
-
-static struct {char name[];} array_arrayiterator___reduce___MethodName = {.name = "__reduce__",};
-#define ARRAY_ARRAYITERATOR___REDUCE___METHODDEF    \
-    {array_arrayiterator___reduce___MethodName.name, _PyCFunction_CAST(array_arrayiterator___reduce__), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, array_arrayiterator___reduce____doc__},
 
 static PyObject *
 array_arrayiterator___reduce___impl(arrayiterobject *self, PyTypeObject *cls);
@@ -777,15 +773,15 @@ array_arrayiterator___reduce__(PyObject *self, PyTypeObject *cls, PyObject *cons
     return array_arrayiterator___reduce___impl((arrayiterobject *)self, cls);
 }
 
+static struct {char name[];} array_arrayiterator___reduce___MethodName = {.name = "__reduce__",};
+#define ARRAY_ARRAYITERATOR___REDUCE___METHODDEF    \
+    {array_arrayiterator___reduce___MethodName.name, _PyCFunction_CAST(array_arrayiterator___reduce__), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, array_arrayiterator___reduce____doc__},
+
 PyDoc_STRVAR(array_arrayiterator___setstate____doc__,
 "__setstate__($self, state, /)\n"
 "--\n"
 "\n"
 "Set state information for unpickling.");
-
-static struct {char name[];} array_arrayiterator___setstate___MethodName = {.name = "__setstate__",};
-#define ARRAY_ARRAYITERATOR___SETSTATE___METHODDEF    \
-    {array_arrayiterator___setstate___MethodName.name, (PyCFunction)array_arrayiterator___setstate__, METH_O|METH_C_STACK_FRUGAL, array_arrayiterator___setstate____doc__},
 
 static PyObject *
 array_arrayiterator___setstate___impl(arrayiterobject *self, PyObject *state);
@@ -799,4 +795,8 @@ array_arrayiterator___setstate__(PyObject *self, PyObject *state)
 
     return return_value;
 }
-/*[clinic end generated code: output=c6700ba2989411f7 input=a9049054013a1b77]*/
+
+static struct {char name[];} array_arrayiterator___setstate___MethodName = {.name = "__setstate__",};
+#define ARRAY_ARRAYITERATOR___SETSTATE___METHODDEF    \
+    {array_arrayiterator___setstate___MethodName.name, (PyCFunction)array_arrayiterator___setstate__, METH_O|METH_C_STACK_FRUGAL, array_arrayiterator___setstate____doc__},
+/*[clinic end generated code: output=bdc4f1c5eea1332d input=a9049054013a1b77]*/

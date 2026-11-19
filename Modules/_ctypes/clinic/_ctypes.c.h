@@ -15,10 +15,6 @@ PyDoc_STRVAR(_ctypes_CType_Type___sizeof____doc__,
 "\n"
 "Return memory consumption of the type object.");
 
-static struct {char name[];} _ctypes_CType_Type___sizeof___MethodName = {.name = "__sizeof__",};
-#define _CTYPES_CTYPE_TYPE___SIZEOF___METHODDEF    \
-    {_ctypes_CType_Type___sizeof___MethodName.name, _PyCFunction_CAST(_ctypes_CType_Type___sizeof__), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _ctypes_CType_Type___sizeof____doc__},
-
 static PyObject *
 _ctypes_CType_Type___sizeof___impl(PyObject *self, PyTypeObject *cls);
 
@@ -32,15 +28,9 @@ _ctypes_CType_Type___sizeof__(PyObject *self, PyTypeObject *cls, PyObject *const
     return _ctypes_CType_Type___sizeof___impl(self, cls);
 }
 
-#if !defined(_ctypes_CType_Type___pointer_type___DOCSTR)
-#  define _ctypes_CType_Type___pointer_type___DOCSTR NULL
-#endif
-#if defined(_CTYPES_CTYPE_TYPE___POINTER_TYPE___GETSETDEF)
-#  undef _CTYPES_CTYPE_TYPE___POINTER_TYPE___GETSETDEF
-#  define _CTYPES_CTYPE_TYPE___POINTER_TYPE___GETSETDEF {"__pointer_type__", (getter)_ctypes_CType_Type___pointer_type___get, (setter)_ctypes_CType_Type___pointer_type___set, _ctypes_CType_Type___pointer_type___DOCSTR},
-#else
-#  define _CTYPES_CTYPE_TYPE___POINTER_TYPE___GETSETDEF {"__pointer_type__", (getter)_ctypes_CType_Type___pointer_type___get, NULL, _ctypes_CType_Type___pointer_type___DOCSTR},
-#endif
+static struct {char name[];} _ctypes_CType_Type___sizeof___MethodName = {.name = "__sizeof__",};
+#define _CTYPES_CTYPE_TYPE___SIZEOF___METHODDEF    \
+    {_ctypes_CType_Type___sizeof___MethodName.name, _PyCFunction_CAST(_ctypes_CType_Type___sizeof__), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _ctypes_CType_Type___sizeof____doc__},
 
 static PyObject *
 _ctypes_CType_Type___pointer_type___get_impl(PyObject *self);
@@ -58,7 +48,7 @@ _ctypes_CType_Type___pointer_type___get(PyObject *self, void *Py_UNUSED(context)
 #  undef _CTYPES_CTYPE_TYPE___POINTER_TYPE___GETSETDEF
 #  define _CTYPES_CTYPE_TYPE___POINTER_TYPE___GETSETDEF {"__pointer_type__", (getter)_ctypes_CType_Type___pointer_type___get, (setter)_ctypes_CType_Type___pointer_type___set, _ctypes_CType_Type___pointer_type___DOCSTR},
 #else
-#  define _CTYPES_CTYPE_TYPE___POINTER_TYPE___GETSETDEF {"__pointer_type__", NULL, (setter)_ctypes_CType_Type___pointer_type___set, NULL},
+#  define _CTYPES_CTYPE_TYPE___POINTER_TYPE___GETSETDEF {"__pointer_type__", (getter)_ctypes_CType_Type___pointer_type___get, NULL, _ctypes_CType_Type___pointer_type___DOCSTR},
 #endif
 
 static int
@@ -74,6 +64,16 @@ _ctypes_CType_Type___pointer_type___set(PyObject *self, PyObject *value, void *P
     return return_value;
 }
 
+#if !defined(_ctypes_CType_Type___pointer_type___DOCSTR)
+#  define _ctypes_CType_Type___pointer_type___DOCSTR NULL
+#endif
+#if defined(_CTYPES_CTYPE_TYPE___POINTER_TYPE___GETSETDEF)
+#  undef _CTYPES_CTYPE_TYPE___POINTER_TYPE___GETSETDEF
+#  define _CTYPES_CTYPE_TYPE___POINTER_TYPE___GETSETDEF {"__pointer_type__", (getter)_ctypes_CType_Type___pointer_type___get, (setter)_ctypes_CType_Type___pointer_type___set, _ctypes_CType_Type___pointer_type___DOCSTR},
+#else
+#  define _CTYPES_CTYPE_TYPE___POINTER_TYPE___GETSETDEF {"__pointer_type__", NULL, (setter)_ctypes_CType_Type___pointer_type___set, NULL},
+#endif
+
 PyDoc_STRVAR(CDataType_from_address__doc__,
 "from_address($self, value, /)\n"
 "--\n"
@@ -81,10 +81,6 @@ PyDoc_STRVAR(CDataType_from_address__doc__,
 "C.from_address(integer) -> C instance\n"
 "\n"
 "Access a C instance at the specified address.");
-
-static struct {char name[];} CDataType_from_address_MethodName = {.name = "from_address",};
-#define CDATATYPE_FROM_ADDRESS_METHODDEF    \
-    {CDataType_from_address_MethodName.name, _PyCFunction_CAST(CDataType_from_address), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, CDataType_from_address__doc__},
 
 static PyObject *
 CDataType_from_address_impl(PyObject *type, PyTypeObject *cls,
@@ -122,6 +118,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} CDataType_from_address_MethodName = {.name = "from_address",};
+#define CDATATYPE_FROM_ADDRESS_METHODDEF    \
+    {CDataType_from_address_MethodName.name, _PyCFunction_CAST(CDataType_from_address), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, CDataType_from_address__doc__},
+
 PyDoc_STRVAR(CDataType_from_buffer__doc__,
 "from_buffer($self, obj, offset=0, /)\n"
 "--\n"
@@ -129,10 +129,6 @@ PyDoc_STRVAR(CDataType_from_buffer__doc__,
 "C.from_buffer(object, offset=0) -> C instance\n"
 "\n"
 "Create a C instance from a writeable buffer.");
-
-static struct {char name[];} CDataType_from_buffer_MethodName = {.name = "from_buffer",};
-#define CDATATYPE_FROM_BUFFER_METHODDEF    \
-    {CDataType_from_buffer_MethodName.name, _PyCFunction_CAST(CDataType_from_buffer), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, CDataType_from_buffer__doc__},
 
 static PyObject *
 CDataType_from_buffer_impl(PyObject *type, PyTypeObject *cls, PyObject *obj,
@@ -187,6 +183,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} CDataType_from_buffer_MethodName = {.name = "from_buffer",};
+#define CDATATYPE_FROM_BUFFER_METHODDEF    \
+    {CDataType_from_buffer_MethodName.name, _PyCFunction_CAST(CDataType_from_buffer), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, CDataType_from_buffer__doc__},
+
 PyDoc_STRVAR(CDataType_from_buffer_copy__doc__,
 "from_buffer_copy($self, buffer, offset=0, /)\n"
 "--\n"
@@ -194,10 +194,6 @@ PyDoc_STRVAR(CDataType_from_buffer_copy__doc__,
 "C.from_buffer_copy(object, offset=0) -> C instance\n"
 "\n"
 "Create a C instance from a readable buffer.");
-
-static struct {char name[];} CDataType_from_buffer_copy_MethodName = {.name = "from_buffer_copy",};
-#define CDATATYPE_FROM_BUFFER_COPY_METHODDEF    \
-    {CDataType_from_buffer_copy_MethodName.name, _PyCFunction_CAST(CDataType_from_buffer_copy), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, CDataType_from_buffer_copy__doc__},
 
 static PyObject *
 CDataType_from_buffer_copy_impl(PyObject *type, PyTypeObject *cls,
@@ -259,6 +255,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} CDataType_from_buffer_copy_MethodName = {.name = "from_buffer_copy",};
+#define CDATATYPE_FROM_BUFFER_COPY_METHODDEF    \
+    {CDataType_from_buffer_copy_MethodName.name, _PyCFunction_CAST(CDataType_from_buffer_copy), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, CDataType_from_buffer_copy__doc__},
+
 PyDoc_STRVAR(CDataType_in_dll__doc__,
 "in_dll($self, dll, name, /)\n"
 "--\n"
@@ -266,10 +266,6 @@ PyDoc_STRVAR(CDataType_in_dll__doc__,
 "C.in_dll(dll, name) -> C instance\n"
 "\n"
 "Access a C instance in a dll.");
-
-static struct {char name[];} CDataType_in_dll_MethodName = {.name = "in_dll",};
-#define CDATATYPE_IN_DLL_METHODDEF    \
-    {CDataType_in_dll_MethodName.name, _PyCFunction_CAST(CDataType_in_dll), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, CDataType_in_dll__doc__},
 
 static PyObject *
 CDataType_in_dll_impl(PyObject *type, PyTypeObject *cls, PyObject *dll,
@@ -321,15 +317,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} CDataType_in_dll_MethodName = {.name = "in_dll",};
+#define CDATATYPE_IN_DLL_METHODDEF    \
+    {CDataType_in_dll_MethodName.name, _PyCFunction_CAST(CDataType_in_dll), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, CDataType_in_dll__doc__},
+
 PyDoc_STRVAR(CDataType_from_param__doc__,
 "from_param($self, value, /)\n"
 "--\n"
 "\n"
 "Convert a Python object into a function call parameter.");
-
-static struct {char name[];} CDataType_from_param_MethodName = {.name = "from_param",};
-#define CDATATYPE_FROM_PARAM_METHODDEF    \
-    {CDataType_from_param_MethodName.name, _PyCFunction_CAST(CDataType_from_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, CDataType_from_param__doc__},
 
 static PyObject *
 CDataType_from_param_impl(PyObject *type, PyTypeObject *cls, PyObject *value);
@@ -366,14 +362,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} CDataType_from_param_MethodName = {.name = "from_param",};
+#define CDATATYPE_FROM_PARAM_METHODDEF    \
+    {CDataType_from_param_MethodName.name, _PyCFunction_CAST(CDataType_from_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, CDataType_from_param__doc__},
+
 PyDoc_STRVAR(PyCPointerType_set_type__doc__,
 "set_type($self, type, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} PyCPointerType_set_type_MethodName = {.name = "set_type",};
-#define PYCPOINTERTYPE_SET_TYPE_METHODDEF    \
-    {PyCPointerType_set_type_MethodName.name, _PyCFunction_CAST(PyCPointerType_set_type), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, PyCPointerType_set_type__doc__},
 
 static PyObject *
 PyCPointerType_set_type_impl(PyTypeObject *self, PyTypeObject *cls,
@@ -411,15 +407,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} PyCPointerType_set_type_MethodName = {.name = "set_type",};
+#define PYCPOINTERTYPE_SET_TYPE_METHODDEF    \
+    {PyCPointerType_set_type_MethodName.name, _PyCFunction_CAST(PyCPointerType_set_type), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, PyCPointerType_set_type__doc__},
+
 PyDoc_STRVAR(PyCPointerType_from_param__doc__,
 "from_param($self, value, /)\n"
 "--\n"
 "\n"
 "Convert a Python object into a function call parameter.");
-
-static struct {char name[];} PyCPointerType_from_param_MethodName = {.name = "from_param",};
-#define PYCPOINTERTYPE_FROM_PARAM_METHODDEF    \
-    {PyCPointerType_from_param_MethodName.name, _PyCFunction_CAST(PyCPointerType_from_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, PyCPointerType_from_param__doc__},
 
 static PyObject *
 PyCPointerType_from_param_impl(PyObject *type, PyTypeObject *cls,
@@ -457,15 +453,9 @@ exit:
     return return_value;
 }
 
-#if !defined(_ctypes_PyCArrayType_Type_raw_DOCSTR)
-#  define _ctypes_PyCArrayType_Type_raw_DOCSTR NULL
-#endif
-#if defined(_CTYPES_PYCARRAYTYPE_TYPE_RAW_GETSETDEF)
-#  undef _CTYPES_PYCARRAYTYPE_TYPE_RAW_GETSETDEF
-#  define _CTYPES_PYCARRAYTYPE_TYPE_RAW_GETSETDEF {"raw", (getter)_ctypes_PyCArrayType_Type_raw_get, (setter)_ctypes_PyCArrayType_Type_raw_set, _ctypes_PyCArrayType_Type_raw_DOCSTR},
-#else
-#  define _CTYPES_PYCARRAYTYPE_TYPE_RAW_GETSETDEF {"raw", NULL, (setter)_ctypes_PyCArrayType_Type_raw_set, NULL},
-#endif
+static struct {char name[];} PyCPointerType_from_param_MethodName = {.name = "from_param",};
+#define PYCPOINTERTYPE_FROM_PARAM_METHODDEF    \
+    {PyCPointerType_from_param_MethodName.name, _PyCFunction_CAST(PyCPointerType_from_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, PyCPointerType_from_param__doc__},
 
 static int
 _ctypes_PyCArrayType_Type_raw_set_impl(CDataObject *self, PyObject *value);
@@ -489,7 +479,7 @@ _ctypes_PyCArrayType_Type_raw_set(PyObject *self, PyObject *value, void *Py_UNUS
 #  undef _CTYPES_PYCARRAYTYPE_TYPE_RAW_GETSETDEF
 #  define _CTYPES_PYCARRAYTYPE_TYPE_RAW_GETSETDEF {"raw", (getter)_ctypes_PyCArrayType_Type_raw_get, (setter)_ctypes_PyCArrayType_Type_raw_set, _ctypes_PyCArrayType_Type_raw_DOCSTR},
 #else
-#  define _CTYPES_PYCARRAYTYPE_TYPE_RAW_GETSETDEF {"raw", (getter)_ctypes_PyCArrayType_Type_raw_get, NULL, _ctypes_PyCArrayType_Type_raw_DOCSTR},
+#  define _CTYPES_PYCARRAYTYPE_TYPE_RAW_GETSETDEF {"raw", NULL, (setter)_ctypes_PyCArrayType_Type_raw_set, NULL},
 #endif
 
 static PyObject *
@@ -507,14 +497,14 @@ _ctypes_PyCArrayType_Type_raw_get(PyObject *self, void *Py_UNUSED(context))
     return return_value;
 }
 
-#if !defined(_ctypes_PyCArrayType_Type_value_DOCSTR)
-#  define _ctypes_PyCArrayType_Type_value_DOCSTR NULL
+#if !defined(_ctypes_PyCArrayType_Type_raw_DOCSTR)
+#  define _ctypes_PyCArrayType_Type_raw_DOCSTR NULL
 #endif
-#if defined(_CTYPES_PYCARRAYTYPE_TYPE_VALUE_GETSETDEF)
-#  undef _CTYPES_PYCARRAYTYPE_TYPE_VALUE_GETSETDEF
-#  define _CTYPES_PYCARRAYTYPE_TYPE_VALUE_GETSETDEF {"value", (getter)_ctypes_PyCArrayType_Type_value_get, (setter)_ctypes_PyCArrayType_Type_value_set, _ctypes_PyCArrayType_Type_value_DOCSTR},
+#if defined(_CTYPES_PYCARRAYTYPE_TYPE_RAW_GETSETDEF)
+#  undef _CTYPES_PYCARRAYTYPE_TYPE_RAW_GETSETDEF
+#  define _CTYPES_PYCARRAYTYPE_TYPE_RAW_GETSETDEF {"raw", (getter)_ctypes_PyCArrayType_Type_raw_get, (setter)_ctypes_PyCArrayType_Type_raw_set, _ctypes_PyCArrayType_Type_raw_DOCSTR},
 #else
-#  define _CTYPES_PYCARRAYTYPE_TYPE_VALUE_GETSETDEF {"value", (getter)_ctypes_PyCArrayType_Type_value_get, NULL, _ctypes_PyCArrayType_Type_value_DOCSTR},
+#  define _CTYPES_PYCARRAYTYPE_TYPE_RAW_GETSETDEF {"raw", (getter)_ctypes_PyCArrayType_Type_raw_get, NULL, _ctypes_PyCArrayType_Type_raw_DOCSTR},
 #endif
 
 static PyObject *
@@ -539,7 +529,7 @@ _ctypes_PyCArrayType_Type_value_get(PyObject *self, void *Py_UNUSED(context))
 #  undef _CTYPES_PYCARRAYTYPE_TYPE_VALUE_GETSETDEF
 #  define _CTYPES_PYCARRAYTYPE_TYPE_VALUE_GETSETDEF {"value", (getter)_ctypes_PyCArrayType_Type_value_get, (setter)_ctypes_PyCArrayType_Type_value_set, _ctypes_PyCArrayType_Type_value_DOCSTR},
 #else
-#  define _CTYPES_PYCARRAYTYPE_TYPE_VALUE_GETSETDEF {"value", NULL, (setter)_ctypes_PyCArrayType_Type_value_set, NULL},
+#  define _CTYPES_PYCARRAYTYPE_TYPE_VALUE_GETSETDEF {"value", (getter)_ctypes_PyCArrayType_Type_value_get, NULL, _ctypes_PyCArrayType_Type_value_DOCSTR},
 #endif
 
 static int
@@ -557,14 +547,20 @@ _ctypes_PyCArrayType_Type_value_set(PyObject *self, PyObject *value, void *Py_UN
     return return_value;
 }
 
+#if !defined(_ctypes_PyCArrayType_Type_value_DOCSTR)
+#  define _ctypes_PyCArrayType_Type_value_DOCSTR NULL
+#endif
+#if defined(_CTYPES_PYCARRAYTYPE_TYPE_VALUE_GETSETDEF)
+#  undef _CTYPES_PYCARRAYTYPE_TYPE_VALUE_GETSETDEF
+#  define _CTYPES_PYCARRAYTYPE_TYPE_VALUE_GETSETDEF {"value", (getter)_ctypes_PyCArrayType_Type_value_get, (setter)_ctypes_PyCArrayType_Type_value_set, _ctypes_PyCArrayType_Type_value_DOCSTR},
+#else
+#  define _CTYPES_PYCARRAYTYPE_TYPE_VALUE_GETSETDEF {"value", NULL, (setter)_ctypes_PyCArrayType_Type_value_set, NULL},
+#endif
+
 PyDoc_STRVAR(c_wchar_p_from_param__doc__,
 "from_param($self, value, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} c_wchar_p_from_param_MethodName = {.name = "from_param",};
-#define C_WCHAR_P_FROM_PARAM_METHODDEF    \
-    {c_wchar_p_from_param_MethodName.name, _PyCFunction_CAST(c_wchar_p_from_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, c_wchar_p_from_param__doc__},
 
 static PyObject *
 c_wchar_p_from_param_impl(PyObject *type, PyTypeObject *cls, PyObject *value);
@@ -601,14 +597,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} c_wchar_p_from_param_MethodName = {.name = "from_param",};
+#define C_WCHAR_P_FROM_PARAM_METHODDEF    \
+    {c_wchar_p_from_param_MethodName.name, _PyCFunction_CAST(c_wchar_p_from_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, c_wchar_p_from_param__doc__},
+
 PyDoc_STRVAR(c_char_p_from_param__doc__,
 "from_param($self, value, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} c_char_p_from_param_MethodName = {.name = "from_param",};
-#define C_CHAR_P_FROM_PARAM_METHODDEF    \
-    {c_char_p_from_param_MethodName.name, _PyCFunction_CAST(c_char_p_from_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, c_char_p_from_param__doc__},
 
 static PyObject *
 c_char_p_from_param_impl(PyObject *type, PyTypeObject *cls, PyObject *value);
@@ -645,14 +641,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} c_char_p_from_param_MethodName = {.name = "from_param",};
+#define C_CHAR_P_FROM_PARAM_METHODDEF    \
+    {c_char_p_from_param_MethodName.name, _PyCFunction_CAST(c_char_p_from_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, c_char_p_from_param__doc__},
+
 PyDoc_STRVAR(c_void_p_from_param__doc__,
 "from_param($self, value, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} c_void_p_from_param_MethodName = {.name = "from_param",};
-#define C_VOID_P_FROM_PARAM_METHODDEF    \
-    {c_void_p_from_param_MethodName.name, _PyCFunction_CAST(c_void_p_from_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, c_void_p_from_param__doc__},
 
 static PyObject *
 c_void_p_from_param_impl(PyObject *type, PyTypeObject *cls, PyObject *value);
@@ -689,15 +685,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} c_void_p_from_param_MethodName = {.name = "from_param",};
+#define C_VOID_P_FROM_PARAM_METHODDEF    \
+    {c_void_p_from_param_MethodName.name, _PyCFunction_CAST(c_void_p_from_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, c_void_p_from_param__doc__},
+
 PyDoc_STRVAR(PyCSimpleType_from_param__doc__,
 "from_param($self, value, /)\n"
 "--\n"
 "\n"
 "Convert a Python object into a function call parameter.");
-
-static struct {char name[];} PyCSimpleType_from_param_MethodName = {.name = "from_param",};
-#define PYCSIMPLETYPE_FROM_PARAM_METHODDEF    \
-    {PyCSimpleType_from_param_MethodName.name, _PyCFunction_CAST(PyCSimpleType_from_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, PyCSimpleType_from_param__doc__},
 
 static PyObject *
 PyCSimpleType_from_param_impl(PyObject *type, PyTypeObject *cls,
@@ -735,14 +731,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} PyCSimpleType_from_param_MethodName = {.name = "from_param",};
+#define PYCSIMPLETYPE_FROM_PARAM_METHODDEF    \
+    {PyCSimpleType_from_param_MethodName.name, _PyCFunction_CAST(PyCSimpleType_from_param), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, PyCSimpleType_from_param__doc__},
+
 PyDoc_STRVAR(_ctypes_PyCData___reduce____doc__,
 "__reduce__($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _ctypes_PyCData___reduce___MethodName = {.name = "__reduce__",};
-#define _CTYPES_PYCDATA___REDUCE___METHODDEF    \
-    {_ctypes_PyCData___reduce___MethodName.name, _PyCFunction_CAST(_ctypes_PyCData___reduce__), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _ctypes_PyCData___reduce____doc__},
 
 static PyObject *
 _ctypes_PyCData___reduce___impl(PyObject *myself, PyTypeObject *cls);
@@ -764,14 +760,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _ctypes_PyCData___reduce___MethodName = {.name = "__reduce__",};
+#define _CTYPES_PYCDATA___REDUCE___METHODDEF    \
+    {_ctypes_PyCData___reduce___MethodName.name, _PyCFunction_CAST(_ctypes_PyCData___reduce__), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _ctypes_PyCData___reduce____doc__},
+
 PyDoc_STRVAR(_ctypes_PyCData___setstate____doc__,
 "__setstate__($self, dict, data, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _ctypes_PyCData___setstate___MethodName = {.name = "__setstate__",};
-#define _CTYPES_PYCDATA___SETSTATE___METHODDEF    \
-    {_ctypes_PyCData___setstate___MethodName.name, _PyCFunction_CAST(_ctypes_PyCData___setstate__), METH_FASTCALL|METH_C_STACK_FRUGAL, _ctypes_PyCData___setstate____doc__},
 
 static PyObject *
 _ctypes_PyCData___setstate___impl(PyObject *myself, PyObject *dict,
@@ -797,15 +793,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _ctypes_PyCData___setstate___MethodName = {.name = "__setstate__",};
+#define _CTYPES_PYCDATA___SETSTATE___METHODDEF    \
+    {_ctypes_PyCData___setstate___MethodName.name, _PyCFunction_CAST(_ctypes_PyCData___setstate__), METH_FASTCALL|METH_C_STACK_FRUGAL, _ctypes_PyCData___setstate____doc__},
+
 PyDoc_STRVAR(_ctypes_PyCData___ctypes_from_outparam____doc__,
 "__ctypes_from_outparam__($self, /)\n"
 "--\n"
 "\n"
 "default __ctypes_from_outparam__ method returns self.");
-
-static struct {char name[];} _ctypes_PyCData___ctypes_from_outparam___MethodName = {.name = "__ctypes_from_outparam__",};
-#define _CTYPES_PYCDATA___CTYPES_FROM_OUTPARAM___METHODDEF    \
-    {_ctypes_PyCData___ctypes_from_outparam___MethodName.name, (PyCFunction)_ctypes_PyCData___ctypes_from_outparam__, METH_NOARGS|METH_C_STACK_FRUGAL, _ctypes_PyCData___ctypes_from_outparam____doc__},
 
 static PyObject *
 _ctypes_PyCData___ctypes_from_outparam___impl(PyObject *self);
@@ -816,15 +812,9 @@ _ctypes_PyCData___ctypes_from_outparam__(PyObject *self, PyObject *Py_UNUSED(ign
     return _ctypes_PyCData___ctypes_from_outparam___impl(self);
 }
 
-#if !defined(_ctypes_CFuncPtr_errcheck_DOCSTR)
-#  define _ctypes_CFuncPtr_errcheck_DOCSTR NULL
-#endif
-#if defined(_CTYPES_CFUNCPTR_ERRCHECK_GETSETDEF)
-#  undef _CTYPES_CFUNCPTR_ERRCHECK_GETSETDEF
-#  define _CTYPES_CFUNCPTR_ERRCHECK_GETSETDEF {"errcheck", (getter)_ctypes_CFuncPtr_errcheck_get, (setter)_ctypes_CFuncPtr_errcheck_set, _ctypes_CFuncPtr_errcheck_DOCSTR},
-#else
-#  define _CTYPES_CFUNCPTR_ERRCHECK_GETSETDEF {"errcheck", NULL, (setter)_ctypes_CFuncPtr_errcheck_set, NULL},
-#endif
+static struct {char name[];} _ctypes_PyCData___ctypes_from_outparam___MethodName = {.name = "__ctypes_from_outparam__",};
+#define _CTYPES_PYCDATA___CTYPES_FROM_OUTPARAM___METHODDEF    \
+    {_ctypes_PyCData___ctypes_from_outparam___MethodName.name, (PyCFunction)_ctypes_PyCData___ctypes_from_outparam__, METH_NOARGS|METH_C_STACK_FRUGAL, _ctypes_PyCData___ctypes_from_outparam____doc__},
 
 static int
 _ctypes_CFuncPtr_errcheck_set_impl(PyCFuncPtrObject *self, PyObject *value);
@@ -841,13 +831,6 @@ _ctypes_CFuncPtr_errcheck_set(PyObject *self, PyObject *value, void *Py_UNUSED(c
     return return_value;
 }
 
-PyDoc_STRVAR(_ctypes_CFuncPtr_errcheck__doc__,
-"a function to check for errors");
-#if defined(_ctypes_CFuncPtr_errcheck_DOCSTR)
-#   undef _ctypes_CFuncPtr_errcheck_DOCSTR
-#endif
-#define _ctypes_CFuncPtr_errcheck_DOCSTR _ctypes_CFuncPtr_errcheck__doc__
-
 #if !defined(_ctypes_CFuncPtr_errcheck_DOCSTR)
 #  define _ctypes_CFuncPtr_errcheck_DOCSTR NULL
 #endif
@@ -855,8 +838,15 @@ PyDoc_STRVAR(_ctypes_CFuncPtr_errcheck__doc__,
 #  undef _CTYPES_CFUNCPTR_ERRCHECK_GETSETDEF
 #  define _CTYPES_CFUNCPTR_ERRCHECK_GETSETDEF {"errcheck", (getter)_ctypes_CFuncPtr_errcheck_get, (setter)_ctypes_CFuncPtr_errcheck_set, _ctypes_CFuncPtr_errcheck_DOCSTR},
 #else
-#  define _CTYPES_CFUNCPTR_ERRCHECK_GETSETDEF {"errcheck", (getter)_ctypes_CFuncPtr_errcheck_get, NULL, _ctypes_CFuncPtr_errcheck_DOCSTR},
+#  define _CTYPES_CFUNCPTR_ERRCHECK_GETSETDEF {"errcheck", NULL, (setter)_ctypes_CFuncPtr_errcheck_set, NULL},
 #endif
+
+PyDoc_STRVAR(_ctypes_CFuncPtr_errcheck__doc__,
+"a function to check for errors");
+#if defined(_ctypes_CFuncPtr_errcheck_DOCSTR)
+#   undef _ctypes_CFuncPtr_errcheck_DOCSTR
+#endif
+#define _ctypes_CFuncPtr_errcheck_DOCSTR _ctypes_CFuncPtr_errcheck__doc__
 
 static PyObject *
 _ctypes_CFuncPtr_errcheck_get_impl(PyCFuncPtrObject *self);
@@ -873,14 +863,14 @@ _ctypes_CFuncPtr_errcheck_get(PyObject *self, void *Py_UNUSED(context))
     return return_value;
 }
 
-#if !defined(_ctypes_CFuncPtr_restype_DOCSTR)
-#  define _ctypes_CFuncPtr_restype_DOCSTR NULL
+#if !defined(_ctypes_CFuncPtr_errcheck_DOCSTR)
+#  define _ctypes_CFuncPtr_errcheck_DOCSTR NULL
 #endif
-#if defined(_CTYPES_CFUNCPTR_RESTYPE_GETSETDEF)
-#  undef _CTYPES_CFUNCPTR_RESTYPE_GETSETDEF
-#  define _CTYPES_CFUNCPTR_RESTYPE_GETSETDEF {"restype", (getter)_ctypes_CFuncPtr_restype_get, (setter)_ctypes_CFuncPtr_restype_set, _ctypes_CFuncPtr_restype_DOCSTR},
+#if defined(_CTYPES_CFUNCPTR_ERRCHECK_GETSETDEF)
+#  undef _CTYPES_CFUNCPTR_ERRCHECK_GETSETDEF
+#  define _CTYPES_CFUNCPTR_ERRCHECK_GETSETDEF {"errcheck", (getter)_ctypes_CFuncPtr_errcheck_get, (setter)_ctypes_CFuncPtr_errcheck_set, _ctypes_CFuncPtr_errcheck_DOCSTR},
 #else
-#  define _CTYPES_CFUNCPTR_RESTYPE_GETSETDEF {"restype", NULL, (setter)_ctypes_CFuncPtr_restype_set, NULL},
+#  define _CTYPES_CFUNCPTR_ERRCHECK_GETSETDEF {"errcheck", (getter)_ctypes_CFuncPtr_errcheck_get, NULL, _ctypes_CFuncPtr_errcheck_DOCSTR},
 #endif
 
 static int
@@ -898,13 +888,6 @@ _ctypes_CFuncPtr_restype_set(PyObject *self, PyObject *value, void *Py_UNUSED(co
     return return_value;
 }
 
-PyDoc_STRVAR(_ctypes_CFuncPtr_restype__doc__,
-"specify the result type");
-#if defined(_ctypes_CFuncPtr_restype_DOCSTR)
-#   undef _ctypes_CFuncPtr_restype_DOCSTR
-#endif
-#define _ctypes_CFuncPtr_restype_DOCSTR _ctypes_CFuncPtr_restype__doc__
-
 #if !defined(_ctypes_CFuncPtr_restype_DOCSTR)
 #  define _ctypes_CFuncPtr_restype_DOCSTR NULL
 #endif
@@ -912,8 +895,15 @@ PyDoc_STRVAR(_ctypes_CFuncPtr_restype__doc__,
 #  undef _CTYPES_CFUNCPTR_RESTYPE_GETSETDEF
 #  define _CTYPES_CFUNCPTR_RESTYPE_GETSETDEF {"restype", (getter)_ctypes_CFuncPtr_restype_get, (setter)_ctypes_CFuncPtr_restype_set, _ctypes_CFuncPtr_restype_DOCSTR},
 #else
-#  define _CTYPES_CFUNCPTR_RESTYPE_GETSETDEF {"restype", (getter)_ctypes_CFuncPtr_restype_get, NULL, _ctypes_CFuncPtr_restype_DOCSTR},
+#  define _CTYPES_CFUNCPTR_RESTYPE_GETSETDEF {"restype", NULL, (setter)_ctypes_CFuncPtr_restype_set, NULL},
 #endif
+
+PyDoc_STRVAR(_ctypes_CFuncPtr_restype__doc__,
+"specify the result type");
+#if defined(_ctypes_CFuncPtr_restype_DOCSTR)
+#   undef _ctypes_CFuncPtr_restype_DOCSTR
+#endif
+#define _ctypes_CFuncPtr_restype_DOCSTR _ctypes_CFuncPtr_restype__doc__
 
 static PyObject *
 _ctypes_CFuncPtr_restype_get_impl(PyCFuncPtrObject *self);
@@ -930,14 +920,14 @@ _ctypes_CFuncPtr_restype_get(PyObject *self, void *Py_UNUSED(context))
     return return_value;
 }
 
-#if !defined(_ctypes_CFuncPtr_argtypes_DOCSTR)
-#  define _ctypes_CFuncPtr_argtypes_DOCSTR NULL
+#if !defined(_ctypes_CFuncPtr_restype_DOCSTR)
+#  define _ctypes_CFuncPtr_restype_DOCSTR NULL
 #endif
-#if defined(_CTYPES_CFUNCPTR_ARGTYPES_GETSETDEF)
-#  undef _CTYPES_CFUNCPTR_ARGTYPES_GETSETDEF
-#  define _CTYPES_CFUNCPTR_ARGTYPES_GETSETDEF {"argtypes", (getter)_ctypes_CFuncPtr_argtypes_get, (setter)_ctypes_CFuncPtr_argtypes_set, _ctypes_CFuncPtr_argtypes_DOCSTR},
+#if defined(_CTYPES_CFUNCPTR_RESTYPE_GETSETDEF)
+#  undef _CTYPES_CFUNCPTR_RESTYPE_GETSETDEF
+#  define _CTYPES_CFUNCPTR_RESTYPE_GETSETDEF {"restype", (getter)_ctypes_CFuncPtr_restype_get, (setter)_ctypes_CFuncPtr_restype_set, _ctypes_CFuncPtr_restype_DOCSTR},
 #else
-#  define _CTYPES_CFUNCPTR_ARGTYPES_GETSETDEF {"argtypes", NULL, (setter)_ctypes_CFuncPtr_argtypes_set, NULL},
+#  define _CTYPES_CFUNCPTR_RESTYPE_GETSETDEF {"restype", (getter)_ctypes_CFuncPtr_restype_get, NULL, _ctypes_CFuncPtr_restype_DOCSTR},
 #endif
 
 static int
@@ -955,13 +945,6 @@ _ctypes_CFuncPtr_argtypes_set(PyObject *self, PyObject *value, void *Py_UNUSED(c
     return return_value;
 }
 
-PyDoc_STRVAR(_ctypes_CFuncPtr_argtypes__doc__,
-"specify the argument types");
-#if defined(_ctypes_CFuncPtr_argtypes_DOCSTR)
-#   undef _ctypes_CFuncPtr_argtypes_DOCSTR
-#endif
-#define _ctypes_CFuncPtr_argtypes_DOCSTR _ctypes_CFuncPtr_argtypes__doc__
-
 #if !defined(_ctypes_CFuncPtr_argtypes_DOCSTR)
 #  define _ctypes_CFuncPtr_argtypes_DOCSTR NULL
 #endif
@@ -969,8 +952,15 @@ PyDoc_STRVAR(_ctypes_CFuncPtr_argtypes__doc__,
 #  undef _CTYPES_CFUNCPTR_ARGTYPES_GETSETDEF
 #  define _CTYPES_CFUNCPTR_ARGTYPES_GETSETDEF {"argtypes", (getter)_ctypes_CFuncPtr_argtypes_get, (setter)_ctypes_CFuncPtr_argtypes_set, _ctypes_CFuncPtr_argtypes_DOCSTR},
 #else
-#  define _CTYPES_CFUNCPTR_ARGTYPES_GETSETDEF {"argtypes", (getter)_ctypes_CFuncPtr_argtypes_get, NULL, _ctypes_CFuncPtr_argtypes_DOCSTR},
+#  define _CTYPES_CFUNCPTR_ARGTYPES_GETSETDEF {"argtypes", NULL, (setter)_ctypes_CFuncPtr_argtypes_set, NULL},
 #endif
+
+PyDoc_STRVAR(_ctypes_CFuncPtr_argtypes__doc__,
+"specify the argument types");
+#if defined(_ctypes_CFuncPtr_argtypes_DOCSTR)
+#   undef _ctypes_CFuncPtr_argtypes_DOCSTR
+#endif
+#define _ctypes_CFuncPtr_argtypes_DOCSTR _ctypes_CFuncPtr_argtypes__doc__
 
 static PyObject *
 _ctypes_CFuncPtr_argtypes_get_impl(PyCFuncPtrObject *self);
@@ -987,14 +977,14 @@ _ctypes_CFuncPtr_argtypes_get(PyObject *self, void *Py_UNUSED(context))
     return return_value;
 }
 
-#if !defined(_ctypes_Simple_value_DOCSTR)
-#  define _ctypes_Simple_value_DOCSTR NULL
+#if !defined(_ctypes_CFuncPtr_argtypes_DOCSTR)
+#  define _ctypes_CFuncPtr_argtypes_DOCSTR NULL
 #endif
-#if defined(_CTYPES_SIMPLE_VALUE_GETSETDEF)
-#  undef _CTYPES_SIMPLE_VALUE_GETSETDEF
-#  define _CTYPES_SIMPLE_VALUE_GETSETDEF {"value", (getter)_ctypes_Simple_value_get, (setter)_ctypes_Simple_value_set, _ctypes_Simple_value_DOCSTR},
+#if defined(_CTYPES_CFUNCPTR_ARGTYPES_GETSETDEF)
+#  undef _CTYPES_CFUNCPTR_ARGTYPES_GETSETDEF
+#  define _CTYPES_CFUNCPTR_ARGTYPES_GETSETDEF {"argtypes", (getter)_ctypes_CFuncPtr_argtypes_get, (setter)_ctypes_CFuncPtr_argtypes_set, _ctypes_CFuncPtr_argtypes_DOCSTR},
 #else
-#  define _CTYPES_SIMPLE_VALUE_GETSETDEF {"value", NULL, (setter)_ctypes_Simple_value_set, NULL},
+#  define _CTYPES_CFUNCPTR_ARGTYPES_GETSETDEF {"argtypes", (getter)_ctypes_CFuncPtr_argtypes_get, NULL, _ctypes_CFuncPtr_argtypes_DOCSTR},
 #endif
 
 static int
@@ -1019,7 +1009,7 @@ _ctypes_Simple_value_set(PyObject *self, PyObject *value, void *Py_UNUSED(contex
 #  undef _CTYPES_SIMPLE_VALUE_GETSETDEF
 #  define _CTYPES_SIMPLE_VALUE_GETSETDEF {"value", (getter)_ctypes_Simple_value_get, (setter)_ctypes_Simple_value_set, _ctypes_Simple_value_DOCSTR},
 #else
-#  define _CTYPES_SIMPLE_VALUE_GETSETDEF {"value", (getter)_ctypes_Simple_value_get, NULL, _ctypes_Simple_value_DOCSTR},
+#  define _CTYPES_SIMPLE_VALUE_GETSETDEF {"value", NULL, (setter)_ctypes_Simple_value_set, NULL},
 #endif
 
 static PyObject *
@@ -1037,14 +1027,20 @@ _ctypes_Simple_value_get(PyObject *self, void *Py_UNUSED(context))
     return return_value;
 }
 
+#if !defined(_ctypes_Simple_value_DOCSTR)
+#  define _ctypes_Simple_value_DOCSTR NULL
+#endif
+#if defined(_CTYPES_SIMPLE_VALUE_GETSETDEF)
+#  undef _CTYPES_SIMPLE_VALUE_GETSETDEF
+#  define _CTYPES_SIMPLE_VALUE_GETSETDEF {"value", (getter)_ctypes_Simple_value_get, (setter)_ctypes_Simple_value_set, _ctypes_Simple_value_DOCSTR},
+#else
+#  define _CTYPES_SIMPLE_VALUE_GETSETDEF {"value", (getter)_ctypes_Simple_value_get, NULL, _ctypes_Simple_value_DOCSTR},
+#endif
+
 PyDoc_STRVAR(Simple_from_outparm__doc__,
 "__ctypes_from_outparam__($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} Simple_from_outparm_MethodName = {.name = "__ctypes_from_outparam__",};
-#define SIMPLE_FROM_OUTPARM_METHODDEF    \
-    {Simple_from_outparm_MethodName.name, _PyCFunction_CAST(Simple_from_outparm), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, Simple_from_outparm__doc__},
 
 static PyObject *
 Simple_from_outparm_impl(PyObject *self, PyTypeObject *cls);
@@ -1058,4 +1054,8 @@ Simple_from_outparm(PyObject *self, PyTypeObject *cls, PyObject *const *args, Py
     }
     return Simple_from_outparm_impl(self, cls);
 }
-/*[clinic end generated code: output=2ef24126a3fa8dd0 input=a9049054013a1b77]*/
+
+static struct {char name[];} Simple_from_outparm_MethodName = {.name = "__ctypes_from_outparam__",};
+#define SIMPLE_FROM_OUTPARM_METHODDEF    \
+    {Simple_from_outparm_MethodName.name, _PyCFunction_CAST(Simple_from_outparm), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, Simple_from_outparm__doc__},
+/*[clinic end generated code: output=86edbddb672d715e input=a9049054013a1b77]*/

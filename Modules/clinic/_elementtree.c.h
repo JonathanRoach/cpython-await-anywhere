@@ -14,10 +14,6 @@ PyDoc_STRVAR(_elementtree_Element_append__doc__,
 "--\n"
 "\n");
 
-static struct {char name[];} _elementtree_Element_append_MethodName = {.name = "append",};
-#define _ELEMENTTREE_ELEMENT_APPEND_METHODDEF    \
-    {_elementtree_Element_append_MethodName.name, _PyCFunction_CAST(_elementtree_Element_append), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _elementtree_Element_append__doc__},
-
 static PyObject *
 _elementtree_Element_append_impl(ElementObject *self, PyTypeObject *cls,
                                  PyObject *subelement);
@@ -58,14 +54,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _elementtree_Element_append_MethodName = {.name = "append",};
+#define _ELEMENTTREE_ELEMENT_APPEND_METHODDEF    \
+    {_elementtree_Element_append_MethodName.name, _PyCFunction_CAST(_elementtree_Element_append), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _elementtree_Element_append__doc__},
+
 PyDoc_STRVAR(_elementtree_Element_clear__doc__,
 "clear($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_Element_clear_MethodName = {.name = "clear",};
-#define _ELEMENTTREE_ELEMENT_CLEAR_METHODDEF    \
-    {_elementtree_Element_clear_MethodName.name, (PyCFunction)_elementtree_Element_clear, METH_NOARGS|METH_C_STACK_FRUGAL, _elementtree_Element_clear__doc__},
 
 static PyObject *
 _elementtree_Element_clear_impl(ElementObject *self);
@@ -76,14 +72,14 @@ _elementtree_Element_clear(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _elementtree_Element_clear_impl((ElementObject *)self);
 }
 
+static struct {char name[];} _elementtree_Element_clear_MethodName = {.name = "clear",};
+#define _ELEMENTTREE_ELEMENT_CLEAR_METHODDEF    \
+    {_elementtree_Element_clear_MethodName.name, (PyCFunction)_elementtree_Element_clear, METH_NOARGS|METH_C_STACK_FRUGAL, _elementtree_Element_clear__doc__},
+
 PyDoc_STRVAR(_elementtree_Element___copy____doc__,
 "__copy__($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_Element___copy___MethodName = {.name = "__copy__",};
-#define _ELEMENTTREE_ELEMENT___COPY___METHODDEF    \
-    {_elementtree_Element___copy___MethodName.name, _PyCFunction_CAST(_elementtree_Element___copy__), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _elementtree_Element___copy____doc__},
 
 static PyObject *
 _elementtree_Element___copy___impl(ElementObject *self, PyTypeObject *cls);
@@ -98,14 +94,14 @@ _elementtree_Element___copy__(PyObject *self, PyTypeObject *cls, PyObject *const
     return _elementtree_Element___copy___impl((ElementObject *)self, cls);
 }
 
+static struct {char name[];} _elementtree_Element___copy___MethodName = {.name = "__copy__",};
+#define _ELEMENTTREE_ELEMENT___COPY___METHODDEF    \
+    {_elementtree_Element___copy___MethodName.name, _PyCFunction_CAST(_elementtree_Element___copy__), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _elementtree_Element___copy____doc__},
+
 PyDoc_STRVAR(_elementtree_Element___deepcopy____doc__,
 "__deepcopy__($self, memo, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_Element___deepcopy___MethodName = {.name = "__deepcopy__",};
-#define _ELEMENTTREE_ELEMENT___DEEPCOPY___METHODDEF    \
-    {_elementtree_Element___deepcopy___MethodName.name, (PyCFunction)_elementtree_Element___deepcopy__, METH_O|METH_C_STACK_FRUGAL, _elementtree_Element___deepcopy____doc__},
 
 static PyObject *
 _elementtree_Element___deepcopy___impl(ElementObject *self, PyObject *memo);
@@ -127,14 +123,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _elementtree_Element___deepcopy___MethodName = {.name = "__deepcopy__",};
+#define _ELEMENTTREE_ELEMENT___DEEPCOPY___METHODDEF    \
+    {_elementtree_Element___deepcopy___MethodName.name, (PyCFunction)_elementtree_Element___deepcopy__, METH_O|METH_C_STACK_FRUGAL, _elementtree_Element___deepcopy____doc__},
+
 PyDoc_STRVAR(_elementtree_Element___sizeof____doc__,
 "__sizeof__($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_Element___sizeof___MethodName = {.name = "__sizeof__",};
-#define _ELEMENTTREE_ELEMENT___SIZEOF___METHODDEF    \
-    {_elementtree_Element___sizeof___MethodName.name, (PyCFunction)_elementtree_Element___sizeof__, METH_NOARGS|METH_C_STACK_FRUGAL, _elementtree_Element___sizeof____doc__},
 
 static size_t
 _elementtree_Element___sizeof___impl(ElementObject *self);
@@ -155,14 +151,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _elementtree_Element___sizeof___MethodName = {.name = "__sizeof__",};
+#define _ELEMENTTREE_ELEMENT___SIZEOF___METHODDEF    \
+    {_elementtree_Element___sizeof___MethodName.name, (PyCFunction)_elementtree_Element___sizeof__, METH_NOARGS|METH_C_STACK_FRUGAL, _elementtree_Element___sizeof____doc__},
+
 PyDoc_STRVAR(_elementtree_Element___getstate____doc__,
 "__getstate__($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_Element___getstate___MethodName = {.name = "__getstate__",};
-#define _ELEMENTTREE_ELEMENT___GETSTATE___METHODDEF    \
-    {_elementtree_Element___getstate___MethodName.name, (PyCFunction)_elementtree_Element___getstate__, METH_NOARGS|METH_C_STACK_FRUGAL, _elementtree_Element___getstate____doc__},
 
 static PyObject *
 _elementtree_Element___getstate___impl(ElementObject *self);
@@ -173,14 +169,14 @@ _elementtree_Element___getstate__(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _elementtree_Element___getstate___impl((ElementObject *)self);
 }
 
+static struct {char name[];} _elementtree_Element___getstate___MethodName = {.name = "__getstate__",};
+#define _ELEMENTTREE_ELEMENT___GETSTATE___METHODDEF    \
+    {_elementtree_Element___getstate___MethodName.name, (PyCFunction)_elementtree_Element___getstate__, METH_NOARGS|METH_C_STACK_FRUGAL, _elementtree_Element___getstate____doc__},
+
 PyDoc_STRVAR(_elementtree_Element___setstate____doc__,
 "__setstate__($self, state, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_Element___setstate___MethodName = {.name = "__setstate__",};
-#define _ELEMENTTREE_ELEMENT___SETSTATE___METHODDEF    \
-    {_elementtree_Element___setstate___MethodName.name, _PyCFunction_CAST(_elementtree_Element___setstate__), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _elementtree_Element___setstate____doc__},
 
 static PyObject *
 _elementtree_Element___setstate___impl(ElementObject *self,
@@ -218,14 +214,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _elementtree_Element___setstate___MethodName = {.name = "__setstate__",};
+#define _ELEMENTTREE_ELEMENT___SETSTATE___METHODDEF    \
+    {_elementtree_Element___setstate___MethodName.name, _PyCFunction_CAST(_elementtree_Element___setstate__), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _elementtree_Element___setstate____doc__},
+
 PyDoc_STRVAR(_elementtree_Element_extend__doc__,
 "extend($self, elements, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_Element_extend_MethodName = {.name = "extend",};
-#define _ELEMENTTREE_ELEMENT_EXTEND_METHODDEF    \
-    {_elementtree_Element_extend_MethodName.name, _PyCFunction_CAST(_elementtree_Element_extend), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _elementtree_Element_extend__doc__},
 
 static PyObject *
 _elementtree_Element_extend_impl(ElementObject *self, PyTypeObject *cls,
@@ -263,14 +259,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _elementtree_Element_extend_MethodName = {.name = "extend",};
+#define _ELEMENTTREE_ELEMENT_EXTEND_METHODDEF    \
+    {_elementtree_Element_extend_MethodName.name, _PyCFunction_CAST(_elementtree_Element_extend), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _elementtree_Element_extend__doc__},
+
 PyDoc_STRVAR(_elementtree_Element_find__doc__,
 "find($self, /, path, namespaces=None)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_Element_find_MethodName = {.name = "find",};
-#define _ELEMENTTREE_ELEMENT_FIND_METHODDEF    \
-    {_elementtree_Element_find_MethodName.name, _PyCFunction_CAST(_elementtree_Element_find), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _elementtree_Element_find__doc__},
 
 static PyObject *
 _elementtree_Element_find_impl(ElementObject *self, PyTypeObject *cls,
@@ -329,14 +325,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _elementtree_Element_find_MethodName = {.name = "find",};
+#define _ELEMENTTREE_ELEMENT_FIND_METHODDEF    \
+    {_elementtree_Element_find_MethodName.name, _PyCFunction_CAST(_elementtree_Element_find), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _elementtree_Element_find__doc__},
+
 PyDoc_STRVAR(_elementtree_Element_findtext__doc__,
 "findtext($self, /, path, default=None, namespaces=None)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_Element_findtext_MethodName = {.name = "findtext",};
-#define _ELEMENTTREE_ELEMENT_FINDTEXT_METHODDEF    \
-    {_elementtree_Element_findtext_MethodName.name, _PyCFunction_CAST(_elementtree_Element_findtext), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _elementtree_Element_findtext__doc__},
 
 static PyObject *
 _elementtree_Element_findtext_impl(ElementObject *self, PyTypeObject *cls,
@@ -403,14 +399,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _elementtree_Element_findtext_MethodName = {.name = "findtext",};
+#define _ELEMENTTREE_ELEMENT_FINDTEXT_METHODDEF    \
+    {_elementtree_Element_findtext_MethodName.name, _PyCFunction_CAST(_elementtree_Element_findtext), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _elementtree_Element_findtext__doc__},
+
 PyDoc_STRVAR(_elementtree_Element_findall__doc__,
 "findall($self, /, path, namespaces=None)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_Element_findall_MethodName = {.name = "findall",};
-#define _ELEMENTTREE_ELEMENT_FINDALL_METHODDEF    \
-    {_elementtree_Element_findall_MethodName.name, _PyCFunction_CAST(_elementtree_Element_findall), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _elementtree_Element_findall__doc__},
 
 static PyObject *
 _elementtree_Element_findall_impl(ElementObject *self, PyTypeObject *cls,
@@ -469,14 +465,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _elementtree_Element_findall_MethodName = {.name = "findall",};
+#define _ELEMENTTREE_ELEMENT_FINDALL_METHODDEF    \
+    {_elementtree_Element_findall_MethodName.name, _PyCFunction_CAST(_elementtree_Element_findall), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _elementtree_Element_findall__doc__},
+
 PyDoc_STRVAR(_elementtree_Element_iterfind__doc__,
 "iterfind($self, /, path, namespaces=None)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_Element_iterfind_MethodName = {.name = "iterfind",};
-#define _ELEMENTTREE_ELEMENT_ITERFIND_METHODDEF    \
-    {_elementtree_Element_iterfind_MethodName.name, _PyCFunction_CAST(_elementtree_Element_iterfind), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _elementtree_Element_iterfind__doc__},
 
 static PyObject *
 _elementtree_Element_iterfind_impl(ElementObject *self, PyTypeObject *cls,
@@ -535,14 +531,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _elementtree_Element_iterfind_MethodName = {.name = "iterfind",};
+#define _ELEMENTTREE_ELEMENT_ITERFIND_METHODDEF    \
+    {_elementtree_Element_iterfind_MethodName.name, _PyCFunction_CAST(_elementtree_Element_iterfind), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _elementtree_Element_iterfind__doc__},
+
 PyDoc_STRVAR(_elementtree_Element_get__doc__,
 "get($self, /, key, default=None)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_Element_get_MethodName = {.name = "get",};
-#define _ELEMENTTREE_ELEMENT_GET_METHODDEF    \
-    {_elementtree_Element_get_MethodName.name, _PyCFunction_CAST(_elementtree_Element_get), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _elementtree_Element_get__doc__},
 
 static PyObject *
 _elementtree_Element_get_impl(ElementObject *self, PyObject *key,
@@ -601,14 +597,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _elementtree_Element_get_MethodName = {.name = "get",};
+#define _ELEMENTTREE_ELEMENT_GET_METHODDEF    \
+    {_elementtree_Element_get_MethodName.name, _PyCFunction_CAST(_elementtree_Element_get), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _elementtree_Element_get__doc__},
+
 PyDoc_STRVAR(_elementtree_Element_iter__doc__,
 "iter($self, /, tag=None)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_Element_iter_MethodName = {.name = "iter",};
-#define _ELEMENTTREE_ELEMENT_ITER_METHODDEF    \
-    {_elementtree_Element_iter_MethodName.name, _PyCFunction_CAST(_elementtree_Element_iter), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _elementtree_Element_iter__doc__},
 
 static PyObject *
 _elementtree_Element_iter_impl(ElementObject *self, PyTypeObject *cls,
@@ -665,14 +661,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _elementtree_Element_iter_MethodName = {.name = "iter",};
+#define _ELEMENTTREE_ELEMENT_ITER_METHODDEF    \
+    {_elementtree_Element_iter_MethodName.name, _PyCFunction_CAST(_elementtree_Element_iter), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _elementtree_Element_iter__doc__},
+
 PyDoc_STRVAR(_elementtree_Element_itertext__doc__,
 "itertext($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_Element_itertext_MethodName = {.name = "itertext",};
-#define _ELEMENTTREE_ELEMENT_ITERTEXT_METHODDEF    \
-    {_elementtree_Element_itertext_MethodName.name, _PyCFunction_CAST(_elementtree_Element_itertext), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _elementtree_Element_itertext__doc__},
 
 static PyObject *
 _elementtree_Element_itertext_impl(ElementObject *self, PyTypeObject *cls);
@@ -687,14 +683,14 @@ _elementtree_Element_itertext(PyObject *self, PyTypeObject *cls, PyObject *const
     return _elementtree_Element_itertext_impl((ElementObject *)self, cls);
 }
 
+static struct {char name[];} _elementtree_Element_itertext_MethodName = {.name = "itertext",};
+#define _ELEMENTTREE_ELEMENT_ITERTEXT_METHODDEF    \
+    {_elementtree_Element_itertext_MethodName.name, _PyCFunction_CAST(_elementtree_Element_itertext), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _elementtree_Element_itertext__doc__},
+
 PyDoc_STRVAR(_elementtree_Element_insert__doc__,
 "insert($self, index, subelement, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_Element_insert_MethodName = {.name = "insert",};
-#define _ELEMENTTREE_ELEMENT_INSERT_METHODDEF    \
-    {_elementtree_Element_insert_MethodName.name, _PyCFunction_CAST(_elementtree_Element_insert), METH_FASTCALL|METH_C_STACK_FRUGAL, _elementtree_Element_insert__doc__},
 
 static PyObject *
 _elementtree_Element_insert_impl(ElementObject *self, Py_ssize_t index,
@@ -733,14 +729,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _elementtree_Element_insert_MethodName = {.name = "insert",};
+#define _ELEMENTTREE_ELEMENT_INSERT_METHODDEF    \
+    {_elementtree_Element_insert_MethodName.name, _PyCFunction_CAST(_elementtree_Element_insert), METH_FASTCALL|METH_C_STACK_FRUGAL, _elementtree_Element_insert__doc__},
+
 PyDoc_STRVAR(_elementtree_Element_items__doc__,
 "items($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_Element_items_MethodName = {.name = "items",};
-#define _ELEMENTTREE_ELEMENT_ITEMS_METHODDEF    \
-    {_elementtree_Element_items_MethodName.name, (PyCFunction)_elementtree_Element_items, METH_NOARGS|METH_C_STACK_FRUGAL, _elementtree_Element_items__doc__},
 
 static PyObject *
 _elementtree_Element_items_impl(ElementObject *self);
@@ -751,14 +747,14 @@ _elementtree_Element_items(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _elementtree_Element_items_impl((ElementObject *)self);
 }
 
+static struct {char name[];} _elementtree_Element_items_MethodName = {.name = "items",};
+#define _ELEMENTTREE_ELEMENT_ITEMS_METHODDEF    \
+    {_elementtree_Element_items_MethodName.name, (PyCFunction)_elementtree_Element_items, METH_NOARGS|METH_C_STACK_FRUGAL, _elementtree_Element_items__doc__},
+
 PyDoc_STRVAR(_elementtree_Element_keys__doc__,
 "keys($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_Element_keys_MethodName = {.name = "keys",};
-#define _ELEMENTTREE_ELEMENT_KEYS_METHODDEF    \
-    {_elementtree_Element_keys_MethodName.name, (PyCFunction)_elementtree_Element_keys, METH_NOARGS|METH_C_STACK_FRUGAL, _elementtree_Element_keys__doc__},
 
 static PyObject *
 _elementtree_Element_keys_impl(ElementObject *self);
@@ -769,14 +765,14 @@ _elementtree_Element_keys(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _elementtree_Element_keys_impl((ElementObject *)self);
 }
 
+static struct {char name[];} _elementtree_Element_keys_MethodName = {.name = "keys",};
+#define _ELEMENTTREE_ELEMENT_KEYS_METHODDEF    \
+    {_elementtree_Element_keys_MethodName.name, (PyCFunction)_elementtree_Element_keys, METH_NOARGS|METH_C_STACK_FRUGAL, _elementtree_Element_keys__doc__},
+
 PyDoc_STRVAR(_elementtree_Element_makeelement__doc__,
 "makeelement($self, tag, attrib, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_Element_makeelement_MethodName = {.name = "makeelement",};
-#define _ELEMENTTREE_ELEMENT_MAKEELEMENT_METHODDEF    \
-    {_elementtree_Element_makeelement_MethodName.name, _PyCFunction_CAST(_elementtree_Element_makeelement), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _elementtree_Element_makeelement__doc__},
 
 static PyObject *
 _elementtree_Element_makeelement_impl(ElementObject *self, PyTypeObject *cls,
@@ -820,14 +816,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _elementtree_Element_makeelement_MethodName = {.name = "makeelement",};
+#define _ELEMENTTREE_ELEMENT_MAKEELEMENT_METHODDEF    \
+    {_elementtree_Element_makeelement_MethodName.name, _PyCFunction_CAST(_elementtree_Element_makeelement), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _elementtree_Element_makeelement__doc__},
+
 PyDoc_STRVAR(_elementtree_Element_remove__doc__,
 "remove($self, subelement, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_Element_remove_MethodName = {.name = "remove",};
-#define _ELEMENTTREE_ELEMENT_REMOVE_METHODDEF    \
-    {_elementtree_Element_remove_MethodName.name, (PyCFunction)_elementtree_Element_remove, METH_O|METH_C_STACK_FRUGAL, _elementtree_Element_remove__doc__},
 
 static PyObject *
 _elementtree_Element_remove_impl(ElementObject *self, PyObject *subelement);
@@ -849,14 +845,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _elementtree_Element_remove_MethodName = {.name = "remove",};
+#define _ELEMENTTREE_ELEMENT_REMOVE_METHODDEF    \
+    {_elementtree_Element_remove_MethodName.name, (PyCFunction)_elementtree_Element_remove, METH_O|METH_C_STACK_FRUGAL, _elementtree_Element_remove__doc__},
+
 PyDoc_STRVAR(_elementtree_Element_set__doc__,
 "set($self, key, value, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_Element_set_MethodName = {.name = "set",};
-#define _ELEMENTTREE_ELEMENT_SET_METHODDEF    \
-    {_elementtree_Element_set_MethodName.name, _PyCFunction_CAST(_elementtree_Element_set), METH_FASTCALL|METH_C_STACK_FRUGAL, _elementtree_Element_set__doc__},
 
 static PyObject *
 _elementtree_Element_set_impl(ElementObject *self, PyObject *key,
@@ -879,6 +875,10 @@ _elementtree_Element_set(PyObject *self, PyObject *const *args, Py_ssize_t nargs
 exit:
     return return_value;
 }
+
+static struct {char name[];} _elementtree_Element_set_MethodName = {.name = "set",};
+#define _ELEMENTTREE_ELEMENT_SET_METHODDEF    \
+    {_elementtree_Element_set_MethodName.name, _PyCFunction_CAST(_elementtree_Element_set), METH_FASTCALL|METH_C_STACK_FRUGAL, _elementtree_Element_set__doc__},
 
 static int
 _elementtree_TreeBuilder___init___impl(TreeBuilderObject *self,
@@ -986,10 +986,6 @@ PyDoc_STRVAR(_elementtree__set_factories__doc__,
 "\n"
 "For internal use only.");
 
-static struct {char name[];} _elementtree__set_factories_MethodName = {.name = "_set_factories",};
-#define _ELEMENTTREE__SET_FACTORIES_METHODDEF    \
-    {_elementtree__set_factories_MethodName.name, _PyCFunction_CAST(_elementtree__set_factories), METH_FASTCALL|METH_C_STACK_FRUGAL, _elementtree__set_factories__doc__},
-
 static PyObject *
 _elementtree__set_factories_impl(PyObject *module, PyObject *comment_factory,
                                  PyObject *pi_factory);
@@ -1012,14 +1008,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _elementtree__set_factories_MethodName = {.name = "_set_factories",};
+#define _ELEMENTTREE__SET_FACTORIES_METHODDEF    \
+    {_elementtree__set_factories_MethodName.name, _PyCFunction_CAST(_elementtree__set_factories), METH_FASTCALL|METH_C_STACK_FRUGAL, _elementtree__set_factories__doc__},
+
 PyDoc_STRVAR(_elementtree_TreeBuilder_data__doc__,
 "data($self, data, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_TreeBuilder_data_MethodName = {.name = "data",};
-#define _ELEMENTTREE_TREEBUILDER_DATA_METHODDEF    \
-    {_elementtree_TreeBuilder_data_MethodName.name, (PyCFunction)_elementtree_TreeBuilder_data, METH_O|METH_C_STACK_FRUGAL, _elementtree_TreeBuilder_data__doc__},
 
 static PyObject *
 _elementtree_TreeBuilder_data_impl(TreeBuilderObject *self, PyObject *data);
@@ -1034,14 +1030,14 @@ _elementtree_TreeBuilder_data(PyObject *self, PyObject *data)
     return return_value;
 }
 
+static struct {char name[];} _elementtree_TreeBuilder_data_MethodName = {.name = "data",};
+#define _ELEMENTTREE_TREEBUILDER_DATA_METHODDEF    \
+    {_elementtree_TreeBuilder_data_MethodName.name, (PyCFunction)_elementtree_TreeBuilder_data, METH_O|METH_C_STACK_FRUGAL, _elementtree_TreeBuilder_data__doc__},
+
 PyDoc_STRVAR(_elementtree_TreeBuilder_end__doc__,
 "end($self, tag, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_TreeBuilder_end_MethodName = {.name = "end",};
-#define _ELEMENTTREE_TREEBUILDER_END_METHODDEF    \
-    {_elementtree_TreeBuilder_end_MethodName.name, (PyCFunction)_elementtree_TreeBuilder_end, METH_O|METH_C_STACK_FRUGAL, _elementtree_TreeBuilder_end__doc__},
 
 static PyObject *
 _elementtree_TreeBuilder_end_impl(TreeBuilderObject *self, PyObject *tag);
@@ -1056,14 +1052,14 @@ _elementtree_TreeBuilder_end(PyObject *self, PyObject *tag)
     return return_value;
 }
 
+static struct {char name[];} _elementtree_TreeBuilder_end_MethodName = {.name = "end",};
+#define _ELEMENTTREE_TREEBUILDER_END_METHODDEF    \
+    {_elementtree_TreeBuilder_end_MethodName.name, (PyCFunction)_elementtree_TreeBuilder_end, METH_O|METH_C_STACK_FRUGAL, _elementtree_TreeBuilder_end__doc__},
+
 PyDoc_STRVAR(_elementtree_TreeBuilder_comment__doc__,
 "comment($self, text, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_TreeBuilder_comment_MethodName = {.name = "comment",};
-#define _ELEMENTTREE_TREEBUILDER_COMMENT_METHODDEF    \
-    {_elementtree_TreeBuilder_comment_MethodName.name, (PyCFunction)_elementtree_TreeBuilder_comment, METH_O|METH_C_STACK_FRUGAL, _elementtree_TreeBuilder_comment__doc__},
 
 static PyObject *
 _elementtree_TreeBuilder_comment_impl(TreeBuilderObject *self,
@@ -1079,14 +1075,14 @@ _elementtree_TreeBuilder_comment(PyObject *self, PyObject *text)
     return return_value;
 }
 
+static struct {char name[];} _elementtree_TreeBuilder_comment_MethodName = {.name = "comment",};
+#define _ELEMENTTREE_TREEBUILDER_COMMENT_METHODDEF    \
+    {_elementtree_TreeBuilder_comment_MethodName.name, (PyCFunction)_elementtree_TreeBuilder_comment, METH_O|METH_C_STACK_FRUGAL, _elementtree_TreeBuilder_comment__doc__},
+
 PyDoc_STRVAR(_elementtree_TreeBuilder_pi__doc__,
 "pi($self, target, text=None, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_TreeBuilder_pi_MethodName = {.name = "pi",};
-#define _ELEMENTTREE_TREEBUILDER_PI_METHODDEF    \
-    {_elementtree_TreeBuilder_pi_MethodName.name, _PyCFunction_CAST(_elementtree_TreeBuilder_pi), METH_FASTCALL|METH_C_STACK_FRUGAL, _elementtree_TreeBuilder_pi__doc__},
 
 static PyObject *
 _elementtree_TreeBuilder_pi_impl(TreeBuilderObject *self, PyObject *target,
@@ -1114,14 +1110,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _elementtree_TreeBuilder_pi_MethodName = {.name = "pi",};
+#define _ELEMENTTREE_TREEBUILDER_PI_METHODDEF    \
+    {_elementtree_TreeBuilder_pi_MethodName.name, _PyCFunction_CAST(_elementtree_TreeBuilder_pi), METH_FASTCALL|METH_C_STACK_FRUGAL, _elementtree_TreeBuilder_pi__doc__},
+
 PyDoc_STRVAR(_elementtree_TreeBuilder_close__doc__,
 "close($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_TreeBuilder_close_MethodName = {.name = "close",};
-#define _ELEMENTTREE_TREEBUILDER_CLOSE_METHODDEF    \
-    {_elementtree_TreeBuilder_close_MethodName.name, (PyCFunction)_elementtree_TreeBuilder_close, METH_NOARGS|METH_C_STACK_FRUGAL, _elementtree_TreeBuilder_close__doc__},
 
 static PyObject *
 _elementtree_TreeBuilder_close_impl(TreeBuilderObject *self);
@@ -1132,14 +1128,14 @@ _elementtree_TreeBuilder_close(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _elementtree_TreeBuilder_close_impl((TreeBuilderObject *)self);
 }
 
+static struct {char name[];} _elementtree_TreeBuilder_close_MethodName = {.name = "close",};
+#define _ELEMENTTREE_TREEBUILDER_CLOSE_METHODDEF    \
+    {_elementtree_TreeBuilder_close_MethodName.name, (PyCFunction)_elementtree_TreeBuilder_close, METH_NOARGS|METH_C_STACK_FRUGAL, _elementtree_TreeBuilder_close__doc__},
+
 PyDoc_STRVAR(_elementtree_TreeBuilder_start__doc__,
 "start($self, tag, attrs, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_TreeBuilder_start_MethodName = {.name = "start",};
-#define _ELEMENTTREE_TREEBUILDER_START_METHODDEF    \
-    {_elementtree_TreeBuilder_start_MethodName.name, _PyCFunction_CAST(_elementtree_TreeBuilder_start), METH_FASTCALL|METH_C_STACK_FRUGAL, _elementtree_TreeBuilder_start__doc__},
 
 static PyObject *
 _elementtree_TreeBuilder_start_impl(TreeBuilderObject *self, PyObject *tag,
@@ -1166,6 +1162,10 @@ _elementtree_TreeBuilder_start(PyObject *self, PyObject *const *args, Py_ssize_t
 exit:
     return return_value;
 }
+
+static struct {char name[];} _elementtree_TreeBuilder_start_MethodName = {.name = "start",};
+#define _ELEMENTTREE_TREEBUILDER_START_METHODDEF    \
+    {_elementtree_TreeBuilder_start_MethodName.name, _PyCFunction_CAST(_elementtree_TreeBuilder_start), METH_FASTCALL|METH_C_STACK_FRUGAL, _elementtree_TreeBuilder_start__doc__},
 
 static int
 _elementtree_XMLParser___init___impl(XMLParserObject *self, PyObject *target,
@@ -1253,10 +1253,6 @@ PyDoc_STRVAR(_elementtree_XMLParser_close__doc__,
 "--\n"
 "\n");
 
-static struct {char name[];} _elementtree_XMLParser_close_MethodName = {.name = "close",};
-#define _ELEMENTTREE_XMLPARSER_CLOSE_METHODDEF    \
-    {_elementtree_XMLParser_close_MethodName.name, (PyCFunction)_elementtree_XMLParser_close, METH_NOARGS|METH_C_STACK_FRUGAL, _elementtree_XMLParser_close__doc__},
-
 static PyObject *
 _elementtree_XMLParser_close_impl(XMLParserObject *self);
 
@@ -1266,14 +1262,14 @@ _elementtree_XMLParser_close(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _elementtree_XMLParser_close_impl((XMLParserObject *)self);
 }
 
+static struct {char name[];} _elementtree_XMLParser_close_MethodName = {.name = "close",};
+#define _ELEMENTTREE_XMLPARSER_CLOSE_METHODDEF    \
+    {_elementtree_XMLParser_close_MethodName.name, (PyCFunction)_elementtree_XMLParser_close, METH_NOARGS|METH_C_STACK_FRUGAL, _elementtree_XMLParser_close__doc__},
+
 PyDoc_STRVAR(_elementtree_XMLParser_flush__doc__,
 "flush($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_XMLParser_flush_MethodName = {.name = "flush",};
-#define _ELEMENTTREE_XMLPARSER_FLUSH_METHODDEF    \
-    {_elementtree_XMLParser_flush_MethodName.name, (PyCFunction)_elementtree_XMLParser_flush, METH_NOARGS|METH_C_STACK_FRUGAL, _elementtree_XMLParser_flush__doc__},
 
 static PyObject *
 _elementtree_XMLParser_flush_impl(XMLParserObject *self);
@@ -1284,14 +1280,14 @@ _elementtree_XMLParser_flush(PyObject *self, PyObject *Py_UNUSED(ignored))
     return _elementtree_XMLParser_flush_impl((XMLParserObject *)self);
 }
 
+static struct {char name[];} _elementtree_XMLParser_flush_MethodName = {.name = "flush",};
+#define _ELEMENTTREE_XMLPARSER_FLUSH_METHODDEF    \
+    {_elementtree_XMLParser_flush_MethodName.name, (PyCFunction)_elementtree_XMLParser_flush, METH_NOARGS|METH_C_STACK_FRUGAL, _elementtree_XMLParser_flush__doc__},
+
 PyDoc_STRVAR(_elementtree_XMLParser_feed__doc__,
 "feed($self, data, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_XMLParser_feed_MethodName = {.name = "feed",};
-#define _ELEMENTTREE_XMLPARSER_FEED_METHODDEF    \
-    {_elementtree_XMLParser_feed_MethodName.name, (PyCFunction)_elementtree_XMLParser_feed, METH_O|METH_C_STACK_FRUGAL, _elementtree_XMLParser_feed__doc__},
 
 static PyObject *
 _elementtree_XMLParser_feed_impl(XMLParserObject *self, PyObject *data);
@@ -1306,14 +1302,14 @@ _elementtree_XMLParser_feed(PyObject *self, PyObject *data)
     return return_value;
 }
 
+static struct {char name[];} _elementtree_XMLParser_feed_MethodName = {.name = "feed",};
+#define _ELEMENTTREE_XMLPARSER_FEED_METHODDEF    \
+    {_elementtree_XMLParser_feed_MethodName.name, (PyCFunction)_elementtree_XMLParser_feed, METH_O|METH_C_STACK_FRUGAL, _elementtree_XMLParser_feed__doc__},
+
 PyDoc_STRVAR(_elementtree_XMLParser__parse_whole__doc__,
 "_parse_whole($self, file, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_XMLParser__parse_whole_MethodName = {.name = "_parse_whole",};
-#define _ELEMENTTREE_XMLPARSER__PARSE_WHOLE_METHODDEF    \
-    {_elementtree_XMLParser__parse_whole_MethodName.name, (PyCFunction)_elementtree_XMLParser__parse_whole, METH_O|METH_C_STACK_FRUGAL, _elementtree_XMLParser__parse_whole__doc__},
 
 static PyObject *
 _elementtree_XMLParser__parse_whole_impl(XMLParserObject *self,
@@ -1329,14 +1325,14 @@ _elementtree_XMLParser__parse_whole(PyObject *self, PyObject *file)
     return return_value;
 }
 
+static struct {char name[];} _elementtree_XMLParser__parse_whole_MethodName = {.name = "_parse_whole",};
+#define _ELEMENTTREE_XMLPARSER__PARSE_WHOLE_METHODDEF    \
+    {_elementtree_XMLParser__parse_whole_MethodName.name, (PyCFunction)_elementtree_XMLParser__parse_whole, METH_O|METH_C_STACK_FRUGAL, _elementtree_XMLParser__parse_whole__doc__},
+
 PyDoc_STRVAR(_elementtree_XMLParser__setevents__doc__,
 "_setevents($self, events_queue, events_to_report=None, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _elementtree_XMLParser__setevents_MethodName = {.name = "_setevents",};
-#define _ELEMENTTREE_XMLPARSER__SETEVENTS_METHODDEF    \
-    {_elementtree_XMLParser__setevents_MethodName.name, _PyCFunction_CAST(_elementtree_XMLParser__setevents), METH_FASTCALL|METH_C_STACK_FRUGAL, _elementtree_XMLParser__setevents__doc__},
 
 static PyObject *
 _elementtree_XMLParser__setevents_impl(XMLParserObject *self,
@@ -1364,4 +1360,8 @@ skip_optional:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=87170fcf06e684ee input=a9049054013a1b77]*/
+
+static struct {char name[];} _elementtree_XMLParser__setevents_MethodName = {.name = "_setevents",};
+#define _ELEMENTTREE_XMLPARSER__SETEVENTS_METHODDEF    \
+    {_elementtree_XMLParser__setevents_MethodName.name, _PyCFunction_CAST(_elementtree_XMLParser__setevents), METH_FASTCALL|METH_C_STACK_FRUGAL, _elementtree_XMLParser__setevents__doc__},
+/*[clinic end generated code: output=1241fcaf2aacdf6d input=a9049054013a1b77]*/

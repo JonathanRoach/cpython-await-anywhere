@@ -10,10 +10,6 @@ PyDoc_STRVAR(_posixshmem_shm_open__doc__,
 "\n"
 "Open a shared memory object.  Returns a file descriptor (integer).");
 
-static struct {char name[];} _posixshmem_shm_open_MethodName = {.name = "shm_open",};
-#define _POSIXSHMEM_SHM_OPEN_METHODDEF    \
-    {_posixshmem_shm_open_MethodName.name, (PyCFunction)(void(*)(void))_posixshmem_shm_open, METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, _posixshmem_shm_open__doc__},
-
 static int
 _posixshmem_shm_open_impl(PyObject *module, PyObject *path, int flags,
                           int mode);
@@ -41,6 +37,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _posixshmem_shm_open_MethodName = {.name = "shm_open",};
+#define _POSIXSHMEM_SHM_OPEN_METHODDEF    \
+    {_posixshmem_shm_open_MethodName.name, (PyCFunction)(void(*)(void))_posixshmem_shm_open, METH_VARARGS|METH_KEYWORDS|METH_C_STACK_FRUGAL, _posixshmem_shm_open__doc__},
+
 #endif /* defined(HAVE_SHM_OPEN) */
 
 #if defined(HAVE_SHM_UNLINK)
@@ -54,10 +54,6 @@ PyDoc_STRVAR(_posixshmem_shm_unlink__doc__,
 "Remove a shared memory object name, and, once all processes  have  unmapped\n"
 "the object, de-allocates and destroys the contents of the associated memory\n"
 "region.");
-
-static struct {char name[];} _posixshmem_shm_unlink_MethodName = {.name = "shm_unlink",};
-#define _POSIXSHMEM_SHM_UNLINK_METHODDEF    \
-    {_posixshmem_shm_unlink_MethodName.name, (PyCFunction)_posixshmem_shm_unlink, METH_O|METH_C_STACK_FRUGAL, _posixshmem_shm_unlink__doc__},
 
 static PyObject *
 _posixshmem_shm_unlink_impl(PyObject *module, PyObject *path);
@@ -79,6 +75,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _posixshmem_shm_unlink_MethodName = {.name = "shm_unlink",};
+#define _POSIXSHMEM_SHM_UNLINK_METHODDEF    \
+    {_posixshmem_shm_unlink_MethodName.name, (PyCFunction)_posixshmem_shm_unlink, METH_O|METH_C_STACK_FRUGAL, _posixshmem_shm_unlink__doc__},
+
 #endif /* defined(HAVE_SHM_UNLINK) */
 
 #ifndef _POSIXSHMEM_SHM_OPEN_METHODDEF
@@ -88,4 +88,4 @@ exit:
 #ifndef _POSIXSHMEM_SHM_UNLINK_METHODDEF
     #define _POSIXSHMEM_SHM_UNLINK_METHODDEF
 #endif /* !defined(_POSIXSHMEM_SHM_UNLINK_METHODDEF) */
-/*[clinic end generated code: output=5ab30a3932419539 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=9171021ee9969cb5 input=a9049054013a1b77]*/

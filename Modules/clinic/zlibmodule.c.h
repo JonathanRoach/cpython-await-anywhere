@@ -22,10 +22,6 @@ PyDoc_STRVAR(zlib_compress__doc__,
 "  wbits\n"
 "    The window buffer size and container format.");
 
-static struct {char name[];} zlib_compress_MethodName = {.name = "compress",};
-#define ZLIB_COMPRESS_METHODDEF    \
-    {zlib_compress_MethodName.name, _PyCFunction_CAST(zlib_compress), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_compress__doc__},
-
 static PyObject *
 zlib_compress_impl(PyObject *module, Py_buffer *data, int level, int wbits);
 
@@ -102,6 +98,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} zlib_compress_MethodName = {.name = "compress",};
+#define ZLIB_COMPRESS_METHODDEF    \
+    {zlib_compress_MethodName.name, _PyCFunction_CAST(zlib_compress), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_compress__doc__},
+
 PyDoc_STRVAR(zlib_decompress__doc__,
 "decompress($module, data, /, wbits=MAX_WBITS, bufsize=DEF_BUF_SIZE)\n"
 "--\n"
@@ -114,10 +114,6 @@ PyDoc_STRVAR(zlib_decompress__doc__,
 "    The window buffer size and container format.\n"
 "  bufsize\n"
 "    The initial output buffer size.");
-
-static struct {char name[];} zlib_decompress_MethodName = {.name = "decompress",};
-#define ZLIB_DECOMPRESS_METHODDEF    \
-    {zlib_decompress_MethodName.name, _PyCFunction_CAST(zlib_decompress), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_decompress__doc__},
 
 static PyObject *
 zlib_decompress_impl(PyObject *module, Py_buffer *data, int wbits,
@@ -204,6 +200,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} zlib_decompress_MethodName = {.name = "decompress",};
+#define ZLIB_DECOMPRESS_METHODDEF    \
+    {zlib_decompress_MethodName.name, _PyCFunction_CAST(zlib_decompress), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_decompress__doc__},
+
 PyDoc_STRVAR(zlib_compressobj__doc__,
 "compressobj($module, /, level=Z_DEFAULT_COMPRESSION, method=DEFLATED,\n"
 "            wbits=MAX_WBITS, memLevel=DEF_MEM_LEVEL,\n"
@@ -233,10 +233,6 @@ PyDoc_STRVAR(zlib_compressobj__doc__,
 "  zdict\n"
 "    The predefined compression dictionary - a sequence of bytes\n"
 "    containing subsequences that are likely to occur in the input data.");
-
-static struct {char name[];} zlib_compressobj_MethodName = {.name = "compressobj",};
-#define ZLIB_COMPRESSOBJ_METHODDEF    \
-    {zlib_compressobj_MethodName.name, _PyCFunction_CAST(zlib_compressobj), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_compressobj__doc__},
 
 static PyObject *
 zlib_compressobj_impl(PyObject *module, int level, int method, int wbits,
@@ -350,6 +346,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} zlib_compressobj_MethodName = {.name = "compressobj",};
+#define ZLIB_COMPRESSOBJ_METHODDEF    \
+    {zlib_compressobj_MethodName.name, _PyCFunction_CAST(zlib_compressobj), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_compressobj__doc__},
+
 PyDoc_STRVAR(zlib_decompressobj__doc__,
 "decompressobj($module, /, wbits=MAX_WBITS, zdict=b\'\')\n"
 "--\n"
@@ -361,10 +361,6 @@ PyDoc_STRVAR(zlib_decompressobj__doc__,
 "  zdict\n"
 "    The predefined compression dictionary.  This must be the same\n"
 "    dictionary as used by the compressor that produced the input data.");
-
-static struct {char name[];} zlib_decompressobj_MethodName = {.name = "decompressobj",};
-#define ZLIB_DECOMPRESSOBJ_METHODDEF    \
-    {zlib_decompressobj_MethodName.name, _PyCFunction_CAST(zlib_decompressobj), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_decompressobj__doc__},
 
 static PyObject *
 zlib_decompressobj_impl(PyObject *module, int wbits, PyObject *zdict);
@@ -430,6 +426,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} zlib_decompressobj_MethodName = {.name = "decompressobj",};
+#define ZLIB_DECOMPRESSOBJ_METHODDEF    \
+    {zlib_decompressobj_MethodName.name, _PyCFunction_CAST(zlib_decompressobj), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_decompressobj__doc__},
+
 PyDoc_STRVAR(zlib_Compress_compress__doc__,
 "compress($self, data, /)\n"
 "--\n"
@@ -442,10 +442,6 @@ PyDoc_STRVAR(zlib_Compress_compress__doc__,
 "After calling this function, some of the input data may still\n"
 "be stored in internal buffers for later processing.\n"
 "Call the flush() method to clear these buffers.");
-
-static struct {char name[];} zlib_Compress_compress_MethodName = {.name = "compress",};
-#define ZLIB_COMPRESS_COMPRESS_METHODDEF    \
-    {zlib_Compress_compress_MethodName.name, _PyCFunction_CAST(zlib_Compress_compress), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_Compress_compress__doc__},
 
 static PyObject *
 zlib_Compress_compress_impl(compobject *self, PyTypeObject *cls,
@@ -490,6 +486,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} zlib_Compress_compress_MethodName = {.name = "compress",};
+#define ZLIB_COMPRESS_COMPRESS_METHODDEF    \
+    {zlib_Compress_compress_MethodName.name, _PyCFunction_CAST(zlib_Compress_compress), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_Compress_compress__doc__},
+
 PyDoc_STRVAR(zlib_Decompress_decompress__doc__,
 "decompress($self, data, /, max_length=0)\n"
 "--\n"
@@ -506,10 +506,6 @@ PyDoc_STRVAR(zlib_Decompress_decompress__doc__,
 "After calling this function, some of the input data may still be stored in\n"
 "internal buffers for later processing.\n"
 "Call the flush() method to clear these buffers.");
-
-static struct {char name[];} zlib_Decompress_decompress_MethodName = {.name = "decompress",};
-#define ZLIB_DECOMPRESS_DECOMPRESS_METHODDEF    \
-    {zlib_Decompress_decompress_MethodName.name, _PyCFunction_CAST(zlib_Decompress_decompress), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_Decompress_decompress__doc__},
 
 static PyObject *
 zlib_Decompress_decompress_impl(compobject *self, PyTypeObject *cls,
@@ -586,6 +582,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} zlib_Decompress_decompress_MethodName = {.name = "decompress",};
+#define ZLIB_DECOMPRESS_DECOMPRESS_METHODDEF    \
+    {zlib_Decompress_decompress_MethodName.name, _PyCFunction_CAST(zlib_Decompress_decompress), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_Decompress_decompress__doc__},
+
 PyDoc_STRVAR(zlib_Compress_flush__doc__,
 "flush($self, mode=zlib.Z_FINISH, /)\n"
 "--\n"
@@ -597,10 +597,6 @@ PyDoc_STRVAR(zlib_Compress_flush__doc__,
 "    If mode == Z_FINISH, the compressor object can no longer be\n"
 "    used after calling the flush() method.  Otherwise, more data\n"
 "    can still be compressed.");
-
-static struct {char name[];} zlib_Compress_flush_MethodName = {.name = "flush",};
-#define ZLIB_COMPRESS_FLUSH_METHODDEF    \
-    {zlib_Compress_flush_MethodName.name, _PyCFunction_CAST(zlib_Compress_flush), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_Compress_flush__doc__},
 
 static PyObject *
 zlib_Compress_flush_impl(compobject *self, PyTypeObject *cls, int mode);
@@ -644,6 +640,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} zlib_Compress_flush_MethodName = {.name = "flush",};
+#define ZLIB_COMPRESS_FLUSH_METHODDEF    \
+    {zlib_Compress_flush_MethodName.name, _PyCFunction_CAST(zlib_Compress_flush), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_Compress_flush__doc__},
+
 #if defined(HAVE_ZLIB_COPY)
 
 PyDoc_STRVAR(zlib_Compress_copy__doc__,
@@ -651,10 +651,6 @@ PyDoc_STRVAR(zlib_Compress_copy__doc__,
 "--\n"
 "\n"
 "Return a copy of the compression object.");
-
-static struct {char name[];} zlib_Compress_copy_MethodName = {.name = "copy",};
-#define ZLIB_COMPRESS_COPY_METHODDEF    \
-    {zlib_Compress_copy_MethodName.name, _PyCFunction_CAST(zlib_Compress_copy), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_Compress_copy__doc__},
 
 static PyObject *
 zlib_Compress_copy_impl(compobject *self, PyTypeObject *cls);
@@ -669,6 +665,10 @@ zlib_Compress_copy(PyObject *self, PyTypeObject *cls, PyObject *const *args, Py_
     return zlib_Compress_copy_impl((compobject *)self, cls);
 }
 
+static struct {char name[];} zlib_Compress_copy_MethodName = {.name = "copy",};
+#define ZLIB_COMPRESS_COPY_METHODDEF    \
+    {zlib_Compress_copy_MethodName.name, _PyCFunction_CAST(zlib_Compress_copy), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_Compress_copy__doc__},
+
 #endif /* defined(HAVE_ZLIB_COPY) */
 
 #if defined(HAVE_ZLIB_COPY)
@@ -677,10 +677,6 @@ PyDoc_STRVAR(zlib_Compress___copy____doc__,
 "__copy__($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} zlib_Compress___copy___MethodName = {.name = "__copy__",};
-#define ZLIB_COMPRESS___COPY___METHODDEF    \
-    {zlib_Compress___copy___MethodName.name, _PyCFunction_CAST(zlib_Compress___copy__), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_Compress___copy____doc__},
 
 static PyObject *
 zlib_Compress___copy___impl(compobject *self, PyTypeObject *cls);
@@ -695,6 +691,10 @@ zlib_Compress___copy__(PyObject *self, PyTypeObject *cls, PyObject *const *args,
     return zlib_Compress___copy___impl((compobject *)self, cls);
 }
 
+static struct {char name[];} zlib_Compress___copy___MethodName = {.name = "__copy__",};
+#define ZLIB_COMPRESS___COPY___METHODDEF    \
+    {zlib_Compress___copy___MethodName.name, _PyCFunction_CAST(zlib_Compress___copy__), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_Compress___copy____doc__},
+
 #endif /* defined(HAVE_ZLIB_COPY) */
 
 #if defined(HAVE_ZLIB_COPY)
@@ -703,10 +703,6 @@ PyDoc_STRVAR(zlib_Compress___deepcopy____doc__,
 "__deepcopy__($self, memo, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} zlib_Compress___deepcopy___MethodName = {.name = "__deepcopy__",};
-#define ZLIB_COMPRESS___DEEPCOPY___METHODDEF    \
-    {zlib_Compress___deepcopy___MethodName.name, _PyCFunction_CAST(zlib_Compress___deepcopy__), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_Compress___deepcopy____doc__},
 
 static PyObject *
 zlib_Compress___deepcopy___impl(compobject *self, PyTypeObject *cls,
@@ -744,6 +740,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} zlib_Compress___deepcopy___MethodName = {.name = "__deepcopy__",};
+#define ZLIB_COMPRESS___DEEPCOPY___METHODDEF    \
+    {zlib_Compress___deepcopy___MethodName.name, _PyCFunction_CAST(zlib_Compress___deepcopy__), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_Compress___deepcopy____doc__},
+
 #endif /* defined(HAVE_ZLIB_COPY) */
 
 #if defined(HAVE_ZLIB_COPY)
@@ -753,10 +753,6 @@ PyDoc_STRVAR(zlib_Decompress_copy__doc__,
 "--\n"
 "\n"
 "Return a copy of the decompression object.");
-
-static struct {char name[];} zlib_Decompress_copy_MethodName = {.name = "copy",};
-#define ZLIB_DECOMPRESS_COPY_METHODDEF    \
-    {zlib_Decompress_copy_MethodName.name, _PyCFunction_CAST(zlib_Decompress_copy), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_Decompress_copy__doc__},
 
 static PyObject *
 zlib_Decompress_copy_impl(compobject *self, PyTypeObject *cls);
@@ -771,6 +767,10 @@ zlib_Decompress_copy(PyObject *self, PyTypeObject *cls, PyObject *const *args, P
     return zlib_Decompress_copy_impl((compobject *)self, cls);
 }
 
+static struct {char name[];} zlib_Decompress_copy_MethodName = {.name = "copy",};
+#define ZLIB_DECOMPRESS_COPY_METHODDEF    \
+    {zlib_Decompress_copy_MethodName.name, _PyCFunction_CAST(zlib_Decompress_copy), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_Decompress_copy__doc__},
+
 #endif /* defined(HAVE_ZLIB_COPY) */
 
 #if defined(HAVE_ZLIB_COPY)
@@ -779,10 +779,6 @@ PyDoc_STRVAR(zlib_Decompress___copy____doc__,
 "__copy__($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} zlib_Decompress___copy___MethodName = {.name = "__copy__",};
-#define ZLIB_DECOMPRESS___COPY___METHODDEF    \
-    {zlib_Decompress___copy___MethodName.name, _PyCFunction_CAST(zlib_Decompress___copy__), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_Decompress___copy____doc__},
 
 static PyObject *
 zlib_Decompress___copy___impl(compobject *self, PyTypeObject *cls);
@@ -797,6 +793,10 @@ zlib_Decompress___copy__(PyObject *self, PyTypeObject *cls, PyObject *const *arg
     return zlib_Decompress___copy___impl((compobject *)self, cls);
 }
 
+static struct {char name[];} zlib_Decompress___copy___MethodName = {.name = "__copy__",};
+#define ZLIB_DECOMPRESS___COPY___METHODDEF    \
+    {zlib_Decompress___copy___MethodName.name, _PyCFunction_CAST(zlib_Decompress___copy__), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_Decompress___copy____doc__},
+
 #endif /* defined(HAVE_ZLIB_COPY) */
 
 #if defined(HAVE_ZLIB_COPY)
@@ -805,10 +805,6 @@ PyDoc_STRVAR(zlib_Decompress___deepcopy____doc__,
 "__deepcopy__($self, memo, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} zlib_Decompress___deepcopy___MethodName = {.name = "__deepcopy__",};
-#define ZLIB_DECOMPRESS___DEEPCOPY___METHODDEF    \
-    {zlib_Decompress___deepcopy___MethodName.name, _PyCFunction_CAST(zlib_Decompress___deepcopy__), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_Decompress___deepcopy____doc__},
 
 static PyObject *
 zlib_Decompress___deepcopy___impl(compobject *self, PyTypeObject *cls,
@@ -846,6 +842,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} zlib_Decompress___deepcopy___MethodName = {.name = "__deepcopy__",};
+#define ZLIB_DECOMPRESS___DEEPCOPY___METHODDEF    \
+    {zlib_Decompress___deepcopy___MethodName.name, _PyCFunction_CAST(zlib_Decompress___deepcopy__), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_Decompress___deepcopy____doc__},
+
 #endif /* defined(HAVE_ZLIB_COPY) */
 
 PyDoc_STRVAR(zlib_Decompress_flush__doc__,
@@ -856,10 +856,6 @@ PyDoc_STRVAR(zlib_Decompress_flush__doc__,
 "\n"
 "  length\n"
 "    the initial size of the output buffer.");
-
-static struct {char name[];} zlib_Decompress_flush_MethodName = {.name = "flush",};
-#define ZLIB_DECOMPRESS_FLUSH_METHODDEF    \
-    {zlib_Decompress_flush_MethodName.name, _PyCFunction_CAST(zlib_Decompress_flush), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_Decompress_flush__doc__},
 
 static PyObject *
 zlib_Decompress_flush_impl(compobject *self, PyTypeObject *cls,
@@ -912,6 +908,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} zlib_Decompress_flush_MethodName = {.name = "flush",};
+#define ZLIB_DECOMPRESS_FLUSH_METHODDEF    \
+    {zlib_Decompress_flush_MethodName.name, _PyCFunction_CAST(zlib_Decompress_flush), METH_METHOD|METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_Decompress_flush__doc__},
+
 PyDoc_STRVAR(zlib_ZlibDecompressor_decompress__doc__,
 "decompress($self, /, data, max_length=-1)\n"
 "--\n"
@@ -930,10 +930,6 @@ PyDoc_STRVAR(zlib_ZlibDecompressor_decompress__doc__,
 "Attempting to decompress data after the end of stream is reached raises an\n"
 "EOFError.  Any data found after the end of the stream is ignored and saved in\n"
 "the unused_data attribute.");
-
-static struct {char name[];} zlib_ZlibDecompressor_decompress_MethodName = {.name = "decompress",};
-#define ZLIB_ZLIBDECOMPRESSOR_DECOMPRESS_METHODDEF    \
-    {zlib_ZlibDecompressor_decompress_MethodName.name, _PyCFunction_CAST(zlib_ZlibDecompressor_decompress), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_ZlibDecompressor_decompress__doc__},
 
 static PyObject *
 zlib_ZlibDecompressor_decompress_impl(ZlibDecompressor *self,
@@ -1010,6 +1006,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} zlib_ZlibDecompressor_decompress_MethodName = {.name = "decompress",};
+#define ZLIB_ZLIBDECOMPRESSOR_DECOMPRESS_METHODDEF    \
+    {zlib_ZlibDecompressor_decompress_MethodName.name, _PyCFunction_CAST(zlib_ZlibDecompressor_decompress), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, zlib_ZlibDecompressor_decompress__doc__},
+
 PyDoc_STRVAR(zlib_adler32__doc__,
 "adler32($module, data, value=1, /)\n"
 "--\n"
@@ -1020,10 +1020,6 @@ PyDoc_STRVAR(zlib_adler32__doc__,
 "    Starting value of the checksum.\n"
 "\n"
 "The returned checksum is an integer.");
-
-static struct {char name[];} zlib_adler32_MethodName = {.name = "adler32",};
-#define ZLIB_ADLER32_METHODDEF    \
-    {zlib_adler32_MethodName.name, _PyCFunction_CAST(zlib_adler32), METH_FASTCALL|METH_C_STACK_FRUGAL, zlib_adler32__doc__},
 
 static PyObject *
 zlib_adler32_impl(PyObject *module, Py_buffer *data, unsigned int value);
@@ -1060,6 +1056,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} zlib_adler32_MethodName = {.name = "adler32",};
+#define ZLIB_ADLER32_METHODDEF    \
+    {zlib_adler32_MethodName.name, _PyCFunction_CAST(zlib_adler32), METH_FASTCALL|METH_C_STACK_FRUGAL, zlib_adler32__doc__},
+
 PyDoc_STRVAR(zlib_adler32_combine__doc__,
 "adler32_combine($module, adler1, adler2, len2, /)\n"
 "--\n"
@@ -1076,10 +1076,6 @@ PyDoc_STRVAR(zlib_adler32_combine__doc__,
 "Given the Adler-32 checksum \'adler1\' of a sequence A and the\n"
 "Adler-32 checksum \'adler2\' of a sequence B of length \'len2\',\n"
 "return the Adler-32 checksum of A and B concatenated.");
-
-static struct {char name[];} zlib_adler32_combine_MethodName = {.name = "adler32_combine",};
-#define ZLIB_ADLER32_COMBINE_METHODDEF    \
-    {zlib_adler32_combine_MethodName.name, _PyCFunction_CAST(zlib_adler32_combine), METH_FASTCALL|METH_C_STACK_FRUGAL, zlib_adler32_combine__doc__},
 
 static unsigned int
 zlib_adler32_combine_impl(PyObject *module, unsigned int adler1,
@@ -1120,6 +1116,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} zlib_adler32_combine_MethodName = {.name = "adler32_combine",};
+#define ZLIB_ADLER32_COMBINE_METHODDEF    \
+    {zlib_adler32_combine_MethodName.name, _PyCFunction_CAST(zlib_adler32_combine), METH_FASTCALL|METH_C_STACK_FRUGAL, zlib_adler32_combine__doc__},
+
 PyDoc_STRVAR(zlib_crc32__doc__,
 "crc32($module, data, value=0, /)\n"
 "--\n"
@@ -1130,10 +1130,6 @@ PyDoc_STRVAR(zlib_crc32__doc__,
 "    Starting value of the checksum.\n"
 "\n"
 "The returned checksum is an integer.");
-
-static struct {char name[];} zlib_crc32_MethodName = {.name = "crc32",};
-#define ZLIB_CRC32_METHODDEF    \
-    {zlib_crc32_MethodName.name, _PyCFunction_CAST(zlib_crc32), METH_FASTCALL|METH_C_STACK_FRUGAL, zlib_crc32__doc__},
 
 static unsigned int
 zlib_crc32_impl(PyObject *module, Py_buffer *data, unsigned int value);
@@ -1175,6 +1171,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} zlib_crc32_MethodName = {.name = "crc32",};
+#define ZLIB_CRC32_METHODDEF    \
+    {zlib_crc32_MethodName.name, _PyCFunction_CAST(zlib_crc32), METH_FASTCALL|METH_C_STACK_FRUGAL, zlib_crc32__doc__},
+
 PyDoc_STRVAR(zlib_crc32_combine__doc__,
 "crc32_combine($module, crc1, crc2, len2, /)\n"
 "--\n"
@@ -1191,10 +1191,6 @@ PyDoc_STRVAR(zlib_crc32_combine__doc__,
 "Given the CRC-32 checksum \'crc1\' of a sequence A and the\n"
 "CRC-32 checksum \'crc2\' of a sequence B of length \'len2\',\n"
 "return the CRC-32 checksum of A and B concatenated.");
-
-static struct {char name[];} zlib_crc32_combine_MethodName = {.name = "crc32_combine",};
-#define ZLIB_CRC32_COMBINE_METHODDEF    \
-    {zlib_crc32_combine_MethodName.name, _PyCFunction_CAST(zlib_crc32_combine), METH_FASTCALL|METH_C_STACK_FRUGAL, zlib_crc32_combine__doc__},
 
 static unsigned int
 zlib_crc32_combine_impl(PyObject *module, unsigned int crc1,
@@ -1235,6 +1231,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} zlib_crc32_combine_MethodName = {.name = "crc32_combine",};
+#define ZLIB_CRC32_COMBINE_METHODDEF    \
+    {zlib_crc32_combine_MethodName.name, _PyCFunction_CAST(zlib_crc32_combine), METH_FASTCALL|METH_C_STACK_FRUGAL, zlib_crc32_combine__doc__},
+
 #ifndef ZLIB_COMPRESS_COPY_METHODDEF
     #define ZLIB_COMPRESS_COPY_METHODDEF
 #endif /* !defined(ZLIB_COMPRESS_COPY_METHODDEF) */
@@ -1258,4 +1258,4 @@ exit:
 #ifndef ZLIB_DECOMPRESS___DEEPCOPY___METHODDEF
     #define ZLIB_DECOMPRESS___DEEPCOPY___METHODDEF
 #endif /* !defined(ZLIB_DECOMPRESS___DEEPCOPY___METHODDEF) */
-/*[clinic end generated code: output=766ab66238b7b71d input=a9049054013a1b77]*/
+/*[clinic end generated code: output=02adbabf9e4320bd input=a9049054013a1b77]*/

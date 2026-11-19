@@ -14,10 +14,6 @@ PyDoc_STRVAR(_testinternalcapi_compiler_cleandoc__doc__,
 "\n"
 "C implementation of inspect.cleandoc().");
 
-static struct {char name[];} _testinternalcapi_compiler_cleandoc_MethodName = {.name = "compiler_cleandoc",};
-#define _TESTINTERNALCAPI_COMPILER_CLEANDOC_METHODDEF    \
-    {_testinternalcapi_compiler_cleandoc_MethodName.name, _PyCFunction_CAST(_testinternalcapi_compiler_cleandoc), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _testinternalcapi_compiler_cleandoc__doc__},
-
 static PyObject *
 _testinternalcapi_compiler_cleandoc_impl(PyObject *module, PyObject *doc);
 
@@ -71,15 +67,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _testinternalcapi_compiler_cleandoc_MethodName = {.name = "compiler_cleandoc",};
+#define _TESTINTERNALCAPI_COMPILER_CLEANDOC_METHODDEF    \
+    {_testinternalcapi_compiler_cleandoc_MethodName.name, _PyCFunction_CAST(_testinternalcapi_compiler_cleandoc), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _testinternalcapi_compiler_cleandoc__doc__},
+
 PyDoc_STRVAR(_testinternalcapi_new_instruction_sequence__doc__,
 "new_instruction_sequence($module, /)\n"
 "--\n"
 "\n"
 "Return a new, empty InstructionSequence.");
-
-static struct {char name[];} _testinternalcapi_new_instruction_sequence_MethodName = {.name = "new_instruction_sequence",};
-#define _TESTINTERNALCAPI_NEW_INSTRUCTION_SEQUENCE_METHODDEF    \
-    {_testinternalcapi_new_instruction_sequence_MethodName.name, (PyCFunction)_testinternalcapi_new_instruction_sequence, METH_NOARGS|METH_C_STACK_FRUGAL, _testinternalcapi_new_instruction_sequence__doc__},
 
 static PyObject *
 _testinternalcapi_new_instruction_sequence_impl(PyObject *module);
@@ -90,15 +86,15 @@ _testinternalcapi_new_instruction_sequence(PyObject *module, PyObject *Py_UNUSED
     return _testinternalcapi_new_instruction_sequence_impl(module);
 }
 
+static struct {char name[];} _testinternalcapi_new_instruction_sequence_MethodName = {.name = "new_instruction_sequence",};
+#define _TESTINTERNALCAPI_NEW_INSTRUCTION_SEQUENCE_METHODDEF    \
+    {_testinternalcapi_new_instruction_sequence_MethodName.name, (PyCFunction)_testinternalcapi_new_instruction_sequence, METH_NOARGS|METH_C_STACK_FRUGAL, _testinternalcapi_new_instruction_sequence__doc__},
+
 PyDoc_STRVAR(_testinternalcapi_compiler_codegen__doc__,
 "compiler_codegen($module, /, ast, filename, optimize, compile_mode=0)\n"
 "--\n"
 "\n"
 "Apply compiler code generation to an AST.");
-
-static struct {char name[];} _testinternalcapi_compiler_codegen_MethodName = {.name = "compiler_codegen",};
-#define _TESTINTERNALCAPI_COMPILER_CODEGEN_METHODDEF    \
-    {_testinternalcapi_compiler_codegen_MethodName.name, _PyCFunction_CAST(_testinternalcapi_compiler_codegen), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _testinternalcapi_compiler_codegen__doc__},
 
 static PyObject *
 _testinternalcapi_compiler_codegen_impl(PyObject *module, PyObject *ast,
@@ -168,15 +164,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _testinternalcapi_compiler_codegen_MethodName = {.name = "compiler_codegen",};
+#define _TESTINTERNALCAPI_COMPILER_CODEGEN_METHODDEF    \
+    {_testinternalcapi_compiler_codegen_MethodName.name, _PyCFunction_CAST(_testinternalcapi_compiler_codegen), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _testinternalcapi_compiler_codegen__doc__},
+
 PyDoc_STRVAR(_testinternalcapi_optimize_cfg__doc__,
 "optimize_cfg($module, /, instructions, consts, nlocals)\n"
 "--\n"
 "\n"
 "Apply compiler optimizations to an instruction list.");
-
-static struct {char name[];} _testinternalcapi_optimize_cfg_MethodName = {.name = "optimize_cfg",};
-#define _TESTINTERNALCAPI_OPTIMIZE_CFG_METHODDEF    \
-    {_testinternalcapi_optimize_cfg_MethodName.name, _PyCFunction_CAST(_testinternalcapi_optimize_cfg), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _testinternalcapi_optimize_cfg__doc__},
 
 static PyObject *
 _testinternalcapi_optimize_cfg_impl(PyObject *module, PyObject *instructions,
@@ -235,15 +231,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _testinternalcapi_optimize_cfg_MethodName = {.name = "optimize_cfg",};
+#define _TESTINTERNALCAPI_OPTIMIZE_CFG_METHODDEF    \
+    {_testinternalcapi_optimize_cfg_MethodName.name, _PyCFunction_CAST(_testinternalcapi_optimize_cfg), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _testinternalcapi_optimize_cfg__doc__},
+
 PyDoc_STRVAR(_testinternalcapi_assemble_code_object__doc__,
 "assemble_code_object($module, /, filename, instructions, metadata)\n"
 "--\n"
 "\n"
 "Create a code object for the given instructions.");
-
-static struct {char name[];} _testinternalcapi_assemble_code_object_MethodName = {.name = "assemble_code_object",};
-#define _TESTINTERNALCAPI_ASSEMBLE_CODE_OBJECT_METHODDEF    \
-    {_testinternalcapi_assemble_code_object_MethodName.name, _PyCFunction_CAST(_testinternalcapi_assemble_code_object), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _testinternalcapi_assemble_code_object__doc__},
 
 static PyObject *
 _testinternalcapi_assemble_code_object_impl(PyObject *module,
@@ -301,14 +297,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _testinternalcapi_assemble_code_object_MethodName = {.name = "assemble_code_object",};
+#define _TESTINTERNALCAPI_ASSEMBLE_CODE_OBJECT_METHODDEF    \
+    {_testinternalcapi_assemble_code_object_MethodName.name, _PyCFunction_CAST(_testinternalcapi_assemble_code_object), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _testinternalcapi_assemble_code_object__doc__},
+
 PyDoc_STRVAR(_testinternalcapi_test_long_numbits__doc__,
 "test_long_numbits($module, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _testinternalcapi_test_long_numbits_MethodName = {.name = "test_long_numbits",};
-#define _TESTINTERNALCAPI_TEST_LONG_NUMBITS_METHODDEF    \
-    {_testinternalcapi_test_long_numbits_MethodName.name, (PyCFunction)_testinternalcapi_test_long_numbits, METH_NOARGS|METH_C_STACK_FRUGAL, _testinternalcapi_test_long_numbits__doc__},
 
 static PyObject *
 _testinternalcapi_test_long_numbits_impl(PyObject *module);
@@ -319,15 +315,15 @@ _testinternalcapi_test_long_numbits(PyObject *module, PyObject *Py_UNUSED(ignore
     return _testinternalcapi_test_long_numbits_impl(module);
 }
 
+static struct {char name[];} _testinternalcapi_test_long_numbits_MethodName = {.name = "test_long_numbits",};
+#define _TESTINTERNALCAPI_TEST_LONG_NUMBITS_METHODDEF    \
+    {_testinternalcapi_test_long_numbits_MethodName.name, (PyCFunction)_testinternalcapi_test_long_numbits, METH_NOARGS|METH_C_STACK_FRUGAL, _testinternalcapi_test_long_numbits__doc__},
+
 PyDoc_STRVAR(gh_119213_getargs__doc__,
 "gh_119213_getargs($module, /, spam=None)\n"
 "--\n"
 "\n"
 "Test _PyArg_Parser.kwtuple");
-
-static struct {char name[];} gh_119213_getargs_MethodName = {.name = "gh_119213_getargs",};
-#define GH_119213_GETARGS_METHODDEF    \
-    {gh_119213_getargs_MethodName.name, _PyCFunction_CAST(gh_119213_getargs), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, gh_119213_getargs__doc__},
 
 static PyObject *
 gh_119213_getargs_impl(PyObject *module, PyObject *spam);
@@ -383,14 +379,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} gh_119213_getargs_MethodName = {.name = "gh_119213_getargs",};
+#define GH_119213_GETARGS_METHODDEF    \
+    {gh_119213_getargs_MethodName.name, _PyCFunction_CAST(gh_119213_getargs), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, gh_119213_getargs__doc__},
+
 PyDoc_STRVAR(get_next_dict_keys_version__doc__,
 "get_next_dict_keys_version($module, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} get_next_dict_keys_version_MethodName = {.name = "get_next_dict_keys_version",};
-#define GET_NEXT_DICT_KEYS_VERSION_METHODDEF    \
-    {get_next_dict_keys_version_MethodName.name, (PyCFunction)get_next_dict_keys_version, METH_NOARGS|METH_C_STACK_FRUGAL, get_next_dict_keys_version__doc__},
 
 static PyObject *
 get_next_dict_keys_version_impl(PyObject *module);
@@ -400,4 +396,8 @@ get_next_dict_keys_version(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return get_next_dict_keys_version_impl(module);
 }
-/*[clinic end generated code: output=f13b5ae042b4db99 input=a9049054013a1b77]*/
+
+static struct {char name[];} get_next_dict_keys_version_MethodName = {.name = "get_next_dict_keys_version",};
+#define GET_NEXT_DICT_KEYS_VERSION_METHODDEF    \
+    {get_next_dict_keys_version_MethodName.name, (PyCFunction)get_next_dict_keys_version, METH_NOARGS|METH_C_STACK_FRUGAL, get_next_dict_keys_version__doc__},
+/*[clinic end generated code: output=0e7848d7f48c371e input=a9049054013a1b77]*/

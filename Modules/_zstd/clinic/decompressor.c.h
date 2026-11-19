@@ -97,6 +97,15 @@ PyDoc_STRVAR(_zstd_ZstdDecompressor_unused_data__doc__,
 #endif
 #define _zstd_ZstdDecompressor_unused_data_DOCSTR _zstd_ZstdDecompressor_unused_data__doc__
 
+static PyObject *
+_zstd_ZstdDecompressor_unused_data_get_impl(ZstdDecompressor *self);
+
+static PyObject *
+_zstd_ZstdDecompressor_unused_data_get(PyObject *self, void *Py_UNUSED(context))
+{
+    return _zstd_ZstdDecompressor_unused_data_get_impl((ZstdDecompressor *)self);
+}
+
 #if !defined(_zstd_ZstdDecompressor_unused_data_DOCSTR)
 #  define _zstd_ZstdDecompressor_unused_data_DOCSTR NULL
 #endif
@@ -106,15 +115,6 @@ PyDoc_STRVAR(_zstd_ZstdDecompressor_unused_data__doc__,
 #else
 #  define _ZSTD_ZSTDDECOMPRESSOR_UNUSED_DATA_GETSETDEF {"unused_data", (getter)_zstd_ZstdDecompressor_unused_data_get, NULL, _zstd_ZstdDecompressor_unused_data_DOCSTR},
 #endif
-
-static PyObject *
-_zstd_ZstdDecompressor_unused_data_get_impl(ZstdDecompressor *self);
-
-static PyObject *
-_zstd_ZstdDecompressor_unused_data_get(PyObject *self, void *Py_UNUSED(context))
-{
-    return _zstd_ZstdDecompressor_unused_data_get_impl((ZstdDecompressor *)self);
-}
 
 PyDoc_STRVAR(_zstd_ZstdDecompressor_decompress__doc__,
 "decompress($self, /, data, max_length=-1)\n"
@@ -141,10 +141,6 @@ PyDoc_STRVAR(_zstd_ZstdDecompressor_decompress__doc__,
 "Attempting to decompress data after the end of a frame is reached raises an\n"
 "EOFError. Any data found after the end of the frame is ignored and saved in\n"
 "the self.unused_data attribute.");
-
-static struct {char name[];} _zstd_ZstdDecompressor_decompress_MethodName = {.name = "decompress",};
-#define _ZSTD_ZSTDDECOMPRESSOR_DECOMPRESS_METHODDEF    \
-    {_zstd_ZstdDecompressor_decompress_MethodName.name, _PyCFunction_CAST(_zstd_ZstdDecompressor_decompress), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _zstd_ZstdDecompressor_decompress__doc__},
 
 static PyObject *
 _zstd_ZstdDecompressor_decompress_impl(ZstdDecompressor *self,
@@ -221,4 +217,8 @@ exit:
 
     return return_value;
 }
-/*[clinic end generated code: output=c22144b12cc8e610 input=a9049054013a1b77]*/
+
+static struct {char name[];} _zstd_ZstdDecompressor_decompress_MethodName = {.name = "decompress",};
+#define _ZSTD_ZSTDDECOMPRESSOR_DECOMPRESS_METHODDEF    \
+    {_zstd_ZstdDecompressor_decompress_MethodName.name, _PyCFunction_CAST(_zstd_ZstdDecompressor_decompress), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _zstd_ZstdDecompressor_decompress__doc__},
+/*[clinic end generated code: output=f74fe1a932bccc65 input=a9049054013a1b77]*/

@@ -22,10 +22,6 @@ PyDoc_STRVAR(_zstd_train_dict__doc__,
 "  dict_size\n"
 "    The size of the dictionary.");
 
-static struct {char name[];} _zstd_train_dict_MethodName = {.name = "train_dict",};
-#define _ZSTD_TRAIN_DICT_METHODDEF    \
-    {_zstd_train_dict_MethodName.name, _PyCFunction_CAST(_zstd_train_dict), METH_FASTCALL|METH_C_STACK_FRUGAL, _zstd_train_dict__doc__},
-
 static PyObject *
 _zstd_train_dict_impl(PyObject *module, PyBytesObject *samples_bytes,
                       PyObject *samples_sizes, Py_ssize_t dict_size);
@@ -69,6 +65,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _zstd_train_dict_MethodName = {.name = "train_dict",};
+#define _ZSTD_TRAIN_DICT_METHODDEF    \
+    {_zstd_train_dict_MethodName.name, _PyCFunction_CAST(_zstd_train_dict), METH_FASTCALL|METH_C_STACK_FRUGAL, _zstd_train_dict__doc__},
+
 PyDoc_STRVAR(_zstd_finalize_dict__doc__,
 "finalize_dict($module, custom_dict_bytes, samples_bytes, samples_sizes,\n"
 "              dict_size, compression_level, /)\n"
@@ -86,10 +86,6 @@ PyDoc_STRVAR(_zstd_finalize_dict__doc__,
 "    The size of the dictionary.\n"
 "  compression_level\n"
 "    Optimize for a specific Zstandard compression level, 0 means default.");
-
-static struct {char name[];} _zstd_finalize_dict_MethodName = {.name = "finalize_dict",};
-#define _ZSTD_FINALIZE_DICT_METHODDEF    \
-    {_zstd_finalize_dict_MethodName.name, _PyCFunction_CAST(_zstd_finalize_dict), METH_FASTCALL|METH_C_STACK_FRUGAL, _zstd_finalize_dict__doc__},
 
 static PyObject *
 _zstd_finalize_dict_impl(PyObject *module, PyBytesObject *custom_dict_bytes,
@@ -147,6 +143,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _zstd_finalize_dict_MethodName = {.name = "finalize_dict",};
+#define _ZSTD_FINALIZE_DICT_METHODDEF    \
+    {_zstd_finalize_dict_MethodName.name, _PyCFunction_CAST(_zstd_finalize_dict), METH_FASTCALL|METH_C_STACK_FRUGAL, _zstd_finalize_dict__doc__},
+
 PyDoc_STRVAR(_zstd_get_param_bounds__doc__,
 "get_param_bounds($module, /, parameter, is_compress)\n"
 "--\n"
@@ -157,10 +157,6 @@ PyDoc_STRVAR(_zstd_get_param_bounds__doc__,
 "    The parameter to get bounds.\n"
 "  is_compress\n"
 "    True for CompressionParameter, False for DecompressionParameter.");
-
-static struct {char name[];} _zstd_get_param_bounds_MethodName = {.name = "get_param_bounds",};
-#define _ZSTD_GET_PARAM_BOUNDS_METHODDEF    \
-    {_zstd_get_param_bounds_MethodName.name, _PyCFunction_CAST(_zstd_get_param_bounds), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _zstd_get_param_bounds__doc__},
 
 static PyObject *
 _zstd_get_param_bounds_impl(PyObject *module, int parameter, int is_compress);
@@ -219,6 +215,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _zstd_get_param_bounds_MethodName = {.name = "get_param_bounds",};
+#define _ZSTD_GET_PARAM_BOUNDS_METHODDEF    \
+    {_zstd_get_param_bounds_MethodName.name, _PyCFunction_CAST(_zstd_get_param_bounds), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _zstd_get_param_bounds__doc__},
+
 PyDoc_STRVAR(_zstd_get_frame_size__doc__,
 "get_frame_size($module, /, frame_buffer)\n"
 "--\n"
@@ -228,10 +228,6 @@ PyDoc_STRVAR(_zstd_get_frame_size__doc__,
 "  frame_buffer\n"
 "    A bytes-like object, it should start from the beginning of a frame,\n"
 "    and contains at least one complete frame.");
-
-static struct {char name[];} _zstd_get_frame_size_MethodName = {.name = "get_frame_size",};
-#define _ZSTD_GET_FRAME_SIZE_METHODDEF    \
-    {_zstd_get_frame_size_MethodName.name, _PyCFunction_CAST(_zstd_get_frame_size), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _zstd_get_frame_size__doc__},
 
 static PyObject *
 _zstd_get_frame_size_impl(PyObject *module, Py_buffer *frame_buffer);
@@ -289,6 +285,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _zstd_get_frame_size_MethodName = {.name = "get_frame_size",};
+#define _ZSTD_GET_FRAME_SIZE_METHODDEF    \
+    {_zstd_get_frame_size_MethodName.name, _PyCFunction_CAST(_zstd_get_frame_size), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _zstd_get_frame_size__doc__},
+
 PyDoc_STRVAR(_zstd_get_frame_info__doc__,
 "get_frame_info($module, /, frame_buffer)\n"
 "--\n"
@@ -297,10 +297,6 @@ PyDoc_STRVAR(_zstd_get_frame_info__doc__,
 "\n"
 "  frame_buffer\n"
 "    A bytes-like object, containing the header of a Zstandard frame.");
-
-static struct {char name[];} _zstd_get_frame_info_MethodName = {.name = "get_frame_info",};
-#define _ZSTD_GET_FRAME_INFO_METHODDEF    \
-    {_zstd_get_frame_info_MethodName.name, _PyCFunction_CAST(_zstd_get_frame_info), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _zstd_get_frame_info__doc__},
 
 static PyObject *
 _zstd_get_frame_info_impl(PyObject *module, Py_buffer *frame_buffer);
@@ -358,6 +354,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _zstd_get_frame_info_MethodName = {.name = "get_frame_info",};
+#define _ZSTD_GET_FRAME_INFO_METHODDEF    \
+    {_zstd_get_frame_info_MethodName.name, _PyCFunction_CAST(_zstd_get_frame_info), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _zstd_get_frame_info__doc__},
+
 PyDoc_STRVAR(_zstd_set_parameter_types__doc__,
 "set_parameter_types($module, /, c_parameter_type, d_parameter_type)\n"
 "--\n"
@@ -368,10 +368,6 @@ PyDoc_STRVAR(_zstd_set_parameter_types__doc__,
 "    CompressionParameter IntEnum type object\n"
 "  d_parameter_type\n"
 "    DecompressionParameter IntEnum type object");
-
-static struct {char name[];} _zstd_set_parameter_types_MethodName = {.name = "set_parameter_types",};
-#define _ZSTD_SET_PARAMETER_TYPES_METHODDEF    \
-    {_zstd_set_parameter_types_MethodName.name, _PyCFunction_CAST(_zstd_set_parameter_types), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _zstd_set_parameter_types__doc__},
 
 static PyObject *
 _zstd_set_parameter_types_impl(PyObject *module, PyObject *c_parameter_type,
@@ -432,4 +428,8 @@ _zstd_set_parameter_types(PyObject *module, PyObject *const *args, Py_ssize_t na
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=dd5bb996b737d9db input=a9049054013a1b77]*/
+
+static struct {char name[];} _zstd_set_parameter_types_MethodName = {.name = "set_parameter_types",};
+#define _ZSTD_SET_PARAMETER_TYPES_METHODDEF    \
+    {_zstd_set_parameter_types_MethodName.name, _PyCFunction_CAST(_zstd_set_parameter_types), METH_FASTCALL|METH_KEYWORDS|METH_C_STACK_FRUGAL, _zstd_set_parameter_types__doc__},
+/*[clinic end generated code: output=2f63c48a68151a37 input=a9049054013a1b77]*/

@@ -16,10 +16,6 @@ PyDoc_STRVAR(_io_StringIO_getvalue__doc__,
 "\n"
 "Retrieve the entire contents of the object.");
 
-static struct {char name[];} _io_StringIO_getvalue_MethodName = {.name = "getvalue",};
-#define _IO_STRINGIO_GETVALUE_METHODDEF    \
-    {_io_StringIO_getvalue_MethodName.name, (PyCFunction)_io_StringIO_getvalue, METH_NOARGS|METH_C_STACK_FRUGAL, _io_StringIO_getvalue__doc__},
-
 static PyObject *
 _io_StringIO_getvalue_impl(stringio *self);
 
@@ -35,15 +31,15 @@ _io_StringIO_getvalue(PyObject *self, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} _io_StringIO_getvalue_MethodName = {.name = "getvalue",};
+#define _IO_STRINGIO_GETVALUE_METHODDEF    \
+    {_io_StringIO_getvalue_MethodName.name, (PyCFunction)_io_StringIO_getvalue, METH_NOARGS|METH_C_STACK_FRUGAL, _io_StringIO_getvalue__doc__},
+
 PyDoc_STRVAR(_io_StringIO_tell__doc__,
 "tell($self, /)\n"
 "--\n"
 "\n"
 "Tell the current file position.");
-
-static struct {char name[];} _io_StringIO_tell_MethodName = {.name = "tell",};
-#define _IO_STRINGIO_TELL_METHODDEF    \
-    {_io_StringIO_tell_MethodName.name, (PyCFunction)_io_StringIO_tell, METH_NOARGS|METH_C_STACK_FRUGAL, _io_StringIO_tell__doc__},
 
 static PyObject *
 _io_StringIO_tell_impl(stringio *self);
@@ -60,6 +56,10 @@ _io_StringIO_tell(PyObject *self, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} _io_StringIO_tell_MethodName = {.name = "tell",};
+#define _IO_STRINGIO_TELL_METHODDEF    \
+    {_io_StringIO_tell_MethodName.name, (PyCFunction)_io_StringIO_tell, METH_NOARGS|METH_C_STACK_FRUGAL, _io_StringIO_tell__doc__},
+
 PyDoc_STRVAR(_io_StringIO_read__doc__,
 "read($self, size=-1, /)\n"
 "--\n"
@@ -68,10 +68,6 @@ PyDoc_STRVAR(_io_StringIO_read__doc__,
 "\n"
 "If the argument is negative or omitted, read until EOF\n"
 "is reached. Return an empty string at EOF.");
-
-static struct {char name[];} _io_StringIO_read_MethodName = {.name = "read",};
-#define _IO_STRINGIO_READ_METHODDEF    \
-    {_io_StringIO_read_MethodName.name, _PyCFunction_CAST(_io_StringIO_read), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_StringIO_read__doc__},
 
 static PyObject *
 _io_StringIO_read_impl(stringio *self, Py_ssize_t size);
@@ -100,6 +96,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io_StringIO_read_MethodName = {.name = "read",};
+#define _IO_STRINGIO_READ_METHODDEF    \
+    {_io_StringIO_read_MethodName.name, _PyCFunction_CAST(_io_StringIO_read), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_StringIO_read__doc__},
+
 PyDoc_STRVAR(_io_StringIO_readline__doc__,
 "readline($self, size=-1, /)\n"
 "--\n"
@@ -107,10 +107,6 @@ PyDoc_STRVAR(_io_StringIO_readline__doc__,
 "Read until newline or EOF.\n"
 "\n"
 "Returns an empty string if EOF is hit immediately.");
-
-static struct {char name[];} _io_StringIO_readline_MethodName = {.name = "readline",};
-#define _IO_STRINGIO_READLINE_METHODDEF    \
-    {_io_StringIO_readline_MethodName.name, _PyCFunction_CAST(_io_StringIO_readline), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_StringIO_readline__doc__},
 
 static PyObject *
 _io_StringIO_readline_impl(stringio *self, Py_ssize_t size);
@@ -139,6 +135,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io_StringIO_readline_MethodName = {.name = "readline",};
+#define _IO_STRINGIO_READLINE_METHODDEF    \
+    {_io_StringIO_readline_MethodName.name, _PyCFunction_CAST(_io_StringIO_readline), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_StringIO_readline__doc__},
+
 PyDoc_STRVAR(_io_StringIO_truncate__doc__,
 "truncate($self, pos=None, /)\n"
 "--\n"
@@ -148,10 +148,6 @@ PyDoc_STRVAR(_io_StringIO_truncate__doc__,
 "The pos argument defaults to the current file position, as\n"
 "returned by tell().  The current file position is unchanged.\n"
 "Returns the new absolute position.");
-
-static struct {char name[];} _io_StringIO_truncate_MethodName = {.name = "truncate",};
-#define _IO_STRINGIO_TRUNCATE_METHODDEF    \
-    {_io_StringIO_truncate_MethodName.name, _PyCFunction_CAST(_io_StringIO_truncate), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_StringIO_truncate__doc__},
 
 static PyObject *
 _io_StringIO_truncate_impl(stringio *self, PyObject *pos);
@@ -178,6 +174,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io_StringIO_truncate_MethodName = {.name = "truncate",};
+#define _IO_STRINGIO_TRUNCATE_METHODDEF    \
+    {_io_StringIO_truncate_MethodName.name, _PyCFunction_CAST(_io_StringIO_truncate), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_StringIO_truncate__doc__},
+
 PyDoc_STRVAR(_io_StringIO_seek__doc__,
 "seek($self, pos, whence=0, /)\n"
 "--\n"
@@ -189,10 +189,6 @@ PyDoc_STRVAR(_io_StringIO_seek__doc__,
 "    1  Current position - pos must be 0;\n"
 "    2  End of stream - pos must be 0.\n"
 "Returns the new absolute position.");
-
-static struct {char name[];} _io_StringIO_seek_MethodName = {.name = "seek",};
-#define _IO_STRINGIO_SEEK_METHODDEF    \
-    {_io_StringIO_seek_MethodName.name, _PyCFunction_CAST(_io_StringIO_seek), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_StringIO_seek__doc__},
 
 static PyObject *
 _io_StringIO_seek_impl(stringio *self, Py_ssize_t pos, int whence);
@@ -235,6 +231,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _io_StringIO_seek_MethodName = {.name = "seek",};
+#define _IO_STRINGIO_SEEK_METHODDEF    \
+    {_io_StringIO_seek_MethodName.name, _PyCFunction_CAST(_io_StringIO_seek), METH_FASTCALL|METH_C_STACK_FRUGAL, _io_StringIO_seek__doc__},
+
 PyDoc_STRVAR(_io_StringIO_write__doc__,
 "write($self, s, /)\n"
 "--\n"
@@ -243,10 +243,6 @@ PyDoc_STRVAR(_io_StringIO_write__doc__,
 "\n"
 "Returns the number of characters written, which is always equal to\n"
 "the length of the string.");
-
-static struct {char name[];} _io_StringIO_write_MethodName = {.name = "write",};
-#define _IO_STRINGIO_WRITE_METHODDEF    \
-    {_io_StringIO_write_MethodName.name, (PyCFunction)_io_StringIO_write, METH_O|METH_C_STACK_FRUGAL, _io_StringIO_write__doc__},
 
 static PyObject *
 _io_StringIO_write_impl(stringio *self, PyObject *obj);
@@ -263,6 +259,10 @@ _io_StringIO_write(PyObject *self, PyObject *obj)
     return return_value;
 }
 
+static struct {char name[];} _io_StringIO_write_MethodName = {.name = "write",};
+#define _IO_STRINGIO_WRITE_METHODDEF    \
+    {_io_StringIO_write_MethodName.name, (PyCFunction)_io_StringIO_write, METH_O|METH_C_STACK_FRUGAL, _io_StringIO_write__doc__},
+
 PyDoc_STRVAR(_io_StringIO_close__doc__,
 "close($self, /)\n"
 "--\n"
@@ -273,10 +273,6 @@ PyDoc_STRVAR(_io_StringIO_close__doc__,
 "will raise a ValueError.\n"
 "\n"
 "This method has no effect if the file is already closed.");
-
-static struct {char name[];} _io_StringIO_close_MethodName = {.name = "close",};
-#define _IO_STRINGIO_CLOSE_METHODDEF    \
-    {_io_StringIO_close_MethodName.name, (PyCFunction)_io_StringIO_close, METH_NOARGS|METH_C_STACK_FRUGAL, _io_StringIO_close__doc__},
 
 static PyObject *
 _io_StringIO_close_impl(stringio *self);
@@ -292,6 +288,10 @@ _io_StringIO_close(PyObject *self, PyObject *Py_UNUSED(ignored))
 
     return return_value;
 }
+
+static struct {char name[];} _io_StringIO_close_MethodName = {.name = "close",};
+#define _IO_STRINGIO_CLOSE_METHODDEF    \
+    {_io_StringIO_close_MethodName.name, (PyCFunction)_io_StringIO_close, METH_NOARGS|METH_C_STACK_FRUGAL, _io_StringIO_close__doc__},
 
 PyDoc_STRVAR(_io_StringIO___init____doc__,
 "StringIO(initial_value=\'\', newline=\'\\n\')\n"
@@ -372,10 +372,6 @@ PyDoc_STRVAR(_io_StringIO_readable__doc__,
 "\n"
 "Returns True if the IO object can be read.");
 
-static struct {char name[];} _io_StringIO_readable_MethodName = {.name = "readable",};
-#define _IO_STRINGIO_READABLE_METHODDEF    \
-    {_io_StringIO_readable_MethodName.name, (PyCFunction)_io_StringIO_readable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_StringIO_readable__doc__},
-
 static PyObject *
 _io_StringIO_readable_impl(stringio *self);
 
@@ -391,15 +387,15 @@ _io_StringIO_readable(PyObject *self, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} _io_StringIO_readable_MethodName = {.name = "readable",};
+#define _IO_STRINGIO_READABLE_METHODDEF    \
+    {_io_StringIO_readable_MethodName.name, (PyCFunction)_io_StringIO_readable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_StringIO_readable__doc__},
+
 PyDoc_STRVAR(_io_StringIO_writable__doc__,
 "writable($self, /)\n"
 "--\n"
 "\n"
 "Returns True if the IO object can be written.");
-
-static struct {char name[];} _io_StringIO_writable_MethodName = {.name = "writable",};
-#define _IO_STRINGIO_WRITABLE_METHODDEF    \
-    {_io_StringIO_writable_MethodName.name, (PyCFunction)_io_StringIO_writable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_StringIO_writable__doc__},
 
 static PyObject *
 _io_StringIO_writable_impl(stringio *self);
@@ -416,15 +412,15 @@ _io_StringIO_writable(PyObject *self, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} _io_StringIO_writable_MethodName = {.name = "writable",};
+#define _IO_STRINGIO_WRITABLE_METHODDEF    \
+    {_io_StringIO_writable_MethodName.name, (PyCFunction)_io_StringIO_writable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_StringIO_writable__doc__},
+
 PyDoc_STRVAR(_io_StringIO_seekable__doc__,
 "seekable($self, /)\n"
 "--\n"
 "\n"
 "Returns True if the IO object can be seeked.");
-
-static struct {char name[];} _io_StringIO_seekable_MethodName = {.name = "seekable",};
-#define _IO_STRINGIO_SEEKABLE_METHODDEF    \
-    {_io_StringIO_seekable_MethodName.name, (PyCFunction)_io_StringIO_seekable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_StringIO_seekable__doc__},
 
 static PyObject *
 _io_StringIO_seekable_impl(stringio *self);
@@ -441,14 +437,14 @@ _io_StringIO_seekable(PyObject *self, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} _io_StringIO_seekable_MethodName = {.name = "seekable",};
+#define _IO_STRINGIO_SEEKABLE_METHODDEF    \
+    {_io_StringIO_seekable_MethodName.name, (PyCFunction)_io_StringIO_seekable, METH_NOARGS|METH_C_STACK_FRUGAL, _io_StringIO_seekable__doc__},
+
 PyDoc_STRVAR(_io_StringIO___getstate____doc__,
 "__getstate__($self, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _io_StringIO___getstate___MethodName = {.name = "__getstate__",};
-#define _IO_STRINGIO___GETSTATE___METHODDEF    \
-    {_io_StringIO___getstate___MethodName.name, (PyCFunction)_io_StringIO___getstate__, METH_NOARGS|METH_C_STACK_FRUGAL, _io_StringIO___getstate____doc__},
 
 static PyObject *
 _io_StringIO___getstate___impl(stringio *self);
@@ -465,14 +461,14 @@ _io_StringIO___getstate__(PyObject *self, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} _io_StringIO___getstate___MethodName = {.name = "__getstate__",};
+#define _IO_STRINGIO___GETSTATE___METHODDEF    \
+    {_io_StringIO___getstate___MethodName.name, (PyCFunction)_io_StringIO___getstate__, METH_NOARGS|METH_C_STACK_FRUGAL, _io_StringIO___getstate____doc__},
+
 PyDoc_STRVAR(_io_StringIO___setstate____doc__,
 "__setstate__($self, state, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _io_StringIO___setstate___MethodName = {.name = "__setstate__",};
-#define _IO_STRINGIO___SETSTATE___METHODDEF    \
-    {_io_StringIO___setstate___MethodName.name, (PyCFunction)_io_StringIO___setstate__, METH_O|METH_C_STACK_FRUGAL, _io_StringIO___setstate____doc__},
 
 static PyObject *
 _io_StringIO___setstate___impl(stringio *self, PyObject *state);
@@ -489,15 +485,9 @@ _io_StringIO___setstate__(PyObject *self, PyObject *state)
     return return_value;
 }
 
-#if !defined(_io_StringIO_closed_DOCSTR)
-#  define _io_StringIO_closed_DOCSTR NULL
-#endif
-#if defined(_IO_STRINGIO_CLOSED_GETSETDEF)
-#  undef _IO_STRINGIO_CLOSED_GETSETDEF
-#  define _IO_STRINGIO_CLOSED_GETSETDEF {"closed", (getter)_io_StringIO_closed_get, (setter)_io_StringIO_closed_set, _io_StringIO_closed_DOCSTR},
-#else
-#  define _IO_STRINGIO_CLOSED_GETSETDEF {"closed", (getter)_io_StringIO_closed_get, NULL, _io_StringIO_closed_DOCSTR},
-#endif
+static struct {char name[];} _io_StringIO___setstate___MethodName = {.name = "__setstate__",};
+#define _IO_STRINGIO___SETSTATE___METHODDEF    \
+    {_io_StringIO___setstate___MethodName.name, (PyCFunction)_io_StringIO___setstate__, METH_O|METH_C_STACK_FRUGAL, _io_StringIO___setstate____doc__},
 
 static PyObject *
 _io_StringIO_closed_get_impl(stringio *self);
@@ -514,14 +504,14 @@ _io_StringIO_closed_get(PyObject *self, void *Py_UNUSED(context))
     return return_value;
 }
 
-#if !defined(_io_StringIO_line_buffering_DOCSTR)
-#  define _io_StringIO_line_buffering_DOCSTR NULL
+#if !defined(_io_StringIO_closed_DOCSTR)
+#  define _io_StringIO_closed_DOCSTR NULL
 #endif
-#if defined(_IO_STRINGIO_LINE_BUFFERING_GETSETDEF)
-#  undef _IO_STRINGIO_LINE_BUFFERING_GETSETDEF
-#  define _IO_STRINGIO_LINE_BUFFERING_GETSETDEF {"line_buffering", (getter)_io_StringIO_line_buffering_get, (setter)_io_StringIO_line_buffering_set, _io_StringIO_line_buffering_DOCSTR},
+#if defined(_IO_STRINGIO_CLOSED_GETSETDEF)
+#  undef _IO_STRINGIO_CLOSED_GETSETDEF
+#  define _IO_STRINGIO_CLOSED_GETSETDEF {"closed", (getter)_io_StringIO_closed_get, (setter)_io_StringIO_closed_set, _io_StringIO_closed_DOCSTR},
 #else
-#  define _IO_STRINGIO_LINE_BUFFERING_GETSETDEF {"line_buffering", (getter)_io_StringIO_line_buffering_get, NULL, _io_StringIO_line_buffering_DOCSTR},
+#  define _IO_STRINGIO_CLOSED_GETSETDEF {"closed", (getter)_io_StringIO_closed_get, NULL, _io_StringIO_closed_DOCSTR},
 #endif
 
 static PyObject *
@@ -539,14 +529,14 @@ _io_StringIO_line_buffering_get(PyObject *self, void *Py_UNUSED(context))
     return return_value;
 }
 
-#if !defined(_io_StringIO_newlines_DOCSTR)
-#  define _io_StringIO_newlines_DOCSTR NULL
+#if !defined(_io_StringIO_line_buffering_DOCSTR)
+#  define _io_StringIO_line_buffering_DOCSTR NULL
 #endif
-#if defined(_IO_STRINGIO_NEWLINES_GETSETDEF)
-#  undef _IO_STRINGIO_NEWLINES_GETSETDEF
-#  define _IO_STRINGIO_NEWLINES_GETSETDEF {"newlines", (getter)_io_StringIO_newlines_get, (setter)_io_StringIO_newlines_set, _io_StringIO_newlines_DOCSTR},
+#if defined(_IO_STRINGIO_LINE_BUFFERING_GETSETDEF)
+#  undef _IO_STRINGIO_LINE_BUFFERING_GETSETDEF
+#  define _IO_STRINGIO_LINE_BUFFERING_GETSETDEF {"line_buffering", (getter)_io_StringIO_line_buffering_get, (setter)_io_StringIO_line_buffering_set, _io_StringIO_line_buffering_DOCSTR},
 #else
-#  define _IO_STRINGIO_NEWLINES_GETSETDEF {"newlines", (getter)_io_StringIO_newlines_get, NULL, _io_StringIO_newlines_DOCSTR},
+#  define _IO_STRINGIO_LINE_BUFFERING_GETSETDEF {"line_buffering", (getter)_io_StringIO_line_buffering_get, NULL, _io_StringIO_line_buffering_DOCSTR},
 #endif
 
 static PyObject *
@@ -563,4 +553,14 @@ _io_StringIO_newlines_get(PyObject *self, void *Py_UNUSED(context))
 
     return return_value;
 }
-/*[clinic end generated code: output=70c73078ee073be3 input=a9049054013a1b77]*/
+
+#if !defined(_io_StringIO_newlines_DOCSTR)
+#  define _io_StringIO_newlines_DOCSTR NULL
+#endif
+#if defined(_IO_STRINGIO_NEWLINES_GETSETDEF)
+#  undef _IO_STRINGIO_NEWLINES_GETSETDEF
+#  define _IO_STRINGIO_NEWLINES_GETSETDEF {"newlines", (getter)_io_StringIO_newlines_get, (setter)_io_StringIO_newlines_set, _io_StringIO_newlines_DOCSTR},
+#else
+#  define _IO_STRINGIO_NEWLINES_GETSETDEF {"newlines", (getter)_io_StringIO_newlines_get, NULL, _io_StringIO_newlines_DOCSTR},
+#endif
+/*[clinic end generated code: output=8cce41a30db2e71d input=a9049054013a1b77]*/

@@ -105,16 +105,13 @@ PARSER_PROTOTYPE_KEYWORD: Final[str] = libclinic.normalize_snippet("""
 PARSER_PROTOTYPE_KEYWORD_C_INLINEABLE: Final[str] = libclinic.normalize_snippet("""
     static PyObject *
     {c_basename}_Inlineable({self_type}{self_name}, PyObject *args, PyObject *kwargs,
-               struct _PyInterpreterFrame **inlined);
-
+               struct _PyInterpreterFrame **inlined)
+""")
+PARSER_PROTOTYPE_KEYWORD_C_INLINEABLE_WRAPPER: Final[str] = libclinic.normalize_snippet("""
     static PyObject *
     {c_basename}({self_type}{self_name}, PyObject *args, PyObject *kwargs) {{
         return {c_basename}_Inlineable({self_name}, args, kwargs, NULL);
     }}
-
-    static PyObject *
-    {c_basename}_Inlineable({self_type}{self_name}, PyObject *args, PyObject *kwargs,
-               struct _PyInterpreterFrame **inlined)
 """)
 PARSER_PROTOTYPE_KEYWORD___INIT__: Final[str] = libclinic.normalize_snippet("""
     static int
@@ -123,36 +120,88 @@ PARSER_PROTOTYPE_KEYWORD___INIT__: Final[str] = libclinic.normalize_snippet("""
 PARSER_PROTOTYPE_KEYWORD___INIT___C_INLINEABLE: Final[str] = libclinic.normalize_snippet("""
     static int
     {c_basename}_Inlineable({self_type}{self_name}, PyObject *args, PyObject *kwargs,
-               struct _PyInterpreterFrame **inlined);
-
+               struct _PyInterpreterFrame **inlined)
+""")
+PARSER_PROTOTYPE_KEYWORD___INIT___C_INLINEABLE_WRAPPER: Final[str] = libclinic.normalize_snippet("""
     static int
     {c_basename}({self_type}{self_name}, PyObject *args, PyObject *kwargs) {{
         return {c_basename}_Inlineable({self_name}, args, kwargs, NULL);
     }}
-
-    static int
-    {c_basename}_Inlineable({self_type}{self_name}, PyObject *args, PyObject *kwargs,
-               struct _PyInterpreterFrame **inlined)
 """)
 PARSER_PROTOTYPE_VARARGS: Final[str] = libclinic.normalize_snippet("""
     static PyObject *
     {c_basename}({self_type}{self_name}, PyObject *args)
 """)
+PARSER_PROTOTYPE_VARARGS_C_INLINEABLE: Final[str] = libclinic.normalize_snippet("""
+    static PyObject *
+    {c_basename}_Inlineable({self_type}{self_name}, PyObject *args,
+               struct _PyInterpreterFrame **inlined)
+""")
+PARSER_PROTOTYPE_VARARGS_C_INLINEABLE_WRAPPER: Final[str] = libclinic.normalize_snippet("""
+    static PyObject *
+    {c_basename}({self_type}{self_name}, PyObject *args){{
+        return {c_basename}_Inlineable({self_name}, args, NULL);
+    }}
+""")
 PARSER_PROTOTYPE_FASTCALL: Final[str] = libclinic.normalize_snippet("""
     static PyObject *
     {c_basename}({self_type}{self_name}, PyObject *const *args, Py_ssize_t nargs)
+""")
+PARSER_PROTOTYPE_FASTCALL_C_INLINEABLE: Final[str] = libclinic.normalize_snippet("""
+    static PyObject *
+    {c_basename}_Inlineable({self_type}{self_name}, PyObject *const *args, Py_ssize_t nargs,
+               struct _PyInterpreterFrame **inlined)
+""")
+PARSER_PROTOTYPE_FASTCALL_C_INLINEABLE_WRAPPER: Final[str] = libclinic.normalize_snippet("""
+    static PyObject *
+    {c_basename}({self_type}{self_name}, PyObject *const *args, Py_ssize_t nargs){{
+        return {c_basename}_Inlineable({self_name}, args, nargs, NULL);
+    }}
 """)
 PARSER_PROTOTYPE_FASTCALL_KEYWORDS: Final[str] = libclinic.normalize_snippet("""
     static PyObject *
     {c_basename}({self_type}{self_name}, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 """)
+PARSER_PROTOTYPE_FASTCALL_KEYWORDS_C_INLINEABLE: Final[str] = libclinic.normalize_snippet("""
+    static PyObject *
+    {c_basename}_inlineable({self_type}{self_name}, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames,
+               struct _PyInterpreterFrame **inlined)
+""")
+PARSER_PROTOTYPE_FASTCALL_KEYWORDS_C_INLINEABLE_WRAPPER: Final[str] = libclinic.normalize_snippet("""
+    static PyObject *
+    {c_basename}({self_type}{self_name}, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames){{
+        return {c_basename}_Inlineable({self_name}, args, nargs, kwnames, NULL);
+    }}
+""")
 PARSER_PROTOTYPE_DEF_CLASS: Final[str] = libclinic.normalize_snippet("""
     static PyObject *
     {c_basename}({self_type}{self_name}, PyTypeObject *{defining_class_name}, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames)
 """)
+PARSER_PROTOTYPE_DEF_CLASS_C_INLINEABLE: Final[str] = libclinic.normalize_snippet("""
+    static PyObject *
+    {c_basename}_Inlineable({self_type}{self_name}, PyTypeObject *{defining_class_name}, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames,
+               struct _PyInterpreterFrame **inlined)
+""")
+PARSER_PROTOTYPE_DEF_CLASS_C_INLINEABLE_WRAPPER: Final[str] = libclinic.normalize_snippet("""
+    static PyObject *
+    {c_basename}({self_type}{self_name}, PyTypeObject *{defining_class_name}, PyObject *const *args, Py_ssize_t nargs, PyObject *kwnames){{
+        return {c_basename}_Inlineable({self_name}, {defining_class_name}, args, nargs, kwnames, NULL);
+    }}
+""")
 PARSER_PROTOTYPE_NOARGS: Final[str] = libclinic.normalize_snippet("""
     static PyObject *
     {c_basename}({self_type}{self_name}, PyObject *Py_UNUSED(ignored))
+""")
+PARSER_PROTOTYPE_NOARGS_C_INLINEABLE: Final[str] = libclinic.normalize_snippet("""
+    static PyObject *
+    {c_basename}_Inlineable({self_type}{self_name}, PyObject *Py_UNUSED(ignored),
+               struct _PyInterpreterFrame **inlined)
+""")
+PARSER_PROTOTYPE_NOARGS_C_INLINEABLE_WRAPPER: Final[str] = libclinic.normalize_snippet("""
+    static PyObject *
+    {c_basename}({self_type}{self_name}, PyObject *unusedarg){{
+        return {c_basename}_Inlineable({self_name}, unusedarg, NULL);
+    }}
 """)
 PARSER_PROTOTYPE_GETTER: Final[str] = libclinic.normalize_snippet("""
     static PyObject *
@@ -166,15 +215,17 @@ METH_O_PROTOTYPE: Final[str] = libclinic.normalize_snippet("""
     static PyObject *
     {c_basename}({self_type}{self_name}, {parser_parameters})
 """)
-METH_O_PROTOTYPE_INLINEABLE: Final[str] = libclinic.normalize_snippet("""
+METH_O_PROTOTYPE_C_INLINEABLE: Final[str] = libclinic.normalize_snippet("""
+    static PyObject *
+    {c_basename}_Inlineable({self_type}{self_name}, {parser_parameters}, struct _PyInterpreterFrame **inlined)
+""")
+METH_O_PROTOTYPE_C_INLINEABLE_WRAPPER: Final[str] = libclinic.normalize_snippet("""
     static PyObject *
     {c_basename}_Inlineable({self_type}{self_name}, {parser_parameters}, struct _PyInterpreterFrame **inlined);
     static PyObject *
     {c_basename}({self_type}{self_name}, {parser_parameters}){{
         return {c_basename}_Inlineable({parser_arguments}, NULL);
     }}
-    static PyObject *
-    {c_basename}_Inlineable({self_type}{self_name}, {parser_parameters}, struct _PyInterpreterFrame **inlined)
 """)
 DOCSTRING_PROTOTYPE_VAR: Final[str] = libclinic.normalize_snippet("""
     PyDoc_VAR({c_basename}__doc__);
@@ -201,8 +252,6 @@ METHODDEF_PROTOTYPE_DEFINE: Final[str] = libclinic.normalize_snippet(r"""
         {{{c_basename}_MethodName.name, {methoddef_cast}{c_basename}{methoddef_cast_end}, {methoddef_flags}, {c_basename}__doc__}},
 """)
 METHODDEF_PROTOTYPE_DEFINE_INLINEABLE: Final[str] = libclinic.normalize_snippet(r"""
-    static PyObject *
-    {c_basename}_Inlineable({self_type}{self_name}, {parser_parameters}, struct _PyInterpreterFrame **inlined);
     static struct {{void *func_inlineable; char name[];}} {c_basename}_MethodName = {{.func_inlineable = {c_basename}_Inlineable, .name = "{name}",}};
     #define {methoddef_name}    \
         {{{c_basename}_MethodName.name, {methoddef_cast}{c_basename}{methoddef_cast_end}, {methoddef_flags}, {c_basename}__doc__}},
@@ -426,13 +475,21 @@ class ParseArgsCodeGen:
         elif not self.requires_defining_class:
             # no self.parameters, METH_NOARGS
             self.flags = "METH_NOARGS"
-            self.parser_prototype = PARSER_PROTOTYPE_NOARGS
+            if self.func.c_inlineable:
+                self.parser_prototype = PARSER_PROTOTYPE_NOARGS_C_INLINEABLE
+                self.non_c_inline_wrapper = PARSER_PROTOTYPE_NOARGS_C_INLINEABLE_WRAPPER
+            else:
+                self.parser_prototype = PARSER_PROTOTYPE_NOARGS
             parser_code = []
         else:
             assert self.fastcall
 
             self.flags = "METH_METHOD|METH_FASTCALL|METH_KEYWORDS"
-            self.parser_prototype = PARSER_PROTOTYPE_DEF_CLASS
+            if self.func.c_inlineable:
+                self.parser_prototype = PARSER_PROTOTYPE_DEF_CLASS_C_INLINEABLE
+                self.non_c_inline_wrapper = PARSER_PROTOTYPE_DEF_CLASS_C_INLINEABLE_WRAPPER
+            else:
+                self.parser_prototype = PARSER_PROTOTYPE_DEF_CLASS
             return_error = ('return NULL;' if simple_return
                             else 'goto exit;')
             parser_code = [libclinic.normalize_snippet("""
@@ -457,7 +514,11 @@ class ParseArgsCodeGen:
 
         if (isinstance(self.converters[0], object_converter) and
             self.converters[0].format_unit == 'O'):
-            meth_o_prototype = METH_O_PROTOTYPE_INLINEABLE if self.func.c_inlineable else METH_O_PROTOTYPE
+            if self.func.c_inlineable:
+                meth_o_prototype = METH_O_PROTOTYPE_C_INLINEABLE
+                self.non_c_inline_wrapper = METH_O_PROTOTYPE_C_INLINEABLE_WRAPPER
+            else:
+                meth_o_prototype = METH_O_PROTOTYPE
 
             if self.use_simple_return() and self.use_pyobject_self():
                 # maps perfectly to METH_O, doesn't need a return converter.
@@ -501,7 +562,11 @@ class ParseArgsCodeGen:
         #  in a big switch statement)
 
         self.flags = "METH_VARARGS"
-        self.parser_prototype = PARSER_PROTOTYPE_VARARGS
+        if self.func.c_inlineable:
+            self.parser_prototype = PARSER_PROTOTYPE_VARARGS_C_INLINEABLE
+            self.non_c_inline_wrapper = PARSER_PROTOTYPE_VARARGS_C_INLINEABLE_WRAPPER
+        else:
+            self.parser_prototype = PARSER_PROTOTYPE_VARARGS
         parser_code = '    {option_group_parsing}'
         self.parser_body(parser_code)
 
@@ -521,7 +586,11 @@ class ParseArgsCodeGen:
             # we only need one call to _PyArg_ParseStack
 
             self.flags = "METH_FASTCALL"
-            self.parser_prototype = PARSER_PROTOTYPE_FASTCALL
+            if self.func.c_inlineable:
+                self.parser_prototype = PARSER_PROTOTYPE_FASTCALL_C_INLINEABLE
+                self.non_c_inline_wrapper = PARSER_PROTOTYPE_FASTCALL_C_INLINEABLE_WRAPPER
+            else:
+                self.parser_prototype = PARSER_PROTOTYPE_FASTCALL
             nargs = 'nargs'
             argname_fmt = 'args[%d]'
         else:
@@ -529,7 +598,11 @@ class ParseArgsCodeGen:
             # we only need one call to PyArg_ParseTuple
 
             self.flags = "METH_VARARGS"
-            self.parser_prototype = PARSER_PROTOTYPE_VARARGS
+            if self.func.c_inlineable:
+                self.parser_prototype = PARSER_PROTOTYPE_VARARGS_C_INLINEABLE
+                self.non_c_inline_wrapper = PARSER_PROTOTYPE_VARARGS_C_INLINEABLE_WRAPPER
+            else:
+                self.parser_prototype = PARSER_PROTOTYPE_VARARGS
             if self.limited_capi:
                 nargs = 'PyTuple_Size(args)'
                 argname_fmt = 'PyTuple_GetItem(args, %d)'
@@ -627,7 +700,11 @@ class ParseArgsCodeGen:
                     """, indent=4)]
             else:
                 self.flags = "METH_VARARGS"
-                self.parser_prototype = PARSER_PROTOTYPE_VARARGS
+                if self.func.c_inlineable:
+                    self.parser_prototype = PARSER_PROTOTYPE_VARARGS_C_INLINEABLE
+                    self.non_c_inline_wrapper = PARSER_PROTOTYPE_VARARGS_C_INLINEABLE_WRAPPER
+                else:
+                    self.parser_prototype = PARSER_PROTOTYPE_VARARGS
                 parser_code = [libclinic.normalize_snippet("""
                     if (!PyArg_ParseTuple(args, "{format_units}:{name}",
                         {parse_arguments})) {{
@@ -666,7 +743,11 @@ class ParseArgsCodeGen:
 
             if self.fastcall:
                 self.flags = "METH_FASTCALL|METH_KEYWORDS"
-                self.parser_prototype = PARSER_PROTOTYPE_FASTCALL_KEYWORDS
+                if self.func.c_inlineable:
+                    self.parser_prototype = PARSER_PROTOTYPE_FASTCALL_KEYWORDS_C_INLINEABLE
+                    self.non_c_inline_wrapper = PARSER_PROTOTYPE_FASTCALL_KEYWORDS_C_INLINEABLE_WRAPPER
+                else:
+                    self.parser_prototype = PARSER_PROTOTYPE_FASTCALL_KEYWORDS
                 self.declarations = declare_parser(self.func, codegen=self.codegen)
                 self.declarations += "\nPyObject *argsbuf[%s];" % (len(self.converters) or 1)
                 if self.varpos:
@@ -682,7 +763,11 @@ class ParseArgsCodeGen:
             else:
                 # positional-or-keyword arguments
                 self.flags = "METH_VARARGS|METH_KEYWORDS"
-                self.parser_prototype = PARSER_PROTOTYPE_KEYWORD_C_INLINEABLE if self.func.c_inlineable else PARSER_PROTOTYPE_KEYWORD
+                if self.func.c_inlineable:
+                    self.parser_prototype = PARSER_PROTOTYPE_KEYWORD_C_INLINEABLE
+                    self.non_c_inline_wrapper = PARSER_PROTOTYPE_KEYWORD_C_INLINEABLE_WRAPPER
+                else:
+                    self.parser_prototype = PARSER_PROTOTYPE_KEYWORD
                 argsname = 'fastargs'
                 argname_fmt = 'fastargs[%d]'
                 self.declarations = declare_parser(self.func, codegen=self.codegen)
@@ -784,7 +869,11 @@ class ParseArgsCodeGen:
                 # positional-or-keyword arguments
                 assert not self.fastcall
                 self.flags = "METH_VARARGS|METH_KEYWORDS"
-                self.parser_prototype = PARSER_PROTOTYPE_KEYWORD_C_INLINEABLE if self.func.c_inlineable else PARSER_PROTOTYPE_KEYWORD
+                if self.func.c_inlineable:
+                    self.parser_prototype = PARSER_PROTOTYPE_KEYWORD_C_INLINEABLE
+                    self.non_c_inline_wrapper = PARSER_PROTOTYPE_KEYWORD_C_INLINEABLE_WRAPPER
+                else:
+                    self.parser_prototype = PARSER_PROTOTYPE_KEYWORD
                 parser_code = [libclinic.normalize_snippet("""
                     if (!PyArg_ParseTupleAndKeywords(args, kwargs, "{format_units}:{name}", _keywords,
                         {parse_arguments}))
@@ -845,10 +934,18 @@ class ParseArgsCodeGen:
         self.methoddef_define = ''
 
         if self.func.kind is METHOD_NEW:
-            self.parser_prototype = PARSER_PROTOTYPE_KEYWORD_C_INLINEABLE if self.func.c_inlineable else PARSER_PROTOTYPE_KEYWORD
+            if self.func.c_inlineable:
+                self.parser_prototype = PARSER_PROTOTYPE_KEYWORD_C_INLINEABLE
+                self.non_c_inline_wrapper = PARSER_PROTOTYPE_KEYWORD_C_INLINEABLE_WRAPPER
+            else:
+                self.parser_prototype = PARSER_PROTOTYPE_KEYWORD
         else:
             self.return_value_declaration = "int return_value = -1;"
-            self.parser_prototype = PARSER_PROTOTYPE_KEYWORD___INIT___C_INLINEABLE if self.func.c_inlineable else PARSER_PROTOTYPE_KEYWORD___INIT__
+            if self.func.c_inlineable:
+                self.parser_prototype = PARSER_PROTOTYPE_KEYWORD___INIT___C_INLINEABLE
+                self.non_c_inline_wrapper = PARSER_PROTOTYPE_KEYWORD___INIT___C_INLINEABLE_WRAPPER
+            else:
+                self.parser_prototype = PARSER_PROTOTYPE_KEYWORD___INIT__
 
         fields: list[str] = list(self.parser_body_fields)
         parses_positional = 'METH_NOARGS' not in self.flags
@@ -936,6 +1033,7 @@ class ParseArgsCodeGen:
             "methoddef_define" : self.methoddef_define,
             "parser_prototype" : self.parser_prototype,
             "parser_definition" : self.parser_definition,
+            "non_c_inline_wrapper": self.non_c_inline_wrapper,
             "impl_definition" : self.impl_definition,
             "cpp_if" : self.cpp_if,
             "cpp_endif" : self.cpp_endif,
@@ -959,6 +1057,7 @@ class ParseArgsCodeGen:
         self.flags = ""
         self.declarations = ""
         self.parser_prototype = ""
+        self.non_c_inline_wrapper = ""
         self.parser_definition = ""
         self.impl_prototype = None
         self.impl_definition = IMPL_DEFINITION_PROTOTYPE

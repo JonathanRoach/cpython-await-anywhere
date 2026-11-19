@@ -596,10 +596,11 @@ class ClinicWholeFileTest(TestCase):
              - 'cpp_if'
              - 'docstring_prototype'
              - 'docstring_definition'
-             - 'methoddef_define'
              - 'impl_prototype'
              - 'parser_prototype'
              - 'parser_definition'
+             - 'non_c_inline_wrapper'
+             - 'methoddef_define'
              - 'cpp_endif'
              - 'methoddef_ifndef'
              - 'impl_definition'
@@ -2657,8 +2658,6 @@ class ClinicExternalTest(TestCase):
         with open(TESTFN, encoding='utf-8') as f:
             new_contents = f.read()
 
-        with open(source+'.c', encoding='utf-8', mode='w') as f:
-            f.write(new_contents)
         self.assertEqual(new_contents, orig_contents)
 
     def test_no_change(self):
@@ -2713,7 +2712,7 @@ class ClinicExternalTest(TestCase):
             # Verify by checking the checksum.
             checksum = (
                 "/*[clinic end generated code: "
-                "output=1e3b035227485b95 input=9543a8d2da235301]*/\n"
+                "output=508761ea5ed50ee8 input=9543a8d2da235301]*/\n"
             )
             with open(fn, encoding='utf-8') as f:
                 generated = f.read()

@@ -14,10 +14,6 @@ PyDoc_STRVAR(_gdbm_gdbm_get__doc__,
 "\n"
 "Get the value for key, or default if not present.");
 
-static struct {char name[];} _gdbm_gdbm_get_MethodName = {.name = "get",};
-#define _GDBM_GDBM_GET_METHODDEF    \
-    {_gdbm_gdbm_get_MethodName.name, _PyCFunction_CAST(_gdbm_gdbm_get), METH_FASTCALL, _gdbm_gdbm_get__doc__},
-
 static PyObject *
 _gdbm_gdbm_get_impl(gdbmobject *self, PyObject *key, PyObject *default_value);
 
@@ -43,15 +39,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _gdbm_gdbm_get_MethodName = {.name = "get",};
+#define _GDBM_GDBM_GET_METHODDEF    \
+    {_gdbm_gdbm_get_MethodName.name, _PyCFunction_CAST(_gdbm_gdbm_get), METH_FASTCALL, _gdbm_gdbm_get__doc__},
+
 PyDoc_STRVAR(_gdbm_gdbm_setdefault__doc__,
 "setdefault($self, key, default=None, /)\n"
 "--\n"
 "\n"
 "Get value for key, or set it to default and return default if not present.");
-
-static struct {char name[];} _gdbm_gdbm_setdefault_MethodName = {.name = "setdefault",};
-#define _GDBM_GDBM_SETDEFAULT_METHODDEF    \
-    {_gdbm_gdbm_setdefault_MethodName.name, _PyCFunction_CAST(_gdbm_gdbm_setdefault), METH_FASTCALL, _gdbm_gdbm_setdefault__doc__},
 
 static PyObject *
 _gdbm_gdbm_setdefault_impl(gdbmobject *self, PyObject *key,
@@ -81,15 +77,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _gdbm_gdbm_setdefault_MethodName = {.name = "setdefault",};
+#define _GDBM_GDBM_SETDEFAULT_METHODDEF    \
+    {_gdbm_gdbm_setdefault_MethodName.name, _PyCFunction_CAST(_gdbm_gdbm_setdefault), METH_FASTCALL, _gdbm_gdbm_setdefault__doc__},
+
 PyDoc_STRVAR(_gdbm_gdbm_close__doc__,
 "close($self, /)\n"
 "--\n"
 "\n"
 "Close the database.");
-
-static struct {char name[];} _gdbm_gdbm_close_MethodName = {.name = "close",};
-#define _GDBM_GDBM_CLOSE_METHODDEF    \
-    {_gdbm_gdbm_close_MethodName.name, (PyCFunction)_gdbm_gdbm_close, METH_NOARGS, _gdbm_gdbm_close__doc__},
 
 static PyObject *
 _gdbm_gdbm_close_impl(gdbmobject *self);
@@ -106,15 +102,15 @@ _gdbm_gdbm_close(PyObject *self, PyObject *Py_UNUSED(ignored))
     return return_value;
 }
 
+static struct {char name[];} _gdbm_gdbm_close_MethodName = {.name = "close",};
+#define _GDBM_GDBM_CLOSE_METHODDEF    \
+    {_gdbm_gdbm_close_MethodName.name, (PyCFunction)_gdbm_gdbm_close, METH_NOARGS, _gdbm_gdbm_close__doc__},
+
 PyDoc_STRVAR(_gdbm_gdbm_keys__doc__,
 "keys($self, /)\n"
 "--\n"
 "\n"
 "Get a list of all keys in the database.");
-
-static struct {char name[];} _gdbm_gdbm_keys_MethodName = {.name = "keys",};
-#define _GDBM_GDBM_KEYS_METHODDEF    \
-    {_gdbm_gdbm_keys_MethodName.name, _PyCFunction_CAST(_gdbm_gdbm_keys), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _gdbm_gdbm_keys__doc__},
 
 static PyObject *
 _gdbm_gdbm_keys_impl(gdbmobject *self, PyTypeObject *cls);
@@ -136,6 +132,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _gdbm_gdbm_keys_MethodName = {.name = "keys",};
+#define _GDBM_GDBM_KEYS_METHODDEF    \
+    {_gdbm_gdbm_keys_MethodName.name, _PyCFunction_CAST(_gdbm_gdbm_keys), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _gdbm_gdbm_keys__doc__},
+
 PyDoc_STRVAR(_gdbm_gdbm_firstkey__doc__,
 "firstkey($self, /)\n"
 "--\n"
@@ -145,10 +145,6 @@ PyDoc_STRVAR(_gdbm_gdbm_firstkey__doc__,
 "It\'s possible to loop over every key in the database using this method\n"
 "and the nextkey() method.  The traversal is ordered by GDBM\'s internal\n"
 "hash values, and won\'t be sorted by the key values.");
-
-static struct {char name[];} _gdbm_gdbm_firstkey_MethodName = {.name = "firstkey",};
-#define _GDBM_GDBM_FIRSTKEY_METHODDEF    \
-    {_gdbm_gdbm_firstkey_MethodName.name, _PyCFunction_CAST(_gdbm_gdbm_firstkey), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _gdbm_gdbm_firstkey__doc__},
 
 static PyObject *
 _gdbm_gdbm_firstkey_impl(gdbmobject *self, PyTypeObject *cls);
@@ -170,6 +166,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _gdbm_gdbm_firstkey_MethodName = {.name = "firstkey",};
+#define _GDBM_GDBM_FIRSTKEY_METHODDEF    \
+    {_gdbm_gdbm_firstkey_MethodName.name, _PyCFunction_CAST(_gdbm_gdbm_firstkey), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _gdbm_gdbm_firstkey__doc__},
+
 PyDoc_STRVAR(_gdbm_gdbm_nextkey__doc__,
 "nextkey($self, key, /)\n"
 "--\n"
@@ -183,10 +183,6 @@ PyDoc_STRVAR(_gdbm_gdbm_nextkey__doc__,
 "      while k is not None:\n"
 "          print(k)\n"
 "          k = db.nextkey(k)");
-
-static struct {char name[];} _gdbm_gdbm_nextkey_MethodName = {.name = "nextkey",};
-#define _GDBM_GDBM_NEXTKEY_METHODDEF    \
-    {_gdbm_gdbm_nextkey_MethodName.name, _PyCFunction_CAST(_gdbm_gdbm_nextkey), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _gdbm_gdbm_nextkey__doc__},
 
 static PyObject *
 _gdbm_gdbm_nextkey_impl(gdbmobject *self, PyTypeObject *cls, const char *key,
@@ -224,6 +220,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _gdbm_gdbm_nextkey_MethodName = {.name = "nextkey",};
+#define _GDBM_GDBM_NEXTKEY_METHODDEF    \
+    {_gdbm_gdbm_nextkey_MethodName.name, _PyCFunction_CAST(_gdbm_gdbm_nextkey), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _gdbm_gdbm_nextkey__doc__},
+
 PyDoc_STRVAR(_gdbm_gdbm_reorganize__doc__,
 "reorganize($self, /)\n"
 "--\n"
@@ -235,10 +235,6 @@ PyDoc_STRVAR(_gdbm_gdbm_reorganize__doc__,
 "database.  GDBM will not shorten the length of a database file except\n"
 "by using this reorganization; otherwise, deleted file space will be\n"
 "kept and reused as new (key,value) pairs are added.");
-
-static struct {char name[];} _gdbm_gdbm_reorganize_MethodName = {.name = "reorganize",};
-#define _GDBM_GDBM_REORGANIZE_METHODDEF    \
-    {_gdbm_gdbm_reorganize_MethodName.name, _PyCFunction_CAST(_gdbm_gdbm_reorganize), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _gdbm_gdbm_reorganize__doc__},
 
 static PyObject *
 _gdbm_gdbm_reorganize_impl(gdbmobject *self, PyTypeObject *cls);
@@ -260,6 +256,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _gdbm_gdbm_reorganize_MethodName = {.name = "reorganize",};
+#define _GDBM_GDBM_REORGANIZE_METHODDEF    \
+    {_gdbm_gdbm_reorganize_MethodName.name, _PyCFunction_CAST(_gdbm_gdbm_reorganize), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _gdbm_gdbm_reorganize__doc__},
+
 PyDoc_STRVAR(_gdbm_gdbm_sync__doc__,
 "sync($self, /)\n"
 "--\n"
@@ -268,10 +268,6 @@ PyDoc_STRVAR(_gdbm_gdbm_sync__doc__,
 "\n"
 "When the database has been opened in fast mode, this method forces\n"
 "any unwritten data to be written to the disk.");
-
-static struct {char name[];} _gdbm_gdbm_sync_MethodName = {.name = "sync",};
-#define _GDBM_GDBM_SYNC_METHODDEF    \
-    {_gdbm_gdbm_sync_MethodName.name, _PyCFunction_CAST(_gdbm_gdbm_sync), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _gdbm_gdbm_sync__doc__},
 
 static PyObject *
 _gdbm_gdbm_sync_impl(gdbmobject *self, PyTypeObject *cls);
@@ -293,15 +289,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _gdbm_gdbm_sync_MethodName = {.name = "sync",};
+#define _GDBM_GDBM_SYNC_METHODDEF    \
+    {_gdbm_gdbm_sync_MethodName.name, _PyCFunction_CAST(_gdbm_gdbm_sync), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _gdbm_gdbm_sync__doc__},
+
 PyDoc_STRVAR(_gdbm_gdbm_clear__doc__,
 "clear($self, /)\n"
 "--\n"
 "\n"
 "Remove all items from the database.");
-
-static struct {char name[];} _gdbm_gdbm_clear_MethodName = {.name = "clear",};
-#define _GDBM_GDBM_CLEAR_METHODDEF    \
-    {_gdbm_gdbm_clear_MethodName.name, _PyCFunction_CAST(_gdbm_gdbm_clear), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _gdbm_gdbm_clear__doc__},
 
 static PyObject *
 _gdbm_gdbm_clear_impl(gdbmobject *self, PyTypeObject *cls);
@@ -322,6 +318,10 @@ _gdbm_gdbm_clear(PyObject *self, PyTypeObject *cls, PyObject *const *args, Py_ss
 exit:
     return return_value;
 }
+
+static struct {char name[];} _gdbm_gdbm_clear_MethodName = {.name = "clear",};
+#define _GDBM_GDBM_CLEAR_METHODDEF    \
+    {_gdbm_gdbm_clear_MethodName.name, _PyCFunction_CAST(_gdbm_gdbm_clear), METH_METHOD|METH_FASTCALL|METH_KEYWORDS, _gdbm_gdbm_clear__doc__},
 
 PyDoc_STRVAR(dbmopen__doc__,
 "open($module, filename, flags=\'r\', mode=0o666, /)\n"
@@ -349,10 +349,6 @@ PyDoc_STRVAR(dbmopen__doc__,
 "\n"
 "The optional mode argument is the Unix mode of the file, used only\n"
 "when the database has to be created.  It defaults to octal 0o666.");
-
-static struct {char name[];} dbmopen_MethodName = {.name = "open",};
-#define DBMOPEN_METHODDEF    \
-    {dbmopen_MethodName.name, _PyCFunction_CAST(dbmopen), METH_FASTCALL, dbmopen__doc__},
 
 static PyObject *
 dbmopen_impl(PyObject *module, PyObject *filename, const char *flags,
@@ -399,4 +395,8 @@ skip_optional:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=a1c42f9e712407c2 input=a9049054013a1b77]*/
+
+static struct {char name[];} dbmopen_MethodName = {.name = "open",};
+#define DBMOPEN_METHODDEF    \
+    {dbmopen_MethodName.name, _PyCFunction_CAST(dbmopen), METH_FASTCALL, dbmopen__doc__},
+/*[clinic end generated code: output=728ad3d549e22466 input=a9049054013a1b77]*/

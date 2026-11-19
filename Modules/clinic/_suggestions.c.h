@@ -10,10 +10,6 @@ PyDoc_STRVAR(_suggestions__generate_suggestions__doc__,
 "\n"
 "Returns the candidate in candidates that\'s closest to item");
 
-static struct {char name[];} _suggestions__generate_suggestions_MethodName = {.name = "_generate_suggestions",};
-#define _SUGGESTIONS__GENERATE_SUGGESTIONS_METHODDEF    \
-    {_suggestions__generate_suggestions_MethodName.name, _PyCFunction_CAST(_suggestions__generate_suggestions), METH_FASTCALL|METH_C_STACK_FRUGAL, _suggestions__generate_suggestions__doc__},
-
 static PyObject *
 _suggestions__generate_suggestions_impl(PyObject *module,
                                         PyObject *candidates, PyObject *item);
@@ -39,4 +35,8 @@ _suggestions__generate_suggestions(PyObject *module, PyObject *const *args, Py_s
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=dc462a4ef6f59074 input=a9049054013a1b77]*/
+
+static struct {char name[];} _suggestions__generate_suggestions_MethodName = {.name = "_generate_suggestions",};
+#define _SUGGESTIONS__GENERATE_SUGGESTIONS_METHODDEF    \
+    {_suggestions__generate_suggestions_MethodName.name, _PyCFunction_CAST(_suggestions__generate_suggestions), METH_FASTCALL|METH_C_STACK_FRUGAL, _suggestions__generate_suggestions__doc__},
+/*[clinic end generated code: output=a4294f16ce7300a0 input=a9049054013a1b77]*/

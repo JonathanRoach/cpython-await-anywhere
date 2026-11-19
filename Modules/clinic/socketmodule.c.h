@@ -17,10 +17,6 @@ PyDoc_STRVAR(_socket_socket_close__doc__,
 "\n"
 "Close the socket.  It cannot be used after this call.");
 
-static struct {char name[];} _socket_socket_close_MethodName = {.name = "close",};
-#define _SOCKET_SOCKET_CLOSE_METHODDEF    \
-    {_socket_socket_close_MethodName.name, (PyCFunction)_socket_socket_close, METH_NOARGS, _socket_socket_close__doc__},
-
 static PyObject *
 _socket_socket_close_impl(PySocketSockObject *s);
 
@@ -29,6 +25,10 @@ _socket_socket_close(PyObject *s, PyObject *Py_UNUSED(ignored))
 {
     return _socket_socket_close_impl((PySocketSockObject *)s);
 }
+
+static struct {char name[];} _socket_socket_close_MethodName = {.name = "close",};
+#define _SOCKET_SOCKET_CLOSE_METHODDEF    \
+    {_socket_socket_close_MethodName.name, (PyCFunction)_socket_socket_close, METH_NOARGS, _socket_socket_close__doc__},
 
 static int
 sock_initobj_impl(PySocketSockObject *self, int family, int type, int proto,
@@ -123,10 +123,6 @@ PyDoc_STRVAR(_socket_ntohs__doc__,
 "\n"
 "Convert a 16-bit unsigned integer from network to host byte order.");
 
-static struct {char name[];} _socket_ntohs_MethodName = {.name = "ntohs",};
-#define _SOCKET_NTOHS_METHODDEF    \
-    {_socket_ntohs_MethodName.name, (PyCFunction)_socket_ntohs, METH_O, _socket_ntohs__doc__},
-
 static PyObject *
 _socket_ntohs_impl(PyObject *module, uint16_t x);
 
@@ -145,15 +141,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _socket_ntohs_MethodName = {.name = "ntohs",};
+#define _SOCKET_NTOHS_METHODDEF    \
+    {_socket_ntohs_MethodName.name, (PyCFunction)_socket_ntohs, METH_O, _socket_ntohs__doc__},
+
 PyDoc_STRVAR(_socket_ntohl__doc__,
 "ntohl($module, integer, /)\n"
 "--\n"
 "\n"
 "Convert a 32-bit unsigned integer from network to host byte order.");
-
-static struct {char name[];} _socket_ntohl_MethodName = {.name = "ntohl",};
-#define _SOCKET_NTOHL_METHODDEF    \
-    {_socket_ntohl_MethodName.name, (PyCFunction)_socket_ntohl, METH_O, _socket_ntohl__doc__},
 
 static PyObject *
 _socket_ntohl_impl(PyObject *module, uint32_t x);
@@ -173,15 +169,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _socket_ntohl_MethodName = {.name = "ntohl",};
+#define _SOCKET_NTOHL_METHODDEF    \
+    {_socket_ntohl_MethodName.name, (PyCFunction)_socket_ntohl, METH_O, _socket_ntohl__doc__},
+
 PyDoc_STRVAR(_socket_htons__doc__,
 "htons($module, integer, /)\n"
 "--\n"
 "\n"
 "Convert a 16-bit unsigned integer from host to network byte order.");
-
-static struct {char name[];} _socket_htons_MethodName = {.name = "htons",};
-#define _SOCKET_HTONS_METHODDEF    \
-    {_socket_htons_MethodName.name, (PyCFunction)_socket_htons, METH_O, _socket_htons__doc__},
 
 static PyObject *
 _socket_htons_impl(PyObject *module, uint16_t x);
@@ -201,15 +197,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _socket_htons_MethodName = {.name = "htons",};
+#define _SOCKET_HTONS_METHODDEF    \
+    {_socket_htons_MethodName.name, (PyCFunction)_socket_htons, METH_O, _socket_htons__doc__},
+
 PyDoc_STRVAR(_socket_htonl__doc__,
 "htonl($module, integer, /)\n"
 "--\n"
 "\n"
 "Convert a 32-bit unsigned integer from host to network byte order.");
-
-static struct {char name[];} _socket_htonl_MethodName = {.name = "htonl",};
-#define _SOCKET_HTONL_METHODDEF    \
-    {_socket_htonl_MethodName.name, (PyCFunction)_socket_htonl, METH_O, _socket_htonl__doc__},
 
 static PyObject *
 _socket_htonl_impl(PyObject *module, uint32_t x);
@@ -229,15 +225,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _socket_htonl_MethodName = {.name = "htonl",};
+#define _SOCKET_HTONL_METHODDEF    \
+    {_socket_htonl_MethodName.name, (PyCFunction)_socket_htonl, METH_O, _socket_htonl__doc__},
+
 PyDoc_STRVAR(_socket_inet_aton__doc__,
 "inet_aton($module, ip_addr, /)\n"
 "--\n"
 "\n"
 "Convert an IP address in string format (123.45.67.89) to the 32-bit packed binary format used in low-level network functions.");
-
-static struct {char name[];} _socket_inet_aton_MethodName = {.name = "inet_aton",};
-#define _SOCKET_INET_ATON_METHODDEF    \
-    {_socket_inet_aton_MethodName.name, (PyCFunction)_socket_inet_aton, METH_O, _socket_inet_aton__doc__},
 
 static PyObject *
 _socket_inet_aton_impl(PyObject *module, const char *ip_addr);
@@ -267,6 +263,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _socket_inet_aton_MethodName = {.name = "inet_aton",};
+#define _SOCKET_INET_ATON_METHODDEF    \
+    {_socket_inet_aton_MethodName.name, (PyCFunction)_socket_inet_aton, METH_O, _socket_inet_aton__doc__},
+
 #if defined(HAVE_INET_NTOA)
 
 PyDoc_STRVAR(_socket_inet_ntoa__doc__,
@@ -274,10 +274,6 @@ PyDoc_STRVAR(_socket_inet_ntoa__doc__,
 "--\n"
 "\n"
 "Convert an IP address from 32-bit packed binary format to string format.");
-
-static struct {char name[];} _socket_inet_ntoa_MethodName = {.name = "inet_ntoa",};
-#define _SOCKET_INET_NTOA_METHODDEF    \
-    {_socket_inet_ntoa_MethodName.name, (PyCFunction)_socket_inet_ntoa, METH_O, _socket_inet_ntoa__doc__},
 
 static PyObject *
 _socket_inet_ntoa_impl(PyObject *module, Py_buffer *packed_ip);
@@ -302,6 +298,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _socket_inet_ntoa_MethodName = {.name = "inet_ntoa",};
+#define _SOCKET_INET_NTOA_METHODDEF    \
+    {_socket_inet_ntoa_MethodName.name, (PyCFunction)_socket_inet_ntoa, METH_O, _socket_inet_ntoa__doc__},
+
 #endif /* defined(HAVE_INET_NTOA) */
 
 #if (defined(HAVE_IF_NAMEINDEX) || defined(MS_WINDOWS))
@@ -311,10 +311,6 @@ PyDoc_STRVAR(_socket_if_nametoindex__doc__,
 "--\n"
 "\n"
 "Returns the interface index corresponding to the interface name if_name.");
-
-static struct {char name[];} _socket_if_nametoindex_MethodName = {.name = "if_nametoindex",};
-#define _SOCKET_IF_NAMETOINDEX_METHODDEF    \
-    {_socket_if_nametoindex_MethodName.name, (PyCFunction)_socket_if_nametoindex, METH_O, _socket_if_nametoindex__doc__},
 
 static PyObject *
 _socket_if_nametoindex_impl(PyObject *module, PyObject *oname);
@@ -334,6 +330,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _socket_if_nametoindex_MethodName = {.name = "if_nametoindex",};
+#define _SOCKET_IF_NAMETOINDEX_METHODDEF    \
+    {_socket_if_nametoindex_MethodName.name, (PyCFunction)_socket_if_nametoindex, METH_O, _socket_if_nametoindex__doc__},
+
 #endif /* (defined(HAVE_IF_NAMEINDEX) || defined(MS_WINDOWS)) */
 
 #if (defined(HAVE_IF_NAMEINDEX) || defined(MS_WINDOWS))
@@ -343,10 +343,6 @@ PyDoc_STRVAR(_socket_if_indextoname__doc__,
 "--\n"
 "\n"
 "Returns the interface name corresponding to the interface index if_index.");
-
-static struct {char name[];} _socket_if_indextoname_MethodName = {.name = "if_indextoname",};
-#define _SOCKET_IF_INDEXTONAME_METHODDEF    \
-    {_socket_if_indextoname_MethodName.name, (PyCFunction)_socket_if_indextoname, METH_O, _socket_if_indextoname__doc__},
 
 static PyObject *
 _socket_if_indextoname_impl(PyObject *module, NET_IFINDEX index);
@@ -366,6 +362,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _socket_if_indextoname_MethodName = {.name = "if_indextoname",};
+#define _SOCKET_IF_INDEXTONAME_METHODDEF    \
+    {_socket_if_indextoname_MethodName.name, (PyCFunction)_socket_if_indextoname, METH_O, _socket_if_indextoname__doc__},
+
 #endif /* (defined(HAVE_IF_NAMEINDEX) || defined(MS_WINDOWS)) */
 
 #ifndef _SOCKET_INET_NTOA_METHODDEF
@@ -379,4 +379,4 @@ exit:
 #ifndef _SOCKET_IF_INDEXTONAME_METHODDEF
     #define _SOCKET_IF_INDEXTONAME_METHODDEF
 #endif /* !defined(_SOCKET_IF_INDEXTONAME_METHODDEF) */
-/*[clinic end generated code: output=5323fff96f4131c4 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=d441f4944ec6258a input=a9049054013a1b77]*/

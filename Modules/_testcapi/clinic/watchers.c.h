@@ -9,10 +9,6 @@ PyDoc_STRVAR(_testcapi_watch_dict__doc__,
 "--\n"
 "\n");
 
-static struct {char name[];} _testcapi_watch_dict_MethodName = {.name = "watch_dict",};
-#define _TESTCAPI_WATCH_DICT_METHODDEF    \
-    {_testcapi_watch_dict_MethodName.name, _PyCFunction_CAST(_testcapi_watch_dict), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_watch_dict__doc__},
-
 static PyObject *
 _testcapi_watch_dict_impl(PyObject *module, int watcher_id, PyObject *dict);
 
@@ -37,14 +33,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _testcapi_watch_dict_MethodName = {.name = "watch_dict",};
+#define _TESTCAPI_WATCH_DICT_METHODDEF    \
+    {_testcapi_watch_dict_MethodName.name, _PyCFunction_CAST(_testcapi_watch_dict), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_watch_dict__doc__},
+
 PyDoc_STRVAR(_testcapi_unwatch_dict__doc__,
 "unwatch_dict($module, watcher_id, dict, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _testcapi_unwatch_dict_MethodName = {.name = "unwatch_dict",};
-#define _TESTCAPI_UNWATCH_DICT_METHODDEF    \
-    {_testcapi_unwatch_dict_MethodName.name, _PyCFunction_CAST(_testcapi_unwatch_dict), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_unwatch_dict__doc__},
 
 static PyObject *
 _testcapi_unwatch_dict_impl(PyObject *module, int watcher_id, PyObject *dict);
@@ -70,14 +66,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _testcapi_unwatch_dict_MethodName = {.name = "unwatch_dict",};
+#define _TESTCAPI_UNWATCH_DICT_METHODDEF    \
+    {_testcapi_unwatch_dict_MethodName.name, _PyCFunction_CAST(_testcapi_unwatch_dict), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_unwatch_dict__doc__},
+
 PyDoc_STRVAR(_testcapi_watch_type__doc__,
 "watch_type($module, watcher_id, type, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _testcapi_watch_type_MethodName = {.name = "watch_type",};
-#define _TESTCAPI_WATCH_TYPE_METHODDEF    \
-    {_testcapi_watch_type_MethodName.name, _PyCFunction_CAST(_testcapi_watch_type), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_watch_type__doc__},
 
 static PyObject *
 _testcapi_watch_type_impl(PyObject *module, int watcher_id, PyObject *type);
@@ -103,14 +99,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _testcapi_watch_type_MethodName = {.name = "watch_type",};
+#define _TESTCAPI_WATCH_TYPE_METHODDEF    \
+    {_testcapi_watch_type_MethodName.name, _PyCFunction_CAST(_testcapi_watch_type), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_watch_type__doc__},
+
 PyDoc_STRVAR(_testcapi_unwatch_type__doc__,
 "unwatch_type($module, watcher_id, type, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _testcapi_unwatch_type_MethodName = {.name = "unwatch_type",};
-#define _TESTCAPI_UNWATCH_TYPE_METHODDEF    \
-    {_testcapi_unwatch_type_MethodName.name, _PyCFunction_CAST(_testcapi_unwatch_type), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_unwatch_type__doc__},
 
 static PyObject *
 _testcapi_unwatch_type_impl(PyObject *module, int watcher_id, PyObject *type);
@@ -136,14 +132,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _testcapi_unwatch_type_MethodName = {.name = "unwatch_type",};
+#define _TESTCAPI_UNWATCH_TYPE_METHODDEF    \
+    {_testcapi_unwatch_type_MethodName.name, _PyCFunction_CAST(_testcapi_unwatch_type), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_unwatch_type__doc__},
+
 PyDoc_STRVAR(_testcapi_set_func_defaults_via_capi__doc__,
 "set_func_defaults_via_capi($module, func, defaults, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _testcapi_set_func_defaults_via_capi_MethodName = {.name = "set_func_defaults_via_capi",};
-#define _TESTCAPI_SET_FUNC_DEFAULTS_VIA_CAPI_METHODDEF    \
-    {_testcapi_set_func_defaults_via_capi_MethodName.name, _PyCFunction_CAST(_testcapi_set_func_defaults_via_capi), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_set_func_defaults_via_capi__doc__},
 
 static PyObject *
 _testcapi_set_func_defaults_via_capi_impl(PyObject *module, PyObject *func,
@@ -167,14 +163,14 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _testcapi_set_func_defaults_via_capi_MethodName = {.name = "set_func_defaults_via_capi",};
+#define _TESTCAPI_SET_FUNC_DEFAULTS_VIA_CAPI_METHODDEF    \
+    {_testcapi_set_func_defaults_via_capi_MethodName.name, _PyCFunction_CAST(_testcapi_set_func_defaults_via_capi), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_set_func_defaults_via_capi__doc__},
+
 PyDoc_STRVAR(_testcapi_set_func_kwdefaults_via_capi__doc__,
 "set_func_kwdefaults_via_capi($module, func, defaults, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _testcapi_set_func_kwdefaults_via_capi_MethodName = {.name = "set_func_kwdefaults_via_capi",};
-#define _TESTCAPI_SET_FUNC_KWDEFAULTS_VIA_CAPI_METHODDEF    \
-    {_testcapi_set_func_kwdefaults_via_capi_MethodName.name, _PyCFunction_CAST(_testcapi_set_func_kwdefaults_via_capi), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_set_func_kwdefaults_via_capi__doc__},
 
 static PyObject *
 _testcapi_set_func_kwdefaults_via_capi_impl(PyObject *module, PyObject *func,
@@ -197,4 +193,8 @@ _testcapi_set_func_kwdefaults_via_capi(PyObject *module, PyObject *const *args, 
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=9c36a7840e2a5003 input=a9049054013a1b77]*/
+
+static struct {char name[];} _testcapi_set_func_kwdefaults_via_capi_MethodName = {.name = "set_func_kwdefaults_via_capi",};
+#define _TESTCAPI_SET_FUNC_KWDEFAULTS_VIA_CAPI_METHODDEF    \
+    {_testcapi_set_func_kwdefaults_via_capi_MethodName.name, _PyCFunction_CAST(_testcapi_set_func_kwdefaults_via_capi), METH_FASTCALL|METH_C_STACK_FRUGAL, _testcapi_set_func_kwdefaults_via_capi__doc__},
+/*[clinic end generated code: output=56858e7f7a1dbc08 input=a9049054013a1b77]*/

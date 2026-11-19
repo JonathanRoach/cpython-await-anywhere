@@ -16,16 +16,6 @@ PyDoc_STRVAR(function___annotate____doc__,
 #endif
 #define function___annotate___DOCSTR function___annotate____doc__
 
-#if !defined(function___annotate___DOCSTR)
-#  define function___annotate___DOCSTR NULL
-#endif
-#if defined(FUNCTION___ANNOTATE___GETSETDEF)
-#  undef FUNCTION___ANNOTATE___GETSETDEF
-#  define FUNCTION___ANNOTATE___GETSETDEF {"__annotate__", (getter)function___annotate___get, (setter)function___annotate___set, function___annotate___DOCSTR},
-#else
-#  define FUNCTION___ANNOTATE___GETSETDEF {"__annotate__", (getter)function___annotate___get, NULL, function___annotate___DOCSTR},
-#endif
-
 static PyObject *
 function___annotate___get_impl(PyFunctionObject *self);
 
@@ -48,7 +38,7 @@ function___annotate___get(PyObject *self, void *Py_UNUSED(context))
 #  undef FUNCTION___ANNOTATE___GETSETDEF
 #  define FUNCTION___ANNOTATE___GETSETDEF {"__annotate__", (getter)function___annotate___get, (setter)function___annotate___set, function___annotate___DOCSTR},
 #else
-#  define FUNCTION___ANNOTATE___GETSETDEF {"__annotate__", NULL, (setter)function___annotate___set, NULL},
+#  define FUNCTION___ANNOTATE___GETSETDEF {"__annotate__", (getter)function___annotate___get, NULL, function___annotate___DOCSTR},
 #endif
 
 static int
@@ -66,22 +56,22 @@ function___annotate___set(PyObject *self, PyObject *value, void *Py_UNUSED(conte
     return return_value;
 }
 
+#if !defined(function___annotate___DOCSTR)
+#  define function___annotate___DOCSTR NULL
+#endif
+#if defined(FUNCTION___ANNOTATE___GETSETDEF)
+#  undef FUNCTION___ANNOTATE___GETSETDEF
+#  define FUNCTION___ANNOTATE___GETSETDEF {"__annotate__", (getter)function___annotate___get, (setter)function___annotate___set, function___annotate___DOCSTR},
+#else
+#  define FUNCTION___ANNOTATE___GETSETDEF {"__annotate__", NULL, (setter)function___annotate___set, NULL},
+#endif
+
 PyDoc_STRVAR(function___annotations____doc__,
 "Dict of annotations in a function object.");
 #if defined(function___annotations___DOCSTR)
 #   undef function___annotations___DOCSTR
 #endif
 #define function___annotations___DOCSTR function___annotations____doc__
-
-#if !defined(function___annotations___DOCSTR)
-#  define function___annotations___DOCSTR NULL
-#endif
-#if defined(FUNCTION___ANNOTATIONS___GETSETDEF)
-#  undef FUNCTION___ANNOTATIONS___GETSETDEF
-#  define FUNCTION___ANNOTATIONS___GETSETDEF {"__annotations__", (getter)function___annotations___get, (setter)function___annotations___set, function___annotations___DOCSTR},
-#else
-#  define FUNCTION___ANNOTATIONS___GETSETDEF {"__annotations__", (getter)function___annotations___get, NULL, function___annotations___DOCSTR},
-#endif
 
 static PyObject *
 function___annotations___get_impl(PyFunctionObject *self);
@@ -105,7 +95,7 @@ function___annotations___get(PyObject *self, void *Py_UNUSED(context))
 #  undef FUNCTION___ANNOTATIONS___GETSETDEF
 #  define FUNCTION___ANNOTATIONS___GETSETDEF {"__annotations__", (getter)function___annotations___get, (setter)function___annotations___set, function___annotations___DOCSTR},
 #else
-#  define FUNCTION___ANNOTATIONS___GETSETDEF {"__annotations__", NULL, (setter)function___annotations___set, NULL},
+#  define FUNCTION___ANNOTATIONS___GETSETDEF {"__annotations__", (getter)function___annotations___get, NULL, function___annotations___DOCSTR},
 #endif
 
 static int
@@ -123,22 +113,22 @@ function___annotations___set(PyObject *self, PyObject *value, void *Py_UNUSED(co
     return return_value;
 }
 
+#if !defined(function___annotations___DOCSTR)
+#  define function___annotations___DOCSTR NULL
+#endif
+#if defined(FUNCTION___ANNOTATIONS___GETSETDEF)
+#  undef FUNCTION___ANNOTATIONS___GETSETDEF
+#  define FUNCTION___ANNOTATIONS___GETSETDEF {"__annotations__", (getter)function___annotations___get, (setter)function___annotations___set, function___annotations___DOCSTR},
+#else
+#  define FUNCTION___ANNOTATIONS___GETSETDEF {"__annotations__", NULL, (setter)function___annotations___set, NULL},
+#endif
+
 PyDoc_STRVAR(function___type_params____doc__,
 "Get the declared type parameters for a function.");
 #if defined(function___type_params___DOCSTR)
 #   undef function___type_params___DOCSTR
 #endif
 #define function___type_params___DOCSTR function___type_params____doc__
-
-#if !defined(function___type_params___DOCSTR)
-#  define function___type_params___DOCSTR NULL
-#endif
-#if defined(FUNCTION___TYPE_PARAMS___GETSETDEF)
-#  undef FUNCTION___TYPE_PARAMS___GETSETDEF
-#  define FUNCTION___TYPE_PARAMS___GETSETDEF {"__type_params__", (getter)function___type_params___get, (setter)function___type_params___set, function___type_params___DOCSTR},
-#else
-#  define FUNCTION___TYPE_PARAMS___GETSETDEF {"__type_params__", (getter)function___type_params___get, NULL, function___type_params___DOCSTR},
-#endif
 
 static PyObject *
 function___type_params___get_impl(PyFunctionObject *self);
@@ -162,7 +152,7 @@ function___type_params___get(PyObject *self, void *Py_UNUSED(context))
 #  undef FUNCTION___TYPE_PARAMS___GETSETDEF
 #  define FUNCTION___TYPE_PARAMS___GETSETDEF {"__type_params__", (getter)function___type_params___get, (setter)function___type_params___set, function___type_params___DOCSTR},
 #else
-#  define FUNCTION___TYPE_PARAMS___GETSETDEF {"__type_params__", NULL, (setter)function___type_params___set, NULL},
+#  define FUNCTION___TYPE_PARAMS___GETSETDEF {"__type_params__", (getter)function___type_params___get, NULL, function___type_params___DOCSTR},
 #endif
 
 static int
@@ -179,6 +169,16 @@ function___type_params___set(PyObject *self, PyObject *value, void *Py_UNUSED(co
 
     return return_value;
 }
+
+#if !defined(function___type_params___DOCSTR)
+#  define function___type_params___DOCSTR NULL
+#endif
+#if defined(FUNCTION___TYPE_PARAMS___GETSETDEF)
+#  undef FUNCTION___TYPE_PARAMS___GETSETDEF
+#  define FUNCTION___TYPE_PARAMS___GETSETDEF {"__type_params__", (getter)function___type_params___get, (setter)function___type_params___set, function___type_params___DOCSTR},
+#else
+#  define FUNCTION___TYPE_PARAMS___GETSETDEF {"__type_params__", NULL, (setter)function___type_params___set, NULL},
+#endif
 
 PyDoc_STRVAR(func_new__doc__,
 "function(code, globals, name=None, argdefs=None, closure=None,\n"
@@ -290,4 +290,4 @@ skip_optional_pos:
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=12cb900088d41bdb input=a9049054013a1b77]*/
+/*[clinic end generated code: output=29e56d2b49704803 input=a9049054013a1b77]*/

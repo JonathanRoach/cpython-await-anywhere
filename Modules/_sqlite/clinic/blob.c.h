@@ -10,10 +10,6 @@ PyDoc_STRVAR(blob_close__doc__,
 "\n"
 "Close the blob.");
 
-static struct {char name[];} blob_close_MethodName = {.name = "close",};
-#define BLOB_CLOSE_METHODDEF    \
-    {blob_close_MethodName.name, (PyCFunction)blob_close, METH_NOARGS|METH_C_STACK_FRUGAL, blob_close__doc__},
-
 static PyObject *
 blob_close_impl(pysqlite_Blob *self);
 
@@ -22,6 +18,10 @@ blob_close(PyObject *self, PyObject *Py_UNUSED(ignored))
 {
     return blob_close_impl((pysqlite_Blob *)self);
 }
+
+static struct {char name[];} blob_close_MethodName = {.name = "close",};
+#define BLOB_CLOSE_METHODDEF    \
+    {blob_close_MethodName.name, (PyCFunction)blob_close, METH_NOARGS|METH_C_STACK_FRUGAL, blob_close__doc__},
 
 PyDoc_STRVAR(blob_read__doc__,
 "read($self, length=-1, /)\n"
@@ -35,10 +35,6 @@ PyDoc_STRVAR(blob_read__doc__,
 "If the end of the blob is reached, the data up to end of file will be returned.\n"
 "When length is not specified, or is negative, Blob.read() will read until the\n"
 "end of the blob.");
-
-static struct {char name[];} blob_read_MethodName = {.name = "read",};
-#define BLOB_READ_METHODDEF    \
-    {blob_read_MethodName.name, _PyCFunction_CAST(blob_read), METH_FASTCALL|METH_C_STACK_FRUGAL, blob_read__doc__},
 
 static PyObject *
 blob_read_impl(pysqlite_Blob *self, int length);
@@ -66,6 +62,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} blob_read_MethodName = {.name = "read",};
+#define BLOB_READ_METHODDEF    \
+    {blob_read_MethodName.name, _PyCFunction_CAST(blob_read), METH_FASTCALL|METH_C_STACK_FRUGAL, blob_read__doc__},
+
 PyDoc_STRVAR(blob_write__doc__,
 "write($self, data, /)\n"
 "--\n"
@@ -74,10 +74,6 @@ PyDoc_STRVAR(blob_write__doc__,
 "\n"
 "This function cannot change the blob length.  Writing beyond the end of the\n"
 "blob will result in an exception being raised.");
-
-static struct {char name[];} blob_write_MethodName = {.name = "write",};
-#define BLOB_WRITE_METHODDEF    \
-    {blob_write_MethodName.name, (PyCFunction)blob_write, METH_O|METH_C_STACK_FRUGAL, blob_write__doc__},
 
 static PyObject *
 blob_write_impl(pysqlite_Blob *self, Py_buffer *data);
@@ -102,6 +98,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} blob_write_MethodName = {.name = "write",};
+#define BLOB_WRITE_METHODDEF    \
+    {blob_write_MethodName.name, (PyCFunction)blob_write, METH_O|METH_C_STACK_FRUGAL, blob_write__doc__},
+
 PyDoc_STRVAR(blob_seek__doc__,
 "seek($self, offset, origin=0, /)\n"
 "--\n"
@@ -111,10 +111,6 @@ PyDoc_STRVAR(blob_seek__doc__,
 "The origin argument defaults to os.SEEK_SET (absolute blob positioning).\n"
 "Other values for origin are os.SEEK_CUR (seek relative to the current position)\n"
 "and os.SEEK_END (seek relative to the blob\'s end).");
-
-static struct {char name[];} blob_seek_MethodName = {.name = "seek",};
-#define BLOB_SEEK_METHODDEF    \
-    {blob_seek_MethodName.name, _PyCFunction_CAST(blob_seek), METH_FASTCALL|METH_C_STACK_FRUGAL, blob_seek__doc__},
 
 static PyObject *
 blob_seek_impl(pysqlite_Blob *self, int offset, int origin);
@@ -147,15 +143,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} blob_seek_MethodName = {.name = "seek",};
+#define BLOB_SEEK_METHODDEF    \
+    {blob_seek_MethodName.name, _PyCFunction_CAST(blob_seek), METH_FASTCALL|METH_C_STACK_FRUGAL, blob_seek__doc__},
+
 PyDoc_STRVAR(blob_tell__doc__,
 "tell($self, /)\n"
 "--\n"
 "\n"
 "Return the current access position for the blob.");
-
-static struct {char name[];} blob_tell_MethodName = {.name = "tell",};
-#define BLOB_TELL_METHODDEF    \
-    {blob_tell_MethodName.name, (PyCFunction)blob_tell, METH_NOARGS|METH_C_STACK_FRUGAL, blob_tell__doc__},
 
 static PyObject *
 blob_tell_impl(pysqlite_Blob *self);
@@ -166,15 +162,15 @@ blob_tell(PyObject *self, PyObject *Py_UNUSED(ignored))
     return blob_tell_impl((pysqlite_Blob *)self);
 }
 
+static struct {char name[];} blob_tell_MethodName = {.name = "tell",};
+#define BLOB_TELL_METHODDEF    \
+    {blob_tell_MethodName.name, (PyCFunction)blob_tell, METH_NOARGS|METH_C_STACK_FRUGAL, blob_tell__doc__},
+
 PyDoc_STRVAR(blob_enter__doc__,
 "__enter__($self, /)\n"
 "--\n"
 "\n"
 "Blob context manager enter.");
-
-static struct {char name[];} blob_enter_MethodName = {.name = "__enter__",};
-#define BLOB_ENTER_METHODDEF    \
-    {blob_enter_MethodName.name, (PyCFunction)blob_enter, METH_NOARGS|METH_C_STACK_FRUGAL, blob_enter__doc__},
 
 static PyObject *
 blob_enter_impl(pysqlite_Blob *self);
@@ -185,15 +181,15 @@ blob_enter(PyObject *self, PyObject *Py_UNUSED(ignored))
     return blob_enter_impl((pysqlite_Blob *)self);
 }
 
+static struct {char name[];} blob_enter_MethodName = {.name = "__enter__",};
+#define BLOB_ENTER_METHODDEF    \
+    {blob_enter_MethodName.name, (PyCFunction)blob_enter, METH_NOARGS|METH_C_STACK_FRUGAL, blob_enter__doc__},
+
 PyDoc_STRVAR(blob_exit__doc__,
 "__exit__($self, type, val, tb, /)\n"
 "--\n"
 "\n"
 "Blob context manager exit.");
-
-static struct {char name[];} blob_exit_MethodName = {.name = "__exit__",};
-#define BLOB_EXIT_METHODDEF    \
-    {blob_exit_MethodName.name, _PyCFunction_CAST(blob_exit), METH_FASTCALL|METH_C_STACK_FRUGAL, blob_exit__doc__},
 
 static PyObject *
 blob_exit_impl(pysqlite_Blob *self, PyObject *type, PyObject *val,
@@ -218,4 +214,8 @@ blob_exit(PyObject *self, PyObject *const *args, Py_ssize_t nargs)
 exit:
     return return_value;
 }
-/*[clinic end generated code: output=e87295aaaa800a20 input=a9049054013a1b77]*/
+
+static struct {char name[];} blob_exit_MethodName = {.name = "__exit__",};
+#define BLOB_EXIT_METHODDEF    \
+    {blob_exit_MethodName.name, _PyCFunction_CAST(blob_exit), METH_FASTCALL|METH_C_STACK_FRUGAL, blob_exit__doc__},
+/*[clinic end generated code: output=1ff294c974852e8e input=a9049054013a1b77]*/

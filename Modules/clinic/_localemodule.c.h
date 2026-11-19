@@ -10,10 +10,6 @@ PyDoc_STRVAR(_locale_setlocale__doc__,
 "\n"
 "Activates/queries locale processing.");
 
-static struct {char name[];} _locale_setlocale_MethodName = {.name = "setlocale",};
-#define _LOCALE_SETLOCALE_METHODDEF    \
-    {_locale_setlocale_MethodName.name, _PyCFunction_CAST(_locale_setlocale), METH_FASTCALL|METH_C_STACK_FRUGAL, _locale_setlocale__doc__},
-
 static PyObject *
 _locale_setlocale_impl(PyObject *module, int category, const char *locale);
 
@@ -59,15 +55,15 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _locale_setlocale_MethodName = {.name = "setlocale",};
+#define _LOCALE_SETLOCALE_METHODDEF    \
+    {_locale_setlocale_MethodName.name, _PyCFunction_CAST(_locale_setlocale), METH_FASTCALL|METH_C_STACK_FRUGAL, _locale_setlocale__doc__},
+
 PyDoc_STRVAR(_locale_localeconv__doc__,
 "localeconv($module, /)\n"
 "--\n"
 "\n"
 "Returns numeric and monetary locale-specific parameters.");
-
-static struct {char name[];} _locale_localeconv_MethodName = {.name = "localeconv",};
-#define _LOCALE_LOCALECONV_METHODDEF    \
-    {_locale_localeconv_MethodName.name, (PyCFunction)_locale_localeconv, METH_NOARGS|METH_C_STACK_FRUGAL, _locale_localeconv__doc__},
 
 static PyObject *
 _locale_localeconv_impl(PyObject *module);
@@ -78,6 +74,10 @@ _locale_localeconv(PyObject *module, PyObject *Py_UNUSED(ignored))
     return _locale_localeconv_impl(module);
 }
 
+static struct {char name[];} _locale_localeconv_MethodName = {.name = "localeconv",};
+#define _LOCALE_LOCALECONV_METHODDEF    \
+    {_locale_localeconv_MethodName.name, (PyCFunction)_locale_localeconv, METH_NOARGS|METH_C_STACK_FRUGAL, _locale_localeconv__doc__},
+
 #if defined(HAVE_WCSCOLL)
 
 PyDoc_STRVAR(_locale_strcoll__doc__,
@@ -85,10 +85,6 @@ PyDoc_STRVAR(_locale_strcoll__doc__,
 "--\n"
 "\n"
 "Compares two strings according to the locale.");
-
-static struct {char name[];} _locale_strcoll_MethodName = {.name = "strcoll",};
-#define _LOCALE_STRCOLL_METHODDEF    \
-    {_locale_strcoll_MethodName.name, _PyCFunction_CAST(_locale_strcoll), METH_FASTCALL|METH_C_STACK_FRUGAL, _locale_strcoll__doc__},
 
 static PyObject *
 _locale_strcoll_impl(PyObject *module, PyObject *os1, PyObject *os2);
@@ -119,6 +115,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _locale_strcoll_MethodName = {.name = "strcoll",};
+#define _LOCALE_STRCOLL_METHODDEF    \
+    {_locale_strcoll_MethodName.name, _PyCFunction_CAST(_locale_strcoll), METH_FASTCALL|METH_C_STACK_FRUGAL, _locale_strcoll__doc__},
+
 #endif /* defined(HAVE_WCSCOLL) */
 
 #if defined(HAVE_WCSXFRM)
@@ -128,10 +128,6 @@ PyDoc_STRVAR(_locale_strxfrm__doc__,
 "--\n"
 "\n"
 "Return a string that can be used as a key for locale-aware comparisons.");
-
-static struct {char name[];} _locale_strxfrm_MethodName = {.name = "strxfrm",};
-#define _LOCALE_STRXFRM_METHODDEF    \
-    {_locale_strxfrm_MethodName.name, (PyCFunction)_locale_strxfrm, METH_O|METH_C_STACK_FRUGAL, _locale_strxfrm__doc__},
 
 static PyObject *
 _locale_strxfrm_impl(PyObject *module, PyObject *str);
@@ -153,6 +149,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _locale_strxfrm_MethodName = {.name = "strxfrm",};
+#define _LOCALE_STRXFRM_METHODDEF    \
+    {_locale_strxfrm_MethodName.name, (PyCFunction)_locale_strxfrm, METH_O|METH_C_STACK_FRUGAL, _locale_strxfrm__doc__},
+
 #endif /* defined(HAVE_WCSXFRM) */
 
 #if defined(MS_WINDOWS)
@@ -161,10 +161,6 @@ PyDoc_STRVAR(_locale__getdefaultlocale__doc__,
 "_getdefaultlocale($module, /)\n"
 "--\n"
 "\n");
-
-static struct {char name[];} _locale__getdefaultlocale_MethodName = {.name = "_getdefaultlocale",};
-#define _LOCALE__GETDEFAULTLOCALE_METHODDEF    \
-    {_locale__getdefaultlocale_MethodName.name, (PyCFunction)_locale__getdefaultlocale, METH_NOARGS|METH_C_STACK_FRUGAL, _locale__getdefaultlocale__doc__},
 
 static PyObject *
 _locale__getdefaultlocale_impl(PyObject *module);
@@ -175,6 +171,10 @@ _locale__getdefaultlocale(PyObject *module, PyObject *Py_UNUSED(ignored))
     return _locale__getdefaultlocale_impl(module);
 }
 
+static struct {char name[];} _locale__getdefaultlocale_MethodName = {.name = "_getdefaultlocale",};
+#define _LOCALE__GETDEFAULTLOCALE_METHODDEF    \
+    {_locale__getdefaultlocale_MethodName.name, (PyCFunction)_locale__getdefaultlocale, METH_NOARGS|METH_C_STACK_FRUGAL, _locale__getdefaultlocale__doc__},
+
 #endif /* defined(MS_WINDOWS) */
 
 #if defined(HAVE_LANGINFO_H)
@@ -184,10 +184,6 @@ PyDoc_STRVAR(_locale_nl_langinfo__doc__,
 "--\n"
 "\n"
 "Return the value for the locale information associated with key.");
-
-static struct {char name[];} _locale_nl_langinfo_MethodName = {.name = "nl_langinfo",};
-#define _LOCALE_NL_LANGINFO_METHODDEF    \
-    {_locale_nl_langinfo_MethodName.name, (PyCFunction)_locale_nl_langinfo, METH_O|METH_C_STACK_FRUGAL, _locale_nl_langinfo__doc__},
 
 static PyObject *
 _locale_nl_langinfo_impl(PyObject *module, int item);
@@ -208,6 +204,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _locale_nl_langinfo_MethodName = {.name = "nl_langinfo",};
+#define _LOCALE_NL_LANGINFO_METHODDEF    \
+    {_locale_nl_langinfo_MethodName.name, (PyCFunction)_locale_nl_langinfo, METH_O|METH_C_STACK_FRUGAL, _locale_nl_langinfo__doc__},
+
 #endif /* defined(HAVE_LANGINFO_H) */
 
 #if defined(HAVE_LIBINTL_H)
@@ -219,10 +219,6 @@ PyDoc_STRVAR(_locale_gettext__doc__,
 "gettext(msg) -> string\n"
 "\n"
 "Return translation of msg.");
-
-static struct {char name[];} _locale_gettext_MethodName = {.name = "gettext",};
-#define _LOCALE_GETTEXT_METHODDEF    \
-    {_locale_gettext_MethodName.name, (PyCFunction)_locale_gettext, METH_O|METH_C_STACK_FRUGAL, _locale_gettext__doc__},
 
 static PyObject *
 _locale_gettext_impl(PyObject *module, const char *in);
@@ -252,6 +248,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _locale_gettext_MethodName = {.name = "gettext",};
+#define _LOCALE_GETTEXT_METHODDEF    \
+    {_locale_gettext_MethodName.name, (PyCFunction)_locale_gettext, METH_O|METH_C_STACK_FRUGAL, _locale_gettext__doc__},
+
 #endif /* defined(HAVE_LIBINTL_H) */
 
 #if defined(HAVE_LIBINTL_H)
@@ -263,10 +263,6 @@ PyDoc_STRVAR(_locale_dgettext__doc__,
 "dgettext(domain, msg) -> string\n"
 "\n"
 "Return translation of msg in domain.");
-
-static struct {char name[];} _locale_dgettext_MethodName = {.name = "dgettext",};
-#define _LOCALE_DGETTEXT_METHODDEF    \
-    {_locale_dgettext_MethodName.name, _PyCFunction_CAST(_locale_dgettext), METH_FASTCALL|METH_C_STACK_FRUGAL, _locale_dgettext__doc__},
 
 static PyObject *
 _locale_dgettext_impl(PyObject *module, const char *domain, const char *in);
@@ -318,6 +314,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _locale_dgettext_MethodName = {.name = "dgettext",};
+#define _LOCALE_DGETTEXT_METHODDEF    \
+    {_locale_dgettext_MethodName.name, _PyCFunction_CAST(_locale_dgettext), METH_FASTCALL|METH_C_STACK_FRUGAL, _locale_dgettext__doc__},
+
 #endif /* defined(HAVE_LIBINTL_H) */
 
 #if defined(HAVE_LIBINTL_H)
@@ -327,10 +327,6 @@ PyDoc_STRVAR(_locale_dcgettext__doc__,
 "--\n"
 "\n"
 "Return translation of msg in domain and category.");
-
-static struct {char name[];} _locale_dcgettext_MethodName = {.name = "dcgettext",};
-#define _LOCALE_DCGETTEXT_METHODDEF    \
-    {_locale_dcgettext_MethodName.name, _PyCFunction_CAST(_locale_dcgettext), METH_FASTCALL|METH_C_STACK_FRUGAL, _locale_dcgettext__doc__},
 
 static PyObject *
 _locale_dcgettext_impl(PyObject *module, const char *domain,
@@ -388,6 +384,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _locale_dcgettext_MethodName = {.name = "dcgettext",};
+#define _LOCALE_DCGETTEXT_METHODDEF    \
+    {_locale_dcgettext_MethodName.name, _PyCFunction_CAST(_locale_dcgettext), METH_FASTCALL|METH_C_STACK_FRUGAL, _locale_dcgettext__doc__},
+
 #endif /* defined(HAVE_LIBINTL_H) */
 
 #if defined(HAVE_LIBINTL_H)
@@ -397,10 +397,6 @@ PyDoc_STRVAR(_locale_textdomain__doc__,
 "--\n"
 "\n"
 "Set the C library\'s textdmain to domain, returning the new domain.");
-
-static struct {char name[];} _locale_textdomain_MethodName = {.name = "textdomain",};
-#define _LOCALE_TEXTDOMAIN_METHODDEF    \
-    {_locale_textdomain_MethodName.name, (PyCFunction)_locale_textdomain, METH_O|METH_C_STACK_FRUGAL, _locale_textdomain__doc__},
 
 static PyObject *
 _locale_textdomain_impl(PyObject *module, const char *domain);
@@ -435,6 +431,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _locale_textdomain_MethodName = {.name = "textdomain",};
+#define _LOCALE_TEXTDOMAIN_METHODDEF    \
+    {_locale_textdomain_MethodName.name, (PyCFunction)_locale_textdomain, METH_O|METH_C_STACK_FRUGAL, _locale_textdomain__doc__},
+
 #endif /* defined(HAVE_LIBINTL_H) */
 
 #if defined(HAVE_LIBINTL_H)
@@ -444,10 +444,6 @@ PyDoc_STRVAR(_locale_bindtextdomain__doc__,
 "--\n"
 "\n"
 "Bind the C library\'s domain to dir.");
-
-static struct {char name[];} _locale_bindtextdomain_MethodName = {.name = "bindtextdomain",};
-#define _LOCALE_BINDTEXTDOMAIN_METHODDEF    \
-    {_locale_bindtextdomain_MethodName.name, _PyCFunction_CAST(_locale_bindtextdomain), METH_FASTCALL|METH_C_STACK_FRUGAL, _locale_bindtextdomain__doc__},
 
 static PyObject *
 _locale_bindtextdomain_impl(PyObject *module, const char *domain,
@@ -483,6 +479,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _locale_bindtextdomain_MethodName = {.name = "bindtextdomain",};
+#define _LOCALE_BINDTEXTDOMAIN_METHODDEF    \
+    {_locale_bindtextdomain_MethodName.name, _PyCFunction_CAST(_locale_bindtextdomain), METH_FASTCALL|METH_C_STACK_FRUGAL, _locale_bindtextdomain__doc__},
+
 #endif /* defined(HAVE_LIBINTL_H) */
 
 #if defined(HAVE_LIBINTL_H) && defined(HAVE_BIND_TEXTDOMAIN_CODESET)
@@ -492,10 +492,6 @@ PyDoc_STRVAR(_locale_bind_textdomain_codeset__doc__,
 "--\n"
 "\n"
 "Bind the C library\'s domain to codeset.");
-
-static struct {char name[];} _locale_bind_textdomain_codeset_MethodName = {.name = "bind_textdomain_codeset",};
-#define _LOCALE_BIND_TEXTDOMAIN_CODESET_METHODDEF    \
-    {_locale_bind_textdomain_codeset_MethodName.name, _PyCFunction_CAST(_locale_bind_textdomain_codeset), METH_FASTCALL|METH_C_STACK_FRUGAL, _locale_bind_textdomain_codeset__doc__},
 
 static PyObject *
 _locale_bind_textdomain_codeset_impl(PyObject *module, const char *domain,
@@ -548,6 +544,10 @@ exit:
     return return_value;
 }
 
+static struct {char name[];} _locale_bind_textdomain_codeset_MethodName = {.name = "bind_textdomain_codeset",};
+#define _LOCALE_BIND_TEXTDOMAIN_CODESET_METHODDEF    \
+    {_locale_bind_textdomain_codeset_MethodName.name, _PyCFunction_CAST(_locale_bind_textdomain_codeset), METH_FASTCALL|METH_C_STACK_FRUGAL, _locale_bind_textdomain_codeset__doc__},
+
 #endif /* defined(HAVE_LIBINTL_H) && defined(HAVE_BIND_TEXTDOMAIN_CODESET) */
 
 PyDoc_STRVAR(_locale_getencoding__doc__,
@@ -555,10 +555,6 @@ PyDoc_STRVAR(_locale_getencoding__doc__,
 "--\n"
 "\n"
 "Get the current locale encoding.");
-
-static struct {char name[];} _locale_getencoding_MethodName = {.name = "getencoding",};
-#define _LOCALE_GETENCODING_METHODDEF    \
-    {_locale_getencoding_MethodName.name, (PyCFunction)_locale_getencoding, METH_NOARGS|METH_C_STACK_FRUGAL, _locale_getencoding__doc__},
 
 static PyObject *
 _locale_getencoding_impl(PyObject *module);
@@ -568,6 +564,10 @@ _locale_getencoding(PyObject *module, PyObject *Py_UNUSED(ignored))
 {
     return _locale_getencoding_impl(module);
 }
+
+static struct {char name[];} _locale_getencoding_MethodName = {.name = "getencoding",};
+#define _LOCALE_GETENCODING_METHODDEF    \
+    {_locale_getencoding_MethodName.name, (PyCFunction)_locale_getencoding, METH_NOARGS|METH_C_STACK_FRUGAL, _locale_getencoding__doc__},
 
 #ifndef _LOCALE_STRCOLL_METHODDEF
     #define _LOCALE_STRCOLL_METHODDEF
@@ -608,4 +608,4 @@ _locale_getencoding(PyObject *module, PyObject *Py_UNUSED(ignored))
 #ifndef _LOCALE_BIND_TEXTDOMAIN_CODESET_METHODDEF
     #define _LOCALE_BIND_TEXTDOMAIN_CODESET_METHODDEF
 #endif /* !defined(_LOCALE_BIND_TEXTDOMAIN_CODESET_METHODDEF) */
-/*[clinic end generated code: output=fbdc103ecbef28a7 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=6337151bd0df2ce1 input=a9049054013a1b77]*/

@@ -157,7 +157,7 @@ PyObject *_PyReturnAction_AdaptExit(ReturnAction_StateWrapper *this, PyObject *r
         if (next){
             _PyFrame_AddReturnActionWrapper(*inlined, next);
         }
-        return res;
+        return nextres;
     }
 
     // move on
