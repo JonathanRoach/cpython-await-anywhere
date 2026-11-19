@@ -1825,13 +1825,13 @@ static void _PyProperty_Slot_tp_descr_set_Inlineable_WrappedInit(_PyProperty_Slo
     ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
     wrapped->gs = (propertyobject *)Py_NewRef((PyObject *)state->gs);
     wrapped->obj = Py_NewRef(state->obj);
-    wrapped->value = Py_NewRef(state->value);
+    wrapped->value = Py_XNewRef(state->value);
 }
 
 static void _PyProperty_Slot_tp_descr_set_Inlineable_WrappedDtor(_PyProperty_Slot_tp_descr_set_Inlineable_State *wrapped){
     Py_DECREF((PyObject *)wrapped->gs);
     Py_DECREF(wrapped->obj);
-    Py_DECREF(wrapped->value);
+    Py_XDECREF(wrapped->value);
 }
 
 RETURNACTION_STEPDEFINITION_R(int, _PyProperty_Slot_tp_descr_set_Inlineable, 1)
