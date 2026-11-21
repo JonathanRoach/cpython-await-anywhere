@@ -38,36 +38,40 @@ PyObject*
 _PyEM_TrampolineCall(PyCFunctionWithKeywords func,
                      PyObject* self,
                      PyObject* args,
-                     PyObject* kw);
+                     PyObject* kw
+                     PyObject *inlined);
 
 #if PY_ASYNC_BY_COROUTINE_C
 _PY_MAX_STACK_FOR_CALL_IF_4(static inline, PyObject *, _PyCFunction_TrampolineCall, PyCFunction func, PyObject*, self, PyObject*, args)
-    return _PyEM_TrampolineCall(*_PyCFunctionWithKeywords_CAST(meth), self, args, NULL);
+    return _PyEM_TrampolineCall(*_PyCFunctionWithKeywords_CAST(meth), self, args, NULL, NULL);
 }
 _PY_MAX_STACK_FOR_CALL_IF_5(static inline, PyObject *, _PyCFunction_Inlineable_TrampolineCall, PyCFunction_Inlineable func, PyObject*, self, PyObject*, args, struct _PyInterpreterFrame **, inlined)
-    return _PyEM_TrampolineCall(*_PyCFunctionWithKeywords_CAST(meth), self, args, (PyObject *)inlined);
+    return _PyEM_TrampolineCall(*_PyCFunctionWithKeywords_CAST(meth), self, args, (PyObject *)inlined, NULL);
 }
 
 _PY_MAX_STACK_FOR_CALL_IF_4(static inline, PyObject *, _PyCFunctionWithKeywords_TrampolineCall, PyCFunctionWithKeywords meth, PyObject*, self, PyObject*, args, PyObject*, kw)
-    return _PyEM_TrampolineCall(meth, self, args, kw);
+    return _PyEM_TrampolineCall(meth, self, args, kw, NULL);
+}
+_PY_MAX_STACK_FOR_CALL_IF_5(static inline, PyObject *, _PyCFunctionWithKeywords_Inlineable_TrampolineCall, PyCFunctionWithKeywords_Inlineable meth, PyObject*, self, PyObject*, args, PyObject*, kw, struct _PyInterpreterFrame **, inlined)
+    return _PyEM_TrampolineCall(meth, self, args, kw, (PyObject *)inlined);
 }
 #else
 #define _PyCFunction_TrampolineCall(meth, self, args) \
-    _PyEM_TrampolineCall(*_PyCFunctionWithKeywords_CAST(meth), (self), (args), NULL)
+    _PyEM_TrampolineCall(*_PyCFunctionWithKeywords_CAST(meth), (self), (args), NULL, NULL)
 #define _PyCFunction_Inlineable_TrampolineCall(meth, self, args, inlined) \
-    _PyEM_TrampolineCall(*_PyCFunctionWithKeywords_CAST(meth), (self), (args), (PyObject *)(inlined))
+    _PyEM_TrampolineCall(*_PyCFunctionWithKeywords_CAST(meth), (self), (args), (PyObject *)(inlined), NULL)
 
 #define _PyCFunctionWithKeywords_TrampolineCall(meth, self, args, kw) \
-    _PyEM_TrampolineCall((meth), (self), (args), (kw))
+    _PyEM_TrampolineCall((meth), (self), (args), (kw), NULL)
 #endif
 
 #define descr_set_trampoline_call(set, obj, value, closure)                 \
     ((int)_PyEM_TrampolineCall(_PyCFunctionWithKeywords_CAST(set), (obj),   \
-                               (value), (PyObject*)(closure)))
+                               (value), (PyObject*)(closure), NULL))
 
 #define descr_get_trampoline_call(get, obj, closure)                \
     _PyEM_TrampolineCall(_PyCFunctionWithKeywords_CAST(get), (obj), \
-                         (PyObject*)(closure), NULL)
+                         (PyObject*)(closure), NULL, NULL)
 
 
 #else // defined(__EMSCRIPTEN__) && defined(PY_CALL_TRAMPOLINE)
@@ -83,6 +87,9 @@ _PY_MAX_STACK_FOR_CALL_IF_4(static inline, PyObject *, _PyCFunction_Inlineable_T
 _PY_MAX_STACK_FOR_CALL_IF_4(static inline, PyObject *, _PyCFunctionWithKeywords_TrampolineCall, PyCFunctionWithKeywords, meth, PyObject*, self, PyObject*, args, PyObject*, kw)
     return meth(self, args, kw);
 }
+_PY_MAX_STACK_FOR_CALL_IF_5(static inline, PyObject *, _PyCFunctionWithKeywords_Inlineable_TrampolineCall, PyCFunctionWithKeywords_Inlineable, meth, PyObject*, self, PyObject*, args, PyObject*, kw, struct _PyInterpreterFrame **, inlined)
+    return meth(self, args, kw, inlined);
+}
 #else
 #define _PyCFunction_TrampolineCall(meth, self, args) \
     (meth)((self), (args))
@@ -91,6 +98,8 @@ _PY_MAX_STACK_FOR_CALL_IF_4(static inline, PyObject *, _PyCFunctionWithKeywords_
 
 #define _PyCFunctionWithKeywords_TrampolineCall(meth, self, args, kw) \
     (meth)((self), (args), (kw))
+#define _PyCFunctionWithKeywords_Inlineable_TrampolineCall(meth, self, args, kw, inlined) \
+    (meth)((self), (args), (kw), (inlined))
 #endif
 
 #define descr_set_trampoline_call(set, obj, value, closure) \

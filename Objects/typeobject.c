@@ -11978,7 +11978,7 @@ static struct SlotInfos {
     SLOTIINFO(tp,_setattr)
     SLOTINFO(tp,_repr)
     SLOTINFO(tp,_hash)
-    SLOTINFO(tp,_call)
+    SLOTIINFO(tp,_call)
     SLOTINFO(tp,_str)
     SLOTIINFO(tp,_getattro)
     SLOTIINFO(tp,_setattro)

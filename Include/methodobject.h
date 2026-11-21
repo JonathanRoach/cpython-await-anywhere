@@ -22,6 +22,8 @@ typedef PyObject *(*PyCFunctionFast) (PyObject *, PyObject *const *, Py_ssize_t)
 typedef PyObject *(*PyCFunctionFast_Inlineable) (PyObject *, PyObject *const *, Py_ssize_t, struct _PyInterpreterFrame **inlined);
 typedef PyObject *(*PyCFunctionWithKeywords)(PyObject *, PyObject *,
                                              PyObject *);
+typedef PyObject *(*PyCFunctionWithKeywords_Inlineable)(PyObject *, PyObject *,
+                                             PyObject *, struct _PyInterpreterFrame **inlined);
 typedef PyObject *(*PyCFunctionFastWithKeywords) (PyObject *,
                                                   PyObject *const *, Py_ssize_t,
                                                   PyObject *);

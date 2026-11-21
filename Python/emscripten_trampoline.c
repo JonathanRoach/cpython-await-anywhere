@@ -80,12 +80,14 @@ function getPyEMCountArgsPtr() {
     const code = new Uint8Array([
         0x00, 0x61, 0x73, 0x6d, // \0asm magic number
         0x01, 0x00, 0x00, 0x00, // version 1
-        0x01, 0x1a, // Type section, body is 0x1a bytes
+        0x01, 0x22, // Type section, body is 0x22 bytes
             0x05, // 6 entries
             0x60, 0x00, 0x01, 0x7f,                      // (type $type0 (func (param) (result i32)))
             0x60, 0x01, 0x7f, 0x01, 0x7f,                // (type $type1 (func (param i32) (result i32)))
             0x60, 0x02, 0x7f, 0x7f, 0x01, 0x7f,          // (type $type2 (func (param i32 i32) (result i32)))
             0x60, 0x03, 0x7f, 0x7f, 0x7f, 0x01, 0x7f,    // (type $type3 (func (param i32 i32 i32) (result i32)))
+            0x60, 0x04, 0x7f, 0x7f, 0x7f, 0x7f, 0x01, 0x7f,
+                                                         // (type $type4 (func (param i32 i32 i32 i32) (result i32)))
             0x60, 0x00, 0x00,                            // (type $blocktype (func (param) (result)))
         0x02, 0x09, // Import section, 0x9 byte body
             0x01, // 1 import (table $funcs (import "e" "t") 0 funcref)
@@ -102,36 +104,43 @@ function getPyEMCountArgsPtr() {
             0x00, // a function
             0x00, // at index 0
 
-        0x0a, 56,  // Code section,
-            0x01, 54, // one entry of length 54
+        0x0a, 67,  // Code section,
+            0x01, 65, // one entry of length 65
             0x01, 0x01, 0x70, // one local of type funcref
             // Body of the function
             0x20, 0x00,       // local.get $fptr
             0x25, 0x00,       // table.get $funcs
             0x22, 0x01,       // local.tee $fref
-            0xfb, 0x14, 0x03, // ref.test $type3
-            0x04, 0x04,       // if (type $blocktype)
+            0xfb, 0x14, 0x04, // ref.test $type4
+            0x04, 0x05,       // if (type $blocktype)
+                0x41, 0x04,   //   i32.const 4
+                0x0f,         //   return
+            0x0b,             // end block
+
+            0x20, 0x01,       // local.get $fref
+            0xfb, 0x14, 0x03, // ref.test $type2
+            0x04, 0x05,       // if (type $blocktype)
                 0x41, 0x03,   //   i32.const 3
                 0x0f,         //   return
             0x0b,             // end block
 
             0x20, 0x01,       // local.get $fref
             0xfb, 0x14, 0x02, // ref.test $type2
-            0x04, 0x04,       // if (type $blocktype)
+            0x04, 0x05,       // if (type $blocktype)
                 0x41, 0x02,   //   i32.const 2
                 0x0f,         //   return
             0x0b,             // end block
 
             0x20, 0x01,       // local.get $fref
             0xfb, 0x14, 0x01, // ref.test $type1
-            0x04, 0x04,       // if (type $blocktype)
+            0x04, 0x05,       // if (type $blocktype)
                 0x41, 0x01,   //   i32.const 1
                 0x0f,         //   return
             0x0b,             // end block
 
             0x20, 0x01,       // local.get $fref
             0xfb, 0x14, 0x00, // ref.test $type0
-            0x04, 0x04,       // if (type $blocktype)
+            0x04, 0x05,       // if (type $blocktype)
                 0x41, 0x00,   //   i32.const 0
                 0x0f,         //   return
             0x0b,             // end block
@@ -180,12 +189,14 @@ typedef PyObject* (*zero_arg)(void);
 typedef PyObject* (*one_arg)(PyObject*);
 typedef PyObject* (*two_arg)(PyObject*, PyObject*);
 typedef PyObject* (*three_arg)(PyObject*, PyObject*, PyObject*);
+typedef PyObject* (*four_arg)(PyObject*, PyObject*, PyObject*, PyObject *);
 
 PyObject*
 _PyEM_TrampolineCall(PyCFunctionWithKeywords func,
                      PyObject* self,
                      PyObject* args,
-                     PyObject* kw)
+                     PyObject* kw,
+                     PyObject *inlined)
 {
     CountArgsFunc count_args = _PyRuntime.emscripten_count_args_function;
     if (count_args == 0) {
@@ -200,6 +211,8 @@ _PyEM_TrampolineCall(PyCFunctionWithKeywords func,
             return ((two_arg)func)(self, args);
         case 3:
             return ((three_arg)func)(self, args, kw);
+        case 4:
+            return ((four_arg)func)(self, args, kw, inlined);
         default:
             PyErr_SetString(PyExc_SystemError, "Handler takes too many arguments");
             return NULL;

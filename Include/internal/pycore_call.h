@@ -142,6 +142,12 @@ _PyVectorcall_FunctionInline(PyObject *callable)
     return ptr;
 }
 
+typedef struct vectorcallfunctions {
+    vectorcallfunc func;
+    vectorcallfunc_inlineable func_inlineable;
+} vectorcallfunctions;
+vectorcallfunctions PyVectorcall_Functions(PyObject *callable);
+
 
 /* Call the callable object 'callable' with the "vectorcall" calling
    convention.

@@ -130,49 +130,102 @@ PyObject_CallNoArgs(PyObject *func)
 }
 #endif
 
+RETURNACTION_STDCLASSDECLARATION(_PyObject_VectorcallDictTstate)
+
+struct _PyObject_VectorcallDictTstate_State {
+    ReturnAction_State base;
+    PyThreadState *tstate;
+    PyObject *callable;
+    PyObject *const *args;
+    size_t nargsf;
+    PyObject *kwargs;
+    PyObject *const *newargs;
+    PyObject *kwnames;
+};
+
+static void _PyObject_VectorcallDictTstate_WrappedInit(_PyObject_VectorcallDictTstate_State *wrapped,_PyObject_VectorcallDictTstate_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+    wrapped->tstate = state->tstate;
+    wrapped->callable = Py_NewRef(state->callable);
+    wrapped->args = state->args;
+    wrapped->nargsf = state->nargsf;
+    wrapped->kwargs = Py_XNewRef(state->kwargs);
+    wrapped->newargs = state->newargs;
+    wrapped->kwnames = state->kwnames;
+}
+
+static void _PyObject_VectorcallDictTstate_WrappedDtor(_PyObject_VectorcallDictTstate_State *wrapped){
+    Py_DECREF(wrapped->callable);
+    Py_XDECREF(wrapped->kwargs);
+    if (wrapped->newargs){
+        _PyStack_UnpackDict_Free(wrapped->newargs, PyVectorcall_NARGS(wrapped->nargsf), wrapped->kwnames);
+    }
+}
+
+RETURNACTION_STEPDEFINITION(_PyObject_VectorcallDictTstate, 2)
+    assert(state->callable != NULL);
+
+    /* PyObject_VectorcallDict() must not be called with an exception set,
+       because it can clear it (directly or indirectly) and so the
+       caller loses its exception */
+    assert(!_PyErr_Occurred(state->tstate));
+
+    Py_ssize_t nargs = PyVectorcall_NARGS(state->nargsf);
+    assert(nargs >= 0);
+    assert(nargs == 0 || state->args != NULL);
+    assert(state->kwargs == NULL || PyDict_Check(state->kwargs));
+
+    vectorcallfunctions funcs = PyVectorcall_Functions(state->callable);
+    if (funcs.func == NULL) {
+        /* Use tp_call instead */
+        return _PyObject_MakeTpCall(state->tstate, state->callable, state->args, nargs, state->kwargs, inlined);
+    }
+
+    if (state->kwargs == NULL || PyDict_GET_SIZE(state->kwargs) == 0) {
+        if (funcs.func_inlineable){
+            result = funcs.func_inlineable(state->callable, state->args, state->nargsf, NULL, inlined);
+            RETURNACTION_CHECKINLINED(1)
+        } else {
+            result = funcs.func(state->callable, state->args, state->nargsf, NULL);
+        }
+    } else {
+        state->newargs = _PyStack_UnpackDict(state->tstate,
+                                      state->args, nargs,
+                                      state->kwargs, &state->kwnames);
+        if (state->newargs == NULL) {
+            return NULL;
+        }
+        if (funcs.func_inlineable){
+            result = funcs.func_inlineable(state->callable, state->newargs,
+                    nargs | PY_VECTORCALL_ARGUMENTS_OFFSET, state->kwnames, inlined);
+            RETURNACTION_CHECKINLINED(2)
+        } else {
+            result = funcs.func(state->callable, state->newargs,
+                    nargs | PY_VECTORCALL_ARGUMENTS_OFFSET, state->kwnames);
+        }
+        _PyStack_UnpackDict_Free(state->newargs, PyVectorcall_NARGS(state->nargsf), state->kwnames);
+        state->newargs = NULL;
+    }
+    return _Py_CheckFunctionResult(state->tstate, state->callable, result, NULL);
+}
+
 PyObject *
 _PyObject_VectorcallDictTstate(PyThreadState *tstate, PyObject *callable,
                                PyObject *const *args, size_t nargsf,
                                PyObject *kwargs, struct _PyInterpreterFrame **inlined)
 {
-    assert(callable != NULL);
-
-    /* PyObject_VectorcallDict() must not be called with an exception set,
-       because it can clear it (directly or indirectly) and so the
-       caller loses its exception */
-    assert(!_PyErr_Occurred(tstate));
-
-    Py_ssize_t nargs = PyVectorcall_NARGS(nargsf);
-    assert(nargs >= 0);
-    assert(nargs == 0 || args != NULL);
-    assert(kwargs == NULL || PyDict_Check(kwargs));
-
-    vectorcallfunc func = PyVectorcall_Function(callable);
-    if (func == NULL) {
-        /* Use tp_call instead */
-        return _PyObject_MakeTpCall(tstate, callable, args, nargs, kwargs, inlined);
-    }
-
-    PyObject *res;
-    if (kwargs == NULL || PyDict_GET_SIZE(kwargs) == 0) {
-        res = func(callable, args, nargsf, NULL);
-    }
-    else {
-        PyObject *kwnames;
-        PyObject *const *newargs;
-        newargs = _PyStack_UnpackDict(tstate,
-                                      args, nargs,
-                                      kwargs, &kwnames);
-        if (newargs == NULL) {
-            return NULL;
-        }
-        res = func(callable, newargs,
-                   nargs | PY_VECTORCALL_ARGUMENTS_OFFSET, kwnames);
-        _PyStack_UnpackDict_Free(newargs, nargs, kwnames);
-    }
-    return _Py_CheckFunctionResult(tstate, callable, res, NULL);
+    _PyObject_VectorcallDictTstate_State state = {
+        .base.step = 0,
+        .tstate = tstate,
+        .callable = callable,
+        .args = args,
+        .nargsf = nargsf,
+        .kwargs = kwargs,
+        .newargs = NULL,
+        .kwnames = NULL,
+    };
+    return _PyObject_VectorcallDictTstate_Step(&state, NULL, inlined);
 }
-
 
 PyObject *
 PyObject_VectorcallDict(PyObject *callable, PyObject *const *args,
@@ -236,6 +289,7 @@ _PyObject_MakeTpCall(PyThreadState *tstate, PyObject *callable,
         object_is_not_callable(tstate, callable);
         return NULL;
     }
+    ternaryfunc_inlineable call_inlineable = PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) ? tp->tp_call_inlineable : NULL;
 
     PyObject *argstuple = _PyTuple_FromArray(args, nargs);
     if (argstuple == NULL) {
@@ -263,13 +317,23 @@ _PyObject_MakeTpCall(PyThreadState *tstate, PyObject *callable,
     PyObject *result = NULL;
     if (_Py_EnterRecursiveCallTstate(tstate, " while calling a Python object") == 0)
     {
+        if (call_inlineable){
 #if PY_ASYNC_BY_COROUTINE_C
-        result = _PyCFunctionWithKeywords_TrampolineCall(PYTYPE_SLOTISFRUGAL(tp, tp, call),
-            (PyCFunctionWithKeywords)call, callable, argstuple, kwdict);
+            result = _PyCFunctionWithKeywords_Inlineable_TrampolineCall(PYTYPE_SLOTISFRUGAL(tp, tp, call_inlineable),
+                (PyCFunctionWithKeywords_Inlineable)call_inlineable, callable, argstuple, kwdict, inlined);
 #else
-        result = _PyCFunctionWithKeywords_TrampolineCall(
-            (PyCFunctionWithKeywords)call, callable, argstuple, kwdict);
+            result = _PyCFunctionWithKeywords_Inlineable_TrampolineCall(
+                (PyCFunctionWithKeywords_Inlineable)call_inlineable, callable, argstuple, kwdict, inlined);
 #endif
+        } else {
+#if PY_ASYNC_BY_COROUTINE_C
+            result = _PyCFunctionWithKeywords_TrampolineCall(PYTYPE_SLOTISFRUGAL(tp, tp, call),
+                (PyCFunctionWithKeywords)call, callable, argstuple, kwdict);
+#else
+            result = _PyCFunctionWithKeywords_TrampolineCall(
+                (PyCFunctionWithKeywords)call, callable, argstuple, kwdict);
+#endif
+        }
         _Py_LeaveRecursiveCallTstate(tstate);
     }
 
@@ -286,6 +350,33 @@ vectorcallfunc
 PyVectorcall_Function(PyObject *callable)
 {
     return _PyVectorcall_FunctionInline(callable);
+}
+
+
+vectorcallfunctions PyVectorcall_Functions(PyObject *callable){
+    assert(callable != NULL);
+
+    PyTypeObject *tp = Py_TYPE(callable);
+    vectorcallfunctions ptr;
+    if (!PyType_HasFeature(tp, Py_TPFLAGS_HAVE_VECTORCALL)) {
+        ptr.func = NULL;
+        ptr.func_inlineable = NULL;
+    } else {
+        assert(PyCallable_Check(callable));
+
+        Py_ssize_t offset = tp->tp_vectorcall_offset;
+        assert(offset > 0);
+        memcpy(&ptr.func, (char const *)callable + offset, sizeof(ptr.func));
+        
+        if (PyType_HasFeature(tp, Py_TPFLAGS_IS_EXTENDED) && tp->tp_vectorcall_offset_inlineable){
+            offset = tp->tp_vectorcall_offset_inlineable;
+            assert(offset > 0);
+            memcpy(&ptr.func_inlineable, (char const *)callable + offset, sizeof(ptr.func_inlineable));
+        } else {
+            ptr.func_inlineable = NULL;
+        }
+    }
+    return ptr;
 }
 
 
