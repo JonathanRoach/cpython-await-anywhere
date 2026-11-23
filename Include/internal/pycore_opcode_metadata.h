@@ -666,7 +666,7 @@ int _PyOpcode_num_pushed(int opcode, int oparg)  {
         case DELETE_NAME:
             return 0;
         case DELETE_SUBSCR:
-            return 0;
+            return 1;
         case DICT_MERGE:
             return 4 + (oparg - 1);
         case DICT_UPDATE:

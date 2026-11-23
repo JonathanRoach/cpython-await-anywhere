@@ -100,6 +100,7 @@ PyAPI_FUNC(PyObject*) _PyNumber_Index(PyObject *o);
 PyAPI_FUNC(PyObject*) PyNumber_Index_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined);
 PyAPI_FUNC(PyObject*) PyNumber_Float_Inlineable(PyObject *o, struct _PyInterpreterFrame **inlined);
 PyObject *PyObject_SetItem_Inlineable(PyObject *o, PyObject *key, PyObject *v, struct _PyInterpreterFrame **inlined);
+PyObject *PyObject_DelItem_Inlineable(PyObject *o, PyObject *key, struct _PyInterpreterFrame **inlined);
 
 #ifdef __cplusplus
 }

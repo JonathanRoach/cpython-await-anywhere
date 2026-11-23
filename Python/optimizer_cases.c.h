@@ -737,7 +737,7 @@
         }
 
         case _DELETE_SUBSCR: {
-            stack_pointer += -2;
+            stack_pointer += -1;
             assert(WITHIN_STACK_BOUNDS());
             break;
         }

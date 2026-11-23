@@ -5586,6 +5586,7 @@ codegen_subscript(compiler *c, expr_ty e)
                 break;
             case Del:
                 ADDOP(c, loc, DELETE_SUBSCR);
+                ADDOP(c, loc, POP_TOP);
                 break;
         }
     }
@@ -6111,6 +6112,7 @@ codegen_pattern_mapping(compiler *c, pattern_ty p,
             ADDOP_I(c, LOC(p), COPY, 1 + size--);   // [copy, keys..., copy]
             ADDOP_I(c, LOC(p), SWAP, 2);            // [copy, keys..., copy, key]
             ADDOP(c, LOC(p), DELETE_SUBSCR);        // [copy, keys...]
+            ADDOP(c, LOC(p), POP_TOP);
         }
         RETURN_IF_ERROR(codegen_pattern_helper_store_name(c, LOC(p), star_target, pc));
     }

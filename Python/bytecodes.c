@@ -1043,7 +1043,7 @@ dummy_func(
             #endif  /* ENABLE_SPECIALIZATION_FT */
         }
 
-        op(_STORE_SUBSCR, (v, container, sub -- unused )) {
+        op(_STORE_SUBSCR, (v, container, sub -- unused)) {
             /* container[sub] = v */
             int err;
             if ( tstate->interp->eval_frame ){
@@ -1077,7 +1077,7 @@ dummy_func(
         macro(STORE_SUBSCR_LIST_INT) =
             _GUARD_TOS_INT + _GUARD_NOS_LIST + unused/1 + _STORE_SUBSCR_LIST_INT;
 
-        op(_STORE_SUBSCR_LIST_INT, (value, list_st, sub_st -- unused )) {
+        op(_STORE_SUBSCR_LIST_INT, (value, list_st, sub_st -- unused)) {
             PyObject *sub = PyStackRef_AsPyObjectBorrow(sub_st);
             PyObject *list = PyStackRef_AsPyObjectBorrow(list_st);
 
@@ -1112,7 +1112,7 @@ dummy_func(
         macro(STORE_SUBSCR_DICT) =
             _GUARD_NOS_DICT + unused/1 + _STORE_SUBSCR_DICT;
 
-        op(_STORE_SUBSCR_DICT, (value, dict_st, sub -- unused )) {
+        op(_STORE_SUBSCR_DICT, (value, dict_st, sub -- unused)) {
             PyObject *dict = PyStackRef_AsPyObjectBorrow(dict_st);
 
             assert(PyDict_CheckExact(dict));
@@ -1127,12 +1127,34 @@ dummy_func(
             DISPATCH();
         }
 
-        inst(DELETE_SUBSCR, (container, sub --)) {
+        inst(DELETE_SUBSCR, (container, sub -- unused)) {
             /* del container[sub] */
-            int err = PyObject_DelItem(PyStackRef_AsPyObjectBorrow(container),
-                                       PyStackRef_AsPyObjectBorrow(sub));
+            int err;
+            if ( tstate->interp->eval_frame ){
+                err = PyObject_DelItem(PyStackRef_AsPyObjectBorrow(container), PyStackRef_AsPyObjectBorrow(sub));
+            } else {
+                _PyInterpreterFrame *inlined = frame;
+                PyObject *ret = PyObject_DelItem_Inlineable(PyStackRef_AsPyObjectBorrow(container),
+                            PyStackRef_AsPyObjectBorrow(sub), &inlined);
+                if (inlined != frame){
+                    // Manipulate stack directly because we exit with DISPATCH_INLINED().
+                    DECREF_INPUTS();
+                    frame->return_offset = INSTRUCTION_SIZE;
+                    DISPATCH_INLINED(inlined);
+                }
+                if (ret){
+                    Py_DECREF(ret);
+                    err = 0;
+                } else {
+                    err = -1;
+                }
+            }
+
             DECREF_INPUTS();
             ERROR_IF(err);
+            /* Skip the POP_TOP after DELETE_SUBSCR */
+            SKIP_OVER(1);
+            DISPATCH();
         }
 
         inst(CALL_INTRINSIC_1, (value -- res)) {

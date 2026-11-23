@@ -356,37 +356,83 @@ PyObject_SetItem(PyObject *o, PyObject *key, PyObject *value)
     return 0;
 }
 
+RETURNACTION_STDCLASSDECLARATION(PyObject_DelItem_Inlineable)
+
+struct PyObject_DelItem_Inlineable_State {
+    ReturnAction_State base;
+    PyObject *o;
+    PyObject *key;
+};
+
+static void PyObject_DelItem_Inlineable_WrappedInit(PyObject_DelItem_Inlineable_State *wrapped, PyObject_DelItem_Inlineable_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+    wrapped->o = Py_NewRef(state->o);
+    wrapped->key = Py_NewRef(state->key);
+}
+
+static void PyObject_DelItem_Inlineable_WrappedDtor(PyObject_DelItem_Inlineable_State *wrapped){
+    Py_DECREF(wrapped->o);
+    Py_DECREF(wrapped->key);
+}
+
+RETURNACTION_STEPDEFINITION(PyObject_DelItem_Inlineable, 1)
+    if (state->o == NULL || state->key == NULL) {
+        null_error();
+        return NULL;
+    }
+
+    PyMappingMethods *m = Py_TYPE(state->o)->tp_as_mapping;
+    if (m && m->mp_ass_subscript) {
+        int res = PyType_Call_mp_ass_subscript_Inlineable(Py_TYPE(state->o), state->o, state->key, (PyObject*)NULL, inlined);
+        RETURNACTION_CHECKINLINED(1, res = (int)(Py_ssize_t)result;)
+        assert(_Py_CheckSlotResult(state->o, "__delitem__", res >= 0));
+        if (res){
+            return NULL;
+        }
+        Py_RETURN_NONE;
+    }
+
+    if (Py_TYPE(state->o)->tp_as_sequence) {
+        if (_PyIndex_Check(state->key)) {
+            Py_ssize_t key_value;
+            key_value = PyNumber_AsSsize_t(state->key, PyExc_IndexError);
+            if (key_value == -1 && PyErr_Occurred())
+                return NULL;
+            if (PySequence_DelItem(state->o, key_value)){
+                return NULL;
+            }
+            Py_RETURN_NONE;
+        }
+        else if (Py_TYPE(state->o)->tp_as_sequence->sq_ass_item) {
+            type_error("sequence index must be "
+                       "integer, not '%.200s'", state->key);
+            return NULL;
+        }
+    }
+
+    type_error("'%.200s' object does not support item deletion", state->o);
+    return NULL;
+}
+
+PyObject *
+PyObject_DelItem_Inlineable(PyObject *o, PyObject *key, struct _PyInterpreterFrame **inlined)
+{
+    PyObject_DelItem_Inlineable_State state = {
+        .base.step = 0,
+        .o = o,
+        .key = key,
+    };
+    return PyObject_DelItem_Inlineable_Step(&state, NULL, inlined);
+}
+
 int
 PyObject_DelItem(PyObject *o, PyObject *key)
 {
-    if (o == NULL || key == NULL) {
-        null_error();
-        return -1;
+    PyObject *res = PyObject_DelItem_Inlineable(o, key, NULL);
+    if (res){
+        Py_DECREF(res);
+        return 0;
     }
-
-    PyMappingMethods *m = Py_TYPE(o)->tp_as_mapping;
-    if (m && m->mp_ass_subscript) {
-        int res = PyType_Call_mp_ass_subscript(Py_TYPE(o), o, key, (PyObject*)NULL);
-        assert(_Py_CheckSlotResult(o, "__delitem__", res >= 0));
-        return res;
-    }
-
-    if (Py_TYPE(o)->tp_as_sequence) {
-        if (_PyIndex_Check(key)) {
-            Py_ssize_t key_value;
-            key_value = PyNumber_AsSsize_t(key, PyExc_IndexError);
-            if (key_value == -1 && PyErr_Occurred())
-                return -1;
-            return PySequence_DelItem(o, key_value);
-        }
-        else if (Py_TYPE(o)->tp_as_sequence->sq_ass_item) {
-            type_error("sequence index must be "
-                       "integer, not '%.200s'", key);
-            return -1;
-        }
-    }
-
-    type_error("'%.200s' object does not support item deletion", o);
     return -1;
 }
 
