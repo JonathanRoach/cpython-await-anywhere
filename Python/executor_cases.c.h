@@ -1636,8 +1636,47 @@
             sub = stack_pointer[-1];
             container = stack_pointer[-2];
             v = stack_pointer[-3];
+            int err;
+            if ( tstate->interp->eval_frame ){
+                _PyFrame_SetStackPointer(frame, stack_pointer);
+                err = PyObject_SetItem(PyStackRef_AsPyObjectBorrow(container), PyStackRef_AsPyObjectBorrow(sub), PyStackRef_AsPyObjectBorrow(v));
+                stack_pointer = _PyFrame_GetStackPointer(frame);
+            } else {
+                _PyInterpreterFrame *inlined = frame;
+                _PyFrame_SetStackPointer(frame, stack_pointer);
+                PyObject *ret = PyObject_SetItem_Inlineable(PyStackRef_AsPyObjectBorrow(container),
+                    PyStackRef_AsPyObjectBorrow(sub), PyStackRef_AsPyObjectBorrow(v), &inlined);
+                stack_pointer = _PyFrame_GetStackPointer(frame);
+                if (inlined != frame){
+                    _PyFrame_SetStackPointer(frame, stack_pointer);
+                    _PyStackRef tmp = sub;
+                    sub = PyStackRef_NULL;
+                    stack_pointer[-1] = sub;
+                    PyStackRef_CLOSE(tmp);
+                    tmp = container;
+                    container = PyStackRef_NULL;
+                    stack_pointer[-2] = container;
+                    PyStackRef_CLOSE(tmp);
+                    tmp = v;
+                    v = PyStackRef_NULL;
+                    stack_pointer[-3] = v;
+                    PyStackRef_CLOSE(tmp);
+                    stack_pointer = _PyFrame_GetStackPointer(frame);
+                    stack_pointer += -3;
+                    assert(WITHIN_STACK_BOUNDS());
+                    frame->return_offset = 2 ;
+                    DISPATCH_INLINED(inlined);
+                }
+                if (ret){
+                    _PyFrame_SetStackPointer(frame, stack_pointer);
+                    Py_DECREF(ret);
+                    stack_pointer = _PyFrame_GetStackPointer(frame);
+                    err = 0;
+                } else {
+                    err = -1;
+                }
+            }
             _PyFrame_SetStackPointer(frame, stack_pointer);
-            int err = PyObject_SetItem(PyStackRef_AsPyObjectBorrow(container), PyStackRef_AsPyObjectBorrow(sub), PyStackRef_AsPyObjectBorrow(v));
             _PyStackRef tmp = sub;
             sub = PyStackRef_NULL;
             stack_pointer[-1] = sub;

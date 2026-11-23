@@ -1045,7 +1045,26 @@ dummy_func(
 
         op(_STORE_SUBSCR, (v, container, sub -- unused )) {
             /* container[sub] = v */
-            int err = PyObject_SetItem(PyStackRef_AsPyObjectBorrow(container), PyStackRef_AsPyObjectBorrow(sub), PyStackRef_AsPyObjectBorrow(v));
+            int err;
+            if ( tstate->interp->eval_frame ){
+                err = PyObject_SetItem(PyStackRef_AsPyObjectBorrow(container), PyStackRef_AsPyObjectBorrow(sub), PyStackRef_AsPyObjectBorrow(v));
+            } else {
+                _PyInterpreterFrame *inlined = frame;
+                PyObject *ret = PyObject_SetItem_Inlineable(PyStackRef_AsPyObjectBorrow(container),
+                            PyStackRef_AsPyObjectBorrow(sub), PyStackRef_AsPyObjectBorrow(v), &inlined);
+                if (inlined != frame){
+                    // Manipulate stack directly because we exit with DISPATCH_INLINED().
+                    DECREF_INPUTS();
+                    frame->return_offset = INSTRUCTION_SIZE;
+                    DISPATCH_INLINED(inlined);
+                }
+                if (ret){
+                    Py_DECREF(ret);
+                    err = 0;
+                } else {
+                    err = -1;
+                }
+            }
             DECREF_INPUTS();
             ERROR_IF(err);
             /* Skip the POP_TOP after STORE_SUBSCR */

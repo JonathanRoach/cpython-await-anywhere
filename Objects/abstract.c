@@ -271,38 +271,89 @@ PyMapping_GetOptionalItem(PyObject *obj, PyObject *key, PyObject **result)
     return 0;
 }
 
+RETURNACTION_STDCLASSDECLARATION(PyObject_SetItem_Inlineable)
+
+struct PyObject_SetItem_Inlineable_State {
+    ReturnAction_State base;
+    PyObject *o;
+    PyObject *key;
+    PyObject *value;
+};
+
+static void PyObject_SetItem_Inlineable_WrappedInit(PyObject_SetItem_Inlineable_State *wrapped, PyObject_SetItem_Inlineable_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+    wrapped->o = Py_NewRef(state->o);
+    wrapped->key = Py_NewRef(state->key);
+    wrapped->value = Py_XNewRef(state->value);
+}
+
+static void PyObject_SetItem_Inlineable_WrappedDtor(PyObject_SetItem_Inlineable_State *wrapped){
+    Py_DECREF(wrapped->o);
+    Py_DECREF(wrapped->key);
+    Py_XDECREF(wrapped->value);
+}
+
+RETURNACTION_STEPDEFINITION(PyObject_SetItem_Inlineable, 1)
+    if (state->o == NULL || state->key == NULL || state->value == NULL) {
+        null_error();
+        return NULL;
+    }
+
+    PyMappingMethods *m = Py_TYPE(state->o)->tp_as_mapping;
+    if (m && m->mp_ass_subscript) {
+        int res = PyType_Call_mp_ass_subscript_Inlineable(Py_TYPE(state->o), state->o, state->key, state->value, inlined);
+        RETURNACTION_CHECKINLINED(1, res = (int)(Py_ssize_t)result;)
+        assert(_Py_CheckSlotResult(state->o, "__setitem__", res >= 0));
+        if (res){
+            return NULL;
+        }
+        Py_RETURN_NONE;
+    }
+
+    if (Py_TYPE(state->o)->tp_as_sequence) {
+        if (_PyIndex_Check(state->key)) {
+            Py_ssize_t key_value;
+            key_value = PyNumber_AsSsize_t(state->key, PyExc_IndexError);
+            if (key_value == -1 && PyErr_Occurred())
+                return NULL;
+            if (PySequence_SetItem(state->o, key_value, state->value)){
+                return NULL;
+            }
+            Py_RETURN_NONE;
+        }
+        else if (Py_TYPE(state->o)->tp_as_sequence->sq_ass_item) {
+            type_error("sequence index must be "
+                       "integer, not '%.200s'", state->key);
+            return NULL;
+        }
+    }
+
+    type_error("'%.200s' object does not support item assignment", state->o);
+    return NULL;
+}
+
+PyObject *
+PyObject_SetItem_Inlineable(PyObject *o, PyObject *key, PyObject *value, struct _PyInterpreterFrame **inlined)
+{
+    PyObject_SetItem_Inlineable_State state = {
+        .base.step = 0,
+        .o = o,
+        .key = key,
+        .value = value,
+    };
+    return PyObject_SetItem_Inlineable_Step(&state, NULL, inlined);
+}
+
+
 int
 PyObject_SetItem(PyObject *o, PyObject *key, PyObject *value)
 {
-    if (o == NULL || key == NULL || value == NULL) {
-        null_error();
+    PyObject *result = PyObject_SetItem_Inlineable(o, key, value, NULL);
+    if (!result){
         return -1;
     }
-
-    PyMappingMethods *m = Py_TYPE(o)->tp_as_mapping;
-    if (m && m->mp_ass_subscript) {
-        int res = PyType_Call_mp_ass_subscript(Py_TYPE(o), o, key, value);
-        assert(_Py_CheckSlotResult(o, "__setitem__", res >= 0));
-        return res;
-    }
-
-    if (Py_TYPE(o)->tp_as_sequence) {
-        if (_PyIndex_Check(key)) {
-            Py_ssize_t key_value;
-            key_value = PyNumber_AsSsize_t(key, PyExc_IndexError);
-            if (key_value == -1 && PyErr_Occurred())
-                return -1;
-            return PySequence_SetItem(o, key_value, value);
-        }
-        else if (Py_TYPE(o)->tp_as_sequence->sq_ass_item) {
-            type_error("sequence index must be "
-                       "integer, not '%.200s'", key);
-            return -1;
-        }
-    }
-
-    type_error("'%.200s' object does not support item assignment", o);
-    return -1;
+    Py_DECREF(result);
+    return 0;
 }
 
 int

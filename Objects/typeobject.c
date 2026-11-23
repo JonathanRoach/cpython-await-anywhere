@@ -10601,26 +10601,58 @@ slot_sq_contains(PyObject *self, PyObject *value)
 
 SLOT1(_PyType_Slot_mp_subscript, __getitem__, PyObject *)
 
+RETURNACTION_STDCLASSDECLARATION_R(int, slot_mp_ass_subscript_Inlineable)
+
+struct slot_mp_ass_subscript_Inlineable_State {
+    ReturnAction_State base;
+    PyObject *self;
+    PyObject *key;
+    PyObject *value;
+};
+
+static void slot_mp_ass_subscript_Inlineable_WrappedInit(slot_mp_ass_subscript_Inlineable_State *wrapped, slot_mp_ass_subscript_Inlineable_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+    wrapped->self = Py_NewRef(state->self);
+    wrapped->key = Py_NewRef(state->key);
+    wrapped->value = Py_XNewRef(state->value);
+}
+
+static void slot_mp_ass_subscript_Inlineable_WrappedDtor(slot_mp_ass_subscript_Inlineable_State *wrapped){
+    Py_DECREF(wrapped->self);
+    Py_DECREF(wrapped->key);
+    Py_XDECREF(wrapped->value);
+}
+
+RETURNACTION_STEPDEFINITION_R(int, slot_mp_ass_subscript_Inlineable, 1)
+    PyObject *stack[3];
+
+    stack[0] = state->self;
+    stack[1] = state->key;
+    if (state->value == NULL) {
+        result = vectorcall_method(&_Py_ID(__delitem__), stack, 2, inlined);
+    }
+    else {
+        stack[2] = state->value;
+        result = vectorcall_method(&_Py_ID(__setitem__), stack, 3, inlined);
+    }
+    RETURNACTION_CHECKINLINED_R(int, 1)
+
+    if (result == NULL)
+        return -1;
+    Py_DECREF(result);
+    return 0;
+}
+
 static int
 slot_mp_ass_subscript_Inlineable(PyObject *self, PyObject *key, PyObject *value, struct _PyInterpreterFrame **inlined)
 {
-    PyObject *stack[3];
-    PyObject *res;
-
-    stack[0] = self;
-    stack[1] = key;
-    if (value == NULL) {
-        res = vectorcall_method(&_Py_ID(__delitem__), stack, 2, inlined);
-    }
-    else {
-        stack[2] = value;
-        res = vectorcall_method(&_Py_ID(__setitem__), stack, 3, inlined);
-    }
-
-    if (res == NULL)
-        return -1;
-    Py_DECREF(res);
-    return 0;
+    slot_mp_ass_subscript_Inlineable_State state = {
+        .base.step = 0,
+        .self = self,
+        .key = key,
+        .value = value,
+    };
+    return slot_mp_ass_subscript_Inlineable_Step(&state, NULL, inlined);
 }
 
 static int
@@ -12050,7 +12082,7 @@ static struct SlotInfos {
 
     SLOTINFO(mp,_length)
     SLOTIINFO(mp,_subscript)
-    SLOTINFO(mp,_ass_subscript)
+    SLOTIINFO(mp,_ass_subscript)
 
      SLOTINFO(bf,_getbuffer)
      SLOTINFO(bf,_releasebuffer)
