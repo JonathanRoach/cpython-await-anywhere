@@ -1043,11 +1043,14 @@ dummy_func(
             #endif  /* ENABLE_SPECIALIZATION_FT */
         }
 
-        op(_STORE_SUBSCR, (v, container, sub -- )) {
+        op(_STORE_SUBSCR, (v, container, sub -- unused )) {
             /* container[sub] = v */
             int err = PyObject_SetItem(PyStackRef_AsPyObjectBorrow(container), PyStackRef_AsPyObjectBorrow(sub), PyStackRef_AsPyObjectBorrow(v));
             DECREF_INPUTS();
             ERROR_IF(err);
+            /* Skip the POP_TOP after STORE_SUBSCR */
+            SKIP_OVER(1);
+            DISPATCH();
         }
 
         macro(STORE_SUBSCR) = _SPECIALIZE_STORE_SUBSCR + _STORE_SUBSCR;
@@ -1055,7 +1058,7 @@ dummy_func(
         macro(STORE_SUBSCR_LIST_INT) =
             _GUARD_TOS_INT + _GUARD_NOS_LIST + unused/1 + _STORE_SUBSCR_LIST_INT;
 
-        op(_STORE_SUBSCR_LIST_INT, (value, list_st, sub_st -- )) {
+        op(_STORE_SUBSCR_LIST_INT, (value, list_st, sub_st -- unused )) {
             PyObject *sub = PyStackRef_AsPyObjectBorrow(sub_st);
             PyObject *list = PyStackRef_AsPyObjectBorrow(list_st);
 
@@ -1082,12 +1085,15 @@ dummy_func(
             DEAD(sub_st);
             PyStackRef_CLOSE(list_st);
             Py_DECREF(old_value);
+            /* Skip the POP_TOP after STORE_SUBSCR */
+            SKIP_OVER(1);
+            DISPATCH();
         }
 
         macro(STORE_SUBSCR_DICT) =
             _GUARD_NOS_DICT + unused/1 + _STORE_SUBSCR_DICT;
 
-        op(_STORE_SUBSCR_DICT, (value, dict_st, sub -- )) {
+        op(_STORE_SUBSCR_DICT, (value, dict_st, sub -- unused )) {
             PyObject *dict = PyStackRef_AsPyObjectBorrow(dict_st);
 
             assert(PyDict_CheckExact(dict));
@@ -1097,6 +1103,9 @@ dummy_func(
                                             PyStackRef_AsPyObjectSteal(value));
             PyStackRef_CLOSE(dict_st);
             ERROR_IF(err);
+            /* Skip the POP_TOP after STORE_SUBSCR */
+            SKIP_OVER(1);
+            DISPATCH();
         }
 
         inst(DELETE_SUBSCR, (container, sub --)) {

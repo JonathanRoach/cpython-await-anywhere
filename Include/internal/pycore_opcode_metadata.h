@@ -950,11 +950,11 @@ int _PyOpcode_num_pushed(int opcode, int oparg)  {
         case STORE_SLICE:
             return 0;
         case STORE_SUBSCR:
-            return 0;
+            return 1;
         case STORE_SUBSCR_DICT:
-            return 0;
+            return 1;
         case STORE_SUBSCR_LIST_INT:
-            return 0;
+            return 1;
         case SWAP:
             return 2 + (oparg-2);
         case TO_BOOL:

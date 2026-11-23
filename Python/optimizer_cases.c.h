@@ -719,19 +719,19 @@
         }
 
         case _STORE_SUBSCR: {
-            stack_pointer += -3;
+            stack_pointer += -2;
             assert(WITHIN_STACK_BOUNDS());
             break;
         }
 
         case _STORE_SUBSCR_LIST_INT: {
-            stack_pointer += -3;
+            stack_pointer += -2;
             assert(WITHIN_STACK_BOUNDS());
             break;
         }
 
         case _STORE_SUBSCR_DICT: {
-            stack_pointer += -3;
+            stack_pointer += -2;
             assert(WITHIN_STACK_BOUNDS());
             break;
         }

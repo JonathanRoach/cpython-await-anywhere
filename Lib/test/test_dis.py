@@ -412,6 +412,7 @@ dis_annot_stmt_str = """\
                LOAD_SMALL_INT           0
                CALL                     1
                STORE_SUBSCR
+               POP_TOP
                LOAD_CONST               2 (None)
                RETURN_VALUE
 """

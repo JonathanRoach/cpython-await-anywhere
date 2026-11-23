@@ -11824,8 +11824,9 @@
                 if (err) {
                     JUMP_TO_LABEL(error);
                 }
+                SKIP_OVER(1);
+                DISPATCH();
             }
-            DISPATCH();
         }
 
         TARGET(STORE_SUBSCR_DICT) {
@@ -11875,8 +11876,9 @@
                 if (err) {
                     JUMP_TO_LABEL(error);
                 }
+                SKIP_OVER(1);
+                DISPATCH();
             }
-            DISPATCH();
         }
 
         TARGET(STORE_SUBSCR_LIST_INT) {
@@ -11956,8 +11958,9 @@
                 PyStackRef_CLOSE(list_st);
                 Py_DECREF(old_value);
                 stack_pointer = _PyFrame_GetStackPointer(frame);
+                SKIP_OVER(1);
+                DISPATCH();
             }
-            DISPATCH();
         }
 
         TARGET(SWAP) {

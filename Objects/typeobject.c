@@ -12049,7 +12049,7 @@ static struct SlotInfos {
     SLOTINFO(sq,_inplace_repeat)
 
     SLOTINFO(mp,_length)
-    SLOTINFO(mp,_subscript)
+    SLOTIINFO(mp,_subscript)
     SLOTINFO(mp,_ass_subscript)
 
      SLOTINFO(bf,_getbuffer)

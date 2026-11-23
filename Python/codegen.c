@@ -788,6 +788,7 @@ codegen_deferred_annotations_body(compiler *c, location loc,
         ADDOP_LOAD_CONST_NEW(c, LOC(st), mangled);
         // stack now contains <annos> <name> <annos> <value>
         ADDOP(c, loc, STORE_SUBSCR);
+        ADDOP(c, loc, POP_TOP);
         // stack now contains <annos>
 
         USE_LABEL(c, not_set);
@@ -5412,6 +5413,7 @@ codegen_augassign(compiler *c, stmt_ty s)
             ADDOP_I(c, loc, SWAP, 3);
             ADDOP_I(c, loc, SWAP, 2);
             ADDOP(c, loc, STORE_SUBSCR);
+            ADDOP(c, loc, POP_TOP);
         }
         break;
     case Name_kind:
@@ -5504,6 +5506,7 @@ codegen_annassign(compiler *c, stmt_ty s)
                 mangled = _PyCompile_MaybeMangle(c, targ->v.Name.id);
                 ADDOP_LOAD_CONST_NEW(c, loc, mangled);
                 ADDOP(c, loc, STORE_SUBSCR);
+                ADDOP(c, loc, POP_TOP);
             }
             else {
                 PyObject *conditional_annotation_index = NULL;
@@ -5579,6 +5582,7 @@ codegen_subscript(compiler *c, expr_ty e)
                 break;
             case Store:
                 ADDOP(c, loc, STORE_SUBSCR);
+                ADDOP(c, loc, POP_TOP);
                 break;
             case Del:
                 ADDOP(c, loc, DELETE_SUBSCR);
