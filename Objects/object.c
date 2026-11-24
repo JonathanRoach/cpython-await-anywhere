@@ -751,17 +751,30 @@ _PyObject_Dump(PyObject* op)
     fflush(stderr);
 }
 
-PyObject *
-PyObject_Repr(PyObject *v)
-{
-    PyObject *res;
+RETURNACTION_STDCLASSDECLARATION(PyObject_Repr_Inlineable)
+
+struct PyObject_Repr_Inlineable_State {
+    ReturnAction_State base;
+    PyObject *v;
+};
+
+static void PyObject_Repr_Inlineable_WrappedInit(PyObject_Repr_Inlineable_State *wrapped, PyObject_Repr_Inlineable_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+    wrapped->v = Py_NewRef(state->v);
+}
+
+static void PyObject_Repr_Inlineable_WrappedDtor(PyObject_Repr_Inlineable_State *wrapped){
+    Py_DECREF(wrapped->v);
+}
+
+RETURNACTION_STEPDEFINITION(PyObject_Repr_Inlineable, 1)
     if (PyErr_CheckSignals())
         return NULL;
-    if (v == NULL)
+    if (state->v == NULL)
         return PyUnicode_FromString("<NULL>");
-    if (Py_TYPE(v)->tp_repr == NULL)
+    if (Py_TYPE(state->v)->tp_repr == NULL)
         return PyUnicode_FromFormat("<%s object at %p>",
-                                    Py_TYPE(v)->tp_name, v);
+                                    Py_TYPE(state->v)->tp_name, state->v);
 
     PyThreadState *tstate = _PyThreadState_GET();
 #ifdef Py_DEBUG
@@ -777,20 +790,37 @@ PyObject_Repr(PyObject *v)
                                      " while getting the repr of an object")) {
         return NULL;
     }
-    res = PyType_Call_tp_repr(Py_TYPE(v), v);
+    result = PyType_Call_tp_repr_Inlineable(Py_TYPE(state->v), state->v, inlined);
     _Py_LeaveRecursiveCallTstate(tstate);
+    RETURNACTION_CHECKINLINED(1)
 
-    if (res == NULL) {
+    if (result == NULL) {
         return NULL;
     }
-    if (!PyUnicode_Check(res)) {
-        _PyErr_Format(tstate, PyExc_TypeError,
+    if (!PyUnicode_Check(result)) {
+        _PyErr_Format(_PyThreadState_GET(), PyExc_TypeError,
                       "__repr__ returned non-string (type %.200s)",
-                      Py_TYPE(res)->tp_name);
-        Py_DECREF(res);
+                      Py_TYPE(result)->tp_name);
+        Py_DECREF(result);
         return NULL;
     }
-    return res;
+    return result;
+}
+
+PyObject *
+PyObject_Repr_Inlineable(PyObject *v, struct _PyInterpreterFrame **inlined)
+{
+    PyObject_Repr_Inlineable_State state = {
+        .base.step = 0,
+        .v = v,
+    };
+    return PyObject_Repr_Inlineable_Step(&state, NULL, inlined);
+}
+
+PyObject *
+PyObject_Repr(PyObject *v)
+{
+    return PyObject_Repr_Inlineable(v, NULL);
 }
 
 PyObject *

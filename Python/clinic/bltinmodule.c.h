@@ -1108,9 +1108,16 @@ PyDoc_STRVAR(builtin_repr__doc__,
 "\n"
 "For many object types, including most builtins, eval(repr(obj)) == obj.");
 
-static struct {char name[];} builtin_repr_MethodName = {.name = "repr",};
+static PyObject *
+builtin_repr_Inlineable(PyObject *module, PyObject *obj, struct _PyInterpreterFrame **inlined);
+static PyObject *
+builtin_repr(PyObject *module, PyObject *obj){
+    return builtin_repr_Inlineable(module, obj, NULL);
+}
+
+static struct {void *func_inlineable; char name[];} builtin_repr_MethodName = {.func_inlineable = builtin_repr_Inlineable, .name = "repr",};
 #define BUILTIN_REPR_METHODDEF    \
-    {builtin_repr_MethodName.name, (PyCFunction)builtin_repr, METH_O|METH_C_STACK_FRUGAL, builtin_repr__doc__},
+    {builtin_repr_MethodName.name, (PyCFunction)builtin_repr, METH_O|METH_C_STACK_FRUGAL|METH_C_INLINEABLE, builtin_repr__doc__},
 
 PyDoc_STRVAR(builtin_round__doc__,
 "round($module, /, number, ndigits=None)\n"
@@ -1322,4 +1329,4 @@ exit:
 static struct {char name[];} builtin_issubclass_MethodName = {.name = "issubclass",};
 #define BUILTIN_ISSUBCLASS_METHODDEF    \
     {builtin_issubclass_MethodName.name, _PyCFunction_CAST(builtin_issubclass), METH_FASTCALL|METH_C_STACK_FRUGAL, builtin_issubclass__doc__},
-/*[clinic end generated code: output=26617680ceb66f64 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=01b9ec5ef88aed94 input=a9049054013a1b77]*/

@@ -893,6 +893,7 @@ extern PyObject* PyObject_GetAttr_Inlineable(PyObject *v, PyObject *name, struct
 extern int PyObject_GenericSetAttr_Inlineable(PyObject *obj, PyObject *name, PyObject *value, struct _PyInterpreterFrame **inlined);
 extern PyObject *PyObject_SetAttr_Inlineable(PyObject *v, PyObject *name, PyObject *value, struct _PyInterpreterFrame **inlined);
 extern PyObject *PyObject_DelAttr_Inlineable(PyObject *o, PyObject *attr_name, struct _PyInterpreterFrame **inlined);
+extern PyObject *PyObject_Repr_Inlineable(PyObject *, struct _PyInterpreterFrame **inlined);
 
 void _PyObject_InitInlineValues(PyObject *obj, PyTypeObject *tp);
 extern int _PyObject_StoreInstanceAttribute(PyObject *obj,

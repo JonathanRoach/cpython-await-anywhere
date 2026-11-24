@@ -2627,6 +2627,7 @@ error:
 
 /*[clinic input]
 @c_stack_frugal
+@c_inlineable
 repr as builtin_repr
 
     obj: object
@@ -2638,10 +2639,11 @@ For many object types, including most builtins, eval(repr(obj)) == obj.
 [clinic start generated code]*/
 
 static PyObject *
-builtin_repr(PyObject *module, PyObject *obj)
-/*[clinic end generated code: output=7ed3778c44fd0194 input=cbd7fa5522b5bf74]*/
+builtin_repr_Inlineable(PyObject *module, PyObject *obj,
+                        struct _PyInterpreterFrame **inlined)
+/*[clinic end generated code: output=d871a1453634c9d4 input=1806be378fbbba9b]*/
 {
-    return PyObject_Repr(obj);
+    return PyObject_Repr_Inlineable(obj, inlined);
 }
 
 

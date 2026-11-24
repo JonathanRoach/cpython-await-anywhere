@@ -10856,18 +10856,49 @@ SLOT1BIN(_PyType_Slot_nb_true_divide, nb_true_divide, __truediv__, __rtruediv__)
 SLOT1(_PyType_Slot_nb_inplace_floor_divide, __ifloordiv__, PyObject *)
 SLOT1(_PyType_Slot_nb_inplace_true_divide, __itruediv__, PyObject *)
 
-static PyObject *
-slot_tp_repr(PyObject *self)
-{
-    PyObject *res = _PyObject_MaybeCallSpecialNoArgs(self, &_Py_ID(__repr__), NULL);
-    if (res != NULL) {
-        return res;
+RETURNACTION_STDCLASSDECLARATION(slot_tp_repr_Inlineable)
+
+struct slot_tp_repr_Inlineable_State {
+    ReturnAction_State base;
+    PyObject *self;
+};
+
+static void slot_tp_repr_Inlineable_WrappedInit(slot_tp_repr_Inlineable_State *wrapped, slot_tp_repr_Inlineable_State *state){
+    ReturnAction_BaseWrappedInit(&wrapped->base, &state->base);
+    wrapped->self = Py_NewRef(state->self);
+}
+
+static void slot_tp_repr_Inlineable_WrappedDtor(slot_tp_repr_Inlineable_State *wrapped){
+    Py_DECREF(wrapped->self);
+}
+
+RETURNACTION_STEPDEFINITION(slot_tp_repr_Inlineable, 1)
+    result = _PyObject_MaybeCallSpecialNoArgs(state->self, &_Py_ID(__repr__), inlined);
+    RETURNACTION_CHECKINLINED(1)
+    if (result != NULL) {
+        return result;
     }
     else if (PyErr_Occurred()) {
         return NULL;
     }
     return PyUnicode_FromFormat("<%s object at %p>",
-                                Py_TYPE(self)->tp_name, self);
+                                Py_TYPE(state->self)->tp_name, state->self);
+}
+
+static PyObject *
+slot_tp_repr_Inlineable(PyObject *self, struct _PyInterpreterFrame **inlined)
+{
+    slot_tp_repr_Inlineable_State state = {
+        .base.step = 0,
+        .self = self,
+    };
+    return slot_tp_repr_Inlineable_Step(&state, NULL, inlined);
+}
+
+static PyObject *
+slot_tp_repr(PyObject *self)
+{
+    return slot_tp_repr_Inlineable(self, NULL);
 }
 
 SLOT0(slot_tp_str, __str__)
@@ -11756,7 +11787,7 @@ static pytype_slotdef slotdefs[] = {
     TPSLOT(__getattr__, tp_getattr, NULL, NULL, ""),
     TPSLOT(__setattr__, tp_setattr, NULL, NULL, ""),
     TPSLOT(__delattr__, tp_setattr, NULL, NULL, ""),
-    TPSLOT(__repr__, tp_repr, slot_tp_repr, wrap_unaryfunc,
+    TPISLOT(__repr__, tp_repr, slot_tp_repr, wrap_unaryfunc,
            "__repr__($self, /)\n--\n\nReturn repr(self)."),
     TPSLOT(__hash__, tp_hash, slot_tp_hash, wrap_hashfunc,
            "__hash__($self, /)\n--\n\nReturn hash(self)."),
@@ -12008,7 +12039,7 @@ static struct SlotInfos {
     SLOTINFO(tp,_dealloc)
     SLOTIINFO(tp,_getattr)
     SLOTIINFO(tp,_setattr)
-    SLOTINFO(tp,_repr)
+    SLOTIINFO(tp,_repr)
     SLOTINFO(tp,_hash)
     SLOTIINFO(tp,_call)
     SLOTINFO(tp,_str)
@@ -13616,9 +13647,9 @@ RT PyType_Call_##KIND##SLOT##_Inlineable( \
 PyType_DefineCallTypeFunction1(V, void, tp, _dealloc, PyObject *)
 PyType_DefineCallTypeFunction2I(R, PyObject *, tp, _getattr, PyObject *, char *)
 PyType_DefineCallTypeFunction3I(R, int, tp, _setattr, PyObject *, char *, PyObject *)
-PyType_DefineCallTypeFunction1(R, PyObject *, tp, _repr, PyObject *)
+PyType_DefineCallTypeFunction1I(R, PyObject *, tp, _repr, PyObject *)
 PyType_DefineCallTypeFunction1(R, PyObject *, tp, _hash, PyObject *)
-PyType_DefineCallTypeFunction1(R, PyObject *, tp, _str, PyObject *)
+PyType_DefineCallTypeFunction1I(R, PyObject *, tp, _str, PyObject *)
 PyType_DefineCallTypeFunction2I(R, PyObject *, tp, _getattro, PyObject *, PyObject *)
 PyType_DefineCallTypeFunction3I(R, int, tp, _setattro, PyObject *, PyObject *, PyObject *)
 PyType_DefineCallTypeFunction3(R, int, tp, _traverse, PyObject *, visitproc, void *)

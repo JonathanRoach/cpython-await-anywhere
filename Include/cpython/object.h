@@ -365,7 +365,9 @@ enum {
     _PyFunctionIndex_tp_vectorcall_offset_inlineable,
     _PyFunctionIndex_tp_getattr_inlineable,
     _PyFunctionIndex_tp_setattr_inlineable,
+    _PyFunctionIndex_tp_repr_inlineable,
     _PyFunctionIndex_tp_call_inlineable,
+    _PyFunctionIndex_tp_str_inlineable,
     _PyFunctionIndex_tp_getattro_inlineable,
     _PyFunctionIndex_tp_setattro_inlineable,
     _PyFunctionIndex_tp_descr_get_inlineable,
@@ -481,7 +483,9 @@ struct _typeobject {
     Py_ssize_t tp_vectorcall_offset_inlineable;
     getattrfunc_inlineable tp_getattr_inlineable;
     setattrfunc_inlineable tp_setattr_inlineable;
+    reprfunc_inlineable tp_repr_inlineable;
     ternaryfunc_inlineable tp_call_inlineable;
+    reprfunc_inlineable tp_str_inlineable;
     getattrofunc_inlineable tp_getattro_inlineable;
     setattrofunc_inlineable tp_setattro_inlineable;
     descrgetfunc_inlineable tp_descr_get_inlineable;
